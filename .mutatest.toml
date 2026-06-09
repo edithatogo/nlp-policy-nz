@@ -1,0 +1,3 @@
+[mutatest]
+source = ["src"]
+tests = ["tests"]

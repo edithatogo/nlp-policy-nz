@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Pixi
+        uses: prefix-dev/pixi@v0
+        with:
+          cache: true
+          cache-write: ${{ github.event_name == 'push' }}
+
+      - name: Install environment
+        run: CI=true pixi install
+
+      - name: Lint
+        run: CI=true pixi run lint
+
+      - name: Format check
+        run: CI=true pixi run format
+
+      - name: Complexity check
+        run: CI=true pixi run check-complexity
+
+      - name: Boundary check
+        run: CI=true pixi run check-boundaries
+
+      - name: Test
+        run: CI=true pixi run test
+
+      - name: Full check
+        run: CI=true pixi run check

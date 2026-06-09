@@ -22,7 +22,11 @@ dependencies = [
     "lancedb>=0.6.0",
     "networkx>=3.0",
     "faiss-cpu>=1.8.0",
+    "requests>=2.31.0",
 ]
+
+[project.scripts]
+nlp-policy-nz = "nlp_policy_nz.cli.main:main"
 
 [project.optional-dependencies]
 dev = [
