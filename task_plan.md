@@ -41,15 +41,15 @@ This document outlines the granular, sequential, dependency-aware task checklist
 
 ---
 
-## Track 4: Build Legislative XML Parser & Syntactic Citation Extractor
+## Track 4: Build Universal Ingestion Engine & Target Schema Emitter
 **Owner**: `Syntactic_Engineer` | **Validator**: `Quality_Validator`
 
-- [x] **Task 4.1: Implement Legislative XML Offset Mapper** (Completed)
-  - Code `LegislativeXMLParser` using BeautifulSoup/lxml to map act/part/section bounds to character offsets.
-- [x] **Task 4.2: Implement spaCy Structural Metadata Injector** (Completed)
-  - Create `nz_xml_structure_injector` custom spaCy component to map character offsets to Spans.
-- [x] **Task 4.3: Implement Cross-Reference Matcher** (Completed)
-  - Create `nz_cross_reference_matcher` custom spaCy Matcher component to match internal references.
+- [x] **Task 4.1: Implement Universal Ingestion Engine** (Completed)
+  - Code abstract `UniversalIngestionEngine` with subclasses for XML, HTML, and JSONL formats.
+- [x] **Task 4.2: Implement MetaExtensionRegistry & spaCy Bridge** (Completed)
+  - Code dynamic `MetaExtensionRegistry` for namespace-prefixed extensions and `ModularSpaCyBridgeComponent` custom component.
+- [x] **Task 4.3: Implement Target Schema Emitter** (Completed)
+  - Code `TargetSchemaEmitter` supporting valid ParlaMint-TEI-Ana, Akoma-Ntoso, and ParlaCAP-JSONL serialization.
 
 ---
 

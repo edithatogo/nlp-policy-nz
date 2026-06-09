@@ -17,8 +17,13 @@ The core goal is to ingest, clean, tokenize, and enrich New Zealand legislative 
 - **Academic & Independent Researchers**: Performing computational linguistics research on NZ law and parliamentary proceedings without expensive cloud resources.
 
 ## 3. Core Features & Architecture
-- **Legislative XML Parser & Structure Injector**: Uses BeautifulSoup/lxml to parse Parliamentary Counsel Office (PCO) structured XML, extracts clean text, maps character boundaries of structural tags (`<act>`, `<part>`, `<section>`, `<heading>`, `<para>`), and registers custom spaCy metadata extensions to preserve rich hierarchical layouts.
-- **Unified Ingestion & Preprocessing**: Streams datasets (e.g. from Hugging Face Datasets Hub) and processes them in parallel chunks via spaCy's `nlp.pipe`.
+- **Universal Ingestion & Preprocessing**: Abstract, format-agnostic ingestion engine (`UniversalIngestionEngine`) supporting XML, HTML, and JSONL formats using BeautifulSoup4/lxml to parse structures dynamically.
+- **Dynamic Metadata Extension Registry**: Custom extension naming layer (`MetaExtensionRegistry`) that registers namespace-prefixed properties in spaCy (e.g. `doc._.meta_country`, `span._.schema_structural_type`) dynamically based on region, country, and target standards to prevent name collisions.
+- **Modular spaCy Bridge**: Custom `@Language.component` wrapper (`ModularSpaCyBridgeComponent`) mapping parsed document chunk boundaries to token-level spans.
+- **Target Schema Emitter**: Standardized serialization layer (`TargetSchemaEmitter`) supporting multiple target standard exports:
+  - **ParlaMint-TEI-Ana**: XML token structure nesting for corpus annotation.
+  - **Akoma-Ntoso**: Structured legal block containers.
+  - **ParlaCAP-JSONL**: Flattened, analysis-ready format optimized for downstream training of Transformers.
 - **SOTA Māori Language Guard**: 
   - **Bilingual Tokenizer & Subword Preservation**: A customized tokenizer that maps and preserves specific Te Reo Māori words (such as *tikanga*, *taonga*, *kāwanatanga*) as atomic tokens rather than splitting them into English-centric subwords.
   - **Macron Normalization Layer**: Standardizes text to correct unicode representations (NFC normalization) to handle macron variations (`Māori` vs `Maori` vs `Maaori`).

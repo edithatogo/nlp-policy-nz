@@ -8,65 +8,41 @@ This document details the system design, pipeline architecture, and schema defin
 
 ```mermaid
 graph TD
-    A[nz-hansard Dataset] --> D[Unified Ingestion Engine]
-    B[nz-legislation XML] --> C[LegislativeXMLParser]
-    C -->|Extract Clean Text + Character Offsets| D
+    A[Raw Structured Text: XML / HTML / JSONL] --> B[UniversalIngestionEngine]
+    B -->|Ingest into DocumentChunks| C[MetaExtensionRegistry]
+    C -->|Dynamic Dynamic namespace setup| D[spaCy nlp pipeline]
     
     subgraph Shared Core Pipeline: nlp_policy_nz
         D --> E[Māori Language Guard]
-        E -->|Macron Norm & Token Exceptions| F[nz_xml_structure_injector]
-        F -->|Inject Custom Span Metadata| G[nz_cross_reference_matcher]
-        G -->|Match Internal Refs| H[HF Transformers Semantic Layer]
-        H -->|Rust Tokenizers & 4-bit Embeddings| I[Standardized Enriched Row]
+        E -->|Macron Norm & Token Exceptions| F[ModularSpaCyBridgeComponent]
+        F -->|Map metadata tags to Spans| G[nlp linguistic parsing & NER]
+        G -->|Lemmatisation & POS tagging| H[TargetSchemaEmitter]
     end
     
-    I --> J[(Apache Parquet / LanceDB Storage)]
+    H -->|Serialize TEI XML / AKN / JSONL| I[(Standard Output Schema Persistence)]
     
     subgraph Downstream Branching
-        J --> K[Legal NLP Branch: corpus-law-nz]
-        J --> L[Parliamentary NLP Branch: corpus-nz-hansard]
-        
-        K --> M[Statutory Hierarchies via Span Metadata]
-        K --> N[Obligation Extraction]
-        
-        L --> O[Speaker-Party Alignment]
-        L --> P[Political Sentiment / RAG]
-        
-        M & O --> Q[Cross-Domain Linkage via NetworkX]
+        I --> J[Legal NLP Branch: corpus-law-nz]
+        I --> K[Parliamentary NLP Branch: corpus-nz-hansard]
     end
 ```
 
 ## 2. Shared Core Pipeline Design
 
 ### Phase 1: Ingestion & Preprocessing
-The ingestion layer loads text inputs dynamically from Hugging Face datasets or local raw streams. If input is legislative XML, it is pre-processed by the `LegislativeXMLParser`.
+The ingestion layer implements an abstract class `UniversalIngestionEngine` which resolves the source format:
+- `XMLIngestionEngine`: Parses nested XML documents via BeautifulSoup/lxml.
+- `HTMLIngestionEngine`: Parses web article segments.
+- `JSONLIngestionEngine`: Streams flat JSON-lines documents.
 
-### Phase 2: Legislative XML Parser (BeautifulSoup / lxml)
-- **Offset Mapper**: Recursively traverses nested XML nodes (`<act>`, `<part>`, `<section>`, `<heading>`, `<para>`), accumulating clean text and mapping character indices of boundaries.
-- **spaCy Injector (`nz_xml_structure_injector`)**: Uses the mapped boundaries to instantiate spaCy `Span` elements inside the `Doc`, assigning values to custom extensions (`nz_element_type`, `nz_element_id`, `nz_element_title`).
-- **Cross-Reference Matcher (`nz_cross_reference_matcher`)**: Executes rule-based `Matcher` patterns after structure injection to tag references like "section 1" or "Part 1".
+### Phase 2: Dynamic Registry Configuration
+The `MetaExtensionRegistry` sanitizes regional and target parameters (e.g. `COUNTRY` and `TARGET_SCHEMA_STANDARD`) and registers namespace-isolated properties in spaCy (e.g. `doc._.new_zealand_parlamint_tei_ana_country`) to avoid variable conflicts during execution.
 
-### Phase 3: Māori Language Guard (SOTA)
-- **Token Exception Rules**: Injected into the spaCy tokenizer during pipeline initialization. This ensures terms like *tikanga*, *taonga*, and *kāwanatanga* are recognized as atomic tokens.
-- **Macron Normalizer**: Converts unicode characters to Unicode Normalization Form C (NFC) to guarantee consistency across different documents that may use inconsistent macron conventions.
+### Phase 3: Modular spaCy Bridge & Parser
+- **Modular Bridge (`ModularSpaCyBridgeComponent`)**: Custom pipeline component that maps document bounds to token-level Spans, attaching structural category and ID keys.
+- **Māori Language Guard**: Injects token exception rules and unicode normalization.
 
-### Phase 4: Semantic Layer (Hugging Face)
-- **Rust Fast Tokenizers**: Invoked using `use_fast=True` via Hugging Face tokenizers.
-- **Quantized Legal Model**: Processes text chunks through a 4-bit quantized embedding model (`nlpaueb/legal-bert-base-uncased` or `Equall/SaulLM-7B`) utilizing `bitsandbytes` locally.
-
----
-
-## 3. Standardized Output Schema (Flat-Table Layout)
-
-The pipeline outputs an Apache Parquet / LanceDB database structured under the following schema:
-
-| Column Name | Data Type | Description / Purpose |
-| :--- | :--- | :--- |
-| `doc_id` | `String` | Unique structural ID (e.g., `NZ-ACT-2026-001-SEC-1` or `NZ-HANS-2023-05-12-SP-04`). |
-| `corpus_source` | `String` | Explicit category tag (`legislation` or `hansard`). |
-| `raw_text` | `String` | The raw text snippet (a parliamentary speech turn or a legislative section). |
-| `cleaned_tokens` | `List[String]` | Lowercased, clean tokens generated at C/Rust speed, excluding punctuation. |
-| `nz_element_type` | `String` | Extracted XML tag level (e.g., `section`, `heading`). |
-| `nz_cross_references` | `List[String]` | Array of identified cross-references (e.g. `['section 1', 'Part 1']`). |
-| `te_reo_terms` | `List[String]` | Array of Māori legal/cultural words detected and protected by the Māori Language Guard. |
-| `embeddings` | `List[Float]` | Dense vector representation generated by the Hugging Face transformer model. |
+### Phase 4: Target Schema Emitter
+- **TEI XML Serialization**: Packages lemma and POS attributes inside `<w>` token containers.
+- **Akoma-Ntoso**: Generates valid AKN XML legal hierarchical blocks.
+- **JSON-Lines**: Outputs flat, streamable records optimized for Transformer training.

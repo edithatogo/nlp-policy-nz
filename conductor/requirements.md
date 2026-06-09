@@ -5,6 +5,14 @@ This document prioritizes the functional and non-functional requirements for the
 ---
 
 ## 1. Must Have (Critical for MVP)
+- **Universal Ingestion Engine**:
+  - Abstract parser (`UniversalIngestionEngine`) with subclasses for XML, HTML, and JSONL format ingestion.
+- **Dynamic Metadata Registry**:
+  - Namespace-safe property register (`MetaExtensionRegistry`) mapping parameters (e.g. `COUNTRY`, `TARGET_SCHEMA_STANDARD`) dynamically.
+- **Modular spaCy Bridge**:
+  - Custom pipeline component (`ModularSpaCyBridgeComponent`) mapping document chunk boundaries onto token-level Spans.
+- **Target Schema Emitter**:
+  - Serialization layer (`TargetSchemaEmitter`) generating valid ParlaMint-TEI-Ana XML, Akoma-Ntoso legal blocks, and ParlaCAP-JSONL output arrays.
 - **PCO Legislative XML Ingestion**: 
   - XML parser utilizing BeautifulSoup/lxml to parse structure tags (`<act>`, `<part>`, `<section>`, `<heading>`, `<para>`).
   - Mapping tag-based hierarchical boundaries to raw character offsets.
