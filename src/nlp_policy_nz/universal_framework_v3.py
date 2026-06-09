@@ -10,32 +10,35 @@
 
 """
 Universal Legislative and Parliamentary NLP Abstraction Framework - Version 3.
-Implements displaCy visualization exports and nested SpanGroup modeling 
+Implements displaCy visualization exports and nested SpanGroup modeling
 to support overlapping legislative citations.
 """
 
-from abc import ABC, abstractmethod
 import json
 import re
 import typing as ty
-from bs4 import BeautifulSoup
+from abc import ABC, abstractmethod
+from pathlib import Path
+
 import msgspec
 import spacy
+from bs4 import BeautifulSoup
 from spacy import displacy
 from spacy.language import Language
-from spacy.tokens import Doc, Span, Token
-
+from spacy.tokens import Doc, Span
 
 # ---------------------------------------------------------------------------
 # 1. Configuration Abstraction
 # ---------------------------------------------------------------------------
 
+
 class FrameworkConfig(msgspec.Struct):
     """Configuration variables mapping regional and schema target properties."""
+
     country: str
     jurisdiction: str
-    source_data_format: str       # Options: 'XML' | 'HTML' | 'JSONL'
-    target_schema_standard: str   # Options: 'ParlaMint-TEI-Ana' | 'Akoma-Ntoso' | 'ParlaCAP-JSONL'
+    source_data_format: str  # Options: 'XML' | 'HTML' | 'JSONL'
+    target_schema_standard: str  # Options: 'ParlaMint-TEI-Ana' | 'Akoma-Ntoso' | 'ParlaCAP-JSONL'
     base_spacy_pipeline: str = "en_core_web_sm"
 
 
@@ -43,26 +46,28 @@ class FrameworkConfig(msgspec.Struct):
 # 2. Universal Ingestion Engine
 # ---------------------------------------------------------------------------
 
+
 class DocumentChunk(msgspec.Struct):
     """Internal standardized text block with metadata mapped from ingestion."""
+
     chunk_id: str
     text: str
     structural_type: str  # e.g., 'section', 'speech', 'clause'
-    attributes: ty.Dict[str, str] = {}
+    attributes: dict[str, str] = {}
 
 
 class UniversalIngestionEngine(ABC):
     """Abstract Base Class for format-specific ingestion engines."""
 
     @abstractmethod
-    def ingest(self, raw_data: str) -> ty.List[DocumentChunk]:
+    def ingest(self, raw_data: str) -> list[DocumentChunk]:
         pass
 
 
 class XMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses XML trees (e.g., PCO legislative XML)."""
 
-    def ingest(self, raw_data: str) -> ty.List[DocumentChunk]:
+    def ingest(self, raw_data: str) -> list[DocumentChunk]:
         soup = BeautifulSoup(raw_data, "xml")
         chunks = []
         for node in soup.find_all(["section", "speech", "part"]):
@@ -84,7 +89,7 @@ class XMLIngestionEngine(UniversalIngestionEngine):
 class HTMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses HTML layouts."""
 
-    def ingest(self, raw_data: str) -> ty.List[DocumentChunk]:
+    def ingest(self, raw_data: str) -> list[DocumentChunk]:
         soup = BeautifulSoup(raw_data, "html.parser")
         chunks = []
         for node in soup.find_all(["article", "div", "p"]):
@@ -106,7 +111,7 @@ class HTMLIngestionEngine(UniversalIngestionEngine):
 class JSONLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses JSON-Lines serialized strings."""
 
-    def ingest(self, raw_data: str) -> ty.List[DocumentChunk]:
+    def ingest(self, raw_data: str) -> list[DocumentChunk]:
         chunks = []
         for idx, line in enumerate(raw_data.strip().split("\n")):
             if not line.strip():
@@ -141,6 +146,7 @@ def get_ingestion_engine(data_format: str) -> UniversalIngestionEngine:
 # 3. Dynamic Metadata Extension Registry
 # ---------------------------------------------------------------------------
 
+
 class MetaExtensionRegistry:
     """Manages dynamic naming and registration of custom spaCy extensions."""
 
@@ -149,7 +155,7 @@ class MetaExtensionRegistry:
         return re.sub(r"[^a-zA-Z0-9_]", "_", name).lower()
 
     @classmethod
-    def register(cls, config: FrameworkConfig) -> ty.Tuple[str, str, str]:
+    def register(cls, config: FrameworkConfig) -> tuple[str, str, str]:
         namespace = cls.sanitize_name(f"{config.country}_{config.target_schema_standard}")
         country_key = f"{namespace}_country"
         schema_key = f"{namespace}_structural_type"
@@ -169,15 +175,21 @@ class MetaExtensionRegistry:
 # 4. Modular spaCy Bridge & Nested SpanGroup Component (SOTA)
 # ---------------------------------------------------------------------------
 
+
 @Language.factory("universal_metadata_bridge_v3")
-def create_metadata_bridge_v3(nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str) -> ty.Callable[[Doc], Doc]:
+def create_metadata_bridge_v3(
+    nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str
+) -> ty.Callable[[Doc], Doc]:
     return ModularSpaCyBridgeComponentV3(nlp, name, country_key, schema_key, chunk_id_key)
 
 
 class ModularSpaCyBridgeComponentV3:
     """Maps document metadata and scaffolds overlapping Spans via SpanGroups."""
 
-    def __init__(self, nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str):
+    def __init__(
+        self, nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str
+    ):
+        self._nlp = nlp
         self.name = name
         self.country_key = country_key
         self.schema_key = schema_key
@@ -186,16 +198,16 @@ class ModularSpaCyBridgeComponentV3:
     def __call__(self, doc: Doc) -> Doc:
         if doc.has_extension("chunk_metadata") and doc._.chunk_metadata:
             meta = doc._.chunk_metadata
-            full_span = doc[0:len(doc)]
+            full_span = doc[0 : len(doc)]
             full_span._.set(self.schema_key, meta.get("structural_type"))
             full_span._.set(self.chunk_id_key, meta.get("chunk_id"))
-            
+
             # Map structural node as a Span inside doc.spans SpanGroup
             # Unlike doc.ents, SpanGroups support overlapping and nested boundaries
             span_group_name = "nz_nested_entities"
             if span_group_name not in doc.spans:
                 doc.spans[span_group_name] = []
-            
+
             doc.spans[span_group_name].append(full_span)
         return doc
 
@@ -208,10 +220,13 @@ if not Doc.has_extension("chunk_metadata"):
 # 5. SOTA Target Schema Emitter (Maximal Standards Use)
 # ---------------------------------------------------------------------------
 
+
 class TargetSchemaEmitter:
     """Enriches output configurations to comply strictly with international schemas."""
 
-    def __init__(self, config: FrameworkConfig, country_key: str, schema_key: str, chunk_id_key: str):
+    def __init__(
+        self, config: FrameworkConfig, country_key: str, schema_key: str, chunk_id_key: str
+    ):
         self.config = config
         self.country_key = country_key
         self.schema_key = schema_key
@@ -219,7 +234,7 @@ class TargetSchemaEmitter:
 
     def emit(self, doc: Doc) -> str:
         standard = self.config.target_schema_standard.upper()
-        full_span = doc[0:len(doc)]
+        full_span = doc[0 : len(doc)]
         structural_type = full_span._.get(self.schema_key)
         chunk_id = full_span._.get(self.chunk_id_key)
 
@@ -245,36 +260,44 @@ class TargetSchemaEmitter:
                 msd = f"UPosTag={token.pos_}|Tag={token.tag_}"
                 if token.ent_type_:
                     lines.append(f'    <name type="{token.ent_type_}">')
-                    lines.append(f'      <w lemma="{token.lemma_}" pos="{token.pos_}" msd="{msd}">{token.text}</w>')
-                    lines.append('    </name>')
+                    lines.append(
+                        f'      <w lemma="{token.lemma_}" pos="{token.pos_}" msd="{msd}">{token.text}</w>'
+                    )
+                    lines.append("    </name>")
                 else:
-                    lines.append(f'    <w lemma="{token.lemma_}" pos="{token.pos_}" msd="{msd}">{token.text}</w>')
-            lines.append('  </s>')
-        lines.append('</u>')
+                    lines.append(
+                        f'    <w lemma="{token.lemma_}" pos="{token.pos_}" msd="{msd}">{token.text}</w>'
+                    )
+            lines.append("  </s>")
+        lines.append("</u>")
         return "\n".join(lines)
 
     def _emit_akoma_ntoso(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
         """Serializes into complete Akoma-Ntoso XML layout with Identification Metadata blocks."""
         lines = []
-        lines.append('<akomaNtoso>')
+        lines.append("<akomaNtoso>")
         lines.append(f'  <{struct_type} id="{chunk_id}">')
-        lines.append('    <meta>')
+        lines.append("    <meta>")
         lines.append('      <identification source="#nlp_policy_nz">')
-        lines.append(f'        <FRBRWork>')
-        lines.append(f'          <FRBRthis value="/{self.config.country}/{struct_type}/{chunk_id}/main"/>')
-        lines.append(f'          <FRBRuri value="/{self.config.country}/{struct_type}/{chunk_id}"/>')
-        lines.append(f'        </FRBRWork>')
-        lines.append('      </identification>')
-        lines.append('    </meta>')
-        lines.append('    <body>')
-        lines.append('      <mainBody>')
-        lines.append('        <content>')
-        lines.append(f'          <p>{doc.text}</p>')
-        lines.append('        </content>')
-        lines.append('      </mainBody>')
-        lines.append('    </body>')
-        lines.append(f'  </{struct_type}>')
-        lines.append('</akomaNtoso>')
+        lines.append("        <FRBRWork>")
+        lines.append(
+            f'          <FRBRthis value="/{self.config.country}/{struct_type}/{chunk_id}/main"/>'
+        )
+        lines.append(
+            f'          <FRBRuri value="/{self.config.country}/{struct_type}/{chunk_id}"/>'
+        )
+        lines.append("        </FRBRWork>")
+        lines.append("      </identification>")
+        lines.append("    </meta>")
+        lines.append("    <body>")
+        lines.append("      <mainBody>")
+        lines.append("        <content>")
+        lines.append(f"          <p>{doc.text}</p>")
+        lines.append("        </content>")
+        lines.append("      </mainBody>")
+        lines.append("    </body>")
+        lines.append(f"  </{struct_type}>")
+        lines.append("</akomaNtoso>")
         return "\n".join(lines)
 
     def _emit_parlacap_jsonl(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
@@ -283,19 +306,21 @@ class TargetSchemaEmitter:
         for t in doc:
             if t.is_space:
                 continue
-            tokens.append({
-                "text": t.text,
-                "lemma": t.lemma_,
-                "pos": t.pos_,
-                "ner": t.ent_type_,
-                "deprel": t.dep_,
-                "head_index": t.head.i
-            })
+            tokens.append(
+                {
+                    "text": t.text,
+                    "lemma": t.lemma_,
+                    "pos": t.pos_,
+                    "ner": t.ent_type_,
+                    "deprel": t.dep_,
+                    "head_index": t.head.i,
+                }
+            )
         data = {
             "id": chunk_id,
             "country": self.config.country,
             "structural_type": struct_type,
-            "tokens": tokens
+            "tokens": tokens,
         }
         return json.dumps(data)
 
@@ -304,11 +329,12 @@ class TargetSchemaEmitter:
 # 6. SOTA Annotation Visualizer (displaCy Bridge)
 # ---------------------------------------------------------------------------
 
+
 class SOTAPipelineVisualizer:
     """Exports clean, styled HTML markup of document annotations via displaCy."""
 
     @staticmethod
-    def generate_html_report(doc: Doc, output_path: ty.Optional[str] = None) -> str:
+    def generate_html_report(doc: Doc, output_path: str | None = None) -> str:
         """Generates static HTML string rendering sentence boundaries and entity tags."""
         colors = {
             "LAW": "linear-gradient(90deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)",
@@ -316,30 +342,28 @@ class SOTAPipelineVisualizer:
             "PRELIM": "linear-gradient(90deg, #fdfcfb 0%, #e2d1c3 100%)",
         }
         options = {"colors": colors}
-        
+
         # We temporarily copy SpanGroups into doc.ents to display them inside displaCy
         # as displaCy focuses on doc.ents for rendering structural highlighting.
         spans = doc.spans.get("nz_nested_entities", [])
         original_ents = doc.ents
-        
+
         ents_to_set = []
         for span in spans:
             struct_type = span._.get("nz_legislation_parlamint_tei_ana_structural_type") or "PRELIM"
             ents_to_set.append(Span(doc, span.start, span.end, label=struct_type.upper()))
-            
+
         doc.ents = spacy.util.filter_spans(ents_to_set)
-        
+
         # Render HTML using displaCy
         html = displacy.render(doc, style="ent", options=options, page=True, jupyter=False)
-        
+
         # Restore original ents
         doc.ents = original_ents
-        
+
         if output_path:
-            with open(output_path, 'w', encoding='utf-8') as f:
-                f.write(html)
-            print(f"[Visualizer] HTML report successfully written to {output_path}")
-            
+            Path(output_path).write_text(html, encoding="utf-8")
+
         return html
 
 
@@ -347,32 +371,28 @@ class SOTAPipelineVisualizer:
 # 7. Pipeline Controller and Switcher Demo
 # ---------------------------------------------------------------------------
 
-SAMPLE_XML = '<section id="sec-5" title="Interpretation"><para>The terms apply to this Act.</para></section>'
+SAMPLE_XML = (
+    '<section id="sec-5" title="Interpretation"><para>The terms apply to this Act.</para></section>'
+)
+
 
 def run_framework(config: FrameworkConfig, raw_data: str) -> Doc:
     engine = get_ingestion_engine(config.source_data_format)
     chunks = engine.ingest(raw_data)
-    
+
     country_key, schema_key, chunk_id_key = MetaExtensionRegistry.register(config)
 
     nlp = spacy.blank("en")
     nlp.add_pipe(
         "universal_metadata_bridge_v3",
-        config={
-            "country_key": country_key,
-            "schema_key": schema_key,
-            "chunk_id_key": chunk_id_key
-        }
+        config={"country_key": country_key, "schema_key": schema_key, "chunk_id_key": chunk_id_key},
     )
     nlp.add_pipe("sentencizer")
 
     # For demo, process the first chunk
     chunk = chunks[0]
     doc = nlp.make_doc(chunk.text)
-    doc._.chunk_metadata = {
-        "chunk_id": chunk.chunk_id,
-        "structural_type": chunk.structural_type
-    }
+    doc._.chunk_metadata = {"chunk_id": chunk.chunk_id, "structural_type": chunk.structural_type}
     return nlp(doc)
 
 
@@ -381,17 +401,14 @@ def run_demo() -> None:
         country="New Zealand",
         jurisdiction="National Parliament & PCO Legislative Corpus",
         source_data_format="XML",
-        target_schema_standard="ParlaMint-TEI-Ana"
+        target_schema_standard="ParlaMint-TEI-Ana",
     )
     doc = run_framework(config_nz, SAMPLE_XML)
-    
-    print("--- Nested SpanGroups Verification ---")
-    for group_name, spans in doc.spans.items():
-        print(f"Group: {group_name}")
-        for span in spans:
-            print(f"  Span text: '{span.text}' | Structural Type: {span._.get('nz_legislation_parlamint_tei_ana_structural_type')}")
-            
-    print("\n--- Generating Static HTML Report ---")
+
+    for _group_name, spans in doc.spans.items():
+        for _span in spans:
+            pass
+
     # Generates static HTML displaying our highlighted entities
     SOTAPipelineVisualizer.generate_html_report(doc, "conductor/annotation_report.html")
 

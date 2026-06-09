@@ -24,9 +24,9 @@ from nlp_policy_nz.semantic.model_loader import (
 __all__: list[str] = [
     "DEFAULT_MODEL",
     "DEFAULT_QUANTIZATION",
+    "FALLBACK_MODEL",
     "EmbeddingGenerator",
     "EmbeddingResult",
-    "FALLBACK_MODEL",
     "ModelLoadError",
     "QuantizationConfig",
     "generate_embedding",

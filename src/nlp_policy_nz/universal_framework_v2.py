@@ -13,27 +13,29 @@ Universal Legislative and Parliamentary NLP Abstraction Framework - Version 2.
 Enforces maximal use of ParlaMint-TEI-Ana, Akoma-Ntoso, and ParlaCAP-JSONL schemas.
 """
 
-from abc import ABC, abstractmethod
 import json
 import re
 import typing as ty
-from bs4 import BeautifulSoup
+from abc import ABC, abstractmethod
+
 import msgspec
 import spacy
+from bs4 import BeautifulSoup
 from spacy.language import Language
-from spacy.tokens import Doc, Span, Token
-
+from spacy.tokens import Doc, Span
 
 # ---------------------------------------------------------------------------
 # 1. Configuration Abstraction
 # ---------------------------------------------------------------------------
 
+
 class FrameworkConfig(msgspec.Struct):
     """Configuration variables mapping regional and schema target properties."""
+
     country: str
     jurisdiction: str
-    source_data_format: str       # Options: 'XML' | 'HTML' | 'JSONL'
-    target_schema_standard: str   # Options: 'ParlaMint-TEI-Ana' | 'Akoma-Ntoso' | 'ParlaCAP-JSONL'
+    source_data_format: str  # Options: 'XML' | 'HTML' | 'JSONL'
+    target_schema_standard: str  # Options: 'ParlaMint-TEI-Ana' | 'Akoma-Ntoso' | 'ParlaCAP-JSONL'
     base_spacy_pipeline: str = "en_core_web_sm"
 
 
@@ -41,19 +43,21 @@ class FrameworkConfig(msgspec.Struct):
 # 2. Universal Ingestion Engine
 # ---------------------------------------------------------------------------
 
+
 class DocumentChunk(msgspec.Struct):
     """Internal standardized text block with metadata mapped from ingestion."""
+
     chunk_id: str
     text: str
     structural_type: str  # e.g., 'section', 'speech', 'clause'
-    attributes: ty.Dict[str, str] = {}
+    attributes: dict[str, str] = {}
 
 
 class UniversalIngestionEngine(ABC):
     """Abstract Base Class for format-specific ingestion engines."""
 
     @abstractmethod
-    def ingest(self, raw_data: str) -> ty.List[DocumentChunk]:
+    def ingest(self, raw_data: str) -> list[DocumentChunk]:
         """Ingests raw text and extracts standardized DocumentChunks."""
         pass
 
@@ -61,7 +65,7 @@ class UniversalIngestionEngine(ABC):
 class XMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses XML trees (e.g., PCO legislative XML)."""
 
-    def ingest(self, raw_data: str) -> ty.List[DocumentChunk]:
+    def ingest(self, raw_data: str) -> list[DocumentChunk]:
         soup = BeautifulSoup(raw_data, "xml")
         chunks = []
         for node in soup.find_all(["section", "speech", "part"]):
@@ -83,7 +87,7 @@ class XMLIngestionEngine(UniversalIngestionEngine):
 class HTMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses HTML layouts."""
 
-    def ingest(self, raw_data: str) -> ty.List[DocumentChunk]:
+    def ingest(self, raw_data: str) -> list[DocumentChunk]:
         soup = BeautifulSoup(raw_data, "html.parser")
         chunks = []
         for node in soup.find_all(["article", "div", "p"]):
@@ -105,7 +109,7 @@ class HTMLIngestionEngine(UniversalIngestionEngine):
 class JSONLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses JSON-Lines serialized strings."""
 
-    def ingest(self, raw_data: str) -> ty.List[DocumentChunk]:
+    def ingest(self, raw_data: str) -> list[DocumentChunk]:
         chunks = []
         for idx, line in enumerate(raw_data.strip().split("\n")):
             if not line.strip():
@@ -140,6 +144,7 @@ def get_ingestion_engine(data_format: str) -> UniversalIngestionEngine:
 # 3. Dynamic Metadata Extension Registry
 # ---------------------------------------------------------------------------
 
+
 class MetaExtensionRegistry:
     """Manages dynamic naming and registration of custom spaCy extensions."""
 
@@ -148,7 +153,7 @@ class MetaExtensionRegistry:
         return re.sub(r"[^a-zA-Z0-9_]", "_", name).lower()
 
     @classmethod
-    def register(cls, config: FrameworkConfig) -> ty.Tuple[str, str, str]:
+    def register(cls, config: FrameworkConfig) -> tuple[str, str, str]:
         namespace = cls.sanitize_name(f"{config.country}_{config.target_schema_standard}")
         country_key = f"{namespace}_country"
         schema_key = f"{namespace}_structural_type"
@@ -168,16 +173,23 @@ class MetaExtensionRegistry:
 # 4. Modular spaCy Bridge Component
 # ---------------------------------------------------------------------------
 
+
 @Language.factory("universal_metadata_bridge_v2")
-def create_metadata_bridge_v2(nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str) -> ty.Callable[[Doc], Doc]:
+def create_metadata_bridge_v2(
+    nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str
+) -> ty.Callable[[Doc], Doc]:
     return ModularSpaCyBridgeComponentV2(nlp, name, country_key, schema_key, chunk_id_key)
 
 
 class ModularSpaCyBridgeComponentV2:
     """Custom spaCy component mapping schema metadata properties onto Spans."""
 
-    def __init__(self, nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str):
+    def __init__(
+        self, nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str
+    ):
+        self._nlp = nlp
         self.name = name
+        self._nlp = nlp
         self.country_key = country_key
         self.schema_key = schema_key
         self.chunk_id_key = chunk_id_key
@@ -185,7 +197,7 @@ class ModularSpaCyBridgeComponentV2:
     def __call__(self, doc: Doc) -> Doc:
         if doc.has_extension("chunk_metadata") and doc._.chunk_metadata:
             meta = doc._.chunk_metadata
-            full_span = doc[0:len(doc)]
+            full_span = doc[0 : len(doc)]
             full_span._.set(self.schema_key, meta.get("structural_type"))
             full_span._.set(self.chunk_id_key, meta.get("chunk_id"))
         return doc
@@ -199,10 +211,13 @@ if not Doc.has_extension("chunk_metadata"):
 # 5. SOTA Target Schema Emitter (Maximal Standards Use)
 # ---------------------------------------------------------------------------
 
+
 class TargetSchemaEmitter:
     """Enriches output configurations to comply strictly with international schemas."""
 
-    def __init__(self, config: FrameworkConfig, country_key: str, schema_key: str, chunk_id_key: str):
+    def __init__(
+        self, config: FrameworkConfig, country_key: str, schema_key: str, chunk_id_key: str
+    ):
         self.config = config
         self.country_key = country_key
         self.schema_key = schema_key
@@ -210,7 +225,7 @@ class TargetSchemaEmitter:
 
     def emit(self, doc: Doc) -> str:
         standard = self.config.target_schema_standard.upper()
-        full_span = doc[0:len(doc)]
+        full_span = doc[0 : len(doc)]
         structural_type = full_span._.get(self.schema_key)
         chunk_id = full_span._.get(self.chunk_id_key)
 
@@ -227,10 +242,10 @@ class TargetSchemaEmitter:
         """Serializes to ParlaMint-TEI-Ana with sentence tags and Morphosyntactic (MSD) features."""
         lines = []
         speaker_id = "unknown_speaker"
-        
+
         # UTTERANCE wrapper for parliamentary speeches
         lines.append(f'<u xml:id="{chunk_id}" who="#{speaker_id}" ana="#{struct_type}">')
-        
+
         # Group tokens into sentences (<s>) using spaCy sentencizer
         for s_idx, sent in enumerate(doc.sents):
             lines.append(f'  <s xml:id="{chunk_id}.s{s_idx}">')
@@ -239,46 +254,54 @@ class TargetSchemaEmitter:
                     continue
                 # Compile detailed MSD features using tag_
                 msd = f"UPosTag={token.pos_}|Tag={token.tag_}"
-                
+
                 # Check for named entities to nest inside <name>
                 if token.ent_type_:
                     lines.append(f'    <name type="{token.ent_type_}">')
-                    lines.append(f'      <w lemma="{token.lemma_}" pos="{token.pos_}" msd="{msd}">{token.text}</w>')
-                    lines.append('    </name>')
+                    lines.append(
+                        f'      <w lemma="{token.lemma_}" pos="{token.pos_}" msd="{msd}">{token.text}</w>'
+                    )
+                    lines.append("    </name>")
                 else:
-                    lines.append(f'    <w lemma="{token.lemma_}" pos="{token.pos_}" msd="{msd}">{token.text}</w>')
-            lines.append('  </s>')
-            
-        lines.append('</u>')
+                    lines.append(
+                        f'    <w lemma="{token.lemma_}" pos="{token.pos_}" msd="{msd}">{token.text}</w>'
+                    )
+            lines.append("  </s>")
+
+        lines.append("</u>")
         return "\n".join(lines)
 
     def _emit_akoma_ntoso(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
         """Serializes into complete Akoma-Ntoso XML layout with Identification Metadata blocks."""
         lines = []
-        lines.append('<akomaNtoso>')
+        lines.append("<akomaNtoso>")
         lines.append(f'  <{struct_type} id="{chunk_id}">')
-        
+
         # Meta identification block
-        lines.append('    <meta>')
+        lines.append("    <meta>")
         lines.append('      <identification source="#nlp_policy_nz">')
-        lines.append(f'        <FRBRWork>')
-        lines.append(f'          <FRBRthis value="/{self.config.country}/{struct_type}/{chunk_id}/main"/>')
-        lines.append(f'          <FRBRuri value="/{self.config.country}/{struct_type}/{chunk_id}"/>')
-        lines.append(f'        </FRBRWork>')
-        lines.append('      </identification>')
-        lines.append('    </meta>')
-        
+        lines.append("        <FRBRWork>")
+        lines.append(
+            f'          <FRBRthis value="/{self.config.country}/{struct_type}/{chunk_id}/main"/>'
+        )
+        lines.append(
+            f'          <FRBRuri value="/{self.config.country}/{struct_type}/{chunk_id}"/>'
+        )
+        lines.append("        </FRBRWork>")
+        lines.append("      </identification>")
+        lines.append("    </meta>")
+
         # Content body
-        lines.append('    <body>')
-        lines.append('      <mainBody>')
-        lines.append('        <content>')
-        lines.append(f'          <p>{doc.text}</p>')
-        lines.append('        </content>')
-        lines.append('      </mainBody>')
-        lines.append('    </body>')
-        
-        lines.append(f'  </{struct_type}>')
-        lines.append('</akomaNtoso>')
+        lines.append("    <body>")
+        lines.append("      <mainBody>")
+        lines.append("        <content>")
+        lines.append(f"          <p>{doc.text}</p>")
+        lines.append("        </content>")
+        lines.append("      </mainBody>")
+        lines.append("    </body>")
+
+        lines.append(f"  </{struct_type}>")
+        lines.append("</akomaNtoso>")
         return "\n".join(lines)
 
     def _emit_parlacap_jsonl(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
@@ -287,20 +310,22 @@ class TargetSchemaEmitter:
         for t in doc:
             if t.is_space:
                 continue
-            tokens.append({
-                "text": t.text,
-                "lemma": t.lemma_,
-                "pos": t.pos_,
-                "ner": t.ent_type_,
-                "deprel": t.dep_,
-                "head_index": t.head.i
-            })
-            
+            tokens.append(
+                {
+                    "text": t.text,
+                    "lemma": t.lemma_,
+                    "pos": t.pos_,
+                    "ner": t.ent_type_,
+                    "deprel": t.dep_,
+                    "head_index": t.head.i,
+                }
+            )
+
         data = {
             "id": chunk_id,
             "country": self.config.country,
             "structural_type": struct_type,
-            "tokens": tokens
+            "tokens": tokens,
         }
         return json.dumps(data)
 
@@ -309,35 +334,34 @@ class TargetSchemaEmitter:
 # 6. Pipeline Controller and Switcher Demo
 # ---------------------------------------------------------------------------
 
-SAMPLE_XML = '<section id="sec-5" title="Interpretation"><para>The terms apply to this Act.</para></section>'
+SAMPLE_XML = (
+    '<section id="sec-5" title="Interpretation"><para>The terms apply to this Act.</para></section>'
+)
 SAMPLE_JSONL = '{"id": "speech-102", "text": "I support this amendment for the region.", "type": "speech", "metadata": {"speaker": "MP Jones"}}'
+
 
 def run_framework(config: FrameworkConfig, raw_data: str) -> str:
     engine = get_ingestion_engine(config.source_data_format)
     chunks = engine.ingest(raw_data)
-    
+
     country_key, schema_key, chunk_id_key = MetaExtensionRegistry.register(config)
 
     # Initialize blank model
     nlp = spacy.blank("en")
     nlp.add_pipe(
         "universal_metadata_bridge_v2",
-        config={
-            "country_key": country_key,
-            "schema_key": schema_key,
-            "chunk_id_key": chunk_id_key
-        }
+        config={"country_key": country_key, "schema_key": schema_key, "chunk_id_key": chunk_id_key},
     )
     nlp.add_pipe("sentencizer")
 
     emitter = TargetSchemaEmitter(config, country_key, schema_key, chunk_id_key)
     output_lines = []
-    
+
     for chunk in chunks:
         doc = nlp.make_doc(chunk.text)
         doc._.chunk_metadata = {
             "chunk_id": chunk.chunk_id,
-            "structural_type": chunk.structural_type
+            "structural_type": chunk.structural_type,
         }
         doc = nlp(doc)
         serialized = emitter.emit(doc)
@@ -352,22 +376,18 @@ def run_demo() -> None:
         country="New Zealand",
         jurisdiction="National Parliament & PCO Legislative Corpus",
         source_data_format="XML",
-        target_schema_standard="ParlaMint-TEI-Ana"
+        target_schema_standard="ParlaMint-TEI-Ana",
     )
-    nz_output = run_framework(config_nz, SAMPLE_XML)
-    print("--- Scenario A Output (NZ - SOTA TEI XML) ---")
-    print(nz_output)
+    run_framework(config_nz, SAMPLE_XML)
 
     # Scenario B: Switch parameters dynamically to UK JSONL data targeting ParlaCAP-JSONL
     config_uk = FrameworkConfig(
         country="United Kingdom",
         jurisdiction="UK Hansard Parliamentary Debates",
         source_data_format="JSONL",
-        target_schema_standard="ParlaCAP-JSONL"
+        target_schema_standard="ParlaCAP-JSONL",
     )
-    uk_output = run_framework(config_uk, SAMPLE_JSONL)
-    print("\n--- Scenario B Output (UK - SOTA ParlaCAP JSONL) ---")
-    print(uk_output)
+    run_framework(config_uk, SAMPLE_JSONL)
 
 
 if __name__ == "__main__":

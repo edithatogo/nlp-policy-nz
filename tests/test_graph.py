@@ -13,21 +13,22 @@ import networkx as nx
 
 from nlp_policy_nz.cli.graph import NODE_TYPES, PolicyGraph
 
-
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
 
+
 def test_node_types_constant() -> None:
     """NODE_TYPES is a frozenset of the expected labels."""
     expected = {"act", "section", "speech", "speaker", "bill", "debate"}
-    assert NODE_TYPES == frozenset(expected)
+    assert frozenset(expected) == NODE_TYPES
     assert isinstance(NODE_TYPES, frozenset)
 
 
 # ---------------------------------------------------------------------------
 # Initial state
 # ---------------------------------------------------------------------------
+
 
 def test_policy_graph_init_empty() -> None:
     """A freshly created PolicyGraph has no nodes or edges."""
@@ -39,6 +40,7 @@ def test_policy_graph_init_empty() -> None:
 # ---------------------------------------------------------------------------
 # Node creation
 # ---------------------------------------------------------------------------
+
 
 def test_add_act_and_speech() -> None:
     """Nodes can be added and their type metadata is stored correctly."""
@@ -56,6 +58,7 @@ def test_add_act_and_speech() -> None:
 # ---------------------------------------------------------------------------
 # Edge creation
 # ---------------------------------------------------------------------------
+
 
 def test_add_citation_creates_edge() -> None:
     """A citation edge between speech and act is created."""
@@ -88,7 +91,7 @@ def test_add_section_reference() -> None:
     """Section-reference edges carry the correct relation label."""
     graph = PolicyGraph()
     graph.add_speech("speech-1", "Hon Member", "2024-06-01", "Text...")
-    graph._graph.add_node("sect-29", type="section")  # noqa: SLF001
+    graph._graph.add_node("sect-29", type="section")
     graph.add_section_reference("speech-1", "sect-29")
 
     assert graph.graph.has_edge("speech-1", "sect-29")
@@ -97,10 +100,10 @@ def test_add_section_reference() -> None:
     assert edge_data["relation"] == "references_section"
 
 
-
 # ---------------------------------------------------------------------------
 # Queries
 # ---------------------------------------------------------------------------
+
 
 def test_query_acts_mentioned_in_speech() -> None:
     """Returning acts cited by a given speech."""
@@ -138,6 +141,7 @@ def test_query_speeches_mentioning_unknown_act() -> None:
 # Ranking queries
 # ---------------------------------------------------------------------------
 
+
 def test_most_cited_acts() -> None:
     """Acts are ranked by citation count in descending order."""
     graph = _build_sample_graph()
@@ -173,6 +177,7 @@ def test_most_active_speakers_respects_top_n() -> None:
 # Serialization
 # ---------------------------------------------------------------------------
 
+
 def test_to_dict_roundtrip() -> None:
     """to_dict produces a dict parseable by node_link_graph."""
     graph = _build_sample_graph()
@@ -181,7 +186,7 @@ def test_to_dict_roundtrip() -> None:
     assert "links" in data
 
     restored_graph = PolicyGraph()
-    restored_graph._graph = nx.node_link_graph(data)  # noqa: SLF001
+    restored_graph._graph = nx.node_link_graph(data)
     assert restored_graph.query_acts_mentioned_in_speech("speech-1") == ["act-1", "act-2"]
 
 
@@ -192,7 +197,7 @@ def test_save_and_load_roundtrip(tmp_path: Path) -> None:
     original.save(file_path)
 
     assert file_path.exists()
-    with open(file_path, encoding="utf-8") as fh:
+    with open(file_path, encoding="utf-8") as fh:  # noqa: PTH123
         raw = json.load(fh)
     assert "nodes" in raw
     assert "links" in raw
@@ -207,6 +212,7 @@ def test_save_and_load_roundtrip(tmp_path: Path) -> None:
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _build_sample_graph() -> PolicyGraph:
     """Build and return a small PolicyGraph with mixed data for testing.
@@ -231,4 +237,3 @@ def _build_sample_graph() -> PolicyGraph:
     graph.add_citation("speech-3", "act-1", context="See section 12")
 
     return graph
-

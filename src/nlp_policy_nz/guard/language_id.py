@@ -89,9 +89,7 @@ class LanguageIdentifier:
             reliability flag.
         """
         if not text or not text.strip():
-            return LanguageResult(
-                language="en", confidence=0.0, is_reliable=False
-            )
+            return LanguageResult(language="en", confidence=0.0, is_reliable=False)
 
         detected: Language | None = self._detector.detect_language_of(text)
         iso_code = self._to_iso(detected)
@@ -121,9 +119,7 @@ class LanguageIdentifier:
         """
         return [self.detect(s) for s in sentences]
 
-    def detect_code_switching(
-        self, text: str
-    ) -> list[tuple[str, str]]:
+    def detect_code_switching(self, text: str) -> list[tuple[str, str]]:
         """Split *text* into contiguous single-language segments.
 
         Uses lingua's built-in multilingual detection to identify

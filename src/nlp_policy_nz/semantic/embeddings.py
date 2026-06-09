@@ -55,9 +55,7 @@ class EmbeddingResult(msgspec.Struct):
 # ---------------------------------------------------------------------------
 
 
-def _mean_pooling(
-    token_embeddings: torch.Tensor, attention_mask: torch.Tensor
-) -> torch.Tensor:
+def _mean_pooling(token_embeddings: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
     """Apply mean pooling over token embeddings, ignoring padding tokens.
 
     Parameters
@@ -74,9 +72,7 @@ def _mean_pooling(
     torch.Tensor
         Mean-pooled embeddings of shape ``(batch_size, hidden_dim)``.
     """
-    input_mask_expanded = (
-        attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
-    )
+    input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
     sum_embeddings = torch.sum(token_embeddings * input_mask_expanded, dim=1)
     sum_mask = torch.clamp(input_mask_expanded.sum(dim=1), min=1e-9)
     return sum_embeddings / sum_mask
@@ -227,18 +223,14 @@ class EmbeddingGenerator:
     def model(self) -> AutoModel:
         """The underlying Hugging Face transformer model."""
         if self._model is None:
-            raise RuntimeError(
-                "Model not loaded. Use the context manager or call load()."
-            )
+            raise RuntimeError("Model not loaded. Use the context manager or call load().")
         return self._model
 
     @property
     def tokenizer(self) -> AutoTokenizer:
         """The underlying Hugging Face fast tokenizer."""
         if self._tokenizer is None:
-            raise RuntimeError(
-                "Tokenizer not loaded. Use the context manager or call load()."
-            )
+            raise RuntimeError("Tokenizer not loaded. Use the context manager or call load().")
         return self._tokenizer
 
     @property
@@ -324,8 +316,7 @@ class EmbeddingGenerator:
 
         if len(doc_ids) != len(texts):
             raise ValueError(
-                f"Length of doc_ids ({len(doc_ids)}) must match length of "
-                f"texts ({len(texts)})."
+                f"Length of doc_ids ({len(doc_ids)}) must match length of texts ({len(texts)})."
             )
 
         embeddings = generate_embeddings_batch(texts, self.model, self.tokenizer)
@@ -337,7 +328,7 @@ class EmbeddingGenerator:
                 model_name=self._loaded_name,
                 dimension=len(emb),
             )
-            for did, txt, emb in zip(doc_ids, texts, embeddings)
+            for did, txt, emb in zip(doc_ids, texts, embeddings, strict=False)
         ]
 
     # -- context manager ----------------------------------------------------

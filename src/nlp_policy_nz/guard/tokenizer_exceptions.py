@@ -7,49 +7,52 @@ component that pre-processes text to protect these terms.
 
 from __future__ import annotations
 
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 import spacy
-from spacy.language import Language
 from spacy import util as spacy_util
+from spacy.language import Language
 
 # ---------------------------------------------------------------------------
 # Lexical Atom Set
 # ---------------------------------------------------------------------------
 
-TE_REO_LEXICAL_ATOM_SET: frozenset[str] = frozenset({
-    # Treaty / governance terms
-    "tikanga",
-    "taonga",
-    "kāwanatanga",
-    "Whakawā",
-    "rangatiratanga",
-    "motuhake",
-    "whakahaere",
-    "pūtea",
-    "whakaminenga",
-    "tiriti",
-    # People / collective nouns
-    "Māori",
-    "Pākehā",
-    "Aotearoa",
-    "whānau",
-    "hapū",
-    "iwi",
-    "rohe",
-    # Cultural concepts
-    "kōrero",
-    "whakapapa",
-    "wānanga",
-    "mana",
-    "tapu",
-    "noa",
-    "utu",
-    "koha",
-    "aroha",
-    # Pronouns / function words
-    "koutou",
-})
+TE_REO_LEXICAL_ATOM_SET: frozenset[str] = frozenset(
+    {
+        # Treaty / governance terms
+        "tikanga",
+        "taonga",
+        "kāwanatanga",
+        "Whakawā",
+        "rangatiratanga",
+        "motuhake",
+        "whakahaere",
+        "pūtea",
+        "whakaminenga",
+        "tiriti",
+        # People / collective nouns
+        "Māori",
+        "Pākehā",
+        "Aotearoa",
+        "whānau",
+        "hapū",
+        "iwi",
+        "rohe",
+        # Cultural concepts
+        "kōrero",
+        "whakapapa",
+        "wānanga",
+        "mana",
+        "tapu",
+        "noa",
+        "utu",
+        "koha",
+        "aroha",
+        # Pronouns / function words
+        "koutou",
+    }
+)
 
 # ---------------------------------------------------------------------------
 # Prefixes

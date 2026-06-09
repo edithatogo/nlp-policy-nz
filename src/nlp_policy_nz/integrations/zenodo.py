@@ -5,6 +5,7 @@ Zenodo Sandbox environment (https://sandbox.zenodo.org).
 """
 
 import os
+from pathlib import Path
 from typing import Any
 
 import requests
@@ -90,6 +91,7 @@ def _headers(token: str) -> dict[str, str]:
     """Build standard authorisation headers for Zenodo API calls."""
     return {"Authorization": f"Bearer {token}"}
 
+
 # ── Public API Functions ─────────────────────────────────────────────────────
 
 
@@ -141,10 +143,7 @@ def create_sandbox_deposit(
     resp = requests.post(url, json=body, headers=_headers(access_token))
 
     if not resp.ok:
-        msg = (
-            f"Failed to create deposit: {resp.status_code} {resp.reason} "
-            f"- {resp.text}"
-        )
+        msg = f"Failed to create deposit: {resp.status_code} {resp.reason} - {resp.text}"
         raise DepositError(msg, status_code=resp.status_code)
 
     return resp.json()
@@ -187,21 +186,18 @@ def upload_file_to_deposit(
     access_token = _resolve_token(token)
     url = f"{ZENODO_SANDBOX_API_URL}/deposit/depositions/{deposit_id}/files"
 
-    path = os.fspath(file_path)
-    if not os.path.isfile(path):
-        raise FileNotFoundError(f"File not found: {path}")
+    file_path_obj = Path(file_path)
+    if not file_path_obj.is_file():
+        raise FileNotFoundError(f"File not found: {file_path_obj}")
 
-    filename = os.path.basename(path)
+    filename = file_path_obj.name
 
-    with open(path, "rb") as fh:
+    with file_path_obj.open("rb") as fh:
         files = {"file": (filename, fh)}
         resp = requests.post(url, files=files, headers=_headers(access_token))
 
     if not resp.ok:
-        msg = (
-            f"Failed to upload file '{filename}': {resp.status_code} "
-            f"{resp.reason} - {resp.text}"
-        )
+        msg = f"Failed to upload file '{filename}': {resp.status_code} {resp.reason} - {resp.text}"
         raise DepositError(msg, status_code=resp.status_code)
 
     return resp.json()

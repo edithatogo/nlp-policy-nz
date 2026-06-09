@@ -146,9 +146,7 @@ def normalize_text(text: str) -> str:
 
     # Step 2: Apply known word-level mappings (longest keys first to
     # avoid partial replacements).
-    for variant, canonical in sorted(
-        MACRON_MAP.items(), key=lambda x: -len(x[0])
-    ):
+    for variant, canonical in sorted(MACRON_MAP.items(), key=lambda x: -len(x[0])):
         pattern = re.compile(rf"\b{re.escape(variant)}\b")
         result = pattern.sub(canonical, result)
 

@@ -119,15 +119,9 @@ class VectorIndex:
             If the underlying table has not been created yet.
         """
         if self._table is None:
-            raise RuntimeError(
-                "No table available. Call create_index() first."
-            )
+            raise RuntimeError("No table available. Call create_index() first.")
 
-        result = (
-            self._table.search(query_vector)
-            .limit(top_k)
-            .to_list()
-        )
+        result = self._table.search(query_vector).limit(top_k).to_list()
         return result
 
     def add_records(self, records: list[dict[str, Any]]) -> None:
@@ -145,9 +139,7 @@ class VectorIndex:
             If the table does not exist yet.
         """
         if self._table is None:
-            raise RuntimeError(
-                "No table available. Call create_index() first."
-            )
+            raise RuntimeError("No table available. Call create_index() first.")
         self._table.add(records)
 
     def delete_table(self) -> None:

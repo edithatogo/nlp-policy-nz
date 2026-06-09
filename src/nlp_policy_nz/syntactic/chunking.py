@@ -9,8 +9,6 @@ chunks and assigning unique structural identifiers following NZ conventions:
 
 from __future__ import annotations
 
-import re
-from collections.abc import Sequence
 from typing import Any
 
 from spacy.language import Language
@@ -179,7 +177,7 @@ def chunk_hansard_speech(
     """
     chunks = chunk_by_sentence(text, nlp)
 
-    for i, chunk in enumerate(chunks):
+    for _i, chunk in enumerate(chunks):
         chunk["doc_id"] = generate_hansard_id(date, speech_num)
 
     return chunks

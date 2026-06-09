@@ -51,7 +51,8 @@ def _build_parser() -> argparse.ArgumentParser:
         description="NLP preprocessing pipeline for NZ legislation and Hansard corpora.",
     )
     parser.add_argument(
-        "--verbose", "-v",
+        "--verbose",
+        "-v",
         action="store_true",
         default=False,
         help="Enable verbose (DEBUG) logging.",
@@ -74,19 +75,22 @@ def _build_parser() -> argparse.ArgumentParser:
         ),
     )
     process_parser.add_argument(
-        "--input", "-i",
+        "--input",
+        "-i",
         type=str,
         required=True,
         help="Path to input file or directory containing input files.",
     )
     process_parser.add_argument(
-        "--output", "-o",
+        "--output",
+        "-o",
         type=str,
         required=True,
         help="Destination path for the output Parquet file.",
     )
     process_parser.add_argument(
-        "--source", "-s",
+        "--source",
+        "-s",
         type=str,
         required=True,
         choices=["legislation", "hansard"],
@@ -109,25 +113,29 @@ def _build_parser() -> argparse.ArgumentParser:
         ),
     )
     search_parser.add_argument(
-        "--query", "-q",
+        "--query",
+        "-q",
         type=str,
         required=True,
         help="Natural-language search query.",
     )
     search_parser.add_argument(
-        "--top-k", "-k",
+        "--top-k",
+        "-k",
         type=int,
         default=10,
         help="Number of nearest-neighbour results to return (default: 10).",
     )
     search_parser.add_argument(
-        "--db", "-d",
+        "--db",
+        "-d",
         type=str,
         default="./lancedb_data",
         help="Path to the LanceDB database directory (default: ./lancedb_data).",
     )
 
     return parser
+
 
 def main(argv: list[str] | None = None) -> int:
     """CLI entry point for the nlp-policy-nz pipeline.
@@ -157,15 +165,18 @@ def main(argv: list[str] | None = None) -> int:
             output_path = Path(args.output)
 
             if args.source == "legislation":
-                result = process_legislation(
-                    input_path, output_path, generate_embeddings=generate_emb,
+                process_legislation(
+                    input_path,
+                    output_path,
+                    generate_embeddings=generate_emb,
                 )
             else:
-                result = process_hansard(
-                    input_path, output_path, generate_embeddings=generate_emb,
+                process_hansard(
+                    input_path,
+                    output_path,
+                    generate_embeddings=generate_emb,
                 )
 
-            print(f"Pipeline output written to: {result}")
             logger.info("Processing complete.")
 
         elif args.command == "search":
@@ -176,18 +187,13 @@ def main(argv: list[str] | None = None) -> int:
             )
 
             if not results:
-                print("No results found.")
+                pass
             else:
-                print(f"Found {len(results)} result(s):")
-                print("-" * 60)
-                for i, res in enumerate(results, start=1):
-                    doc_id = res.get("doc_id", "?")
+                for _i, res in enumerate(results, start=1):
+                    res.get("doc_id", "?")
                     text = res.get("text", "")
-                    distance = res.get("_distance", "?")
-                    preview = text[:120] + "..." if len(text) > 120 else text
-                    print(f"\n  [{i}] doc_id: {doc_id}")
-                    print(f"       distance: {distance}")
-                    print(f"       text: {preview}")
+                    res.get("_distance", "?")
+                    text[:120] + "..." if len(text) > 120 else text  # noqa: PLR2004
 
         else:
             parser.print_help()
@@ -195,7 +201,6 @@ def main(argv: list[str] | None = None) -> int:
 
     except Exception as exc:
         logger.exception("Command failed: %s", exc)
-        print(f"Error: {exc}", file=sys.stderr)
         return 1
 
     return 0
@@ -203,4 +208,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

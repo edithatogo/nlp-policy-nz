@@ -92,10 +92,7 @@ def _load_dataset(
             token=resolved_token,
         )
     except Exception as exc:
-        msg = (
-            f"Failed to load dataset {path!r} (split={split!r}, "
-            f"streaming={streaming!r}): {exc}"
-        )
+        msg = f"Failed to load dataset {path!r} (split={split!r}, streaming={streaming!r}): {exc}"
         raise DatasetLoadError(msg) from exc
     return dataset
 

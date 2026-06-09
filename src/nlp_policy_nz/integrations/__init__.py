@@ -9,34 +9,34 @@ used in the NLP preprocessing pipeline, including:
 - data_registry: Centralised registry for dataset provenance and sovereignty
 """
 
+from nlp_policy_nz.integrations.data_registry import (
+    DataRecord,
+    DataSovereigntyRegistry,
+)
 from nlp_policy_nz.integrations.zenodo import (
-    DepositError,
     ZENODO_SANDBOX_API_URL,
     ZENODO_TOKEN_ENV_VAR,
+    DepositError,
     create_sandbox_deposit,
     get_zenodo_token,
     publish_deposit,
     upload_file_to_deposit,
 )
-from nlp_policy_nz.integrations.data_registry import (
-    DataRecord,
-    DataSovereigntyRegistry,
-)
 
 __all__: list[str] = [
-    # Zenodo
-    "DepositError",
     "ZENODO_SANDBOX_API_URL",
     "ZENODO_TOKEN_ENV_VAR",
-    "create_sandbox_deposit",
-    "get_zenodo_token",
-    "publish_deposit",
-    "upload_file_to_deposit",
     # Data Registry
     "DataRecord",
     "DataSovereigntyRegistry",
+    # Zenodo
+    "DepositError",
+    "create_sandbox_deposit",
+    "data_registry",
+    "get_zenodo_token",
     # Sub-modules
     "huggingface",
+    "publish_deposit",
+    "upload_file_to_deposit",
     "zenodo",
-    "data_registry",
 ]

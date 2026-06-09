@@ -17,14 +17,16 @@ import networkx as nx
 # Constants
 # ---------------------------------------------------------------------------
 
-NODE_TYPES: frozenset[str] = frozenset({
-    "act",
-    "section",
-    "speech",
-    "speaker",
-    "bill",
-    "debate",
-})
+NODE_TYPES: frozenset[str] = frozenset(
+    {
+        "act",
+        "section",
+        "speech",
+        "speaker",
+        "bill",
+        "debate",
+    }
+)
 """Set of recognised node type labels used in ``PolicyGraph``."""
 
 # ---------------------------------------------------------------------------
@@ -211,9 +213,7 @@ class PolicyGraph:
             return []
         successors = list(self._graph.successors(speech_id))
         acts: list[str] = [
-            node
-            for node in successors
-            if self._graph.nodes[node].get("type") == "act"
+            node for node in successors if self._graph.nodes[node].get("type") == "act"
         ]
         return sorted(acts)
 
@@ -234,9 +234,7 @@ class PolicyGraph:
             return []
         predecessors = list(self._graph.predecessors(act_id))
         speeches: list[str] = [
-            node
-            for node in predecessors
-            if self._graph.nodes[node].get("type") == "speech"
+            node for node in predecessors if self._graph.nodes[node].get("type") == "speech"
         ]
         return sorted(speeches)
 
@@ -296,12 +294,8 @@ class PolicyGraph:
                     if self._graph.nodes[succ].get("type") == "act"
                 )
                 if act_count > 0:
-                    speaker_counts[speaker] = (
-                        speaker_counts.get(speaker, 0) + act_count
-                    )
-        sorted_speakers = sorted(
-            speaker_counts.items(), key=lambda x: x[1], reverse=True
-        )
+                    speaker_counts[speaker] = speaker_counts.get(speaker, 0) + act_count
+        sorted_speakers = sorted(speaker_counts.items(), key=lambda x: x[1], reverse=True)
         return sorted_speakers[:top_n]
 
     # ------------------------------------------------------------------
@@ -327,8 +321,10 @@ class PolicyGraph:
             Filesystem path for the output JSON file.
         """
         data = self.to_dict()
-        with open(path, "w", encoding="utf-8") as fh:
-            json.dump(data, fh, ensure_ascii=False, indent=2)
+        Path(path).write_text(
+            json.dumps(data, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
 
     @classmethod
     def load(cls, path: str | Path) -> Self:
@@ -345,8 +341,7 @@ class PolicyGraph:
         Self
             A new ``PolicyGraph`` instance with the restored graph.
         """
-        with open(path, "r", encoding="utf-8") as fh:
-            data = json.load(fh)
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
         graph = cls()
-        graph._graph = nx.node_link_graph(data)  # noqa: SLF001
+        graph._graph = nx.node_link_graph(data)
         return graph

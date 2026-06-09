@@ -14,27 +14,26 @@ Consumes structured PCO XML, extracts clean text, maps character boundaries,
 and registers custom spaCy metadata extensions.
 """
 
-import re
-import typing as ty
-from bs4 import BeautifulSoup, Tag
 import msgspec
 import spacy
+from bs4 import BeautifulSoup, Tag
 from spacy.language import Language
 from spacy.matcher import Matcher
 from spacy.tokens import Doc, Span
-
 
 # ---------------------------------------------------------------------------
 # 1. Structured Data Types via msgspec
 # ---------------------------------------------------------------------------
 
+
 class XMLElementMetadata(msgspec.Struct):
     """Holds character offsets and attributes of parsed XML legislative blocks."""
-    element_type: str        # e.g., 'act', 'part', 'section', 'heading'
+
+    element_type: str  # e.g., 'act', 'part', 'section', 'heading'
     start_char: int
     end_char: int
-    element_id: ty.Optional[str] = None
-    element_title: ty.Optional[str] = None
+    element_id: str | None = None
+    element_title: str | None = None
 
 
 # Register custom spaCy extensions
@@ -55,21 +54,22 @@ if not Span.has_extension("nz_element_title"):
 # 2. XML Parser and Character Offset Mapper
 # ---------------------------------------------------------------------------
 
+
 class LegislativeXMLParser:
     """Parses NZ legislation XML, extracting clean text and mapping elements to offsets."""
 
     def __init__(self, xml_text: str):
         self.soup = BeautifulSoup(xml_text, "xml")
-        self.clean_text_buffer: ty.List[str] = []
+        self.clean_text_buffer: list[str] = []
         self.current_offset = 0
-        self.metadata: ty.List[XMLElementMetadata] = []
+        self.metadata: list[XMLElementMetadata] = []
 
     def _append_text(self, text: str) -> None:
         """Appends text to the buffer and updates character offsets."""
         self.clean_text_buffer.append(text)
         self.current_offset += len(text)
 
-    def _traverse(self, element: ty.Union[Tag, str]) -> None:
+    def _traverse(self, element: Tag | str) -> None:
         """Recursively parses XML tags while tracking plain text character boundaries."""
         if isinstance(element, str):
             self._append_text(element)
@@ -77,7 +77,7 @@ class LegislativeXMLParser:
 
         tag_name = element.name
         start = self.current_offset
-        
+
         # Capture element specific metadata
         element_id = element.get("id")
         element_title = element.get("title")
@@ -100,7 +100,7 @@ class LegislativeXMLParser:
                 )
             )
 
-    def parse(self) -> ty.Tuple[str, ty.List[XMLElementMetadata]]:
+    def parse(self) -> tuple[str, list[XMLElementMetadata]]:
         """Executes the parsing and returns clean text alongside metadata array."""
         root = self.soup.find()
         if root is not None:
@@ -113,14 +113,15 @@ class LegislativeXMLParser:
 # 3. Custom spaCy v3 Components
 # ---------------------------------------------------------------------------
 
+
 @Language.component("nz_xml_structure_injector")
 def nz_xml_structure_injector(doc: Doc) -> Doc:
     """
     Custom spaCy component mapping pre-calculated XML character bounds to Doc Spans.
     Injects element attributes into custom metadata properties.
     """
-    metadata_list: ty.List[XMLElementMetadata] = doc._.nz_xml_metadata
-    spans: ty.List[Span] = []
+    metadata_list: list[XMLElementMetadata] = doc._.nz_xml_metadata
+    spans: list[Span] = []
 
     for meta in metadata_list:
         # Resolve character offsets to token indexes
@@ -134,7 +135,7 @@ def nz_xml_structure_injector(doc: Doc) -> Doc:
 
     # Filter overlaps (preferring longer/outer spans in the hierarchy)
     filtered_spans = spacy.util.filter_spans(spans)
-    
+
     # Store in standard doc.spans dictionary under a custom group name
     doc.spans["nz_xml_structure"] = filtered_spans
     return doc
@@ -143,7 +144,7 @@ def nz_xml_structure_injector(doc: Doc) -> Doc:
 @Language.component("nz_cross_reference_matcher")
 def nz_cross_reference_matcher(doc: Doc) -> Doc:
     """
-    Custom spaCy component utilizing rule-based Matcher to identify internal 
+    Custom spaCy component utilizing rule-based Matcher to identify internal
     legislative cross-references (e.g. section 5(2)(b) or Part 3).
     """
     matcher = Matcher(doc.vocab)
@@ -165,7 +166,7 @@ def nz_cross_reference_matcher(doc: Doc) -> Doc:
     matcher.add("LEGISLATION_PART", [part_pattern])
 
     matches = matcher(doc)
-    spans: ty.List[Span] = []
+    spans: list[Span] = []
 
     for match_id, start, end in matches:
         label = doc.vocab.strings[match_id]
@@ -196,17 +197,13 @@ SAMPLE_NZ_XML = """
 </act>
 """
 
+
 def run_demo() -> None:
     """Runs the legislative parser demo, printing structure and cross-references."""
-    print("[Pipeline] Parsing XML structure...")
     parser = LegislativeXMLParser(SAMPLE_NZ_XML)
     clean_text, metadata = parser.parse()
 
-    print("\n--- Clean Text Extracted ---")
-    print(clean_text)
-
     # Load base pipeline
-    print("\n[Pipeline] Initializing spaCy model...")
     nlp = spacy.blank("en")
 
     # Add custom components to the pipeline
@@ -220,18 +217,11 @@ def run_demo() -> None:
     # Process doc through pipeline
     doc = nlp(doc)
 
-    print("\n--- Injected Legislative Structural Metadata Spans ---")
-    for span in doc.spans.get("nz_xml_structure", []):
-        print(
-            f"Type: {span._.nz_element_type:<8} | "
-            f"ID: {str(span._.nz_element_id):<6} | "
-            f"Title: {str(span._.nz_element_title):<24} | "
-            f"Text: '{span.text.strip()}'"
-        )
+    for _span in doc.spans.get("nz_xml_structure", []):
+        pass
 
-    print("\n--- Extracted Internal Cross-References ---")
-    for span in doc.spans.get("nz_cross_references", []):
-        print(f"Reference Type: {span.label_:<18} | Text: '{span.text}'")
+    for _span in doc.spans.get("nz_cross_references", []):
+        pass
 
 
 if __name__ == "__main__":

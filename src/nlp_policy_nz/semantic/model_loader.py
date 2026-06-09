@@ -140,9 +140,7 @@ def load_model(
         )
         return model, tokenizer
     except Exception as exc:
-        raise ModelLoadError(
-            f"Failed to load fallback model '{FALLBACK_MODEL}': {exc}"
-        ) from exc
+        raise ModelLoadError(f"Failed to load fallback model '{FALLBACK_MODEL}': {exc}") from exc
 
 
 def unload_model(model: torch.nn.Module) -> None:
@@ -163,7 +161,7 @@ def unload_model(model: torch.nn.Module) -> None:
     """
     try:
         model.cpu()
-    except Exception:  # noqa: S110  # model may not have .cpu()
+    except Exception:  # model may not have .cpu()
         pass
     finally:
         del model
@@ -193,8 +191,7 @@ def _build_bnb_config(quantization: str) -> BitsAndBytesConfig | None:
     if quantization == "none":
         return None
     raise ValueError(
-        f"Unsupported quantization value: '{quantization}'. "
-        f"Expected one of '4bit', '8bit', 'none'."
+        f"Unsupported quantization value: '{quantization}'. Expected one of '4bit', '8bit', 'none'."
     )
 
 

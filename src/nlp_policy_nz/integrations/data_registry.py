@@ -6,12 +6,11 @@ and where (e.g. which Zenodo DOI) it has been archived.
 """
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import msgspec
-
 
 # ── Data Structures ──────────────────────────────────────────────────────────
 
@@ -74,7 +73,7 @@ class DataSovereigntyRegistry:
         self,
         dataset_id: str,
         source: str,
-        license: str,
+        license_id: str,
         version: str,
         doi: str | None = None,
         deposit_url: str | None = None,
@@ -90,7 +89,7 @@ class DataSovereigntyRegistry:
             Unique identifier for the dataset.
         source : str
             Origin description or URL of the source data.
-        license : str
+        license_id : str
             SPDX license identifier.
         version : str
             Version string for this release.
@@ -104,12 +103,12 @@ class DataSovereigntyRegistry:
         DataRecord
             The newly created (or updated) record.
         """
-        recorded_at = datetime.now(timezone.utc).isoformat()
+        recorded_at = datetime.now(UTC).isoformat()
 
         record = DataRecord(
             dataset_id=dataset_id,
             source=source,
-            license=license,
+            license=license_id,
             version=version,
             doi=doi,
             deposit_url=deposit_url,
@@ -117,9 +116,7 @@ class DataSovereigntyRegistry:
         )
 
         # Replace existing record with same dataset_id, if any.
-        self._records = [
-            r for r in self._records if r.dataset_id != dataset_id
-        ]
+        self._records = [r for r in self._records if r.dataset_id != dataset_id]
         self._records.append(record)
         self._save()
         return record
@@ -167,9 +164,7 @@ class DataSovereigntyRegistry:
         try:
             raw = self._path.read_text(encoding="utf-8")
             data: list[dict[str, Any]] = json.loads(raw)
-            self._records = [
-                msgspec.convert(item, DataRecord) for item in data
-            ]
+            self._records = [msgspec.convert(item, DataRecord) for item in data]
         except (json.JSONDecodeError, OSError, TypeError):
             self._records = []
 
@@ -177,4 +172,3 @@ class DataSovereigntyRegistry:
         """Persist the current records to the JSON registry file."""
         raw = msgspec.json.encode(self._records)
         self._path.write_bytes(raw)
-

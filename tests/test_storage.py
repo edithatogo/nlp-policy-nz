@@ -12,8 +12,8 @@ from pathlib import Path
 import pytest
 
 from nlp_policy_nz.storage.serialization import (
-    PipelineRecord,
     SCHEMA_FIELDS,
+    PipelineRecord,
     deserialize_to_dataframe,
     load_from_parquet,
     records_to_dataframe,

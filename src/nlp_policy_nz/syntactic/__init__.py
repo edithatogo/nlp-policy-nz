@@ -23,6 +23,7 @@ from nlp_policy_nz.syntactic.pipeline import PIPELINE_COMPONENTS, create_nlp_pip
 __all__: list[str] = [
     "ACT_PATTERNS",
     "CITATION_ENTITY_LABEL",
+    "PIPELINE_COMPONENTS",
     "SECTION_ENTITY_LABEL",
     "chunk_by_sentence",
     "chunk_hansard_speech",
@@ -31,5 +32,4 @@ __all__: list[str] = [
     "create_nlp_pipeline",
     "generate_hansard_id",
     "generate_legislation_id",
-    "PIPELINE_COMPONENTS",
 ]

@@ -6,22 +6,22 @@ Exposes modular XML ingestion, spaCy metadata injection, and target schema emitt
 # Version 3 SOTA Framework Exports
 from .universal_framework_v3 import (
     FrameworkConfig,
-    UniversalIngestionEngine,
-    get_ingestion_engine,
     MetaExtensionRegistry,
     ModularSpaCyBridgeComponentV3,
-    TargetSchemaEmitter,
     SOTAPipelineVisualizer,
-    run_framework as run_nlp_pipeline
+    TargetSchemaEmitter,
+    UniversalIngestionEngine,
+    get_ingestion_engine,
+    run_framework as run_nlp_pipeline,
 )
 
 __all__ = [
     "FrameworkConfig",
-    "UniversalIngestionEngine",
-    "get_ingestion_engine",
     "MetaExtensionRegistry",
     "ModularSpaCyBridgeComponentV3",
-    "TargetSchemaEmitter",
     "SOTAPipelineVisualizer",
+    "TargetSchemaEmitter",
+    "UniversalIngestionEngine",
+    "get_ingestion_engine",
     "run_nlp_pipeline",
 ]

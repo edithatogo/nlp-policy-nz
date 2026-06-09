@@ -6,8 +6,6 @@ This module configures:
 - Shared test fixtures for NZ legislative and Hansard text samples
 """
 
-from collections.abc import Generator
-
 import pytest
 from hypothesis import HealthCheck, settings
 
@@ -24,7 +22,7 @@ settings.load_profile("ci")
 
 
 # ---------------------------------------------------------------------------
-# Fixtures – sample NZ legislative text
+# Fixtures – sample NZ legislative text  # noqa: RUF003
 # ---------------------------------------------------------------------------
 @pytest.fixture
 def sample_legislation_text() -> str:
@@ -51,7 +49,7 @@ def sample_hansard_text() -> str:
     return (
         "Hon Member: Kia ora koutou katoa. E te Mana Whakawā, tēnā koe.\n"
         "I rise today to speak on the third reading of the Taxation (Annual "
-        "Rates for 2024–2025) Bill.\n"
+        "Rates for 2024–2025) Bill.\n"  # noqa: RUF001
         "The Minister of Finance has outlined the Government's commitment to "
         "fiscal responsibility while investing in health, education, and "
         "infrastructure.\n"

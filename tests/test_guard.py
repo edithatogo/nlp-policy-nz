@@ -8,24 +8,18 @@ words are not incorrectly split by downstream tokenisers.
 from __future__ import annotations
 
 import spacy
-from spacy.language import Language
-
-import pytest
+from spacy import util as spacy_util
 
 from nlp_policy_nz.guard.normalizer import (
-    MACRON_MAP,
     is_macronized,
     normalize_text,
     preserve_macrons,
 )
-from spacy import util as spacy_util
-
 from nlp_policy_nz.guard.tokenizer_exceptions import (
     TE_REO_LEXICAL_ATOM_SET,
     build_tokenizer_exceptions,
     create_maori_guard_component,
 )
-
 
 # ---------------------------------------------------------------------------
 # Unicode Normalisation Tests
@@ -41,7 +35,7 @@ def test_normalize_text_nfc() -> None:
     result = normalize_text(decomposed)
     assert result == "Māori"
     # Verify the character is actually the composed NFC form.
-    assert len(result) == 5  # M, ā, o, r, i
+    assert len(result) == 5  # M, ā, o, r, i  # noqa: PLR2004
     assert "ā" in result
 
 
@@ -77,7 +71,6 @@ def test_preserve_macrons() -> None:
     # Verify NFC form is preserved (no decomposition).
     assert "ā" in result
     assert "ā" in result
-
 
 
 # ---------------------------------------------------------------------------
@@ -125,7 +118,7 @@ class TestTeReoLexicalAtomSet:
 
     def test_te_reo_lexical_atom_set_has_at_least_twenty_items(self) -> None:
         """The set should contain at least 20 entries."""
-        assert len(TE_REO_LEXICAL_ATOM_SET) >= 20
+        assert len(TE_REO_LEXICAL_ATOM_SET) >= 20  # noqa: PLR2004
 
     def test_te_reo_lexical_atom_set_is_frozenset_of_strings(self) -> None:
         """Verify the type of the exported constant."""
@@ -205,7 +198,7 @@ class TestCreateMaoriGuardComponent:
 # ---------------------------------------------------------------------------
 
 
-from nlp_policy_nz.guard.language_id import (
+from nlp_policy_nz.guard.language_id import (  # noqa: E402
     LANGUAGE_MIIO_CONFIDENCE,
     LanguageIdentifier,
     LanguageResult,

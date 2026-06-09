@@ -23,11 +23,10 @@ from pathlib import Path
 from typing import Any
 
 from nlp_policy_nz.guard import LanguageIdentifier, normalize_text
-from nlp_policy_nz.semantic import EmbeddingGenerator, generate_embedding
+from nlp_policy_nz.semantic import generate_embedding
 from nlp_policy_nz.semantic.model_loader import load_model
 from nlp_policy_nz.storage import PipelineRecord, VectorIndex, serialize_to_parquet
 from nlp_policy_nz.syntactic import (
-    chunk_by_sentence,
     chunk_hansard_speech,
     chunk_legislation_document,
     create_citation_ruler,
@@ -81,7 +80,8 @@ def _collect_input_files(input_path: str | Path) -> list[Path]:
         return [path]
     if path.is_dir():
         files: list[Path] = sorted(
-            p for p in path.iterdir()
+            p
+            for p in path.iterdir()
             if p.is_file() and p.suffix.lower() in {".xml", ".txt", ".json"}
         )
         if not files:
@@ -292,7 +292,7 @@ def process_hansard(
         raw_text = file_path.read_text(encoding="utf-8")
         clean_text = normalize_text(raw_text)
 
-        date_str = file_path.stem[:10] if len(file_path.stem) >= 10 else "unknown-date"
+        date_str = file_path.stem[:10] if len(file_path.stem) >= 10 else "unknown-date"  # noqa: PLR2004
         chunks = chunk_hansard_speech(clean_text, nlp, date=date_str, speech_num=idx + 1)
 
         for chunk in chunks:
@@ -378,9 +378,7 @@ def search_similar(
     >>> results[0][\"doc_id\"]
     'NZ-ACT-1961-043-SEC-4'
     """
-    from pathlib import Path as _Path
-
-    db = _Path(db_path).resolve()
+    db = Path(db_path).resolve()
     if not db.is_dir():
         msg = f"LanceDB database directory not found: {db}"
         raise FileNotFoundError(msg)
@@ -398,4 +396,3 @@ def search_similar(
 
     results = index.search(query_embedding, top_k=top_k)
     return results
-

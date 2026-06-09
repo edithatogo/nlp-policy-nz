@@ -6,20 +6,19 @@ pattern matcher.
 
 from __future__ import annotations
 
-import spacy
 import pytest
+import spacy
 from spacy.language import Language
 from spacy.pipeline import EntityRuler
 
 from nlp_policy_nz.syntactic import (
     ACT_PATTERNS,
     CITATION_ENTITY_LABEL,
+    PIPELINE_COMPONENTS,
     SECTION_ENTITY_LABEL,
     create_citation_ruler,
     create_nlp_pipeline,
-    PIPELINE_COMPONENTS,
 )
-
 
 # ---------------------------------------------------------------------------
 # Pipeline factory tests
@@ -44,6 +43,7 @@ class TestCreateNlpPipeline:
         nlp = create_nlp_pipeline()
         for comp in PIPELINE_COMPONENTS:
             assert comp in nlp.pipe_names, f"Missing pipeline component: {comp}"
+
 
 # ---------------------------------------------------------------------------
 # Citation ruler tests
@@ -167,4 +167,3 @@ class TestActPatternsStructure:
         valid = {CITATION_ENTITY_LABEL, SECTION_ENTITY_LABEL}
         for p in ACT_PATTERNS:
             assert p["label"] in valid, f"Unexpected label: {p['label']}"
-

@@ -100,9 +100,12 @@ class TestProcessSubcommand:
         rc = _run_main(
             [
                 "process",
-                "--input", ".",
-                "--output", "test_out.parquet",
-                "--source", "legislation",
+                "--input",
+                ".",
+                "--output",
+                "test_out.parquet",
+                "--source",
+                "legislation",
                 "--no-embeddings",
             ]
         )
@@ -116,9 +119,12 @@ class TestProcessSubcommand:
             _run_main(
                 [
                     "process",
-                    "-i", "in.txt",
-                    "-o", "out.parquet",
-                    "-s", "invalid_source",
+                    "-i",
+                    "in.txt",
+                    "-o",
+                    "out.parquet",
+                    "-s",
+                    "invalid_source",
                 ]
             )
 
@@ -157,7 +163,8 @@ class TestSearchSubcommand:
 @pytest.fixture
 def parser() -> Any:
     """Return the argument parser from the CLI module."""
-    from nlp_policy_nz.cli.main import _build_parser
+    from nlp_policy_nz.cli.main import _build_parser  # noqa: PLC0415
+
     return _build_parser()
 
 
@@ -167,7 +174,8 @@ class TestArgumentParser:
     def test_parser_has_process_subcommand(self, parser: Any) -> None:
         """Parser should have a ``process`` subcommand."""
         subparsers_actions = [
-            action for action in parser._actions
+            action
+            for action in parser._actions
             if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
         ]
         assert subparsers_actions
@@ -177,7 +185,8 @@ class TestArgumentParser:
     def test_parser_has_search_subcommand(self, parser: Any) -> None:
         """Parser should have a ``search`` subcommand."""
         subparsers_actions = [
-            action for action in parser._actions
+            action
+            for action in parser._actions
             if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
         ]
         assert subparsers_actions
@@ -191,9 +200,6 @@ class TestArgumentParser:
 
     def test_no_embeddings_default_false(self, parser: Any) -> None:
         """``--no-embeddings`` defaults to ``False``."""
-        args = parser.parse_args(
-            ["process", "-i", ".", "-o", "out.parquet", "-s", "legislation"]
-        )
+        args = parser.parse_args(["process", "-i", ".", "-o", "out.parquet", "-s", "legislation"])
         assert hasattr(args, "no_embeddings")
         assert args.no_embeddings is False
-

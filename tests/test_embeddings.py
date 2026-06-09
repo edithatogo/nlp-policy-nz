@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import inspect
 from typing import get_type_hints
-from unittest.mock import patch
 
 import pytest
 
@@ -19,7 +18,6 @@ from nlp_policy_nz.semantic.embeddings import (
     generate_embedding,
     generate_embeddings_batch,
 )
-
 
 # ---------------------------------------------------------------------------
 # EmbeddingResult struct
@@ -56,11 +54,11 @@ class TestEmbeddingResult:
         assert result.text == "Some policy text"
         assert result.embedding == [0.1, 0.2, 0.3]
         assert result.model_name == "test-model"
-        assert result.dimension == 3
+        assert result.dimension == 3  # noqa: PLR2004
 
     def test_is_msgspec_struct(self) -> None:
         """``EmbeddingResult`` should be a subclass of ``msgspec.Struct``."""
-        import msgspec
+        import msgspec  # noqa: PLC0415
 
         assert issubclass(EmbeddingResult, msgspec.Struct)
 
@@ -103,7 +101,7 @@ class TestGenerateEmbedding:
         """``max_length`` should default to ``512``."""
         sig = inspect.signature(generate_embedding)
         param = sig.parameters["max_length"]
-        assert param.default == 512
+        assert param.default == 512  # noqa: PLR2004
 
     def test_return_type_annotation(self) -> None:
         """Return type should be ``list[float]``."""
@@ -143,12 +141,12 @@ class TestGenerateEmbeddingsBatch:
     def test_batch_size_default(self) -> None:
         """``batch_size`` should default to ``32``."""
         sig = inspect.signature(generate_embeddings_batch)
-        assert sig.parameters["batch_size"].default == 32
+        assert sig.parameters["batch_size"].default == 32  # noqa: PLR2004
 
     def test_max_length_default(self) -> None:
         """``max_length`` should default to ``512``."""
         sig = inspect.signature(generate_embeddings_batch)
-        assert sig.parameters["max_length"].default == 512
+        assert sig.parameters["max_length"].default == 512  # noqa: PLR2004
 
     def test_return_type_annotation(self) -> None:
         """Return type should be ``list[list[float]]``."""

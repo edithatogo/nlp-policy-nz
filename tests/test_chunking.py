@@ -8,10 +8,9 @@ from __future__ import annotations
 
 import re
 
+import pytest
 import spacy
 from spacy.language import Language
-
-import pytest
 
 from nlp_policy_nz.syntactic.chunking import (
     chunk_by_sentence,
@@ -20,7 +19,6 @@ from nlp_policy_nz.syntactic.chunking import (
     generate_hansard_id,
     generate_legislation_id,
 )
-
 
 # ---------------------------------------------------------------------------
 # ID Generation
@@ -101,7 +99,7 @@ class TestChunkBySentence:
         """Multiple sentences should produce multiple chunks."""
         text = "First sentence. Second sentence. Third sentence."
         result = chunk_by_sentence(text, nlp)
-        assert len(result) == 3
+        assert len(result) == 3  # noqa: PLR2004
 
     def test_chunk_by_sentence_single_sentence(self, nlp: Language) -> None:
         """A single sentence should produce exactly one chunk."""
@@ -127,7 +125,7 @@ class TestChunkBySentence:
         """Character offsets should align with the original text."""
         text = "First. Second."
         result = chunk_by_sentence(text, nlp)
-        assert len(result) == 2
+        assert len(result) == 2  # noqa: PLR2004
 
         reconstructed = text[result[0]["char_start"] : result[0]["char_end"]]
         assert reconstructed == result[0]["text"]
@@ -167,7 +165,7 @@ class TestChunkLegislationDocument:
         """Each chunk should have a sequential legislation ID."""
         text = "First. Second. Third."
         result = chunk_legislation_document(text, nlp, 2024, 7)
-        assert len(result) == 3
+        assert len(result) == 3  # noqa: PLR2004
         assert result[0]["doc_id"] == "NZ-ACT-2024-007-SEC-0"
         assert result[1]["doc_id"] == "NZ-ACT-2024-007-SEC-1"
         assert result[2]["doc_id"] == "NZ-ACT-2024-007-SEC-2"
@@ -186,6 +184,6 @@ class TestChunkHansardSpeech:
         """Each chunk should have the same Hansard ID."""
         text = "First. Second."
         result = chunk_hansard_speech(text, nlp, "2023-05-12", 3)
-        assert len(result) == 2
+        assert len(result) == 2  # noqa: PLR2004
         assert result[0]["doc_id"] == "NZ-HANS-2023-05-12-SP-03"
         assert result[1]["doc_id"] == "NZ-HANS-2023-05-12-SP-03"

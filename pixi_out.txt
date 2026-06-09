@@ -1,0 +1,2 @@
+The database needs to be migrated.
+Run `pixi migrate`.

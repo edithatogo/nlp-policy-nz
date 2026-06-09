@@ -177,9 +177,7 @@ def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
                 cleaned_tokens=list(row["cleaned_tokens"]),
                 nz_act_citations=list(row["nz_act_citations"]),
                 te_reo_terms=list(row["te_reo_terms"]),
-                embeddings=(
-                    list(row["embeddings"]) if row["embeddings"] is not None else None
-                ),
+                embeddings=(list(row["embeddings"]) if row["embeddings"] is not None else None),
             )
         )
 

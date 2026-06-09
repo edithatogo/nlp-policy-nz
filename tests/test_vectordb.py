@@ -13,7 +13,6 @@ import pytest
 
 from nlp_policy_nz.storage.vectordb import LANCE_DB_URI, VectorIndex
 
-
 # ---------------------------------------------------------------------------
 # Initialisation tests
 # ---------------------------------------------------------------------------
@@ -42,7 +41,7 @@ class TestVectorIndexInit:
         # Clean up
         idx.delete_table()
         # Also remove the custom directory
-        import shutil
+        import shutil  # noqa: PLC0415
 
         shutil.rmtree(custom_uri, ignore_errors=True)
 
