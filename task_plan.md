@@ -41,15 +41,15 @@ This document outlines the granular, sequential, dependency-aware task checklist
 
 ---
 
-## Track 4: Build Universal Ingestion Engine & Target Schema Emitter
+## Track 4: Build Versioned Universal Ingestion Engine & Schema Emitters
 **Owner**: `Syntactic_Engineer` | **Validator**: `Quality_Validator`
 
-- [x] **Task 4.1: Implement Universal Ingestion Engine** (Completed)
-  - Code abstract `UniversalIngestionEngine` with subclasses for XML, HTML, and JSONL formats.
-- [x] **Task 4.2: Implement MetaExtensionRegistry & spaCy Bridge** (Completed)
-  - Code dynamic `MetaExtensionRegistry` for namespace-prefixed extensions and `ModularSpaCyBridgeComponent` custom component.
-- [x] **Task 4.3: Implement Target Schema Emitter** (Completed)
-  - Code `TargetSchemaEmitter` supporting valid ParlaMint-TEI-Ana, Akoma-Ntoso, and ParlaCAP-JSONL serialization.
+- [x] **Task 4.1: Implement Ingestion & Registry Core (Version 1)** (Completed)
+  - Code abstract `UniversalIngestionEngine` and dynamic `MetaExtensionRegistry` namespace wrapper.
+- [x] **Task 4.2: Implement Basic Schema Emitter (Version 1)** (Completed)
+  - Code baseline TEI, Akoma-Ntoso, and ParlaCAP format output wrappers.
+- [x] **Task 4.3: Implement SOTA Maximal Standards Emitter (Version 2)** (Completed)
+  - Code advanced TEI sentence/utterance tags, complete AKN metadata blocks, and token dependency index JSONL mappings.
 
 ---
 

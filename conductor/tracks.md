@@ -19,10 +19,10 @@ This file tracks all major tracks for the project. Each track has its own detail
 - **Dependencies**: Track 1
 - **Parallelization Node**: Linguistic Guard (Can run in parallel with Track 2)
 
-## [ ] Track 4: Build Universal Ingestion Engine & Target Schema Emitter
+## [ ] Track 4: Build Versioned Universal Ingestion Engine & Schema Emitters (v1 & v2)
 *Link: [./conductor/tracks/track4_syntactic_layer_20260609/](./conductor/tracks/track4_syntactic_layer_20260609/)*
 - **Dependencies**: Track 3
-- **Parallelization Node**: Ingestion, Meta-Registry, and Output Emitter Layers
+- **Parallelization Node**: Ingestion, Dynamic Registry, and Versioned Schema Emitters
 
 ## [ ] Track 5: Integrate Semantic Layer & Quantized Embeddings
 *Link: [./conductor/tracks/track5_semantic_layer_20260609/](./conductor/tracks/track5_semantic_layer_20260609/)*
