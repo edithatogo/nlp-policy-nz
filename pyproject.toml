@@ -1,0 +1,72 @@
+[build-system]
+requires = ["maturin>=1.5,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "nlp_policy_nz"
+version = "0.1.0"
+description = "SOTA shared core NLP pipeline for New Zealand legislation and Hansard corpora"
+readme = "README.md"
+requires-python = ">=3.13"
+license = { text = "MIT" }
+authors = [{ name = "Maintainer" }]
+dependencies = [
+    "spacy>=3.7.0",
+    "transformers>=4.40.0",
+    "torch>=2.2.0",
+    "bitsandbytes>=0.42.0",
+    "msgspec>=0.18.0",
+    "narwhals>=1.0.0",
+    "polars>=1.0.0",
+    "pyarrow>=16.0.0",
+    "lancedb>=0.6.0",
+    "networkx>=3.0",
+    "faiss-cpu>=1.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "hypothesis>=6.90",
+    "mutatest>=3.0",
+    "ruff>=0.3.0",
+    "tach>=0.5.0",
+    "complexipy>=0.2.0",
+    "import-linter>=2.0",
+    "pre-commit>=3.6.0",
+]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+# Strict rule selection:
+# E/W: Pycodestyle
+# F: Pyflakes
+# I: Isort (import sorting)
+# N: Pep8-naming
+# UP: Pyupgrade
+# B: Bugbear
+# A: Builtins shadowing
+# C4: Comprehensions
+# T20: Print statements
+# PT: Pytest style
+# SIM: Simplify
+# ARG: Unused arguments
+# PTH: Pathlib usage
+# PL: Pylint
+# RUF: Ruff-specific rules
+select = ["E", "W", "F", "I", "N", "UP", "B", "A", "C4", "T20", "PT", "SIM", "ARG", "PTH", "PL", "RUF"]
+ignore = ["PLR0913", "E501"] # Ignore long lines handled by formatter, and PLR0913 (too many arguments)
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-single-line = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

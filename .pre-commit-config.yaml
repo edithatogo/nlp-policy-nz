@@ -1,0 +1,30 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.0
+    hooks:
+      - id: ruff
+        args: [ --fix ]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: tach-check
+        name: Tach Modular Boundaries Check
+        entry: pixi run check-boundaries
+        language: system
+        files: \.py$
+        pass_filenames: false
+
+      - id: complexipy-check
+        name: Complexipy Cognitive Complexity Check
+        entry: pixi run check-complexity
+        language: system
+        files: \.py$
+        pass_filenames: false
+
+      - id: vale-prose-check
+        name: Vale Prose Linter Check
+        entry: vale
+        language: system
+        files: \.(md|txt)$
+        pass_filenames: true
