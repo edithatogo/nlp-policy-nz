@@ -16,6 +16,7 @@ to support overlapping legislative citations.
 
 from abc import ABC, abstractmethod
 import json
+import re
 import typing as ty
 from bs4 import BeautifulSoup
 import msgspec

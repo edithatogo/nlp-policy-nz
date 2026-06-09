@@ -1,18 +1,27 @@
 """
-nlp_policy_nz - SOTA shared core NLP pipeline for New Zealand legislation and Hansard corpora.
-
-This package provides a modular NLP preprocessing pipeline for Aotearoa New Zealand's
-legislative and parliamentary corpora, featuring Māori Language validation, syntactic
-parsing, semantic analysis, efficient storage backends, and integrations for loading
-datasets from external sources (Hugging Face Hub, Zenodo, etc.).
+nlp-policy-nz: Shared SOTA Legislative & Parliamentary NLP Core Engine.
+Exposes modular XML ingestion, spaCy metadata injection, and target schema emitters.
 """
 
-__version__ = "0.1.0"
+# Version 3 SOTA Framework Exports
+from .universal_framework_v3 import (
+    FrameworkConfig,
+    UniversalIngestionEngine,
+    get_ingestion_engine,
+    MetaExtensionRegistry,
+    ModularSpaCyBridgeComponentV3,
+    TargetSchemaEmitter,
+    SOTAPipelineVisualizer,
+    run_framework as run_nlp_pipeline
+)
 
-from nlp_policy_nz.api import process_legislation, process_hansard, search_similar
-
-__all__: list[str] = [
-    "process_legislation",
-    "process_hansard",
-    "search_similar",
+__all__ = [
+    "FrameworkConfig",
+    "UniversalIngestionEngine",
+    "get_ingestion_engine",
+    "MetaExtensionRegistry",
+    "ModularSpaCyBridgeComponentV3",
+    "TargetSchemaEmitter",
+    "SOTAPipelineVisualizer",
+    "run_nlp_pipeline",
 ]
