@@ -46,7 +46,7 @@ def run_task_via_cline(task, agent_name, prompt_instructions, model):
     ]
     
     # Run the command and print live outputs
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding='utf-8')
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding='utf-8', shell=True)
     for line in process.stdout:
         print(line, end="")
     process.wait()
