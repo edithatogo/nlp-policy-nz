@@ -8,6 +8,12 @@
 4. **High Code Coverage:** Aim for >90% code coverage for all modules
 5. **User Experience First:** Every decision should prioritize user experience
 6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
+7. **Software Evolution & Versioning Protocol**:
+   - **Do Not Overwrite Baseline Modules**: When introducing new SOTA features, optimizations, or schema extensions, do not overwrite earlier versions.
+   - **Create Versioned Milestones**: Create new versioned files (e.g. `universal_framework_v1.py` -> `universal_framework_v2.py` -> `universal_framework_v3.py`) to preserve structural evolution.
+   - **Update Documentation Synchronously**: Update the product guide (`product.md`), requirements list (`requirements.md`), system design (`design.md`), and task checklists (`task_plan.md`) to reflect the feature mapping of each version.
+   - **Validate via Test Execution**: Run each new version's demo or tests (`uv run`) and verify logs before staging.
+   - **Stage and Commit Versioned Artifacts**: Add and commit the versioned script files and documentation updates together.
 
 ## Task Workflow
 
