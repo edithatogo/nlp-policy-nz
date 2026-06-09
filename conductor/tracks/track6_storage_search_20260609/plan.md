@@ -1,4 +1,4 @@
-# Plan: Track 6 Output Schema & LanceDB Vector Engine
+# Plan: Track 6 Output Schema & LanceDB Vector Engine [b65c685]
 
 This track implements standardized Parquet serialization via Narwhals and LanceDB vector database integration for embedding search.
 

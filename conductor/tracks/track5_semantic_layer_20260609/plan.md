@@ -1,4 +1,4 @@
-# Plan: Track 5 Semantic Layer & Quantized Embeddings
+# Plan: Track 5 Semantic Layer & Quantized Embeddings [b65c685]
 
 This track integrates Hugging Face transformer models with 4-bit quantization for local embedding generation.
 

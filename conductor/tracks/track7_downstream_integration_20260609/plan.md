@@ -1,4 +1,4 @@
-# Plan: Track 7 Downstream API & Multi-Agent Verification
+# Plan: Track 7 Downstream API & Multi-Agent Verification [b65c685]
 
 This track finalizes the public API surface for downstream consumers and implements cross-domain relational graphs.
 

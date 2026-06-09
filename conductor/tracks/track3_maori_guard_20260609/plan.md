@@ -4,7 +4,7 @@ This track implements the Māori Language Guard layer — a set of linguistic sa
 
 ---
 
-## Phase 1: Unicode Normalization & Tokenizer Exceptions
+## Phase 1: Unicode Normalization & Tokenizer Exceptions [b65c685]
 
 ### [x] Task 3.1: Build Unicode Normalization Layer
 - **Action**: Implement NFC unicode normalizer to handle macron variations (ā vs a vs aa).
@@ -18,7 +18,7 @@ This track implements the Māori Language Guard layer — a set of linguistic sa
 
 ---
 
-## Phase 2: Language Identification
+## Phase 2: Language Identification [b65c685]
 
 ### [x] Task 3.3: Build Language Identifier
 - **Action**: Code phrase-level sequence classifier identifying Te Reo Māori vs English sections using lingua-rs.

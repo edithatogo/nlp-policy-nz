@@ -4,7 +4,7 @@ This track configures external integrations for loading datasets from Hugging Fa
 
 ---
 
-## Phase 1: Integration Loaders
+## Phase 1: Integration Loaders [b65c685]
 
 ### [x] Task 2.1: Implement Hugging Face Integration Loader
 - **Action**: Create `src/nlp_policy_nz/integrations/` module with Hugging Face dataset loader that manages API tokens securely via environment variables.
