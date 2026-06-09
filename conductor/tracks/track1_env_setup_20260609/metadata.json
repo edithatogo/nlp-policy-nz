@@ -1,0 +1,8 @@
+{
+  "track_id": "track1_env_setup_20260609",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-09T21:14:00Z",
+  "updated_at": "2026-06-09T21:14:00Z",
+  "description": "Initialize shared core package structure, configure Pixi/uv environments, and set up strict linting & testing suites."
+}
