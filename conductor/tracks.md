@@ -19,10 +19,10 @@ This file tracks all major tracks for the project. Each track has its own detail
 - **Dependencies**: Track 1
 - **Parallelization Node**: Linguistic Guard (Can run in parallel with Track 2)
 
-## [ ] Track 4: Build Syntactic Parsing & Citation Extractor
+## [ ] Track 4: Build Legislative XML Parser & Syntactic Citation Extractor
 *Link: [./conductor/tracks/track4_syntactic_layer_20260609/](./conductor/tracks/track4_syntactic_layer_20260609/)*
 - **Dependencies**: Track 3
-- **Parallelization Node**: Syntactic Parser
+- **Parallelization Node**: XML Parsing & Syntactic Parser
 
 ## [ ] Track 5: Integrate Semantic Layer & Quantized Embeddings
 *Link: [./conductor/tracks/track5_semantic_layer_20260609/](./conductor/tracks/track5_semantic_layer_20260609/)*

@@ -9,7 +9,7 @@ Read the Google Search PDF focusing on the end. Focus on core NLP capabilities f
 1. **Legal NLP** ([corpus-law-nz](file:///C:/Users/60217257/OneDrive%20-%20Flinders/repos/corpus-law-nz)): Extracting statutory hierarchies, citation networks, and binding obligations ("must", "shall").
 2. **Parliamentary NLP** ([corpus-nz-hansard](file:///C:/Users/60217257/OneDrive%20-%20Flinders/repos/corpus-nz-hansard)): Speaker-to-party mapping, political sentiment analysis, and tracking policy debates.
 
-The core goal is to ingest, clean, tokenize, and enrich New Zealand legislative and parliamentary texts using a single, memory-efficient pipeline that outputs standardized Apache Parquet tables. By using the same syntactic and semantic layers, cross-referencing between Hansard debates and Legislation is made automatic and mathematically aligned.
+The core goal is to ingest, clean, tokenize, and enrich New Zealand legislative (XML) and parliamentary (JSON/Text) documents using a single, memory-efficient pipeline that outputs standardized Apache Parquet tables. By preserving structural XML tags and utilizing the same syntactic and semantic layers, cross-referencing between Hansard debates and Legislation is made automatic and mathematically aligned.
 
 ## 2. Target Users
 - **Policy Researchers & Analysts**: Analyzing legislative trends, citation networks, and political discourse in New Zealand.
@@ -17,12 +17,13 @@ The core goal is to ingest, clean, tokenize, and enrich New Zealand legislative 
 - **Academic & Independent Researchers**: Performing computational linguistics research on NZ law and parliamentary proceedings without expensive cloud resources.
 
 ## 3. Core Features & Architecture
+- **Legislative XML Parser & Structure Injector**: Uses BeautifulSoup/lxml to parse Parliamentary Counsel Office (PCO) structured XML, extracts clean text, maps character boundaries of structural tags (`<act>`, `<part>`, `<section>`, `<heading>`, `<para>`), and registers custom spaCy metadata extensions to preserve rich hierarchical layouts.
 - **Unified Ingestion & Preprocessing**: Streams datasets (e.g. from Hugging Face Datasets Hub) and processes them in parallel chunks via spaCy's `nlp.pipe`.
 - **SOTA Māori Language Guard**: 
   - **Bilingual Tokenizer & Subword Preservation**: A customized tokenizer that maps and preserves specific Te Reo Māori words (such as *tikanga*, *taonga*, *kāwanatanga*) as atomic tokens rather than splitting them into English-centric subwords.
   - **Macron Normalization Layer**: Standardizes text to correct unicode representations (NFC normalization) to handle macron variations (`Māori` vs `Maori` vs `Maaori`).
   - **Language and Code-Switching Detection**: Custom patterns and sequence classification to detect and tag Te Reo Māori vs English sections within bilingual texts (e.g. Hansard speeches).
-- **Syntactic Layer (spaCy v3)**: Fast sentence segmentation, token cleaning, and custom pattern matching via `EntityRuler` to extract statutory citations (e.g., "Crimes Act 1961") and reference anchors (e.g., "section 4").
+- **Syntactic Layer & Matcher (spaCy v3)**: Fast sentence segmentation, token cleaning, and custom pattern matching via a rule-based `Matcher` to extract internal legislative cross-references (e.g. "section 5(2)(b)") and external references.
 - **Semantic Layer (Hugging Face Transformers)**: Local semantic embeddings using quantized (4-bit via `bitsandbytes`) SOTA legal models like `Equall/SaulLM-7B` or `nlpaueb/legal-bert-base-uncased`, leveraging Rust-backed fast tokenizers (`use_fast=True`).
 - **Memory-Efficient Local Storage**: Outputting unified datasets to compressed Apache Parquet format.
-- **Relational Graphing & Search**: In-memory similarity search using FAISS (without external databases) and relational graph modeling using NetworkX to map connections between parliamentary speeches and enacted laws.
+- **Relational Graphing & Search**: In-memory similarity search using FAISS/LanceDB (without external databases) and relational graph modeling using NetworkX to map connections between parliamentary speeches and enacted laws.

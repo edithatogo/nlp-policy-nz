@@ -5,15 +5,18 @@ This document prioritizes the functional and non-functional requirements for the
 ---
 
 ## 1. Must Have (Critical for MVP)
+- **PCO Legislative XML Ingestion**: 
+  - XML parser utilizing BeautifulSoup/lxml to parse structure tags (`<act>`, `<part>`, `<section>`, `<heading>`, `<para>`).
+  - Mapping tag-based hierarchical boundaries to raw character offsets.
+- **spaCy Structure Injector**:
+  - Custom `nz_xml_structure_injector` pipeline component mapping XML character boundaries to token-level Spans.
+  - Custom spaCy `Span` metadata extensions (`nz_element_type`, `nz_element_id`, `nz_element_title`) to preserve structural contexts.
+- **spaCy Cross-Reference Matcher**:
+  - Custom `nz_cross_reference_matcher` rule-based matcher to extract references like "section 5(2)(b)" or "Part 3" from clean text.
 - **Unified Local Ingestion**: Python script to load and stream NZ Hansard and Legislation datasets from local directories or Hugging Face.
-- **spaCy Syntactic Processing**: 
-  - Tokenization, sentence segmentation, and lemmatization using `spaCy` v3.
-  - Sentence-level chunking with unique structural IDs (e.g., `NZ-ACT-1961-043-SEC-4`, `NZ-HANS-2023-05-12-SP-04`).
 - **SOTA Māori Language Guard**:
   - Custom spaCy tokenizer rules to protect key Te Reo Māori vocabulary from subword fragmentation.
   - Unicode normalization (NFC) for macron variations (`ā`, `ē`, `ī`, `ō`, `ū`).
-- **Entity Identification (Citations)**:
-  - Extracting NZ Act names and references (e.g., "section 4 of the Crimes Act 1961") using a spaCy `EntityRuler` and custom regular expressions.
 - **Apache Parquet Storage**:
   - Exporting processed datasets into memory-efficient, compressed `.parquet` files containing structural fields, cleaned tokens, and extracted act citations.
 - **Local Git-Installable Package**:
@@ -26,7 +29,7 @@ This document prioritizes the functional and non-functional requirements for the
 - **Code-Switching Detection**:
   - Automatically classification of text blocks/sentences as English or Te Reo Māori to enable targeted processing.
 - **Local Semantic Search Indexing**:
-  - Incorporating `faiss-cpu` for zero-database, in-memory semantic similarity search over the Parquet outputs.
+  - Incorporating `faiss-cpu` / `lancedb` for zero-database, in-memory semantic similarity search over the Parquet outputs.
 
 ## 3. Could Have (Desirable but Deferred)
 - **NetworkX Relational Graph**:

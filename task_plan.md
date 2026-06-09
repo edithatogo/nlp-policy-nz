@@ -41,15 +41,15 @@ This document outlines the granular, sequential, dependency-aware task checklist
 
 ---
 
-## Track 4: Build Syntactic Parser & Citation Extractor
+## Track 4: Build Legislative XML Parser & Syntactic Citation Extractor
 **Owner**: `Syntactic_Engineer` | **Validator**: `Quality_Validator`
 
-- [ ] **Task 4.1: Scaffold blank spaCy Pipeline**
-  - Build pipeline loader using the customized tokenizer from Track 3.
-- [ ] **Task 4.2: Implement EntityRuler Regex Matchers**
-  - Configure patterns to extract NZ Act titles and cross-references.
-- [ ] **Task 4.3: Implement Document Chunking**
-  - Write sentence-level splitting logic with unique document identifiers (`doc_id`).
+- [x] **Task 4.1: Implement Legislative XML Offset Mapper** (Completed)
+  - Code `LegislativeXMLParser` using BeautifulSoup/lxml to map act/part/section bounds to character offsets.
+- [x] **Task 4.2: Implement spaCy Structural Metadata Injector** (Completed)
+  - Create `nz_xml_structure_injector` custom spaCy component to map character offsets to Spans.
+- [x] **Task 4.3: Implement Cross-Reference Matcher** (Completed)
+  - Create `nz_cross_reference_matcher` custom spaCy Matcher component to match internal references.
 
 ---
 

@@ -1,0 +1,25 @@
+# Plan: Track 3 Māori Language Guard (SOTA)
+
+This track implements the Māori Language Guard layer — a set of linguistic safety components that ensure Te Reo Māori text is preserved correctly through the NLP pipeline.
+
+---
+
+## Phase 1: Unicode Normalization & Tokenizer Exceptions
+
+### [ ] Task 3.1: Build Unicode Normalization Layer
+- **Action**: Implement NFC unicode normalizer to handle macron variations (ā vs a vs aa).
+- **Why**: Ensures consistent character representation across documents.
+
+### [ ] Task 3.2: Implement Tokenizer Exceptions
+- **Action**: Configure spaCy tokenizer rules to protect Te Reo Māori vocabulary from subword splits.
+- **Why**: Prevents fragmentation of Māori words like tikanga, taonga, kāwanatanga.
+
+---
+
+## Phase 2: Language Identification
+
+### [ ] Task 3.3: Build Language Identifier
+- **Action**: Code phrase-level sequence classifier identifying Te Reo Māori vs English sections using lingua-rs.
+- **Why**: Enables targeted processing and code-switching detection in bilingual texts.
+
+---
