@@ -37,3 +37,7 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+
+# Temporary diagnostics
+ruff_out.txt
+pixi_*.txt
