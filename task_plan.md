@@ -80,3 +80,23 @@ This document outlines the granular, sequential, dependency-aware task checklist
   - Finalize public function exports for `corpus-law-nz` and `corpus-nz-hansard`.
 - [ ] **Task 7.2: Code relational graphs**
   - Implement NetworkX mapping layer linking debate mentions to legislation acts.
+
+---
+
+## Track 8: Deploy Hugging Face Datasets & Interactive Visualization Spaces
+**Owner**: `Storage_Search_Integrator` | **Validator**: `Quality_Validator`
+
+- [ ] **Task 8.1: Configure HF Hub Push Pipeline**
+  - Code automated pipeline hook using `huggingface_hub` to push Parquet tables to Hugging Face Dataset repositories.
+- [ ] **Task 8.2: Build Streamlit displaCy Visualization Space**
+  - Build simple, interactive Streamlit demo (`app.py`) to visualize structural offsets and entity dependencies, and host it as a Hugging Face Space.
+
+---
+
+## Track 9: Establish Citable Zenodo Archives & Release Workflows
+**Owner**: `Env_Architect` | **Validator**: `Quality_Validator`
+
+- [ ] **Task 9.1: Build Zenodo Deposit Script**
+  - Integrate helper module calling Zenodo API to create sandbox/production deposits.
+- [ ] **Task 9.2: Configure CITATION.cff Schema**
+  - Add standard `CITATION.cff` linking repository authors to the created Zenodo DOI target.
