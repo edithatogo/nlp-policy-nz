@@ -23,6 +23,8 @@ dependencies = [
     "networkx>=3.0",
     "faiss-cpu>=1.8.0",
     "requests>=2.31.0",
+    "datasets>=2.19.0",
+    "huggingface_hub>=0.23.0",
 ]
 
 [project.scripts]

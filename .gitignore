@@ -38,6 +38,11 @@ build/
 .DS_Store
 Thumbs.db
 
+# Output / build artifacts
+output/
+*.parquet
+*.tar.gz
+
 # Temporary diagnostics
 ruff_out.txt
 pixi_*.txt

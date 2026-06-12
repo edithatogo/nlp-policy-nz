@@ -15,8 +15,15 @@ import requests
 ZENODO_SANDBOX_API_URL: str = "https://sandbox.zenodo.org/api"
 """Base URL for the Zenodo Sandbox REST API."""
 
+ZENODO_PRODUCTION_API_URL: str = "https://zenodo.org/api"
+"""Base URL for the Zenodo Production REST API."""
+
 ZENODO_TOKEN_ENV_VAR: str = "ZENODO_SANDBOX_TOKEN"
 """Environment variable that should hold the Zenodo Sandbox personal access
+token."""
+
+ZENODO_PRODUCTION_TOKEN: str = "ZENODO_PRODUCTION_TOKEN"
+"""Environment variable that should hold the Zenodo Production personal access
 token."""
 
 
@@ -43,36 +50,52 @@ class DepositError(Exception):
 # ── Token Helpers ────────────────────────────────────────────────────────────
 
 
-def get_zenodo_token() -> str:
-    """Load the Zenodo Sandbox token from the environment.
+def get_zenodo_token(environment: str = "sandbox") -> str:
+    """Load the Zenodo token from the environment.
+
+    Parameters
+    ----------
+    environment : str
+        ``"sandbox"`` (default) to load ``ZENODO_SANDBOX_TOKEN``, or
+        ``"production"`` to load ``ZENODO_PRODUCTION_TOKEN``.
 
     Returns
     -------
     str
-        The personal access token stored in ``ZENODO_SANDBOX_TOKEN``.
+        The personal access token.
 
     Raises
     ------
     ValueError
         If the environment variable is not set or is empty.
     """
-    token = os.environ.get(ZENODO_TOKEN_ENV_VAR, "")
+    if environment == "production":
+        env_var = ZENODO_PRODUCTION_TOKEN
+        label = "Production"
+    else:
+        env_var = ZENODO_TOKEN_ENV_VAR
+        label = "Sandbox"
+
+    token = os.environ.get(env_var, "")
     if not token:
         msg = (
-            f"Zenodo Sandbox token not found. "
-            f"Set the {ZENODO_TOKEN_ENV_VAR!r} environment variable."
+            f"Zenodo {label} token not found. "
+            f"Set the {env_var!r} environment variable."
         )
         raise ValueError(msg)
     return token
 
 
-def _resolve_token(token: str | None) -> str:
+def _resolve_token(token: str | None, environment: str = "sandbox") -> str:
     """Return *token* or fall back to the environment variable.
 
     Parameters
     ----------
     token : str | None
         Explicit token, or ``None`` to read from the environment.
+    environment : str
+        ``"sandbox"`` (default) or ``"production"`` — determines which
+        environment variable is read when *token* is ``None``.
 
     Returns
     -------
@@ -81,7 +104,7 @@ def _resolve_token(token: str | None) -> str:
     """
     if token is not None:
         return token
-    return get_zenodo_token()
+    return get_zenodo_token(environment=environment)
 
 
 # ── API Helpers ──────────────────────────────────────────────────────────────
@@ -92,6 +115,24 @@ def _headers(token: str) -> dict[str, str]:
     return {"Authorization": f"Bearer {token}"}
 
 
+def _get_api_url(environment: str = "sandbox") -> str:
+    """Return the Zenodo API base URL for the given *environment*.
+
+    Parameters
+    ----------
+    environment : str
+        ``"sandbox"`` (default) or ``"production"``.
+
+    Returns
+    -------
+    str
+        The base API URL.
+    """
+    if environment == "production":
+        return ZENODO_PRODUCTION_API_URL
+    return ZENODO_SANDBOX_API_URL
+
+
 # ── Public API Functions ─────────────────────────────────────────────────────
 
 
@@ -100,8 +141,9 @@ def create_sandbox_deposit(
     description: str,
     creators: list[dict[str, Any]],
     token: str | None = None,
+    environment: str = "sandbox",
 ) -> dict[str, Any]:
-    """Create a new empty deposit in the Zenodo Sandbox.
+    """Create a new empty deposit in the Zenodo Sandbox (or Production).
 
     Parameters
     ----------
@@ -110,11 +152,15 @@ def create_sandbox_deposit(
     description : str
         Description / abstract of the deposit.
     creators : list[dict[str, Any]]
-        List of creator dicts. Each dict should contain at least a ``"name"``
+        List of creator dicts. Each dict should contain at least a ``\"name\"``
         key (e.g. ``{"name": "Doe, John", "affiliation": "University"}``).
     token : str | None
         Personal access token. If ``None``, the token is read from the
-        ``ZENODO_SANDBOX_TOKEN`` environment variable.
+        ``ZENODO_SANDBOX_TOKEN`` (or ``ZENODO_PRODUCTION_TOKEN``) environment
+        variable, depending on *environment*.
+    environment : str
+        ``"sandbox"`` (default) or ``"production"`` — selects the API URL and
+        the fallback environment variable for the token.
 
     Returns
     -------
@@ -127,8 +173,9 @@ def create_sandbox_deposit(
     DepositError
         If the API call fails or returns a non-success status code.
     """
-    access_token = _resolve_token(token)
-    url = f"{ZENODO_SANDBOX_API_URL}/deposit/depositions"
+    access_token = _resolve_token(token, environment=environment)
+    api_url = _get_api_url(environment)
+    url = f"{api_url}/deposit/depositions"
 
     body: dict[str, Any] = {
         "metadata": {
@@ -153,8 +200,9 @@ def upload_file_to_deposit(
     deposit_id: str,
     file_path: str,
     token: str | None = None,
+    environment: str = "sandbox",
 ) -> dict[str, Any]:
-    """Upload a file to an existing Zenodo Sandbox deposit.
+    """Upload a file to an existing Zenodo deposit.
 
     Parameters
     ----------
@@ -164,7 +212,11 @@ def upload_file_to_deposit(
         Path to the local file to upload.
     token : str | None
         Personal access token. If ``None``, the token is read from the
-        ``ZENODO_SANDBOX_TOKEN`` environment variable.
+        ``ZENODO_SANDBOX_TOKEN`` (or ``ZENODO_PRODUCTION_TOKEN``) environment
+        variable, depending on *environment*.
+    environment : str
+        ``"sandbox"`` (default) or ``"production"`` — selects the API URL and
+        the fallback environment variable for the token.
 
     Returns
     -------
@@ -183,8 +235,9 @@ def upload_file_to_deposit(
         msg = "deposit_id must be a non-empty string."
         raise DepositError(msg)
 
-    access_token = _resolve_token(token)
-    url = f"{ZENODO_SANDBOX_API_URL}/deposit/depositions/{deposit_id}/files"
+    access_token = _resolve_token(token, environment=environment)
+    api_url = _get_api_url(environment)
+    url = f"{api_url}/deposit/depositions/{deposit_id}/files"
 
     file_path_obj = Path(file_path)
     if not file_path_obj.is_file():
@@ -206,8 +259,10 @@ def upload_file_to_deposit(
 def publish_deposit(
     deposit_id: str,
     token: str | None = None,
+    environment: str = "sandbox",
 ) -> dict[str, Any]:
-    """Publish (i.e. make public) an existing deposit in the Zenodo Sandbox.
+    """Publish (i.e. make public) an existing deposit in the Zenodo Sandbox
+    (or Production).
 
     Parameters
     ----------
@@ -215,7 +270,11 @@ def publish_deposit(
         The Zenodo deposit identifier (string form of the integer id).
     token : str | None
         Personal access token. If ``None``, the token is read from the
-        ``ZENODO_SANDBOX_TOKEN`` environment variable.
+        ``ZENODO_SANDBOX_TOKEN`` (or ``ZENODO_PRODUCTION_TOKEN``) environment
+        variable, depending on *environment*.
+    environment : str
+        ``"sandbox"`` (default) or ``"production"`` — selects the API URL and
+        the fallback environment variable for the token.
 
     Returns
     -------
@@ -232,8 +291,9 @@ def publish_deposit(
         msg = "deposit_id must be a non-empty string."
         raise DepositError(msg)
 
-    access_token = _resolve_token(token)
-    url = f"{ZENODO_SANDBOX_API_URL}/deposit/depositions/{deposit_id}/actions/publish"
+    access_token = _resolve_token(token, environment=environment)
+    api_url = _get_api_url(environment)
+    url = f"{api_url}/deposit/depositions/{deposit_id}/actions/publish"
 
     resp = requests.post(url, headers=_headers(access_token))
 

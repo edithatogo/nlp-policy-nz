@@ -1,0 +1,101 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # e.g. v1.0.0, v2.3.4-beta1
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # to create GitHub Release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Pixi
+        uses: prefix-dev/pixi@v0
+        with:
+          cache: true
+          cache-write: ${{ github.event_name == 'push' }}
+
+      - name: Install environment
+        run: CI=true pixi install
+
+      - name: Lint
+        run: CI=true pixi run lint
+
+      - name: Format check
+        run: CI=true pixi run format
+
+      - name: Test
+        run: CI=true pixi run test
+
+      - name: Full check
+        run: CI=true pixi run check
+
+      - name: Build package
+        run: |
+          CI=true pixi run build 2>/dev/null || pip install build && python -m build
+
+      - name: Create release archive
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          python -c "
+from nlp_policy_nz.integrations.release import ReleaseManager
+import json
+manager = ReleaseManager()
+path = manager.create_release_archive(
+    'output/sample.parquet',  # override with real path in production
+    version='$VERSION',
+    title='nlp-policy-nz $VERSION',
+    description='NLP preprocessed NZ legislation and Hansard corpora.',
+    creators=[{'name': 'nlp-policy-nz contributors'}],
+    output_dir='.',
+)
+print(f'RELEASE_ARCHIVE={path}')
+" >> $GITHUB_ENV
+
+      - name: Upload to Zenodo Sandbox
+        env:
+          ZENODO_SANDBOX_TOKEN: ${{ secrets.ZENODO_SANDBOX_TOKEN }}
+        if: env.ZENODO_SANDBOX_TOKEN != ''
+        run: |
+          nlp-policy-nz archive-to-zenodo \
+            --parquet output/sample.parquet \
+            --title "nlp-policy-nz ${{ github.ref_name }}" \
+            --description "NLP preprocessed NZ legislation and Hansard corpora." \
+            --creators '[{"name": "nlp-policy-nz contributors"}]'
+
+      - name: Upload to Zenodo Production
+        env:
+          ZENODO_PRODUCTION_TOKEN: ${{ secrets.ZENODO_PRODUCTION_TOKEN }}
+        if: env.ZENODO_PRODUCTION_TOKEN != '' && startsWith(github.ref, 'refs/tags/v')
+        run: |
+          nlp-policy-nz archive-to-zenodo \
+            --parquet output/sample.parquet \
+            --title "nlp-policy-nz ${{ github.ref_name }}" \
+            --description "NLP preprocessed NZ legislation and Hansard corpora." \
+            --creators '[{"name": "nlp-policy-nz contributors"}]'
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: nlp-policy-nz ${{ github.ref_name }}
+          body: |
+            ## nlp-policy-nz ${{ github.ref_name }}
+
+            Automated release of the NLP preprocessed New Zealand corpora.
+
+            ### What's included
+            - Versioned `.tar.gz` archive with Parquet data and metadata
+            - Zenodo DOI (once published)
+
+            ### Usage
+            ```bash
+            # Download and extract
+            tar -xzf nlp-policy-nz-${{ github.ref_name }}.tar.gz
+            ```
+          files: nlp-policy-nz-*.tar.gz
+          generate_release_notes: true

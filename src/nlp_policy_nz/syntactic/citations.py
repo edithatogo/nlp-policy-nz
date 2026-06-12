@@ -42,7 +42,7 @@ ACT_PATTERNS: list[dict] = [
     {
         "label": CITATION_ENTITY_LABEL,
         "pattern": [
-            {"POS": "PROPN", "OP": "+"},
+            {"IS_TITLE": True, "OP": "+"},
             {"LOWER": "act"},
             {"SHAPE": "dddd", "LENGTH": 4},
         ],
@@ -118,12 +118,11 @@ def create_citation_ruler(nlp: Language) -> EntityRuler:
         )
         raise ValueError(msg)
 
-    ruler = EntityRuler(
-        nlp,
+    ruler = nlp.add_pipe(
+        "entity_ruler",
         name="citation_ruler",
-        overwrite_ents=True,
-        phrase_patterns=False,
+        after="maori_guard",
+        config={"overwrite_ents": True},
     )
     ruler.add_patterns(ACT_PATTERNS)
-    nlp.add_pipe("citation_ruler", after="maori_guard")
     return ruler
