@@ -184,6 +184,7 @@ def create_sandbox_deposit(
             "creators": creators,
             "access_right": "open",
             "license": "MIT",
+            "upload_type": "dataset",
         }
     }
 
