@@ -48,3 +48,71 @@ This file tracks all major tracks for the project. Each track has its own detail
 *Link: [./conductor/tracks/track9_zenodo_20260609/](./conductor/tracks/track9_zenodo_20260609/)*
 - **Dependencies**: Track 8
 - **Parallelization Node**: Zenodo API Deposit Registry
+
+
+
+---
+
+## Phase II — Ontology & NLP Feature Expansion
+
+---
+
+## [ ] Track 10: Extract Deontic Modality & Legal Effect
+*Link: [./conductor/tracks/track10_deontic_modality_20260613/](./conductor/tracks/track10_deontic_modality_20260613/)*
+- **Dependencies**: Track 4, Track 5
+- **Parallelization Node**: Legal Effect Analysis
+- **Why**: Core requirement for corpus-law-nz — "must/shall/may/must not" binding obligation detection. LKIF ontology categories.
+
+## [ ] Track 11: Temporal Expression Extraction & Time Ontology
+*Link: [./conductor/tracks/track11_temporal_ontology_20260613/](./conductor/tracks/track11_temporal_ontology_20260613/)*
+- **Dependencies**: Track 4, Track 5
+- **Parallelization Node**: Temporal Analysis
+- **Why**: Extract dates, deadlines, effective periods from legislation. TimeML/OWL-Time inspired.
+
+## [ ] Track 12: Named Entity Resolution & Wikidata Linking
+*Link: [./conductor/tracks/track12_entity_linking_20260613/](./conductor/tracks/track12_entity_linking_20260613/)*
+- **Dependencies**: Track 5
+- **Parallelization Node**: Knowledge Base Integration
+- **Why**: Link MPs, parties, electorates to Wikidata QIDs. Essential for corpus-nz-hansard speaker mapping.
+
+## [ ] Track 13: Argument Mining & Policy Stance Detection
+*Link: [./conductor/tracks/track13_argument_stance_20260613/](./conductor/tracks/track13_argument_stance_20260613/)*
+- **Dependencies**: Track 5, Track 7
+- **Parallelization Node**: Discourse Analysis
+- **Why**: Premise/conclusion identification and pro/con/neutral stance in Hansard debates.
+
+## [ ] Track 14: Akoma-Ntoso v3 Schema Compliance & Enrichment
+*Link: [./conductor/tracks/track14_akoma_ntoso_v3_20260613/](./conductor/tracks/track14_akoma_ntoso_v3_20260613/)*
+- **Dependencies**: Track 4
+- **Parallelization Node**: Schema Standards Compliance
+- **Why**: Full OASIS AKN v3 compliance — FRBR hierarchy, all document types, TLCEvent metadata.
+
+## [ ] Track 15: PROV-O Provenance Ontology for Pipeline Traces
+*Link: [./conductor/tracks/track15_prov_o_provenance_20260613/](./conductor/tracks/track15_prov_o_provenance_20260613/)*
+- **Dependencies**: Track 6, Track 9
+- **Parallelization Node**: Provenance & Reproducibility
+- **Why**: Track pipeline version, model params, timestamps per run. W3C PROV-O JSON-LD sidecar files.
+
+## [ ] Track 16: FOAF & SIOC Ontologies for Parliamentary Discourse
+*Link: [./conductor/tracks/track16_faaf_sioc_discourse_20260613/](./conductor/tracks/track16_faaf_sioc_discourse_20260613/)*
+- **Dependencies**: Track 7, Track 12
+- **Parallelization Node**: Semantic Web & Discourse
+- **Why**: MP FOAF profiles, SIOC debate threading, RDF/Turtle export for linked data consumption.
+
+## [ ] Track 17: Wikidata NZ Ontology Integration
+*Link: [./conductor/tracks/track17_wikidata_integration_20260613/](./conductor/tracks/track17_wikidata_integration_20260613/)*
+- **Dependencies**: Track 12
+- **Parallelization Node**: Knowledge Graph
+- **Why**: OWL mapping of NZ legal concepts to Wikidata QIDs. Federated SPARQL queries.
+
+## [ ] Track 18: Voting Record Analysis & Amendment Tracking
+*Link: [./conductor/tracks/track18_voting_amendments_20260613/](./conductor/tracks/track18_voting_amendments_20260613/)*
+- **Dependencies**: Track 4, Track 7
+- **Parallelization Node**: Parliamentary Analytics
+- **Why**: Parse divisions, aye/nay votes, bill version diffs, amendment lifecycle.
+
+## [ ] Track 19: OpenTelemetry Observability & Performance Benchmarks
+*Link: [./conductor/tracks/track19_observability_benchmarks_20260613/](./conductor/tracks/track19_observability_benchmarks_20260613/)*
+- **Dependencies**: Track 1, Track 6
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Complete the tech-stack observability layer — OTel spans, Scalene/Memray profiling, CI benchmark gates.

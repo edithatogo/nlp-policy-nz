@@ -1,0 +1,8 @@
+{
+  "track_id": "track13_argument_stance_20260613",
+  "type": "feature",
+  "status": "pending",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Argument mining and stance detection for Hansard debates: premise/conclusion identification and pro/con/neutral policy positions."
+}

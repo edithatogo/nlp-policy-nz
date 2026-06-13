@@ -1,0 +1,8 @@
+{
+  "track_id": "track10_deontic_modality_20260613",
+  "type": "feature",
+  "status": "pending",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Extract deontic modality (obligation, permission, prohibition) from NZ legislation. Essential for corpus-law-nz binding obligation detection."
+}
