@@ -136,3 +136,10 @@ This file tracks all major tracks for the project. Each track has its own detail
 - **Parallelization Node**: Legal Knowledge Integration
 - **Why**: Integrate the Isaacus open legal AI ecosystem — the closest existing legal NLP to NZ (Australian common law). Covers: Open Australian Legal Corpus, MLEB benchmark (extend to NZ), Kanon 2 Embedder (#1 on MLEB), semchunk, Blackstone Graph, Legal RAG Bench, AU→NZ domain transfer fine-tuning.
 
+
+## [ ] Track 23: Quality Tooling & Testing Infrastructure Overhaul
+*Link: [./conductor/tracks/track23_quality_infrastructure_20260613/](./conductor/tracks/track23_quality_infrastructure_20260613/)*
+- **Dependencies**: Track 1
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Close all quality-tooling gaps: ruff strict (ANN/D/TCH/YTT/RET), mypy/pyright strict, `ty` module convention, smoke/integration/E2E tests, mutation tests, scalene, codecov, pydantic v2 eval, uv_build eval.
+
