@@ -16,7 +16,36 @@ The core goal is to ingest, clean, tokenize, and enrich New Zealand legislative 
 - **Data Engineers & Data Scientists**: Looking for a highly optimized, local-first dataset preprocessing pipeline for large-scale legal text.
 - **Academic & Independent Researchers**: Performing computational linguistics research on NZ law and parliamentary proceedings without expensive cloud resources.
 
-## 3. Core Features & Architecture
+## Phase II Expansion — Upcoming Capabilities
+
+The following are planned for Phase II (Tracks 10-23):
+
+### Advanced NLP Features
+- **Deontic Modality Detection** (T10): Extract obligation/permission/prohibition with syntactic scope for binding obligation classification.
+- **Temporal Expression Extraction** (T11): TimeML-style date/deadline/period extraction with ISO 8601 normalization.
+- **Argument Mining & Stance Detection** (T13): Premise/conclusion identification and pro/con/neutral classification in Hansard debates.
+- **Named Entity Resolution** (T12): Link MPs, parties, electorates to Wikidata QIDs.
+
+### Ontology & Schema Enrichment
+- **Akoma-Ntoso v3 Full Compliance** (T14): FRBR hierarchy, TLCEvent metadata, amendment/judgment/debate types.
+- **PROV-O Provenance** (T15): W3C PROV-O graph for full pipeline traceability.
+- **FOAF & SIOC Discourse** (T16): MP FOAF profiles, SIOC debate threading, RDF/Turtle export.
+- **Wikidata Knowledge Graph** (T17): OWL mapping, federated SPARQL, JSON-LD export.
+
+### Parliamentary Analytics
+- **Voting Record Analysis** (T18): Division parsing, aye/nay votes, amendment lifecycle tracking.
+
+### Model Fine-Tuning
+- **NZ Legal NLP Fine-Tuning** (T20): Legal-BERT, Gemma, Phi-4, Qwen, Mistral, MiniCPM5, Liquid LFM, Kimi, Exaone, Jamba, MiniMax.
+- **Isaacus Ecosystem Integration** (T22): Open Australian Legal Corpus, MLEB-NZ benchmark, Kanon 2 Embedder, semchunk.
+- **Bleeding-Edge Architecture Exploration** (T21): MoR, TTT-Linear/RNN, Mamba-3/SSD, DiffusionGemma, Nex-N2.
+
+### Infrastructure & Quality
+- **OpenTelemetry Observability** (T19): Distributed tracing across all pipeline components.
+- **Scalene/Memray Profiling** (T19): CPU/memory benchmarks on full 6.5GB corpus.
+- **Quality Tooling Overhaul** (T23): ruff max strict, pyright strict, smoke/E2E/integration tests, Codecov.
+
+## 3. Core Features & Architecture (Phase I — Complete)
 - **Universal Ingestion & Preprocessing**: Abstract, format-agnostic ingestion engine (`UniversalIngestionEngine`) supporting XML, HTML, and JSONL formats using BeautifulSoup4/lxml to parse structures dynamically.
 - **Dynamic Metadata Extension Registry**: Custom extension naming layer (`MetaExtensionRegistry`) that registers namespace-prefixed properties in spaCy (e.g. `doc._.meta_country`, `span._.schema_structural_type`) dynamically based on region, country, and target standards to prevent name collisions.
 - **Modular spaCy Bridge**: Custom `@Language.component` wrapper (`ModularSpaCyBridgeComponent`) mapping parsed document chunk boundaries to token-level spans.
