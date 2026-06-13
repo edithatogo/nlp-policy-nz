@@ -116,3 +116,16 @@ This file tracks all major tracks for the project. Each track has its own detail
 - **Dependencies**: Track 1, Track 6
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Complete the tech-stack observability layer — OTel spans, Scalene/Memray profiling, CI benchmark gates.
+
+## [ ] Track 20: NZ Legal NLP Model Fine-Tuning Pipeline
+*Link: [./conductor/tracks/track20_legal_finetuning_20260613/](./conductor/tracks/track20_legal_finetuning_20260613/)*
+- **Dependencies**: Track 5, Track 6
+- **Parallelization Node**: Model Fine-Tuning & Domain Adaptation
+- **Why**: Fine-tune Legal-BERT, Gemma, Phi-4, Qwen, Mistral, MiniCPM5, Liquid LFM, Kimi, Exaone, Jamba, MiniMax on NZ legal/Hansard corpora across 6 tasks.
+
+## [ ] Track 21: Bleeding-Edge Architecture Exploration
+*Link: [./conductor/tracks/track21_bleeding_edge_architectures_20260613/](./conductor/tracks/track21_bleeding_edge_architectures_20260613/)*
+- **Dependencies**: Track 20
+- **Parallelization Node**: Advanced Architecture Research
+- **Why**: Evaluate MoR, TTT-Linear/RNN, Mamba-3/SSD, DiffusionGemma, SambaY, Nex-N2, NexRL, MiniMax-01, NVIDIA Cosmos 3, MiMo-V2.5, Ring, TiRex, DeVestral for transformative efficiency gains in NZ legal NLP.
+
