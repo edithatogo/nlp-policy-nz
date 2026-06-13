@@ -69,3 +69,25 @@ Models are selected across three tiers based on availability, efficiency, and re
 - [ ] Te Reo Māori token integrity improved by >15% in fine-tuned tokenizers
 - [ ] All fine-tuned models published to Hugging Face Hub under nlp-policy-nz namespace
 - [ ] Test coverage > 90%
+
+
+### Tier 4 — Legal-Domain Australian/NZ Specialist Models
+
+| Model | Family | Params | Why |
+|-------|--------|--------|-----|
+| **Open Australian Legal LLM** (isaacus) | GPT-2 XL fine-tune | 1.5B | Closest legal domain to NZ (common law, shared heritage). Apache 2.0. |
+| **Open Australian Legal Phi 1.5** (isaacus) | Phi-1.5 fine-tune | 1.3B | Smaller variant for rapid iteration |
+| **EmuBERT** (isaacus) | BERT fine-tune | 124M | Legal MLM for embedding tasks |
+| **Kanon 2 Embedder** (isaacus) | Custom legal foundation | Proprietary | #1 on MLEB — beats OpenAI by 9%, Gemini by 6%, 30% faster. 38 jurisdictions. |
+| **Open Australian Legal Corpus** (isaacus) | Dataset | 147K docs | Largest open corpus of Australian law, directly transferable to NZ |
+| **MLEB Benchmark** (isaacus) | Benchmark | 6 jurisdictions | Extend to NZ as 7th jurisdiction |
+
+## Key Isaacus Resources
+
+- **GitHub**: https://github.com/isaacus-dev (semchunk, Blackstone Graph, MLEB code)
+- **HF Organization**: https://huggingface.co/isaacus (7 models, 24 datasets)
+- **Open Australian Legal Corpus**: 147K laws/regulations from 6 Australian jurisdictions
+- **Legal RAG Bench**: End-to-end evaluation for legal retrieval augmentation
+- **MLEB**: Covers US, UK, EU, Australia, Singapore, Ireland — extend to NZ
+- **semchunk**: AI-powered legal document chunking library
+- **Blackstone Graph**: Graph-based legal knowledge representation (announced June 2026)

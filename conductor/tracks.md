@@ -129,3 +129,10 @@ This file tracks all major tracks for the project. Each track has its own detail
 - **Parallelization Node**: Advanced Architecture Research
 - **Why**: Evaluate MoR, TTT-Linear/RNN, Mamba-3/SSD, DiffusionGemma, SambaY, Nex-N2, NexRL, MiniMax-01, NVIDIA Cosmos 3, MiMo-V2.5, Ring, TiRex, DeVestral for transformative efficiency gains in NZ legal NLP.
 
+
+## [ ] Track 22: Isaacus Legal NLP Ecosystem Integration
+*Link: [./conductor/tracks/track22_isaacus_integration_20260613/](./conductor/tracks/track22_isaacus_integration_20260613/)*
+- **Dependencies**: Track 20, Track 5
+- **Parallelization Node**: Legal Knowledge Integration
+- **Why**: Integrate the Isaacus open legal AI ecosystem — the closest existing legal NLP to NZ (Australian common law). Covers: Open Australian Legal Corpus, MLEB benchmark (extend to NZ), Kanon 2 Embedder (#1 on MLEB), semchunk, Blackstone Graph, Legal RAG Bench, AU→NZ domain transfer fine-tuning.
+

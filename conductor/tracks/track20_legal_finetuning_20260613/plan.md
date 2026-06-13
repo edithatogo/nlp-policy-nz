@@ -43,6 +43,21 @@
 | 3.2 | Fine-tune **Phi-4 (14B)** with QLoRA on citation + deontic classification | [ ] | |
 | 3.3 | Fine-tune **Qwen 2.5 (7B)** with QLoRA on NZ legislation QA | [ ] | |
 | 3.4 | Fine-tune **Mistral NeMo (12B)** with QLoRA on entity linking | [ ] | |
+
+## Phase 3b: Tier 4 — Isaacus Legal Specialist Fine-Tuning (NZ-Australia Transfer)
+
+**Estimated Effort**: Low-Medium
+**Status**: Pending
+
+| # | Task | Status | Commit |
+|---|------|--------|--------|
+| 3b.1 | Download Open Australian Legal LLM (1.5B) from Hugging Face; evaluate zero-shot on NZ legal benchmark | [ ] | |
+| 3b.2 | Continue pre-training Open Australian Legal LLM on NZ legislation corpus (domain transfer AU→NZ) | [ ] | |
+| 3b.3 | Fine-tune Open Australian Legal LLM on NZ citation extraction + deontic classification | [ ] | |
+| 3b.4 | Evaluate Kanon 2 Embedder for NZ legal retrieval via API; compare vs in-house embeddings | [ ] | |
+| 3b.5 | Download Open Australian Legal Corpus (AU law) + merge with NZ corpus for cross-training | [ ] | |
+| 3b.6 | Push NZ-adapted AU Legal LLM to Hugging Face Hub as `nlp-policy-nz/australian-legal-llm-nz` | [ ] | |
+
 | 3.5 | Fine-tune **MiniCPM5** with QLoRA on Te Reo Māori preservation | [ ] | |
 | 3.6 | Fine-tune **Liquid LFM 7B** with QLoRA on all task mixture | [ ] | |
 | 3.7 | Evaluate all models on shared benchmark suite, produce leaderboard | [ ] | |
