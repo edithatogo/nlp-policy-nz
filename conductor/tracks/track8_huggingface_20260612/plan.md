@@ -41,11 +41,11 @@ Create the upload machinery to push Parquet data to the Hugging Face Hub.
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 1.1 | Create `src/nlp_policy_nz/integrations/hf_uploader.py` — functions to convert Parquet → `datasets.Dataset`, create dataset repos, upload with metadata | [x] | |
-| 1.2 | Add `upload_dataset()` CLI subcommand to `src/nlp_policy_nz/cli/main.py` — flags: `--parquet`, `--repo-id`, `--private`, `--license` | [x] | |
-| 1.3 | Create dataset card generator in `src/nlp_policy_nz/integrations/dataset_card.py` — builds YAML frontmatter + markdown from pipeline output metadata | [x] | |
-| 1.4 | Write unit tests for upload pipeline and dataset card generation | [x] | |
-| 1.5 | Integration test: upload a small test Parquet to HF sandbox (mock or real) | [x] | |
+| 1.1 | Create `src/nlp_policy_nz/integrations/hf_uploader.py` — functions to convert Parquet → `datasets.Dataset`, create dataset repos, upload with metadata | [x] | 6ee0627 |
+| 1.2 | Add `upload_dataset()` CLI subcommand to `src/nlp_policy_nz/cli/main.py` — flags: `--parquet`, `--repo-id`, `--private`, `--license` | [x] | 6ee0627 |
+| 1.3 | Create dataset card generator in `src/nlp_policy_nz/integrations/dataset_card.py` — builds YAML frontmatter + markdown from pipeline output metadata | [x] | 6ee0627 |
+| 1.4 | Write unit tests for upload pipeline and dataset card generation | [x] | 6ee0627 |
+| 1.5 | Integration test: upload a small test Parquet to HF sandbox (mock or real) | [x] | 6ee0627 |
 
 **Checkpoint**: `conductor(checkpoint): Checkpoint end of Phase 1 — Track 8` ✅
 
@@ -57,14 +57,14 @@ Build a self-contained Gradio app that visualises pipeline outputs.
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 2.1 | Create `spaces/app.py` — Gradio Blocks app with tabs: Search, Citations, Te Reo, Stats | [x] | |
-| 2.2 | Implement Search tab — loads Parquet, provides `gr.Dataframe` + text search via simple TF-IDF or exact match | [x] | |
-| 2.3 | Implement Citations tab — parses `nz_act_citations` field, shows cross-reference network as `gr.Plot` (matplotlib/plotly) | [x] | |
-| 2.4 | Implement Te Reo tab — word cloud or frequency bar chart of `te_reo_terms` field | [x] | |
-| 2.5 | Implement Stats tab — corpus-level metrics: total chunks, language distribution, source breakdown, embedding dimension | [x] | |
-| 2.6 | Create `spaces/requirements.txt` with Gradio, pandas, plotly, wordcloud | [x] | |
-| 2.7 | Create `spaces/README.md` with HF Spaces metadata (emoji, SDK, app file) | [x] | |
-| 2.8 | Write tests for each tab's data transformation logic | [x] | |
+| 2.1 | Create `spaces/app.py` — Gradio Blocks app with tabs: Search, Citations, Te Reo, Stats | [x] | 6ee0627 |
+| 2.2 | Implement Search tab — loads Parquet, provides `gr.Dataframe` + text search via simple TF-IDF or exact match | [x] | 6ee0627 |
+| 2.3 | Implement Citations tab — parses `nz_act_citations` field, shows cross-reference network as `gr.Plot` (matplotlib/plotly) | [x] | 6ee0627 |
+| 2.4 | Implement Te Reo tab — word cloud or frequency bar chart of `te_reo_terms` field | [x] | 6ee0627 |
+| 2.5 | Implement Stats tab — corpus-level metrics: total chunks, language distribution, source breakdown, embedding dimension | [x] | 6ee0627 |
+| 2.6 | Create `spaces/requirements.txt` with Gradio, pandas, plotly, wordcloud | [x] | 6ee0627 |
+| 2.7 | Create `spaces/README.md` with HF Spaces metadata (emoji, SDK, app file) | [x] | 6ee0627 |
+| 2.8 | Write tests for each tab's data transformation logic | [x] | 6ee0627 |
 
 **Checkpoint**: `conductor(checkpoint): Checkpoint end of Phase 2 — Track 8` ✅
 
@@ -76,10 +76,10 @@ Wire up the Space deployment and document the full workflow.
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 3.1 | Create `scripts/deploy_space.sh` — pushes `spaces/` dir to a HF Space repo | [x] | |
-| 3.2 | Add `deploy-space` CLI subcommand to `src/nlp_policy_nz/cli/main.py` | [x] | |
-| 3.3 | Update `product.md` and `requirements.md` to reflect HF Hub and Space features | [x] | |
-| 3.4 | Add integration test for deploy script (dry-run mode) | [x] | |
+| 3.1 | Create `scripts/deploy_space.sh` — pushes `spaces/` dir to a HF Space repo | [x] | 6ee0627 |
+| 3.2 | Add `deploy-space` CLI subcommand to `src/nlp_policy_nz/cli/main.py` | [x] | 6ee0627 |
+| 3.3 | Update `product.md` and `requirements.md` to reflect HF Hub and Space features | [x] | 6ee0627 |
+| 3.4 | Add integration test for deploy script (dry-run mode) | [x] | 6ee0627 |
 
 **Checkpoint**: `conductor(checkpoint): Checkpoint end of Phase 3 — Track 8` ✅
 

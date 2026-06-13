@@ -7,14 +7,14 @@ This document outlines the granular, sequential, dependency-aware task checklist
 ## Track 1: Workspace Environment & Quality Tooling
 **Owner**: `Env_Architect` | **Validator**: `Quality_Validator`
 
-- [ ] **Task 1.1: Verify Pixi and uv configurations**
+- [x] **Task 1.1: Verify Pixi and uv configurations**
   - Create standard python package directory structure `src/nlp_policy_nz/`.
   - Validate pixi.toml and pyproject.toml configuration settings.
-- [ ] **Task 1.2: Initialize quality gate rules**
+- [x] **Task 1.2: Initialize quality gate rules**
   - Setup `.ruff.toml` strict rules, `Tach` configuration files, and `Complexipy` checkers.
-- [ ] **Task 1.3: Configure testing framework**
+- [x] **Task 1.3: Configure testing framework**
   - Setup `pytest` hooks, `Hypothesis` property config, and `Mutatest` configurations.
-- [ ] **Task 1.4: Configure CI Workflow**
+- [x] **Task 1.4: Configure CI Workflow**
   - Scaffold `.github/workflows/ci.yml` to run tests and quality checks.
 
 ---
@@ -22,9 +22,9 @@ This document outlines the granular, sequential, dependency-aware task checklist
 ## Track 2: Configure External Registries (Hugging Face / GitHub / Zenodo)
 **Owner**: `Env_Architect` | **Validator**: `Quality_Validator`
 
-- [ ] **Task 2.1: Implement integration loaders**
+- [x] **Task 2.1: Implement integration loaders**
   - Setup credential managers to load Hugging Face Hub dataset keys securely.
-- [ ] **Task 2.2: Build sandbox archive templates**
+- [x] **Task 2.2: Build sandbox archive templates**
   - Code sandbox dataset serialization hooks for Zenodo API deposits.
 
 ---
@@ -32,11 +32,11 @@ This document outlines the granular, sequential, dependency-aware task checklist
 ## Track 3: Implement Māori Language Guard (SOTA)
 **Owner**: `Maori_Language_Expert` | **Validator**: `Quality_Validator`
 
-- [ ] **Task 3.1: Build Unicode Normalization Layer**
+- [x] **Task 3.1: Build Unicode Normalization Layer**
   - Implement NFC unicode normalizer to handle macron variations.
-- [ ] **Task 3.2: Implement Tokenizer Exceptions**
+- [x] **Task 3.2: Implement Tokenizer Exceptions**
   - Configure spaCy tokenizer rules to protect Te Reo Māori vocabulary from subword splits.
-- [ ] **Task 3.3: Build Language Identifier**
+- [x] **Task 3.3: Build Language Identifier**
   - Code phrase-level sequence classifier identifying Te Reo Māori vs English sections.
 
 ---
@@ -56,9 +56,9 @@ This document outlines the granular, sequential, dependency-aware task checklist
 ## Track 5: Integrate Semantic Layer & quantized embeddings
 **Owner**: `Semantic_Embedder` | **Validator**: `Quality_Validator`
 
-- [ ] **Task 5.1: Integrate local LLM loader**
+- [x] **Task 5.1: Integrate local LLM loader**
   - Implement quantized 4-bit loading via bitsandbytes for SaulLM-7B/Legal-BERT.
-- [ ] **Task 5.2: Implement embedding generators**
+- [x] **Task 5.2: Implement embedding generators**
   - Code dense vector generation pipelines utilizing Hugging Face fast tokenizers, releasing Python GIL.
 
 ---
@@ -66,9 +66,9 @@ This document outlines the granular, sequential, dependency-aware task checklist
 ## Track 6: Standardize Output Schema & LanceDB Vector Engine
 **Owner**: `Storage_Search_Integrator` | **Validator**: `Quality_Validator`
 
-- [ ] **Task 6.1: Build Narwhals Serialization Layer**
+- [x] **Task 6.1: Build Narwhals Serialization Layer**
   - Code zero-copy dataframe serialization to Parquet files using Narwhals.
-- [ ] **Task 6.2: Integrate LanceDB vector databases**
+- [x] **Task 6.2: Integrate LanceDB vector databases**
   - Implement local Arrow-native embedding indices using LanceDB.
 
 ---
@@ -76,9 +76,9 @@ This document outlines the granular, sequential, dependency-aware task checklist
 ## Track 7: Downstream API & Cross-Domain Verification
 **Owner**: `Storage_Search_Integrator` | **Validator**: `Quality_Validator`
 
-- [ ] **Task 7.1: Expose public module APIs**
+- [x] **Task 7.1: Expose public module APIs**
   - Finalize public function exports for `corpus-law-nz` and `corpus-nz-hansard`.
-- [ ] **Task 7.2: Code relational graphs**
+- [x] **Task 7.2: Code relational graphs**
   - Implement NetworkX mapping layer linking debate mentions to legislation acts.
 
 ---
@@ -86,17 +86,18 @@ This document outlines the granular, sequential, dependency-aware task checklist
 ## Track 8: Deploy Hugging Face Datasets & Interactive Visualization Spaces
 **Owner**: `Storage_Search_Integrator` | **Validator**: `Quality_Validator`
 
-- [ ] **Task 8.1: Configure HF Hub Push Pipeline**
+- [x] **Task 8.1: Configure HF Hub Push Pipeline**
   - Code automated pipeline hook using `huggingface_hub` to push Parquet tables to Hugging Face Dataset repositories.
-- [ ] **Task 8.2: Build Streamlit displaCy Visualization Space**
-  - Build simple, interactive Streamlit demo (`app.py`) to visualize structural offsets and entity dependencies, and host it as a Hugging Face Space.
+- [x] **Task 8.2: Build Visualization Space (Gradio)**
+  - Build interactive Gradio demo (`spaces/app.py`) to visualize structural offsets, entity dependencies, search, and Te Reo Māori terms. Hosted as Hugging Face Space.
+  - **Note**: Implemented with Gradio (not Streamlit as originally planned) for better Hugging Face Spaces integration.
 
 ---
 
 ## Track 9: Establish Citable Zenodo Archives & Release Workflows
 **Owner**: `Env_Architect` | **Validator**: `Quality_Validator`
 
-- [ ] **Task 9.1: Build Zenodo Deposit Script**
+- [x] **Task 9.1: Build Zenodo Deposit Script**
   - Integrate helper module calling Zenodo API to create sandbox/production deposits.
-- [ ] **Task 9.2: Configure CITATION.cff Schema**
+- [x] **Task 9.2: Configure CITATION.cff Schema**
   - Add standard `CITATION.cff` linking repository authors to the created Zenodo DOI target.
