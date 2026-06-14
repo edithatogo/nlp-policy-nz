@@ -59,6 +59,52 @@ def sample_records() -> list[PipelineRecord]:
     ]
 
 
+@pytest.fixture
+def sample_committee_records() -> list[PipelineRecord]:
+    """Return pipeline records with additive committee/submission fields."""
+    return [
+        PipelineRecord(
+            doc_id="sc-001",
+            corpus_source="select_committee",
+            raw_text="Report of the Finance and Expenditure Committee on the Taxation Bill 2024.",
+            cleaned_tokens=["Report", "of", "the", "Finance", "Committee"],
+            nz_act_citations=[],
+            te_reo_terms=[],
+            embeddings=None,
+            committee="Finance and Expenditure Committee",
+            bill_reference="Taxation Bill 2024",
+            report_title="Finance and Expenditure Report",
+            findings=["Revenue impact positive"],
+            recommendations=["Proceed with amendments"],
+        ),
+        PipelineRecord(
+            doc_id="sub-001",
+            corpus_source="parliament_submission",
+            raw_text="Submission from Greenpeace on the Climate Bill 2025.",
+            cleaned_tokens=["Submission", "from", "Greenpeace"],
+            nz_act_citations=[],
+            te_reo_terms=[],
+            embeddings=None,
+            submitter_name="Greenpeace NZ",
+            committee="Environment Select Committee",
+            bill_reference="Climate Bill 2025",
+            linkage_confidence=0.95,
+        ),
+        PipelineRecord(
+            doc_id="rr-001",
+            corpus_source="regulations_review",
+            raw_text="Regulations Review Committee proceeding on challenge to Regulation 2024 No 10.",
+            cleaned_tokens=["Regulations", "Review", "Committee", "proceeding"],
+            nz_act_citations=[],
+            te_reo_terms=[],
+            embeddings=None,
+            committee="Regulations Review Committee",
+            challenged_regulation="Regulation 2024 No 10",
+            grounds="Ultra vires the empowering Act",
+        ),
+    ]
+
+
 # ---------------------------------------------------------------------------
 # Struct tests
 # ---------------------------------------------------------------------------
@@ -209,3 +255,103 @@ class TestParquetRoundTrip:
         assert isinstance(result, Path)
         loaded = load_from_parquet(parquet_path)
         assert len(loaded) == len(sample_records)
+
+
+# ---------------------------------------------------------------------------
+# Additive committee / submission fields round-trip tests
+# ---------------------------------------------------------------------------
+
+
+class TestCommitteeRecordsRoundTrip:
+    """Tests for serialization/deserialization of additive committee fields."""
+
+    def test_committee_record_struct_defaults(self) -> None:
+        """Verify additive fields default to None when omitted."""
+        rec = PipelineRecord(
+            doc_id="sc-002",
+            corpus_source="select_committee",
+            raw_text="Some report text.",
+            cleaned_tokens=["Some", "report", "text"],
+            nz_act_citations=[],
+            te_reo_terms=[],
+        )
+        assert rec.submitter_name is None
+        assert rec.committee is None
+        assert rec.bill_reference is None
+        assert rec.linkage_confidence is None
+        assert rec.challenged_regulation is None
+        assert rec.grounds is None
+        assert rec.report_title is None
+        assert rec.findings is None
+        assert rec.recommendations is None
+
+    def test_committee_record_construction(self) -> None:
+        """Verify a PipelineRecord with all committee fields can be built."""
+        rec = PipelineRecord(
+            doc_id="sc-full",
+            corpus_source="select_committee",
+            raw_text="Full report text here.",
+            cleaned_tokens=["Full", "report"],
+            nz_act_citations=["Act 2024 No 5"],
+            te_reo_terms=[],
+            embeddings=[0.1, 0.2],
+            submitter_name="NZ Law Society",
+            committee="Justice Select Committee",
+            bill_reference="Criminal Procedure Bill 2024",
+            linkage_confidence=0.9,
+            challenged_regulation=None,
+            grounds=None,
+            report_title="Criminal Procedure Review",
+            findings=["Current process is slow", "Needs digital reform"],
+            recommendations=["Adopt e-filing", "Streamline appeals"],
+        )
+        assert rec.submitter_name == "NZ Law Society"
+        assert rec.committee == "Justice Select Committee"
+        assert rec.bill_reference == "Criminal Procedure Bill 2024"
+        assert rec.linkage_confidence == 0.9
+        assert rec.report_title == "Criminal Procedure Review"
+        assert rec.findings == ["Current process is slow", "Needs digital reform"]
+        assert rec.recommendations == ["Adopt e-filing", "Streamline appeals"]
+
+    def test_committee_records_to_dataframe(
+        self,
+        sample_committee_records: list[PipelineRecord],
+    ) -> None:
+        """Verify DataFrame conversion includes all additive fields."""
+        df = records_to_dataframe(sample_committee_records)
+        assert set(df.columns) == set(SCHEMA_FIELDS)
+        assert df.shape[0] == len(sample_committee_records)
+
+        # Check additive columns are present and non-null for appropriate rows
+        col = df["submitter_name"]
+        assert col is not None
+        col = df["committee"]
+        assert col is not None
+        col = df["bill_reference"]
+        assert col is not None
+
+    def test_committee_parquet_roundtrip(
+        self,
+        sample_committee_records: list[PipelineRecord],
+        tmp_path: Path,
+    ) -> None:
+        """Verify committee records survive Parquet round-trip."""
+        parquet_path = tmp_path / "committee_test.parquet"
+        serialize_to_parquet(sample_committee_records, parquet_path)
+        assert parquet_path.is_file()
+
+        loaded = load_from_parquet(parquet_path)
+        assert len(loaded) == len(sample_committee_records)
+
+        for orig, loaded_rec in zip(sample_committee_records, loaded, strict=False):
+            assert loaded_rec.doc_id == orig.doc_id
+            assert loaded_rec.corpus_source == orig.corpus_source
+            assert loaded_rec.submitter_name == orig.submitter_name
+            assert loaded_rec.committee == orig.committee
+            assert loaded_rec.bill_reference == orig.bill_reference
+            assert loaded_rec.linkage_confidence == orig.linkage_confidence
+            assert loaded_rec.challenged_regulation == orig.challenged_regulation
+            assert loaded_rec.grounds == orig.grounds
+            assert loaded_rec.report_title == orig.report_title
+            assert loaded_rec.findings == orig.findings
+            assert loaded_rec.recommendations == orig.recommendations

@@ -7,7 +7,7 @@ name = "nlp_policy_nz"
 version = "0.1.0"
 description = "SOTA shared core NLP pipeline for New Zealand legislation and Hansard corpora"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "Maintainer" }]
 dependencies = [
@@ -53,7 +53,7 @@ packages = ["src/nlp_policy_nz"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py313"
+target-version = "py311"
 
 [tool.ruff.lint]
 # MAXIMUM strict rule selection covering:
@@ -63,10 +63,22 @@ target-version = "py313"
 # PL: Pylint · RUF: Ruff-specific rules
 # ANN: Annotations · D: Docstrings · TCH: Typing imports · YTT: sys.version checks
 # RET: Return statements · FURB: Ruff for Ruff
+# COM: Commas · DJ: Django · DTZ: Datetimez · EM: Exception messages
+# ERA: Erased code · EXE: Executables · FA: Future annotations
+# FLY: Flake8 · ICN: Import conventions · INP: In-package imports
+# INT: Integer types · ISC: Implicit string concat · LOG: Logging
+# NPY: NumPy · PD: Pandas · PERF: Performance · PGH: Pygrep-hooks
+# PIE: PIE rules · PYI: Pyi · Q: Quotes · RSE: Raise semantics
+# S: Security · SLF: Self/Cls · T10: Flake8-debugger
+# TC: Type checking · TID: Tidy imports · TRY: Try/except
 select = [
     "E", "W", "F", "I", "N", "UP", "B", "A", "C4", "T20",
     "PT", "SIM", "ARG", "PTH", "PL", "RUF",
     "ANN", "D", "TCH", "YTT", "RET", "FURB",
+    "COM", "DJ", "DTZ", "EM", "ERA", "EXE",
+    "FA", "FLY", "ICN", "INP", "INT", "ISC", "LOG",
+    "NPY", "PD", "PERF", "PGH", "PIE",
+    "PYI", "Q", "RSE", "S", "SLF", "T10", "TC", "TID", "TRY",
 ]
 ignore = [
     "PLR0913",                   # Too many arguments (legacy code)
@@ -79,6 +91,23 @@ ignore = [
     "D213",                      # Multi-line docstring summary should start at second line (conflicts with D212)
     "D404",                      # First word of docstring should not be "This" (too strict for __init__)
     "D415",                      # First line should end with a period (relaxed for single-line docstrings)
+    "COM812",                    # Trailing comma missing — handled by formatter
+    "ISC001",                    # Implicit string concat — handled by formatter
+    "EM101",                     # String literal in exception
+    "EM102",                     # F-string in exception
+    "PLR2004", "PLR0912", "PLR0915",
+    "PERF401",                   # List comprehension vs loop
+    "TRY301", "TRY003", "TRY004",
+    "S110", "S311",
+    "S404", "S603", "S607",
+    "PLW2901",
+    "TC001", "TC002", "TC003",
+    "FA100", "ICN001",
+    "PLC0415",
+    "ERA001", "EXE001",
+    "RUF100",
+    "PLW0603",
+    "N814",
 ]
 
 [tool.ruff.lint.per-file-ignores]
@@ -88,6 +117,12 @@ ignore = [
     "T20",                       # Allow print statements in tests
     "S101",                      # Allow assert in tests (ruff preview rule)
     "PLR2004",                   # Allow magic-value comparisons in tests
+    "SLF", "ARG",
+    "ERA001", "INP001", "S106", "S107",
+    "PGH001", "PIE790",
+    "EM", "TRY", "PERF", "FLY002", "PT017",
+    "C408", "TC006", "Q000", "S314",
+    "PLC0415",
 ]
 "*/__init__.py" = [
     "D",                         # Relax docstrings in __init__.py re-exports
@@ -99,6 +134,10 @@ force-single-line = false
 
 [tool.ruff.format]
 docstring-code-format = true    # Auto-format code examples in docstrings
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"
 
 # ── Static type checking (pyright) ──────────────────────────────────────
 [tool.pyright]

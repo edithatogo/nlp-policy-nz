@@ -29,11 +29,25 @@ SCHEMA_FIELDS: list[str] = [
     "nz_act_citations",
     "te_reo_terms",
     "embeddings",
+    # Committee / submissions additive fields
+    "submitter_name",
+    "committee",
+    "bill_reference",
+    "linkage_confidence",
+    "challenged_regulation",
+    "grounds",
+    "report_title",
+    "findings",
+    "recommendations",
 ]
 """Standardised column names for the pipeline output schema.
 
 Each entry corresponds to a field in :class:`PipelineRecord` and is used
 to guarantee column ordering when constructing DataFrames and Parquet files.
+
+Additive committee/submission fields (optional) are included for
+select committee reports, parliament submissions, and regulations
+review proceedings.
 """
 
 
@@ -45,7 +59,8 @@ class PipelineRecord(msgspec.Struct):
     doc_id : str
         Unique document identifier.
     corpus_source : str
-        Source corpus (e.g. ``"legislation"`` or ``"hansard"``).
+        Source corpus (e.g. ``"legislation"``, ``"hansard"``, or
+        ``"select_committee"``).
     raw_text : str
         Original raw text of the document.
     cleaned_tokens : list[str]
@@ -56,6 +71,26 @@ class PipelineRecord(msgspec.Struct):
         Te Reo Māori terms identified in the document.
     embeddings : list[float] | None
         Optional dense vector embedding generated downstream.
+
+    ---- Additive committee / submission fields (optional) ----
+    submitter_name : str | None
+        Name of the submission author or organisation (parliament submissions).
+    committee : str | None
+        Name of the select/regulations review committee.
+    bill_reference : str | None
+        Related bill reference for submissions or committee reports.
+    linkage_confidence : float | None
+        Confidence score for the cross-corpus bill linkage.
+    challenged_regulation : str | None
+        Regulation being challenged (regulations review proceedings).
+    grounds : str | None
+        Grounds for challenging a regulation (regulations review proceedings).
+    report_title : str | None
+        Title of the select committee report.
+    findings : list[str] | None
+        Findings extracted from the report.
+    recommendations : list[str] | None
+        Recommendations extracted from the report.
     """
 
     doc_id: str
@@ -65,6 +100,17 @@ class PipelineRecord(msgspec.Struct):
     nz_act_citations: list[str]
     te_reo_terms: list[str]
     embeddings: list[float] | None = None
+
+    # ---- Additive committee / submission fields (optional) ----
+    submitter_name: str | None = None
+    committee: str | None = None
+    bill_reference: str | None = None
+    linkage_confidence: float | None = None
+    challenged_regulation: str | None = None
+    grounds: str | None = None
+    report_title: str | None = None
+    findings: list[str] | None = None
+    recommendations: list[str] | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -103,6 +149,16 @@ def records_to_dataframe(records: Sequence[PipelineRecord]) -> Any:
         data["nz_act_citations"].append(rec.nz_act_citations)
         data["te_reo_terms"].append(rec.te_reo_terms)
         data["embeddings"].append(rec.embeddings)
+        # Additive committee / submission fields
+        data["submitter_name"].append(rec.submitter_name)
+        data["committee"].append(rec.committee)
+        data["bill_reference"].append(rec.bill_reference)
+        data["linkage_confidence"].append(rec.linkage_confidence)
+        data["challenged_regulation"].append(rec.challenged_regulation)
+        data["grounds"].append(rec.grounds)
+        data["report_title"].append(rec.report_title)
+        data["findings"].append(rec.findings)
+        data["recommendations"].append(rec.recommendations)
 
     return nw.from_dict(data, backend="polars")
 
@@ -178,6 +234,16 @@ def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
                 nz_act_citations=list(row["nz_act_citations"]),
                 te_reo_terms=list(row["te_reo_terms"]),
                 embeddings=(list(row["embeddings"]) if row["embeddings"] is not None else None),
+                # Additive committee / submission fields
+                submitter_name=row.get("submitter_name"),
+                committee=row.get("committee"),
+                bill_reference=row.get("bill_reference"),
+                linkage_confidence=row.get("linkage_confidence"),
+                challenged_regulation=row.get("challenged_regulation"),
+                grounds=row.get("grounds"),
+                report_title=row.get("report_title"),
+                findings=list(row["findings"]) if row.get("findings") is not None else None,
+                recommendations=list(row["recommendations"]) if row.get("recommendations") is not None else None,
             )
         )
 

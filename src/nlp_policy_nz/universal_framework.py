@@ -1,5 +1,5 @@
 # /// script
-# requires-python = ">=3.13"
+# requires-python = ">=3.11"
 # dependencies = [
 #     "spacy>=3.7.0",
 #     "beautifulsoup4>=4.12.0",
