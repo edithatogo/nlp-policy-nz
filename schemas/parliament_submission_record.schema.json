@@ -32,7 +32,7 @@
     "corpus_id": {
       "type": "string",
       "minLength": 1,
-      "const": "corpus-nz-regulations-review"
+      "const": "corpus-nz-parliament-submissions"
     },
     "record_id": {
       "type": "string",
@@ -52,7 +52,7 @@
     },
     "document_type": {
       "type": "string",
-      "const": "regulations_review_proceeding"
+      "const": "parliament_submission"
     },
     "display_title": {
       "type": "string",

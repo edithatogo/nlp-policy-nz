@@ -32,6 +32,7 @@ class ReleaseManager:
     token : str | None
         Zenodo personal access token.  If *None* the token is resolved
         from the ``ZENODO_SANDBOX_TOKEN`` environment variable.
+
     """
 
     def __init__(self, token: str | None = None) -> None:
@@ -42,6 +43,7 @@ class ReleaseManager:
         token : str | None
             Personal access token.  Falls back to the environment variable
             when *None*.
+
         """
         self._token = token
         self._archiver = ZenodoArchiver(token=token)
@@ -87,6 +89,7 @@ class ReleaseManager:
         ------
         FileNotFoundError
             If *parquet_path* does not exist.
+
         """
         parquet_path = Path(parquet_path).resolve()
         if not parquet_path.is_file():
@@ -162,6 +165,7 @@ class ReleaseManager:
             If *archive_path* does not exist.
         DepositError
             If any Zenodo API call fails.
+
         """
         return self._archiver.create_archive(
             title=title,
@@ -205,6 +209,7 @@ class ReleaseManager:
             If *parquet_path* does not exist.
         DepositError
             If any Zenodo API call fails.
+
         """
         archive_path = self.create_release_archive(
             parquet_path,

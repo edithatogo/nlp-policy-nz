@@ -41,6 +41,7 @@ def extract_bill_reference(text: str) -> str | None:
     -------
     str or None
         The matched bill reference string, or *None* if no match is found.
+
     """
     if not text:
         return None
@@ -60,6 +61,7 @@ def extract_committee_name(text: str) -> str | None:
     -------
     str or None
         The matched committee name, or *None*.
+
     """
     if not text:
         return None
@@ -92,6 +94,7 @@ def extract_submission_metadata(
     dict[str, Any]
         A dictionary with keys ``submitter_name``, ``committee``,
         ``bill_reference``, and ``linkage_confidence``.
+
     """
     resolved_committee = committee or (
         extract_committee_name(text_content) if text_content else None
@@ -133,6 +136,7 @@ def extract_regulations_review_metadata(
     dict[str, Any]
         A dictionary with keys ``committee``, ``challenged_regulation``,
         and ``grounds``.
+
     """
     resolved_committee = committee or (
         extract_committee_name(text_content) if text_content else None
@@ -177,6 +181,7 @@ def extract_select_committee_metadata(
     dict[str, Any]
         A dictionary with keys ``committee``, ``report_title``,
         ``bill_reference``, ``findings``, and ``recommendations``.
+
     """
     search_text = report_title or text_content or ""
     resolved_committee = committee or extract_committee_name(search_text)

@@ -110,6 +110,7 @@ def create_citation_ruler(nlp: Language) -> EntityRuler:
         >>> ruler = create_citation_ruler(nlp)
         >>> "citation_ruler" in nlp.pipe_names
         True
+
     """
     if "maori_guard" not in nlp.pipe_names:
         msg = (

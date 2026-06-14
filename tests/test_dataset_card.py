@@ -7,13 +7,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import pytest
-
 from nlp_policy_nz.integrations.dataset_card import (
     generate_dataset_card,
     write_dataset_card,
 )
-
 
 # ---------------------------------------------------------------------------
 # generate_dataset_card tests

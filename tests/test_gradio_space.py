@@ -10,8 +10,6 @@ from pathlib import Path
 
 import pandas as pd
 import plotly.graph_objects as go
-import pyarrow as pa
-import pyarrow.parquet as pq
 import pytest
 
 from spaces.app import (
@@ -21,7 +19,6 @@ from spaces.app import (
     load_parquet,
     search_chunks,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

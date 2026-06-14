@@ -60,6 +60,7 @@ class QuantizationConfig(Struct, frozen=True):
     bnb_4bit_quant_type : str
         Quantization type; ``\"nf4\"`` (normalised float 4) or ``\"fp4\"``.
         Defaults to ``\"nf4\"``.
+
     """
 
     load_in_4bit: bool = True
@@ -106,6 +107,7 @@ def load_model(
     --------
     >>> model, tokenizer = load_model()
     >>> model, tokenizer = load_model("bert-base-uncased", quantization="none")
+
     """
     model_name = model_name or DEFAULT_MODEL
     quant_config = _build_bnb_config(quantization)
@@ -158,6 +160,7 @@ def unload_model(model: torch.nn.Module) -> None:
     --------
     >>> model, tokenizer = load_model()
     >>> unload_model(model)
+
     """
     try:
         model.cpu()

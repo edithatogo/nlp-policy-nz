@@ -60,7 +60,6 @@ class UniversalIngestionEngine(ABC):
     @abstractmethod
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
         """Ingests raw text and extracts standardized DocumentChunks."""
-        pass
 
 
 class XMLIngestionEngine(UniversalIngestionEngine):
@@ -140,12 +139,11 @@ class JSONLIngestionEngine(UniversalIngestionEngine):
 def get_ingestion_engine(data_format: str) -> UniversalIngestionEngine:
     if data_format.upper() == "XML":
         return XMLIngestionEngine()
-    elif data_format.upper() == "HTML":
+    if data_format.upper() == "HTML":
         return HTMLIngestionEngine()
-    elif data_format.upper() == "JSONL":
+    if data_format.upper() == "JSONL":
         return JSONLIngestionEngine()
-    else:
-        raise ValueError(f"Unsupported source format: {data_format}")
+    raise ValueError(f"Unsupported source format: {data_format}")
 
 
 # ---------------------------------------------------------------------------
@@ -248,12 +246,11 @@ class TargetSchemaEmitter:
 
         if "PARLAMINT" in standard:
             return self._emit_parlamint_tei(doc, chunk_id, structural_type)
-        elif "AKOMA" in standard:
+        if "AKOMA" in standard:
             return self._emit_akoma_ntoso(doc, chunk_id, structural_type)
-        elif "PARLACAP" in standard:
+        if "PARLACAP" in standard:
             return self._emit_parlacap_jsonl(doc, chunk_id, structural_type)
-        else:
-            raise ValueError(f"Unknown target schema: {self.config.target_schema_standard}")
+        raise ValueError(f"Unknown target schema: {self.config.target_schema_standard}")
 
     def _emit_parlamint_tei(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
         """Serializes Doc tokens into valid TEI XML syntax."""
@@ -308,7 +305,6 @@ SAMPLE_JSONL = '{"id": "speech-102", "text": "I support this amendment for the r
 
 def run_framework(config: FrameworkConfig, raw_data: str) -> str:
     """Initializes and runs the dynamic pipeline based on the provided configuration."""
-
     # 1. Ingestion
     engine = get_ingestion_engine(config.source_data_format)
     chunks = engine.ingest(raw_data)

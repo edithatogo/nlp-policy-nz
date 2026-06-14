@@ -2,44 +2,44 @@
 
 **Dependencies**: Track 4, Track 5
 **Parallelization Node**: Legal Effect Analysis
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
 ## Phase 1: Pattern Design & Component Scaffold
 
 **Estimated Effort**: Medium
-**Status**: Pending
+**Status**: Complete
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 1.1 | Research NZ legislative modality patterns: analyse 50 NZ Acts for "must", "shall", "may", "must not", "shall not", "need not" usage | [ ] | |
-| 1.2 | Create `src/nlp_policy_nz/legal/modality.py` with `DEONTIC_PATTERNS` dictionary and `DeonticModalityDetector` spaCy component | [ ] | |
-| 1.3 | Implement modality scope resolution using spaCy dependency tree (identify governed verb/clause) | [ ] | |
-| 1.4 | Write unit tests for pattern matching and scope resolution | [ ] | |
+| 1.1 | Research NZ legislative modality patterns: analyse 50 NZ Acts for "must", "shall", "may", "must not", "shall not", "need not" usage | [x] | general_coder |
+| 1.2 | Create `src/nlp_policy_nz/legal/modality.py` with `DEONTIC_PATTERNS` dictionary and `DeonticModalityDetector` spaCy component | [x] | general_coder |
+| 1.3 | Implement modality scope resolution using spaCy dependency tree (identify governed verb/clause) | [x] | codex_gpt55_engineer |
+| 1.4 | Write unit tests for pattern matching and scope resolution | [x] | general_coder |
 
 ## Phase 2: Legal Effect Classification
 
 **Estimated Effort**: Medium
-**Status**: Pending
+**Status**: Complete
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 2.1 | Define `LegalEffect` enum with LKIF categories (obligation, prohibition, permission, power, liability, immunity, disability) | [ ] | |
-| 2.2 | Implement rule-based legal effect classifier for legislative sections | [ ] | |
-| 2.3 | Add `classify_legal_effect()` to section-level chunking pipeline | [ ] | |
-| 2.4 | Write tests for classification accuracy on annotated NZ legislation | [ ] | |
+| 2.1 | Define `LegalEffect` enum with LKIF categories (obligation, prohibition, permission, power, liability, immunity, disability) | [x] | general_coder |
+| 2.2 | Implement rule-based legal effect classifier for legislative sections | [x] | general_coder |
+| 2.3 | Add `classify_legal_effect()` to section-level chunking pipeline | [x] | codex_gpt55_engineer |
+| 2.4 | Write tests for classification accuracy on annotated NZ legislation | [x] | codex_gpt55_engineer |
 
 ## Phase 3: Pipeline Integration
 
 **Estimated Effort**: Low-Medium
-**Status**: Pending
+**Status**: Complete (except 3.4)
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 3.1 | Add `deontic_modality` and `legal_effect` fields to `PipelineRecord` in `storage/serialization.py` | [ ] | |
-| 3.2 | Update `process_legislation()` in `api.py` to run modality detector | [ ] | |
-| 3.3 | Update Parquet schema to include new fields | [ ] | |
+| 3.1 | Add `deontic_modality` and `legal_effect` fields to `PipelineRecord` in `storage/serialization.py` | [x] | codex_gpt55_engineer |
+| 3.2 | Update `process_legislation()` in `api.py` to run modality detector | [x] | codex_gpt55_engineer |
+| 3.3 | Update Parquet schema to include new fields | [x] | codex_gpt55_engineer |
 | 3.4 | Run full test suite and fix any regressions | [ ] | |
 
 ## Files to Create/Modify
@@ -53,3 +53,13 @@
 | `src/nlp_policy_nz/api.py` | Modify |
 | `tests/test_modality.py` | Create |
 | `tests/test_legal_effects.py` | Create |
+
+## Swarm Gate Audit
+
+| Date | Lane | Evidence | Result |
+|------|------|----------|--------|
+| 2026-06-14 | chrome_operator | Checked `task_plan.md`, `subagents.yaml`, absent `swarm-config.yaml`, `conductor/tracks.md`, `.swarm/prompts/chrome_operator_subdir_swarm.md`, and `.swarm/runs/20260614-190038/manifest.json`. No explicit Chrome/browser-profile approval or Chrome-specific Track 10 task was present. | No local non-gated work for this lane. Track 10 implementation remains for code/validator lanes; Chrome/account work remains gated until specifically approved. |
+| 2026-06-14 | architect_oracle | Reviewed codebase state. modality.py partially complete (126 lines — enum, patterns, dataclass exist but no spaCy component class, scope resolution, or extensions). effects.py, tests, pipeline integration not started. Created 8 tasks in swarm task list. | Architecture guidance issued. Handing off to general_coder for implementation, quality_validator for verification. |
+| 2026-06-14 | chrome_operator | Rechecked `task_plan.md`, `subagents.yaml`, absent `swarm-config.yaml`, `conductor/tracks.md`, `.swarm/prompts/chrome_operator_subdir_swarm.md`, and `.swarm/runs/20260614-194645/manifest.json`. The latest lane prompt still requires explicit approval for Chrome/browser-profile/account work, and no such approval or Chrome-specific Track 10 task is present. | No local non-gated work remains for this lane. Chrome/account work remains gated; implementation and validation remain assigned to code/validator lanes. |
+| 2026-06-14 | general_coder | Implemented `modality.py` (DEONTIC_PATTERNS, DeonticModalityDetector spaCy component, scope resolution), `effects.py` (LegalEffect enum with 7 LKIF categories, classify_legal_effect with rule-based + spaCy fallback), `tests/test_modality.py` (unit tests for detection + scope), `tests/test_legal_effects.py` (unit tests for classification + pipeline integration). Pipeline integration completed by codex_gpt55_engineer: serialization.py updated with deontic_modality + legal_effect fields, pipeline_api.py updated to run detect_modality + classify_legal_effect in process_legislation(). All source files compile and import successfully. Task 3.4 (full verification) remains. | Track 10 implementation complete (Phases 1-3). Remaining: Task 3.4 full test suite verification. Handing off to quality_validator for verification. |
+| 2026-06-14 | codex_gpt55_engineer | Repaired concurrent partial writes in `modality.py` and `effects.py`; restored spaCy factory compatibility; added string-normalisation for custom pattern config; verified `tests/test_modality.py tests/test_legal_effects.py` with `python -m pytest -p no:cacheprovider` (67 passed); verified Parquet round-trip and `process_legislation(..., generate_embeddings=False)` with a direct local Python check; verified `python -m ruff check --no-cache tests/test_modality.py tests/test_legal_effects.py src/nlp_policy_nz/legal` (passed). Attempted broader pytest including `tests/test_storage.py`, but pytest `tmp_path` setup/cleanup failed with Windows sandbox permission errors under AppData, `.tmp`, and `C:\tmp`. | Local non-gated Track 10 implementation and focused validation complete. Task 3.4 remains open for full-suite validation in an environment where pytest temp directories are writable; no commit or external gated action performed. |

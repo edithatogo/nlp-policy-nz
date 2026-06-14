@@ -49,6 +49,7 @@ def get_hf_token() -> str:
     ------
     ValueError
         If the environment variable is not set.
+
     """
     token = os.environ.get(HF_TOKEN_ENV_VAR)
     if not token:
@@ -92,6 +93,7 @@ def parquet_to_dataset(parquet_path: str | Path) -> datasets.Dataset:
     ------
     FileNotFoundError
         If the Parquet file does not exist.
+
     """
     src = Path(parquet_path).resolve()
     if not src.is_file():
@@ -129,6 +131,7 @@ def create_dataset_repo(
     ------
     UploadError
         If repository creation fails.
+
     """
     resolved_token = _resolve_token(token)
     api = HfApi(token=resolved_token)
@@ -186,6 +189,7 @@ def push_dataset_to_hub(
         If the Parquet file does not exist.
     UploadError
         If the upload fails.
+
     """
     dataset = parquet_to_dataset(parquet_path)
 
@@ -252,6 +256,7 @@ def deploy_space(
         If the spaces directory or required files do not exist.
     UploadError
         If the deployment fails.
+
     """
     if spaces_dir is None:
         pkg_root = Path(__file__).resolve().parent.parent.parent.parent

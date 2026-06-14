@@ -106,6 +106,7 @@ def build_tokenizer_exceptions() -> dict[str, list[dict[str, Any]]]:
     Returns:
         A dictionary mapping each atom to a list containing one ``ORTH`` rule,
         ready to be merged with ``nlp.tokenizer.rules``.
+
     """
     exceptions: dict[str, list[dict[str, Any]]] = {}
     for word in TE_REO_LEXICAL_ATOM_SET:
@@ -132,6 +133,7 @@ def _maori_guard_component(doc: spacy.tokens.Doc) -> spacy.tokens.Doc:
 
     Returns:
         The same ``Doc``, passed through unmodified.
+
     """
     return doc
 
@@ -156,6 +158,7 @@ def create_maori_guard_component(
     Returns:
         The ``"maori_guard"`` pipeline component (a no-op function that
         accepts and returns a ``Doc``).
+
     """
     # Merge tokenizer exceptions into the pipeline's tokeniser rules.
     exceptions = build_tokenizer_exceptions()

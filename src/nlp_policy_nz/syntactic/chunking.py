@@ -46,6 +46,7 @@ def generate_legislation_id(year: int, number: int, section: str | int) -> str:
     Example:
         >>> generate_legislation_id(1961, 43, 4)
         'NZ-ACT-1961-043-SEC-4'
+
     """
     return f"NZ-ACT-{year}-{number:03d}-SEC-{section}"
 
@@ -67,6 +68,7 @@ def generate_hansard_id(date: str, speech_num: int) -> str:
     Example:
         >>> generate_hansard_id(\"2023-05-12\", 4)
         'NZ-HANS-2023-05-12-SP-04'
+
     """
     return f"NZ-HANS-{date}-SP-{speech_num:02d}"
 
@@ -106,6 +108,7 @@ def chunk_by_sentence(text: str, nlp: Language) -> list[dict[str, Any]]:
         2
         >>> chunks[0][\"text\"]
         'First.'
+
     """
     doc = nlp(text)
     chunks: list[dict[str, Any]] = []
@@ -145,6 +148,7 @@ def chunk_legislation_document(
 
     Returns:
         List of sentence-chunk dictionaries with populated ``doc_id`` fields.
+
     """
     chunks = chunk_by_sentence(text, nlp)
 
@@ -174,6 +178,7 @@ def chunk_hansard_speech(
 
     Returns:
         List of sentence-chunk dictionaries with populated ``doc_id`` fields.
+
     """
     chunks = chunk_by_sentence(text, nlp)
 

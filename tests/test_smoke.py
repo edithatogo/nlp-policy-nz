@@ -6,7 +6,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 # ── Package imports ──────────────────────────────────────────────────────
 
 
@@ -19,12 +18,11 @@ class TestPackageImports:
         assert hasattr(nlp_policy_nz, "run_nlp_pipeline")
 
     def test_import_guard(self) -> None:
-        from nlp_policy_nz.guard import LanguageIdentifier, normalize_text  # noqa: F811
+        from nlp_policy_nz.guard import normalize_text  # noqa: F811
         assert callable(normalize_text)
 
     def test_import_syntactic(self) -> None:
         from nlp_policy_nz.syntactic import (  # noqa: F811
-            create_citation_ruler,
             create_nlp_pipeline,
         )
         assert callable(create_nlp_pipeline)
@@ -36,8 +34,6 @@ class TestPackageImports:
     def test_import_storage(self) -> None:
         from nlp_policy_nz.storage import (  # noqa: F811
             PipelineRecord,
-            VectorIndex,
-            serialize_to_parquet,
         )
         assert PipelineRecord is not None
 
@@ -48,8 +44,8 @@ class TestPackageImports:
     def test_import_integrations(self) -> None:
         from nlp_policy_nz.integrations import (  # noqa: F811
             ZenodoArchiver,
-            push_dataset_to_hub,
             deploy_space,
+            push_dataset_to_hub,
         )
         assert ZenodoArchiver is not None
         assert callable(push_dataset_to_hub)

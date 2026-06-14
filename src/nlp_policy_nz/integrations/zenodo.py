@@ -42,6 +42,7 @@ class DepositError(Exception):
             Human-readable description of the error.
         status_code : int | None
             Optional HTTP status code returned by the Zenodo API.
+
         """
         self.status_code = status_code
         super().__init__(message)
@@ -68,6 +69,7 @@ def get_zenodo_token(environment: str = "sandbox") -> str:
     ------
     ValueError
         If the environment variable is not set or is empty.
+
     """
     if environment == "production":
         env_var = ZENODO_PRODUCTION_TOKEN
@@ -101,6 +103,7 @@ def _resolve_token(token: str | None, environment: str = "sandbox") -> str:
     -------
     str
         The resolved access token.
+
     """
     if token is not None:
         return token
@@ -127,6 +130,7 @@ def _get_api_url(environment: str = "sandbox") -> str:
     -------
     str
         The base API URL.
+
     """
     if environment == "production":
         return ZENODO_PRODUCTION_API_URL
@@ -172,6 +176,7 @@ def create_sandbox_deposit(
     ------
     DepositError
         If the API call fails or returns a non-success status code.
+
     """
     access_token = _resolve_token(token, environment=environment)
     api_url = _get_api_url(environment)
@@ -231,6 +236,7 @@ def upload_file_to_deposit(
         fails.
     FileNotFoundError
         If the file at *file_path* does not exist.
+
     """
     if not deposit_id:
         msg = "deposit_id must be a non-empty string."
@@ -287,6 +293,7 @@ def publish_deposit(
     ------
     DepositError
         If the deposit id is empty or the API call fails.
+
     """
     if not deposit_id:
         msg = "deposit_id must be a non-empty string."

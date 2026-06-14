@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any
 
 from nlp_policy_nz.guard import LanguageIdentifier, normalize_text
+from nlp_policy_nz.legal import classify_legal_effect, detect_modality
 from nlp_policy_nz.semantic import generate_embedding
 from nlp_policy_nz.semantic.model_loader import load_model
 from nlp_policy_nz.storage import PipelineRecord, VectorIndex, serialize_to_parquet
@@ -53,6 +54,7 @@ def _resolve_path(path: str | Path) -> Path:
     -------
     Path
         Absolute, resolved :class:`~pathlib.Path`.
+
     """
     return Path(path).resolve()
 
@@ -74,6 +76,7 @@ def _collect_input_files(input_path: str | Path) -> list[Path]:
     ------
     FileNotFoundError
         If the input path does not exist.
+
     """
     path = _resolve_path(input_path)
     if path.is_file():
@@ -104,6 +107,7 @@ def _extract_te_reo_terms(text: str) -> list[str]:
     -------
     list[str]
         A list of Te Reo Māori terms found in the text.
+
     """
     identifier = LanguageIdentifier()
     segments = identifier.detect_code_switching(text)
@@ -127,6 +131,7 @@ def _extract_citations(text: str, nlp: Any) -> list[str]:
     -------
     list[str]
         Detected citation strings.
+
     """
     doc = nlp(text)
     citations: list[str] = []
@@ -186,6 +191,7 @@ def process_legislation(
     >>> out = process_legislation("data/acts/", "output/legislation.parquet")
     >>> print(out)
     ...\\\\output\\\\legislation.parquet
+
     """
     input_files = _collect_input_files(input_path)
     logger.info("Found %d legislation input file(s)", len(input_files))
@@ -193,6 +199,9 @@ def process_legislation(
     nlp = create_nlp_pipeline()
     if "citation_ruler" not in nlp.pipe_names:
         create_citation_ruler(nlp)
+    if "deontic_modality" not in nlp.pipe_names:
+        after = "parser" if "parser" in nlp.pipe_names else None
+        nlp.add_pipe("deontic_modality", after=after)
 
     records: list[PipelineRecord] = []
 
@@ -206,6 +215,10 @@ def process_legislation(
             chunk_text: str = chunk["text"]
             te_reo_terms = _extract_te_reo_terms(chunk_text)
             citations = _extract_citations(chunk_text, nlp)
+            deontic_modality = [
+                annotation.to_dict() for annotation in detect_modality(chunk_text, nlp)
+            ]
+            legal_effect = classify_legal_effect(chunk_text, nlp)
 
             records.append(
                 PipelineRecord(
@@ -216,6 +229,8 @@ def process_legislation(
                     nz_act_citations=citations,
                     te_reo_terms=te_reo_terms,
                     embeddings=None,
+                    deontic_modality=deontic_modality,
+                    legal_effect=legal_effect,
                 )
             )
 
@@ -278,6 +293,7 @@ def process_hansard(
     ...                       "output/hansard.parquet")
     >>> print(out)
     ...\\\\output\\\\hansard.parquet
+
     """
     input_files = _collect_input_files(input_path)
     logger.info("Found %d Hansard input file(s)", len(input_files))
@@ -377,6 +393,7 @@ def search_similar(
     5
     >>> results[0][\"doc_id\"]
     'NZ-ACT-1961-043-SEC-4'
+
     """
     db = Path(db_path).resolve()
     if not db.is_dir():

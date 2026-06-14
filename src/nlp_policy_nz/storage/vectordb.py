@@ -40,6 +40,7 @@ class VectorIndex:
     ...     {"vector": [0.1, 0.2], "doc_id": "doc1", "text": "example"},
     ... ])
     >>> results = idx.search([0.1, 0.2], top_k=5)
+
     """
 
     def __init__(
@@ -78,6 +79,7 @@ class VectorIndex:
         ------
         ValueError
             If ``records`` is empty.
+
         """
         if not records:
             raise ValueError("Cannot create an index with an empty record list.")
@@ -117,6 +119,7 @@ class VectorIndex:
         ------
         RuntimeError
             If the underlying table has not been created yet.
+
         """
         if self._table is None:
             raise RuntimeError("No table available. Call create_index() first.")
@@ -137,6 +140,7 @@ class VectorIndex:
         ------
         RuntimeError
             If the table does not exist yet.
+
         """
         if self._table is None:
             raise RuntimeError("No table available. Call create_index() first.")
@@ -160,6 +164,7 @@ class VectorIndex:
         -------
         bool
             ``True`` if a table with the configured name exists.
+
         """
         return self._table_name in self._db.list_tables().tables
 

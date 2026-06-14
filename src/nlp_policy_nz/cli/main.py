@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 
 from nlp_policy_nz.api import process_hansard, process_legislation, search_similar
-from nlp_policy_nz.integrations.hf_uploader import deploy_space, get_hf_token, push_dataset_to_hub
+from nlp_policy_nz.integrations.hf_uploader import deploy_space, push_dataset_to_hub
 from nlp_policy_nz.integrations.release import ReleaseManager
 from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
 
@@ -37,6 +37,7 @@ def _setup_logging(verbose: bool = False) -> None:
     ----------
     verbose : bool
         If ``True``, set log level to ``DEBUG``; otherwise ``INFO``.
+
     """
     level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(
@@ -53,6 +54,7 @@ def _build_parser() -> argparse.ArgumentParser:
     -------
     argparse.ArgumentParser
         Configured parser with ``process`` and ``search`` subcommands.
+
     """
     parser = argparse.ArgumentParser(
         prog="nlp-policy-nz",
@@ -343,6 +345,7 @@ def main(argv: list[str] | None = None) -> int:
     -------
     int
         Exit code (``0`` on success, ``1`` on failure).
+
     """
     parser = _build_parser()
     args = parser.parse_args(argv)

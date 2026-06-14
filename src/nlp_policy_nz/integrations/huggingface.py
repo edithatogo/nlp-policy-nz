@@ -30,6 +30,7 @@ def get_hf_token() -> str:
 
     Raises:
         ValueError: If the ``HF_TOKEN`` environment variable is not set.
+
     """
     token = os.environ.get(HF_TOKEN_ENV_VAR)
     if not token:
@@ -52,6 +53,7 @@ def _resolve_token(token: str | None) -> str | None:
     Returns:
         The resolved token string, or ``None`` if neither an explicit token
         nor the environment variable is set.
+
     """
     if token is not None:
         return token
@@ -82,6 +84,7 @@ def _load_dataset(
     Raises:
         DatasetLoadError: If the dataset cannot be found, the token lacks
             permissions, or any other loading error occurs.
+
     """
     resolved_token = _resolve_token(token)
     try:
@@ -120,6 +123,7 @@ def load_hansard_dataset(
 
     Raises:
         DatasetLoadError: If the dataset cannot be loaded.
+
     """
     return _load_dataset(
         path="nz-hansard",
@@ -152,6 +156,7 @@ def load_legislation_dataset(
 
     Raises:
         DatasetLoadError: If the dataset cannot be loaded.
+
     """
     return _load_dataset(
         path="nz-legislation",

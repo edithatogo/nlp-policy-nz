@@ -125,14 +125,13 @@ class TestZenodoArchiver:
         with patch(
             "nlp_policy_nz.integrations.zenodo_archive.create_sandbox_deposit",
             side_effect=DepositError("API error", status_code=500),
-        ):
-            with pytest.raises(DepositError, match="API error"):
-                archiver.create_archive(
-                    title="T",
-                    description="D",
-                    creators=[{"name": "A"}],
-                    file_path=str(dummy_file),
-                )
+        ), pytest.raises(DepositError, match="API error"):
+            archiver.create_archive(
+                title="T",
+                description="D",
+                creators=[{"name": "A"}],
+                file_path=str(dummy_file),
+            )
 
 
 class TestArchiveToZenodo:
@@ -233,9 +232,8 @@ class TestGetDoi:
         with patch(
             "nlp_policy_nz.integrations.zenodo_archive.requests.get",
             return_value=mock_resp,
-        ):
-            with pytest.raises(DepositError, match="Failed to fetch deposit"):
-                archiver.get_doi("40400")
+        ), pytest.raises(DepositError, match="Failed to fetch deposit"):
+            archiver.get_doi("40400")
 
 
 class TestProductionEnvironment:

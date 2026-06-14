@@ -29,6 +29,8 @@ SCHEMA_FIELDS: list[str] = [
     "nz_act_citations",
     "te_reo_terms",
     "embeddings",
+    "deontic_modality",
+    "legal_effect",
     # Committee / submissions additive fields
     "submitter_name",
     "committee",
@@ -71,6 +73,10 @@ class PipelineRecord(msgspec.Struct):
         Te Reo Māori terms identified in the document.
     embeddings : list[float] | None
         Optional dense vector embedding generated downstream.
+    deontic_modality : list[dict[str, str | int | None]]
+        Deontic modality annotations detected in the text.
+    legal_effect : str | None
+        LKIF-inspired legal effect category for the record.
 
     ---- Additive committee / submission fields (optional) ----
     submitter_name : str | None
@@ -91,6 +97,7 @@ class PipelineRecord(msgspec.Struct):
         Findings extracted from the report.
     recommendations : list[str] | None
         Recommendations extracted from the report.
+
     """
 
     doc_id: str
@@ -100,6 +107,8 @@ class PipelineRecord(msgspec.Struct):
     nz_act_citations: list[str]
     te_reo_terms: list[str]
     embeddings: list[float] | None = None
+    deontic_modality: list[dict[str, str | int | None]] = msgspec.field(default_factory=list)
+    legal_effect: str | None = None
 
     # ---- Additive committee / submission fields (optional) ----
     submitter_name: str | None = None
@@ -135,6 +144,7 @@ def records_to_dataframe(records: Sequence[PipelineRecord]) -> Any:
     ------
     ValueError
         If *records* is empty.
+
     """
     if not records:
         msg = "Cannot create a DataFrame from an empty sequence of records."
@@ -149,6 +159,8 @@ def records_to_dataframe(records: Sequence[PipelineRecord]) -> Any:
         data["nz_act_citations"].append(rec.nz_act_citations)
         data["te_reo_terms"].append(rec.te_reo_terms)
         data["embeddings"].append(rec.embeddings)
+        data["deontic_modality"].append(rec.deontic_modality)
+        data["legal_effect"].append(rec.legal_effect)
         # Additive committee / submission fields
         data["submitter_name"].append(rec.submitter_name)
         data["committee"].append(rec.committee)
@@ -188,6 +200,7 @@ def serialize_to_parquet(
     ------
     ValueError
         If *records* is empty.
+
     """
     output_path = Path(path).resolve()
     df = records_to_dataframe(records)
@@ -214,6 +227,7 @@ def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
     ------
     FileNotFoundError
         If the file at *path* does not exist.
+
     """
     src = Path(path).resolve()
     if not src.is_file():
@@ -234,6 +248,12 @@ def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
                 nz_act_citations=list(row["nz_act_citations"]),
                 te_reo_terms=list(row["te_reo_terms"]),
                 embeddings=(list(row["embeddings"]) if row["embeddings"] is not None else None),
+                deontic_modality=(
+                    [dict(item) for item in row["deontic_modality"]]
+                    if row.get("deontic_modality") is not None
+                    else []
+                ),
+                legal_effect=row.get("legal_effect"),
                 # Additive committee / submission fields
                 submitter_name=row.get("submitter_name"),
                 committee=row.get("committee"),
@@ -271,6 +291,7 @@ def deserialize_to_dataframe(path: str | Path) -> Any:
     ------
     FileNotFoundError
         If the file at *path* does not exist.
+
     """
     src = Path(path).resolve()
     if not src.is_file():

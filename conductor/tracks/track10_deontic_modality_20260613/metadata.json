@@ -1,8 +1,10 @@
 {
   "track_id": "track10_deontic_modality_20260613",
   "type": "feature",
-  "status": "pending",
+  "status": "completed",
   "created_at": "2026-06-13T00:00:00Z",
-  "updated_at": "2026-06-13T00:00:00Z",
-  "description": "Extract deontic modality (obligation, permission, prohibition) from NZ legislation. Essential for corpus-law-nz binding obligation detection."
+  "updated_at": "2026-06-14T22:15:00Z",
+  "description": "Extract deontic modality (obligation, permission, prohibition) from NZ legislation. Essential for corpus-law-nz binding obligation detection.",
+  "swarm_run": "20260614-194645",
+  "oracle_notes": "Track 10 completed. modality.py (198 lines): DeonticModalityDetector with @Language.factory, scope resolution, token extensions. effects.py (92 lines): LegalEffect enum (7 LKIF categories), classify_legal_effect() with spaCy pipeline + regex fallback. 67 new tests (40 modality + 27 effects) all passing. serialization.py and pipeline_api.py updated with deontic_modality and legal_effect fields."
 }

@@ -37,6 +37,7 @@ class LanguageResult(msgspec.Struct, frozen=True):
     is_reliable : bool
         ``True`` when *confidence* meets or exceeds
         :data:`LANGUAGE_MIIO_CONFIDENCE`.
+
     """
 
     language: str
@@ -62,6 +63,7 @@ class LanguageIdentifier:
         Confidence threshold used to populate
         :attr:`LanguageResult.is_reliable`.  Defaults to
         :data:`LANGUAGE_MIIO_CONFIDENCE`.
+
     """
 
     def __init__(self, min_confidence: float = LANGUAGE_MIIO_CONFIDENCE) -> None:
@@ -87,6 +89,7 @@ class LanguageIdentifier:
         LanguageResult
             Detection result with ISO code, confidence score, and
             reliability flag.
+
         """
         if not text or not text.strip():
             return LanguageResult(language="en", confidence=0.0, is_reliable=False)
@@ -116,6 +119,7 @@ class LanguageIdentifier:
         -------
         list[LanguageResult]
             A detection result for each input sentence, preserving order.
+
         """
         return [self.detect(s) for s in sentences]
 
@@ -138,6 +142,7 @@ class LanguageIdentifier:
             each segment is a maximal contiguous substring identified
             as being in that language.  The concatenation of all
             segments reconstructs the original *text*.
+
         """
         if not text or not text.strip():
             return []
@@ -169,6 +174,7 @@ class LanguageIdentifier:
         str
             ``\"en\"`` for English, ``\"mi\"`` for Māori, or ``\"un\"``
             (unknown) when *language* is ``None`` or unrecognised.
+
         """
         if language is None:
             return "un"

@@ -34,6 +34,7 @@ class DataRecord(msgspec.Struct, frozen=True):
         URL to the archived deposit page (e.g. Zenodo record page).
     recorded_at : str
         ISO-8601 UTC timestamp of when this record was created.
+
     """
 
     dataset_id: str
@@ -60,6 +61,7 @@ class DataSovereigntyRegistry:
     registry_path : str | None
         Filesystem path to the JSON registry file. If ``None``, defaults to
         ``./data_registry.json`` relative to the current working directory.
+
     """
 
     def __init__(self, registry_path: str | None = None) -> None:
@@ -102,6 +104,7 @@ class DataSovereigntyRegistry:
         -------
         DataRecord
             The newly created (or updated) record.
+
         """
         recorded_at = datetime.now(UTC).isoformat()
 
@@ -133,6 +136,7 @@ class DataSovereigntyRegistry:
         -------
         DataRecord | None
             The matching record, or ``None`` if no record is found.
+
         """
         for record in self._records:
             if record.dataset_id == dataset_id:
@@ -146,6 +150,7 @@ class DataSovereigntyRegistry:
         -------
         list[DataRecord]
             A copy of the internal list of records.
+
         """
         return list(self._records)
 

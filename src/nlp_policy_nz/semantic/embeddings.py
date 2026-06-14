@@ -41,6 +41,7 @@ class EmbeddingResult(msgspec.Struct):
         Name or path of the model that generated the embedding.
     dimension : int
         Dimensionality of the embedding vector.
+
     """
 
     doc_id: str
@@ -71,6 +72,7 @@ def _mean_pooling(token_embeddings: torch.Tensor, attention_mask: torch.Tensor) 
     -------
     torch.Tensor
         Mean-pooled embeddings of shape ``(batch_size, hidden_dim)``.
+
     """
     input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
     sum_embeddings = torch.sum(token_embeddings * input_mask_expanded, dim=1)
@@ -104,6 +106,7 @@ def generate_embedding(
     -------
     list[float]
         The embedding vector as a Python list of floats.
+
     """
     inputs = tokenizer(
         text,
@@ -151,6 +154,7 @@ def generate_embeddings_batch(
     -------
     list[list[float]]
         A list of embedding vectors, one per input text.
+
     """
     all_embeddings: list[list[float]] = []
 
@@ -204,6 +208,7 @@ class EmbeddingGenerator:
     ...     result = gen.embed("Some policy text")
     ...     print(result.dimension)
     768
+
     """
 
     def __init__(
@@ -281,6 +286,7 @@ class EmbeddingGenerator:
         -------
         EmbeddingResult
             A struct containing the embedding vector, metadata, and model info.
+
         """
         embedding = generate_embedding(text, self.model, self.tokenizer)
         return EmbeddingResult(
@@ -310,6 +316,7 @@ class EmbeddingGenerator:
         -------
         list[EmbeddingResult]
             One struct per input text.
+
         """
         if doc_ids is None:
             doc_ids = [""] * len(texts)

@@ -13,7 +13,6 @@ from typing import Any
 
 import requests
 
-
 from nlp_policy_nz.integrations.zenodo import (
     DepositError,
     create_sandbox_deposit,
@@ -40,6 +39,7 @@ class ZenodoArchiver:
     environment : str
         ``"sandbox"`` (default) or ``"production"`` — selects the target
         Zenodo API and the fallback environment variable for the token.
+
     """
 
     def __init__(self, token: str | None = None, environment: str = "sandbox") -> None:
@@ -53,6 +53,7 @@ class ZenodoArchiver:
         environment : str
             ``"sandbox"`` (default) or ``"production"`` — selects the target
             Zenodo API and the fallback environment variable for the token.
+
         """
         self._token = token
         self._environment = environment
@@ -64,6 +65,7 @@ class ZenodoArchiver:
         -------
         str
             The resolved personal access token.
+
         """
         if self._token is not None:
             return self._token
@@ -104,6 +106,7 @@ class ZenodoArchiver:
             If *file_path* does not exist.
         DepositError
             If any step of the Zenodo API workflow fails.
+
         """
         file_path = Path(file_path)
         if not file_path.is_file():
@@ -157,9 +160,9 @@ class ZenodoArchiver:
         ------
         DepositError
             If the API request fails.
+
         """
         from nlp_policy_nz.integrations.zenodo import (
-
             _get_api_url,
             _headers,
         )  # noqa: PLC0415
@@ -220,6 +223,7 @@ def archive_to_zenodo(
         If *file_path* does not exist.
     DepositError
         If any step of the Zenodo API workflow fails.
+
     """
     archiver = ZenodoArchiver(token=token, environment=environment)
     return archiver.create_archive(

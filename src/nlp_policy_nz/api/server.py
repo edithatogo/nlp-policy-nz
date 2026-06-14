@@ -188,8 +188,7 @@ async def _run_inline_pipeline(request, t0):
         from nlp_policy_nz.semantic import generate_embedding
         from nlp_policy_nz.semantic.model_loader import load_model
         from nlp_policy_nz.storage.serialization import PipelineRecord
-        from nlp_policy_nz.syntactic import (create_citation_ruler,
-                                               create_nlp_pipeline)
+        from nlp_policy_nz.syntactic import create_citation_ruler, create_nlp_pipeline
     except Exception as exc:
         raise HTTPException(status_code=500,
             detail=f"Failed to import pipeline modules: {exc}") from exc

@@ -1,9 +1,13 @@
 """Tests for the FastAPI inference server."""
 from __future__ import annotations
+
 from unittest.mock import MagicMock, patch
+
 import pytest
 from fastapi.testclient import TestClient
+
 from nlp_policy_nz.api.server import app
+
 
 @pytest.fixture
 def client() -> TestClient:

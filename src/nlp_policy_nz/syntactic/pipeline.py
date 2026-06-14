@@ -7,15 +7,10 @@ EntityRuler-based citation matching.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import spacy
 from spacy.language import Language
 
 from nlp_policy_nz.guard import create_maori_guard_component
-
-if TYPE_CHECKING:
-    pass
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -56,6 +51,7 @@ def create_nlp_pipeline(model: str = "en_core_web_sm") -> Language:
         >>> nlp = create_nlp_pipeline()
         >>> "maori_guard" in nlp.pipe_names
         True
+
     """
     nlp: Language = spacy.load(model)
     create_maori_guard_component(nlp)

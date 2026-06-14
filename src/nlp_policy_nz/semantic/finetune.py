@@ -89,6 +89,7 @@ class FineTuneConfig(msgspec.Struct):
         Repository ID on the Hugging Face Hub when ``push_to_hub`` is
         ``True`` (e.g. ``"my-org/nz-legal-bert"``).
         Defaults to ``""``.
+
     """
 
     model_name: str = DEFAULT_MODEL
@@ -130,6 +131,7 @@ def load_training_data(parquet_paths: list[str], max_length: int = DEFAULT_MAX_L
         If any of the provided Parquet paths do not exist.
     ValueError
         If none of the Parquet files contain a ``raw_text`` column.
+
     """
     missing = [p for p in parquet_paths if not os.path.exists(p)]
     if missing:
@@ -187,6 +189,7 @@ def finetune_model(config: FineTuneConfig, parquet_paths: list[str]) -> str:
     str
         Absolute path to the directory where the fine-tuned model and
         tokenizer have been saved.
+
     """
     # --- data ---
     dataset = load_training_data(parquet_paths, max_length=config.max_length)

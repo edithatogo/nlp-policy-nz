@@ -137,6 +137,7 @@ def generate_dataset_card(
     -------
     str
         The complete dataset card content (YAML + markdown).
+
     """
     if year is None:
         year = datetime.date.today().year
@@ -187,6 +188,7 @@ def write_dataset_card(
     -------
     Path
         The resolved path of the written file.
+
     """
     dest = Path(path).resolve()
     content = generate_dataset_card(**kwargs)

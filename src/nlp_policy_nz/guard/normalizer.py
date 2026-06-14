@@ -99,6 +99,7 @@ def _replace_double_vowels(word: str) -> str:
 
     Returns:
         The word with double-vowel digraphs replaced by macron vowels.
+
     """
     result = list(word)
     i = 0
@@ -140,6 +141,7 @@ def normalize_text(text: str) -> str:
     Example:
         >>> normalize_text("Maaori kawanatanga")
         'Māori kāwanatanga'
+
     """
     # Step 1: NFC recomposition
     result = unicodedata.normalize("NFC", text)
@@ -181,6 +183,7 @@ def is_macronized(text: str) -> bool:
         True
         >>> is_macronized("Maori")
         False
+
     """
     return any(ch in MACRON_SET for ch in text)
 
@@ -202,5 +205,6 @@ def preserve_macrons(text: str) -> str:
     Example:
         >>> preserve_macrons("Ma\\u0304ori")  # decomposed 'ā'
         'Māori'
+
     """
     return unicodedata.normalize("NFC", text)

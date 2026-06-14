@@ -50,6 +50,7 @@ class PolicyGraph:
     >>> graph.add_citation("speech-1", "act-1", "See section 29")
     >>> graph.query_acts_mentioned_in_speech("speech-1")
     ['act-1']
+
     """
 
     # ------------------------------------------------------------------
@@ -72,6 +73,7 @@ class PolicyGraph:
         -------
         nx.DiGraph
             The internal graph object, exposed for advanced inspection.
+
         """
         return self._graph
 
@@ -98,6 +100,7 @@ class PolicyGraph:
             Year the act was enacted.
         **metadata:
             Additional key-value pairs stored on the node.
+
         """
         self._graph.add_node(
             act_id,
@@ -129,6 +132,7 @@ class PolicyGraph:
             Full transcript text of the speech.
         **metadata:
             Additional key-value pairs stored on the node.
+
         """
         self._graph.add_node(
             speech_id,
@@ -162,6 +166,7 @@ class PolicyGraph:
             Identifier of the target act node.
         context:
             Optional snippet or context describing why the act was cited.
+
         """
         attrs: dict[str, Any] = {"relation": "cites"}
         if context is not None:
@@ -184,6 +189,7 @@ class PolicyGraph:
             Identifier of the target section node.
         **metadata:
             Additional key-value pairs stored on the edge.
+
         """
         self._graph.add_edge(
             speech_id,
@@ -208,6 +214,7 @@ class PolicyGraph:
         -------
         list[str]
             Sorted list of act identifiers that the speech cites.
+
         """
         if speech_id not in self._graph:
             return []
@@ -229,6 +236,7 @@ class PolicyGraph:
         -------
         list[str]
             Sorted list of speech identifiers that cite the act.
+
         """
         if act_id not in self._graph:
             return []
@@ -253,6 +261,7 @@ class PolicyGraph:
         -------
         list[tuple[str, int]]
             List of ``(act_id, citation_count)`` tuples in descending order.
+
         """
         counts: dict[str, int] = {}
         for node, data in self._graph.nodes(data=True):
@@ -282,6 +291,7 @@ class PolicyGraph:
         list[tuple[str, int]]
             List of ``(speaker_name, citation_count)`` tuples in descending
             order.
+
         """
         speaker_counts: dict[str, int] = {}
         for node, data in self._graph.nodes(data=True):
@@ -309,6 +319,7 @@ class PolicyGraph:
         -------
         dict[str, Any]
             A dictionary representation using NetworkX's node-link format.
+
         """
         return nx.node_link_data(self._graph)
 
@@ -319,6 +330,7 @@ class PolicyGraph:
         ----------
         path:
             Filesystem path for the output JSON file.
+
         """
         data = self.to_dict()
         Path(path).write_text(
@@ -340,6 +352,7 @@ class PolicyGraph:
         -------
         Self
             A new ``PolicyGraph`` instance with the restored graph.
+
         """
         data = json.loads(Path(path).read_text(encoding="utf-8"))
         graph = cls()
