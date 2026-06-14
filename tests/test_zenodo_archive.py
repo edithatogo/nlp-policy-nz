@@ -7,7 +7,7 @@ retrieval.
 
 from __future__ import annotations
 
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -90,15 +90,15 @@ class TestZenodoArchiver:
         archiver = ZenodoArchiver(token="tok-123")
 
         with (
-            pytest.mock.patch(
+            patch(
                 "nlp_policy_nz.integrations.zenodo_archive.create_sandbox_deposit",
                 return_value=mock_deposit_response,
             ) as mock_create,
-            pytest.mock.patch(
+            patch(
                 "nlp_policy_nz.integrations.zenodo_archive.upload_file_to_deposit",
                 return_value=mock_upload_response,
             ) as mock_upload,
-            pytest.mock.patch(
+            patch(
                 "nlp_policy_nz.integrations.zenodo_archive.publish_deposit",
                 return_value=mock_publish_response,
             ) as mock_publish,
@@ -122,7 +122,7 @@ class TestZenodoArchiver:
 
         archiver = ZenodoArchiver(token="tok")
 
-        with pytest.mock.patch(
+        with patch(
             "nlp_policy_nz.integrations.zenodo_archive.create_sandbox_deposit",
             side_effect=DepositError("API error", status_code=500),
         ):
@@ -150,15 +150,15 @@ class TestArchiveToZenodo:
         dummy_file.write_bytes(b"parquet-data")
 
         with (
-            pytest.mock.patch(
+            patch(
                 "nlp_policy_nz.integrations.zenodo_archive.create_sandbox_deposit",
                 return_value=mock_deposit_response,
             ),
-            pytest.mock.patch(
+            patch(
                 "nlp_policy_nz.integrations.zenodo_archive.upload_file_to_deposit",
                 return_value=mock_upload_response,
             ),
-            pytest.mock.patch(
+            patch(
                 "nlp_policy_nz.integrations.zenodo_archive.publish_deposit",
                 return_value=mock_publish_response,
             ),
@@ -192,11 +192,11 @@ class TestGetDoi:
         """DOI returned from published deposit."""
         archiver = ZenodoArchiver(token="tok")
 
-        mock_resp = pytest.mock.MagicMock()
+        mock_resp = MagicMock()
         mock_resp.ok = True
         mock_resp.json.return_value = {"doi": "10.5072/zenodo.99999"}
 
-        with pytest.mock.patch(
+        with patch(
             "nlp_policy_nz.integrations.zenodo_archive.requests.get",
             return_value=mock_resp,
         ):
@@ -208,11 +208,11 @@ class TestGetDoi:
         """None returned when deposit has no DOI."""
         archiver = ZenodoArchiver(token="tok")
 
-        mock_resp = pytest.mock.MagicMock()
+        mock_resp = MagicMock()
         mock_resp.ok = True
         mock_resp.json.return_value = {"title": "Draft"}
 
-        with pytest.mock.patch(
+        with patch(
             "nlp_policy_nz.integrations.zenodo_archive.requests.get",
             return_value=mock_resp,
         ):
@@ -224,13 +224,13 @@ class TestGetDoi:
         """DepositError raised on API failure."""
         archiver = ZenodoArchiver(token="tok")
 
-        mock_resp = pytest.mock.MagicMock()
+        mock_resp = MagicMock()
         mock_resp.ok = False
         mock_resp.status_code = 404
         mock_resp.reason = "Not Found"
         mock_resp.text = "not found"
 
-        with pytest.mock.patch(
+        with patch(
             "nlp_policy_nz.integrations.zenodo_archive.requests.get",
             return_value=mock_resp,
         ):

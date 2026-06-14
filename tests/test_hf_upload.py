@@ -386,10 +386,12 @@ class TestUploadIntegration:
     end-to-end when all external API calls are mocked.
     """
 
+    @patch("datasets.Dataset.push_to_hub")
     @patch("nlp_policy_nz.integrations.hf_uploader.HfApi")
     def test_full_upload_flow(
         self,
         mock_api_cls: MagicMock,
+        mock_push_to_hub: MagicMock,
         sample_parquet: Path,
     ) -> None:
         """Verify the complete upload pipeline works end-to-end."""
@@ -409,6 +411,8 @@ class TestUploadIntegration:
 
         assert url == "https://huggingface.co/datasets/user/integration-ds"
         mock_api.create_repo.assert_called_once()
+        mock_push_to_hub.assert_called_once()
+
 
     @patch("nlp_policy_nz.integrations.hf_uploader.HfApi")
     def test_full_deploy_flow(
@@ -421,7 +425,8 @@ class TestUploadIntegration:
         spaces_dir.mkdir()
         (spaces_dir / "app.py").write_text("import gradio as gr")
         (spaces_dir / "requirements.txt").write_text("gradio>=4.0.0")
-        (spaces_dir / "README.md").write_text("---\nemoji: 🔍\n---")
+        (spaces_dir / "README.md").write_text("---\nemoji: 🔍\n---", encoding="utf-8")
+
 
         mock_api = MagicMock()
         mock_api_cls.return_value = mock_api

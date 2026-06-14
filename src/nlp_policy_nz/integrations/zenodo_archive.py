@@ -11,6 +11,9 @@ import logging
 from pathlib import Path
 from typing import Any
 
+import requests
+
+
 from nlp_policy_nz.integrations.zenodo import (
     DepositError,
     create_sandbox_deposit,
@@ -155,9 +158,8 @@ class ZenodoArchiver:
         DepositError
             If the API request fails.
         """
-        import requests  # noqa: PLC0415
-
         from nlp_policy_nz.integrations.zenodo import (
+
             _get_api_url,
             _headers,
         )  # noqa: PLC0415

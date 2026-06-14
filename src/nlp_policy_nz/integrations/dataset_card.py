@@ -37,12 +37,22 @@ _DATASET_CARD_TEMPLATE = """\
 | Column | Type | Description |
 |--------|------|-------------|
 | doc_id | string | Unique document identifier |
-| corpus_source | string | Source corpus (legislation / hansard) |
+| corpus_source | string | Source corpus (legislation / hansard / select_committee etc.) |
 | raw_text | string | Original raw text of the document chunk |
 | cleaned_tokens | list[string] | Tokenised and cleaned tokens |
 | nz_act_citations | list[string] | NZ Act cross-references detected |
 | te_reo_terms | list[string] | Te Reo Maori terms identified |
 | embeddings | list[float] | Dense vector embedding (if generated) |
+| submitter_name | string | Name of the submission author/organisation (submissions) |
+| committee | string | Name of the select or regulations review committee |
+| bill_reference | string | Related bill/act reference |
+| linkage_confidence | float | Confidence score for the bill linkage |
+| challenged_regulation | string | Regulation being challenged (regulations review) |
+| grounds | string | Grounds for challenging the regulation (regulations review) |
+| report_title | string | Title of the select committee report |
+| findings | list[string] | Findings extracted from the report |
+| recommendations | list[string] | Recommendations extracted from the report |
+
 
 ## Usage
 
