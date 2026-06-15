@@ -23,6 +23,7 @@ dependencies = [
     "networkx>=3.0",
     "faiss-cpu>=1.8.0",
     "requests>=2.31.0",
+    "loguru>=0.7.2",
     "datasets>=2.19.0",
     "huggingface_hub>=0.23.0",
     "gradio>=4.0.0",
@@ -171,3 +172,7 @@ directory = "coverage_html"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+
+[tool.legal_nz]
+versioning = "semver"
+logging = "loguru"
