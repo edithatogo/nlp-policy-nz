@@ -243,6 +243,15 @@ class TestClassifyRights:
         """Verify third fixture record is classified as restricted."""
         assert classify_rights(sample_records[2]) == "restricted"
 
+
+# ---------------------------------------------------------------------------
+# Normalisation tests
+# ---------------------------------------------------------------------------
+
+
+class TestNormaliseRecord:
+    """Tests for record normalisation to the Open NZ Corpus schema."""
+
     def test_normalise_restricted_record(
         self,
         sample_records: list[DigitalNZRecord],
@@ -266,6 +275,38 @@ class TestClassifyRights:
         rec = DigitalNZRecord(record_id=99, title="No date")
         nrec = normalise_record(rec)
         assert nrec.published_date is None
+
+    def test_normalise_open_record(
+        self,
+        sample_records: list[DigitalNZRecord],
+    ) -> None:
+        """Verify an open-licensed record is normalised correctly."""
+        nrec = normalise_record(sample_records[0])
+        assert nrec.display_title == sample_records[0].title
+        assert nrec.description == sample_records[0].description
+        assert nrec.creator == sample_records[0].creator
+        assert nrec.published_date == "1920-01-01T12:00:00.000Z"
+        assert nrec.rights_classification == "open"
+        assert "creativecommons" in nrec.rights_note.lower()
+        assert nrec.source_url == sample_records[0].landing_url
+        assert nrec.source_name == "Dunedin City Library"
+        assert nrec.collection == "TAPUHI"
+        assert nrec.category == ["Images"]
+
+    def test_normalise_no_identifier(self) -> None:
+        """Record with no dc_identifier has None canonical_uri."""
+        rec = DigitalNZRecord(record_id=100, title="No identifier")
+        nrec = normalise_record(rec)
+        assert nrec.canonical_uri is None
+
+    def test_normalise_preserves_raw_record_ref(
+        self,
+        sample_records: list[DigitalNZRecord],
+    ) -> None:
+        """Verify raw_record reference is preserved."""
+        nrec = normalise_record(sample_records[0])
+        assert nrec.raw_record is sample_records[0]
+
 
 # ---------------------------------------------------------------------------
 # Probe class tests (with mocked HTTP)
@@ -346,6 +387,44 @@ class TestDigitalNZProbe:
         elapsed = time.monotonic() - start
         assert elapsed >= 0.1
 
+    def test_search_all_breaks_when_no_more_results(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """Verify search_all stops when API returns fewer results."""
+        probe = DigitalNZProbe()
+        call_count: int = 0
+
+        def _one_page_mock(
+            self: Any,  # noqa: ARG001, ARG002
+            url: str,  # noqa: ARG001
+            **kwargs: Any,  # noqa: ARG001, ARG002
+        ) -> requests.Response:
+            nonlocal call_count
+            call_count += 1
+            data = {
+                "search": {
+                    "page": 1,
+                    "per_page": 2,
+                    "result_count": 2,
+                    "results": [
+                        {"id": i, "title": f"Record {i}"}
+                        for i in range(1, 3)
+                    ],
+                }
+            }
+            resp = requests.Response()
+            resp.status_code = 200
+            resp._content = json.dumps(data).encode("utf-8")
+            resp.headers["Content-Type"] = "application/json"
+            return resp
+
+        monkeypatch.setattr("requests.Session.get", _one_page_mock)
+        result = probe.search_all(query="test", max_results=10)
+        assert len(result.records) == 2
+        assert call_count == 1
+
+
 # ---------------------------------------------------------------------------
 # Pagination tests
 # ---------------------------------------------------------------------------
@@ -399,6 +478,7 @@ class TestPagination:
         result = probe.search_all(query="test", max_results=3)
         assert len(result.records) == 2
         assert call_count == 1
+
 
 # ---------------------------------------------------------------------------
 # CLI tests
@@ -502,82 +582,5 @@ class TestCLI:
         assert len(data["records"]) == 3
         assert "display_title" in data["records"][0]
         assert "rights_classification" in data["records"][0]
-
-    def test_search_all_breaks_when_no_more_results(
-        self,
-        monkeypatch: pytest.MonkeyPatch,
-    ) -> None:
-        """Verify search_all stops when API returns fewer results."""
-        probe = DigitalNZProbe()
-        call_count: int = 0
-
-        def _one_page_mock(
-            self: Any,  # noqa: ARG001, ARG002
-            url: str,  # noqa: ARG001
-            **kwargs: Any,  # noqa: ARG001, ARG002
-        ) -> requests.Response:
-            nonlocal call_count
-            call_count += 1
-            data = {
-                "search": {
-                    "page": 1,
-                    "per_page": 2,
-                    "result_count": 2,
-                    "results": [
-                        {"id": i, "title": f"Record {i}"}
-                        for i in range(1, 3)
-                    ],
-                }
-            }
-            resp = requests.Response()
-            resp.status_code = 200
-            resp._content = json.dumps(data).encode("utf-8")
-            resp.headers["Content-Type"] = "application/json"
-            return resp
-
-        monkeypatch.setattr("requests.Session.get", _one_page_mock)
-        result = probe.search_all(query="test", max_results=10)
-        assert len(result.records) == 2
-        assert call_count == 1
-
-
-# ---------------------------------------------------------------------------
-# Normalisation tests
-# ---------------------------------------------------------------------------
-
-
-class TestNormaliseRecord:
-    """Tests for record normalisation to the Open NZ Corpus schema."""
-
-    def test_normalise_open_record(
-        self,
-        sample_records: list[DigitalNZRecord],
-    ) -> None:
-        """Verify an open-licensed record is normalised correctly."""
-        nrec = normalise_record(sample_records[0])
-        assert nrec.display_title == sample_records[0].title
-        assert nrec.description == sample_records[0].description
-        assert nrec.creator == sample_records[0].creator
-        assert nrec.published_date == "1920-01-01T12:00:00.000Z"
-        assert nrec.rights_classification == "open"
-        assert "creativecommons" in nrec.rights_note.lower()
-        assert nrec.source_url == sample_records[0].landing_url
-        assert nrec.source_name == "Dunedin City Library"
-        assert nrec.collection == "TAPUHI"
-        assert nrec.category == ["Images"]
-
-    def test_normalise_no_identifier(self) -> None:
-        """Record with no dc_identifier has None canonical_uri."""
-        rec = DigitalNZRecord(record_id=100, title="No identifier")
-        nrec = normalise_record(rec)
-        assert nrec.canonical_uri is None
-
-    def test_normalise_preserves_raw_record_ref(
-        self,
-        sample_records: list[DigitalNZRecord],
-    ) -> None:
-        """Verify raw_record reference is preserved."""
-        nrec = normalise_record(sample_records[0])
-        assert nrec.raw_record is sample_records[0]
 
 
