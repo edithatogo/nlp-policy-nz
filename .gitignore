@@ -46,3 +46,4 @@ output/
 # Temporary diagnostics
 ruff_out.txt
 pixi_*.txt
+/_*.py

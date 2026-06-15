@@ -1,0 +1,29 @@
+{
+  "record": {
+    "id": 1234567,
+    "title": "Tram going up Maori Hill in Dunedin",
+    "description": "A historical photograph of a tram traveling up Maori Hill in Dunedin, New Zealand, circa 1920s.",
+    "creator": ["Not specified"],
+    "date": ["1920-01-01T12:00:00.000Z"],
+    "display_date": "1920s",
+    "display_collection": "TAPUHI",
+    "display_content_partner": "Dunedin City Library",
+    "category": ["Images"],
+    "rights": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "rights_url": ["http://creativecommons.org/licenses/by-nc-sa/4.0/"],
+    "copyright": ["Some rights reserved"],
+    "usage": ["Share", "Modify", "Use non-commercially"],
+    "landing_url": "https://ndhadeliver.natlib.govt.nz/delivery/DeliveryManagerServlet?dps_pid=IE1234567",
+    "thumbnail_url": "https://ndhadeliver.natlib.govt.nz/delivery/DeliveryManagerServlet?dps_pid=IE1234567&jpg=true",
+    "large_thumbnail_url": null,
+    "source_url": "http://api.digitalnz.org/records/1234567/source",
+    "content_partner": ["Dunedin City Library"],
+    "dc_identifier": ["http://www.dunedinlibrary.govt.nz/photos/1234567"],
+    "dnz_type": "Images",
+    "tag": ["tram", "Maori Hill", "Dunedin", "1920s"],
+    "language": ["en"],
+    "provenance": "Harvested from Dunedin City Library",
+    "subject": ["Trams", "Transport", "Dunedin", "Maori Hill"],
+    "publisher": ["Dunedin City Library"]
+  }
+}
