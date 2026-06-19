@@ -243,6 +243,8 @@ class TargetSchemaEmitter:
             return self._emit_akoma_ntoso(doc, chunk_id, structural_type)
         if "PARLACAP" in standard:
             return self._emit_parlacap_jsonl(doc, chunk_id, structural_type)
+        if "CATALA" in standard:
+            return self._emit_catala_dsl(doc, chunk_id, structural_type)
         raise ValueError(f"Unknown target schema: {self.config.target_schema_standard}")
 
     def _emit_parlamint_tei(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
@@ -272,8 +274,60 @@ class TargetSchemaEmitter:
 
     def _emit_akoma_ntoso(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
         """Serializes into complete Akoma-Ntoso XML layout with Identification Metadata blocks."""
+        # Māori Language Guard Integration (Token-based lexical matching & macron detection)
+        from nlp_policy_nz.guard.normalizer import is_macronized
+        from nlp_policy_nz.guard.tokenizer_exceptions import TE_REO_LEXICAL_ATOM_SET
+
+        processed_tokens = []
+        tikanga_ontology = {
+            "kaitiakitanga": "kaitiakitanga",
+            "manaakitanga": "manaakitanga",
+            "taonga": "taonga",
+            "rangatiratanga": "rangatiratanga",
+            "mana": "mana",
+            "tapu": "tapu",
+            "kāwanatanga": "kawanatanga",
+            "ture": "ture",
+            "whānau": "whanau",
+            "hapū": "hapu",
+            "iwi": "iwi",
+            "tikanga": "tikanga",
+        }
+        for token in doc:
+            word = token.text
+            # Clean punctuation to match dictionary
+            clean_word = re.sub(r'[^\w\u0100-\u017F]', '', word)
+            clean_word_lower = clean_word.lower()
+            is_maori = clean_word in TE_REO_LEXICAL_ATOM_SET or is_macronized(clean_word)
+            
+            if is_maori:
+                if clean_word_lower in tikanga_ontology:
+                    ref = tikanga_ontology[clean_word_lower]
+                    processed_tokens.append(f'<phrase xml:lang="mi" refersTo="#tikanga_{ref}">{word}</phrase>')
+                else:
+                    processed_tokens.append(f'<phrase xml:lang="mi">{word}</phrase>')
+            else:
+                processed_tokens.append(word)
+            
+            if token.whitespace_:
+                processed_tokens.append(token.whitespace_)
+        processed_text = "".join(processed_tokens)
+
+        # Parse definitions (isomorphic isolation)
+        definition_match = re.search(r'(“[^”]+”|"[^"]+"|\b[A-Za-z\s]+\b)\s+(means|includes)', processed_text, re.IGNORECASE)
+        if definition_match:
+            term = definition_match.group(1)
+            processed_text = processed_text.replace(term, f'<definition>{term}</definition>', 1)
+
+        import subprocess
+        try:
+            git_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
+        except Exception:
+            git_commit = "unknown"
+        from nlp_policy_nz import __version__
+
         lines = []
-        lines.append("<akomaNtoso>")
+        lines.append('<akomaNtoso xmlns="http://oasis-open.org">')
         lines.append(f'  <{struct_type} id="{chunk_id}">')
         lines.append("    <meta>")
         lines.append('      <identification source="#nlp_policy_nz">')
@@ -286,16 +340,59 @@ class TargetSchemaEmitter:
         )
         lines.append("        </FRBRWork>")
         lines.append("      </identification>")
+        lines.append('      <references source="#nlp_policy_nz">')
+        lines.append(f'        <TLCConcept id="prov_pipeline_version" href="/ontology/concept/prov/pipeline_version" showAs="nlp-policy-nz-v{__version__}"/>')
+        lines.append(f'        <TLCConcept id="prov_git_commit" href="/ontology/concept/prov/git_commit" showAs="{git_commit}"/>')
+        lines.append("      </references>")
         lines.append("    </meta>")
         lines.append("    <body>")
         lines.append("      <mainBody>")
         lines.append("        <content>")
-        lines.append(f"          <p>{doc.text}</p>")
+        lines.append(f"          <p>{processed_text}</p>")
         lines.append("        </content>")
         lines.append("      </mainBody>")
         lines.append("    </body>")
         lines.append(f"  </{struct_type}>")
         lines.append("</akomaNtoso>")
+
+        # LegalRuleML Injection (Deontic Mapping)
+        annotations = doc._.get("modality_annotations") if doc.has_extension("modality_annotations") else None
+        if not annotations:
+            from nlp_policy_nz.legal.modality import detect_modality
+            try:
+                temp_nlp = spacy.blank("en")
+                annotations = detect_modality(doc.text, temp_nlp)
+            except Exception:
+                annotations = []
+
+        if annotations:
+            lines.append('<legalRuleML xmlns="http://oasis-open.org">')
+            for idx, ann in enumerate(annotations):
+                rule_id = f"rule_{chunk_id}_sub_{idx+1}"
+                strength = ann.modality.value.capitalize()
+                
+                # Check for Exception patterns (Catala DSL isolation)
+                is_exception = False
+                if ann.scope and any(kw in ann.scope.lower() for kw in ["does not apply", "except", "unless", "provided that"]):
+                    is_exception = True
+                
+                if is_exception:
+                    lines.append(f'  <Rule id="{rule_id}_exception">')
+                    lines.append("    <Strength>Exception</Strength>")
+                    if idx > 0:
+                        lines.append(f"    <AppliesTo>rule_{chunk_id}_sub_{idx}</AppliesTo>")
+                    else:
+                        lines.append(f"    <AppliesTo>rule_{chunk_id}_sub_1</AppliesTo>")
+                    lines.append(f"    <Condition>{ann.scope}</Condition>")
+                    lines.append("  </Rule>")
+                else:
+                    lines.append(f'  <Rule id="{rule_id}">')
+                    lines.append(f"    <Strength>{strength}</Strength>")
+                    lines.append("    <Actor>Subject</Actor>")
+                    lines.append(f"    <Action>{ann.scope or ann.trigger}</Action>")
+                    lines.append("  </Rule>")
+            lines.append("</legalRuleML>")
+
         return "\n".join(lines)
 
     def _emit_parlacap_jsonl(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
@@ -321,6 +418,64 @@ class TargetSchemaEmitter:
             "tokens": tokens,
         }
         return json.dumps(data)
+
+    def _emit_catala_dsl(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
+        """Serializes into an executable Catala DSL module template."""
+        annotations = doc._.get("modality_annotations") if doc.has_extension("modality_annotations") else None
+        if not annotations:
+            from nlp_policy_nz.legal.modality import detect_modality
+            try:
+                temp_nlp = spacy.blank("en")
+                annotations = detect_modality(doc.text, temp_nlp)
+            except Exception:
+                annotations = []
+
+        lines = []
+        struct_name = "".join(x.title() for x in chunk_id.replace("-", "_").split("_"))
+        lines.append(f"# {struct_type.capitalize()} {chunk_id}")
+        lines.append(f"declaration structure {struct_name}:")
+
+        conditions = []
+        actions = []
+
+        for idx, ann in enumerate(annotations):
+            strength = ann.modality.value
+            action = ann.scope or ann.trigger
+
+            # Simple sanitization for variable names
+            var_action = re.sub(r'[^a-zA-Z0-9_]', '_', action.lower()).strip('_')
+            var_action = re.sub(r'_+', '_', var_action)[:40]
+
+            is_exception = False
+            if ann.scope and any(kw in ann.scope.lower() for kw in ["does not apply", "except", "unless", "provided that"]):
+                is_exception = True
+
+            if is_exception:
+                conditions.append(var_action)
+            else:
+                actions.append((var_action, strength))
+
+        lines.append("  input applicant: boolean")
+        for cond in conditions:
+            lines.append(f"  input {cond}: boolean")
+        for act, strength in actions:
+            lines.append(f"  output {act}: boolean")
+
+        lines.append("")
+
+        for act, strength in actions:
+            lines.append(f"rule {struct_name}.{act} equals")
+            val = "true" if strength in ("obligation", "permission") else "false"
+
+            if conditions:
+                cond_str = " and ".join(f"not {c}" for c in conditions)
+                lines.append(f"  {val} under condition")
+                lines.append(f"    {cond_str}")
+                lines.append("  otherwise false")
+            else:
+                lines.append(f"  {val}")
+
+        return "\n".join(lines)
 
 
 # ---------------------------------------------------------------------------
