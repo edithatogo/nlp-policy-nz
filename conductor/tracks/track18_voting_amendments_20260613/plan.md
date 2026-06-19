@@ -31,18 +31,19 @@ Parse parliamentary voting records (divisions) from Hansard, detect legislative 
 
 ### Phase 1: Voting Record Parser
 **Estimated Effort**: Medium
-**Status**: ⬜ Pending
+**Status**: ✅ Completed
+**Completed At**: 2026-06-19T19:18:00Z
 
 Extract division details from Hansard XML records and produce structured voting data.
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 1.1 | Analyze Hansard division format (sample 50 division records) | [ ] | |
-| 1.2 | Create `src/nlp_policy_nz/parliament/voting.py` with voting record parser — extract motion text, aye/nay/abstain tallies, MP-level votes, outcome | [ ] | |
-| 1.3 | Implement MP-to-vote mapping with party affiliation lookup (from KB) | [ ] | |
-| 1.4 | Write unit tests for voting record parsing covering all division variants | [ ] | |
+| 1.1 | Analyze Hansard division format (sample 50 division records) | [x] | (a39086b) |
+| 1.2 | Create `src/nlp_policy_nz/parliament/voting.py` with voting record parser — extract motion text, aye/nay/abstain tallies, MP-level votes, outcome | [x] | (a39086b) |
+| 1.3 | Implement MP-to-vote mapping with party affiliation lookup (from KB) | [x] | (a39086b) |
+| 1.4 | Write unit tests for voting record parsing covering all division variants | [x] | (a39086b) |
 
-**Checkpoint**: `conductor(checkpoint): Checkpoint end of Phase 1 — Track 18` ⬜
+**Checkpoint**: `conductor(checkpoint): Checkpoint end of Phase 1 — Track 18` ✅ (a39086b)
 
 ### Phase 2: Amendment Detection & Bill Diff
 **Estimated Effort**: Medium-High
