@@ -8,4 +8,4 @@
 ## Phase 2: Zenodo & OSF Mirroring Integration
 - [x] Task: Document Zenodo archival publication schema and script requirements. (b4db2e3)
 - [x] Task: Design OSF optional mirror convenience policy matching sister Hansard/Legislation corpora. (b4db2e3)
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Zenodo & OSF Mirroring Integration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Zenodo & OSF Mirroring Integration' (Protocol in workflow.md) (e3119b7)
