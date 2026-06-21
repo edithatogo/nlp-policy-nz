@@ -3,8 +3,8 @@
 ## Phase 1: Git Remote Mirror Setup
 - [x] Task: Write `.github/workflows/mirror_sync.yml` to support automated SSH mirroring to secondary Git remotes (GitLab and Codeberg). (c4f245e)
 - [x] Task: Configure repository secrets `GITLAB_MIRROR_URL`, `CODEBERG_MIRROR_URL`, and `GIT_MIRROR_SSH_PRIVATE_KEY` on GitHub. (manual verification required)
-- [x] Task: Verify safe workflow behavior for missing mirror URLs or SSH credentials. (pending)
-- [x] Task: Add workflow contract tests for canonical branch triggers, GitLab/Codeberg targets, and empty-credential bypass. (pending)
+- [x] Task: Verify safe workflow behavior for missing mirror URLs or SSH credentials. (1b06018)
+- [x] Task: Add workflow contract tests for canonical branch triggers, GitLab/Codeberg targets, and empty-credential bypass. (1b06018)
 
 ## Phase 2: Zenodo & OSF Mirroring Integration
 - [x] Task: Document Zenodo archival publication schema and script requirements. (b4db2e3)
