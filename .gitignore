@@ -16,6 +16,8 @@ pytest_all.txt
 htmlcov/
 .coverage.*
 .pytest_cache/
+.pytest-basetemp-*/
+.tmp/
 
 # Distribution / packaging
 *.egg-info/

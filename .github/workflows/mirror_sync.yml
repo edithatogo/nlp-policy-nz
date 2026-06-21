@@ -2,7 +2,7 @@ name: Mirror Sync
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   workflow_dispatch:
 
 jobs:
@@ -12,23 +12,48 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - name: Mirror to Secondary Git Remote
+      - name: Mirror to secondary Git remotes
         env:
-          GIT_MIRROR_URL: ${{ secrets.GIT_MIRROR_URL }}
+          GITLAB_MIRROR_URL: ${{ secrets.GITLAB_MIRROR_URL }}
+          CODEBERG_MIRROR_URL: ${{ secrets.CODEBERG_MIRROR_URL }}
           GIT_MIRROR_SSH_PRIVATE_KEY: ${{ secrets.GIT_MIRROR_SSH_PRIVATE_KEY }}
         run: |
-          if [ -z "$GIT_MIRROR_URL" ]; then
-            echo "GIT_MIRROR_URL is not set, skipping mirror."
+          set -euo pipefail
+
+          if [ -z "$GITLAB_MIRROR_URL" ] && [ -z "$CODEBERG_MIRROR_URL" ]; then
+            echo "No mirror URLs configured; skipping mirror sync."
             exit 0
           fi
-          
+
+          if [ -z "$GIT_MIRROR_SSH_PRIVATE_KEY" ]; then
+            echo "Mirror SSH key is not set; skipping mirror sync."
+            exit 0
+          fi
+
           mkdir -p ~/.ssh
-          echo "$GIT_MIRROR_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$GIT_MIRROR_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          
-          # Extract host from git@host:user/repo.git
-          HOST=$(echo $GIT_MIRROR_URL | cut -d'@' -f2 | cut -d':' -f1)
-          ssh-keyscan -t ed25519 $HOST >> ~/.ssh/known_hosts
-          
-          git remote add mirror "$GIT_MIRROR_URL"
-          git push --force --prune mirror HEAD:${{ github.ref }}
+
+          mirror_to_remote() {
+            local remote_name="$1"
+            local mirror_url="$2"
+
+            if [ -z "$mirror_url" ]; then
+              echo "$remote_name mirror URL is not set; skipping."
+              return 0
+            fi
+
+            local host
+            host="$(printf '%s\n' "$mirror_url" | cut -d'@' -f2 | cut -d':' -f1)"
+            if [ -z "$host" ]; then
+              echo "$remote_name mirror URL has no SSH host; skipping."
+              return 0
+            fi
+
+            ssh-keyscan -t ed25519 "$host" >> ~/.ssh/known_hosts
+            git remote add "$remote_name" "$mirror_url"
+            git push --force --prune "$remote_name" HEAD:${{ github.ref }}
+          }
+
+          mirror_to_remote gitlab "$GITLAB_MIRROR_URL"
+          mirror_to_remote codeberg "$CODEBERG_MIRROR_URL"
