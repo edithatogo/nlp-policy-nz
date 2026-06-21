@@ -10,4 +10,5 @@ This track implements multi-git repository mirroring and backup publishing strat
 ## Acceptance Criteria
 - `.github/workflows/mirror_sync.yml` exists and triggers on pushes to main/master branches.
 - Workflow successfully executes dry-run or bypasses when credentials are empty.
+- Workflow supports separate `GITLAB_MIRROR_URL`, `CODEBERG_MIRROR_URL`, and `GIT_MIRROR_SSH_PRIVATE_KEY` secrets.
 - Multi-archive strategy defines Hugging Face (active), Zenodo (planned), and OSF (optional future) targets.
