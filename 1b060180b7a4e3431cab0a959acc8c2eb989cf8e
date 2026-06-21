@@ -13,3 +13,15 @@ Verification:
 
 Residual limitation:
 - Live GitHub secret presence and workflow dispatch success were not verified from the browser in this pass.
+
+Live verification update:
+- GitHub CLI authentication is valid for edithatogo/nlp-policy-nz.
+- Repository secrets currently present: HF_TOKEN, OSF_TOKEN, ZENODO_SANDBOX_TOKEN, ZENODO_TOKEN.
+- Required mirror secrets are not present: GITLAB_MIRROR_URL, CODEBERG_MIRROR_URL, GIT_MIRROR_SSH_PRIVATE_KEY.
+- Pushed verification branch codex/track24-mirror-hardening-verify based on origin/master with only the Track 24 hardening commits.
+- Manually dispatched Mirror Sync on that branch: https://github.com/edithatogo/nlp-policy-nz/actions/runs/27908784029
+- Run 27908784029 completed successfully and logged: No mirror URLs configured; skipping mirror sync.
+
+Residual limitation:
+- The safe no-secret bypass is live-verified.
+- Actual GitLab/Codeberg mirroring cannot be verified until mirror URLs and an SSH private key are supplied/configured.
