@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 1
 **Parallelization Node**: Infrastructure & Quality
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
@@ -118,3 +118,27 @@
 | `tests/test_hypothesis_citations.py` | Create |
 | `tests/.mutatest.toml` | Create |
 | `scripts/profile_with_scalene.py` | Create |
+
+---
+
+## Implementation Note - 2026-06-22
+
+Bounded repo-side evidence/bookkeeping lane implemented:
+
+- Added deterministic Track 23 evidence contract in
+  `src/nlp_policy_nz/quality/track23_evidence.py`.
+- Added focused tests in `tests/test_track23_evidence.py` proving repo-side
+  config/test scaffolds do not satisfy measured strict Ruff, pyright, coverage,
+  or mutation gates.
+- Added bounded smoke validation in `tests/smoke/`.
+- Added `evidence.md` with residual measured gates.
+
+Validation:
+
+- `python -B -m pytest -p no:cacheprovider -q tests\smoke tests\test_quality_infrastructure.py tests\test_track23_evidence.py tests\test_smoke.py tests\integration tests\e2e`
+  passed with 29 tests and 2 existing semantic-import SWIG deprecation warnings.
+- `python -m ruff check --no-cache src\nlp_policy_nz\quality src\nlp_policy_nz\training\__init__.py tests\test_track23_evidence.py tests\test_quality_infrastructure.py tests\test_smoke.py tests\smoke tests\integration tests\e2e`
+  passed.
+
+The task checkboxes above remain unchecked unless and until the corresponding
+full-scope quality command or artifact is actually verified.

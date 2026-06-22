@@ -1,8 +1,0 @@
-{
-  "track_id": "track12_entity_linking_20260613",
-  "type": "feature",
-  "status": "pending",
-  "created_at": "2026-06-13T00:00:00Z",
-  "updated_at": "2026-06-13T00:00:00Z",
-  "description": "Named Entity Resolution and Wikidata linking for NZ MPs, parties, electorates, ministries, and organisations."
-}

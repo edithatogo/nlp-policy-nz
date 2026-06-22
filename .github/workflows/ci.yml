@@ -22,8 +22,14 @@ jobs:
       - name: Install environment
         run: CI=true pixi install
 
+      - name: Track 23 CI/config validation
+        run: CI=true pixi run test -- tests/smoke tests/test_quality_infrastructure.py tests/test_track23_evidence.py -q
+
       - name: Smoke tests (fast)
         run: CI=true pixi run test -x tests/test_smoke.py
+
+      - name: Validate AKN v3 examples
+        run: CI=true pixi run test -- tests/test_akn_v3.py -q
 
       - name: Lint
         run: CI=true pixi run lint

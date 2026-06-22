@@ -14,10 +14,14 @@ from __future__ import annotations
 from collections import Counter
 from pathlib import Path
 
-import gradio as gr
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+
+try:
+    import gradio as gr
+except ModuleNotFoundError:
+    gr = None
 
 # ---------------------------------------------------------------------------
 # Data loading
@@ -251,14 +255,17 @@ def compute_stats(df: pd.DataFrame | None) -> dict[str, str | int]:
 # ---------------------------------------------------------------------------
 
 
-def build_app() -> gr.Blocks:
+def build_app() -> object:
     """Build and return the Gradio Blocks application.
 
     Returns
     -------
-    gr.Blocks
+    object
         The configured Gradio application.
     """
+    if gr is None:
+        raise RuntimeError("gradio is required to build the interactive Space")
+
     with gr.Blocks(
         title="nlp-policy-nz Explorer",
         theme=gr.themes.Soft(),

@@ -42,7 +42,7 @@ ACT_PATTERNS: list[dict] = [
     {
         "label": CITATION_ENTITY_LABEL,
         "pattern": [
-            {"IS_TITLE": True, "OP": "+"},
+            {"IS_TITLE": True, "LOWER": {"NOT_IN": ["the", "a", "an"]}, "OP": "+"},
             {"LOWER": "act"},
             {"SHAPE": "dddd", "LENGTH": 4},
         ],
@@ -103,7 +103,7 @@ def create_citation_ruler(nlp: Language) -> EntityRuler:
         been added to ``nlp``.
 
     Raises:
-        ValueError: If ``\"maori_guard\"`` is not present in the pipeline.
+        ValueError: If ``"maori_guard"`` is not present in the pipeline.
 
     Example:
         >>> nlp = create_nlp_pipeline()

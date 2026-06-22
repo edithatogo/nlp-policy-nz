@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 20
 **Parallelization Node**: Advanced Architecture Research
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
@@ -92,4 +92,62 @@
 | `scripts/evaluate_ttt.sh` | Create |
 | `scripts/evaluate_diffusion_gemma.sh` | Create |
 | `tests/test_architecture_eval.py` | Create |
+| `tests/test_track21_evidence.py` | Create |
+| `tests/test_track21_script_contracts.py` | Create |
 | `src/nlp_policy_nz/training/eval_arch.py` | Create |
+| `src/nlp_policy_nz/training/track21_evidence.py` | Create |
+| `conductor/tracks/track21_bleeding_edge_architectures_20260613/evidence.md` | Create |
+
+## Implementation Note - 2026-06-21
+
+Repo-side Track 21 harness is implemented:
+
+- Added `src/nlp_policy_nz/training/eval_arch.py` for candidate registry,
+  benchmark metrics, Pareto frontier selection, weighted ranking, recommendation,
+  and Markdown report rendering.
+- Added dry-run architecture entry points under `scripts/evaluate_*.sh`.
+- Added `tests/test_architecture_eval.py` for registry, Pareto, ranking,
+  recommendation, and report-scope contracts.
+- Added `docs/architecture_comparison.md` with the provisional recommendation
+  and explicit external training/checkpoint gates.
+
+External MoR/TTT/Mamba/DiffusionGemma cloning, pretraining, fine-tuning,
+profiling, and checkpoint publication remain pending until disk/GPU/model access
+is available.
+
+## Evidence Update - 2026-06-22
+
+Current Track 21 bookkeeping separates repo-side dry-run comparison from
+external model gates:
+
+- Repo-side evidence is limited to the local candidate registry, deterministic
+  example metrics, dry-run script surfaces, provisional architecture report, and
+  tests that encode the acceptance-boundary contract.
+- `evidence.md` is the track-local evidence boundary for this state and should
+  be read before treating any Track 21 architecture recommendation as measured
+  external benchmark evidence.
+- External downloads, CUDA/GPU execution, third-party implementation installs,
+  full benchmark measurements, raw profiler artefacts, checkpoint hashes, and
+  Hugging Face publication remain pending.
+
+The 2026-06-22 repo-side evidence lane also adds the
+`Track21EvidenceReport` acceptance contract and focused tests so callers can
+distinguish local dry-run evidence from external model-run gates.
+
+## Validation Note - 2026-06-22
+
+Focused repo-side Track 21 validation passed after integrating the evidence and
+script-contract lanes:
+
+- `python -B -m pytest -p no:cacheprovider -q tests\test_architecture_eval.py tests\test_track21_evidence.py tests\test_track21_script_contracts.py --basetemp C:\tmp\nlp-policy-nz-track21-final` passed: 10 tests.
+- `python -m ruff check --no-cache src\nlp_policy_nz\training\eval_arch.py src\nlp_policy_nz\training\track21_evidence.py src\nlp_policy_nz\training\__init__.py tests\test_architecture_eval.py tests\test_track21_evidence.py tests\test_track21_script_contracts.py` passed.
+- `python -B -m json.tool conductor\tracks\track21_bleeding_edge_architectures_20260613\metadata.json > nul` passed.
+- `bash -n scripts/evaluate_mor.sh scripts/evaluate_mamba.sh scripts/evaluate_ttt.sh scripts/evaluate_diffusion_gemma.sh` passed.
+- `bash scripts\evaluate_*.sh --audit` equivalents completed for MoR, Mamba-3, TTT-Linear, and DiffusionGemma without clone, download, training, or Hub push.
+
+The local registry now covers the Track 21 candidate families in the spec,
+including MoR/MoR-KV/DeVestral, TTT-Linear/TTT-RNN, Mamba-3/SSD/SambaY,
+DiffusionGemma/GemmaDiffusion, nex-agi candidates, world-model candidates,
+MiMo-V2.5, MiniMax-01, Ring, Ling, and TiRex. External model installation,
+GPU-backed benchmark runs, measured Pareto evidence, and Hugging Face
+publication remain pending.

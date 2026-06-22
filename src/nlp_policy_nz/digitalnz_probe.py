@@ -511,9 +511,12 @@ class DigitalNZProbe:
 
     def _rate_limit(self) -> None:
         """Enforce a minimum delay between consecutive API requests."""
-        elapsed = time.monotonic() - self._last_request_time
-        if elapsed < self._request_delay:
-            time.sleep(self._request_delay - elapsed)
+        target_time = self._last_request_time + self._request_delay
+        while True:
+            remaining = target_time - time.monotonic()
+            if remaining <= 0:
+                break
+            time.sleep(remaining)
         self._last_request_time = time.monotonic()
 
     def _build_url(self, endpoint: str, params: dict[str, Any]) -> str:
@@ -632,10 +635,7 @@ class DigitalNZProbe:
                 kwargs[field_name] = raw[api_name]
         if "id" in raw:
             kwargs["record_id"] = raw["id"]
-        parsed_fields = set(known_fields.values()) | {"id"}
-        remaining = {k: v for k, v in raw.items() if k not in parsed_fields}
-        if remaining:
-            kwargs["raw"] = remaining
+        kwargs["raw"] = dict(raw)
         return DigitalNZRecord(**kwargs)
 
     def search(

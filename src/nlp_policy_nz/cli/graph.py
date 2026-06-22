@@ -9,9 +9,13 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Self
+from typing import Any, Literal, Self, cast
 
 import networkx as nx
+
+from nlp_policy_nz.discourse import ArgumentComponent, ArgumentGraph
+
+ArgumentType = Literal["premise", "conclusion", "none"]
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -35,8 +39,10 @@ NODE_TYPES: frozenset[str] = frozenset(
 
 
 class PolicyGraph:
-    """A NetworkX directed graph that models NZ parliamentary debates and their
-    citations to legislation acts and sections.
+    """Model NZ parliamentary debate citations as a NetworkX graph.
+
+    This graph links debate speeches, speakers, bills, legislation acts, and
+    specific sections cited during parliamentary proceedings.
 
     The graph uses typed nodes (act, section, speech, speaker, bill, debate)
     and directed edges that represent *mentions* or *citations* from a speech
@@ -86,9 +92,9 @@ class PolicyGraph:
         act_id: str,
         title: str,
         year: int,
-        **metadata: Any,
+        **metadata: object,
     ) -> None:
-        """Add an act node to the graph.
+        r"""Add an act node to the graph.
 
         Parameters
         ----------
@@ -116,9 +122,9 @@ class PolicyGraph:
         speaker: str,
         date: str,
         text: str,
-        **metadata: Any,
+        **metadata: object,
     ) -> None:
-        """Add a speech node to the graph.
+        r"""Add a speech node to the graph.
 
         Parameters
         ----------
@@ -177,7 +183,7 @@ class PolicyGraph:
         self,
         speech_id: str,
         section_id: str,
-        **metadata: Any,
+        **metadata: object,
     ) -> None:
         """Add a directed reference edge from a speech to a section.
 
@@ -340,8 +346,9 @@ class PolicyGraph:
 
     @classmethod
     def load(cls, path: str | Path) -> Self:
-        """Load a ``PolicyGraph`` from a JSON file previously saved with
-        :meth:`save`.
+        """Load a ``PolicyGraph`` from a JSON file.
+
+        The file must have been saved previously with :meth:`save`.
 
         Parameters
         ----------
@@ -358,3 +365,30 @@ class PolicyGraph:
         graph = cls()
         graph._graph = nx.node_link_graph(data)
         return graph
+
+def export_argument_graph_jsonld(
+    records: list[object],
+    *,
+    issue: str | None = None,
+) -> dict[str, Any]:
+    """Export PipelineRecord argument annotations as AIF-style JSON-LD."""
+    arguments: list[ArgumentComponent] = []
+    seen_component_ids: set[str] = set()
+    for record in records:
+        record_id = str(getattr(record, "doc_id", "record"))
+        for item in getattr(record, "arguments", []) or []:
+            component_id = str(item["component_id"])
+            if component_id in seen_component_ids:
+                component_id = f"{record_id}:{component_id}"
+            seen_component_ids.add(component_id)
+            arguments.append(
+                ArgumentComponent(
+                    component_id=component_id,
+                    component_type=cast("ArgumentType", item["component_type"]),
+                    text=str(item.get("text", "")),
+                    start=int(item.get("start", 0)),
+                    end=int(item.get("end", 0)),
+                    confidence=float(item.get("confidence", 0.0)),
+                )
+            )
+    return ArgumentGraph.from_arguments(arguments, issue=issue).to_aif_jsonld()

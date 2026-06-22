@@ -1,8 +1,0 @@
-{
-  "track_id": "track15_prov_o_provenance_20260613",
-  "type": "feature",
-  "status": "pending",
-  "created_at": "2026-06-13T00:00:00Z",
-  "updated_at": "2026-06-13T00:00:00Z",
-  "description": "PROV-O provenance ontology integration: track pipeline version, model versions, parameters, and timestamps for every processing run."
-}

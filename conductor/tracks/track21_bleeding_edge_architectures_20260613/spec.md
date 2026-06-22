@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 20 (Fine-Tuning Pipeline)
 **Parallelization Node**: Advanced Architecture Research
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
@@ -79,3 +79,11 @@ Explore, evaluate, and (where feasible) fine-tune the most promising bleeding-ed
 - [ ] One architecture identified as best-performing on throughput-accuracy Pareto frontier
 - [ ] Architecture comparison report published in `docs/architecture_comparison.md`
 - [ ] Recommendations for production replacement of transformer backbone (if applicable)
+
+## Repo-side Evidence Boundary - 2026-06-22
+
+The repository now contains a deterministic dry-run architecture comparison
+harness and a Track 21 acceptance/evidence contract. These local surfaces
+support planning, review, and provisional documentation only. The acceptance
+criteria above remain open until external GPU/model runs produce measured NZ
+legal benchmark outputs and publication evidence.

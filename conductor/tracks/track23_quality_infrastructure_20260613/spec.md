@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 1 (Environment Setup)
 **Parallelization Node**: Infrastructure & Quality
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
@@ -54,3 +54,15 @@ Complete the full quality and testing tooling stack for the nlp-policy-nz projec
 - [ ] Integration tests created (`tests/integration/`)
 - [ ] Mutation tests wired into CI (optional gate)
 - [ ] Pydantic v2 evaluation documented with recommendation
+
+## Repo-Side Evidence Boundary
+
+The 2026-06-22 evidence lane adds deterministic helpers that separate scaffold
+presence from measured quality gates. Config files, CI wiring, tests, docs, and
+script scaffolds can satisfy `repo_side_contracts`, but they do not
+satisfy:
+
+- strict Ruff passing across the agreed full source scope;
+- pyright strict passing across the agreed full source scope;
+- measured coverage meeting the agreed threshold;
+- mutation testing producing a recorded passing result.

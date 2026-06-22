@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 5 (Semantic Layer), Track 6 (Storage Layer)
 **Parallelization Node**: Model Fine-Tuning & Domain Adaptation
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
@@ -69,6 +69,14 @@ Models are selected across three tiers based on availability, efficiency, and re
 - [ ] Te Reo Māori token integrity improved by >15% in fine-tuned tokenizers
 - [ ] All fine-tuned models published to Hugging Face Hub under nlp-policy-nz namespace
 - [ ] Test coverage > 90%
+
+## Current Evidence Boundary
+
+- Repo-side fine-tuning scaffolding and dry-run evidence are implemented and tested.
+- `semantic.finetune` is dry-run/spec-only by default and requires `--run-training` before dataset loading, model download, or Hugging Face push.
+- The model-quality acceptance criteria above remain unchecked until CUDA-backed training, held-out evaluation, and Hub publication evidence exist.
+- Track-scoped training-package coverage evidence is 93%; full acceptance remains open because the trained-model gates are not satisfied.
+- Current evidence does not claim completed CUDA training, held-out model-quality improvements, or Hugging Face Hub publication.
 
 
 ### Tier 4 — Legal-Domain Australian/NZ Specialist Models

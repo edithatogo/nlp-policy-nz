@@ -4,6 +4,7 @@ Provides functions to create, upload to, and publish deposits in the
 Zenodo Sandbox environment (https://sandbox.zenodo.org).
 """
 
+import json
 import os
 from pathlib import Path
 from typing import Any
@@ -18,11 +19,11 @@ ZENODO_SANDBOX_API_URL: str = "https://sandbox.zenodo.org/api"
 ZENODO_PRODUCTION_API_URL: str = "https://zenodo.org/api"
 """Base URL for the Zenodo Production REST API."""
 
-ZENODO_TOKEN_ENV_VAR: str = "ZENODO_SANDBOX_TOKEN"
+ZENODO_TOKEN_ENV_VAR: str = "ZENODO_SANDBOX_TOKEN"  # noqa: S105
 """Environment variable that should hold the Zenodo Sandbox personal access
 token."""
 
-ZENODO_PRODUCTION_TOKEN: str = "ZENODO_PRODUCTION_TOKEN"
+ZENODO_PRODUCTION_TOKEN: str = "ZENODO_PRODUCTION_TOKEN"  # noqa: S105
 """Environment variable that should hold the Zenodo Production personal access
 token."""
 
@@ -146,6 +147,8 @@ def create_sandbox_deposit(
     creators: list[dict[str, Any]],
     token: str | None = None,
     environment: str = "sandbox",
+    license_id: str = "MIT",
+    provenance_metadata: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Create a new empty deposit in the Zenodo Sandbox (or Production).
 
@@ -156,7 +159,7 @@ def create_sandbox_deposit(
     description : str
         Description / abstract of the deposit.
     creators : list[dict[str, Any]]
-        List of creator dicts. Each dict should contain at least a ``\"name\"``
+        List of creator dicts. Each dict should contain at least a ``"name"``
         key (e.g. ``{"name": "Doe, John", "affiliation": "University"}``).
     token : str | None
         Personal access token. If ``None``, the token is read from the
@@ -165,6 +168,10 @@ def create_sandbox_deposit(
     environment : str
         ``"sandbox"`` (default) or ``"production"`` — selects the API URL and
         the fallback environment variable for the token.
+    license_id : str
+        SPDX license identifier for the deposit.
+    provenance_metadata : dict[str, Any] | None
+        Optional PROV-O JSON-LD payload to include in deposit notes.
 
     Returns
     -------
@@ -188,12 +195,18 @@ def create_sandbox_deposit(
             "description": description,
             "creators": creators,
             "access_right": "open",
-            "license": "MIT",
+            "license": license_id,
             "upload_type": "dataset",
         }
     }
+    if provenance_metadata is not None:
+        body["metadata"]["notes"] = json.dumps(
+            {"provenance": provenance_metadata},
+            ensure_ascii=False,
+            sort_keys=True,
+        )
 
-    resp = requests.post(url, json=body, headers=_headers(access_token))
+    resp = requests.post(url, json=body, headers=_headers(access_token), timeout=30)
 
     if not resp.ok:
         msg = f"Failed to create deposit: {resp.status_code} {resp.reason} - {resp.text}"
@@ -254,7 +267,12 @@ def upload_file_to_deposit(
 
     with file_path_obj.open("rb") as fh:
         files = {"file": (filename, fh)}
-        resp = requests.post(url, files=files, headers=_headers(access_token))
+        resp = requests.post(
+            url,
+            files=files,
+            headers=_headers(access_token),
+            timeout=30,
+        )
 
     if not resp.ok:
         msg = f"Failed to upload file '{filename}': {resp.status_code} {resp.reason} - {resp.text}"
@@ -268,8 +286,7 @@ def publish_deposit(
     token: str | None = None,
     environment: str = "sandbox",
 ) -> dict[str, Any]:
-    """Publish (i.e. make public) an existing deposit in the Zenodo Sandbox
-    (or Production).
+    """Publish an existing Zenodo Sandbox or Production deposit.
 
     Parameters
     ----------
@@ -303,7 +320,7 @@ def publish_deposit(
     api_url = _get_api_url(environment)
     url = f"{api_url}/deposit/depositions/{deposit_id}/actions/publish"
 
-    resp = requests.post(url, headers=_headers(access_token))
+    resp = requests.post(url, headers=_headers(access_token), timeout=30)
 
     if not resp.ok:
         msg = (

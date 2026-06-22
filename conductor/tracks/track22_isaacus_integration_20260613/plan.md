@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 20, Track 5
 **Parallelization Node**: Legal Knowledge Integration
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
@@ -16,9 +16,9 @@
 | 1.1 | Download `isaacus/open-australian-legal-corpus` (147K docs, 6 AU jurisdictions) | [ ] | |
 | 1.2 | Download `isaacus/open-australian-legal-qa` (2.1K QA pairs) | [ ] | |
 | 1.3 | Download `isaacus/legal-rag-bench`, `isaacus/mleb-legal-rag-bench` | [ ] | |
-| 1.4 | Normalize AU corpus to PipelineRecord format (unify with NZ Parquet schema) | [ ] | |
+| 1.4 | Normalize AU corpus to PipelineRecord format (unify with NZ Parquet schema) | [x] | |
 | 1.5 | Create NZ-AU merged training corpus (Parquet) for cross-jurisdiction fine-tuning | [ ] | |
-| 1.6 | Write dataset download and normalization tests | [ ] | |
+| 1.6 | Write dataset download and normalization tests | [x] | |
 
 ## Phase 2: Model Acquisition & Evaluation
 
@@ -53,7 +53,7 @@
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 4.1 | Create NZ retrieval benchmark following MLEB methodology (NZ legislation, Hansard, court decisions) | [ ] | |
+| 4.1 | Create NZ retrieval benchmark following MLEB methodology (NZ legislation, Hansard, court decisions) | [~] | |
 | 4.2 | Run NZ-MLEB on all available embedding models (our embedding, Kanon 2, OpenAI, etc.) | [ ] | |
 | 4.3 | Publish NZ-MLEB results as technical report | [ ] | |
 | 4.4 | Contribute NZ-MLEB dataset to Isaacus for inclusion in upstream MLEB | [ ] | |
@@ -66,9 +66,9 @@
 | # | Task | Status | Commit |
 |---|------|--------|--------|
 | 5.1 | Install and evaluate `semchunk` vs `syntactic/chunking.py` on legal document segmentation quality | [ ] | |
-| 5.2 | Monitor Blackstone Graph (github.com/isaacus-dev) for stable release | [ ] | |
+| 5.2 | Monitor Blackstone Graph (github.com/isaacus-dev) for stable release | [~] | |
 | 5.3 | Evaluate Isaacus Legal RAG Bench on our pipeline | [ ] | |
-| 5.4 | Document integration results in `docs/isaacus_integration.md` | [ ] | |
+| 5.4 | Document integration results in `docs/isaacus_integration.md` | [x] | |
 
 ## Files to Create/Modify
 
@@ -79,3 +79,17 @@
 | `src/nlp_policy_nz/training/isaacus_adapter.py` | Create |
 | `docs/isaacus_integration.md` | Create |
 | `tests/test_isaacus_adapter.py` | Create |
+
+## Implementation Note - 2026-06-21
+
+Repo-side Isaacus integration scaffold is implemented:
+
+- Added offline Isaacus dataset, model, and tool manifests.
+- Added AU legal row normalisation into the existing `PipelineRecord` schema.
+- Added NZ-MLEB query scaffolding with relevance-judgement validation.
+- Added explicit fail-closed access gates for network and proprietary API work.
+- Added dry-run scripts and documentation.
+
+Pending external work: live Hugging Face downloads, Kanon 2 API/air-gapped
+evaluation, AU-to-NZ fine-tuning, measured NZ-MLEB baselines, semchunk runtime
+comparison, and any Blackstone Graph integration after stable upstream release.

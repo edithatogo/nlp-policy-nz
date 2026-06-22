@@ -79,6 +79,7 @@ class ZenodoArchiver:
         creators: list[dict[str, Any]],
         file_path: str | Path,
         license_id: str = "MIT",
+        provenance_metadata: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Create, upload, and publish a Zenodo deposit in one step.
 
@@ -94,6 +95,8 @@ class ZenodoArchiver:
             Path to the local file to upload.
         license_id : str
             SPDX license identifier (default ``"MIT"``).
+        provenance_metadata : dict[str, Any] | None
+            Optional PROV-O JSON-LD payload to include in deposit metadata.
 
         Returns
         -------
@@ -122,6 +125,8 @@ class ZenodoArchiver:
             creators=creators,
             token=token,
             environment=env,
+            license_id=license_id,
+            provenance_metadata=provenance_metadata,
         )
         deposit_id = str(deposit["id"])
 
@@ -170,7 +175,7 @@ class ZenodoArchiver:
         token = self._resolve_token()
         api_url = _get_api_url(self._environment)
         url = f"{api_url}/deposit/depositions/{deposit_id}"
-        resp = requests.get(url, headers=_headers(token))
+        resp = requests.get(url, headers=_headers(token), timeout=30)
 
         if not resp.ok:
             msg = (
@@ -191,8 +196,9 @@ def archive_to_zenodo(
     token: str | None = None,
     license_id: str = "MIT",
     environment: str = "sandbox",
+    provenance_metadata: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Convenience wrapper for creating and publishing a Zenodo deposit.
+    """Create and publish a Zenodo deposit.
 
     Parameters
     ----------
@@ -211,6 +217,8 @@ def archive_to_zenodo(
     environment : str
         ``"sandbox"`` (default) or ``"production"`` — selects the target
         Zenodo API and the fallback environment variable for the token.
+    provenance_metadata : dict[str, Any] | None
+        Optional PROV-O JSON-LD payload to include in deposit metadata.
 
     Returns
     -------
@@ -232,4 +240,5 @@ def archive_to_zenodo(
         creators=creators,
         file_path=file_path,
         license_id=license_id,
+        provenance_metadata=provenance_metadata,
     )

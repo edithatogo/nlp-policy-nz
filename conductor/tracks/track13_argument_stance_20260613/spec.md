@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 5 (Semantic Layer), Track 7 (Downstream API)
 **Parallelization Node**: Discourse Analysis
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
@@ -34,6 +34,11 @@ Identify argumentative structures in Hansard debates — premises, conclusions, 
 
 - [ ] Argument component classifier achieves >80% F1 on Hansard test set
 - [ ] Stance classifier achieves >85% accuracy on held-out debate data
-- [ ] Argument graphs exportable as AIF-compatible JSON-LD
-- [ ] PipelineRecord includes `arguments` and `stance` fields
-- [ ] Test coverage > 90%
+- [x] Argument graphs exportable as AIF-compatible JSON-LD
+- [x] PipelineRecord includes `arguments` and `stance` fields
+- [x] Test coverage > 90% for repo-side Track 13 surfaces
+
+The remaining unchecked criteria require external held-out evaluation evidence:
+500+ human/gold Hansard segments per task, fine-tuned transformer model IDs,
+and recorded F1/accuracy reports. Deterministic fixture scores validate wiring
+only and must not be used to satisfy those gates.

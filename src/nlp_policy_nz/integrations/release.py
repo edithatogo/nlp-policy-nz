@@ -11,12 +11,14 @@ import json
 import logging
 import tarfile
 import tempfile
+from io import BytesIO
 from pathlib import Path
 from typing import Any
 
 import pyarrow.parquet as pq
 
 from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
+from nlp_policy_nz.provenance import load_provenance_sidecar, provenance_sidecar_path
 
 logger = logging.getLogger(__name__)
 
@@ -107,6 +109,9 @@ class ReleaseManager:
             "corpus_source": parquet_path.stem,
             "parquet_file": parquet_path.name,
         }
+        sidecar_path = provenance_sidecar_path(parquet_path)
+        if sidecar_path.is_file():
+            metadata["provenance"] = load_provenance_sidecar(sidecar_path)
 
         if output_dir is None:
             output_dir = Path(tempfile.mkdtemp(prefix="nlp_release_"))
@@ -120,15 +125,14 @@ class ReleaseManager:
         with tarfile.open(archive_path, "w:gz") as tar:
             tar.add(parquet_path, arcname=parquet_path.name)
 
-            metadata_tmp = Path(tempfile.mktemp(suffix=".json"))
-            try:
-                metadata_tmp.write_text(
-                    json.dumps(metadata, indent=2, ensure_ascii=False),
-                    encoding="utf-8",
-                )
-                tar.add(metadata_tmp, arcname="metadata.json")
-            finally:
-                metadata_tmp.unlink(missing_ok=True)
+            metadata_bytes = json.dumps(
+                metadata,
+                indent=2,
+                ensure_ascii=False,
+            ).encode("utf-8")
+            metadata_info = tarfile.TarInfo("metadata.json")
+            metadata_info.size = len(metadata_bytes)
+            tar.addfile(metadata_info, BytesIO(metadata_bytes))
 
         logger.info("Release archive created: %s", archive_path)
         return archive_path
@@ -140,6 +144,7 @@ class ReleaseManager:
         title: str,
         description: str,
         creators: list[dict[str, Any]],
+        provenance_metadata: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Publish an existing archive to Zenodo.
 
@@ -153,6 +158,8 @@ class ReleaseManager:
             Description / abstract for the deposit.
         creators : list[dict[str, Any]]
             List of creator dicts for the deposit metadata.
+        provenance_metadata : dict[str, Any] | None
+            Optional PROV-O JSON-LD metadata to include in the Zenodo deposit.
 
         Returns
         -------
@@ -172,6 +179,7 @@ class ReleaseManager:
             description=description,
             creators=creators,
             file_path=archive_path,
+            provenance_metadata=provenance_metadata,
         )
 
     def full_release(
@@ -211,6 +219,7 @@ class ReleaseManager:
             If any Zenodo API call fails.
 
         """
+        parquet_path = Path(parquet_path)
         archive_path = self.create_release_archive(
             parquet_path,
             version=version,
@@ -220,9 +229,16 @@ class ReleaseManager:
         )
 
         logger.info("Publishing release archive to Zenodo ...")
+        provenance_path = provenance_sidecar_path(parquet_path)
+        provenance_metadata = (
+            load_provenance_sidecar(provenance_path)
+            if provenance_path.is_file()
+            else None
+        )
         return self.publish_to_zenodo(
             archive_path,
             title=title,
             description=description,
             creators=creators,
+            provenance_metadata=provenance_metadata,
         )

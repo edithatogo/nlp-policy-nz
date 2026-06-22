@@ -7,16 +7,18 @@ are wired up correctly and respond to ``--help``, ``process``, and
 
 from __future__ import annotations
 
+import argparse
 import inspect
-from typing import TYPE_CHECKING, Any
+from pathlib import Path
+from typing import Any
 from unittest.mock import patch
 
 import pytest
 
 from nlp_policy_nz.cli.main import main
 
-if TYPE_CHECKING:
-    import argparse
+TMP_ROOT = Path("/") / "tmp"
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -389,6 +391,44 @@ class TestArchiveToZenodoSubcommand:
             creators=[{"name": "Doe, Jane"}],
             file_path="test_data.parquet",
             license_id="MIT",
+            provenance_metadata=None,
+        )
+
+    def test_archive_handler_passes_provenance_sidecar(self) -> None:
+        """Archive command forwards sidecar provenance when present."""
+        tmp_path = Path(".tmp") / "cli-archive-provenance"
+        tmp_path.mkdir(parents=True, exist_ok=True)
+        parquet = tmp_path / "dataset.parquet"
+        parquet.write_bytes(b"parquet")
+        parquet.with_suffix(".prov.json").write_text(
+            '{"@type": "prov:Bundle"}',
+            encoding="utf-8",
+        )
+
+        with patch(
+            "nlp_policy_nz.cli.main.ZenodoArchiver",
+        ) as mock_archiver:
+            mock_instance = mock_archiver.return_value
+            mock_instance.create_archive.return_value = {"doi": "10.5072/zenodo.12345"}
+
+            rc = _run_main([
+                "archive-to-zenodo",
+                "--parquet", str(parquet),
+                "--title", "Test Title",
+                "--description", "Test Description",
+                "--creators", '[{"name": "Doe, Jane"}]',
+                "--token", "tok-123",
+                "--license", "MIT",
+            ])
+
+        assert rc == 0
+        mock_instance.create_archive.assert_called_once_with(
+            title="Test Title",
+            description="Test Description",
+            creators=[{"name": "Doe, Jane"}],
+            file_path=str(parquet),
+            license_id="MIT",
+            provenance_metadata={"@type": "prov:Bundle"},
         )
 
     def test_archive_handler_parses_creators_json(self) -> None:
@@ -413,6 +453,7 @@ class TestArchiveToZenodoSubcommand:
                 creators=[{"name": "Smith, John", "affiliation": "Uni"}],
                 file_path="d.parquet",
                 license_id="MIT",
+                provenance_metadata=None,
             )
 
 
@@ -460,7 +501,7 @@ class TestReleaseSubcommand:
             "--description", "Test Description",
             "--creators", '[{"name": "Doe, Jane"}]',
             "--token", "zenodo-tok-123",
-            "--output-dir", "/tmp/releases",
+            "--output-dir", str(TMP_ROOT / "releases"),
         ])
         # Fails because file doesn't exist, but argparse succeeded.
         assert rc == 1
@@ -481,7 +522,7 @@ class TestReleaseSubcommand:
                 "--description", "Release Description",
                 "--creators", '[{"name": "Doe, Jane"}]',
                 "--token", "tok-999",
-                "--output-dir", "/tmp/out",
+                "--output-dir", str(TMP_ROOT / "out"),
             ])
 
         assert rc == 0

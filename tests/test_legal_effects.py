@@ -20,8 +20,13 @@ from nlp_policy_nz.legal.effects import LegalEffect, classify_legal_effect
 @pytest.fixture(scope="module")
 def nlp() -> spacy.Language:
     """Build an ``en_core_web_sm`` pipeline with the deontic modality component."""
-    _nlp = spacy.load("en_core_web_sm")
-    _nlp.add_pipe("deontic_modality", after="parser")
+    try:
+        _nlp = spacy.load("en_core_web_sm")
+    except OSError:
+        _nlp = spacy.blank("en")
+        _nlp.add_pipe("sentencizer")
+    after = "parser" if "parser" in _nlp.pipe_names else None
+    _nlp.add_pipe("deontic_modality", after=after)
     return _nlp
 
 

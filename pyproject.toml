@@ -21,14 +21,19 @@ dependencies = [
     "pyarrow>=16.0.0",
     "lancedb>=0.6.0",
     "networkx>=3.0",
+    "rdflib>=7.0.0",
     "faiss-cpu>=1.8.0",
     "requests>=2.31.0",
+    "xmlschema>=3.4.0",
     "loguru>=0.7.2",
     "datasets>=2.19.0",
     "huggingface_hub>=0.23.0",
     "gradio>=4.0.0",
     "fastapi>=0.110.0",
     "uvicorn[standard]>=0.27.0",
+    "opentelemetry-api>=1.25.0",
+    "opentelemetry-sdk>=1.25.0",
+    "opentelemetry-exporter-otlp>=1.25.0",
 ]
 
 [project.scripts]
@@ -46,7 +51,16 @@ dev = [
     "import-linter>=2.0",
     "pre-commit>=3.6.0",
     "scalene>=1.5.0",
+    "memray>=1.12.0",
+    "pytest-benchmark>=4.0.0",
     "pyright>=1.1.0",
+]
+training = [
+    "accelerate>=0.30.0",
+    "peft>=0.11.0",
+    "trl>=0.9.0",
+    "wandb>=0.17.0",
+    "flash-attn>=2.5.0; platform_system == 'Linux'",
 ]
 
 [tool.hatch.build.targets.wheel]

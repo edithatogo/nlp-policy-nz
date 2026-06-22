@@ -273,10 +273,17 @@ def deploy_space(
             msg = f"Required file {fname!r} not found in {spaces_path}"
             raise FileNotFoundError(msg)
 
+    resolved_token = _resolve_token(token)
+    if not resolved_token:
+        msg = (
+            f"Hugging Face token not found. "
+            f"Set the {HF_TOKEN_ENV_VAR!r} environment variable or pass token."
+        )
+        raise ValueError(msg)
+
     if dry_run:
         return f"https://huggingface.co/spaces/{repo_id} (dry-run)"
 
-    resolved_token = _resolve_token(token)
     msg = commit_message or f"Deploy Gradio Space to {repo_id}"
 
     api = HfApi(token=resolved_token)

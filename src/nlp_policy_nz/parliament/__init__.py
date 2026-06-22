@@ -1,5 +1,13 @@
 """Parliamentary analysis and voting record tracking modules."""
 
+from nlp_policy_nz.parliament.amendments import (
+    Amendment,
+    AmendmentLifecycleGraph,
+    amendments_to_dicts,
+    diff_bill_versions,
+    parse_amendment,
+    parse_amendments,
+)
 from nlp_policy_nz.parliament.voting import (
     DivisionRecord,
     MemberVote,
@@ -7,7 +15,13 @@ from nlp_policy_nz.parliament.voting import (
 )
 
 __all__ = [
+    "Amendment",
+    "AmendmentLifecycleGraph",
     "DivisionRecord",
     "MemberVote",
+    "amendments_to_dicts",
+    "diff_bill_versions",
+    "parse_amendment",
+    "parse_amendments",
     "parse_division",
 ]

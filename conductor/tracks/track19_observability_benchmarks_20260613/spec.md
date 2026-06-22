@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 1 (Environment Setup), Track 6 (Storage Layer)
 **Parallelization Node**: Infrastructure & Quality
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
@@ -29,10 +29,15 @@ Instrument the full pipeline with OpenTelemetry tracing, create a Scalene/Memray
 
 ## Acceptance Criteria
 
-- [ ] OTel spans created for all major pipeline components
-- [ ] Trace context propagates through entire pipeline
+- [x] OTel spans created for all major pipeline components
+- [x] Trace context propagates through entire pipeline
 - [ ] Scalene profile produces CPU/memory report on full corpus
 - [ ] Memray trace produces allocation flamegraph
-- [ ] Benchmark harness reports throughput and latency metrics
-- [ ] CI benchmark workflow runs on PRs to master
-- [ ] Test coverage > 90%
+- [ ] Benchmark harness reports throughput and latency metrics in an unskipped run
+- [x] CI benchmark workflow runs on PRs to master
+- [x] Test coverage > 90% for repo-side telemetry surfaces
+
+The unchecked criteria require external/runtime evidence: a local 1GB or
+full-corpus Hansard run for Scalene and Memray artifacts, plus a refreshed
+environment where `pytest-benchmark` is installed so the benchmark harness runs
+instead of skipping.

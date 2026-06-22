@@ -7,6 +7,7 @@ to and from the Parquet format using Narwhals for cross-engine compatibility
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -30,7 +31,15 @@ SCHEMA_FIELDS: list[str] = [
     "te_reo_terms",
     "embeddings",
     "deontic_modality",
+    "temporal_expressions",
+    "resolved_entities",
     "legal_effect",
+    "voting_record",
+    "amendments",
+    "arguments",
+    "argument_label_source",
+    "stance",
+    "stance_label_source",
     # Committee / submissions additive fields
     "submitter_name",
     "committee",
@@ -75,8 +84,24 @@ class PipelineRecord(msgspec.Struct):
         Optional dense vector embedding generated downstream.
     deontic_modality : list[dict[str, str | int | None]]
         Deontic modality annotations detected in the text.
+    temporal_expressions : list[dict[str, str | int | None]]
+        TimeML-style temporal annotations detected in the text.
+    resolved_entities : list[dict[str, Any]]
+        Named entity resolution annotations with Wikidata QIDs and confidence scores.
     legal_effect : str | None
         LKIF-inspired legal effect category for the record.
+    voting_record : dict[str, Any] | None
+        Parsed Hansard division record summary, when the record contains a vote.
+    amendments : list[dict[str, Any]]
+        Parsed legislative amendment records associated with this pipeline record.
+    arguments : list[dict[str, Any]]
+        Argument component annotations detected in Hansard debate text.
+    argument_label_source : str | None
+        Provenance marker for argument labels, such as gold or predicted.
+    stance : str | None
+        Pro/con/neutral policy stance label for Hansard debate text.
+    stance_label_source : str | None
+        Provenance marker for stance labels, such as gold or predicted.
 
     ---- Additive committee / submission fields (optional) ----
     submitter_name : str | None
@@ -108,7 +133,15 @@ class PipelineRecord(msgspec.Struct):
     te_reo_terms: list[str]
     embeddings: list[float] | None = None
     deontic_modality: list[dict[str, str | int | None]] = msgspec.field(default_factory=list)
+    temporal_expressions: list[dict[str, str | int | None]] = msgspec.field(default_factory=list)
+    resolved_entities: list[dict[str, Any]] = msgspec.field(default_factory=list)
     legal_effect: str | None = None
+    voting_record: dict[str, Any] | None = None
+    amendments: list[dict[str, Any]] = msgspec.field(default_factory=list)
+    arguments: list[dict[str, Any]] = msgspec.field(default_factory=list)
+    argument_label_source: str | None = None
+    stance: str | None = None
+    stance_label_source: str | None = None
 
     # ---- Additive committee / submission fields (optional) ----
     submitter_name: str | None = None
@@ -127,7 +160,7 @@ class PipelineRecord(msgspec.Struct):
 # ---------------------------------------------------------------------------
 
 
-def records_to_dataframe(records: Sequence[PipelineRecord]) -> Any:
+def records_to_dataframe(records: Sequence[PipelineRecord]) -> object:
     """Convert a sequence of pipeline records to a Narwhals-compatible DataFrame.
 
     Parameters
@@ -160,7 +193,15 @@ def records_to_dataframe(records: Sequence[PipelineRecord]) -> Any:
         data["te_reo_terms"].append(rec.te_reo_terms)
         data["embeddings"].append(rec.embeddings)
         data["deontic_modality"].append(rec.deontic_modality)
+        data["temporal_expressions"].append(rec.temporal_expressions)
+        data["resolved_entities"].append(rec.resolved_entities)
         data["legal_effect"].append(rec.legal_effect)
+        data["voting_record"].append(rec.voting_record)
+        data["amendments"].append(rec.amendments)
+        data["arguments"].append(rec.arguments)
+        data["argument_label_source"].append(rec.argument_label_source)
+        data["stance"].append(rec.stance)
+        data["stance_label_source"].append(rec.stance_label_source)
         # Additive committee / submission fields
         data["submitter_name"].append(rec.submitter_name)
         data["committee"].append(rec.committee)
@@ -210,6 +251,13 @@ def serialize_to_parquet(
     return output_path
 
 
+def _list_of_dicts(value: object) -> list[dict[str, Any]]:
+    """Return a schema-safe list of dictionaries from a nested row value."""
+    if value is None or isinstance(value, (str, bytes)) or not isinstance(value, Iterable):
+        return []
+    return [dict(item) for item in value]
+
+
 def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
     """Load pipeline records from a Parquet file on disk.
 
@@ -248,12 +296,20 @@ def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
                 nz_act_citations=list(row["nz_act_citations"]),
                 te_reo_terms=list(row["te_reo_terms"]),
                 embeddings=(list(row["embeddings"]) if row["embeddings"] is not None else None),
-                deontic_modality=(
-                    [dict(item) for item in row["deontic_modality"]]
-                    if row.get("deontic_modality") is not None
-                    else []
-                ),
+                deontic_modality=_list_of_dicts(row.get("deontic_modality")),
+                temporal_expressions=_list_of_dicts(row.get("temporal_expressions")),
+                resolved_entities=_list_of_dicts(row.get("resolved_entities")),
                 legal_effect=row.get("legal_effect"),
+                voting_record=(
+                    dict(row["voting_record"])
+                    if row.get("voting_record") is not None
+                    else None
+                ),
+                amendments=_list_of_dicts(row.get("amendments")),
+                arguments=_list_of_dicts(row.get("arguments")),
+                argument_label_source=row.get("argument_label_source"),
+                stance=row.get("stance"),
+                stance_label_source=row.get("stance_label_source"),
                 # Additive committee / submission fields
                 submitter_name=row.get("submitter_name"),
                 committee=row.get("committee"),
@@ -270,7 +326,7 @@ def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
     return records
 
 
-def deserialize_to_dataframe(path: str | Path) -> Any:
+def deserialize_to_dataframe(path: str | Path) -> object:
     """Load a Parquet file and return a Narwhals DataFrame.
 
     This is a convenience wrapper around :func:`load_from_parquet` that

@@ -2,22 +2,22 @@
 
 **Dependencies**: Track 5, Track 6
 **Parallelization Node**: Model Fine-Tuning & Domain Adaptation
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
 ## Phase 1: Infrastructure & Data Preparation
 
 **Estimated Effort**: Medium
-**Status**: Pending
+**Status**: Complete (repo-side), GPU validation pending
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 1.1 | Audit GPU availability and configure CUDA environment with `bitsandbytes`, `flash-attn`, `TRL`, `PEFT`, `wandb` | [ ] | |
-| 1.2 | Prepare training datasets from Parquet corpora: create train/val/test splits for MLM, citation, deontic, entity tasks | [ ] | |
-| 1.3 | Create `src/nlp_policy_nz/training/` package with task-specific data collators and tokenizers | [ ] | |
-| 1.4 | Add MLM fine-tuning support to `src/nlp_policy_nz/semantic/finetune.py` (already scaffolds exist) | [ ] | |
-| 1.5 | Write data preparation validation tests | [ ] | |
+| 1.1 | Audit GPU availability and configure CUDA environment with `bitsandbytes`, `flash-attn`, `TRL`, `PEFT`, `wandb` | [~] | local |
+| 1.2 | Prepare training datasets from Parquet corpora: create train/val/test splits for MLM, citation, deontic, entity tasks | [x] | local |
+| 1.3 | Create `src/nlp_policy_nz/training/` package with task-specific data collators and tokenizers | [x] | local |
+| 1.4 | Add MLM fine-tuning support to `src/nlp_policy_nz/semantic/finetune.py` (already scaffolds exist) | [x] | local |
+| 1.5 | Write data preparation validation tests | [x] | local |
 
 ## Phase 2: Tier 1 — Legal Domain Specialist Fine-Tuning
 
@@ -105,3 +105,16 @@
 | `scripts/finetune_mistral.sh` | Create |
 | `tests/test_training_data.py` | Create |
 | `tests/test_training_eval.py` | Create |
+| `src/nlp_policy_nz/training/track20_evidence.py` | Create |
+| `tests/test_track20_evidence.py` | Create |
+| `tests/test_semantic_finetune_dry_run.py` | Create |
+| `conductor/tracks/track20_legal_finetuning_20260613/evidence.md` | Create |
+| `conductor/tracks/track20_legal_finetuning_20260613/finetune_dry_run_evidence_20260622.json` | Create |
+
+## Implementation Notes
+
+| Date | Agent | Notes | Validation |
+|------|-------|-------|------------|
+| 2026-06-21 | codex_gpt5_engineer | Added `nlp_policy_nz.training` with deterministic Parquet-to-task example preparation, train/validation/test splitting, lightweight MLM collator, evaluation metrics, serializable Legal-BERT and QLoRA job specs, and a QLoRA spec CLI. Updated `semantic/finetune.py` to keep heavy Hugging Face/Torch imports lazy and expose a Track 20 MLM job spec. Added fine-tuning shell entrypoints for Legal-BERT, Gemma, Phi-4, Qwen, and Mistral. Added training dependencies for `accelerate`, `peft`, `trl`, `wandb`, and Linux-gated `flash-attn`. Local GPU audit: `nvidia-smi` is unavailable in this environment, so CUDA execution remains unvalidated. | Red phase confirmed: Track 20 tests initially failed because `nlp_policy_nz.training` did not exist. Focused tests now pass with `python -B -m pytest tests\test_training_data.py tests\test_training_eval.py -p no:cacheprovider -q` (13 passed). Coverage: `python -B -m coverage report --data-file=.tmp\coverage\track20c.coverage --include=src\nlp_policy_nz\training\* -m` reports 93%. Strict targeted Ruff passed. CLI smokes with `PYTHONPATH=src`: QLoRA spec print and `semantic.finetune --help` passed. Remaining: real CUDA environment validation, dataset-scale training runs, model evaluation, and Hugging Face publishing. |
+| 2026-06-22 | implementer_subagent_b | Tightened the semantic fine-tune CLI and shell entrypoints into auditable dry-run surfaces. `semantic.finetune` now emits JSON evidence by default and requires explicit `--run-training` before loading datasets/models or pushing to Hugging Face. All `scripts/finetune_*.sh` entrypoints pass spec-print flags by default. Added `finetune_dry_run_evidence_20260622.json` for machine-readable claim boundaries. | Passed: `set PYTHONPATH=src&& python -B -m nlp_policy_nz.semantic.finetune --help`; `set PYTHONPATH=src&& python -B -m nlp_policy_nz.semantic.finetune --model-name nlpaueb/legal-bert-base-uncased --output-dir models/legal-bert-nz --batch-size 32 --learning-rate 2e-5 --hub-model-id nlp-policy-nz/legal-bert-nz --print-spec`; `set PYTHONPATH=src&& python -B -m nlp_policy_nz.training.run_qlora --model-name google/gemma-3-9b --task citation --output-dir models/gemma-3-9b-citation --hub-model-id nlp-policy-nz/gemma-3-9b-citation --print-spec`; `bash -n scripts/finetune_legal_bert.sh scripts/finetune_gemma.sh scripts/finetune_phi4.sh scripts/finetune_qwen.sh scripts/finetune_mistral.sh`. Live training, CUDA validation, dataset-scale evaluation, and Hub publishing remain external gates. |
+| 2026-06-22 | codex_review | Added `track20_evidence.py` and focused tests that separate satisfied repo-side contracts from pending external model gates. Patched the semantic dry-run job spec to preserve requested CLI hyperparameters such as `--num-epochs`. Added `evidence.md` as the Track 20 closeout note for current repo-side evidence. | Passed: `python -B -m pytest -p no:cacheprovider -q tests\test_track20_evidence.py tests\test_semantic_finetune_dry_run.py tests\test_training_data.py tests\test_training_eval.py --basetemp C:\tmp\nlp-policy-nz-track20-final` (18 passed, 2 SWIG deprecation warnings). Passed: `python -m ruff check --no-cache src\nlp_policy_nz\training src\nlp_policy_nz\semantic\finetune.py tests\test_track20_evidence.py tests\test_semantic_finetune_dry_run.py tests\test_training_data.py tests\test_training_eval.py`. Passed: `python -B -m py_compile src\nlp_policy_nz\semantic\finetune.py src\nlp_policy_nz\training\run_qlora.py src\nlp_policy_nz\training\track20_evidence.py src\nlp_policy_nz\training\trainers.py`. |

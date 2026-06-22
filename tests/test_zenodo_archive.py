@@ -47,7 +47,7 @@ class TestZenodoArchiver:
     def test_init_with_token(self) -> None:
         """Archiver stores an explicit token."""
         archiver = ZenodoArchiver(token="tok-123")
-        assert archiver._token == "tok-123"
+        assert archiver._token == "tok-123"  # noqa: S105
 
     def test_init_without_token(self) -> None:
         """Archiver defaults token to None."""

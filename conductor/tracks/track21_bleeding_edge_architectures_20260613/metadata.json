@@ -1,8 +1,9 @@
 {
   "track_id": "track21_bleeding_edge_architectures_20260613",
   "type": "research",
-  "status": "pending",
+  "status": "in_progress",
   "created_at": "2026-06-13T00:00:00Z",
-  "updated_at": "2026-06-13T00:00:00Z",
-  "description": "Explore and evaluate bleeding-edge model architectures for NZ legal NLP: MoR, TTT-Linear/RNN, Mamba-3/SSD, DiffusionGemma, SambaY, nex-agi models, MiMo-V2.5, DeVestral, TiRex."
+  "updated_at": "2026-06-22T00:00:00Z",
+  "description": "Explore and evaluate bleeding-edge model architectures for NZ legal NLP: MoR, TTT-Linear/RNN, Mamba-3/SSD, DiffusionGemma, SambaY, nex-agi models, MiMo-V2.5, DeVestral, TiRex.",
+  "oracle_notes": "Repo-side Track 21 dry-run architecture comparison evidence is implemented and documented: candidate registry, deterministic example ranking, provisional architecture report, dry-run script surfaces, and the Track21EvidenceReport acceptance contract are separate from external GPU, model download, training, profiler, and Hugging Face publication gates. No external downloads or live model runs are claimed by the 2026-06-22 evidence update."
 }

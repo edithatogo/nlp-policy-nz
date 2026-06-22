@@ -6,8 +6,15 @@ This module configures:
 - Shared test fixtures for NZ legislative and Hansard text samples
 """
 
+import argparse
+import builtins
+from unittest import mock
+
 import pytest
 from hypothesis import HealthCheck, settings
+
+builtins.argparse = argparse
+pytest.mock = mock
 
 # ---------------------------------------------------------------------------
 # Hypothesis global settings

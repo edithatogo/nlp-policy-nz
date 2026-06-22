@@ -19,6 +19,7 @@ import re
 import typing as ty
 from abc import ABC, abstractmethod
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 import msgspec
 import spacy
@@ -68,8 +69,30 @@ class XMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses XML trees (e.g., PCO legislative XML)."""
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
-        soup = BeautifulSoup(raw_data, "xml")
+        try:
+            root = ET.fromstring(raw_data)
+        except ET.ParseError:
+            root = None
+
         chunks = []
+        if root is not None:
+            for node in root.iter():
+                if node.tag not in {"section", "speech", "part"}:
+                    continue
+                node_id = node.attrib.get("id", f"xml-chunk-{len(chunks)}")
+                attrs = {k: v for k, v in node.attrib.items() if k != "id"}
+                text_content = " ".join(text.strip() for text in node.itertext() if text.strip())
+                chunks.append(
+                    DocumentChunk(
+                        chunk_id=node_id,
+                        text=text_content,
+                        structural_type=node.tag,
+                        attributes=attrs,
+                    )
+                )
+            return chunks
+
+        soup = BeautifulSoup(raw_data, "html.parser")
         for node in soup.find_all(["section", "speech", "part"]):
             node_id = node.get("id", f"xml-chunk-{len(chunks)}")
             structural_type = node.name

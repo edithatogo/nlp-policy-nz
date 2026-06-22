@@ -21,8 +21,12 @@ graph TD
     
     H -->|Version 1: Basic serialisation| I[(Simple output templates)]
     H -->|Version 2: SOTA standard compliant| J[(Enriched XML / AKN / JSONL)]
+    H -->|Provenance| P[(PROV-O JSON-LD sidecars)]
+    H -->|Linked Data| R[(FOAF/SIOC Turtle sidecars)]
+    H -->|Wikidata KG| W[(OWL map and JSON-LD knowledge graph)]
+    H -->|Parliamentary Analytics| V[(Voting records and amendment lifecycle)]
     
-    I & J --> K[(Standard Output Schema Persistence)]
+    I & J & P & R & W & V --> K[(Standard Output Schema Persistence)]
     
     subgraph Downstream Branching
         K --> L[Legal NLP Branch: corpus-law-nz]
@@ -36,6 +40,8 @@ To track structural improvements and preserve development stages, the framework 
 
 - **[universal_framework_v1.py](./../src/nlp_policy_nz/universal_framework_v1.py)**: The baseline abstract model. Implements formatting interfaces (BeautifulSoup parsing, dynamic namespace registry) and simple XML block wrapping outputs.
 - **[universal_framework_v2.py](./../src/nlp_policy_nz/universal_framework_v2.py)**: The maximal-standards release. Introduces sentence-level XML boundaries (`<s>`), speaker/utterance contexts (`<u>`), full XML headers (`<meta>`), and syntax dependency mapping (`deprel`, `head_index`) in ParlaCAP-JSONL records.
+- **[universal_framework_v3.py](./../src/nlp_policy_nz/universal_framework_v3.py)**: Adds corpus-level span grouping, legal effect hooks, and displaCy-oriented output while preserving v2 behavior.
+- **[universal_framework_v4.py](./../src/nlp_policy_nz/universal_framework_v4.py)**: Adds Akoma Ntoso v3 document emission as an opt-in layer with full FRBR hierarchy and XSD-backed validation.
 
 ---
 
@@ -56,5 +62,27 @@ The `MetaExtensionRegistry` sanitizes regional and target parameters (e.g. `COUN
 
 ### Phase 4: Target Schema Emitter (Version 2 Standards)
 - **TEI XML Serialization**: Packages lemma, POS, and detailed MSD tags inside `<w>` token containers, nested within sentence `<s>` and utterance `<u>` blocks.
-- **Akoma-Ntoso**: Generates valid AKN XML legal hierarchical blocks incorporating metadata headers (`<identification>`, `<publication>`).
+- **Akoma-Ntoso**: Generates AKN XML legal hierarchical blocks incorporating metadata headers (`<identification>`, `<publication>`); v4 adds AKN v3 FRBR Work/Expression/Manifestation/Item metadata plus XSD-backed validation in `schema/akn_v3.py`.
 - **JSON-Lines**: Outputs flat, streamable records containing joint syntactic dependency indexes.
+
+### Phase 5: PROV-O provenance
+- **Recorder**: `provenance/recorder.py` captures pipeline name, package version, commit SHA, model versions, parameters, timestamps, input paths, output path, and record counts.
+- **Serializer**: `provenance/serializer.py` emits PROV-O JSON-LD bundles with Entity, Activity, and SoftwareAgent nodes.
+- **Sidecars and archives**: Pipeline outputs write adjacent `.prov.json` sidecars; release archives and Zenodo deposit payloads include provenance metadata.
+
+### Phase 6: Parliamentary linked data
+- **FOAF profiles**: `linked_data/foaf.py` converts MP knowledge-base rows into FOAF Person resources with party Organization, role, electorate, and optional Wikidata links.
+- **SIOC discourse graph**: `linked_data/sioc.py` maps Hansard records to SIOC Site, Forum, Thread, and Post resources for parliamentary debate traversal.
+- **RDF operations**: `linked_data/rdf.py` writes Turtle sidecars and runs local SPARQL SELECT queries; the CLI exposes this through `export-rdf` and `sparql`.
+
+### Phase 7: Wikidata knowledge graph integration
+- **Ontology map**: `data/ontologies/nz_wikidata_map.ttl` maps New Zealand Acts, MPs, parties, electorates, and courts to Wikidata classes and properties.
+- **QID resolution and enrichment**: `kb/wikidata_kg.py` resolves entity names with cached SPARQL lookups and enriches records with inception dates and party membership periods.
+- **Knowledge graph export**: the `knowledge-graph` CLI command writes schema.org-compatible JSON-LD from Wikidata-annotated entities.
+- **Federated query examples**: `data/ontologies/wikidata_federated_example.rq` documents the local KG to Wikidata `SERVICE` join pattern.
+
+### Phase 8: Parliamentary voting and amendments
+- **Voting parser**: `parliament/voting.py` extracts division motions, MP-level votes, party tallies, counts, and outcomes from Hansard division text.
+- **Amendment analytics**: `parliament/amendments.py` parses amendment proposer, type, target clause, SOP number, structural bill diffs, and amendment lifecycle graphs.
+- **Pipeline enrichment**: `PipelineRecord` includes optional `voting_record` and `amendments` fields populated during Hansard and legislation processing.
+- **Query commands**: the CLI exposes `voting-summary` and `amendment-history` for direct local analysis of text files.

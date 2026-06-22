@@ -1,21 +1,36 @@
-"""
-nlp-policy-nz: Shared SOTA Legislative & Parliamentary NLP Core Engine.
-Exposes modular XML ingestion, spaCy metadata injection, and target schema emitters.
-"""
+"""Shared SOTA Legislative & Parliamentary NLP Core Engine."""
+
+from __future__ import annotations
+
+from importlib import import_module
 
 __version__ = "0.1.0"
 
-# Version 3 SOTA Framework Exports
-from .universal_framework_v3 import (
-    FrameworkConfig,
-    MetaExtensionRegistry,
-    ModularSpaCyBridgeComponentV3,
-    SOTAPipelineVisualizer,
-    TargetSchemaEmitter,
-    UniversalIngestionEngine,
-    get_ingestion_engine,
-    run_framework as run_nlp_pipeline,
-)
+_FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
+    "FrameworkConfig": ("nlp_policy_nz.universal_framework_v3", "FrameworkConfig"),
+    "MetaExtensionRegistry": ("nlp_policy_nz.universal_framework_v3", "MetaExtensionRegistry"),
+    "ModularSpaCyBridgeComponentV3": (
+        "nlp_policy_nz.universal_framework_v3",
+        "ModularSpaCyBridgeComponentV3",
+    ),
+    "SOTAPipelineVisualizer": ("nlp_policy_nz.universal_framework_v3", "SOTAPipelineVisualizer"),
+    "TargetSchemaEmitter": ("nlp_policy_nz.universal_framework_v3", "TargetSchemaEmitter"),
+    "UniversalIngestionEngine": ("nlp_policy_nz.universal_framework_v3", "UniversalIngestionEngine"),
+    "get_ingestion_engine": ("nlp_policy_nz.universal_framework_v3", "get_ingestion_engine"),
+    "run_nlp_pipeline": ("nlp_policy_nz.universal_framework_v3", "run_framework"),
+}
+
+
+def __getattr__(name: str) -> object:
+    """Lazily resolve framework exports to keep package import lightweight."""
+    if name not in _FRAMEWORK_EXPORTS:
+        msg = f"module {__name__!r} has no attribute {name!r}"
+        raise AttributeError(msg)
+    module_name, attribute_name = _FRAMEWORK_EXPORTS[name]
+    value = getattr(import_module(module_name), attribute_name)
+    globals()[name] = value
+    return value
+
 
 __all__ = [
     "FrameworkConfig",
