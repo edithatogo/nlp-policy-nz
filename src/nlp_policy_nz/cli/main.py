@@ -25,8 +25,6 @@ from nlp_policy_nz.api import process_hansard, process_legislation, search_simil
 from nlp_policy_nz.integrations.hf_uploader import deploy_space, push_dataset_to_hub
 from nlp_policy_nz.integrations.release import ReleaseManager
 from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
-from nlp_policy_nz.parliament.amendments import amendments_to_dicts, parse_amendments
-from nlp_policy_nz.parliament.voting import parse_division
 from nlp_policy_nz.provenance import load_provenance_sidecar, provenance_sidecar_path
 from nlp_policy_nz.storage import load_from_parquet
 
@@ -631,6 +629,8 @@ def main(argv: list[str] | None = None) -> int:
             logger.info("Knowledge graph written: %s", result)
 
         elif args.command == "voting-summary":
+            from nlp_policy_nz.parliament.voting import parse_division  # noqa: PLC0415
+
             text = Path(args.input).read_text(encoding="utf-8")
             division = parse_division(text)
             payload = None if division is None else {
@@ -645,6 +645,11 @@ def main(argv: list[str] | None = None) -> int:
             sys.stdout.write(f"{json.dumps(payload, indent=2, ensure_ascii=False)}\n")
 
         elif args.command == "amendment-history":
+            from nlp_policy_nz.parliament.amendments import (  # noqa: PLC0415
+                amendments_to_dicts,
+                parse_amendments,
+            )
+
             text = Path(args.input).read_text(encoding="utf-8")
             payload = amendments_to_dicts(parse_amendments(text))
             sys.stdout.write(f"{json.dumps(payload, indent=2, ensure_ascii=False)}\n")
