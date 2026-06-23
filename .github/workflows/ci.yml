@@ -34,6 +34,12 @@ jobs:
       - name: Targeted lint
         run: CI=true pixi run lint-ci
 
+      - name: Targeted format check
+        run: CI=true pixi run format-ci
+
+      - name: Targeted pyright type check
+        run: CI=true pixi run typecheck-ci
+
       - name: Test with coverage
         run: CI=true pip install pytest-cov && pixi run coverage-ci
 

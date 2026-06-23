@@ -556,9 +556,7 @@ def main(argv: list[str] | None = None) -> int:
             creators = _json.loads(args.creators)
             provenance_path = provenance_sidecar_path(args.parquet)
             provenance_metadata = (
-                load_provenance_sidecar(provenance_path)
-                if provenance_path.is_file()
-                else None
+                load_provenance_sidecar(provenance_path) if provenance_path.is_file() else None
             )
             archiver = ZenodoArchiver(token=args.token)
             result = archiver.create_archive(
@@ -633,15 +631,19 @@ def main(argv: list[str] | None = None) -> int:
 
             text = Path(args.input).read_text(encoding="utf-8")
             division = parse_division(text)
-            payload = None if division is None else {
-                "motion": division.motion,
-                "ayes_count": division.ayes_count,
-                "nays_count": division.nays_count,
-                "abstains_count": division.abstains_count,
-                "outcome": division.outcome,
-                "votes": [vote.__dict__ for vote in division.votes],
-                "party_votes": division.party_votes,
-            }
+            payload = (
+                None
+                if division is None
+                else {
+                    "motion": division.motion,
+                    "ayes_count": division.ayes_count,
+                    "nays_count": division.nays_count,
+                    "abstains_count": division.abstains_count,
+                    "outcome": division.outcome,
+                    "votes": [vote.__dict__ for vote in division.votes],
+                    "party_votes": division.party_votes,
+                }
+            )
             sys.stdout.write(f"{json.dumps(payload, indent=2, ensure_ascii=False)}\n")
 
         elif args.command == "amendment-history":

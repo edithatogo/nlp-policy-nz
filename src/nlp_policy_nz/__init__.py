@@ -15,7 +15,10 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
     ),
     "SOTAPipelineVisualizer": ("nlp_policy_nz.universal_framework_v3", "SOTAPipelineVisualizer"),
     "TargetSchemaEmitter": ("nlp_policy_nz.universal_framework_v3", "TargetSchemaEmitter"),
-    "UniversalIngestionEngine": ("nlp_policy_nz.universal_framework_v3", "UniversalIngestionEngine"),
+    "UniversalIngestionEngine": (
+        "nlp_policy_nz.universal_framework_v3",
+        "UniversalIngestionEngine",
+    ),
     "get_ingestion_engine": ("nlp_policy_nz.universal_framework_v3", "get_ingestion_engine"),
 }
 

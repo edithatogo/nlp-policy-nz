@@ -2,6 +2,7 @@
 
 These run first in CI to fail fast if the environment is broken.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -14,31 +15,37 @@ class TestPackageImports:
 
     def test_import_nlp_policy_nz(self) -> None:
         import nlp_policy_nz  # noqa: F811
+
         # Package imported successfully (no version attr — read from metadata)
         assert hasattr(nlp_policy_nz, "run_nlp_pipeline")
 
     def test_import_guard(self) -> None:
         from nlp_policy_nz.guard import normalize_text  # noqa: F811
+
         assert callable(normalize_text)
 
     def test_import_syntactic(self) -> None:
         from nlp_policy_nz.syntactic import (  # noqa: F811
             create_nlp_pipeline,
         )
+
         assert callable(create_nlp_pipeline)
 
     def test_import_semantic(self) -> None:
         from nlp_policy_nz.semantic import generate_embedding  # noqa: F811
+
         assert callable(generate_embedding)
 
     def test_import_storage(self) -> None:
         from nlp_policy_nz.storage import (  # noqa: F811
             PipelineRecord,
         )
+
         assert PipelineRecord is not None
 
     def test_import_cli(self) -> None:
         from nlp_policy_nz.cli.main import main  # noqa: F811
+
         assert callable(main)
 
     def test_import_integrations(self) -> None:
@@ -47,6 +54,7 @@ class TestPackageImports:
             deploy_space,
             push_dataset_to_hub,
         )
+
         assert ZenodoArchiver is not None
         assert callable(push_dataset_to_hub)
         assert callable(deploy_space)
