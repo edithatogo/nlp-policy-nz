@@ -25,12 +25,6 @@ from nlp_policy_nz.api import process_hansard, process_legislation, search_simil
 from nlp_policy_nz.integrations.hf_uploader import deploy_space, push_dataset_to_hub
 from nlp_policy_nz.integrations.release import ReleaseManager
 from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
-from nlp_policy_nz.kb import export_knowledge_graph_jsonld, load_wikidata_entities
-from nlp_policy_nz.linked_data import (
-    export_hansard_sioc,
-    query_graph,
-    rdf_sidecar_path,
-)
 from nlp_policy_nz.parliament.amendments import amendments_to_dicts, parse_amendments
 from nlp_policy_nz.parliament.voting import parse_division
 from nlp_policy_nz.provenance import load_provenance_sidecar, provenance_sidecar_path
@@ -600,6 +594,11 @@ def main(argv: list[str] | None = None) -> int:
             sys.stdout.write(f"{_json.dumps(data, indent=2, ensure_ascii=False)}\n")
 
         elif args.command == "export-rdf":
+            from nlp_policy_nz.linked_data import (  # noqa: PLC0415
+                export_hansard_sioc,
+                rdf_sidecar_path,
+            )
+
             records = load_from_parquet(args.parquet)
             output = Path(args.output) if args.output else rdf_sidecar_path(args.parquet)
             result = export_hansard_sioc(
@@ -612,10 +611,17 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "sparql":
             import json as _json  # noqa: PLC0415
 
+            from nlp_policy_nz.linked_data import query_graph  # noqa: PLC0415
+
             rows = query_graph(args.rdf, args.query)
             sys.stdout.write(f"{_json.dumps(rows, indent=2, ensure_ascii=False)}\n")
 
         elif args.command == "knowledge-graph":
+            from nlp_policy_nz.kb import (  # noqa: PLC0415
+                export_knowledge_graph_jsonld,
+                load_wikidata_entities,
+            )
+
             entities = load_wikidata_entities(args.entities)
             result = export_knowledge_graph_jsonld(
                 entities,
