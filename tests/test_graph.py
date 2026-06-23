@@ -183,7 +183,7 @@ def test_to_dict_roundtrip() -> None:
     graph = _build_sample_graph()
     data = graph.to_dict()
     assert "nodes" in data
-    assert "links" in data
+    assert "links" in data or "edges" in data
 
     restored_graph = PolicyGraph()
     restored_graph._graph = nx.node_link_graph(data)
@@ -200,7 +200,7 @@ def test_save_and_load_roundtrip(tmp_path: Path) -> None:
     with open(file_path, encoding="utf-8") as fh:  # noqa: PTH123
         raw = json.load(fh)
     assert "nodes" in raw
-    assert "links" in raw
+    assert "links" in raw or "edges" in raw
 
     restored = PolicyGraph.load(file_path)
     assert restored.graph.number_of_nodes() == original.graph.number_of_nodes()

@@ -440,7 +440,9 @@ def _main(argv: list[str] | None = None) -> None:
         payload = build_dry_run_payload(config, args.parquet_paths)
         rendered = json.dumps(payload, indent=2, sort_keys=True)
         if args.spec_output:
-            Path(args.spec_output).write_text(f"{rendered}\n", encoding="utf-8")
+            out_p = Path(args.spec_output)
+            out_p.parent.mkdir(parents=True, exist_ok=True)
+            out_p.write_text(f"{rendered}\n", encoding="utf-8")
         if args.print_spec or not args.spec_output:
             sys.stdout.write(f"{rendered}\n")
         return

@@ -30,7 +30,7 @@ from nlp_policy_nz.parliament.voting import parse_division
 from nlp_policy_nz.provenance import ProvenanceRecorder
 from nlp_policy_nz.semantic import generate_embedding
 from nlp_policy_nz.semantic.model_loader import DEFAULT_MODEL, load_model
-from nlp_policy_nz.storage import PipelineRecord, VectorIndex, serialize_to_parquet
+from nlp_policy_nz.storage import LanceDBAdapter, PipelineRecord, serialize_to_parquet
 from nlp_policy_nz.syntactic import (
     chunk_hansard_speech,
     chunk_legislation_document,
@@ -438,8 +438,8 @@ def search_similar(
     model, tokenizer = load_model()
     query_embedding = generate_embedding(query, model, tokenizer)
 
-    index = VectorIndex(uri=str(db))
-    if not index.table_exists():
+    index = LanceDBAdapter(uri=str(db))
+    if not index.index_exists():
         msg = (
             f"No table found in LanceDB database at {db}. "
             "Run pipeline processing with embeddings enabled first."

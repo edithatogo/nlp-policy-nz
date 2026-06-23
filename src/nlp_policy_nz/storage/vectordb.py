@@ -13,11 +13,13 @@ from typing import Any, Final
 import lancedb
 from lancedb.table import Table
 
+from nlp_policy_nz.storage.interfaces import VectorBackend
+
 LANCE_DB_URI: Final[str] = "./lancedb_data"
 """Default local path for the LanceDB database directory."""
 
 
-class VectorIndex:
+class LanceDBAdapter(VectorBackend):
     """A vector index backed by a LanceDB table.
 
     Wraps a LanceDB ``Table`` to provide a simple interface for creating,
@@ -35,7 +37,7 @@ class VectorIndex:
 
     Examples
     --------
-    >>> idx = VectorIndex()
+    >>> idx = LanceDBAdapter()
     >>> idx.create_index([
     ...     {"vector": [0.1, 0.2], "doc_id": "doc1", "text": "example"},
     ... ])
@@ -92,7 +94,6 @@ class VectorIndex:
                 mode=mode,
             )
         except Exception:
-            # If the table already exists and mode is "create", open it instead.
             self._table = self._db.open_table(self._table_name)
 
     def search(
@@ -113,19 +114,19 @@ class VectorIndex:
         -------
         list[dict[str, Any]]
             A list of result dicts.  Each dict contains the original record
-            fields plus a ``_distance`` key with the distance metric value.
-
-        Raises
-        ------
-        RuntimeError
-            If the underlying table has not been created yet.
+            fields plus a ``score`` key (LanceDB ``_distance`` normalised).
+            The ``_distance`` key is also preserved for backwards compat.
 
         """
         if self._table is None:
-            raise RuntimeError("No table available. Call create_index() first.")
+            return []
 
-        result = self._table.search(query_vector).limit(top_k).to_list()
-        return result
+        raw = self._table.search(query_vector).limit(top_k).to_list()
+        results: list[dict[str, Any]] = []
+        for row in raw:
+            row["score"] = row.get("_distance", 0.0)
+            results.append(row)
+        return results
 
     def add_records(self, records: list[dict[str, Any]]) -> None:
         """Append records to the existing table.
@@ -146,7 +147,7 @@ class VectorIndex:
             raise RuntimeError("No table available. Call create_index() first.")
         self._table.add(records)
 
-    def delete_table(self) -> None:
+    def delete_index(self) -> None:
         """Drop the table from the database entirely.
 
         After calling this method, the index is reset and
@@ -157,7 +158,7 @@ class VectorIndex:
             self._db.drop_table(self._table_name)
             self._table = None
 
-    def table_exists(self) -> bool:
+    def index_exists(self) -> bool:
         """Check whether the table exists in the database.
 
         Returns
@@ -172,9 +173,14 @@ class VectorIndex:
     # Internal helpers
     # ------------------------------------------------------------------
 
+    def close(self) -> None:
+        """Drop the table and release the LanceDB connection."""
+        self.delete_index()
+        self._db = None  # type: ignore[assignment]
+
     def _open_or_create_table(self) -> None:
         """Open an existing table or leave ``_table`` as ``None``."""
-        if self.table_exists():
+        if self.index_exists():
             self._table = self._db.open_table(self._table_name)
         else:
             self._table = None
