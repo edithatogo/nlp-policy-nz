@@ -31,29 +31,14 @@ jobs:
       - name: Validate AKN v3 examples
         run: CI=true pixi run test -- tests/test_akn_v3.py -q
 
-      - name: Lint
-        run: CI=true pixi run lint
-
-      - name: Format check
-        run: CI=true pixi run format
-
-      - name: Type check
-        run: CI=true pip install pyright && pyright src
-
-      - name: Complexity check
-        run: CI=true pixi run check-complexity
-
-      - name: Boundary check
-        run: CI=true pixi run check-boundaries
+      - name: Targeted lint
+        run: CI=true pixi run lint-ci
 
       - name: Test with coverage
-        run: CI=true pip install pytest-cov && pixi run test -- --cov=src --cov-report=xml --cov-report=html
+        run: CI=true pip install pytest-cov && pixi run coverage-ci
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
           fail_ci_if_error: false
-
-      - name: Full check
-        run: CI=true pixi run check

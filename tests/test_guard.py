@@ -7,8 +7,8 @@ words are not incorrectly split by downstream tokenisers.
 
 from __future__ import annotations
 
-import spacy
 import pytest
+import spacy
 from spacy import util as spacy_util
 
 from nlp_policy_nz.guard.normalizer import (
