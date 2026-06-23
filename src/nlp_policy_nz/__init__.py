@@ -17,8 +17,14 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
     "TargetSchemaEmitter": ("nlp_policy_nz.universal_framework_v3", "TargetSchemaEmitter"),
     "UniversalIngestionEngine": ("nlp_policy_nz.universal_framework_v3", "UniversalIngestionEngine"),
     "get_ingestion_engine": ("nlp_policy_nz.universal_framework_v3", "get_ingestion_engine"),
-    "run_nlp_pipeline": ("nlp_policy_nz.universal_framework_v3", "run_framework"),
 }
+
+
+def run_nlp_pipeline(*args: object, **kwargs: object) -> object:
+    """Run the universal framework, importing optional parser deps only on use."""
+    from nlp_policy_nz.universal_framework_v3 import run_framework
+
+    return run_framework(*args, **kwargs)
 
 
 def __getattr__(name: str) -> object:
