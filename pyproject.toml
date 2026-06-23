@@ -190,6 +190,9 @@ directory = "coverage_html"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = [
+    "benchmark: performance benchmark tests requiring pytest-benchmark",
+]
 
 [tool.scalene]
 cpu = true

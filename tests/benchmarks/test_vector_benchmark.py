@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import pytest
 
+pytest.importorskip("pytest_benchmark")
+
 from nlp_policy_nz.storage.vectordb import LanceDBAdapter
 from tests.fixtures.vector_benchmark_data import (  # noqa: E402
     BENCHMARK_DIM,
