@@ -7,7 +7,6 @@ within the NLP preprocessing pipeline for New Zealand legislative and parliament
 
 from __future__ import annotations
 
-from nlp_policy_nz.guard.language_id import LanguageIdentifier, LanguageResult
 from nlp_policy_nz.guard.normalizer import (
     MACRON_MAP,
     is_macronized,
@@ -21,6 +20,8 @@ from nlp_policy_nz.guard.tokenizer_exceptions import (
     create_maori_guard_component,
 )
 
+_LANGUAGE_EXPORTS = {"LanguageIdentifier", "LanguageResult"}
+
 __all__: list[str] = [
     "MACRON_MAP",
     "TE_REO_LEXICAL_ATOM_SET",
@@ -33,3 +34,15 @@ __all__: list[str] = [
     "normalize_text",
     "preserve_macrons",
 ]
+
+
+def __getattr__(name: str) -> object:
+    """Load optional language detection exports only when requested."""
+    if name in _LANGUAGE_EXPORTS:
+        from nlp_policy_nz.guard.language_id import LanguageIdentifier, LanguageResult
+
+        return {
+            "LanguageIdentifier": LanguageIdentifier,
+            "LanguageResult": LanguageResult,
+        }[name]
+    raise AttributeError(name)

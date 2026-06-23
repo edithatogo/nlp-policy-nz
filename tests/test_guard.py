@@ -8,6 +8,7 @@ words are not incorrectly split by downstream tokenisers.
 from __future__ import annotations
 
 import spacy
+import pytest
 from spacy import util as spacy_util
 
 from nlp_policy_nz.guard.normalizer import (
@@ -197,6 +198,7 @@ class TestCreateMaoriGuardComponent:
 # Language Identifier Tests
 # ---------------------------------------------------------------------------
 
+pytest.importorskip("lingua")
 
 from nlp_policy_nz.guard.language_id import (  # noqa: E402
     LANGUAGE_MIIO_CONFIDENCE,
