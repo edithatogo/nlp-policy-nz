@@ -1,0 +1,8 @@
+[mutatest]
+src = "src/nlp_policy_nz"
+tests = "tests"
+runner = "python -m pytest"
+mode = "f"
+exclude =
+    "src/nlp_policy_nz/__pycache__"
+    "tests"

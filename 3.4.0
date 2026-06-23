@@ -1,0 +1,10 @@
+Collecting xmlschema
+  Downloading xmlschema-4.3.1-py3-none-any.whl.metadata (8.0 kB)
+Collecting elementpath<6.0.0,>=5.1.0 (from xmlschema)
+  Downloading elementpath-5.1.2-py3-none-any.whl.metadata (7.0 kB)
+Downloading xmlschema-4.3.1-py3-none-any.whl (469 kB)
+   ---------------------------------------- 469.9/469.9 kB 5.9 MB/s eta 0:00:00
+Downloading elementpath-5.1.2-py3-none-any.whl (260 kB)
+   ---------------------------------------- 260.3/260.3 kB 7.8 MB/s eta 0:00:00
+Installing collected packages: elementpath, xmlschema
+Successfully installed elementpath-5.1.2 xmlschema-4.3.1

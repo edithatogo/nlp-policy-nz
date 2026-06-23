@@ -1,0 +1,81 @@
+[
+  {
+    "text": "Jacinda Ardern spoke for Labour in Mount Albert.",
+    "span": "Jacinda Ardern",
+    "expected_entity_id": "mp:jacinda-ardern",
+    "party": "New Zealand Labour Party",
+    "electorate": "Mount Albert",
+    "date": "2020-10-17"
+  },
+  {
+    "text": "Luxon responded on behalf of National.",
+    "span": "Luxon",
+    "expected_entity_id": "mp:christopher-luxon",
+    "party": "New Zealand National Party",
+    "electorate": "Botany",
+    "date": "2024-01-01"
+  },
+  {
+    "text": "Chris Hipkins spoke for Labour.",
+    "span": "Chris Hipkins",
+    "expected_entity_id": "mp:chris-hipkins",
+    "party": "New Zealand Labour Party",
+    "date": "2021-05-01"
+  },
+  {
+    "text": "David Seymour spoke for ACT New Zealand.",
+    "span": "David Seymour",
+    "expected_entity_id": "mp:david-seymour",
+    "date": "2024-01-01"
+  },
+  {
+    "text": "The New Zealand Labour Party supported the bill.",
+    "span": "Labour",
+    "expected_entity_id": "party:new-zealand-labour-party"
+  },
+  {
+    "text": "The National Party opposed the amendment.",
+    "span": "National Party",
+    "expected_entity_id": "party:new-zealand-national-party"
+  },
+  {
+    "text": "New Zealand First supported the motion.",
+    "span": "New Zealand First",
+    "expected_entity_id": "party:new-zealand-first"
+  },
+  {
+    "text": "The member for Mount Albert asked a question.",
+    "span": "Mount Albert",
+    "expected_entity_id": "electorate:mount-albert"
+  },
+  {
+    "text": "The member for Botany addressed the House.",
+    "span": "Botany",
+    "expected_entity_id": "electorate:botany"
+  },
+  {
+    "text": "The member for Wellington Central responded.",
+    "span": "Wellington Central",
+    "expected_entity_id": "electorate:wellington-central"
+  },
+  {
+    "text": "The Ministry of Justice briefed the select committee.",
+    "span": "Ministry of Justice",
+    "expected_entity_id": "ministry:ministry-of-justice"
+  },
+  {
+    "text": "The Ministry of Health advised Cabinet.",
+    "span": "Ministry of Health",
+    "expected_entity_id": "ministry:ministry-of-health"
+  },
+  {
+    "text": "The Supreme Court of New Zealand considered the appeal.",
+    "span": "Supreme Court of New Zealand",
+    "expected_entity_id": "court:supreme-court-of-new-zealand"
+  },
+  {
+    "text": "The Court of Appeal of New Zealand released judgment.",
+    "span": "Court of Appeal of New Zealand",
+    "expected_entity_id": "court:court-of-appeal-of-new-zealand"
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legal-nz.example.org/schemas/track19-profiling-evidence.schema.json",
+  "title": "Track 19 profiling evidence note",
+  "type": "object",
+  "required": [
+    "tool",
+    "created_at",
+    "command",
+    "return_code",
+    "input",
+    "input_exists",
+    "output",
+    "source",
+    "with_embeddings",
+    "python",
+    "executable",
+    "platform",
+    "corpus_claim"
+  ],
+  "properties": {
+    "tool": {
+      "enum": ["scalene", "memray"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "command": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "return_code": {
+      "type": "integer"
+    },
+    "flamegraph_command": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "flamegraph_return_code": {
+      "type": ["integer", "null"]
+    },
+    "input": {
+      "type": "string"
+    },
+    "input_exists": {
+      "type": "boolean"
+    },
+    "output": {
+      "type": "string"
+    },
+    "report": {
+      "type": "string"
+    },
+    "report_exists": {
+      "type": "boolean"
+    },
+    "trace": {
+      "type": "string"
+    },
+    "trace_exists": {
+      "type": "boolean"
+    },
+    "flamegraph": {
+      "type": "string"
+    },
+    "flamegraph_exists": {
+      "type": "boolean"
+    },
+    "source": {
+      "enum": ["legislation", "hansard"]
+    },
+    "with_embeddings": {
+      "type": "boolean"
+    },
+    "python": {
+      "type": "string"
+    },
+    "executable": {
+      "type": "string"
+    },
+    "platform": {
+      "type": "string"
+    },
+    "corpus_claim": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

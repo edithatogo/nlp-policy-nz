@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
+           xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+  <xs:element name="akomaNtoso">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="bill" type="billType"/>
+        <xs:element name="amendment" type="amendmentType"/>
+        <xs:element name="judgment" type="judgmentType"/>
+        <xs:element name="debate" type="debateType"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="billType">
+    <xs:sequence>
+      <xs:element name="meta" type="metaType"/>
+      <xs:element name="body" type="bodyType"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="amendmentType">
+    <xs:sequence>
+      <xs:element name="meta" type="metaType"/>
+      <xs:element name="amendmentBody" type="amendmentBodyType"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="debateType">
+    <xs:sequence>
+      <xs:element name="meta" type="metaType"/>
+      <xs:element name="debateBody" type="debateBodyType"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="judgmentType">
+    <xs:sequence>
+      <xs:element name="meta" type="metaType"/>
+      <xs:element name="header" type="headerType"/>
+      <xs:element name="judgmentBody" type="judgmentBodyType"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="metaType">
+    <xs:sequence>
+      <xs:element name="identification" type="identificationType"/>
+      <xs:element name="lifecycle" type="lifecycleType"/>
+      <xs:element name="analysis" type="analysisType"/>
+      <xs:element name="references" type="referencesType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="identificationType">
+    <xs:sequence>
+      <xs:element name="FRBRWork" type="frbrWorkType"/>
+      <xs:element name="FRBRExpression" type="frbrExpressionType"/>
+      <xs:element name="FRBRManifestation" type="frbrCommonType"/>
+      <xs:element name="FRBRItem" type="frbrCommonType"/>
+    </xs:sequence>
+    <xs:attribute name="source" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="frbrWorkType">
+    <xs:sequence>
+      <xs:element name="FRBRthis" type="valueType"/>
+      <xs:element name="FRBRuri" type="valueType"/>
+      <xs:element name="FRBRdate" type="dateType"/>
+      <xs:element name="FRBRauthor" type="authorType"/>
+      <xs:element name="FRBRcountry" type="valueType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="frbrExpressionType">
+    <xs:sequence>
+      <xs:element name="FRBRthis" type="valueType"/>
+      <xs:element name="FRBRuri" type="valueType"/>
+      <xs:element name="FRBRdate" type="dateType"/>
+      <xs:element name="FRBRauthor" type="authorType"/>
+      <xs:element name="FRBRlanguage" type="languageType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="frbrCommonType">
+    <xs:sequence>
+      <xs:element name="FRBRthis" type="valueType"/>
+      <xs:element name="FRBRuri" type="valueType"/>
+      <xs:element name="FRBRdate" type="dateType"/>
+      <xs:element name="FRBRauthor" type="authorType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lifecycleType">
+    <xs:sequence>
+      <xs:element name="eventRef" type="eventRefType" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="source" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="analysisType">
+    <xs:sequence>
+      <xs:element name="otherAnalysis" type="otherAnalysisType" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="source" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="referencesType">
+    <xs:sequence>
+      <xs:element name="TLCReference" type="referenceType" maxOccurs="unbounded"/>
+      <xs:element name="TLCEvent" type="tlcEventType" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="source" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="bodyType">
+    <xs:sequence>
+      <xs:element name="section" type="sectionType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="sectionType">
+    <xs:sequence>
+      <xs:element name="num" type="xs:string"/>
+      <xs:element name="content" type="contentType"/>
+    </xs:sequence>
+    <xs:attribute name="eId" type="xs:ID" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="contentType">
+    <xs:sequence>
+      <xs:element name="p" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="amendmentBodyType">
+    <xs:sequence>
+      <xs:element name="amendmentContent" type="paragraphContainerType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="debateBodyType">
+    <xs:sequence>
+      <xs:element name="debateSection" type="namedParagraphContainerType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="judgmentBodyType">
+    <xs:sequence>
+      <xs:element name="decision" type="paragraphContainerType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="headerType">
+    <xs:sequence minOccurs="0">
+      <xs:element name="p" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="paragraphContainerType">
+    <xs:sequence>
+      <xs:element name="p" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="namedParagraphContainerType">
+    <xs:complexContent>
+      <xs:extension base="paragraphContainerType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="valueType">
+    <xs:attribute name="value" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="dateType">
+    <xs:attribute name="date" type="xs:date" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="authorType">
+    <xs:attribute name="href" type="xs:string" use="required"/>
+    <xs:attribute name="as" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="languageType">
+    <xs:attribute name="language" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="eventRefType">
+    <xs:attribute name="date" type="xs:date" use="required"/>
+    <xs:attribute name="source" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="xs:string" use="required"/>
+    <xs:attribute name="href" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="otherAnalysisType">
+    <xs:attribute name="source" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="referenceType">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="href" type="xs:string" use="required"/>
+    <xs:attribute name="showAs" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="tlcEventType">
+    <xs:attribute name="href" type="xs:string" use="required"/>
+    <xs:attribute name="showAs" type="xs:string" use="required"/>
+  </xs:complexType>
+</xs:schema>

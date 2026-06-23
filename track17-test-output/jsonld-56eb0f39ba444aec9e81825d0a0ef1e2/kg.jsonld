@@ -1,0 +1,24 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "wd": "https://www.wikidata.org/entity/",
+    "nlp": "https://legal-nz.example.org/ontology/"
+  },
+  "@graph": [
+    {
+      "@id": "https://example.org/kg/party/example-party",
+      "@type": "schema:Organization",
+      "schema:name": "Example Party",
+      "schema:identifier": "Q7278",
+      "schema:description": "party result",
+      "schema:sameAs": "https://www.wikidata.org/entity/Q7278",
+      "schema:additionalProperty": [
+        {
+          "@type": "schema:PropertyValue",
+          "schema:name": "inception_date",
+          "schema:value": "1916-07-07"
+        }
+      ]
+    }
+  ]
+}

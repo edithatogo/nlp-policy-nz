@@ -1,0 +1,45 @@
+# Track 23 Evidence
+
+## Scope
+
+This evidence lane records the bounded repo-side quality infrastructure scaffold. It
+does not claim that full strict Ruff, pyright, coverage, or mutation gates pass
+until those commands are run across the agreed scope and their outputs are
+recorded.
+
+## Repo-Side Scaffold
+
+- Ruff strict rule configuration surface is present in `pyproject.toml`.
+- Pyright strict configuration surface is present in `pyproject.toml`.
+- Coverage configuration surfaces are present in `pyproject.toml` and `.coveragerc`.
+- CI quality wiring surfaces are present in `.github/workflows/ci.yml`.
+- Smoke, integration, E2E, Hypothesis, and mutation-test scaffolds are present.
+- Build backend and pydantic/msgspec evaluation notes are present.
+- Profiling script scaffold is present.
+- Track 23 deterministic evidence helpers are present in
+  `src/nlp_policy_nz/quality/track23_evidence.py`.
+- Dedicated bounded smoke validation is present in `tests/smoke/`.
+
+## Acceptance Status
+
+- repo_side_contracts: satisfied
+- full_ruff_strict: pending
+- full_typecheck: pending
+- coverage_gate: pending
+- mutation_ci_gate: pending
+
+## Validation Commands
+
+```cmd
+python -B -m pytest -p no:cacheprovider -q tests\smoke tests\test_quality_infrastructure.py tests\test_track23_evidence.py tests\test_smoke.py tests\integration tests\e2e
+python -m ruff check --no-cache src\nlp_policy_nz\quality src\nlp_policy_nz\training\__init__.py tests\test_track23_evidence.py tests\test_quality_infrastructure.py tests\test_smoke.py tests\smoke tests\integration tests\e2e
+python -B -m py_compile src\nlp_policy_nz\quality\track23_evidence.py
+python -B -m json.tool conductor\tracks\track23_quality_infrastructure_20260613\metadata.json > nul
+```
+
+## Residual Measured Gates
+
+- `ruff check --select ANN,D,TCH,YTT,RET` must pass across the agreed full source scope.
+- `pyright` strict mode must pass across the agreed full source scope.
+- Coverage must be measured and meet the agreed threshold.
+- Mutation testing must run and record a passing result.

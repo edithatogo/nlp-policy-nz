@@ -1,0 +1,17 @@
+{
+    "track_id":  "track12_entity_linking_20260613",
+    "type":  "feature",
+    "status":  "archived",
+    "created_at":  "2026-06-13T00:00:00Z",
+    "updated_at":  "2026-06-22T00:00:00Z",
+    "description":  "Named Entity Resolution and Wikidata linking for NZ MPs, parties, electorates, ministries, and organisations.",
+    "implementation":  {
+                           "kb_snapshot":  "data/kb/nz_entities.json",
+                           "builder":  "scripts/build_nz_entity_kb.py",
+                           "resolver":  "src/nlp_policy_nz/kb/resolver.py",
+                           "pipeline":  "src/nlp_policy_nz/pipeline_api.py",
+                           "tests":  "tests/test_kb.py",
+                           "benchmark":  "tests/fixtures/kb_resolution_benchmark.json",
+                           "coverage":  "95% for Track 12 KB modules"
+                       }
+}

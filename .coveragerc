@@ -1,0 +1,22 @@
+[run]
+branch = True
+source =
+    src
+omit =
+    */__pycache__/*
+    *.venv/*
+    .venv/*
+
+[report]
+show_missing = True
+skip_covered = False
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if __name__ == .__main__.:
+    if TYPE_CHECKING:
+    raise AssertionError
+    raise NotImplementedError
+
+[html]
+directory = coverage_html

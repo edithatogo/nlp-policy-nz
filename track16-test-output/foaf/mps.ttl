@@ -1,0 +1,13 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix schema: <https://schema.org/> .
+
+<https://example.org/party/example-party> a foaf:Organization ;
+    foaf:member <https://example.org/person-1> ;
+    foaf:name "Example Party" .
+
+<https://example.org/person-1> a foaf:Person ;
+    foaf:name "Jane Doe" ;
+    schema:affiliation <https://example.org/party/example-party> ;
+    schema:electoralDistrict "Example" ;
+    schema:jobTitle "Minister" .
+

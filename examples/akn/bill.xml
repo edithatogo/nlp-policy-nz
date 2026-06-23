@@ -1,0 +1,50 @@
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0">
+  <bill name="Climate Response Bill">
+    <meta>
+      <identification source="#nlp_policy_nz">
+        <FRBRWork>
+          <FRBRthis value="/nz/bill/example-bill/main"/>
+          <FRBRuri value="/nz/bill/example-bill"/>
+          <FRBRdate date="2026-06-21" name="generation"/>
+          <FRBRauthor href="#nlp-policy-nz" as="#author"/>
+          <FRBRcountry value="nz"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="/nz/bill/example-bill/eng@2026-06-21/main"/>
+          <FRBRuri value="/nz/bill/example-bill/eng@2026-06-21"/>
+          <FRBRdate date="2026-06-21" name="generation"/>
+          <FRBRauthor href="#nlp-policy-nz" as="#author"/>
+          <FRBRlanguage language="eng"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="/nz/bill/example-bill/eng@2026-06-21/main.xml"/>
+          <FRBRuri value="/nz/bill/example-bill/eng@2026-06-21/main.xml"/>
+          <FRBRdate date="2026-06-21" name="generation"/>
+          <FRBRauthor href="#nlp-policy-nz" as="#author"/>
+        </FRBRManifestation>
+        <FRBRItem>
+          <FRBRthis value="/nz/bill/example-bill/eng@2026-06-21/main.xml#v1"/>
+          <FRBRuri value="/nz/bill/example-bill/eng@2026-06-21/main.xml#v1"/>
+          <FRBRdate date="2026-06-21" name="generation"/>
+          <FRBRauthor href="#nlp-policy-nz" as="#author"/>
+        </FRBRItem>
+      </identification>
+      <lifecycle source="#nlp_policy_nz">
+        <eventRef date="2026-06-21" source="#nlp_policy_nz" type="generation" href="#generation"/>
+      </lifecycle>
+      <analysis source="#nlp_policy_nz">
+        <otherAnalysis source="#pipeline"/>
+      </analysis>
+      <references source="#nlp_policy_nz">
+        <TLCReference name="nlp_policy_nz" href="/ontology/source/nlp_policy_nz" showAs="nlp_policy_nz"/>
+        <TLCEvent href="#generation" showAs="generation"/>
+      </references>
+    </meta>
+    <body>
+      <section eId="sec_1">
+        <num>1</num>
+        <content><p>The Minister must report on climate response measures.</p></content>
+      </section>
+    </body>
+  </bill>
+</akomaNtoso>

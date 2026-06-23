@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 20 (Fine-Tuning), Track 5 (Semantic Layer)
 **Parallelization Node**: Legal Knowledge Integration
-**Status**: Pending
+**Status**: In Progress
 
 ---
 
@@ -82,3 +82,7 @@ Integrate the Isaacus legal NLP ecosystem — the most comprehensive open-source
 - [ ] NZ-MLEB baselines published
 - [ ] semchunk evaluated vs existing chunking
 - [ ] Blackstone Graph monitored for integration opportunities
+
+## Repo-side Evidence Boundary - 2026-06-23
+
+The repository now contains offline Isaacus manifests, Australian legal row normalization into PipelineRecord, NZ-MLEB query scaffolding, fail-closed external access gates, audit-only shell wrappers, and focused tests. The acceptance criteria above remain open until live downloads, measured model/API evaluations, NZ-AU corpus merge artifacts, semchunk comparison outputs, and publication evidence are produced in an approved external lane.

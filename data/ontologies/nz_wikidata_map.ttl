@@ -1,0 +1,48 @@
+@prefix nlp: <https://legal-nz.example.org/ontology/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
+
+nlp:NZWikidataMap a owl:Ontology ;
+    rdfs:label "New Zealand legal and parliamentary Wikidata map" ;
+    schema:about nlp:NZAct,
+        nlp:NZMemberOfParliament,
+        nlp:NZPoliticalParty,
+        nlp:NZElectorate,
+        nlp:NZCourt .
+
+nlp:NZAct a owl:Class ;
+    rdfs:label "New Zealand Act" ;
+    skos:definition "Legislative Act or statute in New Zealand law." ;
+    owl:equivalentClass wd:Q820655 ;
+    nlp:wikidataInstanceProperty wdt:P31 ;
+    nlp:wikidataCountryConstraint wd:Q664 .
+
+nlp:NZMemberOfParliament a owl:Class ;
+    rdfs:label "New Zealand member of parliament" ;
+    skos:definition "Current or historical member of the New Zealand Parliament." ;
+    owl:equivalentClass wd:Q486839 ;
+    nlp:wikidataOfficeProperty wdt:P39 ;
+    nlp:wikidataCountryConstraint wd:Q664 .
+
+nlp:NZPoliticalParty a owl:Class ;
+    rdfs:label "New Zealand political party" ;
+    skos:definition "Political party active in New Zealand electoral or parliamentary records." ;
+    owl:equivalentClass wd:Q7278 ;
+    nlp:wikidataCountryConstraint wd:Q664 .
+
+nlp:NZElectorate a owl:Class ;
+    rdfs:label "New Zealand electorate" ;
+    skos:definition "Electoral district represented in New Zealand parliamentary data." ;
+    owl:equivalentClass wd:Q192611 ;
+    nlp:wikidataCountryConstraint wd:Q664 .
+
+nlp:NZCourt a owl:Class ;
+    rdfs:label "New Zealand court" ;
+    skos:definition "Court or tribunal in the New Zealand judicial system." ;
+    owl:equivalentClass wd:Q41487 ;
+    nlp:wikidataCountryConstraint wd:Q664 .
+

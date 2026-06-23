@@ -1,0 +1,22 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix sioc: <http://rdfs.org/sioc/ns#> .
+
+<https://example.org/nz/speech/han-001> a sioc:Post ;
+    sioc:content "Speech text." ;
+    sioc:has_container <https://example.org/nz/debate/hansard-debate> ;
+    sioc:has_creator <https://example.org/nz/speaker/unknown-speaker> ;
+    sioc:has_reply <https://example.org/nz/debate/hansard-debate/thread> .
+
+<https://example.org/nz/debate/hansard-debate/thread> a sioc:Thread ;
+    sioc:has_container <https://example.org/nz/debate/hansard-debate> .
+
+<https://example.org/nz/parliament> a sioc:Site ;
+    sioc:name "New Zealand Parliament" .
+
+<https://example.org/nz/speaker/unknown-speaker> a foaf:Person ;
+    foaf:name "Unknown Speaker" .
+
+<https://example.org/nz/debate/hansard-debate> a sioc:Forum ;
+    sioc:has_parent <https://example.org/nz/parliament> ;
+    sioc:name "Hansard Debate" .
+

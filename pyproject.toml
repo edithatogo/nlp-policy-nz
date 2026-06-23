@@ -68,7 +68,7 @@ packages = ["src/nlp_policy_nz"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py314"
 
 [tool.ruff.lint]
 # MAXIMUM strict rule selection covering:

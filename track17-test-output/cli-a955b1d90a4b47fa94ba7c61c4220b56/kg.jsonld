@@ -1,0 +1,16 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "wd": "https://www.wikidata.org/entity/",
+    "nlp": "https://legal-nz.example.org/ontology/"
+  },
+  "@graph": [
+    {
+      "@id": "https://example.org/kg/mp/jane-doe",
+      "@type": "schema:Person",
+      "schema:name": "Jane Doe",
+      "schema:identifier": "Q12345",
+      "schema:sameAs": "https://www.wikidata.org/entity/Q12345"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "track_id": "track19_observability_benchmarks_20260613",
+  "agent": "codex_gpt5_implementer_b",
+  "created_at": "2026-06-22T00:00:00Z",
+  "scope": "profiling/CI/docs surfaces only",
+  "changed_surfaces": [
+    "scripts/profile_pipeline.py",
+    "scripts/memray_trace.py",
+    ".github/workflows/benchmark.yml",
+    "docs/profiling.md",
+    "docs/perf.md",
+    "conductor/tracks/track19_observability_benchmarks_20260613/plan.md",
+    "conductor/tracks/track19_observability_benchmarks_20260613/profiling_evidence.schema.json"
+  ],
+  "checks": [
+    {
+      "command": "python -B -m py_compile scripts\\profile_pipeline.py scripts\\memray_trace.py",
+      "result": "passed"
+    },
+    {
+      "command": "python scripts\\profile_pipeline.py --help",
+      "result": "passed"
+    },
+    {
+      "command": "python scripts\\memray_trace.py --help",
+      "result": "passed"
+    },
+    {
+      "command": "python -m json.tool conductor\\tracks\\track19_observability_benchmarks_20260613\\profiling_evidence.schema.json > NUL",
+      "result": "passed"
+    },
+    {
+      "command": "python -B -m pytest tests\\benchmarks\\test_pipeline_benchmark.py -q -p no:cacheprovider",
+      "result": "skipped",
+      "reason": "pytest-benchmark is not installed in the current interpreter"
+    }
+  ],
+  "corpus_profile_runs": {
+    "one_gb_corpus": "not_run",
+    "full_corpus": "not_run",
+    "reason": "canonical profiling corpus was not provided in this implementation workspace"
+  },
+  "residual_external_gates": [
+    "Install or refresh Track 19 dev dependencies including pytest-benchmark, scalene, and memray.",
+    "Run controlled 1 GB Hansard Scalene and Memray profiles and retain generated JSON evidence notes.",
+    "Run full-corpus profiling only when the canonical corpus is available.",
+    "Run the full benchmark workflow or equivalent Pixi benchmark command with pytest-benchmark installed."
+  ]
+}

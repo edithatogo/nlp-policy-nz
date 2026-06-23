@@ -1,8 +1,9 @@
 {
   "track_id": "track22_isaacus_integration_20260613",
   "type": "feature",
-  "status": "pending",
+  "status": "in_progress",
   "created_at": "2026-06-13T00:00:00Z",
-  "updated_at": "2026-06-13T00:00:00Z",
-  "description": "Integrate Isaacus legal NLP ecosystem: Open Australian Legal Corpus, MLEB benchmark (extend to NZ), Kanon 2 Embedder evaluation, semchunk, Blackstone Graph, Legal RAG Bench."
+  "updated_at": "2026-06-23T00:00:00+10:00",
+  "description": "Integrate Isaacus legal NLP ecosystem: Open Australian Legal Corpus, MLEB benchmark extension, Kanon 2 retrieval evaluation, semchunk, Blackstone Graph, and Legal RAG Bench.",
+  "oracle_notes": "Repo-side Isaacus manifests, AU legal row normalization, PipelineRecord conversion, NZ-MLEB query scaffolding, fail-closed external access gates, audit-only scripts, documentation, and focused tests are implemented. Live Hugging Face downloads, Kanon API or air-gapped evaluation, AU-to-NZ fine-tuning, measured NZ-MLEB baselines, semchunk comparison, and Blackstone Graph integration remain external gates."
 }

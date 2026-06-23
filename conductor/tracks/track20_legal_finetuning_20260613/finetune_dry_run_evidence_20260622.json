@@ -1,0 +1,84 @@
+{
+  "track_id": "track20_legal_finetuning_20260613",
+  "evidence_date": "2026-06-22",
+  "scope": "semantic fine-tune CLI and shell entrypoints",
+  "claim_boundary": {
+    "training_started": false,
+    "model_download_started": false,
+    "hub_push_started": false,
+    "cuda_training_claimed": false,
+    "held_out_improvement_claimed": false,
+    "hub_publication_claimed": false,
+    "purpose": "auditable dry-run job specification surfaces only"
+  },
+  "acceptance_gate_status": {
+    "repo_side_contracts": "satisfied",
+    "cuda_validation": "pending",
+    "legal_bert_held_out_perplexity_improvement": "pending",
+    "tier2_qlora_training": "pending",
+    "citation_f1_improvement": "pending",
+    "maori_token_integrity_improvement": "pending",
+    "hub_publication": "pending"
+  },
+  "entrypoints": [
+    {
+      "path": "src/nlp_policy_nz/semantic/finetune.py",
+      "default_mode": "dry_run_json",
+      "live_training_gate": "--run-training",
+      "dry_run_fields": [
+        "mode",
+        "training_started",
+        "model_download_started",
+        "hub_push_started",
+        "job_spec",
+        "external_gates"
+      ]
+    },
+    {
+      "path": "scripts/finetune_legal_bert.sh",
+      "default_mode": "print_spec"
+    },
+    {
+      "path": "scripts/finetune_gemma.sh",
+      "default_mode": "print_spec"
+    },
+    {
+      "path": "scripts/finetune_phi4.sh",
+      "default_mode": "print_spec"
+    },
+    {
+      "path": "scripts/finetune_qwen.sh",
+      "default_mode": "print_spec"
+    },
+    {
+      "path": "scripts/finetune_mistral.sh",
+      "default_mode": "print_spec"
+    }
+  ],
+  "validation": [
+    {
+      "command": "set PYTHONPATH=src&& python -B -m nlp_policy_nz.semantic.finetune --help",
+      "result": "passed"
+    },
+    {
+      "command": "set PYTHONPATH=src&& python -B -m nlp_policy_nz.semantic.finetune --model-name nlpaueb/legal-bert-base-uncased --output-dir models/legal-bert-nz --batch-size 32 --learning-rate 2e-5 --hub-model-id nlp-policy-nz/legal-bert-nz --print-spec",
+      "result": "passed",
+      "observed_boundary": "JSON reported mode=dry_run, training_started=false, model_download_started=false, hub_push_started=false"
+    },
+    {
+      "command": "set PYTHONPATH=src&& python -B -m nlp_policy_nz.training.run_qlora --model-name google/gemma-3-9b --task citation --output-dir models/gemma-3-9b-citation --hub-model-id nlp-policy-nz/gemma-3-9b-citation --print-spec",
+      "result": "passed"
+    },
+    {
+      "command": "bash -n scripts/finetune_legal_bert.sh scripts/finetune_gemma.sh scripts/finetune_phi4.sh scripts/finetune_qwen.sh scripts/finetune_mistral.sh",
+      "result": "passed"
+    }
+  ],
+  "residual_external_gates": [
+    "Provide real Parquet training inputs with raw_text for live MLM training",
+    "Validate CUDA/GPU runtime before production-scale training",
+    "Install and validate heavy training dependencies in the execution environment",
+    "Authenticate to Hugging Face before any hub push",
+    "Run held-out evaluation and publish model-card evidence before claiming tuned-model performance"
+  ]
+}
