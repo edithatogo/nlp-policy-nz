@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0.0",
+  "artifact": {
+    "name": "nlp_policy_nz",
+    "owning_repo": "nlp-policy-nz",
+    "artifact_type": "python_package",
+    "version": "0.1.0",
+    "license": "MIT",
+    "public_contracts": [
+      "import nlp_policy_nz",
+      "nlp-policy-nz CLI (nlp_policy_nz.cli.main:main)",
+      "pipeline API (nlp_policy_nz.pipeline_api)",
+      "schema classes (nlp_policy_nz.schema)",
+      "training API (nlp_policy_nz.training)"
+    ],
+    "release_notes_path": "CHANGELOG.md",
+    "changelog_path": "CHANGELOG.md",
+    "support_policy_path": "SECURITY.md"
+  },
+  "registries": [
+    {
+      "registry_id": "pypi",
+      "registry_kind": "package",
+      "submission_status": "not_started",
+      "requirements": [
+        {
+          "id": "metadata",
+          "description": "Package metadata, classifiers, README, license, and project URLs are complete.",
+          "status": "pending"
+        },
+        {
+          "id": "build-artifacts",
+          "description": "Wheel and source distribution build successfully and are checked.",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "registry_id": "conda_forge",
+      "registry_kind": "package",
+      "submission_status": "not_started",
+      "requirements": [
+        {
+          "id": "recipe",
+          "description": "Feedstock recipe requirements, license file, tests, and maintainers are mapped.",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "registry_id": "hugging_face",
+      "registry_kind": "model_archive",
+      "submission_status": "not_started",
+      "requirements": [
+        {
+          "id": "model-card",
+          "description": "Model card documents provenance, training data, intended use, limitations, and evaluation results.",
+          "status": "pending"
+        },
+        {
+          "id": "adapter-artifacts",
+          "description": "Fine-tuned adapter weights and tokenizer config are ready for upload.",
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "quality_gates": [
+    {
+      "name": "Unit tests",
+      "command_or_workflow": "pytest tests/",
+      "status": "pending"
+    },
+    {
+      "name": "Build check",
+      "command_or_workflow": "python -m build",
+      "status": "pending"
+    },
+    {
+      "name": "Twine check",
+      "command_or_workflow": "python -m twine check dist/*",
+      "status": "pending"
+    }
+  ],
+  "security_gates": [
+    {
+      "name": "Dependency review",
+      "status": "pending"
+    },
+    {
+      "name": "No secrets in source distribution",
+      "status": "pending"
+    }
+  ],
+  "submission_workflow": {
+    "phases": [
+      {
+        "name": "Package readiness",
+        "status": "pending",
+        "tasks": [
+          "Confirm metadata, version, build artifacts, tests, and dry-run checks."
+        ]
+      },
+      {
+        "name": "Package distribution",
+        "status": "pending",
+        "tasks": [
+          "Submit to PyPI, conda-forge, and Hugging Face Hub after review approval."
+        ]
+      }
+    ],
+    "commit_policy": "Commit manifest and evidence in the nlp-policy-nz repo only.",
+    "review_policy": "Review package metadata, dependencies, license, README, and release notes before upload.",
+    "actions_policy": "Check nlp-policy-nz test, build, and package workflows before upload."
+  }
+}

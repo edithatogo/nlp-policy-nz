@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "artifact": {
+    "name": "nlp-policy-nz-benchmark-model",
+    "owning_repo": "nlp-policy-nz",
+    "artifact_type": "model",
+    "version": "0.1.0",
+    "license": "MIT",
+    "public_contracts": [
+      "fine-tuned adapter weights (src/nlp_policy_nz/training/run_qlora.py)",
+      "evaluation harness (src/nlp_policy_nz/training/eval.py)",
+      "benchmark suite (tests/benchmarks/)",
+      "token F1 and classification PRF metrics"
+    ],
+    "release_notes_path": "CHANGELOG.md",
+    "support_policy_path": "SECURITY.md"
+  },
+  "registries": [
+    {
+      "registry_id": "hugging_face",
+      "registry_kind": "model_archive",
+      "submission_status": "not_started",
+      "requirements": [
+        {
+          "id": "model-card",
+          "description": "Model card documents provenance, training data, intended use, limitations, and evaluation results.",
+          "status": "pending"
+        },
+        {
+          "id": "adapter-artifacts",
+          "description": "Fine-tuned adapter weights and tokenizer config are ready for upload.",
+          "status": "pending"
+        },
+        {
+          "id": "benchmark-results",
+          "description": "Benchmark suite runs successfully with published results for reproducibility.",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "registry_id": "zenodo",
+      "registry_kind": "doi_archive",
+      "submission_status": "not_started",
+      "requirements": [
+        {
+          "id": "doi-metadata",
+          "description": "Creators, title, description, license, related identifiers, and files are ready for DOI archival.",
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "quality_gates": [
+    {
+      "name": "Benchmark suite",
+      "command_or_workflow": "pytest tests/benchmarks/ --benchmark-only",
+      "status": "pending"
+    },
+    {
+      "name": "Training dry-run",
+      "command_or_workflow": "python -m nlp_policy_nz.training.run_qlora --dry-run",
+      "status": "pending"
+    },
+    {
+      "name": "Evaluation harness",
+      "command_or_workflow": "python -m nlp_policy_nz.training.eval --check",
+      "status": "pending"
+    }
+  ],
+  "security_gates": [
+    {
+      "name": "No private or gated training data leakage",
+      "status": "pending"
+    },
+    {
+      "name": "Rights and provenance review of training corpus",
+      "status": "pending"
+    }
+  ],
+  "submission_workflow": {
+    "phases": [
+      {
+        "name": "Model registry inventory",
+        "status": "pending",
+        "tasks": [
+          "Map Hugging Face and Zenodo requirements.",
+          "Record training data provenance and redistribution constraints."
+        ]
+      },
+      {
+        "name": "Publication",
+        "status": "pending",
+        "tasks": [
+          "Publish adapter weights, benchmark results, and model card only after review approval."
+        ]
+      }
+    ],
+    "commit_policy": "Commit manifest and evidence in the nlp-policy-nz repo only.",
+    "review_policy": "Review training data provenance, evaluation results, model card, and registry metadata before publication.",
+    "actions_policy": "Check nlp-policy-nz training, benchmark, and publication workflows before and after approved upload."
+  }
+}
