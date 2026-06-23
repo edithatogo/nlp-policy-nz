@@ -191,6 +191,13 @@ directory = "coverage_html"
 testpaths = ["tests"]
 pythonpath = ["src"]
 
+[tool.scalene]
+cpu = true
+memory = true
+gpu = false
+profile_all = false
+reduced_profile = true
+
 [tool.legal_nz]
 versioning = "semver"
 logging = "loguru"
