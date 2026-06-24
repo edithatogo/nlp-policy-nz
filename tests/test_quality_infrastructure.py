@@ -55,6 +55,8 @@ def test_ci_quality_steps_are_wired() -> None:
     assert "pyright" in workflow
     assert "pytest-cov" in workflow or "--cov=src" in workflow
     assert "codecov/codecov-action" in workflow
+    assert "workflow_dispatch" in workflow
+    assert "Optional mutation tests" in workflow
 
 
 def test_pixi_quality_tasks_exist() -> None:

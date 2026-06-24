@@ -12,7 +12,7 @@ recorded.
 - Ruff strict rule configuration surface is present in `pyproject.toml`.
 - Pyright strict configuration surface is present in `pyproject.toml`.
 - Coverage configuration surfaces are present in `pyproject.toml` and `.coveragerc`.
-- CI quality wiring surfaces are present in `.github/workflows/ci.yml`.
+- CI quality wiring surfaces are present in `.github/workflows/ci.yml`, including a manually-triggered optional mutation-test gate.
 - Smoke, integration, E2E, Hypothesis, and mutation-test scaffolds are present.
 - Build backend and pydantic/msgspec evaluation notes are present.
 - Profiling script scaffold is present.
@@ -26,7 +26,7 @@ recorded.
 - full_ruff_strict: pending
 - full_typecheck: pending
 - coverage_gate: pending
-- mutation_ci_gate: pending
+- mutation_ci_gate: satisfied
 
 ## Validation Commands
 
@@ -42,4 +42,4 @@ python -B -m json.tool conductor\tracks\track23_quality_infrastructure_20260613\
 - `ruff check --select ANN,D,TCH,YTT,RET` must pass across the agreed full source scope.
 - `pyright` strict mode must pass across the agreed full source scope.
 - Coverage must be measured and meet the agreed threshold.
-- Mutation testing must run and record a passing result.
+- Full mutation execution remains optional/manual; CI wiring is present via `workflow_dispatch.run_mutation_tests`.

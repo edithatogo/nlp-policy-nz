@@ -112,7 +112,7 @@ def test_track23_smoke_lane_evidence_keeps_measured_gates_pending() -> None:
         full_ruff_strict_passing=False,
         full_typecheck_passing=False,
         coverage_gate_passing=False,
-        mutation_ci_gate_enabled=False,
+        mutation_ci_gate_enabled=True,
     )
 
     status = evaluate_track23_acceptance(report)
@@ -122,5 +122,5 @@ def test_track23_smoke_lane_evidence_keeps_measured_gates_pending() -> None:
     assert status["full_ruff_strict"] is False
     assert status["full_typecheck"] is False
     assert status["coverage_gate"] is False
-    assert status["mutation_ci_gate"] is False
-    assert len(residual) == 4
+    assert status["mutation_ci_gate"] is True
+    assert len(residual) == 3

@@ -5,6 +5,13 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
+    inputs:
+      run_mutation_tests:
+        description: Run the optional Track 23 mutation test gate
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   ci:
@@ -42,6 +49,10 @@ jobs:
 
       - name: Test with coverage
         run: CI=true pip install pytest-cov && pixi run coverage-ci
+
+      - name: Optional mutation tests
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_mutation_tests }}
+        run: CI=true pixi run mutation
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

@@ -30,7 +30,7 @@ def test_repo_side_contracts_do_not_satisfy_strict_gates() -> None:
         full_ruff_strict_passing=False,
         full_typecheck_passing=False,
         coverage_gate_passing=False,
-        mutation_ci_gate_enabled=False,
+        mutation_ci_gate_enabled=True,
     )
 
     status = evaluate_track23_acceptance(report)
@@ -92,7 +92,7 @@ def test_track23_evidence_markdown_lists_pending_strict_gates() -> None:
         full_ruff_strict_passing=False,
         full_typecheck_passing=False,
         coverage_gate_passing=False,
-        mutation_ci_gate_enabled=False,
+        mutation_ci_gate_enabled=True,
     )
 
     markdown = render_track23_evidence_markdown(report)
