@@ -27,12 +27,10 @@ def test_pipeline_benchmark_evidence_contract_is_fixture_bounded() -> None:
     importlib.util.find_spec("pytest_benchmark") is None,
     reason="pytest-benchmark is not installed",
 )
-def test_process_legislation_throughput_benchmark(benchmark: Any, monkeypatch) -> None:
+def test_process_legislation_throughput_benchmark(benchmark: Any, monkeypatch, tmp_path) -> None:
     """Benchmark a lightweight legislation pipeline path without model loading."""
     from nlp_policy_nz import pipeline_api
 
-    tmp_path = Path(".tmp") / "benchmark-tests" / "process-legislation"
-    tmp_path.mkdir(parents=True, exist_ok=True)
     input_file = tmp_path / "act.txt"
     output_file = tmp_path / "legislation.parquet"
     input_file.write_text("The Minister must report. The agency may consult.", encoding="utf-8")

@@ -7,7 +7,7 @@
 - trace_file_export: satisfied
 - scalene_full_corpus_profile: pending
 - memray_full_corpus_flamegraph: pending
-- benchmark_execution: pending
+- benchmark_execution: satisfied
 - ci_benchmark_workflow: satisfied
 - coverage: satisfied
 - repo_side_contracts: satisfied
@@ -27,11 +27,11 @@
 - `python -B -m pytest -p no:cacheprovider -q tests\test_track19_evidence.py tests\test_telemetry.py tests\benchmarks\test_pipeline_benchmark.py --basetemp C:\tmp\nlp-policy-nz-track19-focused` -> 11 passed, 1 skipped.
 - `python -m ruff check --no-cache src\nlp_policy_nz\telemetry tests\test_track19_evidence.py tests\test_telemetry.py tests\benchmarks\test_pipeline_benchmark.py` -> passed.
 
+- `pixi run python -B -m pytest -p no:cacheprovider -q tests\test_track19_evidence.py tests\benchmarks\test_pipeline_benchmark.py --benchmark-json artifacts\track19\benchmark_20260624.json --basetemp C:\tmp\nlp-track19-final-20260624` -> 5 passed; benchmark mean 189.5545 ms, 5.2755 ops/sec; artifact written to `artifacts/track19/benchmark_20260624.json`.
+
 ## Residual External Gates
 
 - Generate a Scalene CPU/memory profile over at least 1 GiB of Hansard input.
 - Generate a Memray allocation trace and flamegraph over at least 1 GiB of
   Hansard input.
-- Run the benchmark harness in an environment where `pytest-benchmark` is
-  installed so the benchmark is not skipped.
-- Record a full-suite plus benchmark validation pass after dependency refresh.
+- Record a full-suite validation pass after dependency refresh.
