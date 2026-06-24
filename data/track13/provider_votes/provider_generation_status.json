@@ -1,0 +1,44 @@
+{
+  "cline": {
+    "status": "failed",
+    "vote_file": null,
+    "raw_log": "data/track13/provider_votes/raw/cline.retry.txt",
+    "reason": "Cline hub session.create timed out."
+  },
+  "opencode": {
+    "status": "generated",
+    "vote_file": "data/track13/provider_votes/opencode.jsonl",
+    "raw_log": "data/track13/provider_votes/raw/opencode.txt",
+    "reason": null
+  },
+  "mimo": {
+    "status": "failed",
+    "vote_file": null,
+    "raw_log": "data/track13/provider_votes/raw/mimo.retry2.txt",
+    "reason": "Mimo run exited nonzero during non-interactive invocation."
+  },
+  "agy": {
+    "status": "no_output",
+    "vote_file": null,
+    "raw_log": "data/track13/provider_votes/raw/agy.retry.txt",
+    "reason": "Agy exited successfully but returned no parseable JSONL votes."
+  },
+  "agent": {
+    "status": "failed",
+    "vote_file": null,
+    "raw_log": "data/track13/provider_votes/raw/agent.retry.txt",
+    "reason": "Cursor Agent account usage limit exceeded."
+  },
+  "openrouter": {
+    "status": "failed",
+    "vote_file": null,
+    "raw_log": "data/track13/provider_votes/raw/openrouter.api.txt",
+    "reason": "OpenRouter API key total limit exceeded."
+  },
+  "nvidia_nim": {
+    "status": "generated",
+    "vote_file": "data/track13/provider_votes/nvidia_nim.jsonl",
+    "raw_log": "data/track13/provider_votes/raw/nvidia_nim.api.retry.txt",
+    "reason": null
+  }
+}

@@ -1,4 +1,4 @@
-﻿"""Lazy public exports for NZ legal NLP fine-tuning workflows."""
+"""Lazy public exports for NZ legal NLP fine-tuning workflows."""
 
 from __future__ import annotations
 
@@ -18,6 +18,9 @@ _EXPORT_MODULES: dict[str, str] = {
     "ModelTrainingConfig": "nlp_policy_nz.training.trainers",
     "QLoRAConfig": "nlp_policy_nz.training.trainers",
     "Track13EvidenceReport": "nlp_policy_nz.training.track13_evidence",
+    "SilverConsensus": "nlp_policy_nz.training.track13_silver",
+    "OntologyConcept": "nlp_policy_nz.training.track13_silver",
+    "SilverVote": "nlp_policy_nz.training.track13_silver",
     "Track20EvidenceReport": "nlp_policy_nz.training.track20_evidence",
     "Track21EvidenceReport": "nlp_policy_nz.training.track21_evidence",
     "Track22EvidenceReport": "nlp_policy_nz.training.track22_evidence",
@@ -54,6 +57,10 @@ _EXPORT_MODULES: dict[str, str] = {
     "render_isaacus_integration_report": "nlp_policy_nz.training.isaacus_adapter",
     "render_isaacus_manifest_json": "nlp_policy_nz.training.isaacus_adapter",
     "render_track13_evidence_markdown": "nlp_policy_nz.training.track13_evidence",
+    "aggregate_silver_votes": "nlp_policy_nz.training.track13_silver",
+    "discover_provider_availability": "nlp_policy_nz.training.track13_silver",
+    "match_ontology_concepts": "nlp_policy_nz.training.track13_silver",
+    "ontology_bridge_vote": "nlp_policy_nz.training.track13_silver",
     "render_track20_evidence_markdown": "nlp_policy_nz.training.track20_evidence",
     "render_track21_evidence_markdown": "nlp_policy_nz.training.track21_evidence",
     "render_track22_evidence_markdown": "nlp_policy_nz.training.track22_evidence",

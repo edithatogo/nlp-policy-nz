@@ -1,0 +1,33 @@
+{
+  "iam_integrated_argument_mining": {
+    "status": "pulled_and_mapped",
+    "rows": 80,
+    "source_urls": [
+      "https://raw.githubusercontent.com/LiyingCheng95/IAM/main/claims/train.txt",
+      "https://raw.githubusercontent.com/LiyingCheng95/IAM/main/evidence/train.txt"
+    ]
+  },
+  "mining_legal_arguments_echr": {
+    "status": "pulled_and_mapped",
+    "rows": 40,
+    "source_urls": [
+      "https://raw.githubusercontent.com/trusthlt/mining-legal-arguments/main/data/agent/001-100469.csv"
+    ]
+  },
+  "lamus_legal_argument_mining": {
+    "status": "pulled_and_mapped_as_human_in_loop",
+    "rows": 40,
+    "source_urls": [
+      "https://raw.githubusercontent.com/LavanyaPobbathi/LAMUS/main/data/train_final.csv"
+    ]
+  },
+  "ukp_argumentative_essays": {
+    "status": "pulled_and_mapped",
+    "rows": 40,
+    "source_urls": [
+      "https://tudatalib.ulb.tu-darmstadt.de/bitstreams/1ae1718d-7e65-42ba-9e84-dbf52fe92f56/download",
+      "https://tudatalib.ulb.tu-darmstadt.de/items/9177c48c-8bd5-4881-9cb4-0632b5941464"
+    ],
+    "note": "Mapped bounded BRAT spans from nested Argument Annotated Essays v2 BRAT project."
+  }
+}

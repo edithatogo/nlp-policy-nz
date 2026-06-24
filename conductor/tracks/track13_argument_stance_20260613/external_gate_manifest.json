@@ -1,0 +1,71 @@
+{
+  "track": 13,
+  "name": "argument_structure_annotation",
+  "updated_at": "2026-06-23T00:00:00+10:00",
+  "status": "externally_blocked",
+  "repo_side_status": "complete",
+  "external_gates": [
+    {
+      "id": "human_label_set_min_500",
+      "status": "required",
+      "minimum_count": 500,
+      "accepted_artifacts": [
+        "data/track13/human_argument_labels.jsonl",
+        "data/track13/human_argument_labels.parquet"
+      ],
+      "required_fields": [
+        "record_id",
+        "text",
+        "claim_label",
+        "premise_label",
+        "relation_label",
+        "annotator_id",
+        "annotated_at"
+      ],
+      "notes": "AI-generated labels, heuristic labels, synthetic labels, and model self-labels do not satisfy this gate."
+    },
+    {
+      "id": "legalbert_heldout_eval",
+      "status": "required",
+      "accepted_artifacts": [
+        "artifacts/track13/legalbert_eval_metrics.json",
+        "artifacts/track13/legalbert_eval_report.md"
+      ],
+      "required_metrics": [
+        "heldout_accuracy",
+        "heldout_f1_macro",
+        "heldout_f1_weighted",
+        "dataset_hash",
+        "model_id",
+        "evaluated_at"
+      ],
+      "notes": "Rule-based, heuristic, mock, fixture, or non-transformer model identifiers do not satisfy this gate."
+    }
+  ],
+  "silver_alternative_gates": [
+    {
+      "id": "silver_argument_label_set",
+      "status": "accepted_alternative",
+      "accepted_artifacts": [
+        "data/track13/silver_argument_labels.jsonl",
+        "data/track13/silver_argument_labels.parquet",
+        "conductor/tracks/track13_argument_stance_20260613/silver_label_manifest.json",
+        "conductor/tracks/track13_argument_stance_20260613/ai_provider_labelling_plan.json"
+      ],
+      "minimum_independent_ai_votes": 3,
+      "minimum_consensus_score": 0.67,
+      "requires_human_labelled_calibration_source": true,
+      "notes": "This closes the practical training-data blocker as silver evidence only. It does not satisfy a gold human-label claim."
+    }
+  ],
+  "local_validation": [
+    {
+      "name": "track13 evidence tests",
+      "command": "python -B -m pytest -p no:cacheprovider -q tests\\test_track13_evidence.py tests\\test_argument.py tests\\test_stance.py tests\\test_argument_training.py tests\\test_argument_api_graph.py"
+    },
+    {
+      "name": "track13 lint",
+      "command": "python -m ruff check --no-cache src\\nlp_policy_nz\\training tests\\test_track13_evidence.py tests\\test_argument.py tests\\test_stance.py tests\\test_argument_training.py tests\\test_argument_api_graph.py"
+    }
+  ]
+}

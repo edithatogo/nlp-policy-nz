@@ -34,3 +34,39 @@
 - 500+ human/gold Hansard stance labels.
 - Fine-tuned transformer model IDs for argument component and stance classifiers.
 - Held-out Hansard F1 and accuracy reports meeting the Track 13 thresholds.
+## Silver Label Triangulation - 2026-06-23
+
+- Added `silver_label_manifest.json` with a silver-label alternative for the 500-record annotation blocker.
+- Added `ai_provider_labelling_plan.json` for installed local providers (`cline`, `opencode`, `mimo`, `agy`, `agent`) plus configured API providers (`openrouter`, `nvidia_nim`).
+- Added `external_gate_manifest.json` with both the original gold gate and the accepted silver alternative gate.
+- Added deterministic consensus tooling in `src/nlp_policy_nz/training/track13_silver.py` and tests in `tests/test_track13_silver_labels.py`.
+- Human-labelled calibration sources are preferred where available: UKP argument annotations, IAM, ECHR legal argument mining, and LAMUS as LLM plus human-in-the-loop refinement.
+- Silver labels remain silver evidence only and must not be reported as 500 human gold labels.
+## Ontology Triangulation - 2026-06-23
+
+- Added `ontology_triangulation_manifest.json` for HPO/UMLS/SNOMED CT/MeSH/MedDRA/ICD concept alignment in health-policy records.
+- HPO downloads document UMLS-created xrefs, including UMLS and SNOMEDCT_US references; SNOMED International and Monarch also have a two-way HPO/SNOMED CT mapping effort.
+- The ontology bridge is weighted as `weak_rule` evidence only. It can improve concept/topic triangulation for biomedical or health-policy text, but it cannot independently prove claim, premise, stance, support, or attack labels.
+## Human-labelled Calibration Pull - 2026-06-23
+
+- Pulled and mapped bounded calibration rows into `data/track13/calibration/`.
+- UKP Argument Annotated Essays v2: 40 human-labelled BRAT spans mapped from the TUdatalib archive.
+- IAM: 80 human-labelled claim/evidence rows mapped from public GitHub training splits.
+- ECHR legal argument mining: 40 human-labelled legal argument rows mapped from public GitHub CSV annotations.
+- LAMUS: 40 human-in-the-loop legal argument rows mapped from public GitHub CSV data.
+- Combined calibration file: `data/track13/calibration/human_calibration_votes.jsonl` with 200 rows.
+- These are external calibration rows only; they do not label the NZ target corpus directly and must not be represented as NZ Hansard human-gold labels.
+## Silver Consensus Aggregation - 2026-06-23
+
+- Ran Track 13 consensus aggregation over `data/track13/provider_votes/opencode.jsonl` and `data/track13/provider_votes/nvidia_nim.jsonl`.
+- Produced `data/track13/silver_argument_labels.jsonl` and `data/track13/silver_argument_disagreements.jsonl`.
+- Accepted silver labels: 0.
+- Disagreements/review queue rows: 13.
+- Reason: the current consensus contract requires at least three independent AI votes, or two AI votes plus a human-calibration vote for the same record. The target corpus currently has two independent provider votes per record, so all records were routed to the disagreement queue rather than over-accepted.
+## Silver Model Evaluation - 2026-06-23
+
+- Added `scripts/evaluate_track13_silver.py` to evaluate Track 13 argument/stance models against accepted silver labels when available.
+- Produced `artifacts/track13/silver_eval_metrics.json` and `artifacts/track13/silver_eval_report.md`.
+- Current accepted silver label count: 0, so accepted silver evaluation is blocked rather than overclaimed.
+- Diagnostic-only disagreement queue metrics were computed over 13 rows: claim accuracy 0.615, premise accuracy 0.615, relation accuracy 0.462, stance-proxy accuracy 0.615.
+- No fine-tuned Legal-BERT Track 13 artifact was loaded. The diagnostic uses the repo-side argument detector and stance classifier and is not acceptance evidence.

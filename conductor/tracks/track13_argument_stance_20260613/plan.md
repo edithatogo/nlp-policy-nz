@@ -22,6 +22,7 @@ Repo-side argument/stance contracts are implemented: deterministic Hansard annot
 | 1.4 | Write tests for component detection | [x] | |
 | 1.5 | Add annotated-record extraction path and Legal-BERT argument job spec | [x] | |
 | 1.6 | Add machine-readable evidence contract so fixture scores cannot satisfy held-out transformer gates | [x] | local |
+| 1.7 | Add silver-label alternative lane with human-labelled calibration corpora and multi-provider AI consensus | [x] | local |
 
 ## Phase 2: Stance Classification & Argument Graph
 
@@ -35,6 +36,7 @@ Repo-side argument/stance contracts are implemented: deterministic Hansard annot
 | 2.4 | Add issue-argument linking via semantic similarity | [x] | |
 | 2.5 | Add annotated-record extraction path and Legal-BERT stance job spec | [x] | |
 | 2.6 | Add stance evidence contract for 500-segment held-out transformer accuracy gate | [x] | local |
+| 2.7 | Add stance-compatible silver-label triangulation contract and disagreement queue | [x] | local |
 
 ## Phase 3: Pipeline Integration
 
@@ -46,6 +48,11 @@ Repo-side argument/stance contracts are implemented: deterministic Hansard annot
 | 3.2 | Update process_hansard() to run argument mining | [x] | |
 | 3.3 | Update Parquet schema | [x] | |
 | 3.4 | Run focused Track 13 and storage compatibility test gates | [x] | |
+
+
+## Silver-label alternative lane
+
+The gold human-label and held-out Legal-BERT gates remain open, but Track 13 now has an accepted silver alternative: sourced human-labelled calibration datasets, multi-provider AI votes from available local/remote providers, weak-rule signals, weighted consensus, and a disagreement queue. Silver outputs must not be represented as human gold labels.
 
 ## Files Created/Modified
 

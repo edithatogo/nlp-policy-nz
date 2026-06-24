@@ -1,8 +1,8 @@
 {
-  "track_id": "track13_argument_stance_20260613",
-  "type": "feature",
-  "status": "in_progress",
-  "created_at": "2026-06-13T00:00:00Z",
-  "updated_at": "2026-06-22T00:00:00Z",
-  "description": "Argument mining and stance detection for Hansard debates. Repo-side detector, graph export, stance classifier, gold-label extraction gates, Legal-BERT job specs, API serialization, and pipeline/storage contracts are implemented; held-out annotation and fine-tuned model gates remain open."
+    "track_id":  "track13_argument_stance_20260613",
+    "type":  "feature",
+    "status":  "in_progress",
+    "created_at":  "2026-06-13T00:00:00Z",
+    "updated_at":  "2026-06-23T00:00:00+10:00",
+    "description":  "Argument mining and stance detection for Hansard debates. Repo-side implementation is complete. Gold human-label and held-out Legal-BERT gates remain open, and a silver-label alternative lane now exists using sourced human-labelled calibration corpora, multi-provider AI votes, weak-rule signals, consensus scoring, and disagreement routing."
 }

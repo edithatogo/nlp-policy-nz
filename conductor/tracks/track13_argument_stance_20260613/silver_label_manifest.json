@@ -1,0 +1,158 @@
+{
+    "track":  13,
+    "name":  "argument_structure_annotation_silver_label_lane",
+    "updated_at":  "2026-06-23T00:00:00+10:00",
+    "status":  "silver_lane_ready",
+    "target_dataset":  {
+                           "description":  "NZ policy/legal text records requiring argument-structure labels.",
+                           "unlabelled_inputs":  [
+                                                     "data/track13/target_corpus.jsonl",
+                                                     "data/track13/target_corpus.parquet"
+                                                 ],
+                           "silver_outputs":  [
+                                                  "data/track13/silver_argument_labels.jsonl",
+                                                  "data/track13/silver_argument_labels.parquet"
+                                              ],
+                           "required_output_fields":  [
+                                                          "record_id",
+                                                          "text",
+                                                          "claim_label",
+                                                          "premise_label",
+                                                          "relation_label",
+                                                          "silver_label",
+                                                          "consensus_score",
+                                                          "sources",
+                                                          "labelled_at"
+                                                      ]
+                       },
+    "human_labelled_calibration_sources":  [
+                                               {
+                                                   "id":  "ukp_argumentative_essays",
+                                                   "status":  "candidate",
+                                                   "domain":  "student essays / general argument mining",
+                                                   "human_labelled":  true,
+                                                   "sources":  [
+                                                                   "https://aclanthology.org/J17-3005.pdf",
+                                                                   "https://github.com/UKPLab/naacl2019-argument-annotations"
+                                                               ],
+                                                   "schema_mapping":  {
+                                                                          "major_claim":  "claim_label",
+                                                                          "claim":  "claim_label",
+                                                                          "premise":  "premise_label",
+                                                                          "supports_or_attacks":  "relation_label"
+                                                                      },
+                                                   "use":  "Schema calibration for claim, premise, and relation labels."
+                                               },
+                                               {
+                                                   "id":  "iam_integrated_argument_mining",
+                                                   "status":  "candidate",
+                                                   "domain":  "debate/news argument mining",
+                                                   "human_labelled":  true,
+                                                   "sources":  [
+                                                                   "https://aclanthology.org/2022.acl-long.162/",
+                                                                   "https://github.com/LiyingCheng95/IAM"
+                                                               ],
+                                                   "schema_mapping":  {
+                                                                          "claim":  "claim_label",
+                                                                          "evidence":  "premise_label",
+                                                                          "stance":  "relation_label"
+                                                                      },
+                                                   "use":  "Claim/evidence/stance calibration and weak-supervision prior."
+                                               },
+                                               {
+                                                   "id":  "mining_legal_arguments_echr",
+                                                   "status":  "candidate",
+                                                   "domain":  "legal argument mining / ECHR decisions",
+                                                   "human_labelled":  true,
+                                                   "sources":  [
+                                                                   "https://aclanthology.org/2020.argmining-1.8/",
+                                                                   "https://github.com/trusthlt/mining-legal-arguments",
+                                                                   "https://link.springer.com/article/10.1007/s10506-023-09361-y"
+                                                               ],
+                                                   "schema_mapping":  {
+                                                                          "argument_span":  "silver_label",
+                                                                          "argument_type":  "claim_label",
+                                                                          "actor":  "sources"
+                                                                      },
+                                                   "use":  "Legal-domain calibration and out-of-domain robustness check."
+                                               },
+                                               {
+                                                   "id":  "lamus_legal_argument_mining",
+                                                   "status":  "candidate_with_llm_human_refinement",
+                                                   "domain":  "US caselaw legal argument mining",
+                                                   "human_labelled":  "human-in-the-loop verification reported by source",
+                                                   "sources":  [
+                                                                   "https://arxiv.org/abs/2603.08286",
+                                                                   "https://github.com/LavanyaPobbathi/LAMUS/tree/main"
+                                                               ],
+                                                   "schema_mapping":  {
+                                                                          "sentence":  "text",
+                                                                          "argument_class":  "silver_label"
+                                                                      },
+                                                   "use":  "Methodological comparison for LLM labels plus human verification."
+                                               }
+                                           ],
+    "ai_label_providers":  [
+                               "cline",
+                               "opencode",
+                               "mimo",
+                               "agy",
+                               "agent",
+                               "openrouter",
+                               "nvidia_nim"
+                           ],
+    "triangulation_policy":  {
+                                 "minimum_independent_ai_votes":  3,
+                                 "minimum_consensus_score":  0.67,
+                                 "human_labelled_source_weight":  1.0,
+                                 "ai_provider_weight":  0.5,
+                                 "weak_rule_weight":  0.25,
+                                 "requires_disagreement_queue":  true,
+                                 "disagreement_output":  "data/track13/silver_argument_disagreements.jsonl"
+                             },
+    "quality_gates":  [
+                          {
+                              "id":  "external_human_calibration_source_present",
+                              "requirement":  "At least one sourced human-labelled calibration corpus must be configured before silver labels are accepted."
+                          },
+                          {
+                              "id":  "multi_provider_consensus",
+                              "requirement":  "Silver labels require at least three independent AI/provider votes or two AI votes plus one human-labelled calibration source match."
+                          },
+                          {
+                              "id":  "no_gold_claim",
+                              "requirement":  "Silver labels must not be reported as human gold labels."
+                          }
+                      ],
+    "ontology_triangulation_sources":  [
+                                           {
+                                               "id":  "ontology_bridge_hpo_umls_snomed",
+                                               "status":  "weak_signal_ready",
+                                               "domain":  "biomedical and health-policy concept alignment",
+                                               "human_labelled":  false,
+                                               "sources":  [
+                                                               "https://human-phenotype-ontology.github.io/downloads.html",
+                                                               "https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HPO/sourcerepresentation.html",
+                                                               "https://www.snomed.org/news/snomed-and-the-monarch-initiative-collaborate-to-develop-two-way-maps-for-hpo"
+                                                           ],
+                                               "ontologies":  [
+                                                                  "HPO",
+                                                                  "UMLS",
+                                                                  "SNOMED CT",
+                                                                  "MeSH",
+                                                                  "MedDRA",
+                                                                  "ICD"
+                                                              ],
+                                               "weight":  0.25,
+                                               "use":  "Weak-rule topic/concept triangulation for health-policy records; never standalone argument-label evidence."
+                                           }
+                                       ],
+    "calibration_artifacts":  [
+                                  "data/track13/calibration/ukp_aae2_calibration_votes.jsonl",
+                                  "data/track13/calibration/iam_calibration_votes.jsonl",
+                                  "data/track13/calibration/echr_calibration_votes.jsonl",
+                                  "data/track13/calibration/lamus_calibration_votes.jsonl",
+                                  "data/track13/calibration/human_calibration_votes.jsonl",
+                                  "data/track13/calibration/calibration_manifest.json"
+                              ]
+}

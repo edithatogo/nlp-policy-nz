@@ -1,0 +1,13 @@
+{"record_id":"sample_hansard-0001","provider":"opencode","source_type":"ai_provider","claim_label":"non_argument","premise_label":"none","relation_label":"none","confidence":0.95}
+{"record_id":"sample_hansard-0002","provider":"opencode","source_type":"ai_provider","claim_label":"non_argument","premise_label":"none","relation_label":"none","confidence":0.95}
+{"record_id":"sample_hansard-0003","provider":"opencode","source_type":"ai_provider","claim_label":"non_argument","premise_label":"none","relation_label":"none","confidence":0.9}
+{"record_id":"sample_hansard-0004","provider":"opencode","source_type":"ai_provider","claim_label":"claim","premise_label":"none","relation_label":"none","confidence":0.85}
+{"record_id":"sample_hansard-0005","provider":"opencode","source_type":"ai_provider","claim_label":"non_argument","premise_label":"none","relation_label":"none","confidence":0.95}
+{"record_id":"sample_hansard-0006","provider":"opencode","source_type":"ai_provider","claim_label":"claim","premise_label":"none","relation_label":"none","confidence":0.85}
+{"record_id":"sample_hansard-0007","provider":"opencode","source_type":"ai_provider","claim_label":"claim","premise_label":"evidence","relation_label":"support","confidence":0.9}
+{"record_id":"sample_hansard-0008","provider":"opencode","source_type":"ai_provider","claim_label":"major_claim","premise_label":"none","relation_label":"none","confidence":0.8}
+{"record_id":"sample_legislation-0001","provider":"opencode","source_type":"ai_provider","claim_label":"non_argument","premise_label":"none","relation_label":"none","confidence":0.95}
+{"record_id":"sample_legislation-0002","provider":"opencode","source_type":"ai_provider","claim_label":"non_argument","premise_label":"none","relation_label":"none","confidence":0.95}
+{"record_id":"sample_legislation-0003","provider":"opencode","source_type":"ai_provider","claim_label":"claim","premise_label":"evidence","relation_label":"support","confidence":0.85}
+{"record_id":"sample_legislation-0004","provider":"opencode","source_type":"ai_provider","claim_label":"non_argument","premise_label":"none","relation_label":"none","confidence":0.9}
+{"record_id":"sample_legislation-0005","provider":"opencode","source_type":"ai_provider","claim_label":"non_argument","premise_label":"none","relation_label":"none","confidence":0.9}

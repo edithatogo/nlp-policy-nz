@@ -1,0 +1,82 @@
+{
+  "task": "Track 13 NZ legal/policy argument-structure labelling",
+  "instructions": [
+    "Return JSONL only: exactly one JSON object per input record and no markdown.",
+    "Each JSON object must have keys: record_id, provider, source_type, claim_label, premise_label, relation_label, confidence.",
+    "Use source_type='ai_provider'.",
+    "Use only the allowed labels.",
+    "confidence must be a number between 0 and 1.",
+    "Do not add explanations, comments, or code fences."
+  ],
+  "allowed_labels": {
+    "claim_label": [
+      "claim",
+      "major_claim",
+      "non_argument"
+    ],
+    "premise_label": [
+      "premise",
+      "evidence",
+      "none"
+    ],
+    "relation_label": [
+      "support",
+      "attack",
+      "none"
+    ]
+  },
+  "records": [
+    {
+      "record_id": "sample_hansard-0001",
+      "text": "Hon Member: Kia ora koutou katoa."
+    },
+    {
+      "record_id": "sample_hansard-0002",
+      "text": "E te Mana Whakawā, tēnā koe."
+    },
+    {
+      "record_id": "sample_hansard-0003",
+      "text": "I rise today to speak on the third reading of the Taxation (Annual Rates for 2024–2025) Bill."
+    },
+    {
+      "record_id": "sample_hansard-0004",
+      "text": "The Minister of Finance has outlined the Government's commitment to fiscal responsibility while investing in health, education, and infrastructure."
+    },
+    {
+      "record_id": "sample_hansard-0005",
+      "text": "Speaker: The question is that the amendment be agreed to."
+    },
+    {
+      "record_id": "sample_hansard-0006",
+      "text": "Hon Member: I want to acknowledge the importance of the Treaty of Waitangi settlements and the work of the Waitangi Tribunal."
+    },
+    {
+      "record_id": "sample_hansard-0007",
+      "text": "As section 8 of the Treaty of Waitangi Act 1975 makes clear, the Tribunal has the authority to make recommendations on claims."
+    },
+    {
+      "record_id": "sample_hansard-0008",
+      "text": "The principles of partnership, protection, and participation are fundamental to our constitutional arrangements."
+    },
+    {
+      "record_id": "sample_legislation-0001",
+      "text": "(1) This Act is the Legislation (Repeals and Amendments) Act 2024."
+    },
+    {
+      "record_id": "sample_legislation-0002",
+      "text": "(2) In this Act, unless the context otherwise requires,— (a) commencement means the date on which this Act receives the Royal assent; and (b) enactment means an enactment (within the meaning of section 29 of the Legislation Act 2019) that is repealed or amended by Schedule 1."
+    },
+    {
+      "record_id": "sample_legislation-0003",
+      "text": "(3) Section 5 of the Māori Language Act 2016 provides that Te Reo Māori is an official language of New Zealand."
+    },
+    {
+      "record_id": "sample_legislation-0004",
+      "text": "(4) The Minister must, no later than 1 July 2025, prepare a report on the operation of tikanga Māori within the scope of this enactment."
+    },
+    {
+      "record_id": "sample_legislation-0005",
+      "text": "(5) Despite subsection (4), the provisions of this Act do not apply to any taonga found on land to which section 186 of the Resource Management Act 1991 applies."
+    }
+  ]
+}

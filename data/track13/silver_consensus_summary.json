@@ -1,0 +1,10 @@
+{
+  "target_records": 13,
+  "provider_files": [
+    "data/track13/provider_votes/nvidia_nim.jsonl",
+    "data/track13/provider_votes/opencode.jsonl"
+  ],
+  "accepted_silver_labels": 0,
+  "disagreements": 13,
+  "acceptance_note": "Current Track 13 consensus requires at least three independent AI votes, or two AI votes plus a human-calibration vote for the same record. Existing target-corpus vote files provide two AI providers, so records are routed to disagreements until another independent target vote or calibration-match vote is added."
+}

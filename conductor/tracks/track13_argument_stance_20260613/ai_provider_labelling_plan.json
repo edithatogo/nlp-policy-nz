@@ -1,0 +1,67 @@
+{
+  "track": 13,
+  "updated_at": "2026-06-23T00:00:00+10:00",
+  "target_input": "data/track13/target_corpus.jsonl",
+  "vote_output_dir": "data/track13/provider_votes",
+  "consensus_output": "data/track13/silver_argument_labels.jsonl",
+  "disagreement_output": "data/track13/silver_argument_disagreements.jsonl",
+  "installed_local_providers": [
+    {
+      "provider": "cline",
+      "command": "cline",
+      "observed_version": "3.0.29",
+      "vote_output": "data/track13/provider_votes/cline.jsonl"
+    },
+    {
+      "provider": "opencode",
+      "command": "opencode",
+      "observed_version": "1.17.9",
+      "vote_output": "data/track13/provider_votes/opencode.jsonl"
+    },
+    {
+      "provider": "mimo",
+      "command": "mimo",
+      "observed_version": "0.1.1",
+      "vote_output": "data/track13/provider_votes/mimo.jsonl"
+    },
+    {
+      "provider": "agy",
+      "command": "agy",
+      "observed_version": "1.0.10",
+      "vote_output": "data/track13/provider_votes/agy.jsonl"
+    },
+    {
+      "provider": "agent",
+      "command": "agent",
+      "observed_version": "2026.06.04-5fd875e",
+      "vote_output": "data/track13/provider_votes/agent.jsonl"
+    }
+  ],
+  "configured_api_providers": [
+    {
+      "provider": "openrouter",
+      "credential_env": "OPENROUTER_API_KEY",
+      "vote_output": "data/track13/provider_votes/openrouter.jsonl"
+    },
+    {
+      "provider": "nvidia_nim",
+      "credential_env": "NVIDIA_NIM_API_KEY",
+      "vote_output": "data/track13/provider_votes/nvidia_nim.jsonl"
+    }
+  ],
+  "vote_schema": {
+    "record_id": "string",
+    "provider": "string",
+    "source_type": "ai_provider",
+    "claim_label": "claim|major_claim|non_argument",
+    "premise_label": "premise|evidence|none",
+    "relation_label": "support|attack|none",
+    "confidence": "number between 0 and 1"
+  },
+  "acceptance": {
+    "minimum_independent_ai_votes": 3,
+    "minimum_consensus_score": 0.67,
+    "human_calibration_override": "Two independent AI votes plus one human-labelled calibration-source match can satisfy the silver gate.",
+    "gold_label_warning": "Outputs from this plan are silver labels only and must not be represented as human gold labels."
+  }
+}

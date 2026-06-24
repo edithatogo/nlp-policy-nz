@@ -1,0 +1,41 @@
+{
+  "track": 13,
+  "evaluation_type": "silver",
+  "status": "blocked_no_accepted_silver_labels",
+  "accepted_silver_label_count": 0,
+  "disagreement_queue_count": 13,
+  "accepted_metrics": null,
+  "disagreement_diagnostic_metrics": {
+    "rows": 13,
+    "argument_claim": {
+      "accuracy": 0.6153846153846154,
+      "macro_precision": 0.3076923076923077,
+      "macro_recall": 0.5,
+      "macro_f1": 0.380952380952381
+    },
+    "argument_premise": {
+      "accuracy": 0.6153846153846154,
+      "macro_precision": 0.3076923076923077,
+      "macro_recall": 0.5,
+      "macro_f1": 0.380952380952381
+    },
+    "argument_relation": {
+      "accuracy": 0.46153846153846156,
+      "macro_precision": 0.16666666666666666,
+      "macro_recall": 0.2857142857142857,
+      "macro_f1": 0.21052631578947367
+    },
+    "stance_proxy": {
+      "accuracy": 0.6153846153846154,
+      "macro_precision": 0.7916666666666667,
+      "macro_recall": 0.5833333333333334,
+      "macro_f1": 0.5112781954887218
+    }
+  },
+  "caveats": [
+    "Accepted silver evaluation requires rows in data/track13/silver_argument_labels.jsonl.",
+    "Current disagreement diagnostics are not acceptance evidence.",
+    "No fine-tuned Legal-BERT Track 13 model artifact was loaded by this script.",
+    "Stance diagnostics use relation_label as a pro/con/neutral proxy."
+  ]
+}

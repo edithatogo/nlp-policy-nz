@@ -1,0 +1,62 @@
+{
+  "track": 13,
+  "updated_at": "2026-06-23T00:00:00+10:00",
+  "status": "calibration_votes_ready",
+  "format": "jsonl",
+  "schema": {
+    "record_id": "external calibration record id",
+    "text": "source text span or sentence",
+    "provider": "calibration source id",
+    "source_type": "human_calibration or human_in_loop_calibration",
+    "claim_label": "claim|major_claim|non_argument",
+    "premise_label": "premise|evidence|none",
+    "relation_label": "support|attack|none",
+    "confidence": "0..1",
+    "source_dataset": "source dataset name",
+    "source_record_id": "source-native id",
+    "source_url": "source URL",
+    "human_labelled": "true or source qualification"
+  },
+  "artifacts": [
+    {
+      "id": "ukp_argumentative_essays",
+      "path": "data/track13/calibration/ukp_aae2_calibration_votes.jsonl",
+      "rows": 40,
+      "source": "Argument Annotated Essays v2",
+      "human_labelled": true
+    },
+    {
+      "id": "iam_integrated_argument_mining",
+      "path": "data/track13/calibration/iam_calibration_votes.jsonl",
+      "rows": 80,
+      "source": "IAM claims/evidence training splits",
+      "human_labelled": true
+    },
+    {
+      "id": "mining_legal_arguments_echr",
+      "path": "data/track13/calibration/echr_calibration_votes.jsonl",
+      "rows": 40,
+      "source": "ECHR legal argument annotations",
+      "human_labelled": true
+    },
+    {
+      "id": "lamus_legal_argument_mining",
+      "path": "data/track13/calibration/lamus_calibration_votes.jsonl",
+      "rows": 40,
+      "source": "LAMUS train_final.csv",
+      "human_labelled": "human-in-the-loop verification reported by source"
+    },
+    {
+      "id": "combined_human_calibration",
+      "path": "data/track13/calibration/human_calibration_votes.jsonl",
+      "rows": 200,
+      "source": "bounded combined calibration rows",
+      "human_labelled": "mixed human and human-in-loop calibration"
+    }
+  ],
+  "notes": [
+    "Calibration rows are external examples and are not target-corpus labels.",
+    "These rows strengthen silver-label schema calibration and few-shot/provider prompting.",
+    "They must not be reported as NZ Hansard human-gold labels."
+  ]
+}
