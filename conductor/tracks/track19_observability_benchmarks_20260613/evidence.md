@@ -29,6 +29,10 @@
 
 - `pixi run python -B -m pytest -p no:cacheprovider -q tests\test_track19_evidence.py tests\benchmarks\test_pipeline_benchmark.py --benchmark-json artifacts\track19\benchmark_20260624.json --basetemp C:\tmp\nlp-track19-final-20260624` -> 5 passed; benchmark mean 189.5545 ms, 5.2755 ops/sec; artifact written to `artifacts/track19/benchmark_20260624.json`.
 
+## External Gate Manifest
+
+- conductor/tracks/track19_observability_benchmarks_20260613/external_gate_manifest.json records the remaining full-suite, 1 GiB Scalene, 1 GiB Memray, and canonical full-corpus gates as external/runtime evidence requirements. It also records that this repo currently has no 1 GiB Hansard corpus and that Memray is not installed on Windows because the Pixi dependency is platform-gated.
+
 ## Residual External Gates
 
 - Generate a Scalene CPU/memory profile over at least 1 GiB of Hansard input.
