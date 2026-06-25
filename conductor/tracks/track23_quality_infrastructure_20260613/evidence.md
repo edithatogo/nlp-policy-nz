@@ -43,3 +43,7 @@ python -B -m json.tool conductor\tracks\track23_quality_infrastructure_20260613\
 - `pyright` strict mode must pass across the agreed full source scope.
 - Coverage must be measured and meet the agreed threshold.
 - Full mutation execution remains optional/manual; CI wiring is present via `workflow_dispatch.run_mutation_tests`.
+
+## 2026-06-25 full quality gate manifest
+
+Track 23 now has a machine-readable remaining-gate contract at conductor/tracks/track23_quality_infrastructure_20260613/external_gate_manifest.json. It records mutation_ci_gate as satisfied and full_ruff_strict, strict_pyright, coverage_threshold, and full_quality_pass as pending until durable artifacts prove them. Focused tests, scoped Ruff runs, scaffold checks, and configuration inspection are not accepted as substitutes for those gates.

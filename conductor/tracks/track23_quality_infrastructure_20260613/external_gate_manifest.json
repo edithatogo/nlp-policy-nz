@@ -1,0 +1,94 @@
+{
+  "track": 23,
+  "name": "quality_infrastructure_full_gate_manifest",
+  "updated_at": "2026-06-25",
+  "status": "pending_full_quality_evidence",
+  "summary": "Track 23 has repo-side quality infrastructure and optional mutation CI wiring, but the remaining full quality gates must be proven by durable artifacts before the track is described as complete.",
+  "non_surrogate_rule": "Focused tests, scoped Ruff runs, scaffold checks, and configuration inspection are not accepted as substitutes for the full strict Ruff, strict pyright, coverage threshold, or full quality pass gates.",
+  "gates": [
+    {
+      "id": "full_ruff_strict",
+      "required": true,
+      "status": "pending",
+      "command": "pixi run python -m ruff check --no-cache --select ANN,D,TCH,YTT,RET src tests",
+      "accepted_artifacts": [
+        "artifacts/track23/full_ruff_strict_20260625.txt",
+        "artifacts/track23/full_ruff_strict_20260625.json"
+      ],
+      "required_evidence_fields": [
+        "command",
+        "return_code",
+        "passed",
+        "ruff_version",
+        "checked_paths",
+        "selected_rules",
+        "created_at"
+      ],
+      "completion_criteria": "Return code 0 on the configured strict rule set for the full intended source and test scope."
+    },
+    {
+      "id": "strict_pyright",
+      "required": true,
+      "status": "pending",
+      "command": "pixi run pyright",
+      "accepted_artifacts": [
+        "artifacts/track23/strict_pyright_20260625.txt",
+        "artifacts/track23/strict_pyright_20260625.json"
+      ],
+      "required_evidence_fields": [
+        "command",
+        "return_code",
+        "passed",
+        "pyright_version",
+        "type_checking_mode",
+        "created_at"
+      ],
+      "completion_criteria": "Strict pyright completes with no errors for the repository's configured type-checking scope."
+    },
+    {
+      "id": "coverage_threshold",
+      "required": true,
+      "status": "pending",
+      "command": "pixi run python -m pytest --cov=src --cov-report=term-missing --cov-report=xml",
+      "accepted_artifacts": [
+        "artifacts/track23/coverage_20260625.txt",
+        "artifacts/track23/coverage.xml"
+      ],
+      "required_evidence_fields": [
+        "command",
+        "return_code",
+        "passed",
+        "coverage_percent",
+        "minimum_coverage_percent",
+        "created_at"
+      ],
+      "minimum_coverage_percent": 90.0,
+      "completion_criteria": "Coverage run passes and reports at least the configured minimum coverage percentage."
+    },
+    {
+      "id": "full_quality_pass",
+      "required": true,
+      "status": "pending",
+      "command": "pixi run check",
+      "accepted_artifacts": [
+        "artifacts/track23/full_quality_pass_20260625.txt",
+        "artifacts/track23/full_quality_pass_20260625.json"
+      ],
+      "required_evidence_fields": [
+        "command",
+        "return_code",
+        "passed",
+        "included_gates",
+        "created_at"
+      ],
+      "completion_criteria": "The aggregate quality command completes successfully and includes lint, type-check, and test or coverage checks."
+    }
+  ],
+  "already_satisfied": [
+    {
+      "id": "mutation_ci_gate",
+      "status": "satisfied",
+      "evidence": ".github/workflows/ci.yml exposes the optional workflow_dispatch mutation-testing gate and tests assert the required controls."
+    }
+  ]
+}
