@@ -8,8 +8,8 @@
 # ]
 # ///
 
-"""
-Universal Legislative and Parliamentary NLP Abstraction Framework.
+"""Universal Legislative and Parliamentary NLP Abstraction Framework.
+
 Supports dynamic ingestion (XML/HTML/JSONL) and standardized semantic
 emission (ParlaMint-TEI-Ana, Akoma-Ntoso, ParlaCAP-JSONL).
 """
@@ -66,6 +66,7 @@ class XMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses XML trees (e.g., PCO legislative XML)."""
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
+        """Ingest raw data into document chunks."""
         soup = BeautifulSoup(raw_data, "xml")
         chunks = []
 
@@ -91,6 +92,7 @@ class HTMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses HTML layouts."""
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
+        """Ingest raw data into document chunks."""
         soup = BeautifulSoup(raw_data, "html.parser")
         chunks = []
 
@@ -115,6 +117,7 @@ class JSONLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses JSON-Lines serialized strings."""
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
+        """Ingest raw data into document chunks."""
         chunks = []
         for idx, line in enumerate(raw_data.strip().split("\n")):
             if not line.strip():
@@ -137,6 +140,7 @@ class JSONLIngestionEngine(UniversalIngestionEngine):
 
 # Ingestion Factory
 def get_ingestion_engine(data_format: str) -> UniversalIngestionEngine:
+    """Return the ingestion engine for the data format."""
     if data_format.upper() == "XML":
         return XMLIngestionEngine()
     if data_format.upper() == "HTML":
@@ -188,6 +192,7 @@ class MetaExtensionRegistry:
 def create_metadata_bridge(
     nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str
 ) -> ty.Callable[[Doc], Doc]:
+    """Create the metadata bridge component."""
     return ModularSpaCyBridgeComponent(nlp, name, country_key, schema_key, chunk_id_key)
 
 
@@ -196,7 +201,8 @@ class ModularSpaCyBridgeComponent:
 
     def __init__(
         self, nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str
-    ):
+    ) -> None:
+        """Initialize the instance."""
         self._nlp = nlp
         self.name = name
         self._nlp = nlp
@@ -206,6 +212,7 @@ class ModularSpaCyBridgeComponent:
 
     def __call__(self, doc: Doc) -> Doc:
         # Check if the doc has metadata pre-injected
+        """Process and return the document."""
         if doc.has_extension("chunk_metadata") and doc._.chunk_metadata:
             meta = doc._.chunk_metadata
             # Map whole doc span
@@ -230,13 +237,15 @@ class TargetSchemaEmitter:
 
     def __init__(
         self, config: FrameworkConfig, country_key: str, schema_key: str, chunk_id_key: str
-    ):
+    ) -> None:
+        """Initialize the instance."""
         self.config = config
         self.country_key = country_key
         self.schema_key = schema_key
         self.chunk_id_key = chunk_id_key
 
     def emit(self, doc: Doc) -> str:
+        """Emit the document in the configured target schema."""
         standard = self.config.target_schema_standard.upper()
 
         # Fetch metadata values dynamically
@@ -253,7 +262,7 @@ class TargetSchemaEmitter:
         raise ValueError(f"Unknown target schema: {self.config.target_schema_standard}")
 
     def _emit_parlamint_tei(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
-        """Serializes Doc tokens into valid TEI XML syntax."""
+        """Serialize Doc tokens into valid TEI XML syntax."""
         lines = []
         lines.append(f'<div type="{struct_type}" xml:id="{chunk_id}">')
         for token in doc:
@@ -265,7 +274,7 @@ class TargetSchemaEmitter:
         return "\n".join(lines)
 
     def _emit_akoma_ntoso(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
-        """Serializes Doc tokens into valid Akoma-Ntoso legal block containers."""
+        """Serialize Doc tokens into valid Akoma-Ntoso legal block containers."""
         lines = []
         lines.append("<akomaNtoso>")
         lines.append(f'  <{struct_type} id="{chunk_id}">')
@@ -304,7 +313,7 @@ SAMPLE_JSONL = '{"id": "speech-102", "text": "I support this amendment for the r
 
 
 def run_framework(config: FrameworkConfig, raw_data: str) -> str:
-    """Initializes and runs the dynamic pipeline based on the provided configuration."""
+    """Initialize and run the dynamic pipeline based on the provided configuration."""
     # 1. Ingestion
     engine = get_ingestion_engine(config.source_data_format)
     chunks = engine.ingest(raw_data)
@@ -344,6 +353,7 @@ def run_framework(config: FrameworkConfig, raw_data: str) -> str:
 
 def run_demo() -> None:
     # Scenario A: New Zealand statute XML targeting ParlaMint-TEI-Ana
+    """Run the demonstration pipeline."""
     config_nz = FrameworkConfig(
         country="New Zealand",
         jurisdiction="National Parliament & PCO Legislative Corpus",

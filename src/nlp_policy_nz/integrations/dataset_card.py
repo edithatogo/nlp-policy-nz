@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import datetime
 from pathlib import Path
-from typing import Any
+from typing import NotRequired, TypedDict, Unpack
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -84,6 +84,21 @@ This dataset was produced by the `nlp-policy-nz` NLP preprocessing pipeline:
 }}
 ```
 """
+
+
+class DatasetCardKwargs(TypedDict, total=False):
+    """Keyword arguments accepted by generate_dataset_card."""
+
+    repo_id: str
+    source: NotRequired[str]
+    title: NotRequired[str]
+    description: NotRequired[str]
+    total_chunks: NotRequired[int | None]
+    corpus_types: NotRequired[str]
+    embedding_dim: NotRequired[int | None]
+    license_id: NotRequired[str]
+    year: NotRequired[int | None]
+    tags: NotRequired[list[str] | None]
 
 
 # ---------------------------------------------------------------------------
@@ -172,7 +187,7 @@ def generate_dataset_card(
 
 def write_dataset_card(
     path: str | Path,
-    **kwargs: Any,
+    **kwargs: Unpack[DatasetCardKwargs],
 ) -> Path:
     """Generate and write a dataset card to disk.
 

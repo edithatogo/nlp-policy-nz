@@ -6,7 +6,6 @@ runtime: search, citations, Te Reo, and stats.
 
 from __future__ import annotations
 
-from pathlib import Path
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -19,6 +18,10 @@ from spaces.app import (
     load_parquet,
     search_chunks,
 )
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # Fixtures

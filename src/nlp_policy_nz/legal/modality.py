@@ -98,6 +98,7 @@ class DeonticModalityDetector:
         name: str = "deontic_modality",
         patterns: dict[str, dict[str, Any]] | None = None,
     ) -> None:
+        """Initialize the instance."""
         self.name = name
         self.vocab = nlp.vocab
         self.patterns = patterns if patterns is not None else DEONTIC_PATTERNS

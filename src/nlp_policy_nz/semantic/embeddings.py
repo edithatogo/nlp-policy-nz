@@ -188,7 +188,7 @@ def generate_embeddings_batch(
 
 
 class EmbeddingGenerator:
-    """Convenience class for generating embeddings from texts.
+    r"""Convenience class for generating embeddings from texts.
 
     Wraps model loading, embedding generation, and resource cleanup
     into a single interface with context-manager support.
@@ -216,6 +216,7 @@ class EmbeddingGenerator:
         model_name: str | None = None,
         device: str = "cpu",
     ) -> None:
+        """Initialize the instance."""
         self._model_name = model_name
         self._device = device
         self._model: AutoModel | None = None

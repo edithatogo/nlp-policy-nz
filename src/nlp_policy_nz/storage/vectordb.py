@@ -8,12 +8,14 @@ search over NZ legislative and Hansard corpora.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Final
+from typing import Any, Final, TYPE_CHECKING
 
 import lancedb
-from lancedb.table import Table
 
 from nlp_policy_nz.storage.interfaces import VectorBackend
+
+if TYPE_CHECKING:
+    from lancedb.table import Table
 
 LANCE_DB_URI: Final[str] = "./lancedb_data"
 """Default local path for the LanceDB database directory."""
@@ -50,6 +52,7 @@ class LanceDBAdapter(VectorBackend):
         uri: str | None = None,
         table_name: str = "embeddings",
     ) -> None:
+        """Initialize the instance."""
         self._uri = str(Path(uri or LANCE_DB_URI).resolve())
         self._table_name = table_name
         self._db: lancedb.DBConnection = lancedb.connect(self._uri)

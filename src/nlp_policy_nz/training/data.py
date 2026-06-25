@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import random
-from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, TYPE_CHECKING
 
 from nlp_policy_nz.storage import PipelineRecord, load_from_parquet
+
+if TYPE_CHECKING:
+    from pathlib import Path
+    from collections.abc import Iterable, Sequence
 
 TrainingTask = Literal["mlm", "citation", "deontic", "entity", "argument", "stance"]
 
@@ -75,6 +77,7 @@ class MaskedLanguageModelingCollator:
         mlm_probability: float = 0.15,
         seed: int = 42,
     ) -> None:
+        """Initialize the instance."""
         self.mask_token_id = mask_token_id
         self.special_token_ids = special_token_ids or set()
         self.mlm_probability = mlm_probability

@@ -1,5 +1,4 @@
-"""
-Hugging Face Hub Integration.
+"""Hugging Face Hub Integration.
 
 Provides dataset loaders for the New Zealand Hansard and legislation corpora
 published on the Hugging Face Hub. Requires a valid Hugging Face token with
@@ -9,10 +8,12 @@ read access to the target datasets.
 from __future__ import annotations
 
 import os
-from collections.abc import Iterable
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 import datasets
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 HF_TOKEN_ENV_VAR: str = "HF_TOKEN"
 """Environment variable name used to store the Hugging Face access token."""

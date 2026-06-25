@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import re
 from collections import Counter
-from collections.abc import Sequence
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 def _safe_div(num: float, den: float) -> float:

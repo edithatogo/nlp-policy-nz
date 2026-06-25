@@ -8,8 +8,8 @@
 # ]
 # ///
 
-"""
-Universal Legislative and Parliamentary NLP Abstraction Framework - Version 2.
+"""Universal Legislative and Parliamentary NLP Abstraction Framework - Version 2.
+
 Enforces maximal use of ParlaMint-TEI-Ana, Akoma-Ntoso, and ParlaCAP-JSONL schemas.
 """
 
@@ -65,6 +65,7 @@ class XMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses XML trees (e.g., PCO legislative XML)."""
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
+        """Ingest raw data into document chunks."""
         soup = BeautifulSoup(raw_data, "xml")
         chunks = []
         for node in soup.find_all(["section", "speech", "part"]):
@@ -87,6 +88,7 @@ class HTMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses HTML layouts."""
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
+        """Ingest raw data into document chunks."""
         soup = BeautifulSoup(raw_data, "html.parser")
         chunks = []
         for node in soup.find_all(["article", "div", "p"]):
@@ -109,6 +111,7 @@ class JSONLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses JSON-Lines serialized strings."""
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
+        """Ingest raw data into document chunks."""
         chunks = []
         for idx, line in enumerate(raw_data.strip().split("\n")):
             if not line.strip():
@@ -129,6 +132,7 @@ class JSONLIngestionEngine(UniversalIngestionEngine):
 
 
 def get_ingestion_engine(data_format: str) -> UniversalIngestionEngine:
+    """Return the ingestion engine for the data format."""
     if data_format.upper() == "XML":
         return XMLIngestionEngine()
     if data_format.upper() == "HTML":
@@ -148,10 +152,12 @@ class MetaExtensionRegistry:
 
     @staticmethod
     def sanitize_name(name: str) -> str:
+        """Return a safe extension name."""
         return re.sub(r"[^a-zA-Z0-9_]", "_", name).lower()
 
     @classmethod
     def register(cls, config: FrameworkConfig) -> tuple[str, str, str]:
+        """Register metadata extensions for the configuration."""
         namespace = cls.sanitize_name(f"{config.country}_{config.target_schema_standard}")
         country_key = f"{namespace}_country"
         schema_key = f"{namespace}_structural_type"
@@ -176,6 +182,7 @@ class MetaExtensionRegistry:
 def create_metadata_bridge_v2(
     nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str
 ) -> ty.Callable[[Doc], Doc]:
+    """Create the metadata bridge component."""
     return ModularSpaCyBridgeComponentV2(nlp, name, country_key, schema_key, chunk_id_key)
 
 
@@ -184,7 +191,8 @@ class ModularSpaCyBridgeComponentV2:
 
     def __init__(
         self, nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str
-    ):
+    ) -> None:
+        """Initialize the instance."""
         self._nlp = nlp
         self.name = name
         self._nlp = nlp
@@ -193,6 +201,7 @@ class ModularSpaCyBridgeComponentV2:
         self.chunk_id_key = chunk_id_key
 
     def __call__(self, doc: Doc) -> Doc:
+        """Process and return the document."""
         if doc.has_extension("chunk_metadata") and doc._.chunk_metadata:
             meta = doc._.chunk_metadata
             full_span = doc[0 : len(doc)]
@@ -215,13 +224,15 @@ class TargetSchemaEmitter:
 
     def __init__(
         self, config: FrameworkConfig, country_key: str, schema_key: str, chunk_id_key: str
-    ):
+    ) -> None:
+        """Initialize the instance."""
         self.config = config
         self.country_key = country_key
         self.schema_key = schema_key
         self.chunk_id_key = chunk_id_key
 
     def emit(self, doc: Doc) -> str:
+        """Emit the document in the configured target schema."""
         standard = self.config.target_schema_standard.upper()
         full_span = doc[0 : len(doc)]
         structural_type = full_span._.get(self.schema_key)
@@ -236,7 +247,7 @@ class TargetSchemaEmitter:
         raise ValueError(f"Unknown target schema: {self.config.target_schema_standard}")
 
     def _emit_parlamint_tei(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
-        """Serializes to ParlaMint-TEI-Ana with sentence tags and Morphosyntactic (MSD) features."""
+        """Serialize to ParlaMint-TEI-Ana with sentence tags and Morphosyntactic features."""
         lines = []
         speaker_id = "unknown_speaker"
 
@@ -269,7 +280,7 @@ class TargetSchemaEmitter:
         return "\n".join(lines)
 
     def _emit_akoma_ntoso(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
-        """Serializes into complete Akoma-Ntoso XML layout with Identification Metadata blocks."""
+        """Serialize into complete Akoma-Ntoso XML layout with identification metadata blocks."""
         lines = []
         lines.append("<akomaNtoso>")
         lines.append(f'  <{struct_type} id="{chunk_id}">')
@@ -302,7 +313,7 @@ class TargetSchemaEmitter:
         return "\n".join(lines)
 
     def _emit_parlacap_jsonl(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
-        """Serializes to ParlaCAP-JSONL containing joint syntax-aware token mappings."""
+        """Serialize to ParlaCAP-JSONL containing joint syntax-aware token mappings."""
         tokens = []
         for t in doc:
             if t.is_space:
@@ -338,6 +349,7 @@ SAMPLE_JSONL = '{"id": "speech-102", "text": "I support this amendment for the r
 
 
 def run_framework(config: FrameworkConfig, raw_data: str) -> str:
+    """Run the configured framework over raw data."""
     engine = get_ingestion_engine(config.source_data_format)
     chunks = engine.ingest(raw_data)
 
@@ -369,6 +381,7 @@ def run_framework(config: FrameworkConfig, raw_data: str) -> str:
 
 def run_demo() -> None:
     # Scenario A: New Zealand statute XML targeting ParlaMint-TEI-Ana
+    """Run the demonstration pipeline."""
     config_nz = FrameworkConfig(
         country="New Zealand",
         jurisdiction="National Parliament & PCO Legislative Corpus",

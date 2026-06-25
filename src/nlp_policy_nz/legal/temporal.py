@@ -147,6 +147,7 @@ class TemporalExtractor:
         name: str = "temporal_extractor",
         patterns: tuple[dict[str, Any], ...] | None = None,
     ) -> None:
+        """Initialize the instance."""
         self.name = name
         self.vocab = nlp.vocab
         self.patterns = patterns if patterns is not None else TEMPORAL_PATTERNS
@@ -207,6 +208,7 @@ class TemporalGraph:
     """Small section-to-time graph for legal effective-period queries."""
 
     def __init__(self) -> None:
+        """Initialize the instance."""
         self.graph: nx.DiGraph = nx.DiGraph()
 
     def add_section(self, section_id: str, title: str | None = None) -> None:

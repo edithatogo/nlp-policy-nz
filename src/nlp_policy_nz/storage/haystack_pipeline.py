@@ -7,10 +7,12 @@ deployment, this would be replaced by Haystack's native
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-from nlp_policy_nz.storage.interfaces import VectorBackend
 from nlp_policy_nz.storage.vectordb import LanceDBAdapter
+
+if TYPE_CHECKING:
+    from nlp_policy_nz.storage.interfaces import VectorBackend
 
 
 class HaystackRAGPipeline:
@@ -29,6 +31,7 @@ class HaystackRAGPipeline:
     """
 
     def __init__(self, vector_backend: VectorBackend | None = None) -> None:
+        """Initialize the instance."""
         self._backend = vector_backend or LanceDBAdapter()
 
     def retrieve(

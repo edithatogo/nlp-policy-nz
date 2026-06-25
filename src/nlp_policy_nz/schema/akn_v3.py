@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
 from dataclasses import dataclass, replace
 from html import escape
-from pathlib import Path
-from typing import Final, Protocol
+from typing import Final, Protocol, TYPE_CHECKING
 from xml.etree import ElementTree as ET
+
+if TYPE_CHECKING:
+    from pathlib import Path
+    from collections.abc import Iterable
 
 AKN_NS: Final[str] = "http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
 OASIS_AKN_V3_XSD_URL: Final[str] = (
@@ -320,6 +322,7 @@ class AKNValidator:
     """XSD-backed validator for generated Akoma Ntoso v3 XML."""
 
     def __init__(self, schema_source: str | Path = OASIS_AKN_V3_XSD_URL) -> None:
+        """Initialize the instance."""
         self.schema_source = str(schema_source)
         self._schema = _load_xml_schema(schema_source)
 

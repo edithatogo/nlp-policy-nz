@@ -5,10 +5,12 @@ Exports the FastAPI app and lazy wrappers around the public pipeline API.
 
 from __future__ import annotations
 
-from pathlib import Path
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 from nlp_policy_nz.api.server import app
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def process_hansard(

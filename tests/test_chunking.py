@@ -10,7 +10,6 @@ import re
 
 import pytest
 import spacy
-from spacy.language import Language
 
 from nlp_policy_nz.syntactic.chunking import (
     chunk_by_sentence,
@@ -19,6 +18,10 @@ from nlp_policy_nz.syntactic.chunking import (
     generate_hansard_id,
     generate_legislation_id,
 )
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from spacy.language import Language
 
 # ---------------------------------------------------------------------------
 # ID Generation

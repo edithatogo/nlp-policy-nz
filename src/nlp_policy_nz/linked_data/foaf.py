@@ -4,12 +4,15 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from pathlib import Path
 
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import FOAF, RDF
 
 from nlp_policy_nz.linked_data.rdf import SCHEMA, bind_common_namespaces, write_graph
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 @dataclass(frozen=True)

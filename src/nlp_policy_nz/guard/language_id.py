@@ -26,7 +26,7 @@ LANGUAGE_MIIO_CONFIDENCE: ty.Final[float] = 0.7
 
 
 class LanguageResult(msgspec.Struct, frozen=True):
-    """Result of a single language-detection query.
+    r"""Result of a single language-detection query.
 
     Attributes
     ----------
@@ -67,6 +67,7 @@ class LanguageIdentifier:
     """
 
     def __init__(self, min_confidence: float = LANGUAGE_MIIO_CONFIDENCE) -> None:
+        """Initialize the instance."""
         self._min_confidence = min_confidence
         self._detector: LanguageDetector = (
             LanguageDetectorBuilder.from_languages(Language.ENGLISH, Language.MAORI)
@@ -161,7 +162,7 @@ class LanguageIdentifier:
 
     @staticmethod
     def _to_iso(language: Language | None) -> str:
-        """Map a lingua ``Language`` enum to its ISO 639-1 code.
+        r"""Map a lingua ``Language`` enum to its ISO 639-1 code.
 
         Parameters
         ----------

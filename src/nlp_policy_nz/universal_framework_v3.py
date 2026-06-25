@@ -8,8 +8,8 @@
 # ]
 # ///
 
-"""
-Universal Legislative and Parliamentary NLP Abstraction Framework - Version 3.
+"""Universal Legislative and Parliamentary NLP Abstraction Framework - Version 3.
+
 Implements displaCy visualization exports and nested SpanGroup modeling
 to support overlapping legislative citations.
 """
@@ -62,6 +62,7 @@ class UniversalIngestionEngine(ABC):
 
     @abstractmethod
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
+        """Ingest raw data into document chunks."""
         pass
 
 
@@ -69,6 +70,7 @@ class XMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses XML trees (e.g., PCO legislative XML)."""
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
+        """Ingest raw data into document chunks."""
         try:
             root = ET.fromstring(raw_data)
         except ET.ParseError:
@@ -113,6 +115,7 @@ class HTMLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses HTML layouts."""
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
+        """Ingest raw data into document chunks."""
         soup = BeautifulSoup(raw_data, "html.parser")
         chunks = []
         for node in soup.find_all(["article", "div", "p"]):
@@ -135,6 +138,7 @@ class JSONLIngestionEngine(UniversalIngestionEngine):
     """Ingests and parses JSON-Lines serialized strings."""
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
+        """Ingest raw data into document chunks."""
         chunks = []
         for idx, line in enumerate(raw_data.strip().split("\n")):
             if not line.strip():
@@ -155,6 +159,7 @@ class JSONLIngestionEngine(UniversalIngestionEngine):
 
 
 def get_ingestion_engine(data_format: str) -> UniversalIngestionEngine:
+    """Return the ingestion engine for the data format."""
     if data_format.upper() == "XML":
         return XMLIngestionEngine()
     if data_format.upper() == "HTML":
@@ -174,10 +179,12 @@ class MetaExtensionRegistry:
 
     @staticmethod
     def sanitize_name(name: str) -> str:
+        """Return a safe extension name."""
         return re.sub(r"[^a-zA-Z0-9_]", "_", name).lower()
 
     @classmethod
     def register(cls, config: FrameworkConfig) -> tuple[str, str, str]:
+        """Register metadata extensions for the configuration."""
         namespace = cls.sanitize_name(f"{config.country}_{config.target_schema_standard}")
         country_key = f"{namespace}_country"
         schema_key = f"{namespace}_structural_type"
@@ -202,6 +209,7 @@ class MetaExtensionRegistry:
 def create_metadata_bridge_v3(
     nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str
 ) -> ty.Callable[[Doc], Doc]:
+    """Create the metadata bridge component."""
     return ModularSpaCyBridgeComponentV3(nlp, name, country_key, schema_key, chunk_id_key)
 
 
@@ -210,7 +218,8 @@ class ModularSpaCyBridgeComponentV3:
 
     def __init__(
         self, nlp: Language, name: str, country_key: str, schema_key: str, chunk_id_key: str
-    ):
+    ) -> None:
+        """Initialize the instance."""
         self._nlp = nlp
         self.name = name
         self.country_key = country_key
@@ -218,6 +227,7 @@ class ModularSpaCyBridgeComponentV3:
         self.chunk_id_key = chunk_id_key
 
     def __call__(self, doc: Doc) -> Doc:
+        """Process and return the document."""
         if doc.has_extension("chunk_metadata") and doc._.chunk_metadata:
             meta = doc._.chunk_metadata
             full_span = doc[0 : len(doc)]
@@ -248,13 +258,15 @@ class TargetSchemaEmitter:
 
     def __init__(
         self, config: FrameworkConfig, country_key: str, schema_key: str, chunk_id_key: str
-    ):
+    ) -> None:
+        """Initialize the instance."""
         self.config = config
         self.country_key = country_key
         self.schema_key = schema_key
         self.chunk_id_key = chunk_id_key
 
     def emit(self, doc: Doc) -> str:
+        """Emit the document in the configured target schema."""
         standard = self.config.target_schema_standard.upper()
         full_span = doc[0 : len(doc)]
         structural_type = full_span._.get(self.schema_key)
@@ -271,7 +283,7 @@ class TargetSchemaEmitter:
         raise ValueError(f"Unknown target schema: {self.config.target_schema_standard}")
 
     def _emit_parlamint_tei(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
-        """Serializes to ParlaMint-TEI-Ana with sentence tags and Morphosyntactic (MSD) features."""
+        """Serialize to ParlaMint-TEI-Ana with sentence tags and Morphosyntactic features."""
         lines = []
         speaker_id = "unknown_speaker"
         lines.append(f'<u xml:id="{chunk_id}" who="#{speaker_id}" ana="#{struct_type}">')
@@ -296,7 +308,7 @@ class TargetSchemaEmitter:
         return "\n".join(lines)
 
     def _emit_akoma_ntoso(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
-        """Serializes into complete Akoma-Ntoso XML layout with Identification Metadata blocks."""
+        """Serialize into complete Akoma-Ntoso XML layout with identification metadata blocks."""
         # Māori Language Guard Integration (Token-based lexical matching & macron detection)
         from nlp_policy_nz.guard.normalizer import is_macronized
         from nlp_policy_nz.guard.tokenizer_exceptions import TE_REO_LEXICAL_ATOM_SET
@@ -419,7 +431,7 @@ class TargetSchemaEmitter:
         return "\n".join(lines)
 
     def _emit_parlacap_jsonl(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
-        """Serializes to ParlaCAP-JSONL containing joint syntax-aware token mappings."""
+        """Serialize to ParlaCAP-JSONL containing joint syntax-aware token mappings."""
         tokens = []
         for t in doc:
             if t.is_space:
@@ -443,7 +455,7 @@ class TargetSchemaEmitter:
         return json.dumps(data)
 
     def _emit_catala_dsl(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
-        """Serializes into an executable Catala DSL module template."""
+        """Serialize into an executable Catala DSL module template."""
         annotations = doc._.get("modality_annotations") if doc.has_extension("modality_annotations") else None
         if not annotations:
             from nlp_policy_nz.legal.modality import detect_modality
@@ -511,7 +523,7 @@ class SOTAPipelineVisualizer:
 
     @staticmethod
     def generate_html_report(doc: Doc, output_path: str | None = None) -> str:
-        """Generates static HTML string rendering sentence boundaries and entity tags."""
+        """Generate static HTML rendering sentence boundaries and entity tags."""
         colors = {
             "LAW": "linear-gradient(90deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)",
             "SECTION": "linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%)",
@@ -553,6 +565,7 @@ SAMPLE_XML = (
 
 
 def run_framework(config: FrameworkConfig, raw_data: str) -> Doc:
+    """Run the configured framework over raw data."""
     engine = get_ingestion_engine(config.source_data_format)
     chunks = engine.ingest(raw_data)
 
@@ -573,6 +586,7 @@ def run_framework(config: FrameworkConfig, raw_data: str) -> Doc:
 
 
 def run_demo() -> None:
+    """Run the demonstration pipeline."""
     config_nz = FrameworkConfig(
         country="New Zealand",
         jurisdiction="National Parliament & PCO Legislative Corpus",

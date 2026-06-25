@@ -9,9 +9,11 @@ chunks and assigning unique structural identifiers following NZ conventions:
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-from spacy.language import Language
+
+if TYPE_CHECKING:
+    from spacy.language import Language
 
 # ---------------------------------------------------------------------------
 # ID Patterns
@@ -29,7 +31,7 @@ CHUNK_ID_PATTERN: str = (
 
 
 def generate_legislation_id(year: int, number: int, section: str | int) -> str:
-    """Generate a structured document ID for a legislation chunk.
+    r"""Generate a structured document ID for a legislation chunk.
 
     The returned ID follows the pattern
     ``NZ-ACT-{YEAR}-{NNN}-SEC-{SECTION}``, where *NNN* is the act number
@@ -52,7 +54,7 @@ def generate_legislation_id(year: int, number: int, section: str | int) -> str:
 
 
 def generate_hansard_id(date: str, speech_num: int) -> str:
-    """Generate a structured document ID for a Hansard speech chunk.
+    r"""Generate a structured document ID for a Hansard speech chunk.
 
     The returned ID follows the pattern
     ``NZ-HANS-{YYYY-MM-DD}-SP-{NN}``, where *NN* is the speech number
@@ -79,7 +81,7 @@ def generate_hansard_id(date: str, speech_num: int) -> str:
 
 
 def chunk_by_sentence(text: str, nlp: Language) -> list[dict[str, Any]]:
-    """Split *text* into sentence chunks using a spaCy ``Language`` pipeline.
+    r"""Split *text* into sentence chunks using a spaCy ``Language`` pipeline.
 
     Each chunk is represented as a dictionary with the following keys:
 

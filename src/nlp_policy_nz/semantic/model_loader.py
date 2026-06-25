@@ -45,7 +45,7 @@ class ModelLoadError(Exception):
 
 
 class QuantizationConfig(Struct, frozen=True):
-    """Bitsandbytes quantization parameters for model loading.
+    r"""Bitsandbytes quantization parameters for model loading.
 
     Attributes
     ----------
@@ -79,7 +79,7 @@ def load_model(
     quantization: str = "4bit",
     device_map: str = "auto",
 ) -> tuple[AutoModel, AutoTokenizer]:
-    """Load a Hugging Face model with optional bitsandbytes quantization.
+    r"""Load a Hugging Face model with optional bitsandbytes quantization.
 
     Parameters
     ----------
@@ -177,7 +177,7 @@ def unload_model(model: torch.nn.Module) -> None:
 
 
 def _build_bnb_config(quantization: str) -> BitsAndBytesConfig | None:
-    """Construct a :class:`BitsAndBytesConfig` from a short-hand string.
+    r"""Construct a :class:`BitsAndBytesConfig` from a short-hand string.
 
     Returns ``None`` when ``quantization`` is ``\"none\"``.
     """

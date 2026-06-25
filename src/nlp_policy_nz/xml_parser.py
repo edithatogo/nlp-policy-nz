@@ -8,8 +8,8 @@
 # ]
 # ///
 
-"""
-New Zealand Legislative XML Parser and spaCy v3 Structure Ingestion Pipeline.
+"""New Zealand Legislative XML Parser and spaCy v3 Structure Ingestion Pipeline.
+
 Consumes structured PCO XML, extracts clean text, maps character boundaries,
 and registers custom spaCy metadata extensions.
 """
@@ -58,14 +58,15 @@ if not Span.has_extension("nz_element_title"):
 class LegislativeXMLParser:
     """Parses NZ legislation XML, extracting clean text and mapping elements to offsets."""
 
-    def __init__(self, xml_text: str):
+    def __init__(self, xml_text: str) -> None:
+        """Initialize the instance."""
         self.soup = BeautifulSoup(xml_text, "xml")
         self.clean_text_buffer: list[str] = []
         self.current_offset = 0
         self.metadata: list[XMLElementMetadata] = []
 
     def _append_text(self, text: str) -> None:
-        """Appends text to the buffer and updates character offsets."""
+        """Append text to the buffer and update character offsets."""
         self.clean_text_buffer.append(text)
         self.current_offset += len(text)
 
@@ -101,7 +102,7 @@ class LegislativeXMLParser:
             )
 
     def parse(self) -> tuple[str, list[XMLElementMetadata]]:
-        """Executes the parsing and returns clean text alongside metadata array."""
+        """Execute parsing and return clean text alongside metadata."""
         root = self.soup.find()
         if root is not None:
             self._traverse(root)
@@ -116,9 +117,9 @@ class LegislativeXMLParser:
 
 @Language.component("nz_xml_structure_injector")
 def nz_xml_structure_injector(doc: Doc) -> Doc:
-    """
-    Custom spaCy component mapping pre-calculated XML character bounds to Doc Spans.
-    Injects element attributes into custom metadata properties.
+    """Map pre-calculated XML character bounds to Doc Spans.
+
+    Inject element attributes into custom metadata properties.
     """
     metadata_list: list[XMLElementMetadata] = doc._.nz_xml_metadata
     spans: list[Span] = []
@@ -143,9 +144,9 @@ def nz_xml_structure_injector(doc: Doc) -> Doc:
 
 @Language.component("nz_cross_reference_matcher")
 def nz_cross_reference_matcher(doc: Doc) -> Doc:
-    """
-    Custom spaCy component utilizing rule-based Matcher to identify internal
-    legislative cross-references (e.g. section 5(2)(b) or Part 3).
+    """Identify internal legislative cross-references with rule-based matching.
+
+    Matches references (e.g. section 5(2)(b) or Part 3).
     """
     matcher = Matcher(doc.vocab)
 
@@ -199,7 +200,7 @@ SAMPLE_NZ_XML = """
 
 
 def run_demo() -> None:
-    """Runs the legislative parser demo, printing structure and cross-references."""
+    """Run the legislative parser demo."""
     parser = LegislativeXMLParser(SAMPLE_NZ_XML)
     clean_text, metadata = parser.parse()
 

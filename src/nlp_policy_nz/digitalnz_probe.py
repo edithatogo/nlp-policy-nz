@@ -1,4 +1,4 @@
-"""DigitalNZ API v3 Probe — metadata search for NZ cultural heritage records.
+r"""DigitalNZ API v3 Probe — metadata search for NZ cultural heritage records.
 
 This module provides an unauthenticated probe into the DigitalNZ API v3
 (https://digitalnz.org/developers/api-docs-v3), which serves as the
@@ -497,6 +497,7 @@ class DigitalNZProbe:
         request_delay: float = REQUEST_DELAY,
         user_agent: str = USER_AGENT,
     ) -> None:
+        """Initialize the instance."""
         self._base_url = base_url.rstrip("/")
         self._api_key = api_key
         self._request_delay = request_delay

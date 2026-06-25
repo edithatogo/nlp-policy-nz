@@ -27,6 +27,7 @@ class FAISSAdapter(VectorBackend):
     """In-memory vector index using FAISS IndexFlatIP with cosine similarity."""
 
     def __init__(self, dimension: int) -> None:
+        """Initialize the instance."""
         if not _HAS_FAISS:
             msg = "FAISS is required. Install it with: pip install faiss-cpu>=1.8.0"
             raise ImportError(msg)

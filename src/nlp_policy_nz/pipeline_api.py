@@ -12,9 +12,8 @@ import logging
 import re
 from dataclasses import asdict
 from pathlib import Path
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-from spacy.language import Language
 
 from nlp_policy_nz.discourse import ArgumentDetector, StanceClassifier
 from nlp_policy_nz.guard import LanguageIdentifier, normalize_text
@@ -38,6 +37,9 @@ from nlp_policy_nz.syntactic import (
     create_nlp_pipeline,
 )
 from nlp_policy_nz.telemetry import configure_tracing, pipeline_span, set_span_attribute
+
+if TYPE_CHECKING:
+    from spacy.language import Language
 
 logger = logging.getLogger(__name__)
 

@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 @dataclass
 class MemberVote:
     """An individual MP's vote in a division."""
+
     member_name: str
     vote: str  # 'aye' | 'nay' | 'abstain'
     party: str | None = None
@@ -15,6 +16,7 @@ class MemberVote:
 @dataclass
 class DivisionRecord:
     """Parsed parliamentary voting (division) record."""
+
     motion: str
     ayes_count: int = 0
     nays_count: int = 0

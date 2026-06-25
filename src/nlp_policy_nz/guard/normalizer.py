@@ -189,7 +189,7 @@ def is_macronized(text: str) -> bool:
 
 
 def preserve_macrons(text: str) -> str:
-    """Re-normalise *text* so that any macrons survive further processing.
+    r"""Re-normalise *text* so that any macrons survive further processing.
 
     Applies NFC normalisation unconditionally.  This is useful as a
     defensive step after operations (e.g. string concatenation, slice

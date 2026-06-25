@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
-from typing import Any, cast
+from typing import Any, cast, TYPE_CHECKING
 
 from nlp_policy_nz.semantic.finetune import FineTuneConfig, _main, build_dry_run_payload
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def test_dry_run_payload_preserves_cli_training_parameters() -> None:

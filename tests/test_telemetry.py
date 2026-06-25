@@ -5,15 +5,17 @@ from __future__ import annotations
 import builtins
 import json
 import sys
-from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
 from types import ModuleType
-from typing import Any
+from typing import Any, TYPE_CHECKING
 from uuid import uuid4
 
 from nlp_policy_nz.telemetry import tracer as tracer_module
 from nlp_policy_nz.telemetry.tracer import _make_file_exporter, _span_to_dict, configure_tracing
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 
 class _FakeContext:

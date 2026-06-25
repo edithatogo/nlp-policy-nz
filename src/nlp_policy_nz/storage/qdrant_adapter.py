@@ -43,6 +43,7 @@ class QdrantAdapter(VectorBackend):
         collection_name: str = "vectors",
         vector_size: int = 768,
     ) -> None:
+        """Initialize the instance."""
         if not _HAS_QDRANT:
             msg = "Qdrant support requires the qdrant-client package"
             raise ImportError(msg)

@@ -65,6 +65,7 @@ class DataSovereigntyRegistry:
     """
 
     def __init__(self, registry_path: str | None = None) -> None:
+        """Initialize the instance."""
         self._path = Path(registry_path) if registry_path else Path("./data_registry.json")
         self._records: list[DataRecord] = []
         self._load()

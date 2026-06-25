@@ -7,12 +7,14 @@ component that pre-processes text to protect these terms.
 
 from __future__ import annotations
 
-from collections.abc import Callable
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 import spacy
 from spacy import util as spacy_util
 from spacy.language import Language
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 # ---------------------------------------------------------------------------
 # Lexical Atom Set
@@ -141,7 +143,7 @@ def _maori_guard_component(doc: spacy.tokens.Doc) -> spacy.tokens.Doc:
 def create_maori_guard_component(
     nlp: Language,
 ) -> Callable[[spacy.tokens.Doc], spacy.tokens.Doc]:
-    """Factory that registers tokeniser exceptions and returns the guard component.
+    """Register tokeniser exceptions and return the guard component.
 
     This function:
     1. Builds orth exceptions from :data:`TE_REO_LEXICAL_ATOM_SET`.

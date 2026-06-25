@@ -6,7 +6,6 @@ repository creation, and push-to-hub functionality.
 
 from __future__ import annotations
 
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import datasets
@@ -26,6 +25,10 @@ from nlp_policy_nz.integrations.hf_uploader import (
 from nlp_policy_nz.storage.serialization import (
     PipelineRecord,
 )
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # Fixtures

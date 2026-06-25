@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 
 import networkx as nx
-import pytest
 
 from nlp_policy_nz.cli.main import main
 from nlp_policy_nz.parliament.amendments import (
@@ -22,6 +21,10 @@ from nlp_policy_nz.storage.serialization import (
     PipelineRecord,
     records_to_dataframe,
 )
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import pytest
 
 
 def test_parse_amendment_sop() -> None:

@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-import pytest
 
 from nlp_policy_nz.integrations import zenodo
+
+if TYPE_CHECKING:
+    import pytest
 
 
 class _Response:

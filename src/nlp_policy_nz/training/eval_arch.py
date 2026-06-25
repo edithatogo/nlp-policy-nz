@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import argparse
 import json
-from collections.abc import Iterable
 from dataclasses import asdict, dataclass
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 @dataclass(frozen=True)
