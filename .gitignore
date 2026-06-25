@@ -49,3 +49,6 @@ output/
 ruff_out.txt
 pixi_*.txt
 /_*.py
+
+# Raw provider transcripts
+data/track13/provider_votes/raw/
