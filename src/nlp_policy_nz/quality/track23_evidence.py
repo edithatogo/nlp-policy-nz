@@ -13,7 +13,7 @@ class Track23EvidenceReport:
     """Evidence for Track 23 quality-infrastructure acceptance."""
 
     ruff_strict_configured: bool
-    pyright_strict_configured: bool
+    basedpyright_strict_configured: bool
     coverage_configured: bool
     ci_quality_steps: int
     smoke_tests_present: bool
@@ -35,7 +35,7 @@ def evaluate_track23_acceptance(report: Track23EvidenceReport) -> dict[str, bool
     """Evaluate Track 23 acceptance without overstating full-repo gates."""
     repo_side_contracts = (
         report.ruff_strict_configured
-        and report.pyright_strict_configured
+        and report.basedpyright_strict_configured
         and report.coverage_configured
         and report.ci_quality_steps >= MIN_CI_QUALITY_STEPS
         and report.smoke_tests_present
@@ -51,7 +51,7 @@ def evaluate_track23_acceptance(report: Track23EvidenceReport) -> dict[str, bool
     return {
         "repo_side_contracts": repo_side_contracts,
         "ruff_strict_config": report.ruff_strict_configured,
-        "pyright_strict_config": report.pyright_strict_configured,
+        "basedpyright_strict_config": report.basedpyright_strict_configured,
         "testing_pyramid": (
             report.smoke_tests_present
             and report.integration_tests_present
@@ -120,7 +120,7 @@ def track23_residual_external_gates(report: Track23EvidenceReport) -> list[str]:
     if not status["full_ruff_strict"]:
         residual.append("Full-repo strict ruff pass is still required")
     if not status["full_typecheck"]:
-        residual.append("Full-repo pyright strict pass is still required")
+        residual.append("Full-repo basedpyright strict pass is still required")
     if not status["coverage_gate"]:
         residual.append("Coverage threshold evidence is still required")
     if not status["mutation_ci_gate"]:

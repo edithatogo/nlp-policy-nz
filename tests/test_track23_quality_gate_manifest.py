@@ -18,7 +18,7 @@ def test_track23_full_quality_gates_are_explicit() -> None:
 
     assert set(gates) == {
         "full_ruff_strict",
-        "strict_pyright",
+        "strict_basedpyright",
         "coverage_threshold",
         "full_quality_pass",
     }

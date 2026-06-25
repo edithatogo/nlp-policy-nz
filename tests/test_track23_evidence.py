@@ -15,7 +15,7 @@ def test_repo_side_contracts_do_not_satisfy_strict_gates() -> None:
     """Config and test scaffolds are separate from measured strict gate results."""
     report = Track23EvidenceReport(
         ruff_strict_configured=True,
-        pyright_strict_configured=True,
+        basedpyright_strict_configured=True,
         coverage_configured=True,
         ci_quality_steps=5,
         smoke_tests_present=True,
@@ -49,7 +49,7 @@ def test_measured_quality_report_satisfies_track23_gates() -> None:
     """A full report requires actual strict tool and coverage results."""
     report = Track23EvidenceReport(
         ruff_strict_configured=True,
-        pyright_strict_configured=True,
+        basedpyright_strict_configured=True,
         coverage_configured=True,
         ci_quality_steps=5,
         smoke_tests_present=True,
@@ -77,7 +77,7 @@ def test_track23_evidence_markdown_lists_pending_strict_gates() -> None:
     """Rendered evidence names unresolved strict gate work explicitly."""
     report = Track23EvidenceReport(
         ruff_strict_configured=True,
-        pyright_strict_configured=True,
+        basedpyright_strict_configured=True,
         coverage_configured=True,
         ci_quality_steps=5,
         smoke_tests_present=True,
@@ -101,5 +101,5 @@ def test_track23_evidence_markdown_lists_pending_strict_gates() -> None:
     assert "- repo_side_contracts: satisfied" in markdown
     assert "- full_ruff_strict: pending" in markdown
     assert any("ruff" in gate for gate in residual)
-    assert any("pyright" in gate for gate in residual)
+    assert any("basedpyright" in gate for gate in residual)
     assert any("Coverage" in gate for gate in residual)

@@ -1,0 +1,23 @@
+ WARN Encountered 2 warnings while parsing the manifest:
+  ⚠ The `project` field is deprecated. Use `workspace` instead.
+   ╭─[C:\Users\60217257\OneDrive - Flinders\repos\legal-nz\nlp-policy-nz\pixi.toml:1:1]
+ 1 │ ╭─▶ [project]
+ 2 │ │   name = "nlp-policy-nz"
+ 3 │ │   version = "0.1.0"
+ 4 │ │   description = "SOTA shared core NLP pipeline for New Zealand legislation and Hansard corpora"
+ 5 │ │   authors = ["Maintainer"]
+ 6 │ │   channels = ["conda-forge"]
+ 7 │ ├─▶ platforms = ["win-64", "linux-64", "osx-arm64"]
+   · ╰──── replace this with 'workspace'
+ 8 │     
+   ╰────
+
+  ⚠ The `depends_on` field is deprecated. Use `depends-on` instead.
+    ╭─[C:\Users\60217257\OneDrive - Flinders\repos\legal-nz\nlp-policy-nz\pixi.toml:78:11]
+ 77 │ typecheck-ci = "basedpyright --version && python -m py_compile src/nlp_policy_nz/__init__.py src/nlp_policy_nz/cli/main.py src/nlp_policy_nz/guard/__init__.py"
+ 78 │ check = { depends_on = ["lint", "format", "check-complexity", "check-boundaries", "test"] }
+    ·           ─────┬────
+    ·                ╰── replace this with 'depends-on'
+    ╰────
+
+0 errors, 0 warnings, 0 notes

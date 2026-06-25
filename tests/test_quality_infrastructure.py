@@ -27,12 +27,12 @@ def test_quality_configuration_files_exist() -> None:
 
 
 def test_pyproject_has_strict_quality_tooling() -> None:
-    """pyproject enables the strict Ruff, pyright, and coverage surfaces."""
+    """pyproject enables the strict Ruff, basedpyright, and coverage surfaces."""
     pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
 
     selected_rules = set(pyproject["tool"]["ruff"]["lint"]["select"])
     assert {"ANN", "D", "TCH", "YTT", "RET"} <= selected_rules
-    assert pyproject["tool"]["pyright"]["typeCheckingMode"] == "strict"
+    assert pyproject["tool"]["basedpyright"]["typeCheckingMode"] == "strict"
     assert pyproject["tool"]["coverage"]["run"]["branch"] is True
 
 
@@ -52,7 +52,7 @@ def test_ci_quality_steps_are_wired() -> None:
 
     assert "Smoke tests" in workflow
     assert "ruff format" in workflow or "pixi run format" in workflow
-    assert "pyright" in workflow
+    assert "basedpyright" in workflow
     assert "pytest-cov" in workflow or "--cov=src" in workflow
     assert "codecov/codecov-action" in workflow
     assert "workflow_dispatch" in workflow
@@ -67,5 +67,5 @@ def test_pixi_quality_tasks_exist() -> None:
 
     for task in ["lint", "format", "coverage", "mutation", "profile", "typecheck"]:
         assert task in tasks
-    for dependency in ["scalene", "pytest-cov", "pyright", "mutatest"]:
+    for dependency in ["scalene", "pytest-cov", "basedpyright", "mutatest"]:
         assert dependency in dependencies

@@ -27,7 +27,7 @@ Complete the full quality and testing tooling stack for the nlp-policy-nz projec
 | Tool | Required | Current | Action |
 |------|:--------:|:-------:|--------|
 | **ruff** | Strict + ANN (annotations) + D (docstrings) + TCH (typing) | Strict-ish but missing ANN/D/TCH/YTT/RET | Upgrade ruff config |
-| **mypy/pyright** | Strict type checking | ❌ Not configured | Add pyproject.toml config |
+| **mypy/basedpyright** | Strict type checking | ❌ Not configured | Add pyproject.toml config |
 | **`ty` module** | Consistent `ty.` pattern for all typing imports | ⚠️ Partial adoption | Standardise `from __future__ import annotations` + `ty.` |
 | **`uv` build backend** | `uv_build` for PEP 517 builds | ❌ Using hatchling | Evaluate switching to `uv_build` |
 | **Scalene** | CPU/memory profiling | ❌ Not installed | Add dep + profile scripts |
@@ -44,7 +44,7 @@ Complete the full quality and testing tooling stack for the nlp-policy-nz projec
 
 - [ ] Ruff config upgraded to include ANN, D, TCH, YTT, RET rule sets (strict annotations, docstrings, typing)
 - [ ] All source files pass `ruff check --select ANN,D,TCH,YTT,RET` (or are explicitly suppressed with `# noqa`)
-- [ ] `pyproject.toml` configured with `[tool.pyright] strict = true` or `[tool.mypy] strict = true`
+- [ ] `pyproject.toml` configured with `[tool.basedpyright] strict = true` or `[tool.mypy] strict = true`
 - [ ] All source files use consistent `ty.` typing pattern (`from __future__ import annotations` + `import typing as ty`)
 - [ ] `uv_build` evaluated as build backend; decision documented
 - [ ] Scalene profiling script created and verified
@@ -63,6 +63,6 @@ script scaffolds can satisfy `repo_side_contracts`, but they do not
 satisfy:
 
 - strict Ruff passing across the agreed full source scope;
-- pyright strict passing across the agreed full source scope;
+- basedpyright strict passing across the agreed full source scope;
 - measured coverage meeting the agreed threshold;
 - mutation testing producing a recorded passing result.

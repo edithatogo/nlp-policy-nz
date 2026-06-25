@@ -27,11 +27,11 @@
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 2.1 | Add `[tool.pyright]` or `[tool.mypy]` strict config to pyproject.toml | [x] |  |
+| 2.1 | Add `[tool.basedpyright]` or `[tool.mypy]` strict config to pyproject.toml | [x] |  |
 | 2.2 | Audit all source files for `from __future__ import annotations` (add where missing) | [ ] | |
 | 2.3 | Standardise on `import typing as ty` convention; replace bare `typing.` imports with `ty.` | [ ] | |
-| 2.4 | Fix all type annotation violations found by pyright/mypy strict mode | [ ] | |
-| 2.5 | Add pyright/mypy check to CI pipeline | [x] |  |
+| 2.4 | Fix all type annotation violations found by basedpyright/mypy strict mode | [ ] | |
+| 2.5 | Add basedpyright/mypy check to CI pipeline | [x] |  |
 | 2.6 | Verify strict type checking passes with zero violations | [ ] | |
 
 ## Phase 3: Testing Pyramid — Smoke, Integration, E2E
@@ -93,7 +93,7 @@
 | # | Task | Status | Commit |
 |---|------|--------|--------|
 | 7.1 | Add format check to CI: `ruff format --check .` | [x] |  |
-| 7.2 | Add type-check step to CI (pyright or mypy) | [x] |  |
+| 7.2 | Add type-check step to CI (basedpyright or mypy) | [x] |  |
 | 7.3 | Add coverage + Codecov step | [x] |  |
 | 7.4 | Add smoke test step (fast, runs first) | [x] |  |
 | 7.5 | Verify `pixi run check` passes on local machine | [ ] | |
@@ -102,7 +102,7 @@
 
 | File | Action |
 |------|--------|
-| `pyproject.toml` | Modify (ruff rules, pyright/mypy config, coverage config) |
+| `pyproject.toml` | Modify (ruff rules, basedpyright/mypy config, coverage config) |
 | `pixi.toml` | Modify (scalene dep) |
 | `.github/workflows/ci.yml` | Modify (format, type-check, coverage, smoke steps) |
 | `.coveragerc` | Create |
@@ -128,7 +128,7 @@ Bounded repo-side evidence/bookkeeping lane implemented:
 - Added deterministic Track 23 evidence contract in
   `src/nlp_policy_nz/quality/track23_evidence.py`.
 - Added focused tests in `tests/test_track23_evidence.py` proving repo-side
-  config/test scaffolds do not satisfy measured strict Ruff, pyright, coverage,
+  config/test scaffolds do not satisfy measured strict Ruff, basedpyright, coverage,
   or mutation gates.
 - Added bounded smoke validation in `tests/smoke/`.
 - Added `evidence.md` with residual measured gates.

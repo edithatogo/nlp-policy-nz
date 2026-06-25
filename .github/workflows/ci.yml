@@ -44,7 +44,7 @@ jobs:
       - name: Targeted format check
         run: CI=true pixi run format-ci
 
-      - name: Targeted pyright type check
+      - name: Targeted basedpyright type check
         run: CI=true pixi run typecheck-ci
 
       - name: Test with coverage

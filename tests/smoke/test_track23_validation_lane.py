@@ -52,7 +52,7 @@ def test_track23_smoke_lane_config_is_parseable() -> None:
     assert {"ANN", "D", "TCH", "YTT", "RET"} <= set(
         pyproject["tool"]["ruff"]["lint"]["select"]
     )
-    assert pyproject["tool"]["pyright"]["typeCheckingMode"] == "strict"
+    assert pyproject["tool"]["basedpyright"]["typeCheckingMode"] == "strict"
     assert {"coverage", "mutation", "profile", "typecheck"} <= set(pixi["tasks"])
     assert coverage.getboolean("run", "branch") is True
 
@@ -97,7 +97,7 @@ def test_track23_smoke_lane_evidence_keeps_measured_gates_pending() -> None:
     """Repo-side validation does not overclaim strict measured gates."""
     report = Track23EvidenceReport(
         ruff_strict_configured=True,
-        pyright_strict_configured=True,
+        basedpyright_strict_configured=True,
         coverage_configured=True,
         ci_quality_steps=5,
         smoke_tests_present=True,

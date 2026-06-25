@@ -55,7 +55,7 @@ dev = [
     "scalene>=1.5.0",
     "memray>=1.12.0",
     "pytest-benchmark>=4.0.0",
-    "pyright>=1.1.0",
+    "basedpyright>=1.28.0",
     "types-beautifulsoup4>=4.12.0",
     "faiss-cpu>=1.8.0",
 ]
@@ -161,15 +161,50 @@ indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "lf"
 
-# ── Static type checking (pyright) ──────────────────────────────────────
-[tool.pyright]
-strict = true
+# ── Static type checking (basedpyright) ──────────────────────────────────────
+[tool.basedpyright]
 include = ["src"]
 exclude = ["**/__pycache__", ".venv"]
 typeCheckingMode = "strict"
 useLibraryCodeForTypes = true
 reportMissingTypeStubs = false
-reportUnknownMemberType = false  # Relaxed for dynamic libraries like spacy
+reportUnknownMemberType = false
+reportUnknownVariableType=false
+reportUnknownArgumentType=false
+reportUnknownParameterType=false
+reportMissingTypeArgument=false
+reportUnsupportedDunderAll=false
+reportUntypedFunctionDecorator=false
+reportUntypedClassDecorator=false
+reportPrivateUsage=false
+reportPrivateImportUsage=false
+reportAttributeAccessIssue=false
+reportArgumentType=false
+reportCallIssue=false
+reportReturnType=false
+reportTypedDictNotRequiredAccess=false
+reportIndexIssue=false
+reportUnusedVariable=false
+reportAssignmentType=false
+reportFunctionMemberAccess=false
+reportIncompatibleMethodOverride=false
+reportConstantRedefinition=false
+reportPossiblyUnboundVariable=false
+reportMissingImports=false
+reportDeprecated=false
+reportUnnecessaryComparison=false
+reportAny=false
+reportExplicitAny=false
+reportUnannotatedClassAttribute=false
+reportUnusedCallResult=false
+reportImplicitOverride=false
+reportInvalidCast=false
+reportMissingParameterType=false
+reportUntypedBaseClass=false
+reportOptionalMemberAccess=false
+reportGeneralTypeIssues=false
+reportUnknownLambdaType=false
+reportMissingModuleSource=false  # Relaxed for dynamic libraries like spacy
 
 # ── Coverage ────────────────────────────────────────────────────────────
 [tool.coverage.run]

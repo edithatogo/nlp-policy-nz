@@ -4,7 +4,7 @@
   "updated_at": "2026-06-25",
   "status": "pending_full_quality_evidence",
   "summary": "Track 23 has repo-side quality infrastructure and optional mutation CI wiring, but the remaining full quality gates must be proven by durable artifacts before the track is described as complete.",
-  "non_surrogate_rule": "Focused tests, scoped Ruff runs, scaffold checks, and configuration inspection are not accepted as substitutes for the full strict Ruff, strict pyright, coverage threshold, or full quality pass gates.",
+  "non_surrogate_rule": "Focused tests, scoped Ruff runs, scaffold checks, and configuration inspection are not accepted as substitutes for the full strict Ruff, strict basedpyright, coverage threshold, or full quality pass gates.",
   "gates": [
     {
       "id": "full_ruff_strict",
@@ -27,23 +27,23 @@
       "completion_criteria": "Return code 0 on the configured strict rule set for the full intended source and test scope."
     },
     {
-      "id": "strict_pyright",
+      "id": "strict_basedpyright",
       "required": true,
       "status": "pending",
-      "command": "pixi run pyright",
+      "command": "pixi run basedpyright",
       "accepted_artifacts": [
-        "artifacts/track23/strict_pyright_20260625.txt",
-        "artifacts/track23/strict_pyright_20260625.json"
+        "artifacts/track23/strict_basedpyright_20260625.txt",
+        "artifacts/track23/strict_basedpyright_20260625.json"
       ],
       "required_evidence_fields": [
         "command",
         "return_code",
         "passed",
-        "pyright_version",
+        "basedpyright_version",
         "type_checking_mode",
         "created_at"
       ],
-      "completion_criteria": "Strict pyright completes with no errors for the repository's configured type-checking scope."
+      "completion_criteria": "Strict basedpyright completes with no errors for the repository's configured type-checking scope."
     },
     {
       "id": "coverage_threshold",
