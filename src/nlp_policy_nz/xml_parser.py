@@ -14,9 +14,11 @@ Consumes structured PCO XML, extracts clean text, maps character boundaries,
 and registers custom spaCy metadata extensions.
 """
 
+from typing import cast
+
 import msgspec
 import spacy
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, NavigableString, Tag
 from spacy.language import Language
 from spacy.matcher import Matcher
 from spacy.tokens import Doc, Span
@@ -50,6 +52,16 @@ if not Span.has_extension("nz_element_title"):
     Span.set_extension("nz_element_title", default=None)
 
 
+def _tag_attr_text(element: Tag, name: str) -> str | None:
+    """Return a tag attribute as text when present."""
+    value = element.get(name)
+    if value is None:
+        return None
+    if isinstance(value, str):
+        return value
+    return " ".join(value)
+
+
 # ---------------------------------------------------------------------------
 # 2. XML Parser and Character Offset Mapper
 # ---------------------------------------------------------------------------
@@ -70,22 +82,23 @@ class LegislativeXMLParser:
         self.clean_text_buffer.append(text)
         self.current_offset += len(text)
 
-    def _traverse(self, element: Tag | str) -> None:
+    def _traverse(self, element: Tag | NavigableString | str) -> None:
         """Recursively parses XML tags while tracking plain text character boundaries."""
         if isinstance(element, str):
-            self._append_text(element)
+            self._append_text(str(element))
             return
 
-        tag_name = element.name
+        tag_name = str(element.name)
         start = self.current_offset
 
         # Capture element specific metadata
-        element_id = element.get("id")
-        element_title = element.get("title")
+        element_id = _tag_attr_text(element, "id")
+        element_title = _tag_attr_text(element, "title")
 
         # Recurse children
         for child in element.children:
-            self._traverse(child)
+            if isinstance(child, (Tag, NavigableString, str)):
+                self._traverse(child)
 
         end = self.current_offset
 
@@ -104,7 +117,7 @@ class LegislativeXMLParser:
     def parse(self) -> tuple[str, list[XMLElementMetadata]]:
         """Execute parsing and return clean text alongside metadata."""
         root = self.soup.find()
-        if root is not None:
+        if isinstance(root, Tag):
             self._traverse(root)
         clean_text = "".join(self.clean_text_buffer)
         return clean_text, self.metadata
@@ -218,10 +231,13 @@ def run_demo() -> None:
     # Process doc through pipeline
     doc = nlp(doc)
 
-    for _span in doc.spans.get("nz_xml_structure", []):
+    xml_structure_spans = cast("list[Span]", doc.spans.get("nz_xml_structure", []))
+    cross_reference_spans = cast("list[Span]", doc.spans.get("nz_cross_references", []))
+
+    for _span in xml_structure_spans:
         pass
 
-    for _span in doc.spans.get("nz_cross_references", []):
+    for _span in cross_reference_spans:
         pass
 
 
