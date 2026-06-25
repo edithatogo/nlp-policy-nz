@@ -53,7 +53,7 @@
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 4.1 | Create NZ retrieval benchmark following MLEB methodology (NZ legislation, Hansard, court decisions) | [~] | |
+| 4.1 | Create NZ retrieval benchmark following MLEB methodology (NZ legislation, Hansard, court decisions) | [~] | local fixture contract satisfied; live benchmark remains external |
 | 4.2 | Run NZ-MLEB on all available embedding models (our embedding, Kanon 2, OpenAI, etc.) | [ ] | |
 | 4.3 | Publish NZ-MLEB results as technical report | [ ] | |
 | 4.4 | Contribute NZ-MLEB dataset to Isaacus for inclusion in upstream MLEB | [ ] | |
@@ -93,3 +93,14 @@ Repo-side Isaacus integration scaffold is implemented:
 Pending external work: live Hugging Face downloads, Kanon 2 API/air-gapped
 evaluation, AU-to-NZ fine-tuning, measured NZ-MLEB baselines, semchunk runtime
 comparison, and any Blackstone Graph integration after stable upstream release.
+
+## Implementation Note - 2026-06-24
+
+Narrow local-only NZ-MLEB fixture contract is implemented:
+
+- Added `data/track22/nz_mleb_fixture.json` with three deterministic NZ sample documents, three retrieval queries, and relevance judgements.
+- Added `data/track22/nz_mleb_fixture.schema.json` and local fixture validation helpers in `src/nlp_policy_nz/training/isaacus_adapter.py`.
+- Updated Track 22 evidence reporting so repo-side satisfaction requires a validated local NZ-MLEB fixture.
+- Focused validation passed: Track 22 pytest (`16 passed`) and targeted Ruff. The Git Bash wrapper tests require normal process access on this machine; sandboxed Bash failed with Win32 signal-pipe access denied.
+
+Live Isaacus Hugging Face downloads, Kanon 2 API or air-gapped evaluation, AU-to-NZ fine-tuning, measured NZ-MLEB baselines, semchunk evaluation, and Blackstone Graph integration remain external-blocked and are not claimed by this slice.

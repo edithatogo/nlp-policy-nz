@@ -9,12 +9,14 @@ import sys
 import unicodedata
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 from typing import Literal
 
-from nlp_policy_nz.storage import PipelineRecord
+from nlp_policy_nz.storage.serialization import PipelineRecord
 
 AssetKind = Literal["corpus", "qa", "rag-bench", "retrieval-bench"]
 AccessMode = Literal["open-hf", "api-or-airgapped", "repository-monitor"]
+TRACK22_NZ_MLEB_FIXTURE_SCHEMA_VERSION = "track22.nz-mleb.fixture.v1"
 
 
 @dataclass(frozen=True)
@@ -78,6 +80,14 @@ class MlebNzQuery:
     jurisdiction: str
     task: str
 
+@dataclass(frozen=True)
+class MlebNzJudgement:
+    """Single deterministic NZ-MLEB relevance judgement."""
+
+    query_id: str
+    doc_id: str
+    relevance: int
+    rationale: str
 
 @dataclass(frozen=True)
 class IsaacusAccessGate:
@@ -311,6 +321,87 @@ def make_nz_mleb_query(
         jurisdiction=jurisdiction,
         task=task,
     )
+
+def validate_nz_mleb_fixture(payload: Mapping[str, object]) -> list[MlebNzQuery]:
+    """Validate a local NZ-MLEB fixture and return query scaffolds.
+
+    The repository intentionally avoids pulling live Isaacus/MLEB dependencies
+    here. This structural validator mirrors the local JSON schema closely enough
+    for deterministic contract tests.
+    """
+    schema_version = payload.get("schema_version")
+    if schema_version != TRACK22_NZ_MLEB_FIXTURE_SCHEMA_VERSION:
+        raise ValueError("NZ-MLEB fixture has an unsupported schema_version")
+
+    documents = payload.get("documents")
+    if not isinstance(documents, list) or not documents:
+        raise ValueError("NZ-MLEB fixture requires at least one document")
+    doc_ids: set[str] = set()
+    for document in documents:
+        if not isinstance(document, Mapping):
+            raise ValueError("NZ-MLEB fixture documents must be objects")
+        doc_id = str(document.get("doc_id") or "").strip()
+        if not doc_id:
+            raise ValueError("NZ-MLEB fixture document is missing doc_id")
+        if doc_id in doc_ids:
+            raise ValueError(f"NZ-MLEB fixture duplicates document {doc_id}")
+        doc_ids.add(doc_id)
+        if not str(document.get("text") or "").strip():
+            raise ValueError(f"NZ-MLEB fixture document {doc_id} is missing text")
+
+    queries = payload.get("queries")
+    if not isinstance(queries, list) or not queries:
+        raise ValueError("NZ-MLEB fixture requires at least one query")
+
+    seen_queries: set[str] = set()
+    validated: list[MlebNzQuery] = []
+    for query in queries:
+        if not isinstance(query, Mapping):
+            raise ValueError("NZ-MLEB fixture queries must be objects")
+        query_id = str(query.get("query_id") or "").strip()
+        if not query_id:
+            raise ValueError("NZ-MLEB fixture query is missing query_id")
+        if query_id in seen_queries:
+            raise ValueError(f"NZ-MLEB fixture duplicates query {query_id}")
+        seen_queries.add(query_id)
+
+        judgements = query.get("judgements")
+        if not isinstance(judgements, list) or not judgements:
+            raise ValueError(f"NZ-MLEB fixture query {query_id} requires judgements")
+
+        relevant_doc_ids: list[str] = []
+        for judgement in judgements:
+            if not isinstance(judgement, Mapping):
+                raise ValueError("NZ-MLEB fixture judgements must be objects")
+            doc_id = str(judgement.get("doc_id") or "").strip()
+            if doc_id not in doc_ids:
+                raise ValueError(
+                    f"NZ-MLEB fixture judgement references unknown document {doc_id}"
+                )
+            relevance = judgement.get("relevance")
+            if not isinstance(relevance, int) or relevance < 0 or relevance > 3:
+                raise ValueError("NZ-MLEB fixture relevance must be an integer 0..3")
+            if relevance > 0:
+                relevant_doc_ids.append(doc_id)
+
+        validated.append(
+            make_nz_mleb_query(
+                query_id=query_id,
+                query_text=str(query.get("query_text") or ""),
+                relevant_doc_ids=relevant_doc_ids,
+                jurisdiction=str(query.get("jurisdiction") or "NZ"),
+                task=str(query.get("task") or "retrieval"),
+            )
+        )
+    return validated
+
+
+def load_nz_mleb_fixture(path: str | Path) -> list[MlebNzQuery]:
+    """Load and validate a local NZ-MLEB benchmark fixture."""
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(payload, Mapping):
+        raise ValueError("NZ-MLEB fixture root must be an object")
+    return validate_nz_mleb_fixture(payload)
 
 
 def require_external_access(

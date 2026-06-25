@@ -1,0 +1,62 @@
+{
+  "schema_version": "track22.nz-mleb.fixture.v1",
+  "jurisdiction": "NZ",
+  "documents": [
+    {
+      "doc_id": "nz-leg-te-ture-whenua-1993-s2",
+      "title": "Te Ture Whenua Maori Act 1993 section 2",
+      "source_type": "legislation",
+      "jurisdiction": "NZ",
+      "citation": "Te Ture Whenua Maori Act 1993, s 2",
+      "text": "Section 2 records the purpose of Te Ture Whenua Maori Act 1993, including the retention of Maori land in the hands of its owners, their whanau, and their hapu."
+    },
+    {
+      "doc_id": "nz-hansard-water-services-2023",
+      "title": "Hansard debate on water services entities",
+      "source_type": "hansard",
+      "jurisdiction": "NZ",
+      "citation": "New Zealand Parliamentary Debates, Water Services Entities Amendment Bill, 2023",
+      "text": "Members debated how local authority decision-making and community accountability should apply to water services reform, including the treatment of regional interests."
+    },
+    {
+      "doc_id": "nz-case-ellis-2022-tikanga",
+      "title": "Ellis v R tikanga discussion",
+      "source_type": "court_decision",
+      "jurisdiction": "NZ",
+      "citation": "Ellis v R [2022] NZSC 114",
+      "text": "The Supreme Court discussed tikanga as part of New Zealand law and considered how tikanga principles may bear on the continuation of an appeal."
+    }
+  ],
+  "queries": [
+    {
+      "query_id": "nz-mleb-001",
+      "query_text": "Which New Zealand source discusses retaining Maori land for whanau and hapu?",
+      "jurisdiction": "NZ",
+      "task": "citation-search",
+      "judgements": [
+        {"doc_id": "nz-leg-te-ture-whenua-1993-s2", "relevance": 3, "rationale": "The provision directly states the Maori land retention purpose."},
+        {"doc_id": "nz-case-ellis-2022-tikanga", "relevance": 1, "rationale": "The case concerns tikanga but not Maori land retention."}
+      ]
+    },
+    {
+      "query_id": "nz-mleb-002",
+      "query_text": "Find debate material about accountability for water services reform.",
+      "jurisdiction": "NZ",
+      "task": "policy-similarity",
+      "judgements": [
+        {"doc_id": "nz-hansard-water-services-2023", "relevance": 3, "rationale": "The Hansard extract directly concerns accountability in water services reform."},
+        {"doc_id": "nz-leg-te-ture-whenua-1993-s2", "relevance": 0, "rationale": "The land statute extract is not about water services reform."}
+      ]
+    },
+    {
+      "query_id": "nz-mleb-003",
+      "query_text": "Which case discusses tikanga as part of New Zealand law?",
+      "jurisdiction": "NZ",
+      "task": "case-retrieval",
+      "judgements": [
+        {"doc_id": "nz-case-ellis-2022-tikanga", "relevance": 3, "rationale": "The case extract directly identifies tikanga as part of New Zealand law."},
+        {"doc_id": "nz-leg-te-ture-whenua-1993-s2", "relevance": 1, "rationale": "The statute is Maori land related but is not the tikanga appeal case."}
+      ]
+    }
+  ]
+}

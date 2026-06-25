@@ -2,16 +2,20 @@
 
 from __future__ import annotations
 
+import copy
+import json
 import unicodedata
+from pathlib import Path
 
 import pytest
 
-from nlp_policy_nz.storage import PipelineRecord
+from nlp_policy_nz.storage.serialization import PipelineRecord
 from nlp_policy_nz.training.isaacus_adapter import (
     IsaacusAccessGate,
     default_isaacus_datasets,
     default_isaacus_models,
     default_isaacus_tools,
+    load_nz_mleb_fixture,
     main,
     make_nz_mleb_query,
     normalize_isaacus_record,
@@ -20,7 +24,12 @@ from nlp_policy_nz.training.isaacus_adapter import (
     render_isaacus_manifest_json,
     require_external_access,
     to_pipeline_record,
+    validate_nz_mleb_fixture,
 )
+
+ROOT = Path(__file__).resolve().parents[1]
+TRACK22_FIXTURE = ROOT / "data" / "track22" / "nz_mleb_fixture.json"
+TRACK22_SCHEMA = ROOT / "data" / "track22" / "nz_mleb_fixture.schema.json"
 
 
 def test_default_manifests_cover_required_isaacus_assets() -> None:
@@ -129,6 +138,44 @@ def test_make_nz_mleb_query_validates_relevance_judgements() -> None:
             jurisdiction="NZ",
             task="citation-search",
         )
+
+def test_local_nz_mleb_fixture_matches_schema_contract() -> None:
+    """Track 22 ships deterministic local queries and relevance judgements."""
+    payload = json.loads(TRACK22_FIXTURE.read_text(encoding="utf-8"))
+    schema = json.loads(TRACK22_SCHEMA.read_text(encoding="utf-8"))
+
+    queries = load_nz_mleb_fixture(TRACK22_FIXTURE)
+
+    assert schema["properties"]["schema_version"]["const"] == payload["schema_version"]
+    assert payload["jurisdiction"] == "NZ"
+    assert len(payload["documents"]) == 3
+    assert len(payload["queries"]) == 3
+    assert {query.task for query in queries} == {
+        "citation-search",
+        "policy-similarity",
+        "case-retrieval",
+    }
+    assert queries[0].query_id == "nz-mleb-001"
+    assert queries[0].relevant_doc_ids == (
+        "nz-leg-te-ture-whenua-1993-s2",
+        "nz-case-ellis-2022-tikanga",
+    )
+
+
+def test_local_nz_mleb_fixture_validation_rejects_bad_judgements() -> None:
+    """The local fixture contract fails on broken relevance judgements."""
+    payload = json.loads(TRACK22_FIXTURE.read_text(encoding="utf-8"))
+    broken = copy.deepcopy(payload)
+    broken["queries"][0]["judgements"][0]["doc_id"] = "missing-doc"
+
+    with pytest.raises(ValueError, match="unknown document"):
+        validate_nz_mleb_fixture(broken)
+
+    broken = copy.deepcopy(payload)
+    broken["queries"][1]["judgements"] = []
+
+    with pytest.raises(ValueError, match="requires judgements"):
+        validate_nz_mleb_fixture(broken)
 
 
 def test_external_access_gate_is_explicit_and_report_is_repo_side() -> None:

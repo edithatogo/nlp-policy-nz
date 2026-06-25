@@ -9,6 +9,7 @@ MIN_DATASET_MANIFESTS = 4
 MIN_MODEL_MANIFESTS = 5
 MIN_TOOL_MANIFESTS = 2
 MIN_DRY_RUN_SCRIPTS = 2
+MIN_MLEB_FIXTURE_QUERIES = 3
 
 
 @dataclass(frozen=True)
@@ -29,6 +30,8 @@ class Track22EvidenceReport:
     nz_mleb_baselines_published: bool
     semchunk_evaluated: bool
     blackstone_graph_monitoring: bool
+    mleb_fixture_queries: int = 0
+    mleb_fixture_schema_valid: bool = False
 
 
 def evaluate_track22_acceptance(report: Track22EvidenceReport) -> dict[str, bool]:
@@ -40,6 +43,8 @@ def evaluate_track22_acceptance(report: Track22EvidenceReport) -> dict[str, bool
         and report.normalization_tests_passing
         and report.dry_run_scripts >= MIN_DRY_RUN_SCRIPTS
         and report.docs_present
+        and report.mleb_fixture_queries >= MIN_MLEB_FIXTURE_QUERIES
+        and report.mleb_fixture_schema_valid
     )
     open_au_corpus_integration = (
         report.open_au_corpus_downloaded
@@ -70,7 +75,9 @@ def track22_acceptance_contract(
                 f"model_manifests >= {MIN_MODEL_MANIFESTS} && "
                 f"tool_manifests >= {MIN_TOOL_MANIFESTS} && "
                 "normalization_tests_passing && dry_run_scripts >= "
-                f"{MIN_DRY_RUN_SCRIPTS} && docs_present"
+                f"{MIN_DRY_RUN_SCRIPTS} && docs_present && "
+                f"mleb_fixture_queries >= {MIN_MLEB_FIXTURE_QUERIES} && "
+                "mleb_fixture_schema_valid"
             ),
             "observed_metric": status["repo_side_contracts"],
             "dataset_manifests": report.dataset_manifests,
@@ -79,6 +86,8 @@ def track22_acceptance_contract(
             "normalization_tests_passing": report.normalization_tests_passing,
             "dry_run_scripts": report.dry_run_scripts,
             "docs_present": report.docs_present,
+            "mleb_fixture_queries": report.mleb_fixture_queries,
+            "mleb_fixture_schema_valid": report.mleb_fixture_schema_valid,
             "scope": "repo",
         },
         "open_au_corpus_integration": {
@@ -177,6 +186,8 @@ def render_track22_evidence_markdown(report: Track22EvidenceReport) -> str:
             f"- Normalization tests passing: {report.normalization_tests_passing}",
             f"- Dry-run scripts: {report.dry_run_scripts}",
             f"- Docs present: {report.docs_present}",
+            f"- NZ-MLEB fixture queries: {report.mleb_fixture_queries}",
+            f"- NZ-MLEB fixture schema valid: {report.mleb_fixture_schema_valid}",
             f"- Open AU corpus downloaded: {report.open_au_corpus_downloaded}",
             f"- NZ-AU corpus merged: {report.nz_au_corpus_merged}",
             f"- Open AU LLM fine-tuned: {report.open_au_llm_finetuned}",
