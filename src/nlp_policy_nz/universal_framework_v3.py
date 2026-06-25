@@ -14,6 +14,8 @@ Implements displaCy visualization exports and nested SpanGroup modeling
 to support overlapping legislative citations.
 """
 
+# pyright: reportUntypedFunctionDecorator=false
+
 import json
 import re
 import typing as ty
@@ -23,10 +25,84 @@ from xml.etree import ElementTree as ET
 
 import msgspec
 import spacy
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from spacy import displacy
 from spacy.language import Language
 from spacy.tokens import Doc, Span
+
+
+class _ModalityValue(ty.Protocol):
+    """Minimal modality value protocol used by emitters."""
+
+    value: str
+
+
+class _ModalityAnnotation(ty.Protocol):
+    """Minimal modality annotation protocol used by emitters."""
+
+    modality: _ModalityValue
+    scope: str | None
+    trigger: str
+
+
+def _text_attr(value: object, fallback: str) -> str:
+    """Return a BeautifulSoup or JSON attribute as text."""
+    if isinstance(value, str):
+        return value
+    if isinstance(value, list):
+        raw_parts = ty.cast("list[object]", value)
+        parts = [part for part in raw_parts if isinstance(part, str)]
+        return " ".join(parts) if parts else fallback
+    return fallback
+
+
+def _string_mapping(value: object) -> dict[str, str]:
+    """Return a dictionary containing only string keys and values."""
+    if not isinstance(value, dict):
+        return {}
+    items = ty.cast("dict[object, object]", value).items()
+    return {str(key): str(item) for key, item in items}
+
+
+def _chunk_metadata(doc: Doc) -> dict[str, str] | None:
+    """Return guarded chunk metadata from a dynamic spaCy extension."""
+    if not doc.has_extension("chunk_metadata"):
+        return None
+    value = doc._.chunk_metadata
+    metadata = _string_mapping(value)
+    return metadata or None
+
+
+def _span_extension_text(span: Span, key: str, fallback: str) -> str:
+    """Return a guarded string value from a dynamic span extension."""
+    value = span._.get(key)
+    return value if isinstance(value, str) else fallback
+
+
+def _modality_annotations(doc: Doc) -> list[_ModalityAnnotation]:
+    """Return guarded modality annotations from dynamic spaCy state."""
+    if doc.has_extension("modality_annotations"):
+        value = doc._.get("modality_annotations")
+        if isinstance(value, list):
+            return ty.cast("list[_ModalityAnnotation]", value)
+    return []
+
+
+def _detect_modality_annotations(doc: Doc) -> list[_ModalityAnnotation]:
+    """Detect modality annotations with a typed boundary around the detector."""
+    from nlp_policy_nz.legal.modality import detect_modality
+
+    temp_nlp = spacy.blank("en")
+    return ty.cast("list[_ModalityAnnotation]", detect_modality(doc.text, temp_nlp))
+
+
+def _span_group(doc: Doc, name: str) -> list[Span]:
+    """Return a typed list of spans from a dynamic SpanGroup mapping."""
+    groups = ty.cast("dict[str, object]", doc.spans)
+    group = groups.get(name)
+    if group is None:
+        return []
+    return list(ty.cast("ty.Iterable[Span]", group))
 
 # ---------------------------------------------------------------------------
 # 1. Configuration Abstraction
@@ -63,7 +139,6 @@ class UniversalIngestionEngine(ABC):
     @abstractmethod
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
         """Ingest raw data into document chunks."""
-        pass
 
 
 class XMLIngestionEngine(UniversalIngestionEngine):
@@ -72,23 +147,23 @@ class XMLIngestionEngine(UniversalIngestionEngine):
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
         """Ingest raw data into document chunks."""
         try:
-            root = ET.fromstring(raw_data)
+            root = ET.fromstring(raw_data)  # noqa: S314 - legacy demo parser keeps ElementTree compatibility.
         except ET.ParseError:
             root = None
 
-        chunks = []
+        chunks: list[DocumentChunk] = []
         if root is not None:
             for node in root.iter():
                 if node.tag not in {"section", "speech", "part"}:
                     continue
-                node_id = node.attrib.get("id", f"xml-chunk-{len(chunks)}")
-                attrs = {k: v for k, v in node.attrib.items() if k != "id"}
+                node_id = str(node.attrib.get("id", f"xml-chunk-{len(chunks)}"))
+                attrs: dict[str, str] = {str(k): str(v) for k, v in node.attrib.items() if k != "id"}
                 text_content = " ".join(text.strip() for text in node.itertext() if text.strip())
                 chunks.append(
                     DocumentChunk(
                         chunk_id=node_id,
                         text=text_content,
-                        structural_type=node.tag,
+                        structural_type=str(node.tag),
                         attributes=attrs,
                     )
                 )
@@ -96,10 +171,12 @@ class XMLIngestionEngine(UniversalIngestionEngine):
 
         soup = BeautifulSoup(raw_data, "html.parser")
         for node in soup.find_all(["section", "speech", "part"]):
-            node_id = node.get("id", f"xml-chunk-{len(chunks)}")
-            structural_type = node.name
+            if not isinstance(node, Tag):
+                continue
+            node_id = _text_attr(node.get("id"), f"xml-chunk-{len(chunks)}")
+            structural_type = str(node.name or "section")
             text_content = node.get_text(separator=" ").strip()
-            attrs = {k: v for k, v in node.attrs.items() if k != "id"}
+            attrs = {str(k): _text_attr(v, "") for k, v in node.attrs.items() if k != "id"}
             chunks.append(
                 DocumentChunk(
                     chunk_id=node_id,
@@ -117,11 +194,13 @@ class HTMLIngestionEngine(UniversalIngestionEngine):
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
         """Ingest raw data into document chunks."""
         soup = BeautifulSoup(raw_data, "html.parser")
-        chunks = []
+        chunks: list[DocumentChunk] = []
         for node in soup.find_all(["article", "div", "p"]):
+            if not isinstance(node, Tag):
+                continue
             if "id" in node.attrs:
-                node_id = node["id"]
-                structural_type = node.name
+                node_id = _text_attr(node.get("id"), f"html-chunk-{len(chunks)}")
+                structural_type = str(node.name or "div")
                 text_content = node.get_text(separator=" ").strip()
                 chunks.append(
                     DocumentChunk(
@@ -139,20 +218,21 @@ class JSONLIngestionEngine(UniversalIngestionEngine):
 
     def ingest(self, raw_data: str) -> list[DocumentChunk]:
         """Ingest raw data into document chunks."""
-        chunks = []
+        chunks: list[DocumentChunk] = []
         for idx, line in enumerate(raw_data.strip().split("\n")):
             if not line.strip():
                 continue
-            data = json.loads(line)
-            node_id = data.get("id", f"jsonl-chunk-{idx}")
-            text_content = data.get("text", "")
-            structural_type = data.get("type", "paragraph")
+            raw = json.loads(line)
+            data: dict[str, object] = ty.cast("dict[str, object]", raw) if isinstance(raw, dict) else {}
+            node_id = _text_attr(data.get("id"), f"jsonl-chunk-{idx}")
+            text_content = _text_attr(data.get("text"), "")
+            structural_type = _text_attr(data.get("type"), "paragraph")
             chunks.append(
                 DocumentChunk(
                     chunk_id=node_id,
                     text=text_content,
                     structural_type=structural_type,
-                    attributes=data.get("metadata", {}),
+                    attributes=_string_mapping(data.get("metadata")),
                 )
             )
         return chunks
@@ -228,8 +308,8 @@ class ModularSpaCyBridgeComponentV3:
 
     def __call__(self, doc: Doc) -> Doc:
         """Process and return the document."""
-        if doc.has_extension("chunk_metadata") and doc._.chunk_metadata:
-            meta = doc._.chunk_metadata
+        meta = _chunk_metadata(doc)
+        if meta is not None:
             full_span = doc[0 : len(doc)]
             full_span._.set(self.schema_key, meta.get("structural_type"))
             full_span._.set(self.chunk_id_key, meta.get("chunk_id"))
@@ -269,8 +349,8 @@ class TargetSchemaEmitter:
         """Emit the document in the configured target schema."""
         standard = self.config.target_schema_standard.upper()
         full_span = doc[0 : len(doc)]
-        structural_type = full_span._.get(self.schema_key)
-        chunk_id = full_span._.get(self.chunk_id_key)
+        structural_type = _span_extension_text(full_span, self.schema_key, "section")
+        chunk_id = _span_extension_text(full_span, self.chunk_id_key, "chunk-0")
 
         if "PARLAMINT" in standard:
             return self._emit_parlamint_tei(doc, chunk_id, structural_type)
@@ -284,7 +364,7 @@ class TargetSchemaEmitter:
 
     def _emit_parlamint_tei(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
         """Serialize to ParlaMint-TEI-Ana with sentence tags and Morphosyntactic features."""
-        lines = []
+        lines: list[str] = []
         speaker_id = "unknown_speaker"
         lines.append(f'<u xml:id="{chunk_id}" who="#{speaker_id}" ana="#{struct_type}">')
         for s_idx, sent in enumerate(doc.sents):
@@ -313,8 +393,8 @@ class TargetSchemaEmitter:
         from nlp_policy_nz.guard.normalizer import is_macronized
         from nlp_policy_nz.guard.tokenizer_exceptions import TE_REO_LEXICAL_ATOM_SET
 
-        processed_tokens = []
-        tikanga_ontology = {
+        processed_tokens: list[str] = []
+        tikanga_ontology: dict[str, str] = {
             "kaitiakitanga": "kaitiakitanga",
             "manaakitanga": "manaakitanga",
             "taonga": "taonga",
@@ -331,10 +411,10 @@ class TargetSchemaEmitter:
         for token in doc:
             word = token.text
             # Clean punctuation to match dictionary
-            clean_word = re.sub(r'[^\w\u0100-\u017F]', '', word)
+            clean_word = re.sub(r"[^\w\u0100-\u017F]", "", word)
             clean_word_lower = clean_word.lower()
             is_maori = clean_word in TE_REO_LEXICAL_ATOM_SET or is_macronized(clean_word)
-            
+
             if is_maori:
                 if clean_word_lower in tikanga_ontology:
                     ref = tikanga_ontology[clean_word_lower]
@@ -343,7 +423,7 @@ class TargetSchemaEmitter:
                     processed_tokens.append(f'<phrase xml:lang="mi">{word}</phrase>')
             else:
                 processed_tokens.append(word)
-            
+
             if token.whitespace_:
                 processed_tokens.append(token.whitespace_)
         processed_text = "".join(processed_tokens)
@@ -352,7 +432,7 @@ class TargetSchemaEmitter:
         definition_match = re.search(r'(“[^”]+”|"[^"]+"|\b[A-Za-z\s]+\b)\s+(means|includes)', processed_text, re.IGNORECASE)
         if definition_match:
             term = definition_match.group(1)
-            processed_text = processed_text.replace(term, f'<definition>{term}</definition>', 1)
+            processed_text = processed_text.replace(term, f"<definition>{term}</definition>", 1)
 
         import subprocess
         try:
@@ -361,7 +441,7 @@ class TargetSchemaEmitter:
             git_commit = "unknown"
         from nlp_policy_nz import __version__
 
-        lines = []
+        lines: list[str] = []
         lines.append('<akomaNtoso xmlns="http://oasis-open.org">')
         lines.append(f'  <{struct_type} id="{chunk_id}">')
         lines.append("    <meta>")
@@ -391,12 +471,10 @@ class TargetSchemaEmitter:
         lines.append("</akomaNtoso>")
 
         # LegalRuleML Injection (Deontic Mapping)
-        annotations = doc._.get("modality_annotations") if doc.has_extension("modality_annotations") else None
+        annotations = _modality_annotations(doc)
         if not annotations:
-            from nlp_policy_nz.legal.modality import detect_modality
             try:
-                temp_nlp = spacy.blank("en")
-                annotations = detect_modality(doc.text, temp_nlp)
+                annotations = _detect_modality_annotations(doc)
             except Exception:
                 annotations = []
 
@@ -405,12 +483,12 @@ class TargetSchemaEmitter:
             for idx, ann in enumerate(annotations):
                 rule_id = f"rule_{chunk_id}_sub_{idx+1}"
                 strength = ann.modality.value.capitalize()
-                
+
                 # Check for Exception patterns (Catala DSL isolation)
                 is_exception = False
                 if ann.scope and any(kw in ann.scope.lower() for kw in ["does not apply", "except", "unless", "provided that"]):
                     is_exception = True
-                
+
                 if is_exception:
                     lines.append(f'  <Rule id="{rule_id}_exception">')
                     lines.append("    <Strength>Exception</Strength>")
@@ -432,7 +510,7 @@ class TargetSchemaEmitter:
 
     def _emit_parlacap_jsonl(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
         """Serialize to ParlaCAP-JSONL containing joint syntax-aware token mappings."""
-        tokens = []
+        tokens: list[dict[str, str | int]] = []
         for t in doc:
             if t.is_space:
                 continue
@@ -446,7 +524,7 @@ class TargetSchemaEmitter:
                     "head_index": t.head.i,
                 }
             )
-        data = {
+        data: dict[str, str | list[dict[str, str | int]]] = {
             "id": chunk_id,
             "country": self.config.country,
             "structural_type": struct_type,
@@ -456,30 +534,28 @@ class TargetSchemaEmitter:
 
     def _emit_catala_dsl(self, doc: Doc, chunk_id: str, struct_type: str) -> str:
         """Serialize into an executable Catala DSL module template."""
-        annotations = doc._.get("modality_annotations") if doc.has_extension("modality_annotations") else None
+        annotations = _modality_annotations(doc)
         if not annotations:
-            from nlp_policy_nz.legal.modality import detect_modality
             try:
-                temp_nlp = spacy.blank("en")
-                annotations = detect_modality(doc.text, temp_nlp)
+                annotations = _detect_modality_annotations(doc)
             except Exception:
                 annotations = []
 
-        lines = []
+        lines: list[str] = []
         struct_name = "".join(x.title() for x in chunk_id.replace("-", "_").split("_"))
         lines.append(f"# {struct_type.capitalize()} {chunk_id}")
         lines.append(f"declaration structure {struct_name}:")
 
-        conditions = []
-        actions = []
+        conditions: list[str] = []
+        actions: list[tuple[str, str]] = []
 
-        for idx, ann in enumerate(annotations):
+        for ann in annotations:
             strength = ann.modality.value
             action = ann.scope or ann.trigger
 
             # Simple sanitization for variable names
-            var_action = re.sub(r'[^a-zA-Z0-9_]', '_', action.lower()).strip('_')
-            var_action = re.sub(r'_+', '_', var_action)[:40]
+            var_action = re.sub(r"[^a-zA-Z0-9_]", "_", action.lower()).strip("_")
+            var_action = re.sub(r"_+", "_", var_action)[:40]
 
             is_exception = False
             if ann.scope and any(kw in ann.scope.lower() for kw in ["does not apply", "except", "unless", "provided that"]):
@@ -493,7 +569,7 @@ class TargetSchemaEmitter:
         lines.append("  input applicant: boolean")
         for cond in conditions:
             lines.append(f"  input {cond}: boolean")
-        for act, strength in actions:
+        for act, _strength in actions:
             lines.append(f"  output {act}: boolean")
 
         lines.append("")
@@ -503,7 +579,8 @@ class TargetSchemaEmitter:
             val = "true" if strength in ("obligation", "permission") else "false"
 
             if conditions:
-                cond_str = " and ".join(f"not {c}" for c in conditions)
+                condition_terms: list[str] = [f"not {condition}" for condition in conditions]
+                cond_str = " and ".join(condition_terms)
                 lines.append(f"  {val} under condition")
                 lines.append(f"    {cond_str}")
                 lines.append("  otherwise false")
@@ -533,12 +610,12 @@ class SOTAPipelineVisualizer:
 
         # We temporarily copy SpanGroups into doc.ents to display them inside displaCy
         # as displaCy focuses on doc.ents for rendering structural highlighting.
-        spans = doc.spans.get("nz_nested_entities", [])
+        spans = _span_group(doc, "nz_nested_entities")
         original_ents = doc.ents
 
-        ents_to_set = []
+        ents_to_set: list[Span] = []
         for span in spans:
-            struct_type = span._.get("nz_legislation_parlamint_tei_ana_structural_type") or "PRELIM"
+            struct_type = _span_extension_text(span, "nz_legislation_parlamint_tei_ana_structural_type", "PRELIM")
             ents_to_set.append(Span(doc, span.start, span.end, label=struct_type.upper()))
 
         doc.ents = spacy.util.filter_spans(ents_to_set)
@@ -595,9 +672,9 @@ def run_demo() -> None:
     )
     doc = run_framework(config_nz, SAMPLE_XML)
 
-    for _group_name, spans in doc.spans.items():
-        for _span in spans:
-            pass
+    nested_spans = _span_group(doc, "nz_nested_entities")
+    for _span in nested_spans:
+        pass
 
     # Generates static HTML displaying our highlighted entities
     SOTAPipelineVisualizer.generate_html_report(doc, "conductor/annotation_report.html")
