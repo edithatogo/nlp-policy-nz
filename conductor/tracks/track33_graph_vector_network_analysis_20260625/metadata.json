@@ -1,0 +1,10 @@
+{
+  "track_id": "track33_graph_vector_network_analysis_20260625",
+  "type": "analysis",
+  "status": "planned",
+  "created_at": "2026-06-25T00:00:00+10:00",
+  "updated_at": "2026-06-25T00:00:00+10:00",
+  "description": "Analyse the knowledge graph, vector space, network topology, ontology links, and graph/vector relationships across repo outputs.",
+  "oracle_notes": "Analyse the knowledge graph, vector spaces, network structure, ontology links, and graph/vector relationships across the corpus."
+}
+

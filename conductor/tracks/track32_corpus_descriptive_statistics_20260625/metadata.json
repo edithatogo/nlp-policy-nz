@@ -1,0 +1,10 @@
+{
+  "track_id": "track32_corpus_descriptive_statistics_20260625",
+  "type": "analysis",
+  "status": "planned",
+  "created_at": "2026-06-25T00:00:00+10:00",
+  "updated_at": "2026-06-25T00:00:00+10:00",
+  "description": "Generate comprehensive descriptive statistics for the whole dataset and over time, covering legislation, Hansard, court/legal retrieval fixtures, ontology annotations, rules-as-code candidates, graph outputs, and vectors.",
+  "oracle_notes": "Produce comprehensive descriptive statistics for the whole dataset and over time using reproducible pipelines."
+}
+

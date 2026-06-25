@@ -1,0 +1,10 @@
+{
+  "track_id": "track29_ontology_mapping_kg_20260625",
+  "type": "feature",
+  "status": "planned",
+  "created_at": "2026-06-25T00:00:00+10:00",
+  "updated_at": "2026-06-25T00:00:00+10:00",
+  "description": "Represent explicit ontology mappings in a graph so the system can understand, query, and visualize relationships between ontology classes, properties, datasets, and pipeline outputs.",
+  "oracle_notes": "Leverage explicit mappings between ontologies and build them into the system for reasoning, inspection, and knowledge-graph visualization."
+}
+

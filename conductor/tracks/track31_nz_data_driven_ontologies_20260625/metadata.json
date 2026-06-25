@@ -1,0 +1,10 @@
+{
+  "track_id": "track31_nz_data_driven_ontologies_20260625",
+  "type": "research",
+  "status": "planned",
+  "created_at": "2026-06-25T00:00:00+10:00",
+  "updated_at": "2026-06-25T00:00:00+10:00",
+  "description": "Use the final ontology and dataset analysis results to induce New Zealand-specific ontologies for legal, parliamentary, policy, rules-as-code, graph, vector, and publication applications.",
+  "oracle_notes": "Develop New Zealand-specific ontologies for repo applications from the final ontology/dataset analysis results."
+}
+

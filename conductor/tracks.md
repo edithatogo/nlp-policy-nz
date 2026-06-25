@@ -148,3 +148,89 @@ This file tracks all major tracks for the project. Each track has its own detail
 - **Dependencies**: Track 23
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Establish multi-git and multi-archive mirroring setup to prevent single-point-of-failure repository/dataset takedowns.
+
+
+---
+
+## Phase III - Ontology, Rules-as-Code, Analytics, and Publication Expansion
+
+---
+
+## [ ] Track 25: Ontology Coverage Audit for Existing Systems
+*Link: [./conductor/tracks/track25_ontology_coverage_audit_20260625/](./conductor/tracks/track25_ontology_coverage_audit_20260625/)*
+- **Dependencies**: Tracks 10-18, 22
+- **Parallelization Node**: Ontology Discovery & Gap Analysis
+- **Why**: Identify the complete ontology or ontology set behind each partially implemented system, map current implementation coverage, and record data blockers where ontology source data is missing.
+
+## [ ] Track 26: Legislative and Parliamentary Ontology Standards Expansion
+*Link: [./conductor/tracks/track26_ontology_standards_expansion_20260625/](./conductor/tracks/track26_ontology_standards_expansion_20260625/)*
+- **Dependencies**: Track 25
+- **Parallelization Node**: Standards Implementation
+- **Why**: Add first-class support for ELI/ELI-DL, ECLI, EuroVoc/SKOS, CEN MetaLex, USLM, LexML, schema.org/Legislation, LKIF, LegalRuleML, Popolo, W3C ORG, DCAT/DCAT-AP, and OpenFisca/PolicyEngine ontology contracts.
+
+## [ ] Track 27: Rules-as-Code Semantic Bridge
+*Link: [./conductor/tracks/track27_rules_as_code_semantic_bridge_20260625/](./conductor/tracks/track27_rules_as_code_semantic_bridge_20260625/)*
+- **Dependencies**: Tracks 25-26
+- **Parallelization Node**: Rules-as-Code Bridge
+- **Why**: Connect source anchoring, norm semantics, temporal validity, OpenFisca/PolicyEngine models, policy taxonomy, provenance, and linked-data discoverability into an executable rules-as-code bridge.
+
+## [ ] Track 28: Ontology Discovery and Intake
+*Link: [./conductor/tracks/track28_ontology_discovery_intake_20260625/](./conductor/tracks/track28_ontology_discovery_intake_20260625/)*
+- **Dependencies**: Track 25
+- **Parallelization Node**: Standards Discovery
+- **Why**: Search for additional relevant legislative, parliamentary, legal, semantic-web, and rules-as-code ontologies and incorporate candidates with provenance and implementation criteria.
+
+## [ ] Track 29: Ontology Mapping Knowledge Graph
+*Link: [./conductor/tracks/track29_ontology_mapping_kg_20260625/](./conductor/tracks/track29_ontology_mapping_kg_20260625/)*
+- **Dependencies**: Tracks 25-28
+- **Parallelization Node**: Ontology Alignment & Visualization
+- **Why**: Leverage explicit mappings between ontologies and build them into the system for reasoning, inspection, and knowledge-graph visualization.
+
+## [ ] Track 30: Ontology Mapping Inference
+*Link: [./conductor/tracks/track30_ontology_mapping_inference_20260625/](./conductor/tracks/track30_ontology_mapping_inference_20260625/)*
+- **Dependencies**: Track 29
+- **Parallelization Node**: Mapping Inference
+- **Why**: Infer remaining ontology mappings using triangulation, direct matching, fuzzy matching, structural inference, embedding similarity, and LLM-assisted interpretation with reviewable evidence.
+
+## [ ] Track 31: New Zealand Data-Driven Ontologies
+*Link: [./conductor/tracks/track31_nz_data_driven_ontologies_20260625/](./conductor/tracks/track31_nz_data_driven_ontologies_20260625/)*
+- **Dependencies**: Tracks 25-30
+- **Parallelization Node**: NZ Ontology Induction
+- **Why**: Develop New Zealand-specific ontologies for repo applications from the final ontology/dataset analysis results.
+
+## [ ] Track 32: Whole-Corpus Descriptive Statistics
+*Link: [./conductor/tracks/track32_corpus_descriptive_statistics_20260625/](./conductor/tracks/track32_corpus_descriptive_statistics_20260625/)*
+- **Dependencies**: Tracks 6, 18, 31
+- **Parallelization Node**: Corpus Analytics
+- **Why**: Produce comprehensive descriptive statistics for the whole dataset and over time using reproducible pipelines.
+
+## [ ] Track 33: Graph, Vector, and Network Analysis
+*Link: [./conductor/tracks/track33_graph_vector_network_analysis_20260625/](./conductor/tracks/track33_graph_vector_network_analysis_20260625/)*
+- **Dependencies**: Tracks 17, 29, 31-32
+- **Parallelization Node**: Graph and Embedding Analytics
+- **Why**: Analyse the knowledge graph, vector spaces, network structure, ontology links, and graph/vector relationships across the corpus.
+
+## [ ] Track 34: Standards-Based Publication Protocol
+*Link: [./conductor/tracks/track34_publication_protocol_20260625/](./conductor/tracks/track34_publication_protocol_20260625/)*
+- **Dependencies**: Tracks 24-33
+- **Parallelization Node**: Publication Protocol
+- **Why**: Document a publication-ready, standards-based protocol covering what the repo has achieved and what remains planned.
+
+## [ ] Track 35: Analysis Artifact Execution and Figure Production
+*Link: [./conductor/tracks/track35_analysis_artifact_execution_20260625/](./conductor/tracks/track35_analysis_artifact_execution_20260625/)*
+- **Dependencies**: Tracks 32-34
+- **Parallelization Node**: Reproducible Artifact Production
+- **Why**: Ensure analyses are executed and tables, figures, conceptual diagrams, workflow diagrams, and network diagrams are produced.
+
+## [ ] Track 36: Hugging Face Exploration Site
+*Link: [./conductor/tracks/track36_huggingface_exploration_site_20260625/](./conductor/tracks/track36_huggingface_exploration_site_20260625/)*
+- **Dependencies**: Tracks 8, 32-35
+- **Parallelization Node**: Public Exploration Interface
+- **Why**: Create a Hugging Face Space where ontology, corpus, graph, vector, and publication artefacts can be explored interactively.
+
+## [ ] Track 37: Publication Manuscript and Review Agents
+*Link: [./conductor/tracks/track37_publication_manuscript_review_20260625/](./conductor/tracks/track37_publication_manuscript_review_20260625/)*
+- **Dependencies**: Tracks 34-36
+- **Parallelization Node**: Manuscript and Review Automation
+- **Why**: Create the arXiv-ready manuscript skeleton, supplements, figures, tables, and review-agent loops that score and refine the submission until every aspect exceeds 95/100.
+
