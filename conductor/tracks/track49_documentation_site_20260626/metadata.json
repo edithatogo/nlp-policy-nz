@@ -1,0 +1,9 @@
+{
+  "track_id": "track49_documentation_site_20260626",
+  "type": "documentation",
+  "status": "planned",
+  "created_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Create a dedicated documentation site (ReadTheDocs or GitHub Pages) with auto-generated API reference, user guides, architecture docs, and tutorial notebooks.",
+  "oracle_notes": "No docs site exists. Current documentation is limited to in-code docstrings and the README. A mature product needs searchable, versioned, auto-generated documentation organized into user guides, API reference, architecture, and tutorials."
+}

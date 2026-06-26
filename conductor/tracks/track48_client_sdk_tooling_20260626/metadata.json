@@ -1,0 +1,9 @@
+{
+  "track_id": "track48_client_sdk_tooling_20260626",
+  "type": "developer-experience",
+  "status": "planned",
+  "created_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Build a Python client SDK wrapping the FastAPI server, add CLI shell completion, Docker Compose local dev stack, and developer quickstart guide.",
+  "oracle_notes": "The FastAPI server has a documented OpenAPI schema at /docs but there is no client library, no shell completion, and no quickstart beyond the README. A mature product needs first-class developer tooling for API consumers."
+}

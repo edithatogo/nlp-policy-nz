@@ -33,6 +33,35 @@ This log is the repository-local source of truth for repeatable learning artifac
   - Updated tracks.md with Phase V section and execution-order diamond dependency diagram
 - **Evidence**: `conductor/tracks/track45_release_engineering_20260626/`, `conductor/tracks/track46_production_hardening_20260626/`, `conductor/tracks.md` Phase V.
 
+## 2026-06-26 (night) — Full maturity gap closure: Cross-Platform CI, Client SDK, Docs Site, Compliance
+
+- **Agent**: Claude Code
+- **Trigger**: User asked to continue creating/improving tracks until all maturity requirements covered
+- **Audit findings from reading actual server code (`src/nlp_policy_nz/api/server.py`)**:
+  - FastAPI server exists with `/health`, `/embed`, `/search`, `/process` but NO versioned routes
+  - Version string hardcoded `"0.1.0"` — not from VERSION.json
+  - Health endpoint only checks model loaded, not DB or pipeline status
+  - No CORS middleware, no rate limiting, no graceful shutdown
+  - Sync pipeline calls inside async handlers (potential event loop blocking)
+  - CI only runs on ubuntu-latest; developer platform is Windows
+  - No client SDK, no shell completion, no developer quickstart
+  - No docs site, no API reference, no user guides, no tutorial notebooks
+  - No WCAG accessibility audit for Gradio Space
+  - No Privacy Act compliance documented
+- **Gaps filled with 4 new tracks (47-50)**:
+  - Track 47 (Cross-Platform CI): multi-OS CI matrix, binary builds, platform-specific fixes
+  - Track 48 (Client SDK): Python client library, CLI completion, Docker Compose stack, quickstart
+  - Track 49 (Documentation Site): MkDocs/ReadTheDocs, auto-generated API ref, user guides, tutorials, runbook
+  - Track 50 (Compliance & Accessibility): WCAG 2.1 AA, Privacy Act, a11y CI scan
+- **Enriched existing tracks**:
+  - Track 38 (Containerization): added multi-arch build, HEALTHCHECK, non-root user, hadolint
+  - Track 39 (Governance): added CODE_OF_CONDUCT, SECURITY.md, CLA/DCO check
+  - Track 46 (Production Hardening): upgraded all tasks with server audit specifics (CORS, async safety, uvicorn workers, slowapi rate limiting, broader health check)
+- Updated tracks.md with Phase VI section and full dependency diagram for all 50 tracks
+- Updated Makefile with `conductor-status` target (replaces `track-status`)
+- **Final state**: 50 tracks across 6 phases — all maturity-critical features now covered in roadmap
+- **Evidence**: `conductor/tracks/track{47..50}_*`, enriched `track{38,39,46}`, `conductor/tracks.md` Phase VI, `Makefile` conductor-status target.
+
 ## 2026-06-23 — Track 18 rollout (self-learning loop implementation)
 - `entry_id`: `track-18-root-legal-nz`
 - `observed_on`: 2026-06-23

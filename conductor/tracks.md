@@ -4,7 +4,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## Execution Order for Jules
 
-Tracks should be executed in **phase order** (I → II → III → IV), with parallelization nodes processed concurrently within each phase:
+Tracks should be executed in **phase order** (I → II → III → IV → V → VI), with parallelization nodes processed concurrently within each phase:
 
 ```
 Phase I (Complete — 1-9): Core Pipeline & Integrations
@@ -38,6 +38,16 @@ Phase V (Planned — 45-46): Release Engineering + Production Maturity
   │   [depends on 8, 9, 24, 36]
   └─ 46 (Production Hardening) ──► API v1/v2, env separation, migration, load test
       [depends on 7, 23, 38, 44]
+
+Phase VI (Planned — 47-50): Cross-Platform + DX + Docs + Compliance
+  ├─ 47 (Cross-Platform CI) ──► multi-OS matrix, binary builds
+  │   [depends on 1, 23, 38]
+  ├─ 48 (Client SDK) ──► Python client, shell completion, Docker Compose
+  │   [depends on 7, 38, 46]
+  ├─ 49 (Docs Site) ──► MkDocs, API ref, user guides, tutorials, runbook
+  │   [depends on 7, 23, 39, 45, 46, 47, 48]
+  └─ 50 (Compliance) ──► WCAG 2.1 AA, Privacy Act, a11y CI
+      [depends on 36, 44, 46]
 ```
 
 ---
@@ -337,4 +347,34 @@ Phase V (Planned — 45-46): Release Engineering + Production Maturity
 - **Dependencies**: Tracks 7, 23, 38, 44
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Transitions the project from alpha/beta research prototype to mature production system: API versioning (v1/v2), dev/staging/prod environments, database migrations, load/stress testing, feature flags, health endpoints, rate limiting, runbook.
+
+---
+
+## Phase VI — Cross-Platform, Developer Experience, Documentation & Compliance
+
+---
+
+## [ ] Track 47: Cross-Platform CI Matrix & Binary Distribution
+*Link: [./conductor/tracks/track47_cross_platform_ci_20260626/](./conductor/tracks/track47_cross_platform_ci_20260626/)*
+- **Dependencies**: Tracks 1, 23, 38
+- **Parallelization Node**: CI/CD Automation
+- **Why**: Current CI only runs on ubuntu-latest. Mature products test on all three target platforms (Windows, macOS, Linux). Adds binary distribution for users who cannot run pixi or Docker.
+
+## [ ] Track 48: API Client SDK & Developer Tooling
+*Link: [./conductor/tracks/track48_client_sdk_tooling_20260626/](./conductor/tracks/track48_client_sdk_tooling_20260626/)*
+- **Dependencies**: Tracks 7, 38, 46
+- **Parallelization Node**: Developer Experience
+- **Why**: Build a first-class Python client SDK wrapping the FastAPI server, CLI shell completion, Docker Compose local dev stack, and 5-minute quickstart guide for API consumers.
+
+## [ ] Track 49: Documentation Site & Knowledge Base
+*Link: [./conductor/tracks/track49_documentation_site_20260626/](./conductor/tracks/track49_documentation_site_20260626/)*
+- **Dependencies**: Tracks 7, 23, 39, 45, 46, 47, 48
+- **Parallelization Node**: Developer Experience
+- **Why**: Create a dedicated MkDocs/ReadTheDocs site with auto-generated API reference, user guides (ingestion, ontology, search, publishing), architecture docs, Jupyter tutorial notebooks, and operations runbook. Every mature product needs searchable, versioned, auto-generated documentation.
+
+## [ ] Track 50: Public Sector Compliance & Accessibility
+*Link: [./conductor/tracks/track50_compliance_accessibility_20260626/](./conductor/tracks/track50_compliance_accessibility_20260626/)*
+- **Dependencies**: Tracks 36, 44, 46
+- **Parallelization Node**: Compliance & Governance
+- **Why**: Ensure the public-facing Gradio Space meets NZ Web Accessibility Standard (WCAG 2.1 AA) and NZ Privacy Act 2020 data governance requirements. A mature government-adjacent product must be accessible and privacy-compliant by default.
 

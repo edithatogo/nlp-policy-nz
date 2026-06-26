@@ -1,4 +1,4 @@
-.PHONY: install test lint format typecheck check clean coverage benchmark docker devcontainer security audit ci-all track-status track-implement track-new
+.PHONY: install test lint format typecheck check clean coverage benchmark docker devcontainer security audit ci-all conductor-status track-implement track-new
 
 # === Environment ===
 install:
@@ -53,8 +53,16 @@ docker-test:
 	docker run --rm nlp-policy-nz pixi run check
 
 # === Conductor ===
-track-status:
-	@@echo "Use: conductor-status (via Claude Code /conductor-status)"
+conductor-status:
+	@echo "=== nlp-policy-nz Track Audit ==="
+	@for d in conductor/tracks/track*/; do \
+		f=$$(basename $$d); \
+		s=$$([ -f "$$d/spec.md" ] && echo "Y" || echo "N"); \
+		p=$$([ -f "$$d/plan.md" ] && echo "Y" || echo "N"); \
+		m=$$([ -f "$$d/metadata.json" ] && echo "Y" || echo "N"); \
+		echo "  $$f  [spec:$$s plan:$$p meta:$$m]"; \
+	done
+	@echo "  Total: $$(ls -d conductor/tracks/track*/ | wc -l) tracks"
 
 track-implement:
 	@@echo "Use: conductor-implement (via Claude Code /conductor-implement)"
@@ -109,7 +117,7 @@ help:
 	@@echo "  docker-build     Build Docker image"
 	@@echo "  docker-test      Test Docker image"
 	@@echo "Conductor:"
-	@@echo "  track-status     Show track progress"
+	@@echo "  conductor-status  Show all track files status"
 	@@echo "  track-implement  Continue active track"
 	@@echo "  track-new        Create new track"
 	@@echo "Pre-commit:"
