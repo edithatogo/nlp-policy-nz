@@ -4,7 +4,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## Execution Order for Jules
 
-Tracks should be executed in **phase order** (I → II → III → IV → V → VI), with parallelization nodes processed concurrently within each phase:
+Tracks should be executed in **phase order** (I → II → III → IV → V → VI → VII), with parallelization nodes processed concurrently within each phase:
 
 ```
 Phase I (Complete — 1-9): Core Pipeline & Integrations
@@ -48,6 +48,12 @@ Phase VI (Planned — 47-50): Cross-Platform + DX + Docs + Compliance
   │   [depends on 7, 23, 39, 45, 46, 47, 48]
   └─ 50 (Compliance) ──► WCAG 2.1 AA, Privacy Act, a11y CI
       [depends on 36, 44, 46]
+
+Phase VII (Planned — 51-52): Security & Observability
+  ├─ 51 (API Security) ──► API key auth, key lifecycle, scopes, audit log
+  │   [depends on 7, 45, 46]
+  └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
+      [depends on 19, 46, 51]
 ```
 
 ---
@@ -377,4 +383,22 @@ Phase VI (Planned — 47-50): Cross-Platform + DX + Docs + Compliance
 - **Dependencies**: Tracks 36, 44, 46
 - **Parallelization Node**: Compliance & Governance
 - **Why**: Ensure the public-facing Gradio Space meets NZ Web Accessibility Standard (WCAG 2.1 AA) and NZ Privacy Act 2020 data governance requirements. A mature government-adjacent product must be accessible and privacy-compliant by default.
+
+---
+
+## Phase VII — Security & Observability
+
+---
+
+## [ ] Track 51: API Security & Authentication
+*Link: [./conductor/tracks/track51_api_security_20260626/](./conductor/tracks/track51_api_security_20260626/)*
+- **Dependencies**: Tracks 7, 45, 46
+- **Parallelization Node**: Security & Observability
+- **Why**: Add API key authentication, scope-based authorization, key lifecycle management, audit logging, and security headers to the FastAPI server. Zero auth is the single biggest security gap for any production deployment.
+
+## [ ] Track 52: Observability & Error Standardization
+*Link: [./conductor/tracks/track52_observability_20260626/](./conductor/tracks/track52_observability_20260626/)*
+- **Dependencies**: Tracks 19, 46, 51
+- **Parallelization Node**: Security & Observability
+- **Why**: Implement structured JSON logging, RFC 7807 standardized error responses, request ID tracing, Prometheus metrics, graceful model degradation, and ops documentation. Makes the API fully observable and resilient in production.
 

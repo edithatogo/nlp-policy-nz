@@ -62,6 +62,21 @@ This log is the repository-local source of truth for repeatable learning artifac
 - **Final state**: 50 tracks across 6 phases — all maturity-critical features now covered in roadmap
 - **Evidence**: `conductor/tracks/track{47..50}_*`, enriched `track{38,39,46}`, `conductor/tracks.md` Phase VI, `Makefile` conductor-status target.
 
+## 2026-06-27 (late night) — Final maturity gap closure: API Security & Observability
+
+- **Agent**: Claude Code
+- **Trigger**: User asked to continue until ALL maturity requirements are covered
+- **Audit findings from final gap analysis**:
+  - Pre-existing source changes are minor ruff lint fixes (import ordering, noqa comments) — pre-existing, not committed
+  - GitHub Actions all passing (3 success on latest push)
+  - Remaining critical gaps: (1) FastAPI server has zero authentication, (2) plain `logging` instead of structured JSON, (3) ad-hoc error messages instead of RFC 7807, (4) no request tracing, (5) no metrics, (6) model failure = total API crash with no degradation
+- **Gaps filled with 2 new tracks (51-52)**:
+  - Track 51 (API Security): API key auth, scope-based authorization, key lifecycle CLI, audit logging, security headers
+  - Track 52 (Observability): structured JSON logging, RFC 7807 error responses, request ID tracing, Prometheus metrics, graceful model degradation
+- Updated tracks.md with Phase VII section and execution-order diagram
+- **Final state**: 52 tracks across 7 phases — all critical maturity features now covered in roadmap
+- **Evidence**: `conductor/tracks/track{51,52}_*`, `conductor/tracks.md` Phase VII.
+
 ## 2026-06-23 — Track 18 rollout (self-learning loop implementation)
 - `entry_id`: `track-18-root-legal-nz`
 - `observed_on`: 2026-06-23
