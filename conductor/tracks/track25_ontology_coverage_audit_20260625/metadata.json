@@ -3,7 +3,7 @@
   "type": "research",
   "status": "planned",
   "created_at": "2026-06-25T00:00:00+10:00",
-  "updated_at": "2026-06-25T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
   "description": "Identify the complete ontology or ontology set behind each partly implemented repo system, compare those standards with current implementation coverage, and record data blockers where required source data or authoritative vocabulary data is unavailable.",
   "oracle_notes": "Identify the complete ontology or ontology set behind each partially implemented system, map current implementation coverage, and record data blockers where ontology source data is missing."
 }

@@ -3,7 +3,7 @@
   "type": "feature",
   "status": "planned",
   "created_at": "2026-06-25T00:00:00+10:00",
-  "updated_at": "2026-06-25T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
   "description": "Expose a rules-as-code intermediate representation that links legal source provisions to OpenFisca/PolicyEngine entities, variables, formulas, parameters, periods, and provenance.",
   "oracle_notes": "Connect source anchoring, norm semantics, temporal validity, OpenFisca/PolicyEngine models, policy taxonomy, provenance, and linked-data discoverability into an executable rules-as-code bridge."
 }

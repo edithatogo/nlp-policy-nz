@@ -2,6 +2,38 @@
 
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
+## Execution Order for Jules
+
+Tracks should be executed in **phase order** (I → II → III → IV), with parallelization nodes processed concurrently within each phase:
+
+```
+Phase I (Complete — 1-9): Core Pipeline & Integrations
+  ├─ 1 (Env Setup) ──► 2 (External Repos) ──► 3 (Māori Guard)
+  │                     ├─► 4 (Ingestion) ──► 6 (Storage/Search) ──► 7 (API)
+  │                     └─► 5 (Semantic) ────┘                       ├─► 8 (HF Datasets)
+  │                                                                  └─► 9 (Zenodo)
+  └─ 24 (Multi-Git Mirroring) [runs after 23]
+
+Phase II (In Progress — 10-23): Ontology + Features + Quality
+  ├─ Ontology: 10 (Deontic) → 11 (Temporal) → 12 (Entity)
+  │             → 13 (Argument) → 14 (AKN v3) → 15 (PROV-O)
+  │             → 16 (FOAF/SIOC) → 17 (Wikidata) → 18 (Voting)
+  ├─ Fine-Tuning: 20 (Models) → 21 (Architectures) → 22 (Isaacus)
+  └─ Quality: 19 (Observability) ──► 23 (Tooling)
+
+Phase III (Planned — 25-37): Ontology + Analytics + Publication
+  ├─ Discovery: 25 (Coverage Audit) → 26 (Standards) + 28 (Discovery)
+  ├─ Mapping:   27 (RaC Bridge) + 29 (Mapping KG) → 30 (Inference)
+  ├─ Ontology:  31 (NZ Ontologies)
+  ├─ Analytics: 32 (Corpus Stats) → 33 (Graph/Vector)
+  ├─ Protocol:  34 (Publication Protocol)
+  └─ Delivery:  35 (Artifacts) → 36 (HF Site) → 37 (Manuscript)
+
+Phase IV (Planned — 38-44): Infrastructure + Automation + Security
+  ├─ Quality:   38 (Container) → 39 (Governance) → 40 (Dependency Security)
+  └─ Security:  41 (SAST) → 42 (Perf Regression) → 43 (Agentic) → 44 (Data Quality)
+```
+
 ---
 
 ## [x] Track 1: Initialize Workspace Environment & Quality Tooling [b65c685]

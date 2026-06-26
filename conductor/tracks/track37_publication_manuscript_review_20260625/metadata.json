@@ -3,7 +3,7 @@
   "type": "documentation",
   "status": "planned",
   "created_at": "2026-06-25T00:00:00+10:00",
-  "updated_at": "2026-06-25T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
   "description": "Create a submission-ready manuscript package for arXiv, including manuscript skeleton, abstract, figures, tables, supplementary documents, standards checklist, and review-agent loops.",
   "oracle_notes": "Create the arXiv-ready manuscript skeleton, supplements, figures, tables, and review-agent loops that score and refine the submission until every aspect exceeds 95/100."
 }

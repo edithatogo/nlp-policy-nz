@@ -1,0 +1,373 @@
+{
+  "entries": [
+    {
+      "blocker_source": "machine-readable legislation corpus and schema crosswalk",
+      "blocker_type": "integration",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "notes": "No MetaLex emitter or importer exists yet.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://www.metalex.eu/",
+      "standard": "CEN MetaLex"
+    },
+    {
+      "blocker_source": "dataset catalog and provenance inventory",
+      "blocker_type": "data",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/provenance/serializer.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "Dataset-level catalog metadata is not published as DCAT yet.",
+      "source_license": "W3C Document License",
+      "source_url": "https://www.w3.org/TR/vocab-dcat-3/",
+      "standard": "DCAT"
+    },
+    {
+      "blocker_source": "profiled catalogue metadata aligned with DCAT-AP publication practices",
+      "blocker_type": "specification",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/provenance/serializer.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "A profile-valid catalog layer is not present yet.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://semiceu.github.io/DCAT-AP/releases/",
+      "standard": "DCAT-AP"
+    },
+    {
+      "blocker_source": "NZ judgment corpus with stable case-law identifiers",
+      "blocker_type": "data",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "Court decisions are not yet normalised into ECLI-compatible identifiers.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://e-justice.europa.eu/ecli/",
+      "standard": "ECLI"
+    },
+    {
+      "blocker_source": "official NZ legislation metadata export and URI template inventory",
+      "blocker_type": "data",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "ELI source anchoring is not yet implemented in the repo.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://eur-lex.europa.eu/eli-register/resources.html",
+      "standard": "ELI"
+    },
+    {
+      "blocker_source": "official NZ legislation metadata export and draft-legislation descriptors",
+      "blocker_type": "data",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "Draft-legislation metadata is still absent.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://eur-lex.europa.eu/eli-register/resources.html",
+      "standard": "ELI-DL"
+    },
+    {
+      "blocker_source": "EuroVoc concept scheme and NZ policy-domain crosswalk",
+      "blocker_type": "data",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "No controlled policy-domain thesaurus is wired into the repo yet.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://op.europa.eu/en/web/eu-vocabularies/eurovoc",
+      "standard": "EuroVoc"
+    },
+    {
+      "blocker_source": "crosswalk of entities, variables, parameters, formulas, and periods",
+      "blocker_type": "specification",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/universal_framework_v3.py",
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "This bridge remains the explicit ontology layer for rules-as-code tooling.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://openfisca.org/doc/",
+      "standard": "formal OpenFisca/PolicyEngine variable/parameter/entity ontology"
+    },
+    {
+      "blocker_source": "complete rule semantics model with applicability and defeasibility",
+      "blocker_type": "specification",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/universal_framework_v3.py",
+        "tests/test_framework_rac.py"
+      ],
+      "notes": "No standards-complete emitter exists yet.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://www.oasis-open.org/committees/legalruleml/",
+      "standard": "full LegalRuleML"
+    },
+    {
+      "blocker_source": "formal semantics for obligations, permissions, prohibitions, powers, and exceptions",
+      "blocker_type": "specification",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "The complete normative semantics layer is still open.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://github.com/RinkeHoekstra/lkif-core",
+      "standard": "full LKIF"
+    },
+    {
+      "blocker_source": "rule serialization and validation pipeline for formal norm semantics",
+      "blocker_type": "integration",
+      "implementation_status": "scaffolded",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/universal_framework_v3.py",
+        "tests/test_framework_rac.py"
+      ],
+      "notes": "Prototype emit hooks exist, but not a validated emitter.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://www.oasis-open.org/committees/legalruleml/",
+      "standard": "LegalRuleML"
+    },
+    {
+      "blocker_source": "LexML URI template inventory and legislation reference set",
+      "blocker_type": "data",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "Stable LexML-style references and metadata are not modelled yet.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://projeto.lexml.gov.br/",
+      "standard": "LexML"
+    },
+    {
+      "blocker_source": "normalized deontic and legal-effect annotation corpus",
+      "blocker_type": "data",
+      "implementation_status": "partial",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "notes": "The repo captures legal effects, but only as an LKIF-inspired layer.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://github.com/RinkeHoekstra/lkif-core",
+      "standard": "LKIF"
+    },
+    {
+      "blocker_source": "variable, parameter, and entity inventory with time-varying parameter histories",
+      "blocker_type": "specification",
+      "implementation_status": "adjacent",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/universal_framework_v3.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "The repo is adjacent to OpenFisca concepts, but lacks a formal ontology bridge.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://openfisca.org/doc/",
+      "standard": "OpenFisca"
+    },
+    {
+      "blocker_source": "policy variable and parameter inventory plus entity-period semantics",
+      "blocker_type": "specification",
+      "implementation_status": "adjacent",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/universal_framework_v3.py",
+        "src/nlp_policy_nz/quality/track25_ontology_coverage.py"
+      ],
+      "notes": "The repo is adjacent to PolicyEngine concepts, but not yet formalised.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://policyengine.org/",
+      "standard": "PolicyEngine"
+    },
+    {
+      "blocker_source": "parliamentary actor, office, and membership roster",
+      "blocker_type": "data",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/linked_data/foaf.py",
+        "src/nlp_policy_nz/linked_data/rdf.py"
+      ],
+      "notes": "No Popolo-compatible people/offices graph exists yet.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://www.popoloproject.com/",
+      "standard": "Popolo"
+    },
+    {
+      "blocker_source": "complete legislation publication metadata model with stable landing-page fields",
+      "blocker_type": "specification",
+      "implementation_status": "partial",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "notes": "The repo exports JSON-LD, but the Legislation profile is incomplete.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://schema.org/Legislation",
+      "standard": "schema.org/Legislation"
+    },
+    {
+      "blocker_source": "local controlled vocabulary model for policy domains and provision classification",
+      "blocker_type": "specification",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "notes": "SKOS is the missing substrate for a policy taxonomy layer.",
+      "source_license": "W3C Document License",
+      "source_url": "https://www.w3.org/TR/skos-reference/",
+      "standard": "SKOS"
+    },
+    {
+      "blocker_source": "US legislative XML benchmark set and crosswalk",
+      "blocker_type": "specification",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "notes": "The repo has no USLM mapper or comparator yet.",
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://uscode.house.gov/download/download.shtml",
+      "standard": "USLM"
+    },
+    {
+      "blocker_source": "official organization chart export and role roster",
+      "blocker_type": "data",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/linked_data/foaf.py",
+        "src/nlp_policy_nz/linked_data/rdf.py"
+      ],
+      "notes": "Government and parliamentary organization structures are still absent.",
+      "source_license": "W3C Document License",
+      "source_url": "https://www.w3.org/TR/vocab-org/",
+      "standard": "W3C ORG"
+    }
+  ],
+  "license_assumptions": [
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://www.metalex.eu/",
+      "standard": "CEN MetaLex"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://semiceu.github.io/DCAT-AP/releases/",
+      "standard": "DCAT-AP"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://e-justice.europa.eu/ecli/",
+      "standard": "ECLI"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://eur-lex.europa.eu/eli-register/resources.html",
+      "standard": "ELI"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://eur-lex.europa.eu/eli-register/resources.html",
+      "standard": "ELI-DL"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://op.europa.eu/en/web/eu-vocabularies/eurovoc",
+      "standard": "EuroVoc"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://openfisca.org/doc/",
+      "standard": "formal OpenFisca/PolicyEngine variable/parameter/entity ontology"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://www.oasis-open.org/committees/legalruleml/",
+      "standard": "full LegalRuleML"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://github.com/RinkeHoekstra/lkif-core",
+      "standard": "full LKIF"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://www.oasis-open.org/committees/legalruleml/",
+      "standard": "LegalRuleML"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://projeto.lexml.gov.br/",
+      "standard": "LexML"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://github.com/RinkeHoekstra/lkif-core",
+      "standard": "LKIF"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://openfisca.org/doc/",
+      "standard": "OpenFisca"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://policyengine.org/",
+      "standard": "PolicyEngine"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://www.popoloproject.com/",
+      "standard": "Popolo"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://schema.org/Legislation",
+      "standard": "schema.org/Legislation"
+    },
+    {
+      "source_license": "upstream-verify: exact license not confirmed",
+      "source_url": "https://uscode.house.gov/download/download.shtml",
+      "standard": "USLM"
+    }
+  ],
+  "registry_name": "track26_standards_registry",
+  "registry_notes": "Implementation status reflects the current repo surface, not upstream standard maturity.",
+  "schema_version": "1.0",
+  "summary": {
+    "blocker_type_counts": {
+      "data": 9,
+      "integration": 2,
+      "none": 0,
+      "specification": 9
+    },
+    "entry_count": 20,
+    "implementation_status_counts": {
+      "adjacent": 2,
+      "implemented": 0,
+      "missing": 15,
+      "partial": 2,
+      "scaffolded": 1
+    },
+    "license_assumption_count": 17
+  }
+}
