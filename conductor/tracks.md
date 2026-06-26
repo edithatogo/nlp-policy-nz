@@ -234,3 +234,51 @@ This file tracks all major tracks for the project. Each track has its own detail
 - **Parallelization Node**: Manuscript and Review Automation
 - **Why**: Create the arXiv-ready manuscript skeleton, supplements, figures, tables, and review-agent loops that score and refine the submission until every aspect exceeds 95/100.
 
+---
+
+## Phase IV — Infrastructure, Automation & Quality Hardening
+
+---
+
+## [ ] Track 38: Containerization & Reproducible Execution
+*Link: [./conductor/tracks/track38_containerization_20260626/](./conductor/tracks/track38_containerization_20260626/)*
+- **Dependencies**: Track 1, Track 23
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Docker multi-stage builds, .devcontainer for Codespaces/VS Code, docker-compose for local service deps. Makes pipeline portable and CI-reproducible.
+
+## [ ] Track 39: Repository Governance & Contribution Framework
+*Link: [./conductor/tracks/track39_governance_contributing_20260626/](./conductor/tracks/track39_governance_contributing_20260626/)*
+- **Dependencies**: Track 1
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: CONTRIBUTING.md, CODEOWNERS, issue/PR templates, stale-bot, commit message linting, release drafter.
+
+## [ ] Track 40: Dependency Automation & Supply Chain Security
+*Link: [./conductor/tracks/track40_dependency_supplychain_20260626/](./conductor/tracks/track40_dependency_supplychain_20260626/)*
+- **Dependencies**: Track 1
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Dependabot/Renovate for automated updates, pip-audit vulnerability scanning, CycloneDX SBOM generation for supply chain transparency.
+
+## [ ] Track 41: SAST, Secrets Detection & Security Hardening
+*Link: [./conductor/tracks/track41_sast_security_20260626/](./conductor/tracks/track41_sast_security_20260626/)*
+- **Dependencies**: Track 1
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Bandit + Semgrep SAST scanning, detect-secrets pre-commit hook, security disclosure policy. Catches security issues before production.
+
+## [ ] Track 42: Performance Regression CI & Benchmark Baselines
+*Link: [./conductor/tracks/track42_performance_regression_20260626/](./conductor/tracks/track42_performance_regression_20260626/)*
+- **Dependencies**: Track 19
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Store benchmark baselines in git, compare PR benchmarks against baselines, fail on >10% regression. Auto-update baselines on master merge.
+
+## [ ] Track 43: Agentic Automation & Multi-Agent Orchestration
+*Link: [./conductor/tracks/track43_agentic_automation_20260626/](./conductor/tracks/track43_agentic_automation_20260626/)*
+- **Dependencies**: Track 1, Track 23
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Claude Code subagents for PR review + auto-fix CI, Google Jules GPU task dispatch, LLM-as-judge evaluation, conductor advancement automation, self-healing CI.
+
+## [ ] Track 44: Data Quality & Pipeline Monitoring
+*Link: [./conductor/tracks/track44_data_quality_monitoring_20260626/](./conductor/tracks/track44_data_quality_monitoring_20260626/)*
+- **Dependencies**: Track 6, Track 19
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Input schema validation, data drift detection, per-record quality metrics, pipeline health dashboard, automated degradation alerts.
+

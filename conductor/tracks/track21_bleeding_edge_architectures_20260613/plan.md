@@ -82,6 +82,22 @@
 | 6.4 | Make recommendation: replace transformer backbone? If so, with which architecture? | [ ] | |
 | 6.5 | Publish architecture evaluation dataset and results to Hugging Face | [ ] | |
 
+## Phase 7: 2026 Emerging Architectures & Paradigms
+
+**Estimated Effort**: Medium
+**Status**: Pending
+
+| # | Task | Status | Commit |
+|---|------|--------|--------|
+| 7.1 | Evaluate **ModernBERT** (encoder replacement) for legal NER/citation extraction vs Legal-BERT baseline | [ ] | |
+| 7.2 | Evaluate **Jamba 1.6** hybrid SSM-transformer for long-context legal document classification | [ ] | |
+| 7.3 | Evaluate **Llama 4 / Gemma 3 MoE** routing behaviour on multi-task legal benchmark | [ ] | |
+| 7.4 | Evaluate **RAG 2.0** dense retrieval + LLM reader vs current LanceDB embedding search for legal QA | [ ] | |
+| 7.5 | Evaluate **DeepSeek-V3/R1** or Qwen3 MoE distilled variants for legal reasoning benchmarks | [ ] | |
+| 7.6 | Assess **State Space Encoders** (Mamba-3 encoder variant) for legal sequence tagging vs BERT | [ ] | |
+| 7.7 | Evaluate **Small Language Models** (<3B: Phi-3.5, Gemma 2B, Qwen2.5-1.5B) distilled on legal tasks for edge deployment | [ ] | |
+| 7.8 | Evaluate **Test-Time Compute Scaling** (o1-style chain-of-thought) for complex legal reasoning: multi-statute interpretation, conflicting precedent resolution | [ ] | |
+
 ## Files to Create/Modify
 
 | File | Action |

@@ -1,0 +1,9 @@
+{
+  "track_id": "track43_agentic_automation_20260626",
+  "type": "automation",
+  "status": "planned",
+  "created_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Establish multi-agent automation using Claude Code subagents and Google Jules for pipeline execution, model training orchestration, PR review, CI self-healing, and automated evaluation.",
+  "oracle_notes": "Agent tooling (Conductor, subagents, skill system) exists but is not formalised into automated CI/CD or pipeline orchestration workflows. No agent-based PR review, auto-fix CI, or multi-agent evaluation pipeline exists."
+}

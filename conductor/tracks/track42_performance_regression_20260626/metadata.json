@@ -1,0 +1,9 @@
+{
+  "track_id": "track42_performance_regression_20260626",
+  "type": "infrastructure",
+  "status": "planned",
+  "created_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Establish performance regression detection in CI: store benchmark baselines in git, automatically compare PR benchmarks against baselines, and fail on significant regressions.",
+  "oracle_notes": "Track 19 sets up OTel tracing and profiling harnesses but does not include automated CI regression gates that compare committed baselines against PR results. This track closes that gap."
+}

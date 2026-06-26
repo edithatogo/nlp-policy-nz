@@ -1,0 +1,8 @@
+{
+  "track_id": "track2_external_repos_20260609",
+  "type": "feature",
+  "status": "reviewed",
+  "created_at": "2026-06-10T01:31:00Z",
+  "updated_at": "2026-06-25T20:40:00Z",
+  "description": "External integrations (Hugging Face Hub dataset loaders, Zenodo Sandbox archival API) and data sovereignty registry for dataset provenance tracking."
+}

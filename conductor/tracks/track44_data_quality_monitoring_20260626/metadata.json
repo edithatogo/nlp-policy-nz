@@ -1,0 +1,9 @@
+{
+  "track_id": "track44_data_quality_monitoring_20260626",
+  "type": "infrastructure",
+  "status": "planned",
+  "created_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Implement data quality monitoring: pipeline input/output schema validation, data drift detection, row-level quality metrics, and health dashboards for corpus processing pipelines.",
+  "oracle_notes": "No data quality monitoring exists. Pipeline processes XML/HTML/JSONL inputs but has no schema validation on ingestion, no drift detection, and no quality dashboards. LanceDB stores vector outputs but no data quality metadata."
+}

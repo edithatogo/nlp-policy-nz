@@ -1,0 +1,9 @@
+{
+  "track_id": "track40_dependency_supplychain_20260626",
+  "type": "infrastructure",
+  "status": "planned",
+  "created_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Automate dependency management with Dependabot/Renovate, add vulnerability scanning (pip-audit/safety), and generate CycloneDX SBOM for supply chain transparency.",
+  "oracle_notes": "No Dependabot or Renovate config exists. No vulnerability scanning in CI. No SBOM generation. Pixi/pip deps are declared in pyproject.toml and pixi.toml but are not audited automatically."
+}
