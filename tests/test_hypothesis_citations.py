@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from hypothesis import given
-from hypothesis import strategies as st
+from hypothesis import given, strategies as st
 
 from nlp_policy_nz.syntactic import generate_hansard_id, generate_legislation_id
 

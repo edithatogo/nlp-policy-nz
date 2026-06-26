@@ -7,10 +7,11 @@ EntityRuler-based citation matching.
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import spacy
 
 from nlp_policy_nz.guard import create_maori_guard_component
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from spacy.language import Language

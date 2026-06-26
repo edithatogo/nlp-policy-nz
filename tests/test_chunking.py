@@ -7,6 +7,7 @@ sentence-level segmentation via spaCy.
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
 import pytest
 import spacy
@@ -18,7 +19,6 @@ from nlp_policy_nz.syntactic.chunking import (
     generate_hansard_id,
     generate_legislation_id,
 )
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from spacy.language import Language

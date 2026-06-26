@@ -7,7 +7,7 @@ component that pre-processes text to protect these terms.
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import spacy
 from spacy import util as spacy_util

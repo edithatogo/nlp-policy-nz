@@ -122,7 +122,7 @@ def load_model(
             device_map=device_map,
             torch_dtype=_resolve_torch_dtype(quant_config),
         )
-        return model, tokenizer
+        return model, tokenizer  # noqa: TRY300
     except Exception as exc:
         logger.warning(
             "Failed to load model '%s': %s. Attempting fallback to '%s'.",
@@ -140,7 +140,7 @@ def load_model(
             device_map=device_map,
             torch_dtype=_resolve_torch_dtype(quant_config),
         )
-        return model, tokenizer
+        return model, tokenizer  # noqa: TRY300
     except Exception as exc:
         raise ModelLoadError(f"Failed to load fallback model '{FALLBACK_MODEL}': {exc}") from exc
 

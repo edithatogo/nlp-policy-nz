@@ -9,8 +9,7 @@ chunks and assigning unique structural identifiers following NZ conventions:
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
-
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from spacy.language import Language

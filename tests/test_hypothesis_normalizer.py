@@ -4,8 +4,7 @@ from __future__ import annotations
 
 import unicodedata
 
-from hypothesis import given
-from hypothesis import strategies as st
+from hypothesis import given, strategies as st
 
 from nlp_policy_nz.guard import normalize_text, preserve_macrons
 

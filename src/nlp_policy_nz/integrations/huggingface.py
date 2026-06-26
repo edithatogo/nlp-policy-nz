@@ -8,14 +8,14 @@ read access to the target datasets.
 from __future__ import annotations
 
 import os
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import datasets
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-HF_TOKEN_ENV_VAR: str = "HF_TOKEN"
+HF_TOKEN_ENV_VAR: str = "HF_TOKEN"  # noqa: S105
 """Environment variable name used to store the Hugging Face access token."""
 
 

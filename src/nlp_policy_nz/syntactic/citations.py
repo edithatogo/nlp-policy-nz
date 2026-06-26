@@ -9,10 +9,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-
 if TYPE_CHECKING:
-    from spacy.pipeline import EntityRuler
     from spacy.language import Language
+    from spacy.pipeline import EntityRuler
 
 # ---------------------------------------------------------------------------
 # Entity labels

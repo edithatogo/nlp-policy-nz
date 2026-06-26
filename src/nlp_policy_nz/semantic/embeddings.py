@@ -252,7 +252,7 @@ class EmbeddingGenerator:
         Called automatically when entering the context manager.
         """
         self._model, self._tokenizer = load_model(self._model_name)
-        self._loaded_name = self._model_name or self._model.config._name_or_path  # type: ignore[union-attr]
+        self._loaded_name = self._model_name or self._model.config._name_or_path  # type: ignore[union-attr]  # noqa: SLF001
         if self._device != "cpu":
             self._model.to(self._device)
         self._model.eval()
@@ -341,7 +341,7 @@ class EmbeddingGenerator:
 
     # -- context manager ----------------------------------------------------
 
-    def __enter__(self) -> EmbeddingGenerator:
+    def __enter__(self) -> EmbeddingGenerator:  # noqa: PYI034
         """Load model resources on context entry."""
         self.load()
         return self
@@ -350,7 +350,7 @@ class EmbeddingGenerator:
         self,
         exc_type: type[BaseException] | None,
         exc_val: BaseException | None,
-        exc_tb: object | None,
+        exc_tb: object,
     ) -> None:
         """Release model resources on context exit."""
         self.unload()
