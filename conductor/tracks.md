@@ -32,6 +32,12 @@ Phase III (Planned — 25-37): Ontology + Analytics + Publication
 Phase IV (Planned — 38-44): Infrastructure + Automation + Security
   ├─ Quality:   38 (Container) → 39 (Governance) → 40 (Dependency Security)
   └─ Security:  41 (SAST) → 42 (Perf Regression) → 43 (Agentic) → 44 (Data Quality)
+
+Phase V (Planned — 45-46): Release Engineering + Production Maturity
+  ├─ 45 (Release Engineering) ──► HF/Zenodo/OSF/PyPI auto-publish
+  │   [depends on 8, 9, 24, 36]
+  └─ 46 (Production Hardening) ──► API v1/v2, env separation, migration, load test
+      [depends on 7, 23, 38, 44]
 ```
 
 ---
@@ -313,4 +319,22 @@ Phase IV (Planned — 38-44): Infrastructure + Automation + Security
 - **Dependencies**: Track 6, Track 19
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Input schema validation, data drift detection, per-record quality metrics, pipeline health dashboard, automated degradation alerts.
+
+---
+
+## Phase V — Release Engineering & Production Maturity
+
+---
+
+## [ ] Track 45: Release Engineering & Automated Publishing
+*Link: [./conductor/tracks/track45_release_engineering_20260626/](./conductor/tracks/track45_release_engineering_20260626/)*
+- **Dependencies**: Tracks 8, 9, 24, 36
+- **Parallelization Node**: CI/CD Automation
+- **Why**: Semantic versioning from conventional commits, auto-changelog, CI/CD auto-publish to HF datasets/spaces, Zenodo DOIs, OSF archives, and PyPI. Closes the gap between manual CLI publishing and fully automated release pipeline.
+
+## [ ] Track 46: Production Hardening & API Maturity
+*Link: [./conductor/tracks/track46_production_hardening_20260626/](./conductor/tracks/track46_production_hardening_20260626/)*
+- **Dependencies**: Tracks 7, 23, 38, 44
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Transitions the project from alpha/beta research prototype to mature production system: API versioning (v1/v2), dev/staging/prod environments, database migrations, load/stress testing, feature flags, health endpoints, rate limiting, runbook.
 

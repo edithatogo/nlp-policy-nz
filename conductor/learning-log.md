@@ -15,6 +15,24 @@ This log is the repository-local source of truth for repeatable learning artifac
   - Committed `492a7cb` and pushed to origin/master for Jules execution.
 - **Evidence**: `conductor/tracks/track{38..44}_20260626/`, `conductor/tracks/track21_bleeding_edge_architectures_20260613/plan.md` Phase 7, `conductor/tracks.md` Phase IV section.
 
+## 2026-06-26 (late) — CI/CD maturity gap analysis, Release Engineering & Production Hardening tracks
+
+- **Agent**: Claude Code
+- **Trigger**: User asked "What did we do so far?" + CI/CD + maturity questions
+- **Findings**:
+  - Tracks 8 (HF Datasets), 9 (Zenodo), 24 (Multi-Git Mirroring) marked "complete" but only cover *initial* publish/upload — no CI/CD auto-publish, no incremental versioned publishing
+  - Track 36 (HF Exploration Site) planned but has no CI auto-deploy workflow
+  - No semantic versioning track exists (versions are entirely manual)
+  - No changelog generation or release automation
+  - No OSF publishing track
+  - No PyPI publishing
+  - No production hardening: API versioning, env separation, DB migrations, load testing, feature flags, runbook
+- **Actions**:
+  - Created Track 45 (Release Engineering): semantic versioning, CI/CD auto-publish to HF/Zenodo/OSF/PyPI, auto-changelog
+  - Created Track 46 (Production Hardening): API v1/v2, dev/staging/prod, DB migrations, load testing, feature flags, health endpoints, runbook
+  - Updated tracks.md with Phase V section and execution-order diamond dependency diagram
+- **Evidence**: `conductor/tracks/track45_release_engineering_20260626/`, `conductor/tracks/track46_production_hardening_20260626/`, `conductor/tracks.md` Phase V.
+
 ## 2026-06-23 — Track 18 rollout (self-learning loop implementation)
 - `entry_id`: `track-18-root-legal-nz`
 - `observed_on`: 2026-06-23

@@ -1,0 +1,9 @@
+{
+  "track_id": "track46_production_hardening_20260626",
+  "type": "infrastructure",
+  "status": "planned",
+  "created_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Production-harden the nlp-policy-nz pipeline and API: API versioning, environment separation (dev/staging/prod), backward compatibility testing, database migration strategy, load testing, feature flags, and observability SLAs.",
+  "oracle_notes": "The current project is structured as a research prototype (alpha/beta maturity). No API versioning, no staging environment, no backward compatibility guarantees, no load testing, no rollback strategy, no database migration tooling. These are required for a mature, stable end-product."
+}

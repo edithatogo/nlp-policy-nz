@@ -1,0 +1,9 @@
+{
+  "track_id": "track45_release_engineering_20260626",
+  "type": "automation",
+  "status": "planned",
+  "created_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Implement automated semantic versioning, changelog generation, and CI/CD publishing pipelines that push dynamically versioned incremental updates to Hugging Face datasets/spaces, Zenodo DOIs, and OSF archives on every master merge and version tag.",
+  "oracle_notes": "Existing tracks 8 (HF upload), 9 (Zenodo), 24 (mirroring), and 36 (HF Space) are complete or planned but none have CI/CD auto-publishing workflows. Publishing is entirely manual via CLI. No semantic versioning, no changelog, no PyPI publishing. Track 24's OSF integration is designed but unimplemented. This track closes the CI/CD automation gap for all three targets."
+}
