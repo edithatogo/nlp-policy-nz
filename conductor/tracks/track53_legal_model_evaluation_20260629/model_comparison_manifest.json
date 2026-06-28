@@ -1,0 +1,63 @@
+{
+  "encoder_candidates": [
+    {
+      "model": "isaacus/emubert",
+      "category": "encoder",
+      "access_mode": "open-hf",
+      "role": "preferred local encoder baseline",
+      "notes": "Closer legal-domain fit for NZ law than the legacy Legal-BERT comparator."
+    },
+    {
+      "model": "nlpaueb/legal-bert-base-uncased",
+      "category": "encoder",
+      "access_mode": "open-hf",
+      "role": "legacy encoder comparator",
+      "notes": "Retained as a reproducible baseline, not the presumed best choice."
+    }
+  ],
+  "adjudicator_candidates": [
+    {
+      "model": "Equall/Saul-7B-Instruct-v1",
+      "category": "adjudicator",
+      "access_mode": "local-or-self-hosted",
+      "role": "silver-label adjudication candidate",
+      "notes": "Strong candidate for disagreement review and explanation generation."
+    },
+    {
+      "model": "isaacus/open-australian-legal-llm",
+      "category": "adjudicator",
+      "access_mode": "open-hf",
+      "role": "AU-to-NZ silver-label adjudicator",
+      "notes": "Useful where AU legal pretraining may transfer to NZ legal text."
+    }
+  ],
+  "retrieval_candidates": [
+    {
+      "model": "Kanon 2 Embedder",
+      "category": "retrieval",
+      "access_mode": "api-or-airgapped",
+      "role": "retrieval and semantic linking candidate",
+      "notes": "Evaluate for citation search and document similarity support."
+    },
+    {
+      "model": "Kanon 2 Reranker",
+      "category": "retrieval",
+      "access_mode": "api-or-airgapped",
+      "role": "ranking and reranking candidate",
+      "notes": "Useful for reordering retrieval hits where exact open weights are unavailable."
+    }
+  ],
+  "recommended_encoder": "isaacus/emubert",
+  "recommended_adjudicator": "Equall/Saul-7B-Instruct-v1",
+  "recommended_retrieval": "Kanon 2 Embedder",
+  "tradeoffs": [
+    "EmuBERT is lighter and more local-friendly, while Legal-BERT is retained for comparison.",
+    "Saul-7B gives a practical local/legal LLM option, but still needs privacy review.",
+    "Kanon-style retrieval improves semantic search but may require proprietary or air-gapped access."
+  ],
+  "privacy_constraints": [
+    "Do not route sensitive NZ text to external services without explicit review.",
+    "Silver-label outputs must remain separate from human-gold claims."
+  ],
+  "follow_up_issue": "Revisit after NZ-legislation fine-tuning to compare NZ-adapted encoders, legal LLM adjudicators, and frontier-model silver labelling."
+}
