@@ -1,0 +1,8 @@
+{
+  "track_id": "track53_legal_model_evaluation_20260629",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-29T00:00:00Z",
+  "updated_at": "2026-06-29T00:00:00Z",
+  "description": "Evaluate and select NZ legal model candidates for encoder baselines, silver-label adjudication, and retrieval/linking after the Track 13 recommendation update."
+}

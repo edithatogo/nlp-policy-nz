@@ -129,12 +129,6 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Knowledge Base Integration
 - **Why**: Link MPs, parties, electorates to Wikidata QIDs. Essential for corpus-nz-hansard speaker mapping.
 
-## [~] Track 13: Argument Mining & Policy Stance Detection
-*Link: [./conductor/tracks/track13_argument_stance_20260613/](./conductor/tracks/track13_argument_stance_20260613/)*
-- **Dependencies**: Track 5, Track 7
-- **Parallelization Node**: Discourse Analysis
-- **Why**: Premise/conclusion identification and pro/con/neutral stance in Hansard debates.
-
 ## [x] Track 14: Akoma-Ntoso v3 Schema Compliance & Enrichment (archived)
 *Link: [./conductor/tracks/archive/track14_akoma_ntoso_v3_20260613/](./conductor/tracks/archive/track14_akoma_ntoso_v3_20260613/)*
 - **Dependencies**: Track 4
@@ -401,4 +395,12 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: Tracks 19, 46, 51
 - **Parallelization Node**: Security & Observability
 - **Why**: Implement structured JSON logging, RFC 7807 standardized error responses, request ID tracing, Prometheus metrics, graceful model degradation, and ops documentation. Makes the API fully observable and resilient in production.
+
+---
+
+## [ ] Track 53: NZ Legal Model Evaluation and Selection
+*Link: [./conductor/tracks/track53_legal_model_evaluation_20260629/](./conductor/tracks/track53_legal_model_evaluation_20260629/)*
+- **Dependencies**: Track 20, Track 22, Track 13
+- **Parallelization Node**: Model Evaluation and Selection
+- **Why**: Compare `isaacus/emubert`, `nlpaueb/legal-bert-base-uncased`, `Equall/Saul-7B-Instruct-v1`, `isaacus/open-australian-legal-llm`, and Kanon-style retrieval candidates for NZ legal NLP model selection and follow-up fine-tuning.
 
