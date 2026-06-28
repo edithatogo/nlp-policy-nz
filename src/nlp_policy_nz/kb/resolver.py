@@ -214,6 +214,7 @@ def _resolved_entity(
     context: EntityContext | None,
 ) -> ResolvedEntity:
     """Build a resolved entity object."""
+    context_dict = context.to_dict() if context else None
     return ResolvedEntity(
         entity_id=entity.entity_id,
         name=entity.name,
@@ -223,7 +224,7 @@ def _resolved_entity(
         end=end,
         text=text,
         confidence=round(confidence, 3),
-        context=(context.to_dict() if context else None),
+        context=context_dict or None,
     )
 
 

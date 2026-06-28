@@ -194,7 +194,7 @@ def records_to_dataframe(records: Sequence[PipelineRecord]) -> object:
         data["embeddings"].append(rec.embeddings)
         data["deontic_modality"].append(rec.deontic_modality)
         data["temporal_expressions"].append(rec.temporal_expressions)
-        data["resolved_entities"].append(rec.resolved_entities)
+        data["resolved_entities"].append(_normalise_resolved_entities(rec.resolved_entities))
         data["legal_effect"].append(rec.legal_effect)
         data["voting_record"].append(rec.voting_record)
         data["amendments"].append(rec.amendments)
@@ -256,6 +256,18 @@ def _list_of_dicts(value: object) -> list[dict[str, Any]]:
     if value is None or isinstance(value, (str, bytes)) or not isinstance(value, Iterable):
         return []
     return [dict(item) for item in value]
+
+
+def _normalise_resolved_entities(value: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Return resolved entities with empty nested context collapsed to null."""
+    normalised: list[dict[str, Any]] = []
+    for item in value:
+        record = dict(item)
+        context = record.get("context")
+        if isinstance(context, dict) and not context:
+            record["context"] = None
+        normalised.append(record)
+    return normalised
 
 
 def load_from_parquet(path: str | Path) -> list[PipelineRecord]:

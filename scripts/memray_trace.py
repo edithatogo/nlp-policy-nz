@@ -8,6 +8,7 @@ import platform
 import shutil
 import subprocess
 import sys
+from contextlib import suppress
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -47,6 +48,19 @@ def _build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _write_launcher_script(path: Path, command_args: list[str]) -> Path:
+    """Write a temporary launcher that invokes the repo CLI."""
+    path.mkdir(parents=True, exist_ok=True)
+    launcher = path / "track19_memray_launcher.py"
+    payload = ", ".join(json.dumps(arg) for arg in command_args)
+    launcher.write_text(
+        "from nlp_policy_nz.cli.main import main\n"
+        f"raise SystemExit(main([{payload}]))\n",
+        encoding="utf-8",
+    )
+    return launcher
+
+
 def main(argv: list[str] | None = None) -> int:
     """Run Memray and generate a flamegraph report."""
     args = _build_parser().parse_args(argv)
@@ -58,24 +72,27 @@ def main(argv: list[str] | None = None) -> int:
     flamegraph = Path(args.flamegraph)
     trace.parent.mkdir(parents=True, exist_ok=True)
     flamegraph.parent.mkdir(parents=True, exist_ok=True)
+    launcher = _write_launcher_script(
+        Path(args.output).parent,
+        [
+            "process",
+            "--input",
+            args.input,
+            "--output",
+            args.output,
+            "--source",
+            args.source,
+        ]
+        + (["--no-embeddings"] if not args.with_embeddings else []),
+    )
     pipeline_command = [
         "memray",
         "run",
         "--force",
         "--output",
         str(trace),
-        "-m",
-        "nlp_policy_nz.cli.main",
-        "process",
-        "--input",
-        args.input,
-        "--output",
-        args.output,
-        "--source",
-        args.source,
+        str(launcher),
     ]
-    if not args.with_embeddings:
-        pipeline_command.append("--no-embeddings")
 
     rc = subprocess.call(pipeline_command)
     flamegraph_command = ["memray", "flamegraph", "--output", str(flamegraph), str(trace)]
@@ -107,6 +124,8 @@ def main(argv: list[str] | None = None) -> int:
         "corpus_claim": "caller supplied input; no full-corpus claim is implied by this wrapper",
     }
     evidence.write_text(f"{json.dumps(payload, indent=2)}\n", encoding="utf-8")
+    with suppress(FileNotFoundError):
+        launcher.unlink()
     return rc if rc != 0 else int(flamegraph_rc or 0)
 
 

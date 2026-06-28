@@ -21,6 +21,9 @@
 - PR benchmark workflow exists and calls the benchmark harness.
 - `src/nlp_policy_nz/telemetry/evidence.py` prevents local micro-benchmark
   scaffolding from satisfying full-corpus profiling gates.
+- A local Windows Scalene sample rerun was attempted against
+  `data/samples/sample_legislation.txt`, but the profiler was aborted before it
+  could produce a valid HTML report. The 1 GiB gate remains external.
 
 ## Verification
 

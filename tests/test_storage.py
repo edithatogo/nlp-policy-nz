@@ -218,6 +218,39 @@ class TestParquetRoundTrip:
         han = next(r for r in loaded if r.doc_id == "han-001")
         assert han.embeddings is None
 
+    def test_roundtrip_preserves_empty_entity_context_as_none(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        """Empty resolver context dicts should serialize as null."""
+        record = PipelineRecord(
+            doc_id="ctx-001",
+            corpus_source="hansard",
+            raw_text="Jacinda Ardern spoke.",
+            cleaned_tokens=["Jacinda", "Ardern", "spoke"],
+            nz_act_citations=[],
+            te_reo_terms=[],
+            resolved_entities=[
+                {
+                    "entity_id": "mp:jacinda-ardern",
+                    "name": "Jacinda Ardern",
+                    "entity_type": "mp",
+                    "qid": "Q139616",
+                    "start": 0,
+                    "end": 14,
+                    "text": "Jacinda Ardern",
+                    "confidence": 0.99,
+                    "context": {},
+                }
+            ],
+        )
+        parquet_path = tmp_path / "context_none.parquet"
+
+        serialize_to_parquet([record], parquet_path)
+        loaded = load_from_parquet(parquet_path)
+
+        assert loaded[0].resolved_entities[0]["context"] is None
+
     def test_deserialize_to_dataframe(
         self,
         sample_records: list[PipelineRecord],

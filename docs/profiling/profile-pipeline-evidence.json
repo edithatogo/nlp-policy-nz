@@ -1,0 +1,30 @@
+{
+  "tool": "scalene",
+  "created_at": "2026-06-28T22:01:40.679784+00:00",
+  "command": [
+    "scalene",
+    "run",
+    "-o",
+    "docs\\profiling\\scalene-profile.json",
+    ".tmp\\track19\\track19_scalene_launcher.py"
+  ],
+  "html_command": [
+    "scalene",
+    "view",
+    "--html",
+    "docs\\profiling\\scalene-profile.json"
+  ],
+  "return_code": 4294967295,
+  "html_return_code": null,
+  "input": "data\\samples\\sample_legislation.txt",
+  "input_exists": true,
+  "output": ".tmp\\track19\\sample_legislation.parquet",
+  "report": "docs\\profiling\\scalene.html",
+  "report_exists": false,
+  "source": "legislation",
+  "with_embeddings": false,
+  "python": "3.13.14 (main, Jun 11 2026, 04:04:46) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "C:\\Users\\60217257\\OneDrive - Flinders\\repos\\legal-nz\\nlp-policy-nz\\.venv\\Scripts\\python.exe",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "corpus_claim": "caller supplied input; no full-corpus claim is implied by this wrapper"
+}
