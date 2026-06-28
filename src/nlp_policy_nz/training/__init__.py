@@ -25,6 +25,7 @@ _EXPORT_MODULES: dict[str, str] = {
     "Track20EvidenceReport": "nlp_policy_nz.training.track20_evidence",
     "Track21EvidenceReport": "nlp_policy_nz.training.track21_evidence",
     "Track22EvidenceReport": "nlp_policy_nz.training.track22_evidence",
+    "Track53ModelSelectionReport": "nlp_policy_nz.training.track53_evidence",
     "TrainingExample": "nlp_policy_nz.training.data",
     "TrainingHyperparameters": "nlp_policy_nz.training.trainers",
     "TrainingJobSpec": "nlp_policy_nz.training.trainers",
@@ -79,6 +80,9 @@ _EXPORT_MODULES: dict[str, str] = {
     "track21_residual_external_gates": "nlp_policy_nz.training.track21_evidence",
     "track22_acceptance_contract": "nlp_policy_nz.training.track22_evidence",
     "track22_residual_external_gates": "nlp_policy_nz.training.track22_evidence",
+    "evaluate_track53_selection": "nlp_policy_nz.training.track53_evidence",
+    "render_track53_selection_markdown": "nlp_policy_nz.training.track53_evidence",
+    "track53_selection_contract": "nlp_policy_nz.training.track53_evidence",
 }
 
 __all__ = tuple(sorted(_EXPORT_MODULES))

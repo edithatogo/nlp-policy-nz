@@ -2,17 +2,17 @@
 
 **Dependencies**: Track 20, Track 22, Track 13
 **Parallelization Node**: Model Evaluation and Selection
-**Status**: New
+**Status**: In Progress
 
 ---
 
 ## Phase 1: Baseline definition
 
-**Status**: Planned
+**Status**: In Progress
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 1.1 | Define the NZ task matrix for encoder, adjudicator, and retrieval roles | [ ] | |
+| 1.1 | Define the NZ task matrix for encoder, adjudicator, and retrieval roles | [x] | local |
 | 1.2 | Record evaluation datasets, metrics, and hardware constraints | [ ] | |
 | 1.3 | Create the model comparison manifest | [ ] | |
 
@@ -37,4 +37,3 @@
 | 3.2 | Update the relevant track docs with the selection outcome | [ ] | |
 | 3.3 | Record follow-up work for NZ-legislation fine-tuning | [ ] | |
 | 3.4 | Run the review-ready verification step for the track | [ ] | |
-
