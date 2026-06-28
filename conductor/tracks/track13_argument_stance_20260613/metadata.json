@@ -4,5 +4,5 @@
     "status":  "in_progress",
     "created_at":  "2026-06-13T00:00:00Z",
     "updated_at":  "2026-06-29T00:00:00+10:00",
-    "description":  "Argument mining and stance detection for Hansard debates. Repo-side implementation is complete. Gold human-label and held-out Legal-BERT gates remain open, and a silver-label alternative lane now exists using sourced human-labelled calibration corpora, multi-provider AI votes, weak-rule signals, consensus scoring, and disagreement routing."
+    "description":  "Argument mining and stance detection for Hansard debates. Repo-side implementation is complete. Gold human-label and held-out legal-transformer gates remain open. Track 13 now tracks EmuBert and Legal-BERT as local encoder baselines, Saul and Isaacus legal LLMs as silver-label adjudicators, and Kanon-style embeddings for retrieval/linking evaluation."
 }

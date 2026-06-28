@@ -79,3 +79,14 @@
   - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_track13_evidence.py --basetemp C:\tmp\nlp-policy-nz-track13-status` -> 7 passed.
   - `.\.venv\Scripts\python.exe -m ruff check --no-cache src\nlp_policy_nz\training\track13_evidence.py src\nlp_policy_nz\training\__init__.py tests\test_track13_evidence.py` -> passed; removed-rule warnings only.
   - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_argument.py tests\test_stance.py tests\test_argument_training.py tests\test_argument_api_graph.py tests\test_track13_evidence.py tests\test_track13_external_gate_manifest.py tests\test_track13_silver_labels.py --basetemp C:\tmp\nlp-policy-nz-track13-broad` -> 31 passed.
+## Legal Model Recommendation Update - 2026-06-29
+
+- Added model recommendations to `ai_provider_labelling_plan.json`.
+- `isaacus/emubert` is the preferred local Australasian legal encoder baseline to evaluate before treating `nlpaueb/legal-bert-base-uncased` as the default Track 13 classifier.
+- `nlpaueb/legal-bert-base-uncased` remains a reproducible legacy encoder comparator.
+- `Equall/Saul-7B-Instruct-v1` and `isaacus/open-australian-legal-llm` are candidate legal LLM adjudicators for silver-label disagreement queues and must not be counted as gold labels.
+- Kanon 2 embedding/reranking remains scoped to retrieval, RAG, and semantic-linking evaluation where API or air-gapped access is available.
+- Opened follow-up issue for revisiting model choices after NZ-legislation fine-tuning: https://github.com/edithatogo/nlp-policy-nz/issues/2
+- Verification:
+  - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_track13_silver_labels.py --basetemp C:\tmp\nlp-policy-nz-track13-models` -> 10 passed.
+  - `.\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\track13_argument_stance_20260613\ai_provider_labelling_plan.json > $null` -> passed.

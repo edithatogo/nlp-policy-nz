@@ -24,6 +24,7 @@ Repo-side argument/stance contracts are implemented: deterministic Hansard annot
 | 1.6 | Add machine-readable evidence contract so fixture scores cannot satisfy held-out transformer gates | [x] | local |
 | 1.7 | Add silver-label alternative lane with human-labelled calibration corpora and multi-provider AI consensus | [x] | local |
 | 1.8 | Add repo-complete/external-blocked status summary for review handoff | [x] | local |
+| 1.9 | Record local legal model recommendations and follow-up issue for NZ fine-tuning revisit | [x] | local |
 
 ## Phase 2: Stance Classification & Argument Graph
 
@@ -54,6 +55,12 @@ Repo-side argument/stance contracts are implemented: deterministic Hansard annot
 ## Silver-label alternative lane
 
 The gold human-label and held-out Legal-BERT gates remain open, but Track 13 now has an accepted silver alternative: sourced human-labelled calibration datasets, multi-provider AI votes from available local/remote providers, weak-rule signals, weighted consensus, and a disagreement queue. Silver outputs must not be represented as human gold labels.
+
+## Model Recommendation Update
+
+Legal-BERT remains a reproducible legacy encoder baseline, but it is no longer treated as the assumed best local legal model. Track 13 should evaluate `isaacus/emubert` as the preferred Australasian legal encoder baseline for local argument and stance classifiers. `Equall/Saul-7B-Instruct-v1` and `isaacus/open-australian-legal-llm` are tracked as legal LLM candidates for silver-label adjudication and disagreement review, not as gold-label evidence. Kanon 2 embedding/reranking remains a retrieval and semantic-linking candidate where API or air-gapped access is available.
+
+Follow-up issue: https://github.com/edithatogo/nlp-policy-nz/issues/2
 
 ## Files Created/Modified
 
@@ -94,3 +101,4 @@ The gold human-label and held-out Legal-BERT gates remain open, but Track 13 now
 - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_track13_evidence.py --basetemp C:\tmp\nlp-policy-nz-track13-status` -> 7 passed
 - `.\.venv\Scripts\python.exe -m ruff check --no-cache src\nlp_policy_nz\training\track13_evidence.py src\nlp_policy_nz\training\__init__.py tests\test_track13_evidence.py` -> passed; removed-rule warnings only
 - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_argument.py tests\test_stance.py tests\test_argument_training.py tests\test_argument_api_graph.py tests\test_track13_evidence.py tests\test_track13_external_gate_manifest.py tests\test_track13_silver_labels.py --basetemp C:\tmp\nlp-policy-nz-track13-broad` -> 31 passed
+- `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_track13_silver_labels.py --basetemp C:\tmp\nlp-policy-nz-track13-models` -> 10 passed

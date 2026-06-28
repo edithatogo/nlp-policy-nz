@@ -108,6 +108,30 @@ def test_provider_labelling_plan_includes_installed_and_api_providers() -> None:
     assert "silver labels only" in plan["acceptance"]["gold_label_warning"]
 
 
+def test_track13_model_recommendations_keep_classifier_and_adjudicator_roles_separate() -> None:
+    plan = json.loads(
+        Path(
+            "conductor/tracks/track13_argument_stance_20260613/"
+            "ai_provider_labelling_plan.json",
+        ).read_text(encoding="utf-8")
+    )
+
+    recommendations = plan["model_recommendations"]
+    classifier_models = {
+        item["model"] for item in recommendations["local_classifier_baselines"]
+    }
+    adjudicator_models = {
+        item["model"] for item in recommendations["silver_label_adjudicators"]
+    }
+
+    assert "isaacus/emubert" in classifier_models
+    assert "nlpaueb/legal-bert-base-uncased" in classifier_models
+    assert "Equall/Saul-7B-Instruct-v1" in adjudicator_models
+    assert "isaacus/open-australian-legal-llm" in adjudicator_models
+    assert "gold labels" in recommendations["silver_label_adjudicators"][0]["notes"]
+    assert "NZ-legislation fine-tuning" in recommendations["follow_up_issue"]
+
+
 def test_ontology_triangulation_manifest_links_hpo_umls_and_snomed() -> None:
     manifest = json.loads(
         Path(
