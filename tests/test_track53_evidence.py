@@ -114,7 +114,7 @@ def test_track53_json_and_markdown_renderers_expose_selection_artifacts() -> Non
 
 def test_track53_committed_artifacts_match_rendered_outputs() -> None:
     """Committed track artifacts should match the helper renderers."""
-    base = Path("conductor/tracks/track53_legal_model_evaluation_20260629")
+    base = Path("conductor/tracks/archive/track53_legal_model_evaluation_20260629")
 
     assert base.joinpath("evaluation_context.json").read_text(encoding="utf-8") == (
         render_track53_evaluation_context_json()

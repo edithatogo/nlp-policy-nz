@@ -398,8 +398,8 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [x] Track 53: NZ Legal Model Evaluation and Selection
-*Link: [./conductor/tracks/track53_legal_model_evaluation_20260629/](./conductor/tracks/track53_legal_model_evaluation_20260629/)*
+## [x] Track 53: NZ Legal Model Evaluation and Selection (archived)
+*Link: [./conductor/tracks/archive/track53_legal_model_evaluation_20260629/](./conductor/tracks/archive/track53_legal_model_evaluation_20260629/)*
 - **Dependencies**: Track 20, Track 22, Track 13
 - **Parallelization Node**: Model Evaluation and Selection
 - **Why**: Compare `isaacus/emubert`, `nlpaueb/legal-bert-base-uncased`, `Equall/Saul-7B-Instruct-v1`, `isaacus/open-australian-legal-llm`, and Kanon-style retrieval candidates for NZ legal NLP model selection and follow-up fine-tuning.

@@ -31,6 +31,6 @@
 
 - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_track53_evidence.py` -> 6 passed
 - `.\.venv\Scripts\python.exe -m ruff check --no-cache src\nlp_policy_nz\training\track53_evidence.py src\nlp_policy_nz\training\__init__.py tests\test_track53_evidence.py` -> passed; removed-rule warnings only
-- `.\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\track53_legal_model_evaluation_20260629\evaluation_context.json > $null` -> passed
-- `.\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\track53_legal_model_evaluation_20260629\model_comparison_manifest.json > $null` -> passed
-- `.\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\track53_legal_model_evaluation_20260629\metadata.json > $null` -> passed
+- `.\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\archive\track53_legal_model_evaluation_20260629\evaluation_context.json > $null` -> passed
+- `.\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\archive\track53_legal_model_evaluation_20260629\model_comparison_manifest.json > $null` -> passed
+- `.\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\archive\track53_legal_model_evaluation_20260629\metadata.json > $null` -> passed
