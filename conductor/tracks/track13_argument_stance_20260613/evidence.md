@@ -70,3 +70,12 @@
 - Current accepted silver label count: 0, so accepted silver evaluation is blocked rather than overclaimed.
 - Diagnostic-only disagreement queue metrics were computed over 13 rows: claim accuracy 0.615, premise accuracy 0.615, relation accuracy 0.462, stance-proxy accuracy 0.615.
 - No fine-tuned Legal-BERT Track 13 artifact was loaded. The diagnostic uses the repo-side argument detector and stance classifier and is not acceptance evidence.
+## Repo-Complete Review Handoff - 2026-06-29
+
+- Added `Track13ImplementationStatus`, `summarize_track13_implementation_status()`, and `track13_implementation_status_contract()` so Track 13 can be reported as repo-side complete and review-ready without closing external gold-label or held-out Legal-BERT gates.
+- The status contract carries accepted silver-label and disagreement-queue counts, and explicitly records that silver labels are not accepted as gold evidence.
+- Current silver status remains unchanged: 0 accepted silver labels and 13 disagreement queue rows.
+- Verification:
+  - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_track13_evidence.py --basetemp C:\tmp\nlp-policy-nz-track13-status` -> 7 passed.
+  - `.\.venv\Scripts\python.exe -m ruff check --no-cache src\nlp_policy_nz\training\track13_evidence.py src\nlp_policy_nz\training\__init__.py tests\test_track13_evidence.py` -> passed; removed-rule warnings only.
+  - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_argument.py tests\test_stance.py tests\test_argument_training.py tests\test_argument_api_graph.py tests\test_track13_evidence.py tests\test_track13_external_gate_manifest.py tests\test_track13_silver_labels.py --basetemp C:\tmp\nlp-policy-nz-track13-broad` -> 31 passed.

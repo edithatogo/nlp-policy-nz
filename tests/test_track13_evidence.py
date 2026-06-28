@@ -6,7 +6,9 @@ from nlp_policy_nz.training.track13_evidence import (
     Track13EvidenceReport,
     evaluate_track13_acceptance,
     render_track13_evidence_markdown,
+    summarize_track13_implementation_status,
     track13_acceptance_contract,
+    track13_implementation_status_contract,
     track13_residual_external_gates,
 )
 
@@ -157,3 +159,40 @@ def test_track13_residual_external_gates_only_lists_classifier_gates() -> None:
     assert residual == [
         "argument_component_classifier requires Legal-BERT/transformer held-out Hansard F1 >= 0.800 over at least 500 human-labelled segments"
     ]
+
+
+def test_track13_implementation_status_separates_repo_completion_from_external_gates() -> None:
+    """Review handoff should allow repo completion while preserving external blockers."""
+    report = Track13EvidenceReport(
+        argument_component_f1=1.0,
+        argument_component_segments=4,
+        argument_component_model_id="heuristic-rule-detector",
+        argument_component_evaluation_source="fixture",
+        stance_accuracy=1.0,
+        stance_segments=6,
+        stance_model_id="heuristic-rule-classifier",
+        stance_evaluation_source="fixture",
+        coverage_percent=94.0,
+        aif_jsonld_export=True,
+        pipeline_schema_fields=True,
+    )
+
+    status = summarize_track13_implementation_status(
+        report,
+        accepted_silver_labels=0,
+        disagreement_queue_rows=13,
+    )
+    contract = track13_implementation_status_contract(status)
+
+    assert status.repo_side_complete
+    assert status.review_ready
+    assert status.externally_blocked
+    assert len(status.external_gates_pending) == 2
+    assert contract["repo_side_complete"] is True
+    assert contract["review_ready"] is True
+    assert contract["externally_blocked"] is True
+    assert contract["silver_labels"] == {
+        "accepted": 0,
+        "disagreement_queue_rows": 13,
+        "accepted_as_gold": False,
+    }

@@ -45,6 +45,26 @@ class Track13EvidenceReport:
     pipeline_schema_fields: bool
 
 
+@dataclass(frozen=True)
+class Track13ImplementationStatus:
+    """Repo-side implementation and residual external-gate status."""
+
+    repo_side_complete: bool
+    external_gates_pending: tuple[str, ...]
+    accepted_silver_labels: int
+    disagreement_queue_rows: int
+
+    @property
+    def review_ready(self) -> bool:
+        """Return whether repo-side work is ready for review."""
+        return self.repo_side_complete
+
+    @property
+    def externally_blocked(self) -> bool:
+        """Return whether Track 13 still needs non-repo evidence."""
+        return bool(self.external_gates_pending)
+
+
 def evaluate_track13_acceptance(report: Track13EvidenceReport) -> dict[str, bool]:
     """Evaluate Track 13 acceptance criteria without overclaiming fixture results."""
     argument_gate = (
@@ -147,6 +167,39 @@ def track13_residual_external_gates(report: Track13EvidenceReport) -> list[str]:
             f"{MIN_HELD_OUT_SEGMENTS} human-labelled segments"
         )
     return residual
+
+
+def summarize_track13_implementation_status(
+    report: Track13EvidenceReport,
+    *,
+    accepted_silver_labels: int = 0,
+    disagreement_queue_rows: int = 0,
+) -> Track13ImplementationStatus:
+    """Summarize Track 13 without conflating repo completion and external gates."""
+    status = evaluate_track13_acceptance(report)
+    return Track13ImplementationStatus(
+        repo_side_complete=status["repo_side_contracts"],
+        external_gates_pending=tuple(track13_residual_external_gates(report)),
+        accepted_silver_labels=accepted_silver_labels,
+        disagreement_queue_rows=disagreement_queue_rows,
+    )
+
+
+def track13_implementation_status_contract(
+    implementation_status: Track13ImplementationStatus,
+) -> dict[str, Any]:
+    """Return a JSON-ready review handoff for Track 13 implementation status."""
+    return {
+        "repo_side_complete": implementation_status.repo_side_complete,
+        "review_ready": implementation_status.review_ready,
+        "externally_blocked": implementation_status.externally_blocked,
+        "external_gates_pending": list(implementation_status.external_gates_pending),
+        "silver_labels": {
+            "accepted": implementation_status.accepted_silver_labels,
+            "disagreement_queue_rows": implementation_status.disagreement_queue_rows,
+            "accepted_as_gold": False,
+        },
+    }
 
 
 def render_track13_evidence_markdown(report: Track13EvidenceReport) -> str:
