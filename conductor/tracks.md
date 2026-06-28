@@ -404,3 +404,9 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Model Evaluation and Selection
 - **Why**: Compare `isaacus/emubert`, `nlpaueb/legal-bert-base-uncased`, `Equall/Saul-7B-Instruct-v1`, `isaacus/open-australian-legal-llm`, and Kanon-style retrieval candidates for NZ legal NLP model selection and follow-up fine-tuning.
 
+## [ ] Track 54: Revisit Track 19 Profiling Gates After NZ Model Fine-Tuning
+*Link: [./conductor/tracks/track54_track19_revisit_20260629/](./conductor/tracks/track54_track19_revisit_20260629/)*
+- **Dependencies**: Track 19, Track 20
+- **Parallelization Node**: Observability Follow-Up
+- **Why**: Re-run the Track 19 profiling gates once a fine-tuned NZ legal model exists and a supported Memray host is available, then decide whether Track 19 can be archived.
+

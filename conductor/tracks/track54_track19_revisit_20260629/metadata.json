@@ -1,0 +1,8 @@
+{
+  "track_id": "track54_track19_revisit_20260629",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-06-29T00:00:00Z",
+  "updated_at": "2026-06-29T00:00:00Z",
+  "description": "Revisit Track 19 profiling gates after NZ legal model fine-tuning."
+}
