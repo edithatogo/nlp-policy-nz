@@ -508,6 +508,12 @@ def _join_uri(base_uri: str, *parts: str) -> str:
     return base_uri.rstrip("/") + "/" + "/".join(part.strip("/") for part in parts)
 
 
+def _slug(value: str) -> str:
+    """Return a stable URI slug for ontology identifiers."""
+    slug = re.sub(r"[^A-Za-z0-9]+", "-", value.strip()).strip("-")
+    return slug.lower()
+
+
 def _strip_template_prefix(segments: list[str], expected: tuple[str, ...]) -> list[str]:
     """Drop a fixed prefix from *segments* and raise when it is missing."""
     if segments[: len(expected)] != list(expected):
@@ -687,6 +693,11 @@ def parse_controlled_concept(data: dict[str, Any]) -> ControlledConcept:
     )
 
 
+def load_controlled_concept(path: Path | str) -> ControlledConcept:
+    """Load a SKOS-compatible concept record from JSON."""
+    return parse_controlled_concept(json.loads(Path(path).read_text(encoding="utf-8")))
+
+
 def build_eurovoc_concept(concept: ControlledConcept) -> dict[str, Any]:
     """Build a EuroVoc concept record."""
     return build_controlled_concept(concept, scheme_uri=EUROVOC_URI_BASE)
@@ -743,6 +754,11 @@ def parse_schema_legislation(data: dict[str, Any]) -> LegislationProfile:
     )
 
 
+def load_schema_legislation(path: Path | str) -> LegislationProfile:
+    """Load a schema.org/Legislation JSON-LD record from JSON."""
+    return parse_schema_legislation(json.loads(Path(path).read_text(encoding="utf-8")))
+
+
 def _scheme_anchor(scheme_id: str) -> str:
     """Return a stable local namespace for a SKOS concept scheme."""
     return _join_uri(STANDARD_NAMESPACE_BASE, "skos", _slug(scheme_id))
@@ -753,4 +769,3 @@ def _scheme_identifier(scheme: str) -> str:
     if scheme.rstrip("/") == EUROVOC_URI_BASE.rstrip("/"):
         return "eurovoc"
     return scheme.rstrip("/").rsplit("/", 1)[-1].replace("-", "_")
-

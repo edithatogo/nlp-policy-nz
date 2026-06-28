@@ -1,0 +1,25 @@
+Track 19 full-suite validation
+
+Command:
+  .\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q
+
+Result:
+  return_code: 1
+  passed: 629
+  failed: 9
+  skipped: 3
+  duration_seconds: 71.78
+
+Failing tests:
+  - tests/test_ontology_coverage_audit.py::test_track25_matrix_captures_expected_standards
+  - tests/test_track13_external_gate_manifest.py::test_track13_external_gate_manifest_is_explicit
+  - tests/test_track13_external_gate_manifest.py::test_track13_external_gate_manifest_rejects_surrogates
+  - tests/test_track13_silver_labels.py::test_silver_manifest_prefers_human_labelled_calibration_sources
+  - tests/test_track13_silver_labels.py::test_provider_labelling_plan_includes_installed_and_api_providers
+  - tests/test_track13_silver_labels.py::test_track13_model_recommendations_keep_classifier_and_adjudicator_roles_separate
+  - tests/test_track13_silver_labels.py::test_ontology_triangulation_manifest_links_hpo_umls_and_snomed
+  - tests/test_track22_script_contracts.py::test_isaacus_download_wrapper_is_audit_only_by_default
+  - tests/test_track22_script_contracts.py::test_isaacus_evaluation_wrapper_is_audit_only_by_default
+
+Note:
+  The failing tests are outside Track 19's observability and benchmark surface.

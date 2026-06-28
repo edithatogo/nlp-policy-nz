@@ -28,6 +28,7 @@
 - `python -m ruff check --no-cache src\nlp_policy_nz\telemetry tests\test_track19_evidence.py tests\test_telemetry.py tests\benchmarks\test_pipeline_benchmark.py` -> passed.
 
 - `pixi run python -B -m pytest -p no:cacheprovider -q tests\test_track19_evidence.py tests\benchmarks\test_pipeline_benchmark.py --benchmark-json artifacts\track19\benchmark_20260624.json --basetemp C:\tmp\nlp-track19-final-20260624` -> 5 passed; benchmark mean 189.5545 ms, 5.2755 ops/sec; artifact written to `artifacts/track19/benchmark_20260624.json`.
+- `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q` -> 629 passed, 9 failed, 3 skipped; the failing tests are unrelated to Track 19 and currently block a clean repo-wide validation pass. Recorded in `artifacts/track19/full_suite_validation.json` and `artifacts/track19/full_suite_validation.txt`.
 
 ## External Gate Manifest
 
