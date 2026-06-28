@@ -45,6 +45,9 @@ The following are planned for Phase II (Tracks 10-23):
 - **Scalene/Memray Profiling** (T19): CPU/memory benchmarks on full 6.5GB corpus.
 - **Quality Tooling Overhaul** (T23): ruff max strict, pyright strict, smoke/E2E/integration tests, Codecov.
 
+### Roadmap Notes
+- Revisit the T19 profiling benchmark path later, when a supported runtime and an adequate corpus are available. The repo-side observability and benchmark harness are complete; the unfinished profiling pass is a future operational check, not a separate track.
+
 ## 3. Core Features & Architecture (Phase I — Complete)
 - **Universal Ingestion & Preprocessing**: Abstract, format-agnostic ingestion engine (`UniversalIngestionEngine`) supporting XML, HTML, and JSONL formats using BeautifulSoup4/lxml to parse structures dynamically.
 - **Dynamic Metadata Extension Registry**: Custom extension naming layer (`MetaExtensionRegistry`) that registers namespace-prefixed properties in spaCy (e.g. `doc._.meta_country`, `span._.schema_structural_type`) dynamically based on region, country, and target standards to prevent name collisions.

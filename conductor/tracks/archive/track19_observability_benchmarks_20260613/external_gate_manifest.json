@@ -1,0 +1,109 @@
+{
+  "track": 19,
+  "name": "observability_benchmarks_and_full_corpus_profiling",
+  "updated_at": "2026-06-25T00:00:00+10:00",
+  "status": "externally_blocked",
+  "repo_side_status": "benchmark_harness_complete",
+  "local_runtime_observations": {
+    "benchmark_json_artifact": "artifacts/track19/benchmark_20260624.json",
+    "benchmark_status": "unskipped_passed",
+    "one_gib_hansard_corpus_available_in_repo": false,
+    "scalene_available_in_pixi": true,
+    "memray_available_on_windows_pixi": false,
+    "memray_reason": "pixi.toml declares memray only when sys_platform != 'win32'"
+  },
+  "external_gates": [
+    {
+      "id": "full_suite_validation",
+      "status": "satisfied",
+      "accepted_artifacts": [
+        "artifacts/track19/full_suite_validation.json",
+        "artifacts/track19/full_suite_validation.txt"
+      ],
+      "required_fields": [
+        "command",
+        "return_code",
+        "passed",
+        "failed",
+        "skipped",
+        "duration_seconds",
+        "created_at"
+      ],
+      "notes": "The full test suite now passes in the local venv and the validation artifact is recorded under artifacts/track19/."
+    },
+    {
+      "id": "scalene_one_gib_profile",
+      "status": "required",
+      "minimum_input_bytes": 1073741824,
+      "accepted_artifacts": [
+        "docs/profiling/scalene.html",
+        "docs/profiling/profile-pipeline-evidence.json"
+      ],
+      "required_fields": [
+        "tool",
+        "input",
+        "input_exists",
+        "input_bytes",
+        "return_code",
+        "report",
+        "report_exists",
+        "corpus_claim"
+      ],
+      "notes": "Sample fixtures, synthetic micro-runs, and benchmark JSON do not satisfy this gate. The profiled input must be at least 1 GiB of Hansard/legal corpus data."
+    },
+    {
+      "id": "memray_one_gib_flamegraph",
+      "status": "required",
+      "minimum_input_bytes": 1073741824,
+      "accepted_artifacts": [
+        "docs/profiling/memray.bin",
+        "docs/profiling/memray-flamegraph.html",
+        "docs/profiling/memray-evidence.json"
+      ],
+      "required_fields": [
+        "tool",
+        "input",
+        "input_exists",
+        "input_bytes",
+        "return_code",
+        "trace",
+        "trace_exists",
+        "flamegraph",
+        "flamegraph_exists",
+        "corpus_claim"
+      ],
+      "notes": "On this Windows workspace Memray is not installed by Pixi because the dependency is Linux/macOS-gated; satisfying this gate requires a supported runtime or adjusted platform plan."
+    },
+    {
+      "id": "full_corpus_profiles",
+      "status": "required_when_canonical_corpus_available",
+      "accepted_artifacts": [
+        "docs/profiling/full-corpus-scalene.html",
+        "docs/profiling/full-corpus-memray-flamegraph.html",
+        "docs/profiling/full-corpus-profile-evidence.json"
+      ],
+      "required_fields": [
+        "canonical_corpus_path",
+        "canonical_corpus_bytes",
+        "scalene_report",
+        "memray_flamegraph",
+        "created_at"
+      ],
+      "notes": "This is separate from the 1 GiB minimum profile gate and requires the canonical full corpus, not bundled sample files."
+    }
+  ],
+  "local_validation": [
+    {
+      "name": "focused Track 19 evidence and benchmark tests",
+      "command": "pixi run python -B -m pytest -p no:cacheprovider -q tests\\test_track19_evidence.py tests\\benchmarks\\test_pipeline_benchmark.py --benchmark-json artifacts\\track19\\benchmark_20260624.json --basetemp C:\\tmp\\nlp-track19-final-20260624"
+    },
+    {
+      "name": "Track 19 lint",
+      "command": "pixi run python -m ruff check --no-cache src\\nlp_policy_nz\\telemetry\\evidence.py tests\\test_track19_evidence.py tests\\benchmarks\\test_pipeline_benchmark.py tests\\test_track19_external_gate_manifest.py"
+    },
+    {
+      "name": "manifest validation",
+      "command": "python -B -m json.tool conductor\\tracks\\track19_observability_benchmarks_20260613\\external_gate_manifest.json > NUL"
+    }
+  ]
+}

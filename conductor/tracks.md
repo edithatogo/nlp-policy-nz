@@ -159,11 +159,11 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Parliamentary Analytics
 - **Why**: Parse divisions, aye/nay votes, bill version diffs, amendment lifecycle.
 
-## [~] Track 19: OpenTelemetry Observability & Performance Benchmarks
-*Link: [./conductor/tracks/track19_observability_benchmarks_20260613/](./conductor/tracks/track19_observability_benchmarks_20260613/)*
+## [x] Track 19: OpenTelemetry Observability & Performance Benchmarks (archived)
+*Link: [./conductor/tracks/archive/track19_observability_benchmarks_20260613/](./conductor/tracks/archive/track19_observability_benchmarks_20260613/)*
 - **Dependencies**: Track 1, Track 6
 - **Parallelization Node**: Infrastructure & Quality
-- **Why**: Complete the tech-stack observability layer — OTel spans, Scalene/Memray profiling, CI benchmark gates.
+- **Why**: Complete the tech-stack observability layer. The repo-side OTel spans, profiling wrappers, and CI benchmark gates are complete; the incomplete 1 GiB profiling pass is now a roadmap note rather than a separate track.
 
 ## [~] Track 20: NZ Legal NLP Model Fine-Tuning Pipeline
 *Link: [./conductor/tracks/track20_legal_finetuning_20260613/](./conductor/tracks/track20_legal_finetuning_20260613/)*
@@ -404,9 +404,4 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Model Evaluation and Selection
 - **Why**: Compare `isaacus/emubert`, `nlpaueb/legal-bert-base-uncased`, `Equall/Saul-7B-Instruct-v1`, `isaacus/open-australian-legal-llm`, and Kanon-style retrieval candidates for NZ legal NLP model selection and follow-up fine-tuning.
 
-## [ ] Track 54: Revisit Track 19 Profiling Gates After NZ Model Fine-Tuning
-*Link: [./conductor/tracks/track54_track19_revisit_20260629/](./conductor/tracks/track54_track19_revisit_20260629/)*
-- **Dependencies**: Track 19, Track 20
-- **Parallelization Node**: Observability Follow-Up
-- **Why**: Re-run the Track 19 profiling gates once a fine-tuned NZ legal model exists and a supported Memray host is available, then decide whether Track 19 can be archived.
 
