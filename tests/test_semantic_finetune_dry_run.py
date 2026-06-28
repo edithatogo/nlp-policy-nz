@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from typing import Any, cast, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, cast
 
 from nlp_policy_nz.semantic.finetune import FineTuneConfig, _main, build_dry_run_payload
 

@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass, field
-from typing import Any, Literal, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Literal
 
 from nlp_policy_nz.storage import PipelineRecord, load_from_parquet
 
 if TYPE_CHECKING:
-    from pathlib import Path
     from collections.abc import Iterable, Sequence
+    from pathlib import Path
 
 TrainingTask = Literal["mlm", "citation", "deontic", "entity", "argument", "stance"]
 

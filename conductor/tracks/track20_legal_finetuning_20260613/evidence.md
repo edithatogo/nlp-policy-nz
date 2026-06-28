@@ -35,6 +35,8 @@
 - `python -B -m py_compile src\nlp_policy_nz\semantic\finetune.py src\nlp_policy_nz\training\run_qlora.py src\nlp_policy_nz\training\track20_evidence.py src\nlp_policy_nz\training\trainers.py` passed.
 - `set PYTHONPATH=src&& python -B -m nlp_policy_nz.semantic.finetune --help` passed and shows `--run-training` as the live-training gate.
 - `set PYTHONPATH=src&& python -B -m nlp_policy_nz.training.run_qlora --model-name google/gemma-3-9b --task citation --output-dir models/gemma-3-9b-citation --hub-model-id nlp-policy-nz/gemma-3-9b-citation --print-spec` passed.
+- `python -B -m pytest -p no:cacheprovider -q tests\test_training_data.py tests\test_training_eval.py tests\test_track20_evidence.py tests\test_semantic_finetune_dry_run.py` passed: 19 passed.
+- `python -m ruff check --no-cache src\nlp_policy_nz\training src\nlp_policy_nz\semantic\finetune.py tests\test_training_data.py tests\test_training_eval.py tests\test_track20_evidence.py tests\test_semantic_finetune_dry_run.py` passed.
 
 ## Residual External Gates
 

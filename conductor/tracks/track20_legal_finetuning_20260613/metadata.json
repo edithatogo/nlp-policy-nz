@@ -3,7 +3,7 @@
   "type": "feature",
   "status": "in_progress",
   "created_at": "2026-06-13T00:00:00Z",
-  "updated_at": "2026-06-22T00:00:00Z",
+  "updated_at": "2026-06-28T22:21:34.4852482Z",
   "description": "Fine-tune SOTA open legal NLP models and general-purpose models on NZ legislative and Hansard corpora. Covers Legal-BERT, SaulLM, Gemma, Phi-4, Qwen, Mistral, Exaone, MiniCPM5, Liquid, Kimi.",
   "oracle_notes": "Repo-side Phase 1 implementation and closeout evidence are complete: training data preparation, task examples, MLM collator, metrics, Legal-BERT/QLoRA job specs, dry-run CLI evidence, fine-tuning scripts, dependency declarations, and focused tests. Track 20 remains in_progress because CUDA/GPU validation, dataset-scale model training, held-out evaluation improvements, and Hugging Face publication are external gates. Current evidence does not claim completed CUDA training, held-out improvements, or Hub publishing."
 }
