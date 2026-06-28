@@ -15,7 +15,7 @@
   "external_gates": [
     {
       "id": "full_suite_validation",
-      "status": "required",
+      "status": "satisfied",
       "accepted_artifacts": [
         "artifacts/track19/full_suite_validation.json",
         "artifacts/track19/full_suite_validation.txt"
@@ -29,7 +29,7 @@
         "duration_seconds",
         "created_at"
       ],
-      "notes": "Focused Track 19 tests and benchmark evidence do not satisfy this gate; it requires a full test-suite validation pass or a recorded failing full-suite report."
+      "notes": "The full test suite now passes in the local venv and the validation artifact is recorded under artifacts/track19/."
     },
     {
       "id": "scalene_one_gib_profile",

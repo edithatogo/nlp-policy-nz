@@ -20,7 +20,7 @@ from nlp_policy_nz.training.track13_silver import (
 def test_silver_manifest_prefers_human_labelled_calibration_sources() -> None:
     manifest = json.loads(
         Path(
-            "conductor/tracks/track13_argument_stance_20260613/"
+            "conductor/tracks/archive/track13_argument_stance_20260613/"
             "silver_label_manifest.json",
         ).read_text(encoding="utf-8")
     )
@@ -94,7 +94,7 @@ def test_provider_availability_uses_configured_commands() -> None:
 def test_provider_labelling_plan_includes_installed_and_api_providers() -> None:
     plan = json.loads(
         Path(
-            "conductor/tracks/track13_argument_stance_20260613/"
+            "conductor/tracks/archive/track13_argument_stance_20260613/"
             "ai_provider_labelling_plan.json",
         ).read_text(encoding="utf-8")
     )
@@ -111,7 +111,7 @@ def test_provider_labelling_plan_includes_installed_and_api_providers() -> None:
 def test_track13_model_recommendations_keep_classifier_and_adjudicator_roles_separate() -> None:
     plan = json.loads(
         Path(
-            "conductor/tracks/track13_argument_stance_20260613/"
+            "conductor/tracks/archive/track13_argument_stance_20260613/"
             "ai_provider_labelling_plan.json",
         ).read_text(encoding="utf-8")
     )
@@ -135,13 +135,13 @@ def test_track13_model_recommendations_keep_classifier_and_adjudicator_roles_sep
 def test_ontology_triangulation_manifest_links_hpo_umls_and_snomed() -> None:
     manifest = json.loads(
         Path(
-            "conductor/tracks/track13_argument_stance_20260613/"
+            "conductor/tracks/archive/track13_argument_stance_20260613/"
             "ontology_triangulation_manifest.json",
         ).read_text(encoding="utf-8")
     )
     silver_manifest = json.loads(
         Path(
-            "conductor/tracks/track13_argument_stance_20260613/"
+            "conductor/tracks/archive/track13_argument_stance_20260613/"
             "silver_label_manifest.json",
         ).read_text(encoding="utf-8")
     )

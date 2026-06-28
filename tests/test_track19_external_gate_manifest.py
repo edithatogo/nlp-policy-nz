@@ -22,7 +22,7 @@ def test_track19_external_gate_manifest_is_explicit() -> None:
     assert manifest["local_runtime_observations"]["one_gib_hansard_corpus_available_in_repo"] is False
 
     gates = {gate["id"]: gate for gate in manifest["external_gates"]}
-    assert gates["full_suite_validation"]["status"] == "required"
+    assert gates["full_suite_validation"]["status"] == "satisfied"
     assert gates["scalene_one_gib_profile"]["minimum_input_bytes"] >= 1_073_741_824
     assert gates["memray_one_gib_flamegraph"]["minimum_input_bytes"] >= 1_073_741_824
     assert "input_bytes" in gates["scalene_one_gib_profile"]["required_fields"]

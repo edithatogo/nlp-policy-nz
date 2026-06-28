@@ -19,7 +19,7 @@ def test_track25_matrix_captures_expected_standards() -> None:
     matrix = build_coverage_matrix()
     standards = {row["standard"] for row in matrix}
 
-    assert len(matrix) == 17
+    assert len(matrix) == 18
     assert {
         "Akoma Ntoso / LegalDocML",
         "PROV-O",

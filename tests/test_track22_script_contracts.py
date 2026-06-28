@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -12,8 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 def _run_script(script: str, *args: str) -> subprocess.CompletedProcess[str]:
     env = os.environ.copy()
     env["PYTHONPATH"] = str(ROOT / "src")
+    env["PATH"] = str(ROOT / ".venv" / "Scripts") + os.pathsep + env.get("PATH", "")
+    shell = shutil.which("sh") or shutil.which("bash") or "sh"
     return subprocess.run(
-        ["bash", str(ROOT / script), *args],
+        [shell, str(ROOT / script), *args],
         cwd=ROOT,
         env=env,
         text=True,
