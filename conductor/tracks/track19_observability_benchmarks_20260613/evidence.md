@@ -42,3 +42,11 @@
 - Generate a Scalene CPU/memory profile over at least 1 GiB of Hansard input.
 - Generate a Memray allocation trace and flamegraph over at least 1 GiB of
   Hansard input.
+
+## Follow-up After NZ Model Fine-Tuning
+
+- Revisit the profiling plan once a fine-tuned NZ legal model exists and the
+  corpus inventory can satisfy the 1 GiB/full-corpus gates on a supported
+  profiling host.
+- If the external GitHub issue cannot be created from this integration, use
+  this section as the durable local reminder for reopening the work.
