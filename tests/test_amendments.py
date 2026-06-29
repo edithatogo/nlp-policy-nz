@@ -150,6 +150,8 @@ def test_pipeline_record_includes_voting_and_amendment_fields() -> None:
 
     assert "voting_record" in SCHEMA_FIELDS
     assert "amendments" in SCHEMA_FIELDS
+    assert record.voting_record is not None
+    assert record.amendments is not None
     assert record.voting_record["outcome"] == "passed"
     assert record.amendments[0]["amendment_type"] == "sop"
     df = records_to_dataframe([record])
@@ -178,6 +180,7 @@ def test_pipeline_extractors_preserve_track18_fields_in_dataframe() -> None:
     df = records_to_dataframe([record])
 
     assert record.voting_record is not None
+    assert record.amendments is not None
     assert record.voting_record["outcome"] == "passed"
     assert record.amendments[0]["sop_number"] == "45"
     assert "voting_record" in df.columns

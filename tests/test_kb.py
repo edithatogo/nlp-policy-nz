@@ -72,6 +72,7 @@ def test_entity_resolver_links_aliases_with_context_disambiguation() -> None:
     assert result.name == "Jacinda Ardern"
     assert result.entity_type == "mp"
     assert result.confidence >= 0.85
+    assert result.context is not None
     assert result.context["party"] == "Labour"
 
 

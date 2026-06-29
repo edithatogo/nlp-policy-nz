@@ -245,7 +245,9 @@ class TestComputeStats:
         """Verify total word count is computed."""
         stats = compute_stats(sample_df)
         assert "Total Words" in stats
-        assert stats["Total Words"] > 0
+        total_words = stats["Total Words"]
+        assert isinstance(total_words, int)
+        assert total_words > 0
 
     def test_none_df(self) -> None:
         """Verify fallback status when df is None."""

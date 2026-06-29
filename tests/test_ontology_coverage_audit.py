@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from nlp_policy_nz.quality.ontology_coverage_audit import (
     OUTPUT_FILENAMES,
@@ -13,6 +13,9 @@ from nlp_policy_nz.quality.ontology_coverage_audit import (
     matrix_to_markdown,
     write_track25_artifacts,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def test_track25_matrix_captures_expected_standards() -> None:

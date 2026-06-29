@@ -1,5 +1,3 @@
-import pytest
-import spacy
 from nlp_policy_nz.universal_framework_v3 import (
     FrameworkConfig,
     MetaExtensionRegistry,

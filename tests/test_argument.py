@@ -78,7 +78,9 @@ def test_issue_argument_linking_uses_token_similarity() -> None:
     links = link_arguments_to_issues(arguments, ["housing support", "fisheries quota"])
 
     assert links[0]["issue"] == "housing support"
-    assert links[0]["similarity"] > 0
+    similarity = links[0]["similarity"]
+    assert isinstance(similarity, float)
+    assert similarity > 0
 
 
 def test_pipeline_record_roundtrips_arguments_and_stance(tmp_path) -> None:
