@@ -69,7 +69,7 @@
 | # | Task | Status | Commit |
 |---|------|--------|--------|
 | 5.1 | Add `scalene` to pixi.toml dev dependencies | [x] |  |
-| 5.2 | Create `tests/test_coverage.py` marker and `.coveragerc` config for pytest-cov | [ ] | `.coveragerc` present; dedicated marker pending |
+| 5.2 | Create `tests/test_coverage.py` marker and `.coveragerc` config for pytest-cov | [x] | 6ea3797 |
 | 5.3 | Add Codecov step to `.github/workflows/ci.yml` (after test run) | [x] |  |
 | 5.4 | Create `scripts/profile_with_scalene.py` — basic CPU/memory profiling script | [x] |  |
 | 5.5 | Run baseline profile on 100MB corpus; document in `docs/profiling.md` | [ ] | |

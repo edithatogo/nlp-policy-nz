@@ -230,6 +230,7 @@ testpaths = ["tests"]
 pythonpath = ["src"]
 markers = [
     "benchmark: performance benchmark tests requiring pytest-benchmark",
+    "coverage: tests that exercise coverage reporting surfaces",
 ]
 
 [tool.scalene]

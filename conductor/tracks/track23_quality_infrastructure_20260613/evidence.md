@@ -56,6 +56,8 @@ python -B -m json.tool conductor\tracks\track23_quality_infrastructure_20260613\
 - `python -m basedpyright --project pyproject.toml conductor/run_cline_swarm.py src/nlp_policy_nz/integrations/dataset_card.py src/nlp_policy_nz/integrations/hf_uploader.py src/nlp_policy_nz/digitalnz_probe.py src/nlp_policy_nz/quality/track25_ontology_coverage.py spaces/app.py tests/test_hf_upload.py` passed with 0 errors.
 - `uv build` built both `dist/nlp_policy_nz-0.1.0.tar.gz` and `dist/nlp_policy_nz-0.1.0-py3-none-any.whl` successfully.
 - `python -m pip install --force-reinstall --no-deps dist\nlp_policy_nz-0.1.0-py3-none-any.whl` passed.
+- `python -m ruff check tests/test_coverage.py pyproject.toml` passed.
+- `python -m pytest -q tests/test_coverage.py` passed with 1 test.
 
 ## 2026-06-25 full quality gate manifest
 
