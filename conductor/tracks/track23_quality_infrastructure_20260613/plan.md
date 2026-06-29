@@ -56,9 +56,9 @@
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 4.1 | Research `uv_build` build backend vs current `hatchling`; test `uv build` on current config | [ ] | Decision documented; measured build still pending |
+| 4.1 | Research `uv_build` build backend vs current `hatchling`; test `uv build` on current config | [x] | 7255e72 |
 | 4.2 | If switching: update `[build-system]` in pyproject.toml to use `uv_build` | [x] | Decision: no switch |
-| 4.3 | Verify package builds and installs correctly with new backend | [ ] | |
+| 4.3 | Verify package builds and installs correctly with new backend | [x] | 7255e72 |
 | 4.4 | Document decision in `docs/build_backend.md` | [x] |  |
 
 ## Phase 5: Scalene Profiling & Codecov
