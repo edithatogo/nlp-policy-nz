@@ -21,6 +21,8 @@ This note records the current repo-side Isaacus integration evidence. It does no
 - `python -m ruff check --no-cache src\nlp_policy_nz\training\isaacus_adapter.py src\nlp_policy_nz\training\track22_evidence.py src\nlp_policy_nz\training\__init__.py tests\test_isaacus_adapter.py tests\test_track22_evidence.py tests\test_track22_script_contracts.py` passed.
 - `python -m json.tool data\track22\nz_mleb_fixture.json > nul && python -m json.tool data\track22\nz_mleb_fixture.schema.json > nul` passed.
 - `python -B -m py_compile src\nlp_policy_nz\training\isaacus_adapter.py` was attempted but could not write `__pycache__` in this workspace (`Permission denied`); the focused pytest import path above validated the module with bytecode disabled.
+- `python -B -m pytest -p no:cacheprovider -q tests\test_isaacus_adapter.py tests\test_track22_evidence.py tests\test_track22_script_contracts.py` passed: 16 passed.
+- `python -m ruff check --no-cache src\nlp_policy_nz\training\isaacus_adapter.py src\nlp_policy_nz\training\track22_evidence.py src\nlp_policy_nz\training\__init__.py tests\test_isaacus_adapter.py tests\test_track22_evidence.py tests\test_track22_script_contracts.py` passed.
 
 ## External gates not satisfied
 
