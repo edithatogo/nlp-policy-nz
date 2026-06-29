@@ -1,3 +1,5 @@
+"""Check that the declared package version stays aligned across files."""
+
 from __future__ import annotations
 
 import re
@@ -27,6 +29,7 @@ def _quoted_assignment(path: str, name: str) -> str:
 
 
 def check_version_consistency() -> list[str]:
+    """Return any version consistency errors found in the repository."""
     failures: list[str] = []
 
     package_version = _pyproject_version()
@@ -43,6 +46,7 @@ def check_version_consistency() -> list[str]:
 
 
 def main() -> int:
+    """Run the version consistency check and print any failures."""
     failures = check_version_consistency()
     if failures:
         for f in failures:

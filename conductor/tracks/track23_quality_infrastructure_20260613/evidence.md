@@ -50,6 +50,8 @@ python -B -m json.tool conductor\tracks\track23_quality_infrastructure_20260613\
 - `python -m ruff check --select ANN,D,TCH,YTT,RET src/nlp_policy_nz/quality/ontology_coverage_audit.py src/nlp_policy_nz/universal_framework_v3.py` passed.
 - `python -m ruff check --select ANN,D,TCH,YTT,RET src/nlp_policy_nz/quality/track25_ontology_coverage.py` passed.
 - `python -m basedpyright --project pyproject.toml src/nlp_policy_nz/quality/track25_ontology_coverage.py` passed with 0 errors.
+- `python -m ruff check --select ANN,D,TCH,YTT,RET conductor/run_cline_swarm.py scripts/check_version_consistency.py scripts/profile_pipelines.py` passed.
+- `python -m basedpyright --project pyproject.toml conductor/run_cline_swarm.py scripts/check_version_consistency.py scripts/profile_pipelines.py` passed with 0 errors.
 
 ## 2026-06-25 full quality gate manifest
 
