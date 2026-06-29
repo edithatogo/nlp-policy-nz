@@ -51,3 +51,8 @@ Track 21 is repo-side documented but externally gated. The deterministic
 dry-run comparison can support planning and review; it must not be used as
 evidence that any architecture has completed measured NZ legal benchmark
 evaluation or is ready to replace the transformer backbone in production.
+
+## Latest Repo-Side Validation
+
+- `python -B -m pytest -p no:cacheprovider -q tests\test_architecture_eval.py tests\test_track21_evidence.py tests\test_track21_script_contracts.py` passed: 10 passed.
+- `python -m ruff check --no-cache src\nlp_policy_nz\training\eval_arch.py src\nlp_policy_nz\training\track21_evidence.py src\nlp_policy_nz\training\__init__.py tests\test_architecture_eval.py tests\test_track21_evidence.py tests\test_track21_script_contracts.py` passed.
