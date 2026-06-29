@@ -1,3 +1,11 @@
+"""Deterministic Track 25 ontology coverage audit helpers.
+
+The module turns the repository's ontology-facing surface into plain Python
+artifacts that can be written to JSON and Markdown for review. It is a
+coverage-audit tool, not a claim that any standard is fully implemented unless
+the data below says so.
+"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -45,6 +53,8 @@ _BLOCKER_PRIORITY: Final[dict[tuple[str, str], Priority]] = {
 
 @dataclass(frozen=True, slots=True)
 class StandardCoverage:
+    """A single upstream standard and the repo's current coverage state."""
+
     upstream_standard: str
     coverage_status: CoverageStatus
     blocker_type: BlockerType = "none"
@@ -55,6 +65,7 @@ class StandardCoverage:
     follow_on_track: str = ""
 
     def with_derived_priority(self) -> StandardCoverage:
+        """Fill in the priority if it was not supplied explicitly."""
         if self.priority is not None:
             return self
         derived = _BLOCKER_PRIORITY.get((self.coverage_status, self.blocker_type), "p2")
@@ -70,6 +81,7 @@ class StandardCoverage:
         )
 
     def to_dict(self) -> dict[str, Any]:
+        """Render the coverage record as a JSON-friendly mapping."""
         value = self.with_derived_priority()
         return {
             "upstream_standard": value.upstream_standard,
@@ -85,6 +97,8 @@ class StandardCoverage:
 
 @dataclass(frozen=True, slots=True)
 class OntologySystem:
+    """A repo subsystem with the ontology standards it touches."""
+
     system_key: str
     system_name: str
     description: str
@@ -92,6 +106,7 @@ class OntologySystem:
     standards: tuple[StandardCoverage, ...]
 
     def to_dict(self, repo_root: Path) -> dict[str, Any]:
+        """Render the system surface as a JSON-ready mapping."""
         present_local_files = _existing_relative_paths(repo_root, self.local_files)
         missing_local_files = tuple(path for path in self.local_files if path not in present_local_files)
         local_file_status: LocalFileStatus = "complete" if not missing_local_files else "partial"
@@ -435,10 +450,12 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
 
 
 def repo_root() -> Path:
+    """Return the repository root for local-file existence checks."""
     return Path(__file__).resolve().parents[3]
 
 
 def slugify_identifier(value: str) -> str:
+    """Convert a free-form identifier into a stable lowercase slug."""
     slug = re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
     return slug or "item"
 
@@ -453,6 +470,7 @@ def _system_rows(repo_root_path: Path) -> list[dict[str, Any]]:
 
 
 def enumerate_ontology_facing_systems(repo_root_path: Path | str | None = None) -> list[dict[str, Any]]:
+    """Enumerate ontology-facing subsystems and their current coverage."""
     root = Path(repo_root_path) if repo_root_path is not None else repo_root()
     return _system_rows(root)
 
@@ -494,11 +512,13 @@ def _flatten_coverage_rows(repo_root_path: Path) -> list[dict[str, Any]]:
 
 
 def build_coverage_matrix(repo_root_path: Path | str | None = None) -> list[dict[str, Any]]:
+    """Build the flattened coverage matrix used by Track 25 reports."""
     root = Path(repo_root_path) if repo_root_path is not None else repo_root()
     return _flatten_coverage_rows(root)
 
 
 def build_blocker_register(repo_root_path: Path | str | None = None) -> list[dict[str, Any]]:
+    """Build the blocker register from the current coverage matrix."""
     rows = build_coverage_matrix(repo_root_path)
     blockers = [
         {
@@ -532,6 +552,7 @@ def build_blocker_register(repo_root_path: Path | str | None = None) -> list[dic
 
 
 def build_prioritized_backlog(repo_root_path: Path | str | None = None) -> list[dict[str, Any]]:
+    """Build a priority-sorted backlog of follow-up work."""
     rows = build_blocker_register(repo_root_path)
     backlog = [
         {
@@ -643,6 +664,7 @@ def _expected_output(standard: str) -> list[str]:
 
 
 def _coverage_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Summarize the coverage matrix for the evidence bundle."""
     status_counts: dict[str, int] = {}
     blocker_counts: dict[str, int] = {}
     for row in rows:
@@ -658,6 +680,7 @@ def _coverage_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def build_track25_ontology_coverage_audit(repo_root_path: Path | str | None = None) -> dict[str, Any]:
+    """Build the full Track 25 audit bundle as plain Python structures."""
     root = Path(repo_root_path) if repo_root_path is not None else repo_root()
     systems = enumerate_ontology_facing_systems(root)
     coverage_matrix = build_coverage_matrix(root)
@@ -675,6 +698,7 @@ def build_track25_ontology_coverage_audit(repo_root_path: Path | str | None = No
 
 
 def dump_track25_ontology_coverage_audit(repo_root_path: Path | str | None = None) -> str:
+    """Serialize the Track 25 audit bundle to formatted JSON."""
     return json.dumps(build_track25_ontology_coverage_audit(repo_root_path), indent=2, sort_keys=True)
 
 
