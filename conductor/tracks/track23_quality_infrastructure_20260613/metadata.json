@@ -3,7 +3,7 @@
     "type": "chore",
     "status": "in_progress",
     "created_at": "2026-06-13T00:00:00Z",
-    "updated_at": "2026-06-25",
+    "updated_at": "2026-06-29T03:05:36.0722152Z",
     "description": "Complete the testing & quality tooling stack: uv_build, ruff strict+ANN/D, mypy/basedpyright strict, scalene, codecov, smoke/E2E/integration tests, pydantic v2 eval, mutation tests, property-based test expansion.",
     "oracle_notes": "Repo-side quality scaffold, deterministic evidence contract, and optional mutation CI gate are present. Full strict Ruff, basedpyright, and coverage gates remain pending until measured across the agreed full scope; mutation execution remains an optional manual CI gate.",
     "external_gate_manifest": "conductor/tracks/track23_quality_infrastructure_20260613/external_gate_manifest.json",

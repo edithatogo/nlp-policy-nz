@@ -8,7 +8,6 @@ still scaffolded or blocked on source data.
 
 from __future__ import annotations
 
-from collections import OrderedDict
 from dataclasses import dataclass
 import json
 from pathlib import Path
@@ -53,7 +52,6 @@ class OntologySurface:
 
     def to_matrix_row(self, repo_root: Path) -> dict[str, Any]:
         """Render the surface as a JSON-ready audit row."""
-
         local_files = [
             {
                 "path": local_file,
@@ -429,7 +427,6 @@ ONTOLOGY_SURFACES: Final[tuple[OntologySurface, ...]] = (
 
 def repo_root(anchor: Path | None = None) -> Path:
     """Return the repository root for local-file existence checks."""
-
     path = (anchor or Path(__file__)).resolve()
     for candidate in path.parents:
         if (candidate / "conductor").exists() and (candidate / "src").exists():
@@ -439,7 +436,6 @@ def repo_root(anchor: Path | None = None) -> Path:
 
 def build_coverage_matrix(root: Path | None = None) -> list[dict[str, Any]]:
     """Build the deterministic coverage matrix."""
-
     repo_root_path = root or repo_root()
     rows = [surface.to_matrix_row(repo_root_path) for surface in ONTOLOGY_SURFACES]
     return sorted(
@@ -456,7 +452,6 @@ def build_blocker_register(
     matrix: Iterable[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     """Group the matrix into distinct blocker records."""
-
     rows = list(matrix or build_coverage_matrix())
     grouped: dict[tuple[str, str, str, str], dict[str, Any]] = {}
 
@@ -511,7 +506,6 @@ def build_prioritized_backlog(
     matrix: Iterable[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     """Convert the audit into a work backlog."""
-
     rows = [
         row
         for row in (matrix or build_coverage_matrix())
@@ -548,7 +542,6 @@ def build_prioritized_backlog(
 
 def build_audit_summary(matrix: Iterable[dict[str, Any]]) -> dict[str, Any]:
     """Summarize the matrix at a glance."""
-
     rows = list(matrix)
     status_counts = {status: 0 for status in STATUS_ORDER}
     blocker_counts = {"none": 0, "data": 0, "spec": 0, "integration": 0}
@@ -577,7 +570,6 @@ def build_audit_summary(matrix: Iterable[dict[str, Any]]) -> dict[str, Any]:
 
 def build_audit_bundle(root: Path | None = None) -> Track25OntologyCoverageAudit:
     """Build the full audit bundle as plain Python structures."""
-
     matrix = build_coverage_matrix(root=root)
     blockers = build_blocker_register(matrix)
     backlog = build_prioritized_backlog(matrix)
@@ -592,7 +584,6 @@ def build_audit_bundle(root: Path | None = None) -> Track25OntologyCoverageAudit
 
 def matrix_to_markdown(matrix: Iterable[dict[str, Any]]) -> str:
     """Render the matrix as a compact markdown table."""
-
     rows = list(matrix)
     header = "| Standard | Status | Files | Blocker | Next action |"
     separator = "| --- | --- | --- | --- | --- |"
@@ -619,7 +610,6 @@ def matrix_to_markdown(matrix: Iterable[dict[str, Any]]) -> str:
 
 def build_evidence_markdown(bundle: Track25OntologyCoverageAudit) -> str:
     """Build the human-readable evidence summary."""
-
     summary = bundle.summary
     implemented = ", ".join(summary["implemented_surfaces"]) or "none"
     partial = ", ".join(summary["partial_surfaces"]) or "none"
@@ -672,13 +662,12 @@ def build_evidence_markdown(bundle: Track25OntologyCoverageAudit) -> str:
     return "\n".join(lines)
 
 
-def _write_json(path: Path, payload: Any) -> None:
+def _write_json(path: Path, payload: object) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def write_track25_artifacts(output_dir: Path, root: Path | None = None) -> dict[str, Path]:
     """Write the standard Track 25 artifact set to disk."""
-
     bundle = build_audit_bundle(root=root)
     output_dir.mkdir(parents=True, exist_ok=True)
     outputs = {

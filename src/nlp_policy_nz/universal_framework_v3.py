@@ -25,7 +25,7 @@ from xml.etree import ElementTree as ET
 
 import msgspec
 import spacy
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 from spacy import displacy
 from spacy.language import Language
 from spacy.tokens import Doc, Span
@@ -171,8 +171,6 @@ class XMLIngestionEngine(UniversalIngestionEngine):
 
         soup = BeautifulSoup(raw_data, "html.parser")
         for node in soup.find_all(["section", "speech", "part"]):
-            if not isinstance(node, Tag):
-                continue
             node_id = _text_attr(node.get("id"), f"xml-chunk-{len(chunks)}")
             structural_type = str(node.name or "section")
             text_content = node.get_text(separator=" ").strip()
@@ -196,8 +194,6 @@ class HTMLIngestionEngine(UniversalIngestionEngine):
         soup = BeautifulSoup(raw_data, "html.parser")
         chunks: list[DocumentChunk] = []
         for node in soup.find_all(["article", "div", "p"]):
-            if not isinstance(node, Tag):
-                continue
             if "id" in node.attrs:
                 node_id = _text_attr(node.get("id"), f"html-chunk-{len(chunks)}")
                 structural_type = str(node.name or "div")
