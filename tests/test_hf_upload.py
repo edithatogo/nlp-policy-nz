@@ -6,6 +6,7 @@ repository creation, and push-to-hub functionality.
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
 import datasets
@@ -25,7 +26,6 @@ from nlp_policy_nz.integrations.hf_uploader import (
 from nlp_policy_nz.storage.serialization import (
     PipelineRecord,
 )
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -286,7 +286,7 @@ class TestDeploySpace:
         spaces_dir.mkdir()
         (spaces_dir / "requirements.txt").write_text("gradio")
 
-        with pytest.raises(FileNotFoundError, match="app.py"):
+        with pytest.raises(FileNotFoundError, match=r"app\.py"):
             deploy_space("user/space", spaces_dir=str(spaces_dir), token="tok")
 
     def test_missing_requirements_txt(self, tmp_path: Path) -> None:
@@ -295,7 +295,7 @@ class TestDeploySpace:
         spaces_dir.mkdir()
         (spaces_dir / "app.py").write_text("# app")
 
-        with pytest.raises(FileNotFoundError, match="requirements.txt"):
+        with pytest.raises(FileNotFoundError, match=r"requirements\.txt"):
             deploy_space("user/space", spaces_dir=str(spaces_dir), token="tok")
 
     @patch("nlp_policy_nz.integrations.hf_uploader.HfApi")

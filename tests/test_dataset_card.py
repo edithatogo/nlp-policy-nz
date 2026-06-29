@@ -5,12 +5,12 @@ Tests the auto-generation of YAML frontmatter and markdown dataset cards.
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 
 from nlp_policy_nz.integrations.dataset_card import (
     generate_dataset_card,
     write_dataset_card,
 )
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pathlib import Path

@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
+
 @dataclass
 class MemberVote:
     """An individual MP's vote in a division."""
@@ -27,14 +28,14 @@ class DivisionRecord:
 
 def parse_division(text: str) -> DivisionRecord | None:
     """Parse a Hansard division text segment and extract voting details.
-    
+
     Supports both party voting patterns and conscience/personal voting lists.
     """
     if not text or not text.strip():
         return None
-        
+
     lines = [line.strip() for line in text.split("\n") if line.strip()]
-    
+
     # 1. Extract motion
     # Look for "The question is..." or general motion headers
     motion = "Unknown Motion"
@@ -44,23 +45,23 @@ def parse_division(text: str) -> DivisionRecord | None:
             break
     if motion == "Unknown Motion" and lines:
         motion = lines[0]
-        
+
     ayes_count = 0
     nays_count = 0
     abstains_count = 0
     votes = []
     party_votes = {}
-    
+
     # Regular expressions for party voting
     # e.g., "National: 49 votes ayes" or "Labour: 34 ayes" or "Green Party (15 ayes)"
-    party_aye_pattern = re.compile(r'(\b[A-Za-z\s]+?)\b(?:\s*\(?\s*(\d+)\s*(?:votes?\s*)?ayes?\)?|\s*:\s*(\d+)\s*(?:votes?\s*)?ayes?)', re.IGNORECASE)
-    party_nay_pattern = re.compile(r'(\b[A-Za-z\s]+?)\b(?:\s*\(?\s*(\d+)\s*(?:votes?\s*)?nays?|\s*:\s*(\d+)\s*(?:votes?\s*)?nays?|\s*\(?\s*(\d+)\s*(?:votes?\s*)?noes?\)?|\s*:\s*(\d+)\s*(?:votes?\s*)?noes?)', re.IGNORECASE)
-    
+    party_aye_pattern = re.compile(r"(\b[A-Za-z\s]+?)\b(?:\s*\(?\s*(\d+)\s*(?:votes?\s*)?ayes?\)?|\s*:\s*(\d+)\s*(?:votes?\s*)?ayes?)", re.IGNORECASE)
+    party_nay_pattern = re.compile(r"(\b[A-Za-z\s]+?)\b(?:\s*\(?\s*(\d+)\s*(?:votes?\s*)?nays?|\s*:\s*(\d+)\s*(?:votes?\s*)?nays?|\s*\(?\s*(\d+)\s*(?:votes?\s*)?noes?\)?|\s*:\s*(\d+)\s*(?:votes?\s*)?noes?)", re.IGNORECASE)
+
     # Regular expressions for conscience voting lists
     # e.g., "Ayes: Luxon, Willis, Bishop"
-    ayes_list_match = re.search(r'(?:Ayes\s*:\s*|Ayes\s*—\s*)(.*)', text, re.IGNORECASE)
-    noes_list_match = re.search(r'(?:Noes\s*:\s*|Noes\s*—\s*|Nays\s*:\s*)(.*)', text, re.IGNORECASE)
-    
+    ayes_list_match = re.search(r"(?:Ayes\s*:\s*|Ayes\s*—\s*)(.*)", text, re.IGNORECASE)
+    noes_list_match = re.search(r"(?:Noes\s*:\s*|Noes\s*—\s*|Nays\s*:\s*)(.*)", text, re.IGNORECASE)
+
     if ayes_list_match or noes_list_match:
         # 2. Process conscience votes
         if ayes_list_match:
@@ -74,7 +75,7 @@ def parse_division(text: str) -> DivisionRecord | None:
                 party = resolve_member_party(name)
                 votes.append(MemberVote(member_name=name, vote="aye", party=party))
                 ayes_count += 1
-                
+
         if noes_list_match:
             names = [n.strip() for n in noes_list_match.group(1).split(";") if n.strip()]
             if len(names) <= 1:
@@ -87,8 +88,8 @@ def parse_division(text: str) -> DivisionRecord | None:
         # 3. Process party votes line by line
         for line in lines:
             # Check for total counts line, e.g., "Ayes 68, Noes 52"
-            tally_match = re.search(r'(?:Ayes\s*(\d+)|Noes\s*(\d+)|Nays\s*(\d+))', line, re.IGNORECASE)
-            
+            re.search(r"(?:Ayes\s*(\d+)|Noes\s*(\d+)|Nays\s*(\d+))", line, re.IGNORECASE)
+
             aye_matches = party_aye_pattern.findall(line)
             for match in aye_matches:
                 party = match[0].strip()
@@ -100,7 +101,7 @@ def parse_division(text: str) -> DivisionRecord | None:
                     party_votes[party] = {"aye": 0, "nay": 0}
                 party_votes[party]["aye"] += cnt
                 ayes_count += cnt
-                
+
             nay_matches = party_nay_pattern.findall(line)
             for match in nay_matches:
                 party = match[0].strip()
@@ -114,7 +115,7 @@ def parse_division(text: str) -> DivisionRecord | None:
 
     # Overall outcome computation
     outcome = "passed" if ayes_count > nays_count else "defeated"
-    
+
     return DivisionRecord(
         motion=motion,
         ayes_count=ayes_count,
@@ -139,7 +140,7 @@ MP_PARTY_KB: dict[str, str] = {
 def resolve_member_party(member_name: str) -> str | None:
     """Resolve a member's party affiliation from their name using the KB."""
     # Clean name (e.g. "Luxon, Christopher" -> "luxon")
-    clean = re.sub(r'[^a-zA-Z\s]', '', member_name).lower()
+    clean = re.sub(r"[^a-zA-Z\s]", "", member_name).lower()
     for key, party in MP_PARTY_KB.items():
         if key in clean:
             return party

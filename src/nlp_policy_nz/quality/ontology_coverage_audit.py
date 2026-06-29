@@ -8,10 +8,11 @@ still scaffolded or blocked on source data.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import json
+from collections.abc import Iterable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Final, Iterable, Literal
+from typing import Any, Final, Literal
 
 CoverageStatus = Literal["implemented", "partial", "scaffolded", "missing"]
 BlockerType = Literal["none", "data", "spec", "integration"]
@@ -543,7 +544,7 @@ def build_prioritized_backlog(
 def build_audit_summary(matrix: Iterable[dict[str, Any]]) -> dict[str, Any]:
     """Summarize the matrix at a glance."""
     rows = list(matrix)
-    status_counts = {status: 0 for status in STATUS_ORDER}
+    status_counts = dict.fromkeys(STATUS_ORDER, 0)
     blocker_counts = {"none": 0, "data": 0, "spec": 0, "integration": 0}
     for row in rows:
         status_counts[row["coverage_status"]] += 1
@@ -689,11 +690,11 @@ def write_track25_artifacts(output_dir: Path, root: Path | None = None) -> dict[
 
 
 __all__ = [
+    "ONTOLOGY_SURFACES",
+    "OUTPUT_FILENAMES",
     "BlockerType",
     "CoverageStatus",
-    "ONTOLOGY_SURFACES",
     "OntologySurface",
-    "OUTPUT_FILENAMES",
     "Track25OntologyCoverageAudit",
     "build_audit_bundle",
     "build_audit_summary",

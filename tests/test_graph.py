@@ -7,11 +7,11 @@ JSON serialisation round-trip.
 from __future__ import annotations
 
 import json
+from typing import TYPE_CHECKING
 
 import networkx as nx
 
 from nlp_policy_nz.cli.graph import NODE_TYPES, PolicyGraph
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pathlib import Path

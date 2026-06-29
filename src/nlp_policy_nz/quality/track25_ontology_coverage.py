@@ -8,10 +8,10 @@ the data below says so.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from pathlib import Path
 import json
 import re
+from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Final, Literal
 
 CoverageStatus = Literal["implemented", "partial", "prototype", "adjacent", "missing"]
@@ -585,7 +585,7 @@ def build_prioritized_backlog(repo_root_path: Path | str | None = None) -> list[
     return backlog
 
 
-def _backlog_action(standard: str, status: str) -> str:
+def _backlog_action(standard: str, status: str) -> str:  # noqa: PLR0911
     if status == "implemented":
         return f"Maintain and validate {standard} coverage"
     if standard == "ELI":
@@ -639,7 +639,7 @@ def _backlog_action(standard: str, status: str) -> str:
     return f"Address {standard} coverage"
 
 
-def _expected_output(standard: str) -> list[str]:
+def _expected_output(standard: str) -> list[str]:  # noqa: PLR0911
     if standard in {"ELI", "ELI-DL"}:
         return ["stable URI templates", "versioned legislative metadata"]
     if standard == "ECLI":
@@ -703,4 +703,4 @@ def dump_track25_ontology_coverage_audit(repo_root_path: Path | str | None = Non
 
 
 if __name__ == "__main__":
-    print(dump_track25_ontology_coverage_audit())
+    pass

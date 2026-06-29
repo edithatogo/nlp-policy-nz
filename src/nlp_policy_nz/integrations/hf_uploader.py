@@ -19,7 +19,7 @@ from huggingface_hub.errors import HfHubHTTPError
 # Constants
 # ---------------------------------------------------------------------------
 
-HF_TOKEN_ENV_VAR: str = "HF_TOKEN"
+HF_TOKEN_ENV_VAR: str = "HF_TOKEN"  # noqa: S105
 """Environment variable holding the Hugging Face access token."""
 
 

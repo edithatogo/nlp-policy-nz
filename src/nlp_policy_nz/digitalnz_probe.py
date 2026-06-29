@@ -356,7 +356,7 @@ class NormalisedRecord(msgspec.Struct):
 # ---------------------------------------------------------------------------
 
 
-def classify_rights(record: DigitalNZRecord) -> str:
+def classify_rights(record: DigitalNZRecord) -> str:  # noqa: PLR0911
     """Classify the rights status of a DigitalNZ record.
 
     Examines the ``rights``, ``copyright``, and ``usage`` fields of a
@@ -957,8 +957,8 @@ def main(argv: list[str] | None = None) -> int:
         else:
             print(output_json)  # noqa: T201
 
-    except Exception as exc:  # noqa: BLE001
-        logger.exception("DigitalNZ probe failed: %s", exc)
+    except Exception:  # noqa: BLE001
+        logger.exception("DigitalNZ probe failed")
         return 1
 
     return 0

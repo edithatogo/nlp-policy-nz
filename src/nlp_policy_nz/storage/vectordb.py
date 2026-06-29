@@ -8,7 +8,7 @@ search over NZ legislative and Hansard corpora.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Final, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Final
 
 import lancedb
 

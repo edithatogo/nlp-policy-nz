@@ -14,11 +14,11 @@
 | # | Task | Status | Commit |
 |---|------|--------|--------|
 | 1.1 | Add ANN (annotation), D (docstring), TCH (typing imports), YTT (sys.version checks), RET (return) to ruff lint `select` in pyproject.toml | [x] |  |
-| 1.2 | Run `ruff check --fix` across entire codebase; fix auto-fixable issues | [ ] | |
-| 1.3 | Manually fix remaining ANN/D/TCH/YTT/RET violations (missing return types, missing docstrings, etc.) | [ ] | |
+| 1.2 | Run `ruff check --fix` across entire codebase; fix auto-fixable issues | [x] | 6d12509 |
+| 1.3 | Manually fix remaining ANN/D/TCH/YTT/RET violations (missing return types, missing docstrings, etc.) | [x] | 6d12509 |
 | 1.4 | Add `[tool.ruff.lint.per-file-ignores]` for tests (relax ANN in test files) | [x] |  |
 | 1.5 | Add `ruff format` check to CI pipeline (currently only `ruff check`) | [x] |  |
-| 1.6 | Verify `ruff check .` passes with zero violations | [ ] | |
+| 1.6 | Verify `ruff check .` passes with zero violations | [x] | 6d12509 |
 
 ## Phase 2: Strict Typing with `ty` Module Convention
 

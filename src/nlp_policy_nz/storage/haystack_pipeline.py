@@ -7,7 +7,7 @@ deployment, this would be replaced by Haystack's native
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from nlp_policy_nz.storage.vectordb import LanceDBAdapter
 

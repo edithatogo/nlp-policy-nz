@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import networkx as nx
 
@@ -21,7 +22,6 @@ from nlp_policy_nz.storage.serialization import (
     PipelineRecord,
     records_to_dataframe,
 )
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     import pytest

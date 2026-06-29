@@ -3,18 +3,19 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from rdflib import Graph, Literal
 from rdflib.namespace import FOAF, RDF, XSD
 
 from nlp_policy_nz.linked_data.foaf import _slug, _uri
 from nlp_policy_nz.linked_data.rdf import SIOC, bind_common_namespaces, write_graph
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from nlp_policy_nz.storage import PipelineRecord
-    from pathlib import Path
     from collections.abc import Mapping
+    from pathlib import Path
+
+    from nlp_policy_nz.storage import PipelineRecord
 
 
 @dataclass(frozen=True)

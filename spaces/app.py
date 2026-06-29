@@ -40,6 +40,7 @@ def load_parquet(file_path: str | None) -> pd.DataFrame | None:
     -------
     pd.DataFrame | None
         The loaded DataFrame, or ``None`` if no file is provided.
+
     """
     if file_path is None:
         return None
@@ -74,6 +75,7 @@ def search_chunks(
     -------
     pd.DataFrame
         Matching rows with relevance scoring.
+
     """
     if df is None or not query.strip():
         return pd.DataFrame()
@@ -109,6 +111,7 @@ def build_citation_network(df: pd.DataFrame | None) -> go.Figure | str:
     -------
     go.Figure | str
         A Plotly figure, or an error message string.
+
     """
     if df is None:
         return "Upload a Parquet file to visualise citations."
@@ -143,7 +146,7 @@ def build_citation_network(df: pd.DataFrame | None) -> go.Figure | str:
         title="Top 20 NZ Act Citations",
         xaxis_title="Frequency",
         yaxis_title="Citation",
-        yaxis=dict(autorange="reversed"),
+        yaxis={"autorange": "reversed"},
         height=500,
     )
     return fig
@@ -166,6 +169,7 @@ def build_tereo_chart(df: pd.DataFrame | None) -> go.Figure | str:
     -------
     go.Figure | str
         A Plotly figure, or an error message string.
+
     """
     if df is None:
         return "Upload a Parquet file to visualise Te Reo terms."
@@ -216,6 +220,7 @@ def compute_stats(df: pd.DataFrame | None) -> dict[str, str | int]:
     -------
     dict[str, str | int]
         A dictionary of statistic name to value.
+
     """
     if df is None:
         return {"Status": "No dataset loaded"}
@@ -262,6 +267,7 @@ def build_app() -> object:
     -------
     object
         The configured Gradio application.
+
     """
     if gr is None:
         raise RuntimeError("gradio is required to build the interactive Space")

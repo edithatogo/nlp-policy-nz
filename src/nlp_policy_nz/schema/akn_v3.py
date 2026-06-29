@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass, replace
 from html import escape
-from typing import Final, Protocol, TYPE_CHECKING
+from typing import TYPE_CHECKING, Final, Protocol
 from xml.etree import ElementTree as ET
 
 if TYPE_CHECKING:
-    from pathlib import Path
     from collections.abc import Iterable
+    from pathlib import Path
 
 AKN_NS: Final[str] = "http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
 OASIS_AKN_V3_XSD_URL: Final[str] = (

@@ -155,7 +155,7 @@ def generate_dataset_card(
 
     """
     if year is None:
-        year = datetime.date.today().year
+        year = datetime.datetime.now(datetime.UTC).year
 
     total_chunks_str = f"{total_chunks:,}" if total_chunks is not None else "N/A"
 

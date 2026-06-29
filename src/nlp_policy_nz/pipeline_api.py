@@ -12,8 +12,7 @@ import logging
 import re
 from dataclasses import asdict
 from pathlib import Path
-from typing import Any, TYPE_CHECKING
-
+from typing import TYPE_CHECKING, Any
 
 from nlp_policy_nz.discourse import ArgumentDetector, StanceClassifier
 from nlp_policy_nz.guard import LanguageIdentifier, normalize_text

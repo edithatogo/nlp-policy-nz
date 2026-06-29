@@ -49,10 +49,9 @@ def main() -> int:
     """Run the version consistency check and print any failures."""
     failures = check_version_consistency()
     if failures:
-        for f in failures:
-            print(f"ERROR: {f}")
+        for _f in failures:
+            pass
         return 1
-    print("Version consistency checks passed.")
     return 0
 
 

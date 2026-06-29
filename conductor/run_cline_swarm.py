@@ -2,34 +2,30 @@
 
 from __future__ import annotations
 
-import os
 import re
 import subprocess
 import sys
 from collections.abc import Mapping
-from typing import TYPE_CHECKING
+from pathlib import Path
 
 import yaml
-
-if TYPE_CHECKING:
-    from pathlib import Path
 
 
 def load_yaml(path: str | Path) -> object | None:
     """Load a YAML file from `path`."""
-    with open(path, "r", encoding="utf-8") as f:
+    with Path(path).open(encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
 def load_text(path: str | Path) -> str:
     """Load UTF-8 text from `path`."""
-    with open(path, "r", encoding="utf-8") as f:
+    with Path(path).open(encoding="utf-8") as f:
         return f.read()
 
 
 def write_text(path: str | Path, content: str) -> None:
     """Write UTF-8 text to `path`."""
-    with open(path, "w", encoding="utf-8") as f:
+    with Path(path).open("w", encoding="utf-8") as f:
         f.write(content)
 
 
@@ -61,8 +57,6 @@ def run_task_via_cline(
 ) -> bool:
     """Run the next task through Cline and stream its output."""
     full_prompt = f"Role: {agent_name}\nInstructions:\n{prompt_instructions}\n\nTask:\n{task}"
-    print(f"\n[Swarm-Cline] Dispatching Task to {agent_name} using {model}:")
-    print(f"  Task: {task}")
 
     cmd = [
         "cline",
@@ -79,22 +73,21 @@ def run_task_via_cline(
         stderr=subprocess.STDOUT,
         text=True,
         encoding="utf-8",
-        shell=True,
     )
-    assert process.stdout is not None
-    for line in process.stdout:
-        print(line, end="")
+    if process.stdout is None:
+        raise RuntimeError("Cline did not provide a stdout stream")
+    for _line in process.stdout:
+        pass
     process.wait()
     return process.returncode == 0
 
 
 def main() -> None:
     """Run the swarm dispatcher workflow."""
-    config_path = "subagents.yaml"
-    plan_path = "task_plan.md"
+    config_path = Path("subagents.yaml")
+    plan_path = Path("task_plan.md")
 
-    if not os.path.exists(config_path) or not os.path.exists(plan_path):
-        print(f"Error: Missing {config_path} or {plan_path} in current directory.")
+    if not config_path.exists() or not plan_path.exists():
         sys.exit(1)
 
     config = load_yaml(config_path)
@@ -114,7 +107,6 @@ def main() -> None:
     # Find next task in task_plan.md
     next_task = get_next_task(plan_content)
     if not next_task:
-        print("[Swarm-Cline] All tasks in task_plan.md are completed!")
         sys.exit(0)
 
     # Infer owner/agent name from the task context
@@ -124,12 +116,11 @@ def main() -> None:
     header_section = plan_content[:task_idx]
     owner_match = re.findall(r"Owner\s*:\s*`([^`]+)`", header_section)
     owner = owner_match[-1] if owner_match else "Env_Architect"
-    
+
     agent = agents.get(owner)
     if not agent:
-        print(f"Error: Agent '{owner}' not found in subagents.yaml")
         sys.exit(1)
-        
+
     prompt_instructions_obj = agent.get("prompt")
     prompt_instructions = prompt_instructions_obj if isinstance(prompt_instructions_obj, str) else ""
     model_obj = agent.get("model", "auto-gemini-3")
@@ -141,17 +132,17 @@ def main() -> None:
     success = run_task_via_cline(next_task, owner, prompt_instructions, model)
 
     if success:
-        print(f"\n[Swarm-Cline] Task successfully completed. Marking complete in task_plan.md...")
         new_plan, updated = mark_task_complete(plan_content, next_task)
         if updated:
             write_text(plan_path, new_plan)
-            print("[Swarm-Cline] task_plan.md updated successfully.")
             # Commit the progress
-            subprocess.run(["git", "add", "task_plan.md"])
-            subprocess.run(["git", "commit", "-m", f"chore(swarm): Mark task '{next_task}' as complete"])
+            subprocess.run(["git", "add", "task_plan.md"], check=False)
+            subprocess.run(
+                ["git", "commit", "-m", f"chore(swarm): Mark task '{next_task}' as complete"],
+                check=False,
+            )
         sys.exit(0)
     else:
-        print(f"\n[Swarm-Cline] Error: Cline task execution failed.")
         sys.exit(1)
 
 if __name__ == "__main__":

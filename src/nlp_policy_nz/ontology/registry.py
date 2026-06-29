@@ -8,8 +8,8 @@ checked-in publication under ``data/ontologies/``.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import json
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Final, Literal
 
@@ -341,7 +341,7 @@ def build_track26_standards_registry() -> list[dict[str, Any]]:
 
 
 def _count_by(values: list[dict[str, Any]], field: str, choices: tuple[str, ...]) -> dict[str, int]:
-    counts = {choice: 0 for choice in choices}
+    counts = dict.fromkeys(choices, 0)
     for row in values:
         key = str(row[field])
         counts[key] = counts.get(key, 0) + 1
@@ -398,15 +398,15 @@ def write_track26_standards_manifest(output_path: Path | None = None) -> Path:
 
 __all__ = [
     "BLOCKER_TYPES",
-    "BlockerType",
     "IMPLEMENTATION_STATUSES",
-    "ImplementationStatus",
-    "StandardsRegistryEntry",
     "TRACK26_MANIFEST_FILENAME",
     "TRACK26_MANIFEST_PATH",
     "TRACK26_STANDARDS_REGISTRY",
     "UPSTREAM_LICENSE_UNVERIFIED",
     "W3C_DOCUMENT_LICENSE",
+    "BlockerType",
+    "ImplementationStatus",
+    "StandardsRegistryEntry",
     "build_track26_standards_manifest",
     "build_track26_standards_registry",
     "repo_root",

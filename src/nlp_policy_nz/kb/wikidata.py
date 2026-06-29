@@ -3,14 +3,15 @@
 from __future__ import annotations
 
 from dataclasses import replace
-from typing import Protocol, TYPE_CHECKING
+from typing import TYPE_CHECKING, Protocol
 
 from nlp_policy_nz.kb.sparql_cache import JsonSparqlCache
 from nlp_policy_nz.kb.wikidata_kg import WikidataSparqlClient
 
 if TYPE_CHECKING:
-    from nlp_policy_nz.kb.nz_entities import EntityRecord
     from pathlib import Path
+
+    from nlp_policy_nz.kb.nz_entities import EntityRecord
 
 
 class WikidataPropertyClient(Protocol):
