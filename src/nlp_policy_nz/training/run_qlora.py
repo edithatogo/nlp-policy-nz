@@ -13,7 +13,9 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     """Parse QLoRA job arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-name", required=True)
-    parser.add_argument("--task", required=True, choices=["citation", "deontic", "entity", "qa", "maori"])
+    parser.add_argument(
+        "--task", required=True, choices=["citation", "deontic", "entity", "qa", "maori"]
+    )
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--hub-model-id", required=True)
     parser.add_argument(

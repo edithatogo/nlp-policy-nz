@@ -1,5 +1,7 @@
 """Argument mining and stance detection helpers."""
 
+from __future__ import annotations
+
 from nlp_policy_nz.discourse.argument import (
     ArgumentComponent,
     ArgumentDetector,

@@ -1,0 +1,9 @@
+{
+  "track_id": "track54_axiom_foundation_interop_20260629",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-06-29T00:00:00+10:00",
+  "updated_at": "2026-06-29T23:59:00+10:00",
+  "description": "Add selective Axiom Foundation interoperability for source-section metadata, source hash staleness checks, RuleSpec identity bridging, bill/Hansard linkage scaffolding, and integration documentation.",
+  "oracle_notes": "Repo-side offline helpers, documentation, fixture tests, focused Ruff validation, and rulespec-nz layout compatibility checks are implemented. Live Axiom runtime execution, repository vendoring, and rulespec-nz content generation remain out of scope."
+}

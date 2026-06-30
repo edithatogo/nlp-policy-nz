@@ -1,5 +1,7 @@
 """Knowledge-base integration helpers."""
 
+from __future__ import annotations
+
 from nlp_policy_nz.kb.nz_entities import (
     EntityContext,
     EntityRecord,

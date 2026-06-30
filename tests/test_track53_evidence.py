@@ -119,9 +119,10 @@ def test_track53_committed_artifacts_match_rendered_outputs() -> None:
     assert base.joinpath("evaluation_context.json").read_text(encoding="utf-8") == (
         render_track53_evaluation_context_json()
     )
-    assert base.joinpath("model_comparison_manifest.json").read_text(
-        encoding="utf-8"
-    ) == render_track53_model_comparison_manifest_json()
+    assert (
+        base.joinpath("model_comparison_manifest.json").read_text(encoding="utf-8")
+        == render_track53_model_comparison_manifest_json()
+    )
     assert base.joinpath("recommendation.md").read_text(encoding="utf-8") == (
         render_track53_recommendation_markdown()
     )

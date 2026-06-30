@@ -24,4 +24,7 @@ def test_version_is_well_formed() -> None:
 
 def _pyproject_version() -> str:
     import tomllib
-    return str(tomllib.loads((ROOT / "pyproject.toml").read_text("utf-8-sig"))["project"]["version"])
+
+    return str(
+        tomllib.loads((ROOT / "pyproject.toml").read_text("utf-8-sig"))["project"]["version"]
+    )

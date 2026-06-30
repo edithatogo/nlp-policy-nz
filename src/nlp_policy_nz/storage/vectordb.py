@@ -40,9 +40,11 @@ class LanceDBAdapter(VectorBackend):
     Examples
     --------
     >>> idx = LanceDBAdapter()
-    >>> idx.create_index([
-    ...     {"vector": [0.1, 0.2], "doc_id": "doc1", "text": "example"},
-    ... ])
+    >>> idx.create_index(
+    ...     [
+    ...         {"vector": [0.1, 0.2], "doc_id": "doc1", "text": "example"},
+    ...     ]
+    ... )
     >>> results = idx.search([0.1, 0.2], top_k=5)
 
     """

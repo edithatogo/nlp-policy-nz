@@ -142,8 +142,7 @@ STANDARD_REGISTRY: Final[tuple[OntologyStandard, ...]] = (
         local_representation="LegislativeResource -> draft URI template",
         coverage_status="implemented",
         uri_template=(
-            "{base}/eli-dl/{jurisdiction}/{authority}/{year}/"
-            "{document_kind}/{draft_stage}/{number}"
+            "{base}/eli-dl/{jurisdiction}/{authority}/{year}/{document_kind}/{draft_stage}/{number}"
         ),
         aliases=("ELI DL", "ELI Draft Legislation"),
         notes="Draft-stage metadata is represented as a first-class path segment.",
@@ -412,7 +411,10 @@ def ontology_standard_ids() -> tuple[str, ...]:
 
 def ontology_standard_mappings() -> dict[str, str]:
     """Return stable ontology identifiers mapped to local namespaces."""
-    return {standard_id: _STANDARD_INDEX[standard_id].namespace for standard_id in ontology_standard_ids()}
+    return {
+        standard_id: _STANDARD_INDEX[standard_id].namespace
+        for standard_id in ontology_standard_ids()
+    }
 
 
 def get_ontology_standard(standard_id: str) -> OntologyStandard:
@@ -442,9 +444,7 @@ def _blocker_counts() -> dict[str, int]:
 
 def _round_trip_standard_ids() -> tuple[str, ...]:
     return tuple(
-        standard.standard_id
-        for standard in STANDARD_REGISTRY
-        if standard.round_trip_supported
+        standard.standard_id for standard in STANDARD_REGISTRY if standard.round_trip_supported
     )
 
 
@@ -639,10 +639,14 @@ def parse_ecli_identifier(identifier: str) -> ECLIIdentifier:
     )
 
 
-def build_controlled_concept(concept: ControlledConcept, *, scheme_uri: str | None = None) -> dict[str, Any]:
+def build_controlled_concept(
+    concept: ControlledConcept, *, scheme_uri: str | None = None
+) -> dict[str, Any]:
     """Build a SKOS-compatible JSON-LD concept record."""
     scheme = scheme_uri or (
-        EUROVOC_URI_BASE if concept.scheme_id.casefold() == "eurovoc" else _scheme_anchor(concept.scheme_id)
+        EUROVOC_URI_BASE
+        if concept.scheme_id.casefold() == "eurovoc"
+        else _scheme_anchor(concept.scheme_id)
     )
     concept_uri = _join_uri(scheme, _slug(concept.concept_id))
     payload: dict[str, Any] = {
@@ -660,9 +664,7 @@ def build_controlled_concept(concept: ControlledConcept, *, scheme_uri: str | No
     if concept.notation:
         payload["skos:notation"] = concept.notation
     if concept.broader:
-        payload["skos:broader"] = [
-            _join_uri(scheme, _slug(broader)) for broader in concept.broader
-        ]
+        payload["skos:broader"] = [_join_uri(scheme, _slug(broader)) for broader in concept.broader]
     return payload
 
 
@@ -679,9 +681,7 @@ def parse_controlled_concept(data: dict[str, Any]) -> ControlledConcept:
     if isinstance(broader, str):
         broader_values = (broader.rsplit("/", 1)[-1],)
     else:
-        broader_values = tuple(
-            str(item).rstrip("/").rsplit("/", 1)[-1] for item in broader
-        )
+        broader_values = tuple(str(item).rstrip("/").rsplit("/", 1)[-1] for item in broader)
     scheme_id = _scheme_identifier(scheme)
     return ControlledConcept(
         scheme_id=scheme_id,
@@ -714,7 +714,9 @@ def build_schema_legislation(profile: LegislationProfile) -> dict[str, Any]:
         "@context": {
             "schema": "https://schema.org/",
         },
-        "@id": _join_uri(STANDARD_NAMESPACE_BASE, "schema-org-legislation", _slug(profile.identifier)),
+        "@id": _join_uri(
+            STANDARD_NAMESPACE_BASE, "schema-org-legislation", _slug(profile.identifier)
+        ),
         "@type": "schema:Legislation",
         "schema:identifier": profile.identifier,
         "schema:name": profile.name,

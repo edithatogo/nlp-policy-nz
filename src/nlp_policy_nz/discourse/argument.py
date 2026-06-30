@@ -157,7 +157,9 @@ class ArgumentGraph:
             if argument.component_type == "conclusion":
                 continue
             target = min(conclusions, key=lambda item: abs(item.start - argument.start))
-            relation: RelationType = "attack" if _contains_any(argument.text, ATTACK_CUES) else "support"
+            relation: RelationType = (
+                "attack" if _contains_any(argument.text, ATTACK_CUES) else "support"
+            )
             self.add_relation(
                 ArgumentRelation(
                     source_id=argument.component_id,
@@ -224,14 +226,20 @@ def evaluate_argument_components(
     false_negative = 0
     for case in labelled_segments:
         expected = set(case["expected"])
-        observed = {argument.component_type for argument in active_detector.detect(str(case["text"]))}
+        observed = {
+            argument.component_type for argument in active_detector.detect(str(case["text"]))
+        }
         if not observed:
             observed = {"none"}
         true_positive += len(expected & observed)
         false_positive += len(observed - expected)
         false_negative += len(expected - observed)
-    precision = true_positive / (true_positive + false_positive) if true_positive + false_positive else 0.0
-    recall = true_positive / (true_positive + false_negative) if true_positive + false_negative else 0.0
+    precision = (
+        true_positive / (true_positive + false_positive) if true_positive + false_positive else 0.0
+    )
+    recall = (
+        true_positive / (true_positive + false_negative) if true_positive + false_negative else 0.0
+    )
     f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
     return {"precision": precision, "recall": recall, "f1": f1}
 
@@ -291,11 +299,7 @@ def _contains_any(text: str, cues: tuple[str, ...]) -> bool:
 def _tokens(text: str) -> set[str]:
     """Return normalized content tokens."""
     stopwords = {"the", "a", "an", "and", "or", "to", "of", "in", "for", "is", "are"}
-    return {
-        token
-        for token in re.findall(r"[a-z0-9]+", text.casefold())
-        if token not in stopwords
-    }
+    return {token for token in re.findall(r"[a-z0-9]+", text.casefold()) if token not in stopwords}
 
 
 def _jaccard(left: str, right: str) -> float:

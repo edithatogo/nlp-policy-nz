@@ -1,5 +1,7 @@
 """Parliamentary analysis and voting record tracking modules."""
 
+from __future__ import annotations
+
 from nlp_policy_nz.parliament.amendments import (
     Amendment,
     AmendmentLifecycleGraph,

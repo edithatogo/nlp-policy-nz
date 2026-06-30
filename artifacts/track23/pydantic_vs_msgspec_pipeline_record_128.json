@@ -1,0 +1,35 @@
+{
+  "track": "quality_tooling_testing_infrastructure_20260613",
+  "experiment": "pydantic_vs_msgspec_pipeline_record",
+  "records": 128,
+  "payload_bytes": 175366,
+  "iterations": 10,
+  "results": [
+    {
+      "name": "msgspec",
+      "status": "measured",
+      "iterations": 10,
+      "decode_avg_ms": 11.94044,
+      "decode_p95_ms": 102.584,
+      "encode_avg_ms": 0.55591,
+      "encode_p95_ms": 1.3895,
+      "roundtrip_avg_ms": 12.49635,
+      "roundtrip_p95_ms": 103.142,
+      "output_bytes": 175366,
+      "output_md5": "e1ad3a6a59af148b55fff578aef4c012"
+    },
+    {
+      "name": "pydantic_v2",
+      "status": "measured",
+      "iterations": 10,
+      "decode_avg_ms": 2.91022,
+      "decode_p95_ms": 4.0706,
+      "encode_avg_ms": 1.00193,
+      "encode_p95_ms": 1.5563,
+      "roundtrip_avg_ms": 3.91215,
+      "roundtrip_p95_ms": 5.2658,
+      "output_bytes": 175366,
+      "output_md5": "e1ad3a6a59af148b55fff578aef4c012"
+    }
+  ]
+}

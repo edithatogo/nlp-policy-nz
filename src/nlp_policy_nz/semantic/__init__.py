@@ -5,6 +5,8 @@ Implements semantic analysis including entity recognition, relation extraction,
 and embedding-based semantic search for legislative and parliamentary content.
 """
 
+from __future__ import annotations
+
 from nlp_policy_nz.semantic.embeddings import (
     EmbeddingGenerator,
     EmbeddingResult,

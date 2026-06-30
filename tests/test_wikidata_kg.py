@@ -130,35 +130,41 @@ def test_sparql_client_maps_search_and_property_bindings() -> None:
         headers: dict[str, str],
         timeout: int,
     ) -> FakeHttpResponse:
-        calls.append({
-            "endpoint": endpoint,
-            "query": params["query"],
-            "headers": headers,
-            "timeout": timeout,
-        })
+        calls.append(
+            {
+                "endpoint": endpoint,
+                "query": params["query"],
+                "headers": headers,
+                "timeout": timeout,
+            }
+        )
         if "itemDescription" in params["query"]:
-            return FakeHttpResponse({
+            return FakeHttpResponse(
+                {
+                    "results": {
+                        "bindings": [
+                            {
+                                "item": {"value": "https://www.wikidata.org/entity/Q123"},
+                                "itemLabel": {"value": "Example Act"},
+                                "itemDescription": {"value": "test statute"},
+                            }
+                        ]
+                    }
+                }
+            )
+        return FakeHttpResponse(
+            {
                 "results": {
                     "bindings": [
                         {
-                            "item": {"value": "https://www.wikidata.org/entity/Q123"},
-                            "itemLabel": {"value": "Example Act"},
-                            "itemDescription": {"value": "test statute"},
+                            "inception": {"value": "1893-09-19T00:00:00Z"},
+                            "partyLabel": {"value": "Example Party"},
+                            "start": {"value": "2020-10-17T00:00:00Z"},
                         }
                     ]
                 }
-            })
-        return FakeHttpResponse({
-            "results": {
-                "bindings": [
-                    {
-                        "inception": {"value": "1893-09-19T00:00:00Z"},
-                        "partyLabel": {"value": "Example Party"},
-                        "start": {"value": "2020-10-17T00:00:00Z"},
-                    }
-                ]
             }
-        })
+        )
 
     with patch("nlp_policy_nz.kb.wikidata_kg.requests.get", side_effect=fake_get):
         client = WikidataSparqlClient(
@@ -283,15 +289,17 @@ def test_cli_knowledge_graph_exports_jsonld() -> None:
         encoding="utf-8",
     )
 
-    rc = main([
-        "knowledge-graph",
-        "--entities",
-        str(entities_path),
-        "--output",
-        str(output),
-        "--base-uri",
-        "https://example.org/kg/",
-    ])
+    rc = main(
+        [
+            "knowledge-graph",
+            "--entities",
+            str(entities_path),
+            "--output",
+            str(output),
+            "--base-uri",
+            "https://example.org/kg/",
+        ]
+    )
 
     assert rc == 0
     parsed = Graph()

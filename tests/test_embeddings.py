@@ -8,13 +8,16 @@ models (too heavyweight for CI).
 from __future__ import annotations
 
 import inspect
+from types import SimpleNamespace
 from typing import get_type_hints
 
 import pytest
+import torch
 
 from nlp_policy_nz.semantic.embeddings import (
     EmbeddingGenerator,
     EmbeddingResult,
+    _mean_pooling,
     generate_embedding,
     generate_embeddings_batch,
 )
@@ -255,3 +258,106 @@ class TestEmbeddingGenerator:
         """``unload`` should be a callable method."""
         gen = EmbeddingGenerator()
         assert callable(gen.unload)
+
+
+# ---------------------------------------------------------------------------
+# behavioural coverage
+# ---------------------------------------------------------------------------
+
+
+class _FakeTokenizer:
+    def __call__(self, texts, **_kwargs):
+        batch_size = 1 if isinstance(texts, str) else len(texts)
+        return {"attention_mask": torch.tensor([[1, 1, 0]] * batch_size)}
+
+
+class _FakeModel:
+    def __call__(self, **inputs):
+        batch_size, seq_len = inputs["attention_mask"].shape
+        token_embeddings = torch.tensor(
+            [[[1.0, 2.0], [3.0, 4.0], [100.0, 100.0]]] * batch_size,
+            dtype=torch.float32,
+        )
+        assert token_embeddings.shape[1] == seq_len
+        return SimpleNamespace(last_hidden_state=token_embeddings)
+
+
+class TestEmbeddingBehaviour:
+    def test_mean_pooling_ignores_padding(self) -> None:
+        token_embeddings = torch.tensor([[[1.0, 2.0], [3.0, 4.0], [100.0, 100.0]]])
+        attention_mask = torch.tensor([[1, 1, 0]])
+
+        pooled = _mean_pooling(token_embeddings, attention_mask)
+
+        assert pooled.tolist() == [[2.0, 3.0]]
+
+    def test_generate_embedding_uses_model_and_tokenizer(self) -> None:
+        embedding = generate_embedding("hello", _FakeModel(), _FakeTokenizer())
+        assert embedding == [2.0, 3.0]
+
+    def test_generate_embeddings_batch_chunks_inputs(self) -> None:
+        embeddings = generate_embeddings_batch(
+            ["a", "b", "c"],
+            _FakeModel(),
+            _FakeTokenizer(),
+            batch_size=2,
+        )
+
+        assert embeddings == [[2.0, 3.0], [2.0, 3.0], [2.0, 3.0]]
+
+    def test_generator_load_embed_and_unload(self, monkeypatch) -> None:
+        calls: dict[str, object] = {}
+
+        class FakeModel:
+            def __init__(self) -> None:
+                self.config = SimpleNamespace(_name_or_path="loaded/model")
+
+            def eval(self) -> None:
+                calls["eval"] = True
+
+            def to(self, device: str) -> None:
+                calls["to"] = device
+
+        class FakeTokenizer:
+            pass
+
+        monkeypatch.setattr(
+            "nlp_policy_nz.semantic.embeddings.load_model",
+            lambda model_name=None: (FakeModel(), FakeTokenizer()),
+        )
+        monkeypatch.setattr(
+            "nlp_policy_nz.semantic.embeddings.unload_model",
+            lambda model: calls.setdefault("unloaded", model),
+        )
+        monkeypatch.setattr(
+            "nlp_policy_nz.semantic.embeddings.generate_embedding",
+            lambda text, model, tokenizer: [float(len(text))],
+        )
+        monkeypatch.setattr(
+            "nlp_policy_nz.semantic.embeddings.generate_embeddings_batch",
+            lambda texts, model, tokenizer: [[float(len(text))] for text in texts],
+        )
+
+        gen = EmbeddingGenerator(model_name="custom/model", device="cpu")
+        gen.load()
+        assert gen.model_name == "custom/model"
+        assert calls["eval"] is True
+
+        result = gen.embed("abc")
+        assert result == EmbeddingResult(
+            doc_id="",
+            text="abc",
+            embedding=[3.0],
+            model_name="custom/model",
+            dimension=1,
+        )
+
+        batch = gen.embed_batch(["a", "bc"], doc_ids=["doc-a", "doc-b"])
+        assert [item.doc_id for item in batch] == ["doc-a", "doc-b"]
+        assert [item.dimension for item in batch] == [1, 1]
+
+        with pytest.raises(ValueError):
+            gen.embed_batch(["a"], doc_ids=["too", "many"])
+
+        gen.unload()
+        assert "unloaded" in calls

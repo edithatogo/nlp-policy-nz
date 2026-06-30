@@ -58,13 +58,7 @@ def run_task_via_cline(
     """Run the next task through Cline and stream its output."""
     full_prompt = f"Role: {agent_name}\nInstructions:\n{prompt_instructions}\n\nTask:\n{task}"
 
-    cmd = [
-        "cline",
-        "--model", model,
-        "--auto-approve", "true",
-        "--json",
-        full_prompt
-    ]
+    cmd = ["cline", "--model", model, "--auto-approve", "true", "--json", full_prompt]
 
     # Run the command and print live outputs
     process = subprocess.Popen(
@@ -122,7 +116,9 @@ def main() -> None:
         sys.exit(1)
 
     prompt_instructions_obj = agent.get("prompt")
-    prompt_instructions = prompt_instructions_obj if isinstance(prompt_instructions_obj, str) else ""
+    prompt_instructions = (
+        prompt_instructions_obj if isinstance(prompt_instructions_obj, str) else ""
+    )
     model_obj = agent.get("model", "auto-gemini-3")
     model = model_obj if isinstance(model_obj, str) else "auto-gemini-3"
     if model == "auto-gemini-3" or "gemini" in model:
@@ -144,6 +140,7 @@ def main() -> None:
         sys.exit(0)
     else:
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

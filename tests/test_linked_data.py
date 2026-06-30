@@ -182,22 +182,26 @@ def test_cli_export_rdf_and_sparql(capsys) -> None:
         parquet,
     )
 
-    rc_export = main([
-        "export-rdf",
-        "--parquet",
-        str(parquet),
-        "--output",
-        str(ttl),
-        "--base-uri",
-        "https://example.org/nz/",
-    ])
-    rc_query = main([
-        "sparql",
-        "--rdf",
-        str(ttl),
-        "--query",
-        "SELECT ?content WHERE { ?post <http://rdfs.org/sioc/ns#content> ?content }",
-    ])
+    rc_export = main(
+        [
+            "export-rdf",
+            "--parquet",
+            str(parquet),
+            "--output",
+            str(ttl),
+            "--base-uri",
+            "https://example.org/nz/",
+        ]
+    )
+    rc_query = main(
+        [
+            "sparql",
+            "--rdf",
+            str(ttl),
+            "--query",
+            "SELECT ?content WHERE { ?post <http://rdfs.org/sioc/ns#content> ?content }",
+        ]
+    )
 
     assert rc_export == 0
     assert rc_query == 0

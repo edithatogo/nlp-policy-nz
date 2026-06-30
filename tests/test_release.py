@@ -20,11 +20,13 @@ from nlp_policy_nz.integrations.release import ReleaseManager
 @pytest.fixture
 def sample_parquet(tmp_path: Path) -> Path:
     """Create a small sample Parquet file for testing."""
-    table = pa.table({
-        "doc_id": ["doc1", "doc2", "doc3"],
-        "text": ["Hello world", "Test document", "Third item"],
-        "source": ["legislation", "legislation", "hansard"],
-    })
+    table = pa.table(
+        {
+            "doc_id": ["doc1", "doc2", "doc3"],
+            "text": ["Hello world", "Test document", "Third item"],
+            "source": ["legislation", "legislation", "hansard"],
+        }
+    )
     path = tmp_path / "sample.parquet"
     pq.write_table(table, path)
     return path
@@ -65,9 +67,7 @@ class TestCreateReleaseArchive:
             assert "sample.parquet" in names
             assert "metadata.json" in names
 
-    def test_metadata_json_content(
-        self, sample_parquet: Path, tmp_path: Path
-    ) -> None:
+    def test_metadata_json_content(self, sample_parquet: Path, tmp_path: Path) -> None:
         """Metadata JSON contains expected fields."""
         manager = ReleaseManager(token="tok")
         archive_path = manager.create_release_archive(
@@ -137,15 +137,19 @@ class TestPublishToZenodo:
             output_dir=tmp_path,
         )
 
-        with pytest.mock.patch(
-            "nlp_policy_nz.integrations.zenodo_archive.create_sandbox_deposit",
-            return_value={"id": 22222},
-        ), pytest.mock.patch(
-            "nlp_policy_nz.integrations.zenodo_archive.upload_file_to_deposit",
-            return_value={},
-        ), pytest.mock.patch(
-            "nlp_policy_nz.integrations.zenodo_archive.publish_deposit",
-            return_value=mock_publish_response,
+        with (
+            pytest.mock.patch(
+                "nlp_policy_nz.integrations.zenodo_archive.create_sandbox_deposit",
+                return_value={"id": 22222},
+            ),
+            pytest.mock.patch(
+                "nlp_policy_nz.integrations.zenodo_archive.upload_file_to_deposit",
+                return_value={},
+            ),
+            pytest.mock.patch(
+                "nlp_policy_nz.integrations.zenodo_archive.publish_deposit",
+                return_value=mock_publish_response,
+            ),
         ):
             result = manager.publish_to_zenodo(
                 archive_path,
@@ -166,15 +170,19 @@ class TestFullRelease:
         """Full release creates archive and publishes to Zenodo."""
         manager = ReleaseManager(token="tok")
 
-        with pytest.mock.patch(
-            "nlp_policy_nz.integrations.zenodo_archive.create_sandbox_deposit",
-            return_value={"id": 22222},
-        ), pytest.mock.patch(
-            "nlp_policy_nz.integrations.zenodo_archive.upload_file_to_deposit",
-            return_value={},
-        ), pytest.mock.patch(
-            "nlp_policy_nz.integrations.zenodo_archive.publish_deposit",
-            return_value=mock_publish_response,
+        with (
+            pytest.mock.patch(
+                "nlp_policy_nz.integrations.zenodo_archive.create_sandbox_deposit",
+                return_value={"id": 22222},
+            ),
+            pytest.mock.patch(
+                "nlp_policy_nz.integrations.zenodo_archive.upload_file_to_deposit",
+                return_value={},
+            ),
+            pytest.mock.patch(
+                "nlp_policy_nz.integrations.zenodo_archive.publish_deposit",
+                return_value=mock_publish_response,
+            ),
         ):
             result = manager.full_release(
                 sample_parquet,

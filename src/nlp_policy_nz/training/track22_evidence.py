@@ -46,10 +46,7 @@ def evaluate_track22_acceptance(report: Track22EvidenceReport) -> dict[str, bool
         and report.mleb_fixture_queries >= MIN_MLEB_FIXTURE_QUERIES
         and report.mleb_fixture_schema_valid
     )
-    open_au_corpus_integration = (
-        report.open_au_corpus_downloaded
-        and report.nz_au_corpus_merged
-    )
+    open_au_corpus_integration = report.open_au_corpus_downloaded and report.nz_au_corpus_merged
     return {
         "repo_side_contracts": repo_side_contracts,
         "open_au_corpus_integration": open_au_corpus_integration,
@@ -92,9 +89,7 @@ def track22_acceptance_contract(
         },
         "open_au_corpus_integration": {
             "satisfied": status["open_au_corpus_integration"],
-            "required_metric": (
-                "open_au_corpus_downloaded && nz_au_corpus_merged"
-            ),
+            "required_metric": ("open_au_corpus_downloaded && nz_au_corpus_merged"),
             "observed_metric": {
                 "open_au_corpus_downloaded": report.open_au_corpus_downloaded,
                 "nz_au_corpus_merged": report.nz_au_corpus_merged,
@@ -172,8 +167,7 @@ def render_track22_evidence_markdown(report: Track22EvidenceReport) -> str:
         "",
     ]
     lines.extend(
-        f"- {name}: {'satisfied' if satisfied else 'pending'}"
-        for name, satisfied in status.items()
+        f"- {name}: {'satisfied' if satisfied else 'pending'}" for name, satisfied in status.items()
     )
     lines.extend(
         [
@@ -193,8 +187,7 @@ def render_track22_evidence_markdown(report: Track22EvidenceReport) -> str:
             f"- Open AU LLM fine-tuned: {report.open_au_llm_finetuned}",
             f"- Kanon 2 evaluated: {report.kanon_2_evaluated}",
             f"- NZ-MLEB extended: {report.nz_mleb_extended}",
-            "- NZ-MLEB baselines published: "
-            f"{report.nz_mleb_baselines_published}",
+            f"- NZ-MLEB baselines published: {report.nz_mleb_baselines_published}",
             f"- semchunk evaluated: {report.semchunk_evaluated}",
             f"- Blackstone Graph monitoring: {report.blackstone_graph_monitoring}",
         ]

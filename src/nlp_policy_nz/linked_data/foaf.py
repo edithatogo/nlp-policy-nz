@@ -60,11 +60,13 @@ def generate_foaf_graph(
         if profile.electorate:
             graph.add((person, SCHEMA.electoralDistrict, Literal(profile.electorate)))
         if profile.wikidata_qid:
-            graph.add((
-                person,
-                SCHEMA.sameAs,
-                URIRef(f"https://www.wikidata.org/entity/{profile.wikidata_qid}"),
-            ))
+            graph.add(
+                (
+                    person,
+                    SCHEMA.sameAs,
+                    URIRef(f"https://www.wikidata.org/entity/{profile.wikidata_qid}"),
+                )
+            )
         if profile.party:
             party = _uri(base_uri, f"party/{_slug(profile.party)}")
             graph.add((party, RDF.type, FOAF.Organization))

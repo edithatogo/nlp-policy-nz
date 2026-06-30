@@ -80,6 +80,7 @@ class MlebNzQuery:
     jurisdiction: str
     task: str
 
+
 @dataclass(frozen=True)
 class MlebNzJudgement:
     """Single deterministic NZ-MLEB relevance judgement."""
@@ -88,6 +89,7 @@ class MlebNzJudgement:
     doc_id: str
     relevance: int
     rationale: str
+
 
 @dataclass(frozen=True)
 class IsaacusAccessGate:
@@ -278,11 +280,7 @@ def normalize_isaacus_record(
 def to_pipeline_record(record: IsaacusRecord) -> PipelineRecord:
     """Convert a normalised Isaacus record into the existing pipeline schema."""
     tokens = re.findall(r"\b[\w\u0100-\u017F]+\b", record.text, flags=re.UNICODE)
-    te_reo_terms = [
-        token
-        for token in tokens
-        if any(char in token for char in "āēīōūĀĒĪŌŪ")
-    ]
+    te_reo_terms = [token for token in tokens if any(char in token for char in "āēīōūĀĒĪŌŪ")]
     return PipelineRecord(
         doc_id=f"isaacus:{record.source_id}:{record.doc_id}",
         corpus_source=f"isaacus:au:{record.jurisdiction}",
@@ -321,6 +319,7 @@ def make_nz_mleb_query(
         jurisdiction=jurisdiction,
         task=task,
     )
+
 
 def validate_nz_mleb_fixture(payload: Mapping[str, object]) -> list[MlebNzQuery]:
     """Validate a local NZ-MLEB fixture and return query scaffolds.
@@ -375,9 +374,7 @@ def validate_nz_mleb_fixture(payload: Mapping[str, object]) -> list[MlebNzQuery]
                 raise ValueError("NZ-MLEB fixture judgements must be objects")
             doc_id = str(judgement.get("doc_id") or "").strip()
             if doc_id not in doc_ids:
-                raise ValueError(
-                    f"NZ-MLEB fixture judgement references unknown document {doc_id}"
-                )
+                raise ValueError(f"NZ-MLEB fixture judgement references unknown document {doc_id}")
             relevance = judgement.get("relevance")
             if not isinstance(relevance, int) or relevance < 0 or relevance > 3:
                 raise ValueError("NZ-MLEB fixture relevance must be an integer 0..3")
@@ -489,15 +486,9 @@ def render_isaacus_integration_report() -> str:
 def _manifest_payload() -> dict[str, dict[str, dict[str, object]]]:
     """Return JSON-serialisable Isaacus manifests."""
     return {
-        "datasets": {
-            key: asdict(value) for key, value in default_isaacus_datasets().items()
-        },
-        "models": {
-            key: asdict(value) for key, value in default_isaacus_models().items()
-        },
-        "tools": {
-            key: asdict(value) for key, value in default_isaacus_tools().items()
-        },
+        "datasets": {key: asdict(value) for key, value in default_isaacus_datasets().items()},
+        "models": {key: asdict(value) for key, value in default_isaacus_models().items()},
+        "tools": {key: asdict(value) for key, value in default_isaacus_tools().items()},
     }
 
 

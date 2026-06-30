@@ -1,0 +1,31 @@
+{
+  "mapping_count": 12,
+  "predicate_counts": {
+    "owl:equivalentClass": 1,
+    "skos:closeMatch": 6,
+    "skos:relatedMatch": 2,
+    "source:crosswalk": 3
+  },
+  "review_status_counts": {
+    "approved": 11,
+    "needs_review": 1
+  },
+  "standard_count": 15,
+  "standards": [
+    "AGLS",
+    "Akoma Ntoso",
+    "Catala",
+    "data.govt.nz Dataset Metadata",
+    "DCAT",
+    "FOAF",
+    "LKIF",
+    "nlp-policy-nz extraction",
+    "NZGLS",
+    "ODRL",
+    "OWL-Time",
+    "PROV-O",
+    "schema.org",
+    "SIOC",
+    "SKOS"
+  ]
+}

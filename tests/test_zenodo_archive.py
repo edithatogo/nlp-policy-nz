@@ -122,10 +122,13 @@ class TestZenodoArchiver:
 
         archiver = ZenodoArchiver(token="tok")
 
-        with patch(
-            "nlp_policy_nz.integrations.zenodo_archive.create_sandbox_deposit",
-            side_effect=DepositError("API error", status_code=500),
-        ), pytest.raises(DepositError, match="API error"):
+        with (
+            patch(
+                "nlp_policy_nz.integrations.zenodo_archive.create_sandbox_deposit",
+                side_effect=DepositError("API error", status_code=500),
+            ),
+            pytest.raises(DepositError, match="API error"),
+        ):
             archiver.create_archive(
                 title="T",
                 description="D",
@@ -229,10 +232,13 @@ class TestGetDoi:
         mock_resp.reason = "Not Found"
         mock_resp.text = "not found"
 
-        with patch(
-            "nlp_policy_nz.integrations.zenodo_archive.requests.get",
-            return_value=mock_resp,
-        ), pytest.raises(DepositError, match="Failed to fetch deposit"):
+        with (
+            patch(
+                "nlp_policy_nz.integrations.zenodo_archive.requests.get",
+                return_value=mock_resp,
+            ),
+            pytest.raises(DepositError, match="Failed to fetch deposit"),
+        ):
             archiver.get_doi("40400")
 
 

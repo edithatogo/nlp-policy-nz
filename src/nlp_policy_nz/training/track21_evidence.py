@@ -32,8 +32,7 @@ def evaluate_track21_acceptance(report: Track21EvidenceReport) -> dict[str, bool
     """Evaluate Track 21 acceptance criteria without overclaiming dry-run evidence."""
     repo_side_contracts = (
         report.registry_candidates >= MIN_REGISTRY_CANDIDATES
-        and report.deterministic_example_evaluations
-        >= MIN_DETERMINISTIC_EXAMPLE_EVALUATIONS
+        and report.deterministic_example_evaluations >= MIN_DETERMINISTIC_EXAMPLE_EVALUATIONS
         and report.dry_run_scripts >= MIN_DRY_RUN_SCRIPTS
     )
     external_architecture_evaluation = (
@@ -43,11 +42,9 @@ def evaluate_track21_acceptance(report: Track21EvidenceReport) -> dict[str, bool
     )
     return {
         "repo_side_contracts": repo_side_contracts,
-        "mor_pipeline_functional": report.cuda_available
-        and report.downloaded_architectures >= 1,
+        "mor_pipeline_functional": report.cuda_available and report.downloaded_architectures >= 1,
         "external_architecture_evaluation": external_architecture_evaluation,
-        "pareto_frontier": external_architecture_evaluation
-        and report.pareto_frontier_identified,
+        "pareto_frontier": external_architecture_evaluation and report.pareto_frontier_identified,
         "architecture_report": report.architecture_report_present,
         "recommendation": report.recommendation_present,
         "hub_publication": report.published_evaluation_dataset,
@@ -70,9 +67,7 @@ def track21_acceptance_contract(
             ),
             "observed_metric": status["repo_side_contracts"],
             "registry_candidates": report.registry_candidates,
-            "deterministic_example_evaluations": (
-                report.deterministic_example_evaluations
-            ),
+            "deterministic_example_evaluations": (report.deterministic_example_evaluations),
             "dry_run_scripts": report.dry_run_scripts,
             "scope": "repo",
         },
@@ -163,8 +158,7 @@ def render_track21_evidence_markdown(report: Track21EvidenceReport) -> str:
         "",
     ]
     lines.extend(
-        f"- {name}: {'satisfied' if satisfied else 'pending'}"
-        for name, satisfied in status.items()
+        f"- {name}: {'satisfied' if satisfied else 'pending'}" for name, satisfied in status.items()
     )
     lines.extend(
         [
@@ -172,8 +166,7 @@ def render_track21_evidence_markdown(report: Track21EvidenceReport) -> str:
             "## Measurements",
             "",
             f"- Registry candidates: {report.registry_candidates}",
-            "- Deterministic example evaluations: "
-            f"{report.deterministic_example_evaluations}",
+            f"- Deterministic example evaluations: {report.deterministic_example_evaluations}",
             f"- Dry-run scripts: {report.dry_run_scripts}",
             f"- Architecture report present: {report.architecture_report_present}",
             f"- CUDA available: {report.cuda_available}",
@@ -181,8 +174,7 @@ def render_track21_evidence_markdown(report: Track21EvidenceReport) -> str:
             f"- Measured architectures: {report.measured_architectures}",
             f"- Pareto frontier identified: {report.pareto_frontier_identified}",
             f"- Recommendation present: {report.recommendation_present}",
-            "- Published evaluation dataset: "
-            f"{report.published_evaluation_dataset}",
+            f"- Published evaluation dataset: {report.published_evaluation_dataset}",
         ]
     )
     residual = track21_residual_external_gates(report)

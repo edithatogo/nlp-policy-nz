@@ -14,6 +14,7 @@ from nlp_policy_nz.provenance import (
     provenance_sidecar_path,
     serialize_prov_o_jsonld,
 )
+from nlp_policy_nz.provenance import recorder as recorder_module
 
 
 def _case_dir(name: str) -> Path:
@@ -72,6 +73,25 @@ def test_serializer_emits_prov_o_jsonld() -> None:
     assert any(node["@type"] == "prov:Agent" for node in data["@graph"])
 
 
+def test_serializer_includes_inputs_and_zenodo_doi() -> None:
+    record = ProvenanceRecorder(
+        pipeline_name="process_legislation",
+        pipeline_version="0.2.0",
+        model_versions={"embedding": "demo"},
+        parameters={"source": "legislation"},
+        commit_sha="abc1234",
+    ).finish(
+        input_paths=[Path("a.txt"), Path("b.txt")],
+        output_path=Path("out.parquet"),
+        record_count=2,
+        zenodo_doi="10.5072/zenodo.12345",
+    )
+
+    data = serialize_prov_o_jsonld(record)
+    assert data["@graph"][2]["schema:sameAs"] == "10.5072/zenodo.12345"
+    assert {node["schema:contentUrl"] for node in data["@graph"][3:]} == {"a.txt", "b.txt"}
+
+
 def test_sidecar_round_trip() -> None:
     """Sidecar helper writes and reads ``.prov.json`` beside Parquet output."""
     tmp_path = _case_dir("sidecar")
@@ -90,6 +110,13 @@ def test_sidecar_round_trip() -> None:
     assert provenance_sidecar_path(parquet) == sidecar
     loaded = load_provenance_sidecar(parquet)
     assert loaded["@type"] == "prov:Bundle"
+
+
+def test_sidecar_loader_accepts_json_path(tmp_path: Path) -> None:
+    sidecar = tmp_path / "dataset.prov.json"
+    sidecar.write_text('{"@type": "prov:Bundle"}', encoding="utf-8")
+
+    assert load_provenance_sidecar(sidecar) == {"@type": "prov:Bundle"}
 
 
 def test_process_legislation_writes_provenance_sidecar(monkeypatch) -> None:
@@ -210,6 +237,44 @@ def test_process_legislation_records_embedding_model_version(monkeypatch) -> Non
     assert data["@graph"][1]["schema:instrument"] == {
         "embedding_model": "test/legal-bert",
     }
+
+
+def test_recorder_finish_uses_fallbacks_and_write_sidecar_default(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(recorder_module, "_package_version", lambda: "9.9.9")
+    monkeypatch.setattr(recorder_module, "_git_commit_sha", lambda: "deadbeef")
+    monkeypatch.setattr(recorder_module, "_utc_now", lambda: "2026-06-29T00:00:00Z")
+
+    recorder = ProvenanceRecorder(
+        pipeline_name="process_legislation",
+        model_versions={"embedding": "demo"},
+        parameters={"source": "legislation"},
+        started_at="2026-06-29T00:00:00Z",
+    )
+    record = recorder.finish(
+        input_paths=[tmp_path / "input.xml"],
+        output_path=tmp_path / "output.parquet",
+        record_count=3,
+    )
+
+    assert record.pipeline_version == "9.9.9"
+    assert record.commit_sha == "deadbeef"
+    assert record.run_id == "urn:nlp-policy-nz:run:2026-06-29T00:00:00Z"
+    assert record.input_paths == [str(tmp_path / "input.xml")]
+    assert record.output_path == str(tmp_path / "output.parquet")
+    assert record.to_jsonld()["@type"] == "prov:Bundle"
+    assert record.write_sidecar().name == "output.prov.json"
+
+
+def test_package_version_and_git_commit_fallbacks(monkeypatch) -> None:
+    class PackageNotFoundError(Exception):
+        pass
+
+    monkeypatch.setattr(recorder_module.metadata, "PackageNotFoundError", PackageNotFoundError)
+    monkeypatch.setattr(recorder_module.metadata, "version", lambda _name: (_ for _ in ()).throw(PackageNotFoundError()))
+    monkeypatch.setattr(recorder_module.subprocess, "run", lambda *args, **kwargs: (_ for _ in ()).throw(OSError()))
+
+    assert recorder_module._package_version() == "0.0.0+local"
+    assert recorder_module._git_commit_sha() == "unknown"
 
 
 def test_cli_provenance_displays_sidecar(capsys) -> None:

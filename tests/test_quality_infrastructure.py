@@ -17,6 +17,7 @@ def test_quality_configuration_files_exist() -> None:
         ROOT / "docs" / "pydantic_vs_msgspec.md",
         ROOT / "tests" / ".mutatest.toml",
         ROOT / "scripts" / "profile_with_scalene.py",
+        ROOT / "scripts" / "benchmark_pipeline_record_msgspec_pydantic.py",
         ROOT / "tests" / "integration" / "__init__.py",
         ROOT / "tests" / "e2e" / "__init__.py",
     ]

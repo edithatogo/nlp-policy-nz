@@ -48,9 +48,23 @@ def _write_launcher_script(path: Path, command_args: list[str]) -> Path:
     path.mkdir(parents=True, exist_ok=True)
     launcher = path / "track19_scalene_launcher.py"
     payload = ", ".join(json.dumps(arg) for arg in command_args)
+    repo_root = Path(__file__).resolve().parents[1]
     launcher.write_text(
-        "from nlp_policy_nz.cli.main import main\n"
-        f"raise SystemExit(main([{payload}]))\n",
+        "\n".join(
+            [
+                "from pathlib import Path",
+                "import sys",
+                f"ROOT = Path({json.dumps(str(repo_root))})",
+                'SRC = ROOT / "src"',
+                "if str(ROOT) not in sys.path:",
+                "    sys.path.insert(0, str(ROOT))",
+                "if str(SRC) not in sys.path:",
+                "    sys.path.insert(0, str(SRC))",
+                "from nlp_policy_nz.cli.main import main",
+                f"raise SystemExit(main([{payload}]))",
+                "",
+            ]
+        ),
         encoding="utf-8",
     )
     return launcher

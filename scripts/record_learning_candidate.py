@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#ruff: noqa: D103,T201,RUF005
+# ruff: noqa: D103,T201,RUF005
 """Append non-committing learning candidates to a conductor backlog file."""
 
 from __future__ import annotations

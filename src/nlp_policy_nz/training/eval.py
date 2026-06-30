@@ -86,8 +86,7 @@ def maori_token_integrity(terms: Sequence[str], tokenized_texts: Sequence[Sequen
     if not terms:
         return 1.0
     normalized_token_sets = [
-        {_normalize_answer(token) for token in tokens}
-        for tokens in tokenized_texts
+        {_normalize_answer(token) for token in tokens} for tokens in tokenized_texts
     ]
     intact = 0
     for term in terms:

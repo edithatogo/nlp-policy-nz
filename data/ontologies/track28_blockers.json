@@ -1,0 +1,130 @@
+{
+  "blocker_count": 13,
+  "blockers": [
+    {
+      "blocker_id": "track28::agls::specification",
+      "blocker_source": "AGLS to NZGLS/DCAT crosswalk for trans-Tasman metadata imports",
+      "blocker_type": "specification",
+      "candidate_id": "agls",
+      "decision": "map-only",
+      "risk": "low",
+      "standard": "AGLS"
+    },
+    {
+      "blocker_id": "track28::catala::integration",
+      "blocker_source": "crosswalk from extraction manifests to Catala scopes and definitions",
+      "blocker_type": "integration",
+      "candidate_id": "catala",
+      "decision": "map-only",
+      "risk": "medium",
+      "standard": "Catala"
+    },
+    {
+      "blocker_id": "track28::data_govt_nz_metadata::integration",
+      "blocker_source": "publication manifest exporter mapping repo release metadata to data.govt.nz fields",
+      "blocker_type": "integration",
+      "candidate_id": "data_govt_nz_metadata",
+      "decision": "implement",
+      "risk": "low",
+      "standard": "data.govt.nz Dataset Metadata"
+    },
+    {
+      "blocker_id": "track28::docassemble::integration",
+      "blocker_source": "reviewed downstream interview-flow use case and extraction-to-question mapping",
+      "blocker_type": "integration",
+      "candidate_id": "docassemble",
+      "decision": "monitor",
+      "risk": "medium",
+      "standard": "Docassemble"
+    },
+    {
+      "blocker_id": "track28::jurix_ontology_patterns::specification",
+      "blocker_source": "curated bibliography with reusable ontology pattern summaries",
+      "blocker_type": "specification",
+      "candidate_id": "jurix_ontology_patterns",
+      "decision": "monitor",
+      "risk": "medium",
+      "standard": "JURIX ontology patterns"
+    },
+    {
+      "blocker_id": "track28::lac_guidelines::data",
+      "blocker_source": "controlled concept inventory from Legislation Guidelines headings and examples",
+      "blocker_type": "data",
+      "candidate_id": "lac_guidelines",
+      "decision": "implement",
+      "risk": "low",
+      "standard": "NZ Legislation Guidelines"
+    },
+    {
+      "blocker_id": "track28::legal_knowledge_graph_literature::specification",
+      "blocker_source": "reviewed bibliography and extracted ontology pattern inventory",
+      "blocker_type": "specification",
+      "candidate_id": "legal_knowledge_graph_literature",
+      "decision": "monitor",
+      "risk": "medium",
+      "standard": "Legal knowledge graph literature patterns"
+    },
+    {
+      "blocker_id": "track28::nzgls::specification",
+      "blocker_source": "field-level crosswalk from NZGLS metadata to DCAT/DCAT-AP catalog records",
+      "blocker_type": "specification",
+      "candidate_id": "nzgls",
+      "decision": "implement",
+      "risk": "low",
+      "standard": "NZGLS"
+    },
+    {
+      "blocker_id": "track28::w3c_odrl::specification",
+      "blocker_source": "crosswalk from deontic extraction families to ODRL duties/prohibitions",
+      "blocker_type": "specification",
+      "candidate_id": "w3c_odrl",
+      "decision": "map-only",
+      "risk": "medium",
+      "standard": "ODRL"
+    },
+    {
+      "blocker_id": "track28::w3c_owl2::specification",
+      "blocker_source": "local OWL profile for extracted legislative concepts and ontology mappings",
+      "blocker_type": "specification",
+      "candidate_id": "w3c_owl2",
+      "decision": "implement",
+      "risk": "low",
+      "standard": "OWL 2"
+    },
+    {
+      "blocker_id": "track28::w3c_rdf12::integration",
+      "blocker_source": "RDF 1.2 serializer compatibility review across current rdflib outputs",
+      "blocker_type": "integration",
+      "candidate_id": "w3c_rdf12",
+      "decision": "implement",
+      "risk": "low",
+      "standard": "RDF 1.2"
+    },
+    {
+      "blocker_id": "track28::w3c_shacl::integration",
+      "blocker_source": "SHACL shape set for extraction manifests and ontology graph exports",
+      "blocker_type": "integration",
+      "candidate_id": "w3c_shacl",
+      "decision": "implement",
+      "risk": "low",
+      "standard": "SHACL"
+    },
+    {
+      "blocker_id": "track28::w3c_sosa_ssn::specification",
+      "blocker_source": "analytics measurement model for Track 32 statistics and quality metrics",
+      "blocker_type": "specification",
+      "candidate_id": "w3c_sosa_ssn",
+      "decision": "monitor",
+      "risk": "medium",
+      "standard": "SOSA/SSN"
+    }
+  ],
+  "schema_version": "1.0",
+  "track_id": "track28_ontology_discovery_intake_20260625",
+  "valid_blocker_types": [
+    "none",
+    "data",
+    "specification",
+    "integration"
+  ]
+}

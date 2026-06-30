@@ -1,5 +1,7 @@
 """Quality-infrastructure evidence helpers."""
 
+from __future__ import annotations
+
 from nlp_policy_nz.quality.track23_evidence import (
     Track23EvidenceReport,
     evaluate_track23_acceptance,

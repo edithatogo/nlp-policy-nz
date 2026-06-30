@@ -6,6 +6,8 @@ All operations rely solely on the Python standard library ``unicodedata``
 module — no external ML or NLP dependencies are required.
 """
 
+from __future__ import annotations
+
 import re
 import unicodedata
 from typing import Final

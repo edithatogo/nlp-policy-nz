@@ -1,8 +1,13 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from nlp_policy_nz.quality.track25_ontology_coverage import (
+    TRACK25_ARTIFACT_DIR,
+    TRACK25_AUDIT_FILENAME,
+    TRACK25_BACKLOG_FILENAME,
+    TRACK25_BLOCKER_REGISTER_FILENAME,
     build_blocker_register,
     build_coverage_matrix,
     build_prioritized_backlog,
@@ -10,6 +15,7 @@ from nlp_policy_nz.quality.track25_ontology_coverage import (
     enumerate_ontology_facing_systems,
     repo_root,
     slugify_identifier,
+    write_track25_ontology_coverage_artifacts,
 )
 
 
@@ -53,15 +59,26 @@ def test_build_coverage_matrix_includes_implemented_and_missing_standards() -> N
     assert index[("akn_legal_docml", "Akoma Ntoso")]["coverage_status"] == "implemented"
     assert index[("akn_legal_docml", "LegalDocML")]["coverage_status"] == "implemented"
     assert index[("knowledge_graph_exports", "Wikidata")]["coverage_status"] == "partial"
-    assert index[("knowledge_graph_exports", "schema.org/Legislation")]["coverage_status"] == "missing"
+    assert (
+        index[("knowledge_graph_exports", "schema.org/Legislation")]["coverage_status"] == "missing"
+    )
     assert index[("legal_semantics", "full LKIF")]["coverage_status"] == "missing"
     assert index[("normative_emission", "full LegalRuleML")]["coverage_status"] == "missing"
-    assert index[("rules_as_code_bridge", "formal OpenFisca/PolicyEngine variable/parameter/entity ontology")][
-        "coverage_status"
-    ] == "missing"
+    assert (
+        index[
+            (
+                "rules_as_code_bridge",
+                "formal OpenFisca/PolicyEngine variable/parameter/entity ontology",
+            )
+        ]["coverage_status"]
+        == "missing"
+    )
 
     assert index[("akn_legal_docml", "ELI")]["blocker_type"] == "source_data"
-    assert index[("knowledge_graph_exports", "schema.org/Legislation")]["blocker_type"] == "specification"
+    assert (
+        index[("knowledge_graph_exports", "schema.org/Legislation")]["blocker_type"]
+        == "specification"
+    )
 
     json.dumps(rows)
 
@@ -87,3 +104,18 @@ def test_audit_bundle_is_json_serializable_and_consistent() -> None:
     assert len(audit["coverage_matrix"]) > len(audit["systems"])
 
     json.dumps(audit)
+
+
+def test_track25_writer_matches_checked_in_artifacts(tmp_path: Path) -> None:
+    written = write_track25_ontology_coverage_artifacts(tmp_path)
+    artifact_dir = Path(TRACK25_ARTIFACT_DIR)
+
+    assert json.loads(written["coverage_manifest"].read_text(encoding="utf-8")) == json.loads(
+        (artifact_dir / TRACK25_AUDIT_FILENAME).read_text(encoding="utf-8")
+    )
+    assert json.loads(written["data_blocker_register"].read_text(encoding="utf-8")) == json.loads(
+        (artifact_dir / TRACK25_BLOCKER_REGISTER_FILENAME).read_text(encoding="utf-8")
+    )
+    assert json.loads(
+        written["ontology_implementation_backlog"].read_text(encoding="utf-8")
+    ) == json.loads((artifact_dir / TRACK25_BACKLOG_FILENAME).read_text(encoding="utf-8"))

@@ -231,9 +231,7 @@ class ReleaseManager:
         logger.info("Publishing release archive to Zenodo ...")
         provenance_path = provenance_sidecar_path(parquet_path)
         provenance_metadata = (
-            load_provenance_sidecar(provenance_path)
-            if provenance_path.is_file()
-            else None
+            load_provenance_sidecar(provenance_path) if provenance_path.is_file() else None
         )
         return self.publish_to_zenodo(
             archive_path,

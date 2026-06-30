@@ -59,9 +59,11 @@ class TestFAISSAdapterAddRecords:
         ]
         adapter.create_index(records)
 
-        adapter.add_records([
-            {"doc_id": "c", "text": "third", "vector": [0.0, 0.0, 1.0, 0.0]},
-        ])
+        adapter.add_records(
+            [
+                {"doc_id": "c", "text": "third", "vector": [0.0, 0.0, 1.0, 0.0]},
+            ]
+        )
 
         results = adapter.search(query_vector=[1.0, 0.0, 0.0, 0.0], top_k=3)
         assert len(results) == 3
@@ -73,9 +75,11 @@ class TestFAISSAdapterDelete:
 
     def test_delete_index(self) -> None:
         adapter = FAISSAdapter(dimension=4)
-        adapter.create_index([
-            {"doc_id": "a", "text": "x", "vector": [1.0, 0.0, 0.0, 0.0]},
-        ])
+        adapter.create_index(
+            [
+                {"doc_id": "a", "text": "x", "vector": [1.0, 0.0, 0.0, 0.0]},
+            ]
+        )
         assert adapter.index_exists() is True
 
         adapter.delete_index()

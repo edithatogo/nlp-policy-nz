@@ -81,10 +81,7 @@ class EntityResolver:
         context: EntityContext | None = None,
     ) -> ResolvedEntity | None:
         """Resolve one entity span."""
-        scored = [
-            (_score_entity(span_text, entity, context), entity)
-            for entity in self.entities
-        ]
+        scored = [(_score_entity(span_text, entity, context), entity) for entity in self.entities]
         confidence, entity = max(scored, key=lambda item: item[0])
         if confidence < self.min_confidence:
             return None
@@ -269,7 +266,9 @@ def _entity_by_id(entities: tuple[EntityRecord, ...], entity_id: str) -> EntityR
 def _deduplicate_overlaps(candidates: list[ResolvedEntity]) -> list[ResolvedEntity]:
     """Keep the highest-confidence non-overlapping candidate spans."""
     accepted: list[ResolvedEntity] = []
-    for candidate in sorted(candidates, key=lambda item: (item.start, -item.confidence, -len(item.text))):
+    for candidate in sorted(
+        candidates, key=lambda item: (item.start, -item.confidence, -len(item.text))
+    ):
         if any(candidate.start < item.end and candidate.end > item.start for item in accepted):
             continue
         accepted.append(candidate)

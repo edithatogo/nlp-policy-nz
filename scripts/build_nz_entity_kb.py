@@ -60,7 +60,10 @@ def main() -> None:
     counts: dict[str, int] = {}
     for entity in deduped:
         counts[entity.entity_type] = counts.get(entity.entity_type, 0) + 1
-    sys.stdout.write(json.dumps({"output": str(args.output), "counts": counts, "total": len(deduped)}, indent=2) + "\n")
+    sys.stdout.write(
+        json.dumps({"output": str(args.output), "counts": counts, "total": len(deduped)}, indent=2)
+        + "\n"
+    )
 
 
 def fetch_mps() -> list[KbEntity]:
@@ -211,7 +214,9 @@ def alias_candidates(name: str, *, allow_surname: bool) -> list[str]:
         if short_name.endswith(" Party"):
             aliases.add(short_name.removesuffix(" Party"))
     generic = {"party", "zealand", "new zealand", "court", "ministry", "department", "electorate"}
-    return sorted(alias for alias in aliases if alias and alias.casefold() not in generic and alias != name)
+    return sorted(
+        alias for alias in aliases if alias and alias.casefold() not in generic and alias != name
+    )
 
 
 MP_QUERY = """

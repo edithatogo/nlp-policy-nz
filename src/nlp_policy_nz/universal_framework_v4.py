@@ -42,11 +42,11 @@ def _extract_xml_payload(raw_data: str) -> tuple[str, str, list[str]]:
         return "raw-001", "Imported document", [text] if text else ["No source text supplied."]
 
     identifier = root.attrib.get("id") or root.attrib.get("eId") or "xml-001"
-    title = root.attrib.get("title") or root.attrib.get("name") or root.tag.rsplit("}", 1)[-1].title()
+    title = (
+        root.attrib.get("title") or root.attrib.get("name") or root.tag.rsplit("}", 1)[-1].title()
+    )
     paragraphs = [
-        text.strip()
-        for text in ("".join(node.itertext()) for node in root.iter())
-        if text.strip()
+        text.strip() for text in ("".join(node.itertext()) for node in root.iter()) if text.strip()
     ]
     if not paragraphs:
         paragraphs = ["No source text supplied."]

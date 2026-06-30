@@ -1,5 +1,7 @@
 """Linked-data exports for parliamentary discourse."""
 
+from __future__ import annotations
+
 from nlp_policy_nz.linked_data.foaf import (
     MPProfile,
     export_foaf_profiles,

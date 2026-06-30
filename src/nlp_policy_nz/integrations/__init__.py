@@ -10,6 +10,8 @@ used in the NLP preprocessing pipeline, including:
 - data_registry: Centralised registry for dataset provenance and sovereignty
 """
 
+from __future__ import annotations
+
 from nlp_policy_nz.integrations.data_registry import (
     DataRecord,
     DataSovereigntyRegistry,

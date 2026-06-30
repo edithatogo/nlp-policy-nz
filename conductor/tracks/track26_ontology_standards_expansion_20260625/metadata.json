@@ -1,10 +1,10 @@
 {
   "track_id": "track26_ontology_standards_expansion_20260625",
   "type": "feature",
-  "status": "planned",
+  "status": "completed",
   "created_at": "2026-06-25T00:00:00+10:00",
-  "updated_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-29T00:00:00+10:00",
   "description": "Add structured support for the missing ontology standards needed to make the corpus interoperable with legal linked data, parliamentary linked data, and rules-as-code tooling.",
-  "oracle_notes": "Add first-class support for ELI/ELI-DL, ECLI, EuroVoc/SKOS, CEN MetaLex, USLM, LexML, schema.org/Legislation, LKIF, LegalRuleML, Popolo, W3C ORG, DCAT/DCAT-AP, and OpenFisca/PolicyEngine ontology contracts."
+  "oracle_notes": "Repo-side standards registry, checked-in manifest, JSON schema, URI builders/parsers for implementable standards, SKOS/schema.org round trips, and tests are implemented. Standards without source data are explicit blockers."
 }
 

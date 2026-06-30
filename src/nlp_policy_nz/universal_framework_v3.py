@@ -1,3 +1,5 @@
+# ruff: noqa: D100, I001, E402
+from __future__ import annotations
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
@@ -104,6 +106,7 @@ def _span_group(doc: Doc, name: str) -> list[Span]:
         return []
     return list(ty.cast("ty.Iterable[Span]", group))
 
+
 # ---------------------------------------------------------------------------
 # 1. Configuration Abstraction
 # ---------------------------------------------------------------------------
@@ -157,7 +160,9 @@ class XMLIngestionEngine(UniversalIngestionEngine):
                 if node.tag not in {"section", "speech", "part"}:
                     continue
                 node_id = str(node.attrib.get("id", f"xml-chunk-{len(chunks)}"))
-                attrs: dict[str, str] = {str(k): str(v) for k, v in node.attrib.items() if k != "id"}
+                attrs: dict[str, str] = {
+                    str(k): str(v) for k, v in node.attrib.items() if k != "id"
+                }
                 text_content = " ".join(text.strip() for text in node.itertext() if text.strip())
                 chunks.append(
                     DocumentChunk(
@@ -219,7 +224,9 @@ class JSONLIngestionEngine(UniversalIngestionEngine):
             if not line.strip():
                 continue
             raw = json.loads(line)
-            data: dict[str, object] = ty.cast("dict[str, object]", raw) if isinstance(raw, dict) else {}
+            data: dict[str, object] = (
+                ty.cast("dict[str, object]", raw) if isinstance(raw, dict) else {}
+            )
             node_id = _text_attr(data.get("id"), f"jsonl-chunk-{idx}")
             text_content = _text_attr(data.get("text"), "")
             structural_type = _text_attr(data.get("type"), "paragraph")
@@ -414,7 +421,9 @@ class TargetSchemaEmitter:
             if is_maori:
                 if clean_word_lower in tikanga_ontology:
                     ref = tikanga_ontology[clean_word_lower]
-                    processed_tokens.append(f'<phrase xml:lang="mi" refersTo="#tikanga_{ref}">{word}</phrase>')
+                    processed_tokens.append(
+                        f'<phrase xml:lang="mi" refersTo="#tikanga_{ref}">{word}</phrase>'
+                    )
                 else:
                     processed_tokens.append(f'<phrase xml:lang="mi">{word}</phrase>')
             else:
@@ -425,14 +434,19 @@ class TargetSchemaEmitter:
         processed_text = "".join(processed_tokens)
 
         # Parse definitions (isomorphic isolation)
-        definition_match = re.search(r'(“[^”]+”|"[^"]+"|\b[A-Za-z\s]+\b)\s+(means|includes)', processed_text, re.IGNORECASE)
+        definition_match = re.search(
+            r'(“[^”]+”|"[^"]+"|\b[A-Za-z\s]+\b)\s+(means|includes)', processed_text, re.IGNORECASE
+        )
         if definition_match:
             term = definition_match.group(1)
             processed_text = processed_text.replace(term, f"<definition>{term}</definition>", 1)
 
         import subprocess
+
         try:
-            git_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
+            git_commit = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL
+            ).strip()
         except Exception:
             git_commit = "unknown"
         from nlp_policy_nz import __version__
@@ -452,8 +466,12 @@ class TargetSchemaEmitter:
         lines.append("        </FRBRWork>")
         lines.append("      </identification>")
         lines.append('      <references source="#nlp_policy_nz">')
-        lines.append(f'        <TLCConcept id="prov_pipeline_version" href="/ontology/concept/prov/pipeline_version" showAs="nlp-policy-nz-v{__version__}"/>')
-        lines.append(f'        <TLCConcept id="prov_git_commit" href="/ontology/concept/prov/git_commit" showAs="{git_commit}"/>')
+        lines.append(
+            f'        <TLCConcept id="prov_pipeline_version" href="/ontology/concept/prov/pipeline_version" showAs="nlp-policy-nz-v{__version__}"/>'
+        )
+        lines.append(
+            f'        <TLCConcept id="prov_git_commit" href="/ontology/concept/prov/git_commit" showAs="{git_commit}"/>'
+        )
         lines.append("      </references>")
         lines.append("    </meta>")
         lines.append("    <body>")
@@ -477,12 +495,15 @@ class TargetSchemaEmitter:
         if annotations:
             lines.append('<legalRuleML xmlns="http://oasis-open.org">')
             for idx, ann in enumerate(annotations):
-                rule_id = f"rule_{chunk_id}_sub_{idx+1}"
+                rule_id = f"rule_{chunk_id}_sub_{idx + 1}"
                 strength = ann.modality.value.capitalize()
 
                 # Check for Exception patterns (Catala DSL isolation)
                 is_exception = False
-                if ann.scope and any(kw in ann.scope.lower() for kw in ["does not apply", "except", "unless", "provided that"]):
+                if ann.scope and any(
+                    kw in ann.scope.lower()
+                    for kw in ["does not apply", "except", "unless", "provided that"]
+                ):
                     is_exception = True
 
                 if is_exception:
@@ -554,7 +575,10 @@ class TargetSchemaEmitter:
             var_action = re.sub(r"_+", "_", var_action)[:40]
 
             is_exception = False
-            if ann.scope and any(kw in ann.scope.lower() for kw in ["does not apply", "except", "unless", "provided that"]):
+            if ann.scope and any(
+                kw in ann.scope.lower()
+                for kw in ["does not apply", "except", "unless", "provided that"]
+            ):
                 is_exception = True
 
             if is_exception:
@@ -611,7 +635,9 @@ class SOTAPipelineVisualizer:
 
         ents_to_set: list[Span] = []
         for span in spans:
-            struct_type = _span_extension_text(span, "nz_legislation_parlamint_tei_ana_structural_type", "PRELIM")
+            struct_type = _span_extension_text(
+                span, "nz_legislation_parlamint_tei_ana_structural_type", "PRELIM"
+            )
             ents_to_set.append(Span(doc, span.start, span.end, label=struct_type.upper()))
 
         doc.ents = spacy.util.filter_spans(ents_to_set)

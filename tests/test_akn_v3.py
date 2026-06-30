@@ -104,7 +104,6 @@ def test_validator_rejects_missing_frbr() -> None:
         validator.validate_or_raise(f'<akomaNtoso xmlns="{AKN_NS}"><bill /></akomaNtoso>')
 
 
-
 def test_xsd_validator_rejects_misplaced_required_elements() -> None:
     """Schema validation rejects element-presence shells with invalid structure."""
     xml = (

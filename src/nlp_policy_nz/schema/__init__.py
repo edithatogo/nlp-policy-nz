@@ -1,5 +1,7 @@
 """Schema helpers for standards-compliant legal document outputs."""
 
+from __future__ import annotations
+
 from nlp_policy_nz.schema.akn_v3 import (
     AKNDocument,
     AKNValidationError,

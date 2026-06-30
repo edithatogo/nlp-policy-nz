@@ -1,0 +1,125 @@
+{
+  "decision_counts": {
+    "implement": 6,
+    "map-only": 3,
+    "monitor": 4,
+    "reject": 3
+  },
+  "ranked_candidates": [
+    {
+      "candidate_id": "w3c_owl2",
+      "decision": "implement",
+      "name": "OWL 2 Web Ontology Language",
+      "risk": "low",
+      "total_score": 24
+    },
+    {
+      "candidate_id": "w3c_rdf12",
+      "decision": "implement",
+      "name": "RDF 1.2 Concepts and Abstract Syntax",
+      "risk": "low",
+      "total_score": 24
+    },
+    {
+      "candidate_id": "w3c_shacl",
+      "decision": "implement",
+      "name": "SHACL",
+      "risk": "low",
+      "total_score": 24
+    },
+    {
+      "candidate_id": "data_govt_nz_metadata",
+      "decision": "implement",
+      "name": "data.govt.nz Dataset Metadata",
+      "risk": "low",
+      "total_score": 22
+    },
+    {
+      "candidate_id": "w3c_odrl",
+      "decision": "map-only",
+      "name": "ODRL Information Model",
+      "risk": "medium",
+      "total_score": 22
+    },
+    {
+      "candidate_id": "lac_guidelines",
+      "decision": "implement",
+      "name": "Legislation Guidelines metadata concepts",
+      "risk": "low",
+      "total_score": 21
+    },
+    {
+      "candidate_id": "nzgls",
+      "decision": "implement",
+      "name": "New Zealand Government Locator Service",
+      "risk": "low",
+      "total_score": 21
+    },
+    {
+      "candidate_id": "w3c_sosa_ssn",
+      "decision": "monitor",
+      "name": "SOSA/SSN",
+      "risk": "medium",
+      "total_score": 20
+    },
+    {
+      "candidate_id": "agls",
+      "decision": "map-only",
+      "name": "Australian Government Locator Service",
+      "risk": "low",
+      "total_score": 18
+    },
+    {
+      "candidate_id": "catala",
+      "decision": "map-only",
+      "name": "Catala",
+      "risk": "medium",
+      "total_score": 18
+    },
+    {
+      "candidate_id": "docassemble",
+      "decision": "monitor",
+      "name": "Docassemble",
+      "risk": "medium",
+      "total_score": 16
+    },
+    {
+      "candidate_id": "jurix_ontology_patterns",
+      "decision": "monitor",
+      "name": "JURIX legal ontology patterns",
+      "risk": "medium",
+      "total_score": 15
+    },
+    {
+      "candidate_id": "legal_knowledge_graph_literature",
+      "decision": "monitor",
+      "name": "Legal knowledge graph ontology patterns",
+      "risk": "medium",
+      "total_score": 15
+    },
+    {
+      "candidate_id": "figi",
+      "decision": "reject",
+      "name": "Financial Instrument Global Identifier",
+      "risk": "medium",
+      "total_score": 14
+    },
+    {
+      "candidate_id": "ergoai",
+      "decision": "reject",
+      "name": "ErgoAI / Flora-2 rule knowledge representation",
+      "risk": "high",
+      "total_score": 11
+    },
+    {
+      "candidate_id": "stoica",
+      "decision": "reject",
+      "name": "STOICA rules-as-code reference",
+      "risk": "high",
+      "total_score": 5
+    }
+  ],
+  "schema_version": "1.0",
+  "scoring_notes": "Each score is 1-5. Total score sums authority, NZ relevance, interoperability, license/access, and maintenance status.",
+  "track_id": "track28_ontology_discovery_intake_20260625"
+}

@@ -1,0 +1,14 @@
+{
+  "created_at": "2026-06-29T14:36:05.1867920Z",
+  "return_code": 0,
+  "command": "pixi run check",
+  "passed": true,
+  "included_gates": [
+    "lint",
+    "vale",
+    "format",
+    "complexity",
+    "tach",
+    "pytest"
+  ]
+}

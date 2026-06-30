@@ -151,11 +151,7 @@ def _amendment_segments(text: str) -> list[str]:
     """Split text into candidate amendment-bearing segments."""
     normalised = re.sub(r"\s+", " ", text.strip())
     raw_segments = re.split(r"(?<=[.;])\s+|\n+", normalised)
-    return [
-        segment.strip()
-        for segment in raw_segments
-        if _is_amendment_segment(segment)
-    ]
+    return [segment.strip() for segment in raw_segments if _is_amendment_segment(segment)]
 
 
 def _is_amendment_segment(segment: str) -> bool:
@@ -278,9 +274,7 @@ def _compare_node_maps(before: dict[str, str], after: dict[str, str]) -> dict[st
     return {
         "added": sorted(node_id for node_id in after if node_id not in before),
         "modified": sorted(
-            node_id
-            for node_id in after
-            if node_id in before and after[node_id] != before[node_id]
+            node_id for node_id in after if node_id in before and after[node_id] != before[node_id]
         ),
         "repealed": sorted(node_id for node_id in before if node_id not in after),
     }

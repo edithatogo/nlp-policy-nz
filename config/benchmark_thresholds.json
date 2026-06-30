@@ -1,0 +1,6 @@
+{
+  "default_threshold": 0.1,
+  "thresholds": {
+    "tests/benchmarks/test_pipeline_benchmark.py::test_process_legislation_throughput_benchmark": 0.1
+  }
+}

@@ -54,15 +54,19 @@ class TestQdrantAdapterAddRecords:
 
     def test_add_records(self) -> None:
         adapter = _make_adapter()
-        adapter.create_index([
-            {"doc_id": "a", "text": "first", "vector": [1.0, 0.0, 0.0, 0.0]},
-            {"doc_id": "b", "text": "second", "vector": [0.0, 1.0, 0.0, 0.0]},
-        ])
+        adapter.create_index(
+            [
+                {"doc_id": "a", "text": "first", "vector": [1.0, 0.0, 0.0, 0.0]},
+                {"doc_id": "b", "text": "second", "vector": [0.0, 1.0, 0.0, 0.0]},
+            ]
+        )
 
-        adapter.add_records([
-            {"doc_id": "c", "text": "third", "vector": [0.0, 0.0, 1.0, 0.0]},
-            {"doc_id": "d", "text": "fourth", "vector": [0.0, 0.0, 0.0, 1.0]},
-        ])
+        adapter.add_records(
+            [
+                {"doc_id": "c", "text": "third", "vector": [0.0, 0.0, 1.0, 0.0]},
+                {"doc_id": "d", "text": "fourth", "vector": [0.0, 0.0, 0.0, 1.0]},
+            ]
+        )
 
         results = adapter.search(query_vector=[1.0, 0.0, 0.0, 0.0], top_k=4)
         assert len(results) == 4
@@ -74,9 +78,11 @@ class TestQdrantAdapterDelete:
 
     def test_delete_index(self) -> None:
         adapter = _make_adapter()
-        adapter.create_index([
-            {"doc_id": "a", "text": "x", "vector": [1.0, 0.0, 0.0, 0.0]},
-        ])
+        adapter.create_index(
+            [
+                {"doc_id": "a", "text": "x", "vector": [1.0, 0.0, 0.0, 0.0]},
+            ]
+        )
         assert adapter.index_exists() is True
 
         adapter.delete_index()
@@ -87,9 +93,11 @@ class TestQdrantAdapterDelete:
         adapter = _make_adapter()
         assert adapter.index_exists() is False
 
-        adapter.create_index([
-            {"doc_id": "a", "text": "x", "vector": [1.0, 0.0, 0.0, 0.0]},
-        ])
+        adapter.create_index(
+            [
+                {"doc_id": "a", "text": "x", "vector": [1.0, 0.0, 0.0, 0.0]},
+            ]
+        )
         assert adapter.index_exists() is True
 
         adapter.delete_index()

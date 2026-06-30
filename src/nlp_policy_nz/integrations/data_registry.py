@@ -5,6 +5,8 @@ where each dataset originated, under what license it is distributed,
 and where (e.g. which Zenodo DOI) it has been archived.
 """
 
+from __future__ import annotations
+
 import json
 from datetime import UTC, datetime
 from pathlib import Path

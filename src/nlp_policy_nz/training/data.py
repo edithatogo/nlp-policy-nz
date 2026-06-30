@@ -99,9 +99,7 @@ class MaskedLanguageModelingCollator:
                 for index, token_id in enumerate(row)
                 if token_id not in self.special_token_ids and mask[index] == 1
             ]
-            selected = [
-                index for index in candidate_indices if rng.random() < self.mlm_probability
-            ]
+            selected = [index for index in candidate_indices if rng.random() < self.mlm_probability]
             if not selected and candidate_indices:
                 selected = [candidate_indices[0]]
             for index in selected:
@@ -129,7 +127,6 @@ def _base_metadata(record: PipelineRecord) -> dict[str, Any]:
 def _is_gold_label_source(value: object) -> bool:
     """Return whether a label source denotes human/gold annotation."""
     return str(value).casefold() in {"annotated", "gold", "human", "manual"}
-
 
 
 def build_training_examples(records: Iterable[PipelineRecord]) -> list[TrainingExample]:

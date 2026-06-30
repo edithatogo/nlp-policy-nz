@@ -87,8 +87,10 @@ def search_chunks(
     if matches.empty:
         return matches
 
-    matches["relevance"] = matches["raw_text"].str.lower().apply(
-        lambda t: t.count(query_lower) / max(len(t.split()), 1)
+    matches["relevance"] = (
+        matches["raw_text"]
+        .str.lower()
+        .apply(lambda t: t.count(query_lower) / max(len(t.split()), 1))
     )
     display_cols = ["doc_id", "corpus_source", "raw_text", "relevance"]
     return matches[display_cols].sort_values("relevance", ascending=False)
@@ -276,7 +278,9 @@ def build_app() -> object:
         title="nlp-policy-nz Explorer",
         theme=gr.themes.Soft(),
     ) as app:
-        gr.Markdown("# nlp-policy-nz Explorer\nInteractive visualisation of NZ parliamentary and legislative NLP datasets.")
+        gr.Markdown(
+            "# nlp-policy-nz Explorer\nInteractive visualisation of NZ parliamentary and legislative NLP datasets."
+        )
 
         file_input = gr.File(
             label="Upload Parquet Dataset",

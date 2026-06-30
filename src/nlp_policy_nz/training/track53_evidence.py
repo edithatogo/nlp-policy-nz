@@ -321,8 +321,7 @@ def render_track53_selection_markdown(report: Track53ModelSelectionReport) -> st
         "",
     ]
     lines.extend(
-        f"- {name}: {'satisfied' if satisfied else 'pending'}"
-        for name, satisfied in status.items()
+        f"- {name}: {'satisfied' if satisfied else 'pending'}" for name, satisfied in status.items()
     )
     lines.extend(
         [
@@ -340,40 +339,48 @@ def render_track53_selection_markdown(report: Track53ModelSelectionReport) -> st
 def render_track53_evaluation_context_json() -> str:
     """Return the Track 53 evaluation context as formatted JSON."""
     context = default_track53_evaluation_context()
-    return json.dumps(
-        {
-            "task_matrix": list(context.task_matrix),
-            "datasets": [dataset.__dict__ for dataset in context.datasets],
-            "metrics": [metric.__dict__ for metric in context.metrics],
-            "hardware_constraints": [
-                constraint.__dict__ for constraint in context.hardware_constraints
-            ],
-        },
-        indent=2,
-    ) + "\n"
+    return (
+        json.dumps(
+            {
+                "task_matrix": list(context.task_matrix),
+                "datasets": [dataset.__dict__ for dataset in context.datasets],
+                "metrics": [metric.__dict__ for metric in context.metrics],
+                "hardware_constraints": [
+                    constraint.__dict__ for constraint in context.hardware_constraints
+                ],
+            },
+            indent=2,
+        )
+        + "\n"
+    )
 
 
 def render_track53_model_comparison_manifest_json() -> str:
     """Return the Track 53 model comparison manifest as formatted JSON."""
     manifest = default_track53_model_comparison_manifest()
-    return json.dumps(
-        {
-            "encoder_candidates": [candidate.__dict__ for candidate in manifest.encoder_candidates],
-            "adjudicator_candidates": [
-                candidate.__dict__ for candidate in manifest.adjudicator_candidates
-            ],
-            "retrieval_candidates": [
-                candidate.__dict__ for candidate in manifest.retrieval_candidates
-            ],
-            "recommended_encoder": manifest.recommended_encoder,
-            "recommended_adjudicator": manifest.recommended_adjudicator,
-            "recommended_retrieval": manifest.recommended_retrieval,
-            "tradeoffs": list(manifest.tradeoffs),
-            "privacy_constraints": list(manifest.privacy_constraints),
-            "follow_up_issue": manifest.follow_up_issue,
-        },
-        indent=2,
-    ) + "\n"
+    return (
+        json.dumps(
+            {
+                "encoder_candidates": [
+                    candidate.__dict__ for candidate in manifest.encoder_candidates
+                ],
+                "adjudicator_candidates": [
+                    candidate.__dict__ for candidate in manifest.adjudicator_candidates
+                ],
+                "retrieval_candidates": [
+                    candidate.__dict__ for candidate in manifest.retrieval_candidates
+                ],
+                "recommended_encoder": manifest.recommended_encoder,
+                "recommended_adjudicator": manifest.recommended_adjudicator,
+                "recommended_retrieval": manifest.recommended_retrieval,
+                "tradeoffs": list(manifest.tradeoffs),
+                "privacy_constraints": list(manifest.privacy_constraints),
+                "follow_up_issue": manifest.follow_up_issue,
+            },
+            indent=2,
+        )
+        + "\n"
+    )
 
 
 def render_track53_recommendation_markdown() -> str:

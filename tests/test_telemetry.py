@@ -75,6 +75,15 @@ def test_configure_tracing_can_disable_exporters() -> None:
     assert handle.config.enabled is False
 
 
+def test_env_flag_handles_defaults_and_truthy_values(monkeypatch) -> None:
+    monkeypatch.delenv("NLP_POLICY_NZ_TRACE", raising=False)
+    assert tracer_module._env_flag("NLP_POLICY_NZ_TRACE", False) is False
+    monkeypatch.setenv("NLP_POLICY_NZ_TRACE", " on ")
+    assert tracer_module._env_flag("NLP_POLICY_NZ_TRACE", False) is True
+    monkeypatch.setenv("NLP_POLICY_NZ_TRACE", "0")
+    assert tracer_module._env_flag("NLP_POLICY_NZ_TRACE", True) is False
+
+
 def test_tracing_falls_back_when_sdk_import_fails(monkeypatch) -> None:
     """Telemetry helpers degrade to no-op behavior when OTel is unavailable."""
     original_import = builtins.__import__
@@ -153,6 +162,30 @@ def test_span_to_dict_serializes_core_trace_fields() -> None:
     assert payload["context"]["parent_span_id"] == "0000000000000003"
     assert payload["attributes"]["pipeline.record_count"] == 2
     assert payload["events"][0]["attributes"] == {"key": "value"}
+
+
+def test_span_to_dict_handles_missing_parent_and_events() -> None:
+    class Context:
+        trace_id = 7
+        span_id = 8
+
+    class Span:
+        name = "pipeline.minimal"
+        parent = None
+        kind = None
+        start_time = None
+        end_time = None
+        attributes: dict[str, Any] = {}
+        events: list[Any] = []
+        status = None
+
+        def get_span_context(self) -> Context:
+            return Context()
+
+    payload = _span_to_dict(Span())
+    assert payload["context"]["parent_span_id"] is None
+    assert payload["events"] == []
+    assert payload["status"]["status_code"] == ""
 
 
 def test_configure_tracing_registers_console_and_file_exporters(monkeypatch) -> None:
@@ -311,9 +344,13 @@ def test_process_legislation_emits_pipeline_spans(monkeypatch) -> None:
         path.write_bytes(b"parquet")
         return path
 
-    monkeypatch.setattr(pipeline_api, "configure_tracing", lambda **kwargs: configured.update(kwargs))
+    monkeypatch.setattr(
+        pipeline_api, "configure_tracing", lambda **kwargs: configured.update(kwargs)
+    )
     monkeypatch.setattr(pipeline_api, "pipeline_span", fake_span)
-    monkeypatch.setattr(pipeline_api, "set_span_attribute", lambda key, value: attributes.update({key: value}))
+    monkeypatch.setattr(
+        pipeline_api, "set_span_attribute", lambda key, value: attributes.update({key: value})
+    )
     monkeypatch.setattr(pipeline_api, "create_nlp_pipeline", FakeNlp)
     monkeypatch.setattr(pipeline_api, "create_citation_ruler", lambda _nlp: None)
     monkeypatch.setattr(

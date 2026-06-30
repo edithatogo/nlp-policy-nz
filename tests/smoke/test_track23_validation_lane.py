@@ -49,9 +49,7 @@ def test_track23_smoke_lane_config_is_parseable() -> None:
     coverage = configparser.ConfigParser()
     coverage.read(ROOT / ".coveragerc", encoding="utf-8")
 
-    assert {"ANN", "D", "TCH", "YTT", "RET"} <= set(
-        pyproject["tool"]["ruff"]["lint"]["select"]
-    )
+    assert {"ANN", "D", "TCH", "YTT", "RET"} <= set(pyproject["tool"]["ruff"]["lint"]["select"])
     assert pyproject["tool"]["basedpyright"]["typeCheckingMode"] == "strict"
     assert {"coverage", "mutation", "profile", "typecheck"} <= set(pixi["tasks"])
     assert coverage.getboolean("run", "branch") is True
@@ -61,9 +59,7 @@ def test_track23_smoke_lane_docs_record_bounded_decisions() -> None:
     """Docs distinguish repo-side scaffolding from measured external gates."""
     build_backend = (ROOT / "docs" / "build_backend.md").read_text(encoding="utf-8")
     profiling = (ROOT / "docs" / "profiling.md").read_text(encoding="utf-8")
-    validation = (ROOT / "docs" / "pydantic_vs_msgspec.md").read_text(
-        encoding="utf-8"
-    )
+    validation = (ROOT / "docs" / "pydantic_vs_msgspec.md").read_text(encoding="utf-8")
 
     assert "hatchling" in build_backend
     assert "uv_build" in build_backend

@@ -20,9 +20,7 @@ def _pyproject_version() -> str:
 
 
 def _quoted_assignment(path: str, name: str) -> str:
-    match = re.search(
-        rf'^{re.escape(name)}\s*=\s*"([^"]+)"\s*$', _text(path), re.MULTILINE
-    )
+    match = re.search(rf'^{re.escape(name)}\s*=\s*"([^"]+)"\s*$', _text(path), re.MULTILINE)
     if not match:
         raise ValueError(f"{path} does not define {name}")
     return match.group(1)
@@ -36,8 +34,7 @@ def check_version_consistency() -> list[str]:
     init_version = _quoted_assignment("src/nlp_policy_nz/__init__.py", "__version__")
     if package_version != init_version:
         failures.append(
-            "Version mismatch: pyproject.toml "
-            f"{package_version} != __init__.py {init_version}"
+            f"Version mismatch: pyproject.toml {package_version} != __init__.py {init_version}"
         )
     if not SEMVER_RE.fullmatch(package_version):
         failures.append(f"Version is not SemVer-like: {package_version}")

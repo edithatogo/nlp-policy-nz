@@ -366,6 +366,7 @@ class PolicyGraph:
         graph._graph = nx.node_link_graph(data)
         return graph
 
+
 def export_argument_graph_jsonld(
     records: list[object],
     *,

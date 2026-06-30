@@ -10,7 +10,6 @@ depends_on = [
     "nlp_policy_nz.syntactic",
     "nlp_policy_nz.semantic",
     "nlp_policy_nz.storage",
-    "nlp_policy_nz.cli",
 ]
 
 [[modules]]
@@ -23,7 +22,7 @@ depends_on = ["nlp_policy_nz.guard"]
 
 [[modules]]
 path = "nlp_policy_nz.semantic"
-depends_on = []
+depends_on = ["nlp_policy_nz"]
 
 [[modules]]
 path = "nlp_policy_nz.storage"
@@ -32,12 +31,9 @@ depends_on = []
 [[modules]]
 path = "nlp_policy_nz.cli"
 depends_on = [
-    "nlp_policy_nz.guard",
-    "nlp_policy_nz.syntactic",
-    "nlp_policy_nz.semantic",
-    "nlp_policy_nz.storage",
+    "nlp_policy_nz.storage", "nlp_policy_nz.integrations", "nlp_policy_nz",
 ]
 
 [[modules]]
 path = "nlp_policy_nz.integrations"
-depends_on = []
+depends_on = ["nlp_policy_nz"]

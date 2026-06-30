@@ -20,8 +20,7 @@ from nlp_policy_nz.training.track13_silver import (
 def test_silver_manifest_prefers_human_labelled_calibration_sources() -> None:
     manifest = json.loads(
         Path(
-            "conductor/tracks/archive/track13_argument_stance_20260613/"
-            "silver_label_manifest.json",
+            "conductor/tracks/archive/track13_argument_stance_20260613/silver_label_manifest.json",
         ).read_text(encoding="utf-8")
     )
 
@@ -33,9 +32,10 @@ def test_silver_manifest_prefers_human_labelled_calibration_sources() -> None:
         "mining_legal_arguments_echr",
     }
     assert all(source.get("sources") for source in sources)
-    assert "data/track13/calibration/human_calibration_votes.jsonl" in manifest[
-        "calibration_artifacts"
-    ]
+    assert (
+        "data/track13/calibration/human_calibration_votes.jsonl"
+        in manifest["calibration_artifacts"]
+    )
     assert manifest["quality_gates"][0]["id"] == "external_human_calibration_source_present"
 
 
@@ -117,12 +117,8 @@ def test_track13_model_recommendations_keep_classifier_and_adjudicator_roles_sep
     )
 
     recommendations = plan["model_recommendations"]
-    classifier_models = {
-        item["model"] for item in recommendations["local_classifier_baselines"]
-    }
-    adjudicator_models = {
-        item["model"] for item in recommendations["silver_label_adjudicators"]
-    }
+    classifier_models = {item["model"] for item in recommendations["local_classifier_baselines"]}
+    adjudicator_models = {item["model"] for item in recommendations["silver_label_adjudicators"]}
 
     assert "isaacus/emubert" in classifier_models
     assert "nlpaueb/legal-bert-base-uncased" in classifier_models
@@ -141,17 +137,17 @@ def test_ontology_triangulation_manifest_links_hpo_umls_and_snomed() -> None:
     )
     silver_manifest = json.loads(
         Path(
-            "conductor/tracks/archive/track13_argument_stance_20260613/"
-            "silver_label_manifest.json",
+            "conductor/tracks/archive/track13_argument_stance_20260613/silver_label_manifest.json",
         ).read_text(encoding="utf-8")
     )
 
     ontologies = {item["id"] for item in manifest["crosswalk_ontologies"]}
     assert {"umls", "snomed_ct", "mesh"} <= ontologies
     assert manifest["silver_vote_policy"]["source_type"] == "weak_rule"
-    assert "must not be represented as human labels" in manifest["silver_vote_policy"][
-        "gold_label_warning"
-    ]
+    assert (
+        "must not be represented as human labels"
+        in manifest["silver_vote_policy"]["gold_label_warning"]
+    )
     assert silver_manifest["ontology_triangulation_sources"][0]["id"] == (
         "ontology_bridge_hpo_umls_snomed"
     )
@@ -258,6 +254,9 @@ def test_silver_consensus_routes_low_agreement_to_disagreement_queue() -> None:
 
     assert not consensus.accepted
     assert consensus.disagreement
-    assert consensus.to_json_record("Because housing costs rose, the bill should pass.")[
-        "silver_label"
-    ] is False
+    assert (
+        consensus.to_json_record("Because housing costs rose, the bill should pass.")[
+            "silver_label"
+        ]
+        is False
+    )

@@ -139,6 +139,7 @@ def test_make_nz_mleb_query_validates_relevance_judgements() -> None:
             task="citation-search",
         )
 
+
 def test_local_nz_mleb_fixture_matches_schema_contract() -> None:
     """Track 22 ships deterministic local queries and relevance judgements."""
     payload = json.loads(TRACK22_FIXTURE.read_text(encoding="utf-8"))

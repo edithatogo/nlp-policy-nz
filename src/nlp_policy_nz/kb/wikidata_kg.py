@@ -73,14 +73,10 @@ class WikidataEntity:
             entity_type=str(data["entity_type"]),
             qid=str(qid) if qid else None,
             label=str(data.get("label") or data["name"]),
-            description=(
-                str(data["description"]) if data.get("description") is not None else None
-            ),
+            description=(str(data["description"]) if data.get("description") is not None else None),
             match_score=float(data.get("match_score", 1.0 if qid else 0.0)),
             wikidata_url=(
-                str(data.get("wikidata_url") or f"{WIKIDATA_ENTITY_URI}{qid}")
-                if qid
-                else None
+                str(data.get("wikidata_url") or f"{WIKIDATA_ENTITY_URI}{qid}") if qid else None
             ),
             attributes=dict(data.get("attributes") or {}),
         )
@@ -104,11 +100,7 @@ class WikidataSparqlClient:
     def search_entity(self, name: str, entity_type: str) -> dict[str, Any] | None:
         """Resolve *name* to the best Wikidata QID for *entity_type*."""
         class_qid = ENTITY_CLASS_QIDS.get(entity_type)
-        type_clause = (
-            f"?item wdt:P31/wdt:P279* wd:{class_qid} ."
-            if class_qid is not None
-            else ""
-        )
+        type_clause = f"?item wdt:P31/wdt:P279* wd:{class_qid} ." if class_qid is not None else ""
         query = f"""
         SELECT ?item ?itemLabel ?itemDescription WHERE {{
           ?item rdfs:label "{_escape_sparql_literal(name)}"@en .
@@ -155,11 +147,13 @@ class WikidataSparqlClient:
             inception_date = inception_date or _binding_value(row, "inception")
             party = _binding_value(row, "partyLabel")
             if party:
-                party_membership.append({
-                    "party": party,
-                    "start": _binding_value(row, "start") or "",
-                    "end": _binding_value(row, "end") or "",
-                })
+                party_membership.append(
+                    {
+                        "party": party,
+                        "start": _binding_value(row, "start") or "",
+                        "end": _binding_value(row, "end") or "",
+                    }
+                )
         data: dict[str, Any] = {}
         if inception_date:
             data["inception_date"] = inception_date
@@ -205,11 +199,13 @@ class WikidataResolver:
         if result is None:
             entity = WikidataEntity(name=name, entity_type=entity_type)
         else:
-            entity = WikidataEntity.from_mapping({
-                "name": name,
-                "entity_type": entity_type,
-                **result,
-            })
+            entity = WikidataEntity.from_mapping(
+                {
+                    "name": name,
+                    "entity_type": entity_type,
+                    **result,
+                }
+            )
         self.cache.set(key, _entity_to_mapping(entity))
         return entity
 

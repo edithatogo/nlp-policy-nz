@@ -1,0 +1,210 @@
+{
+  "mapping_predicates": [
+    "skos:exactMatch",
+    "skos:closeMatch",
+    "skos:broadMatch",
+    "skos:narrowMatch",
+    "skos:relatedMatch",
+    "owl:equivalentClass",
+    "owl:equivalentProperty",
+    "rdfs:subClassOf",
+    "rdfs:subPropertyOf",
+    "source:crosswalk"
+  ],
+  "mappings": [
+    {
+      "confidence": 0.8,
+      "mapping_id": "agls-resource-to-nzgls-resource",
+      "mapping_predicate": "skos:closeMatch",
+      "method": "manual trans-Tasman metadata crosswalk",
+      "notes": "Supports AU-to-NZ corpus metadata transfer without adopting AGLS as core.",
+      "provenance": "data/ontologies/track28_standards_registry_addendum.json",
+      "review_status": "approved",
+      "source_standard": "AGLS",
+      "source_term": "Resource",
+      "target_standard": "NZGLS",
+      "target_term": "Resource"
+    },
+    {
+      "confidence": 0.86,
+      "mapping_id": "dcat-dataset-to-data-govt-nz-dataset",
+      "mapping_predicate": "source:crosswalk",
+      "method": "manual Track 28 dataset publication crosswalk",
+      "notes": "Maps generic dataset catalogue semantics to NZ publication metadata intake.",
+      "provenance": "data/ontologies/track28_standards_registry_addendum.json",
+      "review_status": "approved",
+      "source_standard": "DCAT",
+      "source_term": "Dataset",
+      "target_standard": "data.govt.nz Dataset Metadata",
+      "target_term": "dataset"
+    },
+    {
+      "confidence": 0.84,
+      "mapping_id": "dcat-dataset-to-nzgls-resource",
+      "mapping_predicate": "source:crosswalk",
+      "method": "manual Track 28 NZGLS addendum crosswalk",
+      "notes": "NZGLS resource metadata is used as a local publication crosswalk target.",
+      "provenance": "data/ontologies/track28_standards_registry_addendum.json",
+      "review_status": "approved",
+      "source_standard": "DCAT",
+      "source_term": "Dataset",
+      "target_standard": "NZGLS",
+      "target_term": "Resource"
+    },
+    {
+      "confidence": 0.76,
+      "mapping_id": "extraction-date-to-time-instant",
+      "mapping_predicate": "skos:closeMatch",
+      "method": "manual extraction-family to W3C Time crosswalk",
+      "notes": "Only normalized dates with source spans should be mapped to Time entities.",
+      "provenance": "src/nlp_policy_nz/extraction/schemas.py",
+      "review_status": "approved",
+      "source_standard": "nlp-policy-nz extraction",
+      "source_term": "date",
+      "target_standard": "OWL-Time",
+      "target_term": "time:Instant"
+    },
+    {
+      "confidence": 0.7,
+      "mapping_id": "extraction-definition-to-skos-concept",
+      "mapping_predicate": "skos:relatedMatch",
+      "method": "manual extraction-family to controlled vocabulary crosswalk",
+      "notes": "Definitions can seed concepts but require curation before becoming a controlled vocabulary.",
+      "provenance": "src/nlp_policy_nz/extraction/schemas.py",
+      "review_status": "approved",
+      "source_standard": "nlp-policy-nz extraction",
+      "source_term": "definition",
+      "target_standard": "SKOS",
+      "target_term": "Concept"
+    },
+    {
+      "confidence": 0.68,
+      "mapping_id": "extraction-rules-as-code-to-catala-scope",
+      "mapping_predicate": "source:crosswalk",
+      "method": "manual Track 55 to Track 28 rules-as-code bridge",
+      "notes": "Requires downstream review before generating Catala code or scopes.",
+      "provenance": "docs/extraction-framework.md",
+      "review_status": "needs_review",
+      "source_standard": "nlp-policy-nz extraction",
+      "source_term": "rules_as_code",
+      "target_standard": "Catala",
+      "target_term": "scope"
+    },
+    {
+      "confidence": 0.95,
+      "mapping_id": "foaf-person-to-schema-person",
+      "mapping_predicate": "owl:equivalentClass",
+      "method": "manual class identity crosswalk for public person metadata",
+      "notes": "Used for parliamentary people and speaker profile interoperability.",
+      "provenance": "src/nlp_policy_nz/linked_data/foaf.py",
+      "review_status": "approved",
+      "source_standard": "FOAF",
+      "source_term": "Person",
+      "target_standard": "schema.org",
+      "target_term": "Person"
+    },
+    {
+      "confidence": 0.82,
+      "mapping_id": "lkif-obligation-to-akn-obligation",
+      "mapping_predicate": "skos:closeMatch",
+      "method": "manual crosswalk from Track 25/26 normative effect inventory",
+      "notes": "LKIF normative effect is represented as an AKN-oriented semantic annotation, not native AKN markup.",
+      "provenance": "conductor/tracks/track26_ontology_standards_expansion_20260625/spec.md",
+      "review_status": "approved",
+      "source_standard": "LKIF",
+      "source_term": "Obligation",
+      "target_standard": "Akoma Ntoso",
+      "target_term": "obligation"
+    },
+    {
+      "confidence": 0.78,
+      "mapping_id": "lkif-permission-to-odrl-permission",
+      "mapping_predicate": "skos:closeMatch",
+      "method": "manual Track 28 ODRL map-only decision",
+      "notes": "ODRL policy permission is adjacent to legal permission but should not be treated as full legal reasoning parity.",
+      "provenance": "data/ontologies/track28_discovery_log.json",
+      "review_status": "approved",
+      "source_standard": "LKIF",
+      "source_term": "Permission",
+      "target_standard": "ODRL",
+      "target_term": "Permission"
+    },
+    {
+      "confidence": 0.78,
+      "mapping_id": "lkif-prohibition-to-odrl-prohibition",
+      "mapping_predicate": "skos:closeMatch",
+      "method": "manual Track 28 ODRL map-only decision",
+      "notes": "Use for deontic extraction inspection and not as executable ODRL policy output.",
+      "provenance": "data/ontologies/track28_discovery_log.json",
+      "review_status": "approved",
+      "source_standard": "LKIF",
+      "source_term": "Prohibition",
+      "target_standard": "ODRL",
+      "target_term": "Prohibition"
+    },
+    {
+      "confidence": 0.72,
+      "mapping_id": "prov-entity-to-dcat-dataset",
+      "mapping_predicate": "skos:relatedMatch",
+      "method": "manual provenance-to-catalog publication crosswalk",
+      "notes": "A pipeline output entity can be catalogued as a DCAT dataset when published.",
+      "provenance": "data/ontologies/track26_standards_registry.json",
+      "review_status": "approved",
+      "source_standard": "PROV-O",
+      "source_term": "Entity",
+      "target_standard": "DCAT",
+      "target_term": "Dataset"
+    },
+    {
+      "confidence": 0.74,
+      "mapping_id": "sioc-post-to-akn-debate",
+      "mapping_predicate": "skos:closeMatch",
+      "method": "manual discourse-to-legislative-document crosswalk",
+      "notes": "SIOC post models discourse item; AKN debateSpeech models parliamentary speech structure.",
+      "provenance": "src/nlp_policy_nz/linked_data/sioc.py",
+      "review_status": "approved",
+      "source_standard": "SIOC",
+      "source_term": "Post",
+      "target_standard": "Akoma Ntoso",
+      "target_term": "debateSpeech"
+    }
+  ],
+  "review_statuses": [
+    "approved",
+    "needs_review",
+    "blocked"
+  ],
+  "schema_version": "1.0",
+  "summary": {
+    "mapping_count": 12,
+    "predicate_counts": {
+      "owl:equivalentClass": 1,
+      "skos:closeMatch": 6,
+      "skos:relatedMatch": 2,
+      "source:crosswalk": 3
+    },
+    "review_status_counts": {
+      "approved": 11,
+      "needs_review": 1
+    },
+    "standard_count": 15,
+    "standards": [
+      "AGLS",
+      "Akoma Ntoso",
+      "Catala",
+      "data.govt.nz Dataset Metadata",
+      "DCAT",
+      "FOAF",
+      "LKIF",
+      "nlp-policy-nz extraction",
+      "NZGLS",
+      "ODRL",
+      "OWL-Time",
+      "PROV-O",
+      "schema.org",
+      "SIOC",
+      "SKOS"
+    ]
+  },
+  "track_id": "track29_ontology_mapping_kg_20260625"
+}

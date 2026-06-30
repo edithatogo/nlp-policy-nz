@@ -1,0 +1,2622 @@
+{
+  "audit_name": "track25_ontology_coverage_audit",
+  "blocker_register": [
+    {
+      "blocker_data_source": "Case law corpus with stable court/case citation identifiers and judgments metadata.",
+      "blocker_id": "akn_legal_docml::ecli",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 26",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "ECLI identifiers",
+        "court/case metadata registry",
+        "judgment citation mapping"
+      ],
+      "missing_local_files": [],
+      "notes": "Judgment support exists, but not the authoritative citation layer.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p0",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "ECLI"
+    },
+    {
+      "blocker_data_source": "Versioned legislation source texts with stable public URIs and section-level anchors.",
+      "blocker_id": "akn_legal_docml::eli",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 26",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "ELI URI templates",
+        "versioned legal resource identifiers",
+        "section anchors"
+      ],
+      "missing_local_files": [],
+      "notes": "This is the primary legislative identifier layer missing from the repo.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p0",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "ELI"
+    },
+    {
+      "blocker_data_source": "Document-level metadata for versioned legislation and reusable ELI descriptors.",
+      "blocker_id": "akn_legal_docml::eli_dl",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 26",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "ELI metadata descriptors",
+        "publication metadata mapping",
+        "distribution metadata"
+      ],
+      "missing_local_files": [],
+      "notes": "Needs the same source inventory as ELI plus document-level metadata alignment.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p0",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "ELI-DL"
+    },
+    {
+      "blocker_data_source": "EuroVoc SKOS thesaurus and a NZ policy-domain crosswalk.",
+      "blocker_id": "knowledge_graph_exports::eurovoc",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 28",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "EuroVoc concept scheme",
+        "NZ policy-domain mapping",
+        "multilingual descriptors"
+      ],
+      "missing_local_files": [],
+      "notes": "No controlled policy-domain thesaurus is wired into the repo yet.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p0",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "EuroVoc"
+    },
+    {
+      "blocker_data_source": "Versioned work/expression/version inventory for Acts, Bills, debates, and judgments.",
+      "blocker_id": "akn_legal_docml::frbr",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "follow_on_track": "Track 26",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "complete work-expression-version lineage",
+        "cross-document version graph"
+      ],
+      "missing_local_files": [],
+      "notes": "Metadata hooks exist, but the repository still needs a fuller source inventory.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "FRBR"
+    },
+    {
+      "blocker_data_source": "Temporal concept inventory for commencement, repeal, versioning, and amendment chronology.",
+      "blocker_id": "akn_legal_docml::tlc",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "follow_on_track": "Track 27",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "complete temporal concept catalog",
+        "uniform TLC concept mapping"
+      ],
+      "missing_local_files": [],
+      "notes": "Temporal metadata is present in hooks, but not yet a full ontology layer.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "TLC"
+    },
+    {
+      "blocker_data_source": "Authoritative entity-to-QID mapping for acts, members, parties, electorates, and courts.",
+      "blocker_id": "knowledge_graph_exports::wikidata",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "follow_on_track": "Track 29",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "complete QID coverage",
+        "verified source-to-QID reconciliation"
+      ],
+      "missing_local_files": [],
+      "notes": "Local ontology mapping exists, but the entity inventory is not yet exhaustive.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "Wikidata"
+    },
+    {
+      "blocker_data_source": "Complete legislation publication metadata model with stable landing-page fields.",
+      "blocker_id": "knowledge_graph_exports::schema_org",
+      "blocker_type": "specification",
+      "coverage_status": "partial",
+      "follow_on_track": "Track 26",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "full legislation object mapping",
+        "publication and distribution metadata"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo exports JSON-LD, but the schema.org legislation profile is not complete.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "schema.org"
+    },
+    {
+      "blocker_data_source": "Normalized deontic and legal-effect annotation corpus.",
+      "blocker_id": "legal_semantics::lkif",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "follow_on_track": "Track 27",
+      "local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "missing_features": [
+        "full norm taxonomy",
+        "exception and defeasibility inventory",
+        "applicability conditions"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo captures legal effects, but the ontology is still only inspired by LKIF.",
+      "present_local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "priority": "p1",
+      "system_key": "legal_semantics",
+      "system_name": "LKIF-inspired legal effects",
+      "upstream_standard": "LKIF"
+    },
+    {
+      "blocker_data_source": "Time interval and effective-date inventory for legal sources and parameters.",
+      "blocker_id": "temporal_semantics::owl_time",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "follow_on_track": "Track 27",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "interval normalization",
+        "valid-time model",
+        "historical parameter series"
+      ],
+      "missing_local_files": [],
+      "notes": "Time semantics are present as hooks, not as a complete model.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "temporal_semantics",
+      "system_name": "TimeML / OWL-Time temporal extraction",
+      "upstream_standard": "OWL-Time"
+    },
+    {
+      "blocker_data_source": "Temporal annotation corpus for commencement, repeal, and assessment periods.",
+      "blocker_id": "temporal_semantics::timeml",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "follow_on_track": "Track 27",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "event-time links",
+        "temporal relation inventory",
+        "annotation examples"
+      ],
+      "missing_local_files": [],
+      "notes": "Temporal extraction exists, but the annotation coverage is still partial.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "temporal_semantics",
+      "system_name": "TimeML / OWL-Time temporal extraction",
+      "upstream_standard": "TimeML"
+    },
+    {
+      "blocker_data_source": "Dataset catalogue model for corpus, artefact, and package publication.",
+      "blocker_id": "knowledge_graph_exports::dcat",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 34",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "dataset metadata",
+        "distribution metadata",
+        "catalog records"
+      ],
+      "missing_local_files": [],
+      "notes": "Needed for publication-quality dataset discovery.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "DCAT"
+    },
+    {
+      "blocker_data_source": "Profiled catalogue metadata aligned with DCAT-AP publication practices.",
+      "blocker_id": "knowledge_graph_exports::dcat_ap",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 34",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "AP-aligned properties",
+        "profile validation",
+        "distribution cataloguing"
+      ],
+      "missing_local_files": [],
+      "notes": "Would support a more standards-based publication layer.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "DCAT-AP"
+    },
+    {
+      "blocker_data_source": "Actor, office, mandate, and organization graph model for parliamentary data.",
+      "blocker_id": "knowledge_graph_exports::popolo",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 26",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "office/mandate vocabulary",
+        "person-organization relations",
+        "membership history"
+      ],
+      "missing_local_files": [],
+      "notes": "Helpful for political actor graphs, but not yet implemented.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "Popolo"
+    },
+    {
+      "blocker_data_source": "Local controlled vocabulary model for policy domains and provision classification.",
+      "blocker_id": "knowledge_graph_exports::skos",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 28",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "concept scheme definitions",
+        "broader/narrower relations",
+        "preferred labels"
+      ],
+      "missing_local_files": [],
+      "notes": "SKOS is the missing substrate for controlled vocabularies here.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "SKOS"
+    },
+    {
+      "blocker_data_source": "Organization hierarchy and role model for parliamentary and policy institutions.",
+      "blocker_id": "knowledge_graph_exports::w3c_org",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 26",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "organization classes",
+        "role and membership relations",
+        "hierarchy mapping"
+      ],
+      "missing_local_files": [],
+      "notes": "Would strengthen the actor and institution layer.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "W3C ORG"
+    },
+    {
+      "blocker_data_source": "Field-level legislation profile and canonical section-level metadata mapping.",
+      "blocker_id": "knowledge_graph_exports::schema_org_legislation",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 26",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "Legislation type profile",
+        "section and version metadata",
+        "public page discoverability"
+      ],
+      "missing_local_files": [],
+      "notes": "The Legislation subtype is not fully modelled yet.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "schema.org/Legislation"
+    },
+    {
+      "blocker_data_source": "Formal semantics for obligations, permissions, prohibitions, powers, exceptions, and defeasibility.",
+      "blocker_id": "legal_semantics::full_lkif",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 27",
+      "local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "missing_features": [
+        "full semantic model",
+        "rule exception handling",
+        "defeasible inference layer"
+      ],
+      "missing_local_files": [],
+      "notes": "This is the complete normative semantics layer that remains open.",
+      "present_local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "priority": "p1",
+      "system_key": "legal_semantics",
+      "system_name": "LKIF-inspired legal effects",
+      "upstream_standard": "full LKIF"
+    },
+    {
+      "blocker_data_source": "Complete rule semantics model with obligations, permissions, prohibitions, powers, and exceptions.",
+      "blocker_id": "normative_emission::full_legalruleml",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 27",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "complete rule ontology",
+        "formal applicability conditions",
+        "defeasible rule encoding"
+      ],
+      "missing_local_files": [],
+      "notes": "Needs the full semantics layer rather than only hook points.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "normative_emission",
+      "system_name": "LegalRuleML / Catala hooks",
+      "upstream_standard": "full LegalRuleML"
+    },
+    {
+      "blocker_data_source": "Crosswalk of entities, variables, parameters, formulas, and assessment periods.",
+      "blocker_id": "rules_as_code_bridge::formal_openfisca_policyengine_variable_parameter_entity_ontology",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "follow_on_track": "Track 31",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "formal entity model",
+        "variable ontology",
+        "parameter ontology",
+        "period semantics"
+      ],
+      "missing_local_files": [],
+      "notes": "This is the explicit ontology bridge required for rules-as-code tooling.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "rules_as_code_bridge",
+      "system_name": "OpenFisca / PolicyEngine adjacent rules-as-code surfaces",
+      "upstream_standard": "formal OpenFisca/PolicyEngine variable/parameter/entity ontology"
+    },
+    {
+      "blocker_data_source": "Executable rule translation examples and validated clause-to-rule mappings.",
+      "blocker_id": "normative_emission::catala",
+      "blocker_type": "integration",
+      "coverage_status": "prototype",
+      "follow_on_track": "Track 27",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "translation coverage",
+        "canonical rule examples",
+        "validated compile targets"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo exposes Catala hooks, but the translation path is not yet complete.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "normative_emission",
+      "system_name": "LegalRuleML / Catala hooks",
+      "upstream_standard": "Catala"
+    },
+    {
+      "blocker_data_source": "Rule serialization and validation pipeline for full formal norm semantics.",
+      "blocker_id": "normative_emission::legalruleml",
+      "blocker_type": "integration",
+      "coverage_status": "prototype",
+      "follow_on_track": "Track 27",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "full LegalRuleML serialisation",
+        "schema validation",
+        "exception representation"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo has LegalRuleML hooks, but not a full standards implementation.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "normative_emission",
+      "system_name": "LegalRuleML / Catala hooks",
+      "upstream_standard": "LegalRuleML"
+    },
+    {
+      "blocker_data_source": "Variable, parameter, and entity inventory with time-varying parameter histories.",
+      "blocker_id": "rules_as_code_bridge::openfisca",
+      "blocker_type": "source_data",
+      "coverage_status": "adjacent",
+      "follow_on_track": "Track 27",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "entity ontology",
+        "variable inventory",
+        "parameter history tables"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo is adjacent to OpenFisca concepts, but does not yet expose a formal ontology bridge.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "rules_as_code_bridge",
+      "system_name": "OpenFisca / PolicyEngine adjacent rules-as-code surfaces",
+      "upstream_standard": "OpenFisca"
+    },
+    {
+      "blocker_data_source": "Policy variable and parameter inventory plus entity-period semantics.",
+      "blocker_id": "rules_as_code_bridge::policyengine",
+      "blocker_type": "source_data",
+      "coverage_status": "adjacent",
+      "follow_on_track": "Track 27",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "formula inventory",
+        "parameter ontology",
+        "entity-period model"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo is adjacent to PolicyEngine concepts, but not yet formalised.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "rules_as_code_bridge",
+      "system_name": "OpenFisca / PolicyEngine adjacent rules-as-code surfaces",
+      "upstream_standard": "PolicyEngine"
+    }
+  ],
+  "coverage_matrix": [
+    {
+      "blocker_data_source": "",
+      "blocker_id": "akn_legal_docml::akoma_ntoso",
+      "blocker_type": "none",
+      "coverage_status": "implemented",
+      "description": "AKN v3 legal document emission and validation with FRBR/TLC-aware metadata hooks.",
+      "follow_on_track": "Track 26",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [],
+      "missing_local_files": [],
+      "notes": "Document emitters support amendment, bill, debate, and judgment formats.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p3",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "Akoma Ntoso"
+    },
+    {
+      "blocker_data_source": "",
+      "blocker_id": "akn_legal_docml::legaldocml",
+      "blocker_type": "none",
+      "coverage_status": "implemented",
+      "description": "AKN v3 legal document emission and validation with FRBR/TLC-aware metadata hooks.",
+      "follow_on_track": "Track 26",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [],
+      "missing_local_files": [],
+      "notes": "AKN v3 emitter and validator are present.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p3",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "LegalDocML"
+    },
+    {
+      "blocker_data_source": "Versioned work/expression/version inventory for Acts, Bills, debates, and judgments.",
+      "blocker_id": "akn_legal_docml::frbr",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "description": "AKN v3 legal document emission and validation with FRBR/TLC-aware metadata hooks.",
+      "follow_on_track": "Track 26",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "complete work-expression-version lineage",
+        "cross-document version graph"
+      ],
+      "missing_local_files": [],
+      "notes": "Metadata hooks exist, but the repository still needs a fuller source inventory.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "FRBR"
+    },
+    {
+      "blocker_data_source": "Temporal concept inventory for commencement, repeal, versioning, and amendment chronology.",
+      "blocker_id": "akn_legal_docml::tlc",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "description": "AKN v3 legal document emission and validation with FRBR/TLC-aware metadata hooks.",
+      "follow_on_track": "Track 27",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "complete temporal concept catalog",
+        "uniform TLC concept mapping"
+      ],
+      "missing_local_files": [],
+      "notes": "Temporal metadata is present in hooks, but not yet a full ontology layer.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "TLC"
+    },
+    {
+      "blocker_data_source": "Case law corpus with stable court/case citation identifiers and judgments metadata.",
+      "blocker_id": "akn_legal_docml::ecli",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "description": "AKN v3 legal document emission and validation with FRBR/TLC-aware metadata hooks.",
+      "follow_on_track": "Track 26",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "ECLI identifiers",
+        "court/case metadata registry",
+        "judgment citation mapping"
+      ],
+      "missing_local_files": [],
+      "notes": "Judgment support exists, but not the authoritative citation layer.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p0",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "ECLI"
+    },
+    {
+      "blocker_data_source": "Versioned legislation source texts with stable public URIs and section-level anchors.",
+      "blocker_id": "akn_legal_docml::eli",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "description": "AKN v3 legal document emission and validation with FRBR/TLC-aware metadata hooks.",
+      "follow_on_track": "Track 26",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "ELI URI templates",
+        "versioned legal resource identifiers",
+        "section anchors"
+      ],
+      "missing_local_files": [],
+      "notes": "This is the primary legislative identifier layer missing from the repo.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p0",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "ELI"
+    },
+    {
+      "blocker_data_source": "Document-level metadata for versioned legislation and reusable ELI descriptors.",
+      "blocker_id": "akn_legal_docml::eli_dl",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "description": "AKN v3 legal document emission and validation with FRBR/TLC-aware metadata hooks.",
+      "follow_on_track": "Track 26",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "ELI metadata descriptors",
+        "publication metadata mapping",
+        "distribution metadata"
+      ],
+      "missing_local_files": [],
+      "notes": "Needs the same source inventory as ELI plus document-level metadata alignment.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p0",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "ELI-DL"
+    },
+    {
+      "blocker_data_source": "Authoritative entity-to-QID mapping for acts, members, parties, electorates, and courts.",
+      "blocker_id": "knowledge_graph_exports::wikidata",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "description": "Knowledge graph export, federation helpers, and NZ entity ontology mapping.",
+      "follow_on_track": "Track 29",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "complete QID coverage",
+        "verified source-to-QID reconciliation"
+      ],
+      "missing_local_files": [],
+      "notes": "Local ontology mapping exists, but the entity inventory is not yet exhaustive.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "Wikidata"
+    },
+    {
+      "blocker_data_source": "Complete legislation publication metadata model with stable landing-page fields.",
+      "blocker_id": "knowledge_graph_exports::schema_org",
+      "blocker_type": "specification",
+      "coverage_status": "partial",
+      "description": "Knowledge graph export, federation helpers, and NZ entity ontology mapping.",
+      "follow_on_track": "Track 26",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "full legislation object mapping",
+        "publication and distribution metadata"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo exports JSON-LD, but the schema.org legislation profile is not complete.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "schema.org"
+    },
+    {
+      "blocker_data_source": "EuroVoc SKOS thesaurus and a NZ policy-domain crosswalk.",
+      "blocker_id": "knowledge_graph_exports::eurovoc",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "description": "Knowledge graph export, federation helpers, and NZ entity ontology mapping.",
+      "follow_on_track": "Track 28",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "EuroVoc concept scheme",
+        "NZ policy-domain mapping",
+        "multilingual descriptors"
+      ],
+      "missing_local_files": [],
+      "notes": "No controlled policy-domain thesaurus is wired into the repo yet.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p0",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "EuroVoc"
+    },
+    {
+      "blocker_data_source": "Dataset catalogue model for corpus, artefact, and package publication.",
+      "blocker_id": "knowledge_graph_exports::dcat",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "description": "Knowledge graph export, federation helpers, and NZ entity ontology mapping.",
+      "follow_on_track": "Track 34",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "dataset metadata",
+        "distribution metadata",
+        "catalog records"
+      ],
+      "missing_local_files": [],
+      "notes": "Needed for publication-quality dataset discovery.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "DCAT"
+    },
+    {
+      "blocker_data_source": "Profiled catalogue metadata aligned with DCAT-AP publication practices.",
+      "blocker_id": "knowledge_graph_exports::dcat_ap",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "description": "Knowledge graph export, federation helpers, and NZ entity ontology mapping.",
+      "follow_on_track": "Track 34",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "AP-aligned properties",
+        "profile validation",
+        "distribution cataloguing"
+      ],
+      "missing_local_files": [],
+      "notes": "Would support a more standards-based publication layer.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "DCAT-AP"
+    },
+    {
+      "blocker_data_source": "Actor, office, mandate, and organization graph model for parliamentary data.",
+      "blocker_id": "knowledge_graph_exports::popolo",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "description": "Knowledge graph export, federation helpers, and NZ entity ontology mapping.",
+      "follow_on_track": "Track 26",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "office/mandate vocabulary",
+        "person-organization relations",
+        "membership history"
+      ],
+      "missing_local_files": [],
+      "notes": "Helpful for political actor graphs, but not yet implemented.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "Popolo"
+    },
+    {
+      "blocker_data_source": "Local controlled vocabulary model for policy domains and provision classification.",
+      "blocker_id": "knowledge_graph_exports::skos",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "description": "Knowledge graph export, federation helpers, and NZ entity ontology mapping.",
+      "follow_on_track": "Track 28",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "concept scheme definitions",
+        "broader/narrower relations",
+        "preferred labels"
+      ],
+      "missing_local_files": [],
+      "notes": "SKOS is the missing substrate for controlled vocabularies here.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "SKOS"
+    },
+    {
+      "blocker_data_source": "Organization hierarchy and role model for parliamentary and policy institutions.",
+      "blocker_id": "knowledge_graph_exports::w3c_org",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "description": "Knowledge graph export, federation helpers, and NZ entity ontology mapping.",
+      "follow_on_track": "Track 26",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "organization classes",
+        "role and membership relations",
+        "hierarchy mapping"
+      ],
+      "missing_local_files": [],
+      "notes": "Would strengthen the actor and institution layer.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "W3C ORG"
+    },
+    {
+      "blocker_data_source": "Field-level legislation profile and canonical section-level metadata mapping.",
+      "blocker_id": "knowledge_graph_exports::schema_org_legislation",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "description": "Knowledge graph export, federation helpers, and NZ entity ontology mapping.",
+      "follow_on_track": "Track 26",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_features": [
+        "Legislation type profile",
+        "section and version metadata",
+        "public page discoverability"
+      ],
+      "missing_local_files": [],
+      "notes": "The Legislation subtype is not fully modelled yet.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "schema.org/Legislation"
+    },
+    {
+      "blocker_data_source": "Normalized deontic and legal-effect annotation corpus.",
+      "blocker_id": "legal_semantics::lkif",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "description": "Legal effect classification and deontic modality detection for normative clauses.",
+      "follow_on_track": "Track 27",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "missing_features": [
+        "full norm taxonomy",
+        "exception and defeasibility inventory",
+        "applicability conditions"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo captures legal effects, but the ontology is still only inspired by LKIF.",
+      "present_local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "priority": "p1",
+      "system_key": "legal_semantics",
+      "system_name": "LKIF-inspired legal effects",
+      "upstream_standard": "LKIF"
+    },
+    {
+      "blocker_data_source": "Formal semantics for obligations, permissions, prohibitions, powers, exceptions, and defeasibility.",
+      "blocker_id": "legal_semantics::full_lkif",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "description": "Legal effect classification and deontic modality detection for normative clauses.",
+      "follow_on_track": "Track 27",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "missing_features": [
+        "full semantic model",
+        "rule exception handling",
+        "defeasible inference layer"
+      ],
+      "missing_local_files": [],
+      "notes": "This is the complete normative semantics layer that remains open.",
+      "present_local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "priority": "p1",
+      "system_key": "legal_semantics",
+      "system_name": "LKIF-inspired legal effects",
+      "upstream_standard": "full LKIF"
+    },
+    {
+      "blocker_data_source": "",
+      "blocker_id": "linked_data_graphs::foaf",
+      "blocker_type": "none",
+      "coverage_status": "implemented",
+      "description": "Parliamentary and speech-level linked data graphs for MPs, parties, electorates, and debates.",
+      "follow_on_track": "",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/linked_data/rdf.py",
+        "src/nlp_policy_nz/linked_data/foaf.py",
+        "src/nlp_policy_nz/linked_data/sioc.py"
+      ],
+      "missing_features": [],
+      "missing_local_files": [],
+      "notes": "Person, party, and electorate graphs are materialised with FOAF-style links.",
+      "present_local_files": [
+        "src/nlp_policy_nz/linked_data/foaf.py",
+        "src/nlp_policy_nz/linked_data/rdf.py",
+        "src/nlp_policy_nz/linked_data/sioc.py"
+      ],
+      "priority": "p3",
+      "system_key": "linked_data_graphs",
+      "system_name": "FOAF / SIOC linked data",
+      "upstream_standard": "FOAF"
+    },
+    {
+      "blocker_data_source": "",
+      "blocker_id": "linked_data_graphs::sioc",
+      "blocker_type": "none",
+      "coverage_status": "implemented",
+      "description": "Parliamentary and speech-level linked data graphs for MPs, parties, electorates, and debates.",
+      "follow_on_track": "",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/linked_data/rdf.py",
+        "src/nlp_policy_nz/linked_data/foaf.py",
+        "src/nlp_policy_nz/linked_data/sioc.py"
+      ],
+      "missing_features": [],
+      "missing_local_files": [],
+      "notes": "Debate speech exports are SIOC-aligned.",
+      "present_local_files": [
+        "src/nlp_policy_nz/linked_data/foaf.py",
+        "src/nlp_policy_nz/linked_data/rdf.py",
+        "src/nlp_policy_nz/linked_data/sioc.py"
+      ],
+      "priority": "p3",
+      "system_key": "linked_data_graphs",
+      "system_name": "FOAF / SIOC linked data",
+      "upstream_standard": "SIOC"
+    },
+    {
+      "blocker_data_source": "Executable rule translation examples and validated clause-to-rule mappings.",
+      "blocker_id": "normative_emission::catala",
+      "blocker_type": "integration",
+      "coverage_status": "prototype",
+      "description": "Prototype emitters for formal rule semantics and executable legal transformations.",
+      "follow_on_track": "Track 27",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "translation coverage",
+        "canonical rule examples",
+        "validated compile targets"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo exposes Catala hooks, but the translation path is not yet complete.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "normative_emission",
+      "system_name": "LegalRuleML / Catala hooks",
+      "upstream_standard": "Catala"
+    },
+    {
+      "blocker_data_source": "Rule serialization and validation pipeline for full formal norm semantics.",
+      "blocker_id": "normative_emission::legalruleml",
+      "blocker_type": "integration",
+      "coverage_status": "prototype",
+      "description": "Prototype emitters for formal rule semantics and executable legal transformations.",
+      "follow_on_track": "Track 27",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "full LegalRuleML serialisation",
+        "schema validation",
+        "exception representation"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo has LegalRuleML hooks, but not a full standards implementation.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "normative_emission",
+      "system_name": "LegalRuleML / Catala hooks",
+      "upstream_standard": "LegalRuleML"
+    },
+    {
+      "blocker_data_source": "Complete rule semantics model with obligations, permissions, prohibitions, powers, and exceptions.",
+      "blocker_id": "normative_emission::full_legalruleml",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "description": "Prototype emitters for formal rule semantics and executable legal transformations.",
+      "follow_on_track": "Track 27",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "complete rule ontology",
+        "formal applicability conditions",
+        "defeasible rule encoding"
+      ],
+      "missing_local_files": [],
+      "notes": "Needs the full semantics layer rather than only hook points.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "normative_emission",
+      "system_name": "LegalRuleML / Catala hooks",
+      "upstream_standard": "full LegalRuleML"
+    },
+    {
+      "blocker_data_source": "",
+      "blocker_id": "provenance::prov_o",
+      "blocker_type": "none",
+      "coverage_status": "implemented",
+      "description": "Bundle, entity, activity, and agent provenance serialisation for pipeline artefacts.",
+      "follow_on_track": "",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/provenance/serializer.py",
+        "src/nlp_policy_nz/provenance/recorder.py"
+      ],
+      "missing_features": [],
+      "missing_local_files": [],
+      "notes": "The repo emits PROV-O aligned JSON-LD bundles and provenance sidecars.",
+      "present_local_files": [
+        "src/nlp_policy_nz/provenance/recorder.py",
+        "src/nlp_policy_nz/provenance/serializer.py"
+      ],
+      "priority": "p3",
+      "system_key": "provenance",
+      "system_name": "PROV-O provenance sidecars",
+      "upstream_standard": "PROV-O"
+    },
+    {
+      "blocker_data_source": "Variable, parameter, and entity inventory with time-varying parameter histories.",
+      "blocker_id": "rules_as_code_bridge::openfisca",
+      "blocker_type": "source_data",
+      "coverage_status": "adjacent",
+      "description": "Rules-as-code bridge surfaces for entities, variables, formulas, parameters, and periods.",
+      "follow_on_track": "Track 27",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "entity ontology",
+        "variable inventory",
+        "parameter history tables"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo is adjacent to OpenFisca concepts, but does not yet expose a formal ontology bridge.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "rules_as_code_bridge",
+      "system_name": "OpenFisca / PolicyEngine adjacent rules-as-code surfaces",
+      "upstream_standard": "OpenFisca"
+    },
+    {
+      "blocker_data_source": "Policy variable and parameter inventory plus entity-period semantics.",
+      "blocker_id": "rules_as_code_bridge::policyengine",
+      "blocker_type": "source_data",
+      "coverage_status": "adjacent",
+      "description": "Rules-as-code bridge surfaces for entities, variables, formulas, parameters, and periods.",
+      "follow_on_track": "Track 27",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "formula inventory",
+        "parameter ontology",
+        "entity-period model"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo is adjacent to PolicyEngine concepts, but not yet formalised.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "rules_as_code_bridge",
+      "system_name": "OpenFisca / PolicyEngine adjacent rules-as-code surfaces",
+      "upstream_standard": "PolicyEngine"
+    },
+    {
+      "blocker_data_source": "Crosswalk of entities, variables, parameters, formulas, and assessment periods.",
+      "blocker_id": "rules_as_code_bridge::formal_openfisca_policyengine_variable_parameter_entity_ontology",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "description": "Rules-as-code bridge surfaces for entities, variables, formulas, parameters, and periods.",
+      "follow_on_track": "Track 31",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "formal entity model",
+        "variable ontology",
+        "parameter ontology",
+        "period semantics"
+      ],
+      "missing_local_files": [],
+      "notes": "This is the explicit ontology bridge required for rules-as-code tooling.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "rules_as_code_bridge",
+      "system_name": "OpenFisca / PolicyEngine adjacent rules-as-code surfaces",
+      "upstream_standard": "formal OpenFisca/PolicyEngine variable/parameter/entity ontology"
+    },
+    {
+      "blocker_data_source": "Time interval and effective-date inventory for legal sources and parameters.",
+      "blocker_id": "temporal_semantics::owl_time",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "description": "Temporal extraction hooks for commencement, expiry, amendments, and assessment periods.",
+      "follow_on_track": "Track 27",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "interval normalization",
+        "valid-time model",
+        "historical parameter series"
+      ],
+      "missing_local_files": [],
+      "notes": "Time semantics are present as hooks, not as a complete model.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "temporal_semantics",
+      "system_name": "TimeML / OWL-Time temporal extraction",
+      "upstream_standard": "OWL-Time"
+    },
+    {
+      "blocker_data_source": "Temporal annotation corpus for commencement, repeal, and assessment periods.",
+      "blocker_id": "temporal_semantics::timeml",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "description": "Temporal extraction hooks for commencement, expiry, amendments, and assessment periods.",
+      "follow_on_track": "Track 27",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_features": [
+        "event-time links",
+        "temporal relation inventory",
+        "annotation examples"
+      ],
+      "missing_local_files": [],
+      "notes": "Temporal extraction exists, but the annotation coverage is still partial.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "temporal_semantics",
+      "system_name": "TimeML / OWL-Time temporal extraction",
+      "upstream_standard": "TimeML"
+    }
+  ],
+  "prioritized_backlog": [
+    {
+      "action": "Add ECLI-compliant case law identifiers",
+      "blocker_data_source": "Case law corpus with stable court/case citation identifiers and judgments metadata.",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "expected_output": [
+        "case law identifier registry",
+        "citation-mapped judgments"
+      ],
+      "follow_on_track": "Track 26",
+      "inputs_needed": [
+        "ECLI identifiers",
+        "court/case metadata registry",
+        "judgment citation mapping"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "Judgment support exists, but not the authoritative citation layer.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p0",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "ECLI"
+    },
+    {
+      "action": "Add ELI URI templates and stable legislative identifiers",
+      "blocker_data_source": "Versioned legislation source texts with stable public URIs and section-level anchors.",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "expected_output": [
+        "stable URI templates",
+        "versioned legislative metadata"
+      ],
+      "follow_on_track": "Track 26",
+      "inputs_needed": [
+        "ELI URI templates",
+        "versioned legal resource identifiers",
+        "section anchors"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "This is the primary legislative identifier layer missing from the repo.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p0",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "ELI"
+    },
+    {
+      "action": "Add ELI-DL document metadata and publication descriptors",
+      "blocker_data_source": "Document-level metadata for versioned legislation and reusable ELI descriptors.",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "expected_output": [
+        "stable URI templates",
+        "versioned legislative metadata"
+      ],
+      "follow_on_track": "Track 26",
+      "inputs_needed": [
+        "ELI metadata descriptors",
+        "publication metadata mapping",
+        "distribution metadata"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "Needs the same source inventory as ELI plus document-level metadata alignment.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p0",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "ELI-DL"
+    },
+    {
+      "action": "Add EuroVoc controlled vocabulary mappings",
+      "blocker_data_source": "EuroVoc SKOS thesaurus and a NZ policy-domain crosswalk.",
+      "blocker_type": "source_data",
+      "coverage_status": "missing",
+      "expected_output": [
+        "controlled vocabulary scheme",
+        "domain concept crosswalk"
+      ],
+      "follow_on_track": "Track 28",
+      "inputs_needed": [
+        "EuroVoc concept scheme",
+        "NZ policy-domain mapping",
+        "multilingual descriptors"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_local_files": [],
+      "notes": "No controlled policy-domain thesaurus is wired into the repo yet.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p0",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "EuroVoc"
+    },
+    {
+      "action": "Complete work-expression-version lineage metadata",
+      "blocker_data_source": "Versioned work/expression/version inventory for Acts, Bills, debates, and judgments.",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "expected_output": [
+        "coverage update"
+      ],
+      "follow_on_track": "Track 26",
+      "inputs_needed": [
+        "complete work-expression-version lineage",
+        "cross-document version graph"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "Metadata hooks exist, but the repository still needs a fuller source inventory.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "FRBR"
+    },
+    {
+      "action": "Complete temporal concept metadata",
+      "blocker_data_source": "Temporal concept inventory for commencement, repeal, versioning, and amendment chronology.",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "expected_output": [
+        "coverage update"
+      ],
+      "follow_on_track": "Track 27",
+      "inputs_needed": [
+        "complete temporal concept catalog",
+        "uniform TLC concept mapping"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "Temporal metadata is present in hooks, but not yet a full ontology layer.",
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter",
+      "upstream_standard": "TLC"
+    },
+    {
+      "action": "Expand and verify the Wikidata entity crosswalk",
+      "blocker_data_source": "Authoritative entity-to-QID mapping for acts, members, parties, electorates, and courts.",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "expected_output": [
+        "linked-data export",
+        "discoverable legal metadata"
+      ],
+      "follow_on_track": "Track 29",
+      "inputs_needed": [
+        "complete QID coverage",
+        "verified source-to-QID reconciliation"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_local_files": [],
+      "notes": "Local ontology mapping exists, but the entity inventory is not yet exhaustive.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "Wikidata"
+    },
+    {
+      "action": "Expand the schema.org knowledge graph export",
+      "blocker_data_source": "Complete legislation publication metadata model with stable landing-page fields.",
+      "blocker_type": "specification",
+      "coverage_status": "partial",
+      "expected_output": [
+        "linked-data export",
+        "discoverable legal metadata"
+      ],
+      "follow_on_track": "Track 26",
+      "inputs_needed": [
+        "full legislation object mapping",
+        "publication and distribution metadata"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo exports JSON-LD, but the schema.org legislation profile is not complete.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "schema.org"
+    },
+    {
+      "action": "Expand deontic and legal-effect classification coverage",
+      "blocker_data_source": "Normalized deontic and legal-effect annotation corpus.",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "expected_output": [
+        "norm semantics model",
+        "exception and defeasibility rules"
+      ],
+      "follow_on_track": "Track 27",
+      "inputs_needed": [
+        "full norm taxonomy",
+        "exception and defeasibility inventory",
+        "applicability conditions"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo captures legal effects, but the ontology is still only inspired by LKIF.",
+      "present_local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "priority": "p1",
+      "system_key": "legal_semantics",
+      "system_name": "LKIF-inspired legal effects",
+      "upstream_standard": "LKIF"
+    },
+    {
+      "action": "Model legal time intervals with OWL-Time",
+      "blocker_data_source": "Time interval and effective-date inventory for legal sources and parameters.",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "expected_output": [
+        "temporal annotations",
+        "effective-date model"
+      ],
+      "follow_on_track": "Track 27",
+      "inputs_needed": [
+        "interval normalization",
+        "valid-time model",
+        "historical parameter series"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "Time semantics are present as hooks, not as a complete model.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "temporal_semantics",
+      "system_name": "TimeML / OWL-Time temporal extraction",
+      "upstream_standard": "OWL-Time"
+    },
+    {
+      "action": "Expand temporal extraction into TimeML-aligned annotations",
+      "blocker_data_source": "Temporal annotation corpus for commencement, repeal, and assessment periods.",
+      "blocker_type": "source_data",
+      "coverage_status": "partial",
+      "expected_output": [
+        "temporal annotations",
+        "effective-date model"
+      ],
+      "follow_on_track": "Track 27",
+      "inputs_needed": [
+        "event-time links",
+        "temporal relation inventory",
+        "annotation examples"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "Temporal extraction exists, but the annotation coverage is still partial.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "temporal_semantics",
+      "system_name": "TimeML / OWL-Time temporal extraction",
+      "upstream_standard": "TimeML"
+    },
+    {
+      "action": "Publish datasets through DCAT metadata",
+      "blocker_data_source": "Dataset catalogue model for corpus, artefact, and package publication.",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "expected_output": [
+        "dataset catalogue records",
+        "distribution metadata"
+      ],
+      "follow_on_track": "Track 34",
+      "inputs_needed": [
+        "dataset metadata",
+        "distribution metadata",
+        "catalog records"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_local_files": [],
+      "notes": "Needed for publication-quality dataset discovery.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "DCAT"
+    },
+    {
+      "action": "Add DCAT-AP catalogue profiles",
+      "blocker_data_source": "Profiled catalogue metadata aligned with DCAT-AP publication practices.",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "expected_output": [
+        "dataset catalogue records",
+        "distribution metadata"
+      ],
+      "follow_on_track": "Track 34",
+      "inputs_needed": [
+        "AP-aligned properties",
+        "profile validation",
+        "distribution cataloguing"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_local_files": [],
+      "notes": "Would support a more standards-based publication layer.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "DCAT-AP"
+    },
+    {
+      "action": "Add Popolo actor, office, and mandate modelling",
+      "blocker_data_source": "Actor, office, mandate, and organization graph model for parliamentary data.",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "expected_output": [
+        "actor and institution graph",
+        "membership and role relations"
+      ],
+      "follow_on_track": "Track 26",
+      "inputs_needed": [
+        "office/mandate vocabulary",
+        "person-organization relations",
+        "membership history"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_local_files": [],
+      "notes": "Helpful for political actor graphs, but not yet implemented.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "Popolo"
+    },
+    {
+      "action": "Model the local policy taxonomy in SKOS",
+      "blocker_data_source": "Local controlled vocabulary model for policy domains and provision classification.",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "expected_output": [
+        "controlled vocabulary scheme",
+        "domain concept crosswalk"
+      ],
+      "follow_on_track": "Track 28",
+      "inputs_needed": [
+        "concept scheme definitions",
+        "broader/narrower relations",
+        "preferred labels"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_local_files": [],
+      "notes": "SKOS is the missing substrate for controlled vocabularies here.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "SKOS"
+    },
+    {
+      "action": "Add W3C ORG institution and role modelling",
+      "blocker_data_source": "Organization hierarchy and role model for parliamentary and policy institutions.",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "expected_output": [
+        "actor and institution graph",
+        "membership and role relations"
+      ],
+      "follow_on_track": "Track 26",
+      "inputs_needed": [
+        "organization classes",
+        "role and membership relations",
+        "hierarchy mapping"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_local_files": [],
+      "notes": "Would strengthen the actor and institution layer.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "W3C ORG"
+    },
+    {
+      "action": "Complete schema.org/Legislation mapping",
+      "blocker_data_source": "Field-level legislation profile and canonical section-level metadata mapping.",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "expected_output": [
+        "linked-data export",
+        "discoverable legal metadata"
+      ],
+      "follow_on_track": "Track 26",
+      "inputs_needed": [
+        "Legislation type profile",
+        "section and version metadata",
+        "public page discoverability"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_local_files": [],
+      "notes": "The Legislation subtype is not fully modelled yet.",
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "priority": "p1",
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph",
+      "upstream_standard": "schema.org/Legislation"
+    },
+    {
+      "action": "Implement the full LKIF normative semantics model",
+      "blocker_data_source": "Formal semantics for obligations, permissions, prohibitions, powers, exceptions, and defeasibility.",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "expected_output": [
+        "norm semantics model",
+        "exception and defeasibility rules"
+      ],
+      "follow_on_track": "Track 27",
+      "inputs_needed": [
+        "full semantic model",
+        "rule exception handling",
+        "defeasible inference layer"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "missing_local_files": [],
+      "notes": "This is the complete normative semantics layer that remains open.",
+      "present_local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "priority": "p1",
+      "system_key": "legal_semantics",
+      "system_name": "LKIF-inspired legal effects",
+      "upstream_standard": "full LKIF"
+    },
+    {
+      "action": "Implement the full LegalRuleML semantics layer",
+      "blocker_data_source": "Complete rule semantics model with obligations, permissions, prohibitions, powers, and exceptions.",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "expected_output": [
+        "formal rule serialization",
+        "validated norm semantics"
+      ],
+      "follow_on_track": "Track 27",
+      "inputs_needed": [
+        "complete rule ontology",
+        "formal applicability conditions",
+        "defeasible rule encoding"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "Needs the full semantics layer rather than only hook points.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "normative_emission",
+      "system_name": "LegalRuleML / Catala hooks",
+      "upstream_standard": "full LegalRuleML"
+    },
+    {
+      "action": "Define the formal OpenFisca/PolicyEngine ontology bridge",
+      "blocker_data_source": "Crosswalk of entities, variables, parameters, formulas, and assessment periods.",
+      "blocker_type": "specification",
+      "coverage_status": "missing",
+      "expected_output": [
+        "entity-variable-parameter ontology",
+        "period-aware rule model"
+      ],
+      "follow_on_track": "Track 31",
+      "inputs_needed": [
+        "formal entity model",
+        "variable ontology",
+        "parameter ontology",
+        "period semantics"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "This is the explicit ontology bridge required for rules-as-code tooling.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p1",
+      "system_key": "rules_as_code_bridge",
+      "system_name": "OpenFisca / PolicyEngine adjacent rules-as-code surfaces",
+      "upstream_standard": "formal OpenFisca/PolicyEngine variable/parameter/entity ontology"
+    },
+    {
+      "action": "Add executable Catala translation coverage",
+      "blocker_data_source": "Executable rule translation examples and validated clause-to-rule mappings.",
+      "blocker_type": "integration",
+      "coverage_status": "prototype",
+      "expected_output": [
+        "coverage update"
+      ],
+      "follow_on_track": "Track 27",
+      "inputs_needed": [
+        "translation coverage",
+        "canonical rule examples",
+        "validated compile targets"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo exposes Catala hooks, but the translation path is not yet complete.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "normative_emission",
+      "system_name": "LegalRuleML / Catala hooks",
+      "upstream_standard": "Catala"
+    },
+    {
+      "action": "Complete the LegalRuleML hook into a serialisable emitter",
+      "blocker_data_source": "Rule serialization and validation pipeline for full formal norm semantics.",
+      "blocker_type": "integration",
+      "coverage_status": "prototype",
+      "expected_output": [
+        "formal rule serialization",
+        "validated norm semantics"
+      ],
+      "follow_on_track": "Track 27",
+      "inputs_needed": [
+        "full LegalRuleML serialisation",
+        "schema validation",
+        "exception representation"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo has LegalRuleML hooks, but not a full standards implementation.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "normative_emission",
+      "system_name": "LegalRuleML / Catala hooks",
+      "upstream_standard": "LegalRuleML"
+    },
+    {
+      "action": "Formalise the OpenFisca-adjacent bridge",
+      "blocker_data_source": "Variable, parameter, and entity inventory with time-varying parameter histories.",
+      "blocker_type": "source_data",
+      "coverage_status": "adjacent",
+      "expected_output": [
+        "entity-variable-parameter ontology",
+        "period-aware rule model"
+      ],
+      "follow_on_track": "Track 27",
+      "inputs_needed": [
+        "entity ontology",
+        "variable inventory",
+        "parameter history tables"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo is adjacent to OpenFisca concepts, but does not yet expose a formal ontology bridge.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "rules_as_code_bridge",
+      "system_name": "OpenFisca / PolicyEngine adjacent rules-as-code surfaces",
+      "upstream_standard": "OpenFisca"
+    },
+    {
+      "action": "Formalise the PolicyEngine-adjacent bridge",
+      "blocker_data_source": "Policy variable and parameter inventory plus entity-period semantics.",
+      "blocker_type": "source_data",
+      "coverage_status": "adjacent",
+      "expected_output": [
+        "entity-variable-parameter ontology",
+        "period-aware rule model"
+      ],
+      "follow_on_track": "Track 27",
+      "inputs_needed": [
+        "formula inventory",
+        "parameter ontology",
+        "entity-period model"
+      ],
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "notes": "The repo is adjacent to PolicyEngine concepts, but not yet formalised.",
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "priority": "p2",
+      "system_key": "rules_as_code_bridge",
+      "system_name": "OpenFisca / PolicyEngine adjacent rules-as-code surfaces",
+      "upstream_standard": "PolicyEngine"
+    }
+  ],
+  "repo_root": "C:\\Users\\60217257\\OneDrive - Flinders\\repos\\legal-nz\\nlp-policy-nz",
+  "summary": {
+    "blocker_type_counts": {
+      "integration": 2,
+      "source_data": 12,
+      "specification": 10
+    },
+    "row_count": 29,
+    "status_counts": {
+      "adjacent": 2,
+      "implemented": 5,
+      "missing": 13,
+      "partial": 7,
+      "prototype": 2
+    }
+  },
+  "systems": [
+    {
+      "description": "AKN v3 legal document emission and validation with FRBR/TLC-aware metadata hooks.",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "present_local_files": [
+        "src/nlp_policy_nz/schema/akn_v3.py",
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "standards": [
+        {
+          "blocker_data_source": "",
+          "blocker_type": "none",
+          "coverage_status": "implemented",
+          "follow_on_track": "Track 26",
+          "missing_features": [],
+          "notes": "Document emitters support amendment, bill, debate, and judgment formats.",
+          "priority": "p3",
+          "upstream_standard": "Akoma Ntoso"
+        },
+        {
+          "blocker_data_source": "",
+          "blocker_type": "none",
+          "coverage_status": "implemented",
+          "follow_on_track": "Track 26",
+          "missing_features": [],
+          "notes": "AKN v3 emitter and validator are present.",
+          "priority": "p3",
+          "upstream_standard": "LegalDocML"
+        },
+        {
+          "blocker_data_source": "Versioned work/expression/version inventory for Acts, Bills, debates, and judgments.",
+          "blocker_type": "source_data",
+          "coverage_status": "partial",
+          "follow_on_track": "Track 26",
+          "missing_features": [
+            "complete work-expression-version lineage",
+            "cross-document version graph"
+          ],
+          "notes": "Metadata hooks exist, but the repository still needs a fuller source inventory.",
+          "priority": "p1",
+          "upstream_standard": "FRBR"
+        },
+        {
+          "blocker_data_source": "Temporal concept inventory for commencement, repeal, versioning, and amendment chronology.",
+          "blocker_type": "source_data",
+          "coverage_status": "partial",
+          "follow_on_track": "Track 27",
+          "missing_features": [
+            "complete temporal concept catalog",
+            "uniform TLC concept mapping"
+          ],
+          "notes": "Temporal metadata is present in hooks, but not yet a full ontology layer.",
+          "priority": "p1",
+          "upstream_standard": "TLC"
+        },
+        {
+          "blocker_data_source": "Versioned legislation source texts with stable public URIs and section-level anchors.",
+          "blocker_type": "source_data",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 26",
+          "missing_features": [
+            "ELI URI templates",
+            "versioned legal resource identifiers",
+            "section anchors"
+          ],
+          "notes": "This is the primary legislative identifier layer missing from the repo.",
+          "priority": "p0",
+          "upstream_standard": "ELI"
+        },
+        {
+          "blocker_data_source": "Document-level metadata for versioned legislation and reusable ELI descriptors.",
+          "blocker_type": "source_data",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 26",
+          "missing_features": [
+            "ELI metadata descriptors",
+            "publication metadata mapping",
+            "distribution metadata"
+          ],
+          "notes": "Needs the same source inventory as ELI plus document-level metadata alignment.",
+          "priority": "p0",
+          "upstream_standard": "ELI-DL"
+        },
+        {
+          "blocker_data_source": "Case law corpus with stable court/case citation identifiers and judgments metadata.",
+          "blocker_type": "source_data",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 26",
+          "missing_features": [
+            "ECLI identifiers",
+            "court/case metadata registry",
+            "judgment citation mapping"
+          ],
+          "notes": "Judgment support exists, but not the authoritative citation layer.",
+          "priority": "p0",
+          "upstream_standard": "ECLI"
+        }
+      ],
+      "system_key": "akn_legal_docml",
+      "system_name": "Akoma Ntoso / LegalDocML emitter"
+    },
+    {
+      "description": "Bundle, entity, activity, and agent provenance serialisation for pipeline artefacts.",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/provenance/serializer.py",
+        "src/nlp_policy_nz/provenance/recorder.py"
+      ],
+      "missing_local_files": [],
+      "present_local_files": [
+        "src/nlp_policy_nz/provenance/recorder.py",
+        "src/nlp_policy_nz/provenance/serializer.py"
+      ],
+      "standards": [
+        {
+          "blocker_data_source": "",
+          "blocker_type": "none",
+          "coverage_status": "implemented",
+          "follow_on_track": "",
+          "missing_features": [],
+          "notes": "The repo emits PROV-O aligned JSON-LD bundles and provenance sidecars.",
+          "priority": "p3",
+          "upstream_standard": "PROV-O"
+        }
+      ],
+      "system_key": "provenance",
+      "system_name": "PROV-O provenance sidecars"
+    },
+    {
+      "description": "Parliamentary and speech-level linked data graphs for MPs, parties, electorates, and debates.",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/linked_data/rdf.py",
+        "src/nlp_policy_nz/linked_data/foaf.py",
+        "src/nlp_policy_nz/linked_data/sioc.py"
+      ],
+      "missing_local_files": [],
+      "present_local_files": [
+        "src/nlp_policy_nz/linked_data/foaf.py",
+        "src/nlp_policy_nz/linked_data/rdf.py",
+        "src/nlp_policy_nz/linked_data/sioc.py"
+      ],
+      "standards": [
+        {
+          "blocker_data_source": "",
+          "blocker_type": "none",
+          "coverage_status": "implemented",
+          "follow_on_track": "",
+          "missing_features": [],
+          "notes": "Person, party, and electorate graphs are materialised with FOAF-style links.",
+          "priority": "p3",
+          "upstream_standard": "FOAF"
+        },
+        {
+          "blocker_data_source": "",
+          "blocker_type": "none",
+          "coverage_status": "implemented",
+          "follow_on_track": "",
+          "missing_features": [],
+          "notes": "Debate speech exports are SIOC-aligned.",
+          "priority": "p3",
+          "upstream_standard": "SIOC"
+        }
+      ],
+      "system_key": "linked_data_graphs",
+      "system_name": "FOAF / SIOC linked data"
+    },
+    {
+      "description": "Knowledge graph export, federation helpers, and NZ entity ontology mapping.",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/kb/wikidata_kg.py",
+        "data/ontologies/nz_wikidata_map.ttl"
+      ],
+      "missing_local_files": [],
+      "present_local_files": [
+        "data/ontologies/nz_wikidata_map.ttl",
+        "src/nlp_policy_nz/kb/wikidata_kg.py"
+      ],
+      "standards": [
+        {
+          "blocker_data_source": "Authoritative entity-to-QID mapping for acts, members, parties, electorates, and courts.",
+          "blocker_type": "source_data",
+          "coverage_status": "partial",
+          "follow_on_track": "Track 29",
+          "missing_features": [
+            "complete QID coverage",
+            "verified source-to-QID reconciliation"
+          ],
+          "notes": "Local ontology mapping exists, but the entity inventory is not yet exhaustive.",
+          "priority": "p1",
+          "upstream_standard": "Wikidata"
+        },
+        {
+          "blocker_data_source": "Complete legislation publication metadata model with stable landing-page fields.",
+          "blocker_type": "specification",
+          "coverage_status": "partial",
+          "follow_on_track": "Track 26",
+          "missing_features": [
+            "full legislation object mapping",
+            "publication and distribution metadata"
+          ],
+          "notes": "The repo exports JSON-LD, but the schema.org legislation profile is not complete.",
+          "priority": "p1",
+          "upstream_standard": "schema.org"
+        },
+        {
+          "blocker_data_source": "Field-level legislation profile and canonical section-level metadata mapping.",
+          "blocker_type": "specification",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 26",
+          "missing_features": [
+            "Legislation type profile",
+            "section and version metadata",
+            "public page discoverability"
+          ],
+          "notes": "The Legislation subtype is not fully modelled yet.",
+          "priority": "p1",
+          "upstream_standard": "schema.org/Legislation"
+        },
+        {
+          "blocker_data_source": "EuroVoc SKOS thesaurus and a NZ policy-domain crosswalk.",
+          "blocker_type": "source_data",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 28",
+          "missing_features": [
+            "EuroVoc concept scheme",
+            "NZ policy-domain mapping",
+            "multilingual descriptors"
+          ],
+          "notes": "No controlled policy-domain thesaurus is wired into the repo yet.",
+          "priority": "p0",
+          "upstream_standard": "EuroVoc"
+        },
+        {
+          "blocker_data_source": "Local controlled vocabulary model for policy domains and provision classification.",
+          "blocker_type": "specification",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 28",
+          "missing_features": [
+            "concept scheme definitions",
+            "broader/narrower relations",
+            "preferred labels"
+          ],
+          "notes": "SKOS is the missing substrate for controlled vocabularies here.",
+          "priority": "p1",
+          "upstream_standard": "SKOS"
+        },
+        {
+          "blocker_data_source": "Actor, office, mandate, and organization graph model for parliamentary data.",
+          "blocker_type": "specification",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 26",
+          "missing_features": [
+            "office/mandate vocabulary",
+            "person-organization relations",
+            "membership history"
+          ],
+          "notes": "Helpful for political actor graphs, but not yet implemented.",
+          "priority": "p1",
+          "upstream_standard": "Popolo"
+        },
+        {
+          "blocker_data_source": "Organization hierarchy and role model for parliamentary and policy institutions.",
+          "blocker_type": "specification",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 26",
+          "missing_features": [
+            "organization classes",
+            "role and membership relations",
+            "hierarchy mapping"
+          ],
+          "notes": "Would strengthen the actor and institution layer.",
+          "priority": "p1",
+          "upstream_standard": "W3C ORG"
+        },
+        {
+          "blocker_data_source": "Dataset catalogue model for corpus, artefact, and package publication.",
+          "blocker_type": "specification",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 34",
+          "missing_features": [
+            "dataset metadata",
+            "distribution metadata",
+            "catalog records"
+          ],
+          "notes": "Needed for publication-quality dataset discovery.",
+          "priority": "p1",
+          "upstream_standard": "DCAT"
+        },
+        {
+          "blocker_data_source": "Profiled catalogue metadata aligned with DCAT-AP publication practices.",
+          "blocker_type": "specification",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 34",
+          "missing_features": [
+            "AP-aligned properties",
+            "profile validation",
+            "distribution cataloguing"
+          ],
+          "notes": "Would support a more standards-based publication layer.",
+          "priority": "p1",
+          "upstream_standard": "DCAT-AP"
+        }
+      ],
+      "system_key": "knowledge_graph_exports",
+      "system_name": "Wikidata / schema.org knowledge graph"
+    },
+    {
+      "description": "Legal effect classification and deontic modality detection for normative clauses.",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "missing_local_files": [],
+      "present_local_files": [
+        "src/nlp_policy_nz/legal/effects.py",
+        "src/nlp_policy_nz/legal/modality.py"
+      ],
+      "standards": [
+        {
+          "blocker_data_source": "Normalized deontic and legal-effect annotation corpus.",
+          "blocker_type": "source_data",
+          "coverage_status": "partial",
+          "follow_on_track": "Track 27",
+          "missing_features": [
+            "full norm taxonomy",
+            "exception and defeasibility inventory",
+            "applicability conditions"
+          ],
+          "notes": "The repo captures legal effects, but the ontology is still only inspired by LKIF.",
+          "priority": "p1",
+          "upstream_standard": "LKIF"
+        },
+        {
+          "blocker_data_source": "Formal semantics for obligations, permissions, prohibitions, powers, exceptions, and defeasibility.",
+          "blocker_type": "specification",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 27",
+          "missing_features": [
+            "full semantic model",
+            "rule exception handling",
+            "defeasible inference layer"
+          ],
+          "notes": "This is the complete normative semantics layer that remains open.",
+          "priority": "p1",
+          "upstream_standard": "full LKIF"
+        }
+      ],
+      "system_key": "legal_semantics",
+      "system_name": "LKIF-inspired legal effects"
+    },
+    {
+      "description": "Temporal extraction hooks for commencement, expiry, amendments, and assessment periods.",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "standards": [
+        {
+          "blocker_data_source": "Temporal annotation corpus for commencement, repeal, and assessment periods.",
+          "blocker_type": "source_data",
+          "coverage_status": "partial",
+          "follow_on_track": "Track 27",
+          "missing_features": [
+            "event-time links",
+            "temporal relation inventory",
+            "annotation examples"
+          ],
+          "notes": "Temporal extraction exists, but the annotation coverage is still partial.",
+          "priority": "p1",
+          "upstream_standard": "TimeML"
+        },
+        {
+          "blocker_data_source": "Time interval and effective-date inventory for legal sources and parameters.",
+          "blocker_type": "source_data",
+          "coverage_status": "partial",
+          "follow_on_track": "Track 27",
+          "missing_features": [
+            "interval normalization",
+            "valid-time model",
+            "historical parameter series"
+          ],
+          "notes": "Time semantics are present as hooks, not as a complete model.",
+          "priority": "p1",
+          "upstream_standard": "OWL-Time"
+        }
+      ],
+      "system_key": "temporal_semantics",
+      "system_name": "TimeML / OWL-Time temporal extraction"
+    },
+    {
+      "description": "Prototype emitters for formal rule semantics and executable legal transformations.",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "standards": [
+        {
+          "blocker_data_source": "Rule serialization and validation pipeline for full formal norm semantics.",
+          "blocker_type": "integration",
+          "coverage_status": "prototype",
+          "follow_on_track": "Track 27",
+          "missing_features": [
+            "full LegalRuleML serialisation",
+            "schema validation",
+            "exception representation"
+          ],
+          "notes": "The repo has LegalRuleML hooks, but not a full standards implementation.",
+          "priority": "p2",
+          "upstream_standard": "LegalRuleML"
+        },
+        {
+          "blocker_data_source": "Complete rule semantics model with obligations, permissions, prohibitions, powers, and exceptions.",
+          "blocker_type": "specification",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 27",
+          "missing_features": [
+            "complete rule ontology",
+            "formal applicability conditions",
+            "defeasible rule encoding"
+          ],
+          "notes": "Needs the full semantics layer rather than only hook points.",
+          "priority": "p1",
+          "upstream_standard": "full LegalRuleML"
+        },
+        {
+          "blocker_data_source": "Executable rule translation examples and validated clause-to-rule mappings.",
+          "blocker_type": "integration",
+          "coverage_status": "prototype",
+          "follow_on_track": "Track 27",
+          "missing_features": [
+            "translation coverage",
+            "canonical rule examples",
+            "validated compile targets"
+          ],
+          "notes": "The repo exposes Catala hooks, but the translation path is not yet complete.",
+          "priority": "p2",
+          "upstream_standard": "Catala"
+        }
+      ],
+      "system_key": "normative_emission",
+      "system_name": "LegalRuleML / Catala hooks"
+    },
+    {
+      "description": "Rules-as-code bridge surfaces for entities, variables, formulas, parameters, and periods.",
+      "local_file_status": "complete",
+      "local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "missing_local_files": [],
+      "present_local_files": [
+        "src/nlp_policy_nz/universal_framework_v3.py"
+      ],
+      "standards": [
+        {
+          "blocker_data_source": "Variable, parameter, and entity inventory with time-varying parameter histories.",
+          "blocker_type": "source_data",
+          "coverage_status": "adjacent",
+          "follow_on_track": "Track 27",
+          "missing_features": [
+            "entity ontology",
+            "variable inventory",
+            "parameter history tables"
+          ],
+          "notes": "The repo is adjacent to OpenFisca concepts, but does not yet expose a formal ontology bridge.",
+          "priority": "p2",
+          "upstream_standard": "OpenFisca"
+        },
+        {
+          "blocker_data_source": "Policy variable and parameter inventory plus entity-period semantics.",
+          "blocker_type": "source_data",
+          "coverage_status": "adjacent",
+          "follow_on_track": "Track 27",
+          "missing_features": [
+            "formula inventory",
+            "parameter ontology",
+            "entity-period model"
+          ],
+          "notes": "The repo is adjacent to PolicyEngine concepts, but not yet formalised.",
+          "priority": "p2",
+          "upstream_standard": "PolicyEngine"
+        },
+        {
+          "blocker_data_source": "Crosswalk of entities, variables, parameters, formulas, and assessment periods.",
+          "blocker_type": "specification",
+          "coverage_status": "missing",
+          "follow_on_track": "Track 31",
+          "missing_features": [
+            "formal entity model",
+            "variable ontology",
+            "parameter ontology",
+            "period semantics"
+          ],
+          "notes": "This is the explicit ontology bridge required for rules-as-code tooling.",
+          "priority": "p1",
+          "upstream_standard": "formal OpenFisca/PolicyEngine variable/parameter/entity ontology"
+        }
+      ],
+      "system_key": "rules_as_code_bridge",
+      "system_name": "OpenFisca / PolicyEngine adjacent rules-as-code surfaces"
+    }
+  ]
+}

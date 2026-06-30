@@ -372,7 +372,9 @@ def build_track26_standards_manifest() -> dict[str, Any]:
         "entries": entries,
         "summary": {
             "entry_count": len(entries),
-            "implementation_status_counts": _count_by(entries, "implementation_status", IMPLEMENTATION_STATUSES),
+            "implementation_status_counts": _count_by(
+                entries, "implementation_status", IMPLEMENTATION_STATUSES
+            ),
             "blocker_type_counts": _count_by(entries, "blocker_type", BLOCKER_TYPES),
             "license_assumption_count": len(_license_assumptions(entries)),
         },

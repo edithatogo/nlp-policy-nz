@@ -29,6 +29,7 @@ def test_catala_dsl_emission():
     assert "input applicant: boolean" in output
     assert "rule Sec12" in output
 
+
 def test_akoma_ntoso_rac_features():
     # Setup framework config with Akoma-Ntoso
     config = FrameworkConfig(
@@ -51,10 +52,10 @@ def test_akoma_ntoso_rac_features():
     # Māori Language Guard phrase tag with refersTo ontology check
     assert '<phrase xml:lang="mi" refersTo="#tikanga_kawanatanga">' in output
     # Definition tag check
-    assert '<definition>' in output or 'Kāwanatanga' in output
+    assert "<definition>" in output or "Kāwanatanga" in output
     # References and TLCConcept tags (W3C PROV-O lineage) check
     assert '<references source="#nlp_policy_nz">' in output
     assert '<TLCConcept id="prov_pipeline_version"' in output
     # LegalRuleML tag check
-    assert '<legalRuleML' in output
-    assert '<Rule' in output
+    assert "<legalRuleML" in output
+    assert "<Rule" in output

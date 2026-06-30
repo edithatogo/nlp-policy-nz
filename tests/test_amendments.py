@@ -93,18 +93,22 @@ def test_diff_bill_versions_xml_identifies_added_modified_repealed() -> None:
 
 def test_diff_bill_versions_json_handles_nested_clause_lists() -> None:
     """JSON diff handles structured lists of legal clause objects."""
-    before = json.dumps({
-        "clauses": [
-            {"id": "clause-1", "text": "Keep this text."},
-            {"id": "clause-2", "text": "Repeal this text."},
-        ]
-    })
-    after = json.dumps({
-        "clauses": [
-            {"id": "clause-1", "text": "Keep this text with amendment."},
-            {"id": "clause-3", "text": "Add this text."},
-        ]
-    })
+    before = json.dumps(
+        {
+            "clauses": [
+                {"id": "clause-1", "text": "Keep this text."},
+                {"id": "clause-2", "text": "Repeal this text."},
+            ]
+        }
+    )
+    after = json.dumps(
+        {
+            "clauses": [
+                {"id": "clause-1", "text": "Keep this text with amendment."},
+                {"id": "clause-3", "text": "Add this text."},
+            ]
+        }
+    )
 
     diff = diff_bill_versions(before, after)
 

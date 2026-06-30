@@ -4,6 +4,8 @@ Provides functions to create, upload to, and publish deposits in the
 Zenodo Sandbox environment (https://sandbox.zenodo.org).
 """
 
+from __future__ import annotations
+
 import json
 import os
 from pathlib import Path
@@ -81,10 +83,7 @@ def get_zenodo_token(environment: str = "sandbox") -> str:
 
     token = os.environ.get(env_var, "")
     if not token:
-        msg = (
-            f"Zenodo {label} token not found. "
-            f"Set the {env_var!r} environment variable."
-        )
+        msg = f"Zenodo {label} token not found. Set the {env_var!r} environment variable."
         raise ValueError(msg)
     return token
 

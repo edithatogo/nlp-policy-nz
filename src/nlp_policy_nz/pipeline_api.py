@@ -176,8 +176,7 @@ def _infer_entity_context(text: str, *, date: str | None = None) -> EntityContex
 def _text_mentions_entity(text: str, entity: EntityRecord) -> bool:
     """Return whether text contains an exact entity name or alias."""
     return any(
-        re.search(rf"\b{re.escape(name)}\b", text, flags=re.IGNORECASE)
-        for name in entity.names()
+        re.search(rf"\b{re.escape(name)}\b", text, flags=re.IGNORECASE) for name in entity.names()
     )
 
 
@@ -297,7 +296,9 @@ def _process_legislation_records(
 
     with pipeline_span("pipeline.storage.serialize", {"pipeline.record_count": len(records)}):
         result = serialize_to_parquet(records, output)
-    recorder.finish(input_paths=input_files, output_path=result, record_count=len(records)).write_sidecar(result)
+    recorder.finish(
+        input_paths=input_files, output_path=result, record_count=len(records)
+    ).write_sidecar(result)
     logger.info("Legislation pipeline output written to %s", result)
     return result
 
@@ -379,11 +380,9 @@ def _process_hansard_records(
                     voting_record = _extract_voting_record(chunk_text)
                     amendments = _extract_amendment_records(chunk_text)
                     arguments = [
-                        argument.to_dict()
-                        for argument in argument_detector.detect(chunk_text)
+                        argument.to_dict() for argument in argument_detector.detect(chunk_text)
                     ]
                     stance = stance_classifier.classify(chunk_text).stance
-
 
                     records.append(
                         PipelineRecord(
@@ -420,7 +419,9 @@ def _process_hansard_records(
 
     with pipeline_span("pipeline.storage.serialize", {"pipeline.record_count": len(records)}):
         result = serialize_to_parquet(records, output)
-    recorder.finish(input_paths=input_files, output_path=result, record_count=len(records)).write_sidecar(result)
+    recorder.finish(
+        input_paths=input_files, output_path=result, record_count=len(records)
+    ).write_sidecar(result)
     logger.info("Hansard pipeline output written to %s", result)
     return result
 

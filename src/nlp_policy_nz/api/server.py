@@ -46,7 +46,9 @@ class SearchRequest(BaseModel):
 
     query: str = Field(..., min_length=1, description="Natural-language search query.")
     top_k: int = Field(default=5, ge=1, le=100, description="Number of results to return.")
-    db_path: str = Field(default="./lancedb_data", description="Path to the LanceDB database directory.")
+    db_path: str = Field(
+        default="./lancedb_data", description="Path to the LanceDB database directory."
+    )
 
 
 class SearchResponse(BaseModel):
@@ -105,6 +107,7 @@ app = FastAPI(
 # --- Lazy-loaded resources ---
 
 _embedding_generator: object | None = None
+
 
 def search_similar(
     query: str,

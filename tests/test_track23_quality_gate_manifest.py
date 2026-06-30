@@ -63,5 +63,6 @@ def test_track23_mutation_gate_remains_satisfied_but_not_a_quality_surrogate() -
 
     assert satisfied["mutation_ci_gate"]["status"] == "satisfied"
     assert "mutation_ci_gate" not in {
-        gate["id"] for gate in manifest["gates"]  # type: ignore[index]
+        gate["id"]
+        for gate in manifest["gates"]  # type: ignore[index]
     }

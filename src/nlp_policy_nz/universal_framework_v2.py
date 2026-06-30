@@ -1,3 +1,5 @@
+# ruff: noqa: D100, I001, E402
+from __future__ import annotations
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [

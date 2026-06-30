@@ -30,10 +30,23 @@ jobs:
           mkdir -p .tmp/benchmarks
           CI=true pixi run pytest tests/benchmarks -q --benchmark-only --benchmark-disable-gc --benchmark-sort=mean --benchmark-json=.tmp/benchmarks/pytest-benchmark.json
 
+      - name: Compare benchmark results against baseline
+        run: |
+          CI=true pixi run python scripts/compare_benchmarks.py \
+            --baseline artifacts/baselines/pytest-benchmark.json \
+            --current .tmp/benchmarks/pytest-benchmark.json \
+            --thresholds config/benchmark_thresholds.json \
+            --default-threshold 0.10 \
+            --json-report .tmp/benchmarks/benchmark-regression.json \
+            --html-report .tmp/benchmarks/benchmark-regression.html
+
       - name: Upload benchmark evidence
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: benchmark-evidence
-          path: .tmp/benchmarks/pytest-benchmark.json
+          path: |
+            .tmp/benchmarks/pytest-benchmark.json
+            .tmp/benchmarks/benchmark-regression.json
+            .tmp/benchmarks/benchmark-regression.html
           if-no-files-found: warn

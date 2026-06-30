@@ -341,12 +341,10 @@ def _dominates(left: ArchitectureMetrics, right: ArchitectureMetrics) -> bool:
     minimize_right = (right.peak_memory_gb, right.perplexity)
 
     no_worse = all(a >= b for a, b in zip(maximize_left, maximize_right, strict=True))
-    no_worse = no_worse and all(
-        a <= b for a, b in zip(minimize_left, minimize_right, strict=True)
+    no_worse = no_worse and all(a <= b for a, b in zip(minimize_left, minimize_right, strict=True))
+    strictly_better = any(a > b for a, b in zip(maximize_left, maximize_right, strict=True)) or any(
+        a < b for a, b in zip(minimize_left, minimize_right, strict=True)
     )
-    strictly_better = any(
-        a > b for a, b in zip(maximize_left, maximize_right, strict=True)
-    ) or any(a < b for a, b in zip(minimize_left, minimize_right, strict=True))
     return no_worse and strictly_better
 
 
@@ -525,10 +523,8 @@ def render_architecture_report(
             "",
             "- Run external model setup scripts in an environment with sufficient "
             "disk and GPU capacity.",
-            "- Persist raw benchmark JSONL and profiler traces before accepting "
-            "any checkpoint.",
-            "- Re-run this report from measured outputs before changing the "
-            "production backbone.",
+            "- Persist raw benchmark JSONL and profiler traces before accepting any checkpoint.",
+            "- Re-run this report from measured outputs before changing the production backbone.",
         ]
     )
     return "\n".join(lines) + "\n"

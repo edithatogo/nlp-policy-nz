@@ -46,9 +46,17 @@ def test_track25_matrix_captures_expected_standards() -> None:
     implemented = [row for row in matrix if row["coverage_status"] == "implemented"]
     missing = [row for row in matrix if row["coverage_status"] == "missing"]
     assert {row["standard"] for row in implemented} == {"PROV-O", "FOAF / SIOC"}
-    assert {"ELI / ELI-DL", "ECLI", "EuroVoc / SKOS", "CEN MetaLex", "USLM", "LexML", "Popolo", "W3C ORG", "DCAT / DCAT-AP"}.issubset(
-        {row["standard"] for row in missing}
-    )
+    assert {
+        "ELI / ELI-DL",
+        "ECLI",
+        "EuroVoc / SKOS",
+        "CEN MetaLex",
+        "USLM",
+        "LexML",
+        "Popolo",
+        "W3C ORG",
+        "DCAT / DCAT-AP",
+    }.issubset({row["standard"] for row in missing})
 
 
 def test_blockers_and_backlog_are_json_serializable() -> None:

@@ -14,6 +14,7 @@ class MemberVote:
     vote: str  # 'aye' | 'nay' | 'abstain'
     party: str | None = None
 
+
 @dataclass
 class DivisionRecord:
     """Parsed parliamentary voting (division) record."""
@@ -24,7 +25,10 @@ class DivisionRecord:
     abstains_count: int = 0
     outcome: str = "defeated"  # 'passed' | 'defeated'
     votes: list[MemberVote] = field(default_factory=list)
-    party_votes: dict[str, dict[str, int]] = field(default_factory=dict) # party_name -> {'aye': count, 'nay': count}
+    party_votes: dict[str, dict[str, int]] = field(
+        default_factory=dict
+    )  # party_name -> {'aye': count, 'nay': count}
+
 
 def parse_division(text: str) -> DivisionRecord | None:
     """Parse a Hansard division text segment and extract voting details.
@@ -40,7 +44,11 @@ def parse_division(text: str) -> DivisionRecord | None:
     # Look for "The question is..." or general motion headers
     motion = "Unknown Motion"
     for line in lines:
-        if "question is" in line.lower() or "motion" in line.lower() or "read a third time" in line.lower():
+        if (
+            "question is" in line.lower()
+            or "motion" in line.lower()
+            or "read a third time" in line.lower()
+        ):
             motion = line
             break
     if motion == "Unknown Motion" and lines:
@@ -54,8 +62,14 @@ def parse_division(text: str) -> DivisionRecord | None:
 
     # Regular expressions for party voting
     # e.g., "National: 49 votes ayes" or "Labour: 34 ayes" or "Green Party (15 ayes)"
-    party_aye_pattern = re.compile(r"(\b[A-Za-z\s]+?)\b(?:\s*\(?\s*(\d+)\s*(?:votes?\s*)?ayes?\)?|\s*:\s*(\d+)\s*(?:votes?\s*)?ayes?)", re.IGNORECASE)
-    party_nay_pattern = re.compile(r"(\b[A-Za-z\s]+?)\b(?:\s*\(?\s*(\d+)\s*(?:votes?\s*)?nays?|\s*:\s*(\d+)\s*(?:votes?\s*)?nays?|\s*\(?\s*(\d+)\s*(?:votes?\s*)?noes?\)?|\s*:\s*(\d+)\s*(?:votes?\s*)?noes?)", re.IGNORECASE)
+    party_aye_pattern = re.compile(
+        r"(\b[A-Za-z\s]+?)\b(?:\s*\(?\s*(\d+)\s*(?:votes?\s*)?ayes?\)?|\s*:\s*(\d+)\s*(?:votes?\s*)?ayes?)",
+        re.IGNORECASE,
+    )
+    party_nay_pattern = re.compile(
+        r"(\b[A-Za-z\s]+?)\b(?:\s*\(?\s*(\d+)\s*(?:votes?\s*)?nays?|\s*:\s*(\d+)\s*(?:votes?\s*)?nays?|\s*\(?\s*(\d+)\s*(?:votes?\s*)?noes?\)?|\s*:\s*(\d+)\s*(?:votes?\s*)?noes?)",
+        re.IGNORECASE,
+    )
 
     # Regular expressions for conscience voting lists
     # e.g., "Ayes: Luxon, Willis, Bishop"
@@ -123,8 +137,9 @@ def parse_division(text: str) -> DivisionRecord | None:
         abstains_count=abstains_count,
         outcome=outcome,
         votes=votes,
-        party_votes=party_votes
+        party_votes=party_votes,
     )
+
 
 MP_PARTY_KB: dict[str, str] = {
     "luxon": "National",
@@ -136,6 +151,7 @@ MP_PARTY_KB: dict[str, str] = {
     "seymour": "ACT",
     "peters": "NZ First",
 }
+
 
 def resolve_member_party(member_name: str) -> str | None:
     """Resolve a member's party affiliation from their name using the KB."""

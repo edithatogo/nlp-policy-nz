@@ -19,6 +19,11 @@ BlockerType = Literal["none", "source_data", "specification", "validation", "int
 Priority = Literal["p0", "p1", "p2", "p3"]
 LocalFileStatus = Literal["complete", "partial"]
 
+TRACK25_AUDIT_FILENAME: Final[str] = "coverage_manifest.json"
+TRACK25_BLOCKER_REGISTER_FILENAME: Final[str] = "data_blocker_register.json"
+TRACK25_BACKLOG_FILENAME: Final[str] = "ontology_implementation_backlog.json"
+TRACK25_ARTIFACT_DIR: Final[Path] = Path("data") / "ontologies"
+
 _STATUS_RANK: Final[dict[str, int]] = {
     "implemented": 0,
     "partial": 1,
@@ -108,7 +113,9 @@ class OntologySystem:
     def to_dict(self, repo_root: Path) -> dict[str, Any]:
         """Render the system surface as a JSON-ready mapping."""
         present_local_files = _existing_relative_paths(repo_root, self.local_files)
-        missing_local_files = tuple(path for path in self.local_files if path not in present_local_files)
+        missing_local_files = tuple(
+            path for path in self.local_files if path not in present_local_files
+        )
         local_file_status: LocalFileStatus = "complete" if not missing_local_files else "partial"
         return {
             "system_key": self.system_key,
@@ -149,7 +156,10 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="partial",
                 blocker_type="source_data",
                 blocker_data_source="Versioned work/expression/version inventory for Acts, Bills, debates, and judgments.",
-                missing_features=("complete work-expression-version lineage", "cross-document version graph"),
+                missing_features=(
+                    "complete work-expression-version lineage",
+                    "cross-document version graph",
+                ),
                 notes="Metadata hooks exist, but the repository still needs a fuller source inventory.",
                 follow_on_track="Track 26",
             ),
@@ -158,7 +168,10 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="partial",
                 blocker_type="source_data",
                 blocker_data_source="Temporal concept inventory for commencement, repeal, versioning, and amendment chronology.",
-                missing_features=("complete temporal concept catalog", "uniform TLC concept mapping"),
+                missing_features=(
+                    "complete temporal concept catalog",
+                    "uniform TLC concept mapping",
+                ),
                 notes="Temporal metadata is present in hooks, but not yet a full ontology layer.",
                 follow_on_track="Track 27",
             ),
@@ -167,7 +180,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="source_data",
                 blocker_data_source="Versioned legislation source texts with stable public URIs and section-level anchors.",
-                missing_features=("ELI URI templates", "versioned legal resource identifiers", "section anchors"),
+                missing_features=(
+                    "ELI URI templates",
+                    "versioned legal resource identifiers",
+                    "section anchors",
+                ),
                 notes="This is the primary legislative identifier layer missing from the repo.",
                 follow_on_track="Track 26",
             ),
@@ -176,7 +193,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="source_data",
                 blocker_data_source="Document-level metadata for versioned legislation and reusable ELI descriptors.",
-                missing_features=("ELI metadata descriptors", "publication metadata mapping", "distribution metadata"),
+                missing_features=(
+                    "ELI metadata descriptors",
+                    "publication metadata mapping",
+                    "distribution metadata",
+                ),
                 notes="Needs the same source inventory as ELI plus document-level metadata alignment.",
                 follow_on_track="Track 26",
             ),
@@ -185,7 +206,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="source_data",
                 blocker_data_source="Case law corpus with stable court/case citation identifiers and judgments metadata.",
-                missing_features=("ECLI identifiers", "court/case metadata registry", "judgment citation mapping"),
+                missing_features=(
+                    "ECLI identifiers",
+                    "court/case metadata registry",
+                    "judgment citation mapping",
+                ),
                 notes="Judgment support exists, but not the authoritative citation layer.",
                 follow_on_track="Track 26",
             ),
@@ -252,7 +277,10 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="partial",
                 blocker_type="specification",
                 blocker_data_source="Complete legislation publication metadata model with stable landing-page fields.",
-                missing_features=("full legislation object mapping", "publication and distribution metadata"),
+                missing_features=(
+                    "full legislation object mapping",
+                    "publication and distribution metadata",
+                ),
                 notes="The repo exports JSON-LD, but the schema.org legislation profile is not complete.",
                 follow_on_track="Track 26",
             ),
@@ -261,7 +289,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="specification",
                 blocker_data_source="Field-level legislation profile and canonical section-level metadata mapping.",
-                missing_features=("Legislation type profile", "section and version metadata", "public page discoverability"),
+                missing_features=(
+                    "Legislation type profile",
+                    "section and version metadata",
+                    "public page discoverability",
+                ),
                 notes="The Legislation subtype is not fully modelled yet.",
                 follow_on_track="Track 26",
             ),
@@ -270,7 +302,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="source_data",
                 blocker_data_source="EuroVoc SKOS thesaurus and a NZ policy-domain crosswalk.",
-                missing_features=("EuroVoc concept scheme", "NZ policy-domain mapping", "multilingual descriptors"),
+                missing_features=(
+                    "EuroVoc concept scheme",
+                    "NZ policy-domain mapping",
+                    "multilingual descriptors",
+                ),
                 notes="No controlled policy-domain thesaurus is wired into the repo yet.",
                 follow_on_track="Track 28",
             ),
@@ -279,7 +315,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="specification",
                 blocker_data_source="Local controlled vocabulary model for policy domains and provision classification.",
-                missing_features=("concept scheme definitions", "broader/narrower relations", "preferred labels"),
+                missing_features=(
+                    "concept scheme definitions",
+                    "broader/narrower relations",
+                    "preferred labels",
+                ),
                 notes="SKOS is the missing substrate for controlled vocabularies here.",
                 follow_on_track="Track 28",
             ),
@@ -288,7 +328,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="specification",
                 blocker_data_source="Actor, office, mandate, and organization graph model for parliamentary data.",
-                missing_features=("office/mandate vocabulary", "person-organization relations", "membership history"),
+                missing_features=(
+                    "office/mandate vocabulary",
+                    "person-organization relations",
+                    "membership history",
+                ),
                 notes="Helpful for political actor graphs, but not yet implemented.",
                 follow_on_track="Track 26",
             ),
@@ -297,7 +341,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="specification",
                 blocker_data_source="Organization hierarchy and role model for parliamentary and policy institutions.",
-                missing_features=("organization classes", "role and membership relations", "hierarchy mapping"),
+                missing_features=(
+                    "organization classes",
+                    "role and membership relations",
+                    "hierarchy mapping",
+                ),
                 notes="Would strengthen the actor and institution layer.",
                 follow_on_track="Track 26",
             ),
@@ -315,7 +363,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="specification",
                 blocker_data_source="Profiled catalogue metadata aligned with DCAT-AP publication practices.",
-                missing_features=("AP-aligned properties", "profile validation", "distribution cataloguing"),
+                missing_features=(
+                    "AP-aligned properties",
+                    "profile validation",
+                    "distribution cataloguing",
+                ),
                 notes="Would support a more standards-based publication layer.",
                 follow_on_track="Track 34",
             ),
@@ -335,7 +387,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="partial",
                 blocker_type="source_data",
                 blocker_data_source="Normalized deontic and legal-effect annotation corpus.",
-                missing_features=("full norm taxonomy", "exception and defeasibility inventory", "applicability conditions"),
+                missing_features=(
+                    "full norm taxonomy",
+                    "exception and defeasibility inventory",
+                    "applicability conditions",
+                ),
                 notes="The repo captures legal effects, but the ontology is still only inspired by LKIF.",
                 follow_on_track="Track 27",
             ),
@@ -344,7 +400,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="specification",
                 blocker_data_source="Formal semantics for obligations, permissions, prohibitions, powers, exceptions, and defeasibility.",
-                missing_features=("full semantic model", "rule exception handling", "defeasible inference layer"),
+                missing_features=(
+                    "full semantic model",
+                    "rule exception handling",
+                    "defeasible inference layer",
+                ),
                 notes="This is the complete normative semantics layer that remains open.",
                 follow_on_track="Track 27",
             ),
@@ -361,7 +421,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="partial",
                 blocker_type="source_data",
                 blocker_data_source="Temporal annotation corpus for commencement, repeal, and assessment periods.",
-                missing_features=("event-time links", "temporal relation inventory", "annotation examples"),
+                missing_features=(
+                    "event-time links",
+                    "temporal relation inventory",
+                    "annotation examples",
+                ),
                 notes="Temporal extraction exists, but the annotation coverage is still partial.",
                 follow_on_track="Track 27",
             ),
@@ -370,7 +434,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="partial",
                 blocker_type="source_data",
                 blocker_data_source="Time interval and effective-date inventory for legal sources and parameters.",
-                missing_features=("interval normalization", "valid-time model", "historical parameter series"),
+                missing_features=(
+                    "interval normalization",
+                    "valid-time model",
+                    "historical parameter series",
+                ),
                 notes="Time semantics are present as hooks, not as a complete model.",
                 follow_on_track="Track 27",
             ),
@@ -387,7 +455,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="prototype",
                 blocker_type="integration",
                 blocker_data_source="Rule serialization and validation pipeline for full formal norm semantics.",
-                missing_features=("full LegalRuleML serialisation", "schema validation", "exception representation"),
+                missing_features=(
+                    "full LegalRuleML serialisation",
+                    "schema validation",
+                    "exception representation",
+                ),
                 notes="The repo has LegalRuleML hooks, but not a full standards implementation.",
                 follow_on_track="Track 27",
             ),
@@ -396,7 +468,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="specification",
                 blocker_data_source="Complete rule semantics model with obligations, permissions, prohibitions, powers, and exceptions.",
-                missing_features=("complete rule ontology", "formal applicability conditions", "defeasible rule encoding"),
+                missing_features=(
+                    "complete rule ontology",
+                    "formal applicability conditions",
+                    "defeasible rule encoding",
+                ),
                 notes="Needs the full semantics layer rather than only hook points.",
                 follow_on_track="Track 27",
             ),
@@ -405,7 +481,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="prototype",
                 blocker_type="integration",
                 blocker_data_source="Executable rule translation examples and validated clause-to-rule mappings.",
-                missing_features=("translation coverage", "canonical rule examples", "validated compile targets"),
+                missing_features=(
+                    "translation coverage",
+                    "canonical rule examples",
+                    "validated compile targets",
+                ),
                 notes="The repo exposes Catala hooks, but the translation path is not yet complete.",
                 follow_on_track="Track 27",
             ),
@@ -422,7 +502,11 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="adjacent",
                 blocker_type="source_data",
                 blocker_data_source="Variable, parameter, and entity inventory with time-varying parameter histories.",
-                missing_features=("entity ontology", "variable inventory", "parameter history tables"),
+                missing_features=(
+                    "entity ontology",
+                    "variable inventory",
+                    "parameter history tables",
+                ),
                 notes="The repo is adjacent to OpenFisca concepts, but does not yet expose a formal ontology bridge.",
                 follow_on_track="Track 27",
             ),
@@ -440,7 +524,12 @@ SYSTEM_CATALOG: Final[tuple[OntologySystem, ...]] = (
                 coverage_status="missing",
                 blocker_type="specification",
                 blocker_data_source="Crosswalk of entities, variables, parameters, formulas, and assessment periods.",
-                missing_features=("formal entity model", "variable ontology", "parameter ontology", "period semantics"),
+                missing_features=(
+                    "formal entity model",
+                    "variable ontology",
+                    "parameter ontology",
+                    "period semantics",
+                ),
                 notes="This is the explicit ontology bridge required for rules-as-code tooling.",
                 follow_on_track="Track 31",
             ),
@@ -460,7 +549,9 @@ def slugify_identifier(value: str) -> str:
     return slug or "item"
 
 
-def _existing_relative_paths(repo_root_path: Path, relative_paths: tuple[str, ...]) -> tuple[str, ...]:
+def _existing_relative_paths(
+    repo_root_path: Path, relative_paths: tuple[str, ...]
+) -> tuple[str, ...]:
     present = [path for path in relative_paths if (repo_root_path / path).exists()]
     return tuple(sorted(present))
 
@@ -469,7 +560,9 @@ def _system_rows(repo_root_path: Path) -> list[dict[str, Any]]:
     return [system.to_dict(repo_root_path) for system in SYSTEM_CATALOG]
 
 
-def enumerate_ontology_facing_systems(repo_root_path: Path | str | None = None) -> list[dict[str, Any]]:
+def enumerate_ontology_facing_systems(
+    repo_root_path: Path | str | None = None,
+) -> list[dict[str, Any]]:
     """Enumerate ontology-facing subsystems and their current coverage."""
     root = Path(repo_root_path) if repo_root_path is not None else repo_root()
     return _system_rows(root)
@@ -562,7 +655,9 @@ def build_prioritized_backlog(repo_root_path: Path | str | None = None) -> list[
             "upstream_standard": row["upstream_standard"],
             "coverage_status": row["coverage_status"],
             "action": _backlog_action(row["upstream_standard"], row["coverage_status"]),
-            "inputs_needed": list(row["missing_features"]) if row["missing_features"] else [row["blocker_data_source"]],
+            "inputs_needed": list(row["missing_features"])
+            if row["missing_features"]
+            else [row["blocker_data_source"]],
             "expected_output": _expected_output(row["upstream_standard"]),
             "blocker_type": row["blocker_type"],
             "blocker_data_source": row["blocker_data_source"],
@@ -654,7 +749,11 @@ def _expected_output(standard: str) -> list[str]:  # noqa: PLR0911
         return ["norm semantics model", "exception and defeasibility rules"]
     if standard in {"full LegalRuleML", "LegalRuleML"}:
         return ["formal rule serialization", "validated norm semantics"]
-    if standard in {"OpenFisca", "PolicyEngine", "formal OpenFisca/PolicyEngine variable/parameter/entity ontology"}:
+    if standard in {
+        "OpenFisca",
+        "PolicyEngine",
+        "formal OpenFisca/PolicyEngine variable/parameter/entity ontology",
+    }:
         return ["entity-variable-parameter ontology", "period-aware rule model"]
     if standard in {"TimeML", "OWL-Time"}:
         return ["temporal annotations", "effective-date model"]
@@ -674,12 +773,16 @@ def _coverage_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
             blocker_counts[blocker_type] = blocker_counts.get(blocker_type, 0) + 1
     return {
         "row_count": len(rows),
-        "status_counts": dict(sorted(status_counts.items(), key=lambda item: _STATUS_RANK[item[0]])),
+        "status_counts": dict(
+            sorted(status_counts.items(), key=lambda item: _STATUS_RANK[item[0]])
+        ),
         "blocker_type_counts": dict(sorted(blocker_counts.items())),
     }
 
 
-def build_track25_ontology_coverage_audit(repo_root_path: Path | str | None = None) -> dict[str, Any]:
+def build_track25_ontology_coverage_audit(
+    repo_root_path: Path | str | None = None,
+) -> dict[str, Any]:
     """Build the full Track 25 audit bundle as plain Python structures."""
     root = Path(repo_root_path) if repo_root_path is not None else repo_root()
     systems = enumerate_ontology_facing_systems(root)
@@ -699,7 +802,37 @@ def build_track25_ontology_coverage_audit(repo_root_path: Path | str | None = No
 
 def dump_track25_ontology_coverage_audit(repo_root_path: Path | str | None = None) -> str:
     """Serialize the Track 25 audit bundle to formatted JSON."""
-    return json.dumps(build_track25_ontology_coverage_audit(repo_root_path), indent=2, sort_keys=True)
+    return json.dumps(
+        build_track25_ontology_coverage_audit(repo_root_path), indent=2, sort_keys=True
+    )
+
+
+def write_track25_ontology_coverage_artifacts(
+    output_dir: Path | str | None = None,
+    *,
+    repo_root_path: Path | str | None = None,
+) -> dict[str, Path]:
+    """Write Track 25 coverage, blocker, and backlog JSON artifacts."""
+    root = Path(repo_root_path) if repo_root_path is not None else repo_root()
+    target_dir = Path(output_dir) if output_dir is not None else root / TRACK25_ARTIFACT_DIR
+    target_dir.mkdir(parents=True, exist_ok=True)
+    audit = build_track25_ontology_coverage_audit(root)
+    artifacts = {
+        "coverage_manifest": target_dir / TRACK25_AUDIT_FILENAME,
+        "data_blocker_register": target_dir / TRACK25_BLOCKER_REGISTER_FILENAME,
+        "ontology_implementation_backlog": target_dir / TRACK25_BACKLOG_FILENAME,
+    }
+    payloads = {
+        artifacts["coverage_manifest"]: audit,
+        artifacts["data_blocker_register"]: audit["blocker_register"],
+        artifacts["ontology_implementation_backlog"]: audit["prioritized_backlog"],
+    }
+    for path, payload in payloads.items():
+        path.write_text(
+            json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+    return artifacts
 
 
 if __name__ == "__main__":

@@ -115,7 +115,9 @@ def configure_tracing(
     global _CONFIGURED_HANDLE
 
     effective_enabled = _env_flag("NLP_POLICY_NZ_TRACE", True) if enabled is None else enabled
-    effective_console = _env_flag("NLP_POLICY_NZ_TRACE_CONSOLE", False) if console is None else console
+    effective_console = (
+        _env_flag("NLP_POLICY_NZ_TRACE_CONSOLE", False) if console is None else console
+    )
     trace_path = Path(trace_file).resolve() if trace_file is not None else None
     config = TraceConfig(
         service_name=service_name,

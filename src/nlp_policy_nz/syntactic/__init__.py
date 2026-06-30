@@ -5,6 +5,8 @@ Provides dependency parsing, constituency parsing, and part-of-speech tagging
 capabilities for the NLP pipeline, leveraging spaCy and transformer-based models.
 """
 
+from __future__ import annotations
+
 from nlp_policy_nz.syntactic.chunking import (
     chunk_by_sentence,
     chunk_hansard_speech,

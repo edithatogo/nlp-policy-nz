@@ -313,9 +313,7 @@ def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
                 resolved_entities=_list_of_dicts(row.get("resolved_entities")),
                 legal_effect=row.get("legal_effect"),
                 voting_record=(
-                    dict(row["voting_record"])
-                    if row.get("voting_record") is not None
-                    else None
+                    dict(row["voting_record"]) if row.get("voting_record") is not None else None
                 ),
                 amendments=_list_of_dicts(row.get("amendments")),
                 arguments=_list_of_dicts(row.get("arguments")),
@@ -331,7 +329,9 @@ def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
                 grounds=row.get("grounds"),
                 report_title=row.get("report_title"),
                 findings=list(row["findings"]) if row.get("findings") is not None else None,
-                recommendations=list(row["recommendations"]) if row.get("recommendations") is not None else None,
+                recommendations=list(row["recommendations"])
+                if row.get("recommendations") is not None
+                else None,
             )
         )
 

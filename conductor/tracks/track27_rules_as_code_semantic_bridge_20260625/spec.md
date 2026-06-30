@@ -2,7 +2,7 @@
 
 **Dependencies**: Tracks 25-26  
 **Parallelization Node**: Rules-as-Code Bridge  
-**Status**: Planned
+**Status**: Completed
 
 ## Goal
 
@@ -20,7 +20,13 @@ Expose a rules-as-code intermediate representation that links legal source provi
 
 ## Acceptance Criteria
 
-- [ ] Define a stable rules-as-code bridge schema.
-- [ ] Export at least one fixture provision into source anchor, norm semantics, temporal validity, taxonomy, provenance, and OpenFisca/PolicyEngine mappings.
-- [ ] Record blockers where formulas cannot be generated because required legal facts or datasets are absent.
-- [ ] Add tests proving round-trip JSON serialization and source-provenance preservation.
+- [x] Define a stable repo-side rules-as-code bridge schema.
+- [x] Export at least one fixture provision into source anchor, norm semantics, temporal validity, taxonomy, provenance, RuleSpec verification, and schema.org/Legislation mappings.
+- [x] Record blockers where executable formulas cannot be generated because required OpenFisca/PolicyEngine facts or datasets are absent.
+- [x] Add tests proving JSON serialization and source-provenance preservation.
+- [x] Add offline OpenFisca/PolicyEngine package skeleton generation with explicit placeholders for target entities, variables, parameters, periods, and oracle fixtures.
+
+## External Gates
+
+- Live executable parity with OpenFisca/PolicyEngine remains external until reviewed formulas and oracle fixtures are supplied.
+- PolicyEngine or OpenFisca runtime dependencies are intentionally not required by the default package.

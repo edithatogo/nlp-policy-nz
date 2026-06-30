@@ -59,9 +59,7 @@ def test_parse_party_division() -> None:
 def test_parse_party_division_updates_existing_party_tallies() -> None:
     """Parser aggregates aye and nay entries for the same party."""
     division_text = (
-        "Vote on procedural motion.\n"
-        "ACT New Zealand 1 votes ayes\n"
-        "ACT New Zealand 2 votes noes\n"
+        "Vote on procedural motion.\nACT New Zealand 1 votes ayes\nACT New Zealand 2 votes noes\n"
     )
 
     record = parse_division(division_text)

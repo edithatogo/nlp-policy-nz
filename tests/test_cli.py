@@ -15,6 +15,7 @@ from unittest.mock import patch
 
 import pytest
 
+from nlp_policy_nz.axiom import DOCUMENT_TYPES
 from nlp_policy_nz.cli.main import main
 
 TMP_ROOT = Path("/") / "tmp"
@@ -229,6 +230,25 @@ class TestArgumentParser:
         choices = subparsers_actions[0].choices
         assert "deploy-space" in choices
 
+    def test_parser_has_rac_export_subcommand(self, parser: Any) -> None:
+        """Parser should have a ``rac-export`` subcommand."""
+        subparsers_actions = [
+            action
+            for action in parser._actions
+            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
+        ]
+        assert subparsers_actions
+        choices = subparsers_actions[0].choices
+        rac_parser = choices["rac-export"]
+        document_type_actions = [
+            action for action in rac_parser._actions if "--document-type" in action.option_strings
+        ]
+
+        assert "rac-export" in choices
+        assert "RuleSpec identity" in rac_parser.description
+        assert document_type_actions
+        assert tuple(document_type_actions[0].choices) == DOCUMENT_TYPES
+
 
 # ---------------------------------------------------------------------------
 # Tests: ``upload-dataset`` subcommand
@@ -250,14 +270,20 @@ class TestUploadDatasetSubcommand:
 
     def test_upload_accepts_flags(self) -> None:
         """``upload-dataset`` with all flags should parse without error."""
-        rc = _run_main([
-            "upload-dataset",
-            "--parquet", "nonexistent.parquet",
-            "--repo-id", "user/ds",
-            "--split", "train",
-            "--private",
-            "--message", "Test upload",
-        ])
+        rc = _run_main(
+            [
+                "upload-dataset",
+                "--parquet",
+                "nonexistent.parquet",
+                "--repo-id",
+                "user/ds",
+                "--split",
+                "train",
+                "--private",
+                "--message",
+                "Test upload",
+            ]
+        )
         # Fails because file doesn't exist, but argparse succeeded.
         assert rc == 1
 
@@ -277,23 +303,31 @@ class TestDeploySpaceSubcommand:
 
     def test_deploy_accepts_dry_run(self) -> None:
         """``deploy-space`` with ``--dry-run`` parses correctly."""
-        rc = _run_main([
-            "deploy-space",
-            "--repo-id", "user/space",
-            "--dry-run",
-        ])
+        rc = _run_main(
+            [
+                "deploy-space",
+                "--repo-id",
+                "user/space",
+                "--dry-run",
+            ]
+        )
         # Fails because HF_TOKEN isn't set, but argparse succeeded.
         assert rc == 1
 
     def test_deploy_accepts_all_flags(self) -> None:
         """``deploy-space`` with all flags should parse correctly."""
-        rc = _run_main([
-            "deploy-space",
-            "--repo-id", "user/space",
-            "--token", "tok",
-            "--dry-run",
-            "--message", "Test deploy",
-        ])
+        rc = _run_main(
+            [
+                "deploy-space",
+                "--repo-id",
+                "user/space",
+                "--token",
+                "tok",
+                "--dry-run",
+                "--message",
+                "Test deploy",
+            ]
+        )
         # Dry-run should succeed even without real token.
         assert rc == 0
 
@@ -309,42 +343,62 @@ class TestArchiveToZenodoSubcommand:
     def test_archive_requires_parquet(self) -> None:
         """``archive-to-zenodo`` without ``--parquet`` should fail."""
         with pytest.raises(SystemExit):
-            _run_main([
-                "archive-to-zenodo",
-                "--title", "Test Title",
-                "--description", "Test Description",
-                "--creators", '[{"name": "Doe, Jane"}]',
-            ])
+            _run_main(
+                [
+                    "archive-to-zenodo",
+                    "--title",
+                    "Test Title",
+                    "--description",
+                    "Test Description",
+                    "--creators",
+                    '[{"name": "Doe, Jane"}]',
+                ]
+            )
 
     def test_archive_requires_title(self) -> None:
         """``archive-to-zenodo`` without ``--title`` should fail."""
         with pytest.raises(SystemExit):
-            _run_main([
-                "archive-to-zenodo",
-                "--parquet", "test.parquet",
-                "--description", "Test Description",
-                "--creators", '[{"name": "Doe, Jane"}]',
-            ])
+            _run_main(
+                [
+                    "archive-to-zenodo",
+                    "--parquet",
+                    "test.parquet",
+                    "--description",
+                    "Test Description",
+                    "--creators",
+                    '[{"name": "Doe, Jane"}]',
+                ]
+            )
 
     def test_archive_requires_description(self) -> None:
         """``archive-to-zenodo`` without ``--description`` should fail."""
         with pytest.raises(SystemExit):
-            _run_main([
-                "archive-to-zenodo",
-                "--parquet", "test.parquet",
-                "--title", "Test Title",
-                "--creators", '[{"name": "Doe, Jane"}]',
-            ])
+            _run_main(
+                [
+                    "archive-to-zenodo",
+                    "--parquet",
+                    "test.parquet",
+                    "--title",
+                    "Test Title",
+                    "--creators",
+                    '[{"name": "Doe, Jane"}]',
+                ]
+            )
 
     def test_archive_requires_creators(self) -> None:
         """``archive-to-zenodo`` without ``--creators`` should fail."""
         with pytest.raises(SystemExit):
-            _run_main([
-                "archive-to-zenodo",
-                "--parquet", "test.parquet",
-                "--title", "Test Title",
-                "--description", "Test Description",
-            ])
+            _run_main(
+                [
+                    "archive-to-zenodo",
+                    "--parquet",
+                    "test.parquet",
+                    "--title",
+                    "Test Title",
+                    "--description",
+                    "Test Description",
+                ]
+            )
 
     def test_archive_accepts_all_flags(self) -> None:
         """``archive-to-zenodo`` with all flags including optional ones.
@@ -353,15 +407,23 @@ class TestArchiveToZenodoSubcommand:
         parse without argparse error.  The handler will fail at runtime
         because the Parquet file does not exist.
         """
-        rc = _run_main([
-            "archive-to-zenodo",
-            "--parquet", "nonexistent.parquet",
-            "--title", "Test Title",
-            "--description", "Test Description",
-            "--creators", '[{"name": "Doe, Jane"}]',
-            "--token", "zenodo-tok-123",
-            "--license", "CC-BY-4.0",
-        ])
+        rc = _run_main(
+            [
+                "archive-to-zenodo",
+                "--parquet",
+                "nonexistent.parquet",
+                "--title",
+                "Test Title",
+                "--description",
+                "Test Description",
+                "--creators",
+                '[{"name": "Doe, Jane"}]',
+                "--token",
+                "zenodo-tok-123",
+                "--license",
+                "CC-BY-4.0",
+            ]
+        )
         # Fails because file doesn't exist, but argparse succeeded.
         assert rc == 1
 
@@ -373,15 +435,23 @@ class TestArchiveToZenodoSubcommand:
             mock_instance = mock_archiver.return_value
             mock_instance.create_archive.return_value = {"doi": "10.5072/zenodo.12345"}
 
-            rc = _run_main([
-                "archive-to-zenodo",
-                "--parquet", "test_data.parquet",
-                "--title", "Test Title",
-                "--description", "Test Description",
-                "--creators", '[{"name": "Doe, Jane"}]',
-                "--token", "tok-123",
-                "--license", "MIT",
-            ])
+            rc = _run_main(
+                [
+                    "archive-to-zenodo",
+                    "--parquet",
+                    "test_data.parquet",
+                    "--title",
+                    "Test Title",
+                    "--description",
+                    "Test Description",
+                    "--creators",
+                    '[{"name": "Doe, Jane"}]',
+                    "--token",
+                    "tok-123",
+                    "--license",
+                    "MIT",
+                ]
+            )
 
         assert rc == 0
         mock_archiver.assert_called_once_with(token="tok-123")
@@ -411,15 +481,23 @@ class TestArchiveToZenodoSubcommand:
             mock_instance = mock_archiver.return_value
             mock_instance.create_archive.return_value = {"doi": "10.5072/zenodo.12345"}
 
-            rc = _run_main([
-                "archive-to-zenodo",
-                "--parquet", str(parquet),
-                "--title", "Test Title",
-                "--description", "Test Description",
-                "--creators", '[{"name": "Doe, Jane"}]',
-                "--token", "tok-123",
-                "--license", "MIT",
-            ])
+            rc = _run_main(
+                [
+                    "archive-to-zenodo",
+                    "--parquet",
+                    str(parquet),
+                    "--title",
+                    "Test Title",
+                    "--description",
+                    "Test Description",
+                    "--creators",
+                    '[{"name": "Doe, Jane"}]',
+                    "--token",
+                    "tok-123",
+                    "--license",
+                    "MIT",
+                ]
+            )
 
         assert rc == 0
         mock_instance.create_archive.assert_called_once_with(
@@ -439,13 +517,19 @@ class TestArchiveToZenodoSubcommand:
             mock_instance = mock_archiver.return_value
             mock_instance.create_archive.return_value = {"doi": "10.5072/zenodo.99999"}
 
-            _run_main([
-                "archive-to-zenodo",
-                "--parquet", "d.parquet",
-                "--title", "T",
-                "--description", "D",
-                "--creators", '[{"name": "Smith, John", "affiliation": "Uni"}]',
-            ])
+            _run_main(
+                [
+                    "archive-to-zenodo",
+                    "--parquet",
+                    "d.parquet",
+                    "--title",
+                    "T",
+                    "--description",
+                    "D",
+                    "--creators",
+                    '[{"name": "Smith, John", "affiliation": "Uni"}]',
+                ]
+            )
 
             mock_instance.create_archive.assert_called_once_with(
                 title="T",
@@ -468,24 +552,36 @@ class TestReleaseSubcommand:
     def test_release_requires_parquet(self) -> None:
         """``release`` without ``--parquet`` should fail."""
         with pytest.raises(SystemExit):
-            _run_main([
-                "release",
-                "--version", "1.0.0",
-                "--title", "Test Title",
-                "--description", "Test Description",
-                "--creators", '[{"name": "Doe, Jane"}]',
-            ])
+            _run_main(
+                [
+                    "release",
+                    "--version",
+                    "1.0.0",
+                    "--title",
+                    "Test Title",
+                    "--description",
+                    "Test Description",
+                    "--creators",
+                    '[{"name": "Doe, Jane"}]',
+                ]
+            )
 
     def test_release_requires_version(self) -> None:
         """``release`` without ``--version`` should fail."""
         with pytest.raises(SystemExit):
-            _run_main([
-                "release",
-                "--parquet", "test.parquet",
-                "--title", "Test Title",
-                "--description", "Test Description",
-                "--creators", '[{"name": "Doe, Jane"}]',
-            ])
+            _run_main(
+                [
+                    "release",
+                    "--parquet",
+                    "test.parquet",
+                    "--title",
+                    "Test Title",
+                    "--description",
+                    "Test Description",
+                    "--creators",
+                    '[{"name": "Doe, Jane"}]',
+                ]
+            )
 
     def test_release_accepts_all_flags(self) -> None:
         """``release`` with all flags should parse without argparse error.
@@ -493,16 +589,25 @@ class TestReleaseSubcommand:
         The handler will fail at runtime because the Parquet file does
         not exist, but argument parsing succeeds.
         """
-        rc = _run_main([
-            "release",
-            "--parquet", "nonexistent.parquet",
-            "--version", "1.0.0",
-            "--title", "Test Title",
-            "--description", "Test Description",
-            "--creators", '[{"name": "Doe, Jane"}]',
-            "--token", "zenodo-tok-123",
-            "--output-dir", str(TMP_ROOT / "releases"),
-        ])
+        rc = _run_main(
+            [
+                "release",
+                "--parquet",
+                "nonexistent.parquet",
+                "--version",
+                "1.0.0",
+                "--title",
+                "Test Title",
+                "--description",
+                "Test Description",
+                "--creators",
+                '[{"name": "Doe, Jane"}]',
+                "--token",
+                "zenodo-tok-123",
+                "--output-dir",
+                str(TMP_ROOT / "releases"),
+            ]
+        )
         # Fails because file doesn't exist, but argparse succeeded.
         assert rc == 1
 
@@ -514,16 +619,25 @@ class TestReleaseSubcommand:
             mock_instance = mock_manager.return_value
             mock_instance.full_release.return_value = {"doi": "10.5072/zenodo.55555"}
 
-            rc = _run_main([
-                "release",
-                "--parquet", "release_data.parquet",
-                "--version", "2.1.0",
-                "--title", "Release Title",
-                "--description", "Release Description",
-                "--creators", '[{"name": "Doe, Jane"}]',
-                "--token", "tok-999",
-                "--output-dir", str(TMP_ROOT / "out"),
-            ])
+            rc = _run_main(
+                [
+                    "release",
+                    "--parquet",
+                    "release_data.parquet",
+                    "--version",
+                    "2.1.0",
+                    "--title",
+                    "Release Title",
+                    "--description",
+                    "Release Description",
+                    "--creators",
+                    '[{"name": "Doe, Jane"}]',
+                    "--token",
+                    "tok-999",
+                    "--output-dir",
+                    str(TMP_ROOT / "out"),
+                ]
+            )
 
         assert rc == 0
         mock_manager.assert_called_once_with(token="tok-999")
@@ -543,14 +657,21 @@ class TestReleaseSubcommand:
             mock_instance = mock_manager.return_value
             mock_instance.full_release.return_value = {"doi": "10.5072/zenodo.66666"}
 
-            _run_main([
-                "release",
-                "--parquet", "d.parquet",
-                "--version", "3.0.0",
-                "--title", "T",
-                "--description", "D",
-                "--creators", '[{"name": "Smith, John"}, {"name": "Jones, A."}]',
-            ])
+            _run_main(
+                [
+                    "release",
+                    "--parquet",
+                    "d.parquet",
+                    "--version",
+                    "3.0.0",
+                    "--title",
+                    "T",
+                    "--description",
+                    "D",
+                    "--creators",
+                    '[{"name": "Smith, John"}, {"name": "Jones, A."}]',
+                ]
+            )
 
             mock_instance.full_release.assert_called_once_with(
                 "d.parquet",

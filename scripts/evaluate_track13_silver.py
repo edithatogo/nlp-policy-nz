@@ -37,9 +37,13 @@ def main() -> int:
         ],
     }
     METRICS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    METRICS_PATH.write_text(json.dumps(metrics, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    METRICS_PATH.write_text(
+        json.dumps(metrics, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     REPORT_PATH.write_text(_render_report(metrics), encoding="utf-8")
-    sys.stdout.write(json.dumps({"metrics": str(METRICS_PATH), "report": str(REPORT_PATH)}, indent=2))
+    sys.stdout.write(
+        json.dumps({"metrics": str(METRICS_PATH), "report": str(REPORT_PATH)}, indent=2)
+    )
     sys.stdout.write("\n")
     return 0
 
@@ -47,7 +51,9 @@ def main() -> int:
 def _load_jsonl(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
         return []
-    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    return [
+        json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()
+    ]
 
 
 def _evaluate_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -70,7 +76,9 @@ def _evaluate_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
         premise_refs.append(_normalize_premise(str(row["premise_label"])))
         premise_preds.append("premise" if "premise" in detected else "none")
         relation_refs.append(str(row["relation_label"]))
-        relation_preds.append("attack" if _has_attack_cue(text) else ("support" if "premise" in detected else "none"))
+        relation_preds.append(
+            "attack" if _has_attack_cue(text) else ("support" if "premise" in detected else "none")
+        )
         stance_refs.append(_relation_to_stance(str(row["relation_label"])))
         stance_preds.append(stance_classifier.classify(text).stance)
 
@@ -118,7 +126,9 @@ def _render_report(metrics: dict[str, Any]) -> str:
         "",
     ]
     if accepted is None:
-        lines.append("No accepted silver labels are available, so the practical silver evaluation gate remains blocked.")
+        lines.append(
+            "No accepted silver labels are available, so the practical silver evaluation gate remains blocked."
+        )
     else:
         lines.extend(_metric_lines(accepted))
     lines.extend(["", "## Disagreement Queue Diagnostic", ""])

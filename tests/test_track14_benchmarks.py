@@ -36,12 +36,16 @@ def _evidence_path(filename: str) -> Path:
     return WORKDIR / filename
 
 
-def test_msgspec_orjson_benchmark_records_dependency_statuses(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_msgspec_orjson_benchmark_records_dependency_statuses(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """Serializer benchmark should mark optional dependencies with explicit statuses."""
     _patch_find_spec(monkeypatch, {"orjson"})
     evidence_path = _evidence_path("track14_msgspec_orjson_benchmark.json")
 
-    exit_code = benchmark_msgspec.main(["--records", "10", "--iterations", "2", "--evidence", str(evidence_path)])
+    exit_code = benchmark_msgspec.main(
+        ["--records", "10", "--iterations", "2", "--evidence", str(evidence_path)]
+    )
     assert exit_code == 0
 
     payload = json.loads(evidence_path.read_text(encoding="utf-8"))
@@ -54,7 +58,7 @@ def test_msgspec_orjson_benchmark_records_dependency_statuses(monkeypatch: pytes
 
 
 def test_tokenizers_chunking_benchmark_handles_missing_spacy_and_tokenizers(
-    monkeypatch: pytest.MonkeyPatch
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """Tokenizers benchmark should keep writing evidence when both optional libs are missing."""
     _patch_find_spec(monkeypatch, {"spacy", "tokenizers"})

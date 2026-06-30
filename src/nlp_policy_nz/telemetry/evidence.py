@@ -90,8 +90,7 @@ def render_track19_evidence_markdown(report: Track19EvidenceReport) -> str:
         "",
     ]
     lines.extend(
-        f"- {name}: {'satisfied' if satisfied else 'pending'}"
-        for name, satisfied in status.items()
+        f"- {name}: {'satisfied' if satisfied else 'pending'}" for name, satisfied in status.items()
     )
     lines.extend(
         [

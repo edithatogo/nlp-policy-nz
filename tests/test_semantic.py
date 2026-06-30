@@ -7,6 +7,8 @@ handling — without actually loading any models (too heavyweight for CI).
 from __future__ import annotations
 
 import pytest
+import torch
+from types import SimpleNamespace
 
 from nlp_policy_nz.semantic.model_loader import (
     DEFAULT_MODEL,
@@ -15,6 +17,9 @@ from nlp_policy_nz.semantic.model_loader import (
     ModelLoadError,
     QuantizationConfig,
     _build_bnb_config,
+    _resolve_torch_dtype,
+    load_model,
+    unload_model,
 )
 
 # ---------------------------------------------------------------------------
@@ -129,3 +134,81 @@ class TestModelLoadError:
         msg = "Failed to load model"
         with pytest.raises(ModelLoadError, match=msg):
             raise ModelLoadError(msg)
+
+
+class TestModelLoadingBehaviour:
+    def test_resolve_torch_dtype_branches(self) -> None:
+        assert _resolve_torch_dtype(None) is torch.float32
+        assert _resolve_torch_dtype(SimpleNamespace(load_in_4bit=True, bnb_4bit_compute_dtype="float16")) is torch.float16
+        assert _resolve_torch_dtype(SimpleNamespace(load_in_4bit=False, load_in_8bit=True)) is torch.float16
+        assert _resolve_torch_dtype(SimpleNamespace(load_in_4bit=False, load_in_8bit=False)) is torch.float32
+
+    def test_load_model_success_and_fallback(self, monkeypatch) -> None:
+        calls: list[tuple[str, str]] = []
+
+        class FakeTokenizer:
+            def __init__(self, name: str) -> None:
+                self.name = name
+
+        class FakeModel:
+            def __init__(self, name: str) -> None:
+                self.config = SimpleNamespace(_name_or_path=name)
+
+        def fake_tokenizer_from_pretrained(name: str, use_fast: bool = True):  # noqa: ARG001
+            calls.append(("tokenizer", name))
+            return FakeTokenizer(name)
+
+        def fake_model_from_pretrained(name: str, **kwargs):
+            calls.append(("model", name))
+            return FakeModel(name)
+
+        monkeypatch.setattr("nlp_policy_nz.semantic.model_loader.AutoTokenizer.from_pretrained", fake_tokenizer_from_pretrained)
+        monkeypatch.setattr("nlp_policy_nz.semantic.model_loader.AutoModel.from_pretrained", fake_model_from_pretrained)
+
+        model, tokenizer = load_model(model_name="custom/model", quantization="none", device_map="cpu")
+        assert model.config._name_or_path == "custom/model"
+        assert tokenizer.name == "custom/model"
+        assert calls == [("tokenizer", "custom/model"), ("model", "custom/model")]
+
+        calls.clear()
+
+        def failing_model_from_pretrained(name: str, **kwargs):
+            calls.append(("model", name))
+            if name == "requested/model":
+                raise RuntimeError("primary failed")
+            return FakeModel(name)
+
+        monkeypatch.setattr("nlp_policy_nz.semantic.model_loader.AutoTokenizer.from_pretrained", fake_tokenizer_from_pretrained)
+        monkeypatch.setattr("nlp_policy_nz.semantic.model_loader.AutoModel.from_pretrained", failing_model_from_pretrained)
+
+        model, tokenizer = load_model(model_name="requested/model", quantization="none", device_map="cpu")
+        assert model.config._name_or_path == FALLBACK_MODEL
+        assert tokenizer.name == FALLBACK_MODEL
+        assert calls == [
+            ("tokenizer", "requested/model"),
+            ("model", "requested/model"),
+            ("tokenizer", FALLBACK_MODEL),
+            ("model", FALLBACK_MODEL),
+        ]
+
+    def test_load_model_failure_raises_model_load_error(self, monkeypatch) -> None:
+        def failing_tokenizer(name: str, use_fast: bool = True):  # noqa: ARG001
+            raise RuntimeError("tokenizer boom")
+
+        monkeypatch.setattr("nlp_policy_nz.semantic.model_loader.AutoTokenizer.from_pretrained", failing_tokenizer)
+        monkeypatch.setattr("nlp_policy_nz.semantic.model_loader.AutoModel.from_pretrained", lambda *args, **kwargs: None)
+
+        with pytest.raises(ModelLoadError, match=f"Failed to load fallback model '{FALLBACK_MODEL}'"):
+            load_model(model_name="requested/model", quantization="none", device_map="cpu")
+
+    def test_unload_model_calls_cpu_and_clears_cache(self, monkeypatch) -> None:
+        calls: dict[str, bool] = {}
+
+        class FakeModel:
+            def cpu(self) -> None:
+                calls["cpu"] = True
+
+        monkeypatch.setattr(torch.cuda, "empty_cache", lambda: calls.setdefault("empty_cache", True))
+
+        unload_model(FakeModel())
+        assert calls == {"cpu": True, "empty_cache": True}

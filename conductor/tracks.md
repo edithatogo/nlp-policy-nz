@@ -204,32 +204,32 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [ ] Track 25: Ontology Coverage Audit for Existing Systems
+## [x] Track 25: Ontology Coverage Audit for Existing Systems
 *Link: [./conductor/tracks/track25_ontology_coverage_audit_20260625/](./conductor/tracks/track25_ontology_coverage_audit_20260625/)*
 - **Dependencies**: Tracks 10-18, 22
 - **Parallelization Node**: Ontology Discovery & Gap Analysis
 - **Why**: Identify the complete ontology or ontology set behind each partially implemented system, map current implementation coverage, and record data blockers where ontology source data is missing.
 
-## [ ] Track 26: Legislative and Parliamentary Ontology Standards Expansion
+## [x] Track 26: Legislative and Parliamentary Ontology Standards Expansion
 *Link: [./conductor/tracks/track26_ontology_standards_expansion_20260625/](./conductor/tracks/track26_ontology_standards_expansion_20260625/)*
 - **Dependencies**: Track 25
 - **Parallelization Node**: Standards Implementation
 - **Why**: Add first-class support for ELI/ELI-DL, ECLI, EuroVoc/SKOS, CEN MetaLex, USLM, LexML, schema.org/Legislation, LKIF, LegalRuleML, Popolo, W3C ORG, DCAT/DCAT-AP, and OpenFisca/PolicyEngine ontology contracts.
 
-## [ ] Track 27: Rules-as-Code Semantic Bridge
+## [x] Track 27: Rules-as-Code Semantic Bridge
 *Link: [./conductor/tracks/track27_rules_as_code_semantic_bridge_20260625/](./conductor/tracks/track27_rules_as_code_semantic_bridge_20260625/)*
 - **Dependencies**: Tracks 25-26
 - **Parallelization Node**: Rules-as-Code Bridge
-- **Why**: Connect source anchoring, norm semantics, temporal validity, OpenFisca/PolicyEngine models, policy taxonomy, provenance, and linked-data discoverability into an executable rules-as-code bridge.
+- **Why**: Connect source anchoring, norm semantics, temporal validity, OpenFisca/PolicyEngine package skeletons, policy taxonomy, provenance, and linked-data discoverability into a repo-side rules-as-code bridge. Live executable parity remains an external gate.
 
-## [ ] Track 28: Ontology Discovery and Intake
-*Link: [./conductor/tracks/track28_ontology_discovery_intake_20260625/](./conductor/tracks/track28_ontology_discovery_intake_20260625/)*
+## [x] Track 28: Ontology Discovery and Intake (archived)
+*Link: [./conductor/tracks/archive/track28_ontology_discovery_intake_20260625/](./conductor/tracks/archive/track28_ontology_discovery_intake_20260625/)*
 - **Dependencies**: Track 25
 - **Parallelization Node**: Standards Discovery
 - **Why**: Search for additional relevant legislative, parliamentary, legal, semantic-web, and rules-as-code ontologies and incorporate candidates with provenance and implementation criteria.
 
-## [ ] Track 29: Ontology Mapping Knowledge Graph
-*Link: [./conductor/tracks/track29_ontology_mapping_kg_20260625/](./conductor/tracks/track29_ontology_mapping_kg_20260625/)*
+## [x] Track 29: Ontology Mapping Knowledge Graph (archived)
+*Link: [./conductor/tracks/archive/track29_ontology_mapping_kg_20260625/](./conductor/tracks/archive/track29_ontology_mapping_kg_20260625/)*
 - **Dependencies**: Tracks 25-28
 - **Parallelization Node**: Ontology Alignment & Visualization
 - **Why**: Leverage explicit mappings between ontologies and build them into the system for reasoning, inspection, and knowledge-graph visualization.
@@ -312,8 +312,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Bandit + Semgrep SAST scanning, detect-secrets pre-commit hook, security disclosure policy. Catches security issues before production.
 
-## [ ] Track 42: Performance Regression CI & Benchmark Baselines
-*Link: [./conductor/tracks/track42_performance_regression_20260626/](./conductor/tracks/track42_performance_regression_20260626/)*
+## [x] Track 42: Performance Regression CI & Benchmark Baselines (archived)
+*Link: [./conductor/tracks/archive/track42_performance_regression_20260626/](./conductor/tracks/archive/track42_performance_regression_20260626/)*
 - **Dependencies**: Track 19
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Store benchmark baselines in git, compare PR benchmarks against baselines, fail on >10% regression. Auto-update baselines on master merge.
@@ -366,8 +366,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Developer Experience
 - **Why**: Build a first-class Python client SDK wrapping the FastAPI server, CLI shell completion, Docker Compose local dev stack, and 5-minute quickstart guide for API consumers.
 
-## [ ] Track 49: Documentation Site & Knowledge Base
-*Link: [./conductor/tracks/track49_documentation_site_20260626/](./conductor/tracks/track49_documentation_site_20260626/)*
+## [x] Track 49: Documentation Site & Knowledge Base (archived)
+*Link: [./conductor/tracks/archive/track49_documentation_site_20260626/](./conductor/tracks/archive/track49_documentation_site_20260626/)*
 - **Dependencies**: Tracks 7, 23, 39, 45, 46, 47, 48
 - **Parallelization Node**: Developer Experience
 - **Why**: Create a dedicated MkDocs/ReadTheDocs site with auto-generated API reference, user guides (ingestion, ontology, search, publishing), architecture docs, Jupyter tutorial notebooks, and operations runbook. Every mature product needs searchable, versioned, auto-generated documentation.
@@ -403,5 +403,23 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: Track 20, Track 22, Track 13
 - **Parallelization Node**: Model Evaluation and Selection
 - **Why**: Compare `isaacus/emubert`, `nlpaueb/legal-bert-base-uncased`, `Equall/Saul-7B-Instruct-v1`, `isaacus/open-australian-legal-llm`, and Kanon-style retrieval candidates for NZ legal NLP model selection and follow-up fine-tuning.
+
+## [x] Track 54: Axiom Foundation Interoperability
+*Link: [./conductor/tracks/track54_axiom_foundation_interop_20260629/](./conductor/tracks/track54_axiom_foundation_interop_20260629/)*
+- **Dependencies**: Tracks 18, 22, 27
+- **Parallelization Node**: External Legal Source and Rules-as-Code Interoperability
+- **Why**: Capture selective Axiom Foundation integration as repo-side source-section metadata, source hash staleness checks, RuleSpec identity bridge, bill/Hansard linkage scaffolding, and explicit documentation of which Axiom repositories should be used as code, design reference, future ideas, or historical context.
+
+## [x] Track 55: Broad Legislation Extraction Framework
+*Link: [./conductor/tracks/track55_broad_legislation_extraction_framework_20260630/](./conductor/tracks/track55_broad_legislation_extraction_framework_20260630/)*
+- **Dependencies**: Tracks 4, 10, 11, 14, 15, 18, 26, 27, 54
+- **Parallelization Node**: Source-Grounded Legislative Extraction
+- **Why**: Promote rules-as-code from a standalone bridge into one output family of a broader source-grounded extraction system covering definitions, obligations, powers, conditions, exceptions, dates, entities, amendments, commencement, repeal, penalties, delegations, review rights, and traceable manifests.
+
+## [x] Track 56: Rust-Accelerated Extraction Runtime
+*Link: [./conductor/tracks/track56_rust_accelerated_extraction_runtime_20260630/](./conductor/tracks/track56_rust_accelerated_extraction_runtime_20260630/)*
+- **Dependencies**: Tracks 21, 23, 42, 55
+- **Parallelization Node**: Performance and Runtime Modernization
+- **Why**: Evaluate Pydantic-core, msgspec, orjson, Polars/Arrow, Rust tokenizers, and possible PyO3/maturin extensions for extraction performance while keeping the Python API and downstream export schemas stable.
 
 

@@ -1,0 +1,10 @@
+{
+  "track_id": "track29_ontology_mapping_kg_20260625",
+  "type": "feature",
+  "status": "archived",
+  "created_at": "2026-06-25T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Represent explicit ontology mappings in a graph so the system can understand, query, and visualize relationships between ontology classes, properties, datasets, and pipeline outputs.",
+  "oracle_notes": "Reviewed and archived: explicit mapping schema, immutable CRUD helpers, deterministic mapping registry, RDF/Turtle and JSON-LD export, query helpers, summary statistics, Mermaid visualization, docs, and tests."
+}
+

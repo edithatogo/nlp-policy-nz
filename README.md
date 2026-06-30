@@ -42,7 +42,21 @@ nlp-policy-nz deploy-space --repo-id user/nz-policy-explorer
 
 # Launch the Gradio Space locally
 python spaces/app.py
+
+# Export one source section as offline rules-as-code bridge JSON-LD
+nlp-policy-nz rac-export \
+    --input data/sections/example-section.txt \
+    --output output/rac/example-section.json \
+    --citation-path nz/statutes/example-act/2026/10 \
+    --source-url https://legislation.govt.nz/example-act/section/10 \
+    --retrieved-at 2026-06-29T00:00:00Z
 ```
+
+## Documentation
+
+- [Axiom Foundation relevance](docs/axiom-foundation-relevance.md) records the selective source identity, provenance, RuleSpec bridge, and bill/Hansard linkage conventions borrowed from Axiom Foundation repositories.
+- [Build notes](docs/build_backend.md) describe the current packaging decisions.
+- [Pipeline record serialization](docs/pydantic_vs_msgspec.md) records the serialization benchmark decision.
 
 ## 🏛️ Archiving & Releases
 

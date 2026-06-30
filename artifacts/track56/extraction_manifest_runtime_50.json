@@ -1,0 +1,75 @@
+{
+  "track": "rust_accelerated_extraction_runtime_20260630",
+  "experiment": "extraction_manifest_runtime",
+  "pipeline_records": 50,
+  "extraction_records": 400,
+  "iterations": 3,
+  "results": [
+    {
+      "name": "stdlib_json",
+      "status": "measured",
+      "iterations": 3,
+      "duration_seconds": 0.034255,
+      "avg_ms": 11.418467,
+      "p95_ms": 14.3291,
+      "output_bytes": 344645,
+      "output_md5": "48d4f10a7c5e2771cbb1cc68cf24d1a0",
+      "error": null
+    },
+    {
+      "name": "pydantic_model_dump_json",
+      "status": "measured",
+      "iterations": 3,
+      "duration_seconds": 0.015279,
+      "avg_ms": 5.093067,
+      "p95_ms": 7.5345,
+      "output_bytes": 344645,
+      "output_md5": "06324c31c7dbf6013d72c0cf1b580799",
+      "error": null
+    },
+    {
+      "name": "msgspec_json",
+      "status": "measured",
+      "iterations": 3,
+      "duration_seconds": 0.025102,
+      "avg_ms": 8.367433,
+      "p95_ms": 14.7435,
+      "output_bytes": 344645,
+      "output_md5": "06324c31c7dbf6013d72c0cf1b580799",
+      "error": null
+    },
+    {
+      "name": "orjson_helper",
+      "status": "measured",
+      "iterations": 3,
+      "duration_seconds": 0.017132,
+      "avg_ms": 5.7108,
+      "p95_ms": 6.2407,
+      "output_bytes": 344646,
+      "output_md5": "f24aad5079a59cfd46c8efc94b67d85a",
+      "error": null
+    },
+    {
+      "name": "orjson_direct",
+      "status": "measured",
+      "iterations": 3,
+      "duration_seconds": 0.010568,
+      "avg_ms": 3.5227,
+      "p95_ms": 3.8124,
+      "output_bytes": 344645,
+      "output_md5": "48d4f10a7c5e2771cbb1cc68cf24d1a0",
+      "error": null
+    },
+    {
+      "name": "polars_table",
+      "status": "measured",
+      "iterations": 3,
+      "duration_seconds": 0.019787,
+      "avg_ms": 6.595567,
+      "p95_ms": 16.2083,
+      "output_bytes": 95941,
+      "output_md5": "83676f81ee19ee3ef7c507c0b92307c8",
+      "error": null
+    }
+  ]
+}

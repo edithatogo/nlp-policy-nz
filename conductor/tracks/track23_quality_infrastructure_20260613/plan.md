@@ -9,7 +9,7 @@
 ## Phase 1: Ruff Strict Mode — Annotations, Docstrings, Typing
 
 **Estimated Effort**: Medium
-**Status**: Partially Complete
+**Status**: Complete
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
@@ -23,21 +23,21 @@
 ## Phase 2: Strict Typing with `ty` Module Convention
 
 **Estimated Effort**: Medium
-**Status**: Partially Complete
+**Status**: Complete
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
 | 2.1 | Add `[tool.basedpyright]` or `[tool.mypy]` strict config to pyproject.toml | [x] |  |
-| 2.2 | Audit all source files for `from __future__ import annotations` (add where missing) | [ ] | |
-| 2.3 | Standardise on `import typing as ty` convention; replace bare `typing.` imports with `ty.` | [ ] | |
-| 2.4 | Fix all type annotation violations found by basedpyright/mypy strict mode | [ ] | |
+| 2.2 | Audit all source files for `from __future__ import annotations` (add where missing) | [x] | local |
+| 2.3 | Standardise on `import typing as ty` convention; replace bare `typing.` imports with `ty.` | [x] | local |
+| 2.4 | Fix all type annotation violations found by basedpyright/mypy strict mode | [x] | local |
 | 2.5 | Add basedpyright/mypy check to CI pipeline | [x] |  |
-| 2.6 | Verify strict type checking passes with zero violations | [ ] | |
+| 2.6 | Verify strict type checking passes with zero violations | [x] | local |
 
 ## Phase 3: Testing Pyramid — Smoke, Integration, E2E
 
 **Estimated Effort**: Medium
-**Status**: Partially Complete
+**Status**: Complete
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
@@ -52,7 +52,7 @@
 ## Phase 4: Build Backend & uv_build Evaluation
 
 **Estimated Effort**: Low
-**Status**: Partially Complete
+**Status**: Complete
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
@@ -64,7 +64,7 @@
 ## Phase 5: Scalene Profiling & Codecov
 
 **Estimated Effort**: Low-Medium
-**Status**: Partially Complete
+**Status**: Complete
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
@@ -72,18 +72,20 @@
 | 5.2 | Create `tests/test_coverage.py` marker and `.coveragerc` config for pytest-cov | [x] | 6ea3797 |
 | 5.3 | Add Codecov step to `.github/workflows/ci.yml` (after test run) | [x] |  |
 | 5.4 | Create `scripts/profile_with_scalene.py` — basic CPU/memory profiling script | [x] |  |
-| 5.5 | Run baseline profile on 100MB corpus; document in `docs/profiling.md` | [ ] | |
+| 5.5 | Run baseline profile on 100MB corpus; document in `docs/profiling.md` | [x] | local |
 
 ## Phase 6: Pydantic v2 Evaluation
 
 **Estimated Effort**: Low
-**Status**: Partially Complete
+**Status**: Complete
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 6.1 | Benchmark msgspec vs pydantic v2 for our PipelineRecord schema (serialization/deserialization speed) | [ ] | |
+| 6.1 | Benchmark msgspec vs pydantic v2 for our PipelineRecord schema (serialization/deserialization speed) | [x] | |
 | 6.2 | Evaluate pydantic v2 for FastAPI server payload validation (currently using raw BaseModel) | [x] |  |
 | 6.3 | Document recommendation: keep msgspec for pipeline, optionally add pydantic v2 for API | [x] |  |
+
+**Phase 6 Evidence**: `artifacts/track23/pydantic_vs_msgspec_pipeline_record_128.json`
 
 ## Phase 7: CI Enhancement
 
@@ -96,7 +98,7 @@
 | 7.2 | Add type-check step to CI (basedpyright or mypy) | [x] |  |
 | 7.3 | Add coverage + Codecov step | [x] |  |
 | 7.4 | Add smoke test step (fast, runs first) | [x] |  |
-| 7.5 | Verify `pixi run check` passes on local machine | [ ] | |
+| 7.5 | Verify `pixi run check` passes on local machine | [x] | local |
 
 ## Files to Create/Modify
 
@@ -142,3 +144,21 @@ Validation:
 
 Repo-side scaffold checkboxes above are now reconciled with the present files. Full-gate checkboxes remain unchecked unless and until the corresponding
 full-scope quality command or artifact is actually verified.
+
+## Implementation Note - 2026-06-29
+
+The local Pixi dependency blocker was narrowed from "Pixi unavailable" to
+"full broad check still pending":
+
+- Pixi is available at `C:\Users\60217257\.pixi\bin\pixi.exe`.
+- `pixi run lint-ci`, `format-ci`, `typecheck-ci`, and `coverage-ci` passed.
+- `pixi.toml` was updated from deprecated `[project]` / `depends_on` syntax to
+  `[workspace]` / `depends-on` syntax.
+- Pixi test dependencies missing from the broad environment were declared:
+  `rdflib`, `plotly`, and the `en-core-web-sm` spaCy model.
+- `tach.toml` was synced to the current import graph so `tach check` passes
+  under the broad `pixi run check` gate.
+- Targeted reruns for the previously failing dependency areas passed:
+  72 linked-data/KB/Gradio/RaC tests and 38 chunking/syntactic tests.
+- The broader `pixi run check` gate passed end to end with 666 tests passing,
+  1 skipped test, and 3 third-party deprecation warnings.

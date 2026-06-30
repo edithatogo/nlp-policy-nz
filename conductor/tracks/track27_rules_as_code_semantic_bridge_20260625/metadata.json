@@ -1,10 +1,10 @@
 {
   "track_id": "track27_rules_as_code_semantic_bridge_20260625",
   "type": "feature",
-  "status": "planned",
+  "status": "completed",
   "created_at": "2026-06-25T00:00:00+10:00",
-  "updated_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-29T00:00:00+10:00",
   "description": "Expose a rules-as-code intermediate representation that links legal source provisions to OpenFisca/PolicyEngine entities, variables, formulas, parameters, periods, and provenance.",
-  "oracle_notes": "Connect source anchoring, norm semantics, temporal validity, OpenFisca/PolicyEngine models, policy taxonomy, provenance, and linked-data discoverability into an executable rules-as-code bridge."
+  "oracle_notes": "Repo-side source anchoring, norm semantics, temporal validity, policy taxonomy, provenance, RuleSpec source verification, schema.org/Legislation JSON-LD, rac-export CLI, and offline OpenFisca/PolicyEngine package skeleton generation are implemented. Live executable parity and oracle validation remain external gates."
 }
 

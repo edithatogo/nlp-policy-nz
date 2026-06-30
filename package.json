@@ -2,6 +2,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "docs:generate": "python scripts/generate_docs_reference.py",
     "docs:dev": "npm --prefix docs-site run dev",
     "docs:build": "npm --prefix docs-site run build",
     "docs:check": "npm --prefix docs-site run check"

@@ -13,8 +13,7 @@ if TYPE_CHECKING:
 
 AKN_NS: Final[str] = "http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
 OASIS_AKN_V3_XSD_URL: Final[str] = (
-    "https://docs.oasis-open.org/legaldocml/akn-core/v1.0/os/part2-specs/"
-    "schemas/akomantoso30.xsd"
+    "https://docs.oasis-open.org/legaldocml/akn-core/v1.0/os/part2-specs/schemas/akomantoso30.xsd"
 )
 SUPPORTED_DOCUMENT_TYPES: Final[set[str]] = {"amendment", "bill", "debate", "judgment"}
 

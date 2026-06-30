@@ -44,9 +44,7 @@ class FAISSAdapter(VectorBackend):
         if not records:
             raise ValueError("Cannot create an index with an empty record list.")
         if self._index is not None and not overwrite:
-            raise ValueError(
-                "An index already exists. Use overwrite=True or add_records()."
-            )
+            raise ValueError("An index already exists. Use overwrite=True or add_records().")
         self._index = faiss.IndexFlatIP(self._dimension)
         self._records = []
         vectors = []

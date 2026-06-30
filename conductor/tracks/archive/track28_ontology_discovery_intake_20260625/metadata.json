@@ -1,0 +1,10 @@
+{
+  "track_id": "track28_ontology_discovery_intake_20260625",
+  "type": "research",
+  "status": "archived",
+  "created_at": "2026-06-25T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Identify additional ontologies, vocabularies, schemas, and standards that improve legislative, parliamentary, policy, legal, graph, vector, or rules-as-code interoperability.",
+  "oracle_notes": "Completed deterministic ontology discovery log, triage scoring, Track 26 registry addendum, blocker artifacts, documentation, and focused tests."
+}
+

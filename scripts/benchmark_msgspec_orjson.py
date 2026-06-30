@@ -126,7 +126,9 @@ def _run_benchmark(
 
     total = sum(timings)
     avg_seconds = total / iterations
-    throughput_mb_s = ((output_bytes / iterations) / 1024 / 1024) / avg_seconds if avg_seconds else 0.0
+    throughput_mb_s = (
+        ((output_bytes / iterations) / 1024 / 1024) / avg_seconds if avg_seconds else 0.0
+    )
 
     return SerializerResult(
         status="measured",

@@ -1,0 +1,13 @@
+graph LR
+  n_agls["AGLS"] -- "skos_closeMatch" --> n_nzgls["NZGLS"]
+  n_dcat["DCAT"] -- "source_crosswalk" --> n_data_govt_nz_dataset_metadata["data.govt.nz Dataset Metadata"]
+  n_dcat["DCAT"] -- "source_crosswalk" --> n_nzgls["NZGLS"]
+  n_nlp_policy_nz_extraction["nlp-policy-nz extraction"] -- "skos_closeMatch" --> n_owl_time["OWL-Time"]
+  n_nlp_policy_nz_extraction["nlp-policy-nz extraction"] -- "skos_relatedMatch" --> n_skos["SKOS"]
+  n_nlp_policy_nz_extraction["nlp-policy-nz extraction"] -- "source_crosswalk" --> n_catala["Catala"]
+  n_foaf["FOAF"] -- "owl_equivalentClass" --> n_schema_org["schema.org"]
+  n_lkif["LKIF"] -- "skos_closeMatch" --> n_akoma_ntoso["Akoma Ntoso"]
+  n_lkif["LKIF"] -- "skos_closeMatch" --> n_odrl["ODRL"]
+  n_lkif["LKIF"] -- "skos_closeMatch" --> n_odrl["ODRL"]
+  n_prov_o["PROV-O"] -- "skos_relatedMatch" --> n_dcat["DCAT"]
+  n_sioc["SIOC"] -- "skos_closeMatch" --> n_akoma_ntoso["Akoma Ntoso"]

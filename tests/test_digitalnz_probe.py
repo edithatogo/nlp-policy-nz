@@ -159,6 +159,7 @@ class TestNormalisedRecord:
         assert rec.display_title == "Test"
         assert rec.rights_classification == "open"
 
+
 # ---------------------------------------------------------------------------
 # Rights classification tests
 # ---------------------------------------------------------------------------
@@ -325,10 +326,7 @@ class TestDigitalNZProbe:
     def test_init_with_api_key(self) -> None:
         """Verify API key is set in session headers."""
         probe = DigitalNZProbe(api_key="test-key-123")
-        assert (
-            probe._session.headers.get("Authentication-Token")
-            == "test-key-123"
-        )
+        assert probe._session.headers.get("Authentication-Token") == "test-key-123"
 
     def test_search_with_mock(
         self,
@@ -407,10 +405,7 @@ class TestDigitalNZProbe:
                     "page": 1,
                     "per_page": 2,
                     "result_count": 2,
-                    "results": [
-                        {"id": i, "title": f"Record {i}"}
-                        for i in range(1, 3)
-                    ],
+                    "results": [{"id": i, "title": f"Record {i}"} for i in range(1, 3)],
                 }
             }
             resp = requests.Response()
@@ -463,8 +458,7 @@ class TestPagination:
                     "per_page": 2,
                     "result_count": 10,
                     "results": [
-                        {"id": i, "title": f"Record {i}"}
-                        for i in range(start_id, start_id + 2)
+                        {"id": i, "title": f"Record {i}"} for i in range(start_id, start_id + 2)
                     ],
                 }
             }
@@ -515,14 +509,15 @@ class TestCLI:
         fixtures_dir = tmp_path / "fixtures"
         output_file = tmp_path / "output.json"
         fixture_path = (
-            Path(__file__).resolve().parent / "fixtures"
-            / "digitalnz_search_fixture.json"
+            Path(__file__).resolve().parent / "fixtures" / "digitalnz_search_fixture.json"
         )
         with fixture_path.open("r", encoding="utf-8") as fh:
             fixture_data = json.load(fh)
 
         def _mock_request(
-            self: Any, endpoint: str, params: dict[str, Any],  # noqa: ARG001
+            self: Any,
+            endpoint: str,
+            params: dict[str, Any],  # noqa: ARG001
         ) -> dict[str, Any]:
             return fixture_data
 
@@ -531,13 +526,19 @@ class TestCLI:
             _mock_request,
         )
 
-        result = cli_main(argv=[
-            "--save-fixtures",
-            "--query", "Māori",
-            "--max-results", "3",
-            "--fixtures-dir", str(fixtures_dir),
-            "--output", str(output_file),
-        ])
+        result = cli_main(
+            argv=[
+                "--save-fixtures",
+                "--query",
+                "Māori",
+                "--max-results",
+                "3",
+                "--fixtures-dir",
+                str(fixtures_dir),
+                "--output",
+                str(output_file),
+            ]
+        )
         assert result == 0
         assert (fixtures_dir / "digitalnz_search_fixture.json").exists()
         assert (fixtures_dir / "digitalnz_single_record.json").exists()
@@ -552,14 +553,15 @@ class TestCLI:
 
         output_file = tmp_path / "results.json"
         fixture_path = (
-            Path(__file__).resolve().parent / "fixtures"
-            / "digitalnz_search_fixture.json"
+            Path(__file__).resolve().parent / "fixtures" / "digitalnz_search_fixture.json"
         )
         with fixture_path.open("r", encoding="utf-8") as fh:
             fixture_data = json.load(fh)
 
         def _mock_request(
-            self: Any, endpoint: str, params: dict[str, Any],  # noqa: ARG001
+            self: Any,
+            endpoint: str,
+            params: dict[str, Any],  # noqa: ARG001
         ) -> dict[str, Any]:
             return fixture_data
 
@@ -568,11 +570,16 @@ class TestCLI:
             _mock_request,
         )
 
-        result = cli_main(argv=[
-            "--query", "Māori",
-            "--max-results", "3",
-            "--output", str(output_file),
-        ])
+        result = cli_main(
+            argv=[
+                "--query",
+                "Māori",
+                "--max-results",
+                "3",
+                "--output",
+                str(output_file),
+            ]
+        )
         assert result == 0
         assert output_file.exists()
         with output_file.open("r", encoding="utf-8") as fh:
@@ -582,5 +589,3 @@ class TestCLI:
         assert len(data["records"]) == 3
         assert "display_title" in data["records"][0]
         assert "rights_classification" in data["records"][0]
-
-

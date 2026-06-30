@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 
 from nlp_policy_nz.ontology.registry import (
+    BLOCKER_TYPES,
+    IMPLEMENTATION_STATUSES,
     TRACK26_MANIFEST_FILENAME,
     TRACK26_MANIFEST_PATH,
     build_track26_standards_manifest,
@@ -18,6 +20,8 @@ from nlp_policy_nz.ontology.standards import (
     load_controlled_concept,
     load_schema_legislation,
 )
+
+TRACK26_SCHEMA_PATH = Path("data/ontologies/standards_registry.schema.json")
 
 EXPECTED_STANDARDS = (
     "CEN MetaLex",
@@ -72,8 +76,32 @@ def test_track26_writer_matches_the_checked_in_manifest(tmp_path: Path) -> None:
     repo_manifest_path = Path(TRACK26_MANIFEST_PATH)
 
     assert written_path.exists()
-    assert json.loads(written_path.read_text(encoding="utf-8")) == build_track26_standards_manifest()
-    assert json.loads(repo_manifest_path.read_text(encoding="utf-8")) == build_track26_standards_manifest()
+    assert (
+        json.loads(written_path.read_text(encoding="utf-8")) == build_track26_standards_manifest()
+    )
+    assert (
+        json.loads(repo_manifest_path.read_text(encoding="utf-8"))
+        == build_track26_standards_manifest()
+    )
+
+
+def test_track26_schema_matches_manifest_contract() -> None:
+    schema = json.loads(TRACK26_SCHEMA_PATH.read_text(encoding="utf-8"))
+    manifest = build_track26_standards_manifest()
+
+    required_root = set(schema["required"])
+    required_entry = set(schema["properties"]["entries"]["items"]["required"])
+    implementation_enum = tuple(
+        schema["properties"]["entries"]["items"]["properties"]["implementation_status"]["enum"]
+    )
+    blocker_enum = tuple(
+        schema["properties"]["entries"]["items"]["properties"]["blocker_type"]["enum"]
+    )
+
+    assert required_root <= set(manifest)
+    assert required_entry <= set(manifest["entries"][0])
+    assert implementation_enum == IMPLEMENTATION_STATUSES
+    assert blocker_enum == BLOCKER_TYPES
 
 
 def test_track26_controlled_concept_round_trip(tmp_path: Path) -> None:

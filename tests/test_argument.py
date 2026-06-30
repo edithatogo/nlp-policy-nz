@@ -86,7 +86,9 @@ def test_issue_argument_linking_uses_token_similarity() -> None:
 def test_pipeline_record_roundtrips_arguments_and_stance(tmp_path) -> None:
     """PipelineRecord should preserve Track 13 discourse fields in Parquet."""
     detector = ArgumentDetector()
-    arguments = [argument.to_dict() for argument in detector.detect("Therefore the bill should pass.")]
+    arguments = [
+        argument.to_dict() for argument in detector.detect("Therefore the bill should pass.")
+    ]
     record = PipelineRecord(
         doc_id="argument-1",
         corpus_source="hansard",

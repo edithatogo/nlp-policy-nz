@@ -6,8 +6,7 @@ import json
 from pathlib import Path
 
 MANIFEST = Path(
-    "conductor/tracks/track19_observability_benchmarks_20260613/"
-    "external_gate_manifest.json"
+    "conductor/tracks/track19_observability_benchmarks_20260613/external_gate_manifest.json"
 )
 
 
@@ -19,7 +18,9 @@ def test_track19_external_gate_manifest_is_explicit() -> None:
     assert manifest["status"] == "externally_blocked"
     assert manifest["repo_side_status"] == "benchmark_harness_complete"
     assert manifest["local_runtime_observations"]["benchmark_status"] == "unskipped_passed"
-    assert manifest["local_runtime_observations"]["one_gib_hansard_corpus_available_in_repo"] is False
+    assert (
+        manifest["local_runtime_observations"]["one_gib_hansard_corpus_available_in_repo"] is False
+    )
 
     gates = {gate["id"]: gate for gate in manifest["external_gates"]}
     assert gates["full_suite_validation"]["status"] == "satisfied"

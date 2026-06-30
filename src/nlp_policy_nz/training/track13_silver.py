@@ -226,7 +226,9 @@ def load_votes_jsonl(path: str | Path) -> list[SilverVote]:
     import json
 
     votes: list[SilverVote] = []
-    for line_number, line in enumerate(Path(path).read_text(encoding="utf-8").splitlines(), start=1):
+    for line_number, line in enumerate(
+        Path(path).read_text(encoding="utf-8").splitlines(), start=1
+    ):
         if not line.strip():
             continue
         payload = json.loads(line)

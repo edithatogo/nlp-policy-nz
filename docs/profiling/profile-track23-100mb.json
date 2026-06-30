@@ -1,0 +1,30 @@
+{
+  "tool": "scalene",
+  "created_at": "2026-06-29T13:15:18.536928+00:00",
+  "command": [
+    "scalene",
+    "run",
+    "-o",
+    "docs\\profiling\\scalene-profile.json",
+    ".tmp\\profiling\\track19_scalene_launcher.py"
+  ],
+  "html_command": [
+    "scalene",
+    "view",
+    "--html",
+    "docs\\profiling\\scalene-profile.json"
+  ],
+  "return_code": 1,
+  "html_return_code": null,
+  "input": ".tmp\\profiling\\track23_100mb_hansard.txt",
+  "input_exists": true,
+  "output": ".tmp\\profiling\\track23_100mb.parquet",
+  "report": "docs\\profiling\\scalene-track23-100mb.html",
+  "report_exists": false,
+  "source": "hansard",
+  "with_embeddings": false,
+  "python": "3.13.14 | packaged by conda-forge | (main, Jun 12 2026, 09:44:26) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "C:\\Users\\60217257\\OneDrive - Flinders\\repos\\legal-nz\\nlp-policy-nz\\.pixi\\envs\\default\\python.exe",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "corpus_claim": "caller supplied input; no full-corpus claim is implied by this wrapper"
+}

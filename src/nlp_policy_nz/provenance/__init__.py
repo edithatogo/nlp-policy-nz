@@ -1,5 +1,7 @@
 """PROV-O provenance helpers for pipeline outputs."""
 
+from __future__ import annotations
+
 from nlp_policy_nz.provenance.recorder import (
     ProvenanceRecord,
     ProvenanceRecorder,

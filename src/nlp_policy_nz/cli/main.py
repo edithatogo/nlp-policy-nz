@@ -22,6 +22,7 @@ import sys
 from pathlib import Path
 
 from nlp_policy_nz.api import process_hansard, process_legislation, search_similar
+from nlp_policy_nz.axiom import DOCUMENT_TYPES
 from nlp_policy_nz.integrations.hf_uploader import deploy_space, push_dataset_to_hub
 from nlp_policy_nz.integrations.release import ReleaseManager
 from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
@@ -442,6 +443,80 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Path to an amendment debate or committee report text file.",
     )
 
+    # --- rac-export subcommand ---------------------------------------------
+    rac_parser = subparsers.add_parser(
+        "rac-export",
+        help="Export one source section as a rules-as-code bridge JSON-LD record.",
+        description=(
+            "Create an offline source-grounded bridge record with Axiom-style "
+            "source verification, RuleSpec identity, norm semantics, and "
+            "schema.org/Legislation metadata."
+        ),
+    )
+    rac_parser.add_argument("--input", "-i", type=str, required=True)
+    rac_parser.add_argument("--output", "-o", type=str, required=True)
+    rac_parser.add_argument("--citation-path", type=str, required=True)
+    rac_parser.add_argument("--source-url", type=str, required=True)
+    rac_parser.add_argument("--retrieved-at", type=str, required=True)
+    rac_parser.add_argument(
+        "--document-type",
+        type=str,
+        default="act",
+        choices=DOCUMENT_TYPES,
+    )
+    rac_parser.add_argument("--jurisdiction", type=str, default="NZ")
+    rac_parser.add_argument("--title", type=str, default=None)
+    rac_parser.add_argument("--concept", type=str, default=None)
+    rac_parser.add_argument("--effective-date", type=str, default=None)
+    rac_parser.add_argument(
+        "--package-output-dir",
+        type=str,
+        default=None,
+        help="Optional directory for an OpenFisca/PolicyEngine package skeleton.",
+    )
+    rac_parser.add_argument(
+        "--package-name",
+        type=str,
+        default="policyengine_nz_generated",
+        help="Package name to use with --package-output-dir.",
+    )
+
+    # --- export-extractions subcommand -------------------------------------
+    export_extractions_parser = subparsers.add_parser(
+        "export-extractions",
+        help="Export pipeline Parquet records as a broad extraction manifest.",
+        description=(
+            "Convert existing PipelineRecord Parquet output into deterministic "
+            "source-grounded extraction JSON for downstream consumers."
+        ),
+    )
+    export_extractions_parser.add_argument(
+        "--parquet",
+        "-p",
+        type=str,
+        required=True,
+        help="Path to pipeline Parquet output.",
+    )
+    export_extractions_parser.add_argument(
+        "--output",
+        "-o",
+        type=str,
+        required=True,
+        help="Destination extraction manifest JSON file.",
+    )
+    export_extractions_parser.add_argument(
+        "--retrieved-at",
+        type=str,
+        required=True,
+        help="Retrieval timestamp to place in source trace provenance.",
+    )
+    export_extractions_parser.add_argument(
+        "--source-url-base",
+        type=str,
+        default="pipeline://records",
+        help="Base URL used to build per-record source trace URLs.",
+    )
+
     return parser
 
 
@@ -476,6 +551,8 @@ def main(argv: list[str] | None = None) -> int:
         "knowledge-graph",
         "voting-summary",
         "amendment-history",
+        "rac-export",
+        "export-extractions",
     }
     if argv and argv[0] not in commands and not argv[0].startswith("-"):
         parser.print_help()
@@ -655,6 +732,53 @@ def main(argv: list[str] | None = None) -> int:
             text = Path(args.input).read_text(encoding="utf-8")
             payload = amendments_to_dicts(parse_amendments(text))
             sys.stdout.write(f"{json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+
+        elif args.command == "rac-export":
+            from nlp_policy_nz.axiom import SourceSection  # noqa: PLC0415
+            from nlp_policy_nz.ontology import (  # noqa: PLC0415
+                build_policyengine_package_skeleton,
+                build_rules_as_code_bridge,
+                write_policyengine_package_skeleton,
+                write_rules_as_code_bridge_json,
+            )
+
+            text = Path(args.input).read_text(encoding="utf-8")
+            section = SourceSection.from_text(
+                text,
+                citation_path=args.citation_path,
+                jurisdiction=args.jurisdiction,
+                document_type=args.document_type,
+                source_url=args.source_url,
+                retrieved_at=args.retrieved_at,
+                title=args.title,
+                effective_date=args.effective_date,
+            )
+            record = build_rules_as_code_bridge(section, concept=args.concept)
+            result = write_rules_as_code_bridge_json(record, args.output)
+            logger.info("Rules-as-code bridge written: %s", result)
+            if args.package_output_dir:
+                skeleton = build_policyengine_package_skeleton(
+                    record,
+                    package_name=args.package_name,
+                )
+                package_dir = write_policyengine_package_skeleton(
+                    skeleton,
+                    args.package_output_dir,
+                )
+                logger.info("Package skeleton written: %s", package_dir)
+
+        elif args.command == "export-extractions":
+            from nlp_policy_nz.extraction import (  # noqa: PLC0415
+                export_extraction_manifest_from_parquet,
+            )
+
+            result = export_extraction_manifest_from_parquet(
+                args.parquet,
+                args.output,
+                retrieved_at=args.retrieved_at,
+                source_url_base=args.source_url_base,
+            )
+            logger.info("Extraction manifest written: %s", result)
 
         else:
             parser.print_help()

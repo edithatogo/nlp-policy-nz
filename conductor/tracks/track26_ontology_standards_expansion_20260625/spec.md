@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 25  
 **Parallelization Node**: Standards Implementation  
-**Status**: Planned
+**Status**: Completed
 
 ## Goal
 
@@ -20,7 +20,7 @@ Add structured support for the missing ontology standards needed to make the cor
 
 ## Acceptance Criteria
 
-- [ ] Each standard has a manifest entry with source URL, license, local representation, and implementation status.
-- [ ] Each implemented ontology has tests proving parse/load/export round trips.
-- [ ] Standards without source data are represented as explicit blockers, not silent omissions.
-- [ ] Public APIs expose stable ontology IDs and mappings for downstream tracks.
+- [x] Each standard has a manifest entry with source URL, license, local representation, and implementation status.
+- [x] Each implemented ontology has tests proving parse/load/export round trips.
+- [x] Standards without source data are represented as explicit blockers, not silent omissions.
+- [x] Public APIs expose stable ontology IDs and mappings for downstream tracks.

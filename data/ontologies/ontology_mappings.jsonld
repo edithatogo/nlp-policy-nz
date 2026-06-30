@@ -1,0 +1,957 @@
+[
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/foaf-person-to-schema-person",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "foaf-person-to-schema-person"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "src/nlp_policy_nz/linked_data/foaf.py"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Used for parliamentary people and speaker profile interoperability."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.95"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "owl:equivalentClass"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual class identity crosswalk for public person metadata"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/foaf/person"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "FOAF"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "Person"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/schema-org/person"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "schema.org"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "Person"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/sioc/post",
+    "http://www.w3.org/2004/02/skos/core#closeMatch": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/akoma-ntoso/debatespeech"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/dcat-dataset-to-nzgls-resource",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "dcat-dataset-to-nzgls-resource"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "data/ontologies/track28_standards_registry_addendum.json"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "NZGLS resource metadata is used as a local publication crosswalk target."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.84"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "source:crosswalk"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual Track 28 NZGLS addendum crosswalk"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/dcat/dataset"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "DCAT"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "Dataset"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/nzgls/resource"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "NZGLS"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "Resource"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/extraction-definition-to-skos-concept",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "extraction-definition-to-skos-concept"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "src/nlp_policy_nz/extraction/schemas.py"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Definitions can seed concepts but require curation before becoming a controlled vocabulary."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.7"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "skos:relatedMatch"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual extraction-family to controlled vocabulary crosswalk"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/definition"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "nlp-policy-nz extraction"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "definition"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/skos/concept"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "SKOS"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "Concept"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/extraction-date-to-time-instant",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "extraction-date-to-time-instant"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "src/nlp_policy_nz/extraction/schemas.py"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Only normalized dates with source spans should be mapped to Time entities."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.76"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "skos:closeMatch"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual extraction-family to W3C Time crosswalk"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/date"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "nlp-policy-nz extraction"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "date"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/owl-time/time-instant"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "OWL-Time"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "time:Instant"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/date",
+    "http://www.w3.org/2004/02/skos/core#closeMatch": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/owl-time/time-instant"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/lkif/permission",
+    "http://www.w3.org/2004/02/skos/core#closeMatch": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/odrl/permission"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/dcat-dataset-to-data-govt-nz-dataset",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "dcat-dataset-to-data-govt-nz-dataset"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "data/ontologies/track28_standards_registry_addendum.json"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Maps generic dataset catalogue semantics to NZ publication metadata intake."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.86"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "source:crosswalk"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual Track 28 dataset publication crosswalk"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/dcat/dataset"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "DCAT"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "Dataset"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/data-govt-nz-dataset-metadata/dataset"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "data.govt.nz Dataset Metadata"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "dataset"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/prov-entity-to-dcat-dataset",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "prov-entity-to-dcat-dataset"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "data/ontologies/track26_standards_registry.json"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A pipeline output entity can be catalogued as a DCAT dataset when published."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.72"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "skos:relatedMatch"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual provenance-to-catalog publication crosswalk"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/prov-o/entity"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "PROV-O"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "Entity"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/dcat/dataset"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "DCAT"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "Dataset"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/lkif/prohibition",
+    "http://www.w3.org/2004/02/skos/core#closeMatch": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/odrl/prohibition"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/lkif-permission-to-odrl-permission",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "lkif-permission-to-odrl-permission"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "data/ontologies/track28_discovery_log.json"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "ODRL policy permission is adjacent to legal permission but should not be treated as full legal reasoning parity."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.78"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "skos:closeMatch"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual Track 28 ODRL map-only decision"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/lkif/permission"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "LKIF"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "Permission"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/odrl/permission"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "ODRL"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "Permission"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/agls/resource",
+    "http://www.w3.org/2004/02/skos/core#closeMatch": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/nzgls/resource"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/lkif-obligation-to-akn-obligation",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "lkif-obligation-to-akn-obligation"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "conductor/tracks/track26_ontology_standards_expansion_20260625/spec.md"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "LKIF normative effect is represented as an AKN-oriented semantic annotation, not native AKN markup."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.82"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "skos:closeMatch"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual crosswalk from Track 25/26 normative effect inventory"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/lkif/obligation"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "LKIF"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "Obligation"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/akoma-ntoso/obligation"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "Akoma Ntoso"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "obligation"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/prov-o/entity",
+    "http://www.w3.org/2004/02/skos/core#relatedMatch": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/dcat/dataset"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/sioc-post-to-akn-debate",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "sioc-post-to-akn-debate"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "src/nlp_policy_nz/linked_data/sioc.py"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "SIOC post models discourse item; AKN debateSpeech models parliamentary speech structure."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.74"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "skos:closeMatch"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual discourse-to-legislative-document crosswalk"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/sioc/post"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "SIOC"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "Post"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/akoma-ntoso/debatespeech"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "Akoma Ntoso"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "debateSpeech"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/lkif/obligation",
+    "http://www.w3.org/2004/02/skos/core#closeMatch": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/akoma-ntoso/obligation"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/agls-resource-to-nzgls-resource",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "agls-resource-to-nzgls-resource"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "data/ontologies/track28_standards_registry_addendum.json"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Supports AU-to-NZ corpus metadata transfer without adopting AGLS as core."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.8"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "skos:closeMatch"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual trans-Tasman metadata crosswalk"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/agls/resource"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "AGLS"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "Resource"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/nzgls/resource"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "NZGLS"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "Resource"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/dcat/dataset",
+    "https://legal-nz.example.org/ontology/source/crosswalk": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/data-govt-nz-dataset-metadata/dataset"
+      },
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/nzgls/resource"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/definition",
+    "http://www.w3.org/2004/02/skos/core#relatedMatch": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/skos/concept"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/extraction-rules-as-code-to-catala-scope",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "extraction-rules-as-code-to-catala-scope"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "docs/extraction-framework.md"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Requires downstream review before generating Catala code or scopes."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.68"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "source:crosswalk"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual Track 55 to Track 28 rules-as-code bridge"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "needs_review"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/rules-as-code"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "nlp-policy-nz extraction"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "rules_as_code"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/catala/scope"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "Catala"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "scope"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/rules-as-code",
+    "https://legal-nz.example.org/ontology/source/crosswalk": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/catala/scope"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/standards/foaf/person",
+    "http://www.w3.org/2002/07/owl#equivalentClass": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/schema-org/person"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/mapping/lkif-prohibition-to-odrl-prohibition",
+    "@type": [
+      "https://legal-nz.example.org/ontology/mapping/MappingRecord"
+    ],
+    "http://purl.org/dc/elements/1.1/identifier": [
+      {
+        "@value": "lkif-prohibition-to-odrl-prohibition"
+      }
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "data/ontologies/track28_discovery_log.json"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Use for deontic extraction inspection and not as executable ODRL policy output."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.78"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/mappingPredicate": [
+      {
+        "@value": "skos:closeMatch"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/method": [
+      {
+        "@value": "manual Track 28 ODRL map-only decision"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/reviewStatus": [
+      {
+        "@value": "approved"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/lkif/prohibition"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceStandard": [
+      {
+        "@value": "LKIF"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/sourceTerm": [
+      {
+        "@value": "Prohibition"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetNode": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/standards/odrl/prohibition"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetStandard": [
+      {
+        "@value": "ODRL"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/mapping/targetTerm": [
+      {
+        "@value": "Prohibition"
+      }
+    ]
+  }
+]

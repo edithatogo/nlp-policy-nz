@@ -453,16 +453,13 @@ def normalise_record(record: DigitalNZRecord) -> NormalisedRecord:
         rights_note=rights_note,
         source_url=record.landing_url,
         canonical_uri=record.dc_identifier[0] if record.dc_identifier else None,
-        source_name=record.display_content_partner or (
-            record.content_partner[0] if record.content_partner else None
-        ),
+        source_name=record.display_content_partner
+        or (record.content_partner[0] if record.content_partner else None),
         collection=record.display_collection,
         category=record.category,
         rights_classification=rights_classification,
         raw_record=record,
     )
-
-
 
 
 # ---------------------------------------------------------------------------
@@ -502,10 +499,12 @@ class DigitalNZProbe:
         self._api_key = api_key
         self._request_delay = request_delay
         self._session = requests.Session()
-        self._session.headers.update({
-            "User-Agent": user_agent,
-            "Accept": "application/json",
-        })
+        self._session.headers.update(
+            {
+                "User-Agent": user_agent,
+                "Accept": "application/json",
+            }
+        )
         if api_key:
             self._session.headers["Authentication-Token"] = api_key
         self._last_request_time: float = 0.0
@@ -575,12 +574,12 @@ class DigitalNZProbe:
                 self._rate_limit()
                 resp = self._session.get(url, timeout=30)
                 if resp.status_code == 429:
-                    retry_after = float(
-                        resp.headers.get("Retry-After", str(attempt * 2))
-                    )
+                    retry_after = float(resp.headers.get("Retry-After", str(attempt * 2)))
                     logger.warning(
                         "Rate limited (attempt %d/%d). Waiting %.1f s.",
-                        attempt, MAX_RETRIES, retry_after,
+                        attempt,
+                        MAX_RETRIES,
+                        retry_after,
                     )
                     time.sleep(retry_after)
                     continue
@@ -591,7 +590,9 @@ class DigitalNZProbe:
                 status = exc.response.status_code if exc.response is not None else 0
                 if status in (429, 500, 502, 503, 504) and attempt < MAX_RETRIES:
                     backoff = RETRY_BACKOFF**attempt
-                    logger.warning("HTTP %d (attempt %d/%d). Retrying.", status, attempt, MAX_RETRIES)
+                    logger.warning(
+                        "HTTP %d (attempt %d/%d). Retrying.", status, attempt, MAX_RETRIES
+                    )
                     time.sleep(backoff)
                     continue
                 msg = f"DigitalNZ API returned HTTP {status} for {endpoint}: {exc}"
@@ -600,7 +601,9 @@ class DigitalNZProbe:
                 last_exc = exc
                 if attempt < MAX_RETRIES:
                     backoff = RETRY_BACKOFF**attempt
-                    logger.warning("Request failed (attempt %d/%d). Retrying.", attempt, MAX_RETRIES)
+                    logger.warning(
+                        "Request failed (attempt %d/%d). Retrying.", attempt, MAX_RETRIES
+                    )
                     time.sleep(backoff)
                     continue
                 msg = f"DigitalNZ API request failed after {MAX_RETRIES} attempts: {exc}"
@@ -723,7 +726,10 @@ class DigitalNZProbe:
         page = 1
         while len(all_records) < max_results:
             result = self.search(
-                query=query, fields=fields, per_page=per_page, page=page,
+                query=query,
+                fields=fields,
+                per_page=per_page,
+                page=page,
             )
             if not result.records:
                 break
@@ -797,8 +803,7 @@ class DigitalNZProbe:
                 "result_count": result.total_count,
                 "request_url": result.request_url,
                 "results": [
-                    msgspec.json.decode(msgspec.json.encode(rec))
-                    for rec in result.records
+                    msgspec.json.decode(msgspec.json.encode(rec)) for rec in result.records
                 ],
                 "facets": {},
             },
@@ -847,25 +852,29 @@ def _build_cli_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
-        "--query", "-q",
+        "--query",
+        "-q",
         type=str,
         default="New Zealand",
         help="Search query text (default: 'New Zealand').",
     )
     parser.add_argument(
-        "--fields", "-f",
+        "--fields",
+        "-f",
         type=str,
         default=None,
         help="Comma-separated list of fields (e.g. 'title,description,creator,rights').",
     )
     parser.add_argument(
-        "--max-results", "-n",
+        "--max-results",
+        "-n",
         type=int,
         default=20,
         help=f"Maximum number of results (default: 20, max: {MAX_PER_PAGE}).",
     )
     parser.add_argument(
-        "--output", "-o",
+        "--output",
+        "-o",
         type=str,
         default=None,
         help="Path to write JSON output (default: stdout).",
@@ -883,7 +892,8 @@ def _build_cli_parser() -> argparse.ArgumentParser:
         help="Directory for fixture output (default: tests/fixtures).",
     )
     parser.add_argument(
-        "--verbose", "-v",
+        "--verbose",
+        "-v",
         action="store_true",
         default=False,
         help="Enable verbose (INFO) logging.",
@@ -966,4 +976,5 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     import sys  # noqa: PLC0415
+
     sys.exit(main())

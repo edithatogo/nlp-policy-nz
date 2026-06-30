@@ -94,9 +94,7 @@ ONTOLOGY_SURFACES: Final[tuple[OntologySurface, ...]] = (
         repo_system="AKN v3 emitter and validator",
         local_files=("src/nlp_policy_nz/schema/akn_v3.py",),
         coverage_status="partial",
-        implementation_summary=(
-            "AKN v3 emission and validation exist for core document types."
-        ),
+        implementation_summary=("AKN v3 emission and validation exist for core document types."),
         gap_summary=(
             "Source anchoring is still incomplete because ELI/ELI-DL-style URI "
             "templates and a full legislative source inventory are missing."
@@ -197,9 +195,7 @@ ONTOLOGY_SURFACES: Final[tuple[OntologySurface, ...]] = (
         blocker_type="spec",
         blocker_source="LKIF alignment and normative rule inventory",
         blocker_dataset="normative rule catalogue and exception set",
-        next_action=(
-            "Align the effect taxonomy with a fuller LKIF/LegalRuleML semantics layer."
-        ),
+        next_action=("Align the effect taxonomy with a fuller LKIF/LegalRuleML semantics layer."),
         track_refs=("track27", "track30", "track31"),
         priority=2,
         notes="Useful for rules-as-code semantics but not yet a full ontology bridge.",
@@ -241,9 +237,7 @@ ONTOLOGY_SURFACES: Final[tuple[OntologySurface, ...]] = (
         blocker_type="integration",
         blocker_source="Rule semantics extraction and emitter integration",
         blocker_dataset="normative rule translation set",
-        next_action=(
-            "Convert the prototype hooks into real LegalRuleML and Catala emitters."
-        ),
+        next_action=("Convert the prototype hooks into real LegalRuleML and Catala emitters."),
         track_refs=("track26", "track27", "track30"),
         priority=2,
         notes="Currently a scaffold rather than a validated downstream target.",
@@ -263,9 +257,7 @@ ONTOLOGY_SURFACES: Final[tuple[OntologySurface, ...]] = (
         blocker_type="data",
         blocker_source="NZ policy variable and parameter catalogue",
         blocker_dataset="policy variable, parameter, and entity definitions",
-        next_action=(
-            "Model the legislation-to-variable bridge as a first-class ontology."
-        ),
+        next_action=("Model the legislation-to-variable bridge as a first-class ontology."),
         track_refs=("track26", "track27", "track31"),
         priority=1,
         notes="This is the main rules-as-code target for later tracks.",
@@ -329,9 +321,7 @@ ONTOLOGY_SURFACES: Final[tuple[OntologySurface, ...]] = (
         local_files=(),
         coverage_status="missing",
         implementation_summary="No controlled vocabulary mapping is implemented yet.",
-        gap_summary=(
-            "There is no SKOS-backed policy-domain taxonomy for classifying provisions."
-        ),
+        gap_summary=("There is no SKOS-backed policy-domain taxonomy for classifying provisions."),
         blocker_type="spec",
         blocker_source="Policy-domain taxonomy mapping set",
         blocker_dataset="provision-to-domain mapping corpus",
@@ -507,11 +497,7 @@ def build_prioritized_backlog(
     matrix: Iterable[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     """Convert the audit into a work backlog."""
-    rows = [
-        row
-        for row in (matrix or build_coverage_matrix())
-        if row["blocker_type"] != "none"
-    ]
+    rows = [row for row in (matrix or build_coverage_matrix()) if row["blocker_type"] != "none"]
     rows = sorted(
         rows,
         key=lambda row: (
@@ -592,7 +578,7 @@ def matrix_to_markdown(matrix: Iterable[dict[str, Any]]) -> str:
     for row in rows:
         files = "<br>".join(row["local_files"]) if row["local_files"] else "none"
         blocker = (
-            f'{row["blocker_type"]}: {row["blocker_source"]}'
+            f"{row['blocker_type']}: {row['blocker_source']}"
             if row["blocker_type"] != "none"
             else "none"
         )
@@ -646,9 +632,7 @@ def build_evidence_markdown(bundle: Track25OntologyCoverageAudit) -> str:
     ]
     for blocker in bundle.blockers:
         standards = ", ".join(blocker["affected_standards"])
-        lines.append(
-            f"- {blocker['blocker_type']}: {standards} -> {blocker['next_action']}"
-        )
+        lines.append(f"- {blocker['blocker_type']}: {standards} -> {blocker['next_action']}")
     lines.extend(
         [
             "",
@@ -656,9 +640,7 @@ def build_evidence_markdown(bundle: Track25OntologyCoverageAudit) -> str:
         ]
     )
     for item in bundle.backlog:
-        lines.append(
-            f"{item['rank']}. {item['standard']} - {item['next_action']}"
-        )
+        lines.append(f"{item['rank']}. {item['standard']} - {item['next_action']}")
     lines.extend(["", "## Matrix", "", matrix_to_markdown(bundle.matrix)])
     return "\n".join(lines)
 

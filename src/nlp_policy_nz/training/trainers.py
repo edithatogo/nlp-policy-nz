@@ -5,7 +5,9 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Literal
 
-TrainingTaskName = Literal["mlm", "citation", "deontic", "entity", "argument", "stance", "qa", "maori"]
+TrainingTaskName = Literal[
+    "mlm", "citation", "deontic", "entity", "argument", "stance", "qa", "maori"
+]
 
 
 @dataclass(frozen=True)
@@ -102,7 +104,8 @@ def create_qlora_job(
             output_dir=output_dir,
             trust_remote_code=True,
         ),
-        training=training or TrainingHyperparameters(
+        training=training
+        or TrainingHyperparameters(
             per_device_batch_size=1,
             gradient_accumulation_steps=16,
             learning_rate=2e-4,

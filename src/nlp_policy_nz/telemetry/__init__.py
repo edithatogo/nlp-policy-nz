@@ -1,5 +1,7 @@
 """OpenTelemetry helpers for the NLP policy pipeline."""
 
+from __future__ import annotations
+
 from nlp_policy_nz.telemetry.benchmarks import (
     PIPELINE_BENCHMARK_CONTRACT,
     BenchmarkEvidenceContract,

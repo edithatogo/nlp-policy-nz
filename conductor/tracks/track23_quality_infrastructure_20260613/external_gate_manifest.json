@@ -1,9 +1,9 @@
 {
   "track": 23,
   "name": "quality_infrastructure_full_gate_manifest",
-  "updated_at": "2026-06-25",
+  "updated_at": "2026-06-30",
   "status": "pending_full_quality_evidence",
-  "summary": "Track 23 has repo-side quality infrastructure and optional mutation CI wiring, but the remaining full quality gates must be proven by durable artifacts before the track is described as complete.",
+  "summary": "Track 23 has repo-side quality infrastructure and optional mutation CI wiring; full strict Ruff, strict basedpyright, coverage threshold, and full quality pass evidence remain pending.",
   "non_surrogate_rule": "Focused tests, scoped Ruff runs, scaffold checks, and configuration inspection are not accepted as substitutes for the full strict Ruff, strict basedpyright, coverage threshold, or full quality pass gates.",
   "gates": [
     {

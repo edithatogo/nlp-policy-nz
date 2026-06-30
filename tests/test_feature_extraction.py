@@ -39,9 +39,7 @@ class TestExtractBillReference:
         assert result is None
 
     def test_multiple_matches_returns_first(self) -> None:
-        result = extract_bill_reference(
-            "Act 2023 No 1 and Act 2024 No 5 are both relevant."
-        )
+        result = extract_bill_reference("Act 2023 No 1 and Act 2024 No 5 are both relevant.")
         assert result == "Act 2023 No 1"
 
 
@@ -49,9 +47,7 @@ class TestExtractCommitteeName:
     """Tests for :func:`extract_committee_name`."""
 
     def test_select_committee(self) -> None:
-        result = extract_committee_name(
-            "This report is from the Finance Select Committee."
-        )
+        result = extract_committee_name("This report is from the Finance Select Committee.")
         assert result == "Select Committee"
 
     def test_regulations_review_committee(self) -> None:

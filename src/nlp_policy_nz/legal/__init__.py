@@ -3,6 +3,8 @@
 Provides deontic modality detection and legal effect classification mapping to LKIF categories.
 """
 
+from __future__ import annotations
+
 from nlp_policy_nz.legal.effects import LegalEffect, classify_legal_effect
 from nlp_policy_nz.legal.modality import (
     DeonticModality,

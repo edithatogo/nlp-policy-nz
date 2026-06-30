@@ -1,0 +1,2087 @@
+Pixi task (lint): ruff check . && vale docs/build_backend.md docs/pydantic_vs_msgspec.md docs/axiom-foundation-relevance.md
+All checks passed!
+✔ 0 errors, 0 warnings and 0 suggestions in 3 files.
+
+Pixi task (format): ruff format .
+197 files left unchanged
+
+Pixi task (check-complexity): python -X utf8 -m complexipy.main . --max-complexity-allowed 100
+───────────────────────────────── complexipy ──────────────────────────────────
+nlp-policy-nz/conductor/run_cline_swarm.py
+    load_text 0  ✅ PASSED
+    load_yaml 0  ✅ PASSED
+    mark_task_complete 0  ✅ PASSED
+    write_text 0  ✅ PASSED
+    get_next_task 2  ✅ PASSED
+    run_task_via_cline 2  ✅ PASSED
+    main 28  ✅ PASSED
+
+nlp-policy-nz/scripts/benchmark_msgspec_orjson.py
+    _build_parser 0  ✅ PASSED
+    _missing_result 0  ✅ PASSED
+    _serialize_stdlib 0  ✅ PASSED
+    _make_records 1  ✅ PASSED
+    _percentile_95 1  ✅ PASSED
+    _serialize_msgspec 1  ✅ PASSED
+    _serialize_orjson 1  ✅ PASSED
+    main 1  ✅ PASSED
+    _run_optional_serializer 3  ✅ PASSED
+    _run_benchmark 11  ✅ PASSED
+
+nlp-policy-nz/scripts/benchmark_pipeline_record_msgspec_pydantic.py
+    _build_parser 0  ✅ PASSED
+    _make_records 1  ✅ PASSED
+    _percentile_95 1  ✅ PASSED
+    _run_msgspec_roundtrip 1  ✅ PASSED
+    _run_pydantic_roundtrip 1  ✅ PASSED
+    main 1  ✅ PASSED
+
+nlp-policy-nz/scripts/benchmark_tokenizers_chunking.py
+    _build_corpus 0  ✅ PASSED
+    _build_parser 0  ✅ PASSED
+    _build_tokenizer 0  ✅ PASSED
+    _chunk_count_by_token_target 0  ✅ PASSED
+    _bench_spacy 1  ✅ PASSED
+    _bench_tokenizers 1  ✅ PASSED
+    _percentile_95 1  ✅ PASSED
+    _run_bench 1  ✅ PASSED
+    _build_nlp 2  ✅ PASSED
+    main 8  ✅ PASSED
+
+nlp-policy-nz/scripts/build_nz_entity_kb.py
+    qid_from_uri 0  ✅ PASSED
+    run_sparql 0  ✅ PASSED
+    slugify 0  ✅ PASSED
+    main 1  ✅ PASSED
+    optional_date 1  ✅ PASSED
+    optional_value 1  ✅ PASSED
+    fetch_named_entities 3  ✅ PASSED
+    dedupe_entities 4  ✅ PASSED
+    alias_candidates 9  ✅ PASSED
+    fetch_mps 10  ✅ PASSED
+
+nlp-policy-nz/scripts/check_version_consistency.py
+    _pyproject_version 0  ✅ PASSED
+    _text 0  ✅ PASSED
+    _quoted_assignment 1  ✅ PASSED
+    check_version_consistency 2  ✅ PASSED
+    main 3  ✅ PASSED
+
+nlp-policy-nz/scripts/evaluate_track13_silver.py
+    _has_attack_cue 0  ✅ PASSED
+    _metric_lines 0  ✅ PASSED
+    _evaluate_rows 1  ✅ PASSED
+    _load_jsonl 1  ✅ PASSED
+    _normalize_claim 1  ✅ PASSED
+    _normalize_premise 1  ✅ PASSED
+    _relation_to_stance 2  ✅ PASSED
+    main 3  ✅ PASSED
+    _render_report 4  ✅ PASSED
+
+nlp-policy-nz/scripts/memray_trace.py
+    _build_parser 0  ✅ PASSED
+    _write_launcher_script 0  ✅ PASSED
+    main 4  ✅ PASSED
+
+nlp-policy-nz/scripts/profile_pipeline.py
+    _build_parser 0  ✅ PASSED
+    _write_launcher_script 0  ✅ PASSED
+    main 8  ✅ PASSED
+
+nlp-policy-nz/scripts/profile_with_scalene.py
+    main 0  ✅ PASSED
+    run_profile 0  ✅ PASSED
+    build_profile_records 2  ✅ PASSED
+
+nlp-policy-nz/scripts/record_learning_candidate.py
+    parse_args 0  ✅ PASSED
+    read_text_lines 1  ✅ PASSED
+    section_has_entry 1  ✅ PASSED
+    write_snapshot 1  ✅ PASSED
+    build_entry_lines 3  ✅ PASSED
+    find_section 3  ✅ PASSED
+    main 3  ✅ PASSED
+    append_candidate 7  ✅ PASSED
+
+nlp-policy-nz/spaces/app.py
+    build_app 1  ✅ PASSED
+    load_parquet 2  ✅ PASSED
+    search_chunks 3  ✅ PASSED
+    build_citation_network 8  ✅ PASSED
+    build_tereo_chart 8  ✅ PASSED
+    compute_stats 13  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/__init__.py
+    run_nlp_pipeline 0  ✅ PASSED
+    __getattr__ 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/api/__init__.py
+    process_hansard 0  ✅ PASSED
+    process_legislation 0  ✅ PASSED
+    search_similar 0  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/api/server.py
+    LanguageIdentifier 0  ✅ PASSED
+    _record_to_dict 0  ✅ PASSED
+    create_citation_ruler 0  ✅ PASSED
+    create_nlp_pipeline 0  ✅ PASSED
+    normalize_text 0  ✅ PASSED
+    search_similar 0  ✅ PASSED
+    _get_embedding_generator 1  ✅ PASSED
+    embed 1  ✅ PASSED
+    health 1  ✅ PASSED
+    process 1  ✅ PASSED
+    _run_file_pipeline 3  ✅ PASSED
+    search 3  ✅ PASSED
+    _run_inline_pipeline 11  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/axiom/linkage.py
+    BillAction::__post_init__ 0  ✅ PASSED
+    BillAction::from_raw 0  ✅ PASSED
+    BillAction::to_dict 0  ✅ PASSED
+    BillHansardLink::to_dict 0  ✅ PASSED
+    BillVersion::to_dict 0  ✅ PASSED
+    BillHansardLink::__post_init__ 1  ✅ PASSED
+    BillVersion::__post_init__ 1  ✅ PASSED
+    _require_nonempty 1  ✅ PASSED
+    _validate_bill_status 1  ✅ PASSED
+    _validate_sha256 1  ✅ PASSED
+    normalise_bill_status 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/axiom/rulespec.py
+    RuleSpecReference::__post_init__ 0  ✅ PASSED
+    RuleSpecReference::durable_id 0  ✅ PASSED
+    RuleSpecReference::to_dict 0  ✅ PASSED
+    make_rulespec_reference 0  ✅ PASSED
+    source_verification_metadata 0  ✅ PASSED
+    _normalise_namespace 1  ✅ PASSED
+    _normalise_concept 2  ✅ PASSED
+    pipeline_record_rulespec_reference 2  ✅ PASSED
+    _infer_concept 5  ✅ PASSED
+    _normalise_path 6  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/axiom/source.py
+    SourceSection::from_text 0  ✅ PASSED
+    SourceSectionMetadata::__post_init__ 0  ✅ PASSED
+    SourceSectionMetadata::to_dict 0  ✅ PASSED
+    StalenessReport::is_stale 0  ✅ PASSED
+    StalenessReport::to_dict 0  ✅ PASSED
+    normalize_source_text 0  ✅ PASSED
+    source_section_to_pipeline_record 0  ✅ PASSED
+    source_sha256 0  ✅ PASSED
+    _require_nonempty 1  ✅ PASSED
+    _validate_document_type 1  ✅ PASSED
+    _validate_sha256 1  ✅ PASSED
+    compare_source_staleness 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/cli/graph.py
+    PolicyGraph::__init__ 0  ✅ PASSED
+    PolicyGraph::add_act 0  ✅ PASSED
+    PolicyGraph::add_section_reference 0  ✅ PASSED
+    PolicyGraph::add_speech 0  ✅ PASSED
+    PolicyGraph::graph 0  ✅ PASSED
+    PolicyGraph::load 0  ✅ PASSED
+    PolicyGraph::save 0  ✅ PASSED
+    PolicyGraph::to_dict 0  ✅ PASSED
+    PolicyGraph::add_citation 1  ✅ PASSED
+    PolicyGraph::query_acts_mentioned_in_speech 1  ✅ PASSED
+    PolicyGraph::query_speeches_mentioning_act 1  ✅ PASSED
+    PolicyGraph::query_most_active_speakers 6  ✅ PASSED
+    PolicyGraph::query_most_cited_acts 6  ✅ PASSED
+    export_argument_graph_jsonld 6  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/cli/main.py
+    _build_parser 0  ✅ PASSED
+    _setup_logging 1  ✅ PASSED
+    main 53  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/digitalnz_probe.py
+    DigitalNZProbe::_build_url 0  ✅ PASSED
+    DigitalNZProbe::get_record 0  ✅ PASSED
+    _build_cli_parser 0  ✅ PASSED
+    DigitalNZProbe::__init__ 1  ✅ PASSED
+    DigitalNZProbe::save_fixtures 1  ✅ PASSED
+    DigitalNZProbe::_rate_limit 3  ✅ PASSED
+    DigitalNZProbe::_parse_record 4  ✅ PASSED
+    DigitalNZProbe::search 4  ✅ PASSED
+    normalise_record 4  ✅ PASSED
+    DigitalNZProbe::search_all 7  ✅ PASSED
+    main 12  ✅ PASSED
+    DigitalNZProbe::_request 17  ✅ PASSED
+    classify_rights 30  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/discourse/argument.py
+    ArgumentComponent::to_dict 0  ✅ PASSED
+    ArgumentGraph::__init__ 0  ✅ PASSED
+    ArgumentGraph::add_component 0  ✅ PASSED
+    ArgumentGraph::add_relation 0  ✅ PASSED
+    ArgumentGraph::to_aif_jsonld 0  ✅ PASSED
+    ArgumentRelation::to_dict 0  ✅ PASSED
+    _contains_any 0  ✅ PASSED
+    _tokens 0  ✅ PASSED
+    ArgumentGraph::from_arguments 1  ✅ PASSED
+    _jaccard 2  ✅ PASSED
+    _sentence_spans 3  ✅ PASSED
+    link_arguments_to_issues 3  ✅ PASSED
+    _classify_components 4  ✅ PASSED
+    ArgumentDetector::detect 6  ✅ PASSED
+    ArgumentGraph::add_inferred_relations 6  ✅ PASSED
+    evaluate_argument_components 7  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/discourse/stance.py
+    StanceResult::to_dict 0  ✅ PASSED
+    StanceClassifier::classify 2  ✅ PASSED
+    evaluate_stance_accuracy 2  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/extraction/schemas.py
+    extraction_manifest_from_records 0  ✅ PASSED
+    render_extraction_manifest_json 0  ✅ PASSED
+    render_extractor_manifest_yaml 0  ✅ PASSED
+    ExtractedSpan::_validate_span_order 1  ✅ PASSED
+    ExtractorManifest::_validate_unique_extractors 1  ✅ PASSED
+    ExtractionManifest::_validate_summary_matches_records 2  ✅ PASSED
+    ExtractorSpec::_validate_outputs 2  ✅ PASSED
+    SourceTraceReport::_validate_has_records_or_spans 2  ✅ PASSED
+    source_trace_reports_from_records 2  ✅ PASSED
+    ExtractionRecord::_validate_attribute_keys 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/feature_extraction.py
+    extract_regulations_review_metadata 1  ✅ PASSED
+    extract_bill_reference 2  ✅ PASSED
+    extract_committee_name 2  ✅ PASSED
+    extract_submission_metadata 3  ✅ PASSED
+    extract_select_committee_metadata 5  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/guard/__init__.py
+    __getattr__ 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/guard/language_id.py
+    LanguageIdentifier::__init__ 0  ✅ PASSED
+    LanguageIdentifier::detect_sentences 0  ✅ PASSED
+    LanguageIdentifier::detect_code_switching 3  ✅ PASSED
+    LanguageIdentifier::_to_iso 4  ✅ PASSED
+    LanguageIdentifier::detect 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/guard/normalizer.py
+    is_macronized 0  ✅ PASSED
+    preserve_macrons 0  ✅ PASSED
+    _replace_double_vowels 3  ✅ PASSED
+    normalize_text 5  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/guard/tokenizer_exceptions.py
+    _maori_guard_component 0  ✅ PASSED
+    build_tokenizer_exceptions 1  ✅ PASSED
+    create_maori_guard_component 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/integrations/data_registry.py
+    DataSovereigntyRegistry::_save 0  ✅ PASSED
+    DataSovereigntyRegistry::list_records 0  ✅ PASSED
+    DataSovereigntyRegistry::register 0  ✅ PASSED
+    DataSovereigntyRegistry::__init__ 1  ✅ PASSED
+    DataSovereigntyRegistry::_load 2  ✅ PASSED
+    DataSovereigntyRegistry::lookup 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/integrations/dataset_card.py
+    write_dataset_card 0  ✅ PASSED
+    generate_dataset_card 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/integrations/hf_uploader.py
+    create_dataset_repo 1  ✅ PASSED
+    get_hf_token 1  ✅ PASSED
+    parquet_to_dataset 1  ✅ PASSED
+    _resolve_token 2  ✅ PASSED
+    push_dataset_to_hub 2  ✅ PASSED
+    deploy_space 9  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/integrations/huggingface.py
+    load_hansard_dataset 0  ✅ PASSED
+    load_legislation_dataset 0  ✅ PASSED
+    _load_dataset 1  ✅ PASSED
+    get_hf_token 1  ✅ PASSED
+    _resolve_token 2  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/integrations/release.py
+    ReleaseManager::__init__ 0  ✅ PASSED
+    ReleaseManager::publish_to_zenodo 0  ✅ PASSED
+    ReleaseManager::full_release 1  ✅ PASSED
+    ReleaseManager::create_release_archive 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/integrations/zenodo.py
+    DepositError::__init__ 0  ✅ PASSED
+    _headers 0  ✅ PASSED
+    _get_api_url 1  ✅ PASSED
+    _resolve_token 1  ✅ PASSED
+    create_sandbox_deposit 2  ✅ PASSED
+    publish_deposit 2  ✅ PASSED
+    get_zenodo_token 3  ✅ PASSED
+    upload_file_to_deposit 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/integrations/zenodo_archive.py
+    ZenodoArchiver::__init__ 0  ✅ PASSED
+    archive_to_zenodo 0  ✅ PASSED
+    ZenodoArchiver::_resolve_token 1  ✅ PASSED
+    ZenodoArchiver::create_archive 1  ✅ PASSED
+    ZenodoArchiver::get_doi 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/kb/nz_entities.py
+    EntityContext::to_dict 0  ✅ PASSED
+    EntityRecord::names 0  ✅ PASSED
+    load_nz_entities 0  ✅ PASSED
+    seed_nz_entities 0  ✅ PASSED
+    _optional_str 1  ✅ PASSED
+    default_nz_entities 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/kb/resolver.py
+    NzEntityResolverComponent::__call__ 0  ✅ PASSED
+    NzEntityResolverComponent::__init__ 0  ✅ PASSED
+    ResolvedEntity::to_dict 0  ✅ PASSED
+    create_nz_entity_resolver 0  ✅ PASSED
+    resolve_entities_in_text 0  ✅ PASSED
+    EntityResolver::resolve_one 1  ✅ PASSED
+    _resolved_entity 1  ✅ PASSED
+    NzEntityResolverComponent::resolve_doc 3  ✅ PASSED
+    _date_in_range 3  ✅ PASSED
+    _deduplicate_overlaps 3  ✅ PASSED
+    _entity_by_id 3  ✅ PASSED
+    EntityResolver::__init__ 4  ✅ PASSED
+    evaluate_resolution_precision 6  ✅ PASSED
+    EntityResolver::resolve_text 10  ✅ PASSED
+    _score_entity 14  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/kb/sparql_cache.py
+    JsonSparqlCache::__init__ 0  ✅ PASSED
+    JsonSparqlCache::set 0  ✅ PASSED
+    JsonSparqlCache::_read 1  ✅ PASSED
+    JsonSparqlCache::get 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/kb/wikidata.py
+    WikidataPropertyClient::fetch_properties 0  ✅ PASSED
+    WikidataEnricher::__init__ 1  ✅ PASSED
+    WikidataEnricher::enrich 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/kb/wikidata_kg.py
+    EntityPropertyClient::fetch_properties 0  ✅ PASSED
+    EntitySearchClient::search_entity 0  ✅ PASSED
+    WikidataEntity::from_mapping 0  ✅ PASSED
+    WikidataResolver::bulk_resolve 0  ✅ PASSED
+    WikidataSparqlClient::__init__ 0  ✅ PASSED
+    _cache_key 0  ✅ PASSED
+    _entity_to_mapping 0  ✅ PASSED
+    _entity_uri 0  ✅ PASSED
+    _escape_sparql_literal 0  ✅ PASSED
+    export_knowledge_graph_jsonld 0  ✅ PASSED
+    federated_sparql_query_example 0  ✅ PASSED
+    load_ontology_graph 0  ✅ PASSED
+    WikidataSparqlClient::_query 1  ✅ PASSED
+    _label_score 1  ✅ PASSED
+    _slug 1  ✅ PASSED
+    load_wikidata_entities 1  ✅ PASSED
+    WikidataResolver::__init__ 2  ✅ PASSED
+    WikidataResolver::resolve 3  ✅ PASSED
+    WikidataSparqlClient::search_entity 3  ✅ PASSED
+    _binding_value 3  ✅ PASSED
+    _entity_jsonld 4  ✅ PASSED
+    enrich_entities 4  ✅ PASSED
+    WikidataSparqlClient::fetch_properties 6  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/legal/effects.py
+    LegalEffect::__str__ 0  ✅ PASSED
+    classify_legal_effect 23  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/legal/modality.py
+    DeonticModalityDetector::from_disk 0  ✅ PASSED
+    DeonticModalityDetector::to_disk 0  ✅ PASSED
+    ModalityAnnotation::to_dict 0  ✅ PASSED
+    DeonticModalityDetector::__init__ 1  ✅ PASSED
+    detect_modality 2  ✅ PASSED
+    DeonticModalityDetector::_resolve_scope 4  ✅ PASSED
+    _ensure_extensions 4  ✅ PASSED
+    DeonticModalityDetector::__call__ 5  ✅ PASSED
+    DeonticModalityDetector::_fallback_scope 5  ✅ PASSED
+    DeonticModalityDetector::_match_at 8  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/legal/temporal.py
+    TemporalExpression::to_dict 0  ✅ PASSED
+    TemporalExtractor::from_disk 0  ✅ PASSED
+    TemporalExtractor::to_disk 0  ✅ PASSED
+    TemporalGraph::__init__ 0  ✅ PASSED
+    TemporalGraph::add_effective_period 0  ✅ PASSED
+    _duration_value 0  ✅ PASSED
+    _overlaps 0  ✅ PASSED
+    TemporalExtractor::__init__ 1  ✅ PASSED
+    TemporalGraph::effective_period 1  ✅ PASSED
+    _nearby_section_id 1  ✅ PASSED
+    _nearby_signal 1  ✅ PASSED
+    TemporalGraph::add_section 2  ✅ PASSED
+    _date_value 2  ✅ PASSED
+    _ensure_extensions 2  ✅ PASSED
+    detect_temporal_expressions 2  ✅ PASSED
+    TemporalGraph::link_temporal_expression 4  ✅ PASSED
+    TemporalExtractor::__call__ 7  ✅ PASSED
+    _classify_role 7  ✅ PASSED
+    TemporalExtractor::extract 9  ✅ PASSED
+    TemporalGraph::find_active_sections 12  ✅ PASSED
+    _normalize_match 12  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/linked_data/foaf.py
+    _clean_base_uri 0  ✅ PASSED
+    _uri 0  ✅ PASSED
+    export_foaf_profiles 0  ✅ PASSED
+    _slug 1  ✅ PASSED
+    generate_foaf_graph 9  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/linked_data/rdf.py
+    bind_common_namespaces 0  ✅ PASSED
+    rdf_sidecar_path 0  ✅ PASSED
+    write_graph 0  ✅ PASSED
+    query_graph 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/linked_data/sioc.py
+    _metadata_value 1  ✅ PASSED
+    _speech_from_record 1  ✅ PASSED
+    export_hansard_sioc 2  ✅ PASSED
+    generate_sioc_graph 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/ontology/rac_bridge.py
+    NormSemantics::to_dict 0  ✅ PASSED
+    PolicyEnginePackageSkeleton::to_dict 0  ✅ PASSED
+    PolicyTaxonomy::__post_init__ 0  ✅ PASSED
+    PolicyTaxonomy::to_dict 0  ✅ PASSED
+    RulesAsCodeBridgeRecord::__post_init__ 0  ✅ PASSED
+    RulesAsCodeBridgeRecord::to_dict 0  ✅ PASSED
+    RulesAsCodeBridgeRecord::to_jsonld 0  ✅ PASSED
+    SourceAnchor::__post_init__ 0  ✅ PASSED
+    SourceAnchor::to_dict 0  ✅ PASSED
+    TemporalValidity::to_dict 0  ✅ PASSED
+    _norm_semantics 0  ✅ PASSED
+    _package_pyproject 0  ✅ PASSED
+    _package_readme 0  ✅ PASSED
+    _parameter_yaml 0  ✅ PASSED
+    _variable_module 0  ✅ PASSED
+    render_rules_as_code_bridge_json 0  ✅ PASSED
+    write_rules_as_code_bridge_json 0  ✅ PASSED
+    _first_deontic_trigger 1  ✅ PASSED
+    _require_nonempty 1  ✅ PASSED
+    _validate_document_type 1  ✅ PASSED
+    _validate_sha256 1  ✅ PASSED
+    build_rules_as_code_bridge 1  ✅ PASSED
+    write_policyengine_package_skeleton 1  ✅ PASSED
+    _rulespec_durable_id 2  ✅ PASSED
+    _scope_after_trigger 2  ✅ PASSED
+    build_policyengine_package_skeleton 2  ✅ PASSED
+    _python_identifier 3  ✅ PASSED
+    _safe_output_path 3  ✅ PASSED
+    PolicyEnginePackageSkeleton::__post_init__ 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/ontology/registry.py
+    StandardsRegistryEntry::to_dict 0  ✅ PASSED
+    build_track26_standards_manifest 0  ✅ PASSED
+    build_track26_standards_registry 0  ✅ PASSED
+    repo_root 0  ✅ PASSED
+    _count_by 1  ✅ PASSED
+    write_track26_standards_manifest 1  ✅ PASSED
+    _license_assumptions 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/ontology/standards.py
+    LegislativeResource::with_draft_stage 0  ✅ PASSED
+    ManifestSummary::to_dict 0  ✅ PASSED
+    OntologyStandard::to_dict 0  ✅ PASSED
+    OntologyStandard::with_aliases 0  ✅ PASSED
+    _clean_segments 0  ✅ PASSED
+    _join_uri 0  ✅ PASSED
+    _round_trip_standard_ids 0  ✅ PASSED
+    _scheme_anchor 0  ✅ PASSED
+    _slug 0  ✅ PASSED
+    build_ecli_identifier 0  ✅ PASSED
+    build_eurovoc_concept 0  ✅ PASSED
+    build_skos_concept 0  ✅ PASSED
+    dump_ontology_standards_manifest 0  ✅ PASSED
+    load_controlled_concept 0  ✅ PASSED
+    load_ontology_standards_manifest 0  ✅ PASSED
+    load_schema_legislation 0  ✅ PASSED
+    ontology_standard_ids 0  ✅ PASSED
+    ontology_standard_mappings 0  ✅ PASSED
+    repo_root 0  ✅ PASSED
+    write_ontology_standards_manifest 0  ✅ PASSED
+    _coverage_counts 1  ✅ PASSED
+    _scheme_identifier 1  ✅ PASSED
+    _strip_template_prefix 1  ✅ PASSED
+    build_ontology_standards_manifest 1  ✅ PASSED
+    get_ontology_standard 1  ✅ PASSED
+    parse_ecli_identifier 2  ✅ PASSED
+    parse_schema_legislation 2  ✅ PASSED
+    _blocker_counts 3  ✅ PASSED
+    build_controlled_concept 3  ✅ PASSED
+    build_eli_dl_uri 3  ✅ PASSED
+    build_eli_uri 3  ✅ PASSED
+    build_schema_legislation 3  ✅ PASSED
+    parse_controlled_concept 3  ✅ PASSED
+    parse_eli_uri 6  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/parliament/amendments.py
+    Amendment::to_dict 0  ✅ PASSED
+    AmendmentLifecycleGraph::__init__ 0  ✅ PASSED
+    AmendmentLifecycleGraph::from_amendment 0  ✅ PASSED
+    AmendmentLifecycleGraph::to_dict 0  ✅ PASSED
+    _amendment_segments 0  ✅ PASSED
+    _compare_node_maps 0  ✅ PASSED
+    _normalise_json_node 0  ✅ PASSED
+    _normalise_node_text 0  ✅ PASSED
+    _strip_namespace 0  ✅ PASSED
+    amendments_to_dicts 0  ✅ PASSED
+    _extract_json_nodes 1  ✅ PASSED
+    _extract_sop_number 1  ✅ PASSED
+    _extract_target_clause 1  ✅ PASSED
+    _is_amendment_segment 1  ✅ PASSED
+    parse_amendment 1  ✅ PASSED
+    AmendmentLifecycleGraph::add_event 2  ✅ PASSED
+    _classify_amendment 2  ✅ PASSED
+    _extract_proposer 2  ✅ PASSED
+    diff_bill_versions 2  ✅ PASSED
+    parse_amendments 3  ✅ PASSED
+    AmendmentLifecycleGraph::get_current_status 4  ✅ PASSED
+    _json_identifier 4  ✅ PASSED
+    _extract_xml_nodes 6  ✅ PASSED
+    _walk_json 8  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/parliament/voting.py
+    resolve_member_party 3  ✅ PASSED
+    parse_division 59  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/pipeline_api.py
+    _extract_amendment_records 0  ✅ PASSED
+    _extract_te_reo_terms 0  ✅ PASSED
+    _resolve_path 0  ✅ PASSED
+    _text_mentions_entity 0  ✅ PASSED
+    process_hansard 0  ✅ PASSED
+    process_legislation 0  ✅ PASSED
+    _resolve_named_entities 1  ✅ PASSED
+    _valid_context_date 1  ✅ PASSED
+    search_similar 2  ✅ PASSED
+    _ensure_nz_entity_resolver 3  ✅ PASSED
+    _collect_input_files 4  ✅ PASSED
+    _model_version_from_loaded 4  ✅ PASSED
+    _extract_voting_record 5  ✅ PASSED
+    _extract_citations 12  ✅ PASSED
+    _process_hansard_records 13  ✅ PASSED
+    _process_legislation_records 13  ✅ PASSED
+    _infer_entity_context 14  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/provenance/recorder.py
+    ProvenanceRecord::to_jsonld 0  ✅ PASSED
+    ProvenanceRecorder::finish 0  ✅ PASSED
+    _utc_now 0  ✅ PASSED
+    provenance_sidecar_path 0  ✅ PASSED
+    ProvenanceRecord::write_sidecar 1  ✅ PASSED
+    _package_version 1  ✅ PASSED
+    load_provenance_sidecar 1  ✅ PASSED
+    _git_commit_sha 2  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/provenance/serializer.py
+    serialize_prov_o_jsonld 2  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/quality/ontology_coverage_audit.py
+    OntologySurface::to_matrix_row 0  ✅ PASSED
+    _write_json 0  ✅ PASSED
+    build_audit_bundle 0  ✅ PASSED
+    build_audit_summary 1  ✅ PASSED
+    build_coverage_matrix 1  ✅ PASSED
+    build_prioritized_backlog 1  ✅ PASSED
+    repo_root 4  ✅ PASSED
+    write_track25_artifacts 4  ✅ PASSED
+    matrix_to_markdown 5  ✅ PASSED
+    build_evidence_markdown 6  ✅ PASSED
+    build_blocker_register 7  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/quality/track23_evidence.py
+    track23_acceptance_contract 0  ✅ PASSED
+    render_track23_evidence_markdown 1  ✅ PASSED
+    evaluate_track23_acceptance 3  ✅ PASSED
+    track23_residual_external_gates 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/quality/track25_ontology_coverage.py
+    StandardCoverage::to_dict 0  ✅ PASSED
+    _existing_relative_paths 0  ✅ PASSED
+    _system_rows 0  ✅ PASSED
+    build_blocker_register 0  ✅ PASSED
+    build_prioritized_backlog 0  ✅ PASSED
+    dump_track25_ontology_coverage_audit 0  ✅ PASSED
+    repo_root 0  ✅ PASSED
+    OntologySystem::to_dict 1  ✅ PASSED
+    StandardCoverage::with_derived_priority 1  ✅ PASSED
+    build_coverage_matrix 1  ✅ PASSED
+    build_track25_ontology_coverage_audit 1  ✅ PASSED
+    enumerate_ontology_facing_systems 1  ✅ PASSED
+    slugify_identifier 1  ✅ PASSED
+    _coverage_summary 3  ✅ PASSED
+    _flatten_coverage_rows 3  ✅ PASSED
+    write_track25_ontology_coverage_artifacts 3  ✅ PASSED
+    _expected_output 10  ✅ PASSED
+    _backlog_action 25  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/schema/akn_v3.py
+    AKNValidator::__init__ 0  ✅ PASSED
+    FRBRMetadata::expression_uri 0  ✅ PASSED
+    FRBRMetadata::item_uri 0  ✅ PASSED
+    FRBRMetadata::manifestation_uri 0  ✅ PASSED
+    FRBRMetadata::with_type 0  ✅ PASSED
+    FRBRMetadata::work_uri 0  ✅ PASSED
+    _XMLSchemaValidator::iter_errors 0  ✅ PASSED
+    _frbr_block 0  ✅ PASSED
+    _indent 0  ✅ PASSED
+    _q 0  ✅ PASSED
+    emit_amendment 0  ✅ PASSED
+    emit_bill 0  ✅ PASSED
+    emit_debate 0  ✅ PASSED
+    emit_judgment 0  ✅ PASSED
+    AKNValidator::validate_or_raise 1  ✅ PASSED
+    _amendment_body 1  ✅ PASSED
+    _analysis_block 1  ✅ PASSED
+    _bill_body 1  ✅ PASSED
+    _debate_body 1  ✅ PASSED
+    _events_block 1  ✅ PASSED
+    _judgment_body 1  ✅ PASSED
+    _references_block 1  ✅ PASSED
+    AKNValidator::validate 2  ✅ PASSED
+    _load_xml_schema 2  ✅ PASSED
+    _body_block 4  ✅ PASSED
+    _emit_document 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/semantic/embeddings.py
+    EmbeddingGenerator::__enter__ 0  ✅ PASSED
+    EmbeddingGenerator::__exit__ 0  ✅ PASSED
+    EmbeddingGenerator::__init__ 0  ✅ PASSED
+    EmbeddingGenerator::embed 0  ✅ PASSED
+    EmbeddingGenerator::model_name 0  ✅ PASSED
+    _mean_pooling 0  ✅ PASSED
+    generate_embedding 0  ✅ PASSED
+    EmbeddingGenerator::model 1  ✅ PASSED
+    EmbeddingGenerator::tokenizer 1  ✅ PASSED
+    EmbeddingGenerator::unload 1  ✅ PASSED
+    generate_embeddings_batch 1  ✅ PASSED
+    EmbeddingGenerator::embed_batch 2  ✅ PASSED
+    EmbeddingGenerator::load 2  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/semantic/finetune.py
+    _parse_args 0  ✅ PASSED
+    build_dry_run_payload 0  ✅ PASSED
+    build_mlm_job_spec 0  ✅ PASSED
+    load_training_data 2  ✅ PASSED
+    finetune_model 4  ✅ PASSED
+    _main 7  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/semantic/model_loader.py
+    unload_model 1  ✅ PASSED
+    _build_bnb_config 3  ✅ PASSED
+    load_model 3  ✅ PASSED
+    _resolve_torch_dtype 5  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/storage/faiss_adapter.py
+    FAISSAdapter::close 0  ✅ PASSED
+    FAISSAdapter::delete_index 0  ✅ PASSED
+    FAISSAdapter::index_exists 0  ✅ PASSED
+    FAISSAdapter::__init__ 1  ✅ PASSED
+    _normalize 1  ✅ PASSED
+    FAISSAdapter::add_records 3  ✅ PASSED
+    FAISSAdapter::search 4  ✅ PASSED
+    FAISSAdapter::create_index 5  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/storage/haystack_pipeline.py
+    HaystackRAGPipeline::retrieve 0  ✅ PASSED
+    HaystackRAGPipeline::run 0  ✅ PASSED
+    HaystackRAGPipeline::__init__ 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/storage/interfaces.py
+    VectorBackend::add_records 0  ✅ PASSED
+    VectorBackend::close 0  ✅ PASSED
+    VectorBackend::create_index 0  ✅ PASSED
+    VectorBackend::delete_index 0  ✅ PASSED
+    VectorBackend::index_exists 0  ✅ PASSED
+    VectorBackend::search 0  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/storage/qdrant_adapter.py
+    QdrantAdapter::close 0  ✅ PASSED
+    QdrantAdapter::index_exists 0  ✅ PASSED
+    QdrantAdapter::__init__ 1  ✅ PASSED
+    QdrantAdapter::delete_index 1  ✅ PASSED
+    QdrantAdapter::search 2  ✅ PASSED
+    QdrantAdapter::add_records 4  ✅ PASSED
+    QdrantAdapter::create_index 6  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/storage/serialization.py
+    serialize_to_parquet 0  ✅ PASSED
+    deserialize_to_dataframe 1  ✅ PASSED
+    _list_of_dicts 2  ✅ PASSED
+    load_from_parquet 2  ✅ PASSED
+    records_to_dataframe 2  ✅ PASSED
+    _normalise_resolved_entities 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/storage/vectordb.py
+    LanceDBAdapter::__init__ 0  ✅ PASSED
+    LanceDBAdapter::close 0  ✅ PASSED
+    LanceDBAdapter::index_exists 0  ✅ PASSED
+    LanceDBAdapter::add_records 1  ✅ PASSED
+    LanceDBAdapter::delete_index 1  ✅ PASSED
+    LanceDBAdapter::_open_or_create_table 2  ✅ PASSED
+    LanceDBAdapter::search 2  ✅ PASSED
+    LanceDBAdapter::create_index 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/syntactic/chunking.py
+    generate_hansard_id 0  ✅ PASSED
+    generate_legislation_id 0  ✅ PASSED
+    chunk_by_sentence 1  ✅ PASSED
+    chunk_hansard_speech 1  ✅ PASSED
+    chunk_legislation_document 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/syntactic/citations.py
+    create_citation_ruler 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/syntactic/pipeline.py
+    create_nlp_pipeline 0  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/telemetry/evidence.py
+    render_track19_evidence_markdown 1  ✅ PASSED
+    track19_residual_external_gates 3  ✅ PASSED
+    evaluate_track19_acceptance 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/telemetry/tracer.py
+    _env_flag 1  ✅ PASSED
+    _make_file_exporter 2  ✅ PASSED
+    record_span_exception 2  ✅ PASSED
+    set_span_attribute 2  ✅ PASSED
+    _span_to_dict 3  ✅ PASSED
+    pipeline_span 6  ✅ PASSED
+    configure_tracing 8  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/__init__.py
+    __getattr__ 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/data.py
+    TrainingSplits::all_examples 0  ✅ PASSED
+    TrainingSplits::summary 0  ✅ PASSED
+    _base_metadata 0  ✅ PASSED
+    _is_gold_label_source 0  ✅ PASSED
+    create_mlm_collator 0  ✅ PASSED
+    MaskedLanguageModelingCollator::__init__ 1  ✅ PASSED
+    TrainingSplitConfig::__post_init__ 2  ✅ PASSED
+    prepare_training_splits 2  ✅ PASSED
+    _split_examples 3  ✅ PASSED
+    MaskedLanguageModelingCollator::__call__ 6  ✅ PASSED
+    build_training_examples 17  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/eval.py
+    _normalize_answer 0  ✅ PASSED
+    _safe_div 1  ✅ PASSED
+    exact_match 1  ✅ PASSED
+    classification_prf 3  ✅ PASSED
+    maori_token_integrity 4  ✅ PASSED
+    token_f1 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/eval_arch.py
+    default_architecture_registry 0  ✅ PASSED
+    example_evaluations 0  ✅ PASSED
+    pareto_frontier 0  ✅ PASSED
+    rank_architectures 0  ✅ PASSED
+    score_architecture 0  ✅ PASSED
+    recommend_architecture 1  ✅ PASSED
+    _normalise 2  ✅ PASSED
+    _dominates 3  ✅ PASSED
+    main 4  ✅ PASSED
+    render_architecture_report 8  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/isaacus_adapter.py
+    _manifest_payload 0  ✅ PASSED
+    _normalise_text 0  ✅ PASSED
+    default_isaacus_datasets 0  ✅ PASSED
+    default_isaacus_models 0  ✅ PASSED
+    default_isaacus_tools 0  ✅ PASSED
+    normalize_isaacus_records 0  ✅ PASSED
+    render_isaacus_manifest_json 0  ✅ PASSED
+    to_pipeline_record 0  ✅ PASSED
+    load_nz_mleb_fixture 1  ✅ PASSED
+    make_nz_mleb_query 1  ✅ PASSED
+    main 2  ✅ PASSED
+    normalize_isaacus_record 3  ✅ PASSED
+    render_isaacus_integration_report 3  ✅ PASSED
+    require_external_access 4  ✅ PASSED
+    _as_tuple 5  ✅ PASSED
+    validate_nz_mleb_fixture 39  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/run_qlora.py
+    _parse_args 0  ✅ PASSED
+    main 1  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/track13_evidence.py
+    Track13ImplementationStatus::externally_blocked 0  ✅ PASSED
+    Track13ImplementationStatus::review_ready 0  ✅ PASSED
+    _is_held_out_source 0  ✅ PASSED
+    summarize_track13_implementation_status 0  ✅ PASSED
+    track13_acceptance_contract 0  ✅ PASSED
+    track13_implementation_status_contract 0  ✅ PASSED
+    _is_transformer_model 1  ✅ PASSED
+    render_track13_evidence_markdown 1  ✅ PASSED
+    track13_residual_external_gates 2  ✅ PASSED
+    evaluate_track13_acceptance 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/track13_silver.py
+    SilverConsensus::to_json_record 0  ✅ PASSED
+    SilverVote::weight 0  ✅ PASSED
+    build_provider_prompt 0  ✅ PASSED
+    _weighted_winner 1  ✅ PASSED
+    make_target_record 1  ✅ PASSED
+    ontology_bridge_vote 1  ✅ PASSED
+    discover_provider_availability 2  ✅ PASSED
+    aggregate_silver_votes 4  ✅ PASSED
+    load_votes_jsonl 4  ✅ PASSED
+    match_ontology_concepts 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/track20_evidence.py
+    track20_acceptance_contract 0  ✅ PASSED
+    _format_optional 1  ✅ PASSED
+    render_track20_evidence_markdown 1  ✅ PASSED
+    evaluate_track20_acceptance 5  ✅ PASSED
+    track20_residual_external_gates 6  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/track21_evidence.py
+    track21_acceptance_contract 0  ✅ PASSED
+    render_track21_evidence_markdown 1  ✅ PASSED
+    evaluate_track21_acceptance 4  ✅ PASSED
+    track21_residual_external_gates 5  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/track22_evidence.py
+    track22_acceptance_contract 0  ✅ PASSED
+    render_track22_evidence_markdown 1  ✅ PASSED
+    evaluate_track22_acceptance 2  ✅ PASSED
+    track22_residual_external_gates 6  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/track53_evidence.py
+    default_track53_evaluation_context 0  ✅ PASSED
+    default_track53_model_comparison_manifest 0  ✅ PASSED
+    render_track53_evaluation_context_json 0  ✅ PASSED
+    render_track53_model_comparison_manifest_json 0  ✅ PASSED
+    render_track53_recommendation_markdown 0  ✅ PASSED
+    render_track53_selection_markdown 0  ✅ PASSED
+    track53_selection_contract 0  ✅ PASSED
+    evaluate_track53_selection 4  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/training/trainers.py
+    TrainingJobSpec::to_dict 0  ✅ PASSED
+    create_legal_bert_argument_component_job 0  ✅ PASSED
+    create_legal_bert_mlm_job 0  ✅ PASSED
+    create_legal_bert_stance_job 0  ✅ PASSED
+    create_qlora_job 0  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/universal_framework.py
+    MetaExtensionRegistry::sanitize_name 0  ✅ PASSED
+    ModularSpaCyBridgeComponent::__init__ 0  ✅ PASSED
+    TargetSchemaEmitter::__init__ 0  ✅ PASSED
+    TargetSchemaEmitter::_emit_akoma_ntoso 0  ✅ PASSED
+    TargetSchemaEmitter::_emit_parlacap_jsonl 0  ✅ PASSED
+    UniversalIngestionEngine::ingest 0  ✅ PASSED
+    create_metadata_bridge 0  ✅ PASSED
+    run_demo 0  ✅ PASSED
+    XMLIngestionEngine::ingest 1  ✅ PASSED
+    run_framework 1  ✅ PASSED
+    ModularSpaCyBridgeComponent::__call__ 2  ✅ PASSED
+    HTMLIngestionEngine::ingest 3  ✅ PASSED
+    JSONLIngestionEngine::ingest 3  ✅ PASSED
+    MetaExtensionRegistry::register 3  ✅ PASSED
+    TargetSchemaEmitter::_emit_parlamint_tei 3  ✅ PASSED
+    TargetSchemaEmitter::emit 3  ✅ PASSED
+    get_ingestion_engine 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/universal_framework_v1.py
+    MetaExtensionRegistry::sanitize_name 0  ✅ PASSED
+    ModularSpaCyBridgeComponent::__init__ 0  ✅ PASSED
+    TargetSchemaEmitter::__init__ 0  ✅ PASSED
+    TargetSchemaEmitter::_emit_akoma_ntoso 0  ✅ PASSED
+    TargetSchemaEmitter::_emit_parlacap_jsonl 0  ✅ PASSED
+    UniversalIngestionEngine::ingest 0  ✅ PASSED
+    create_metadata_bridge 0  ✅ PASSED
+    run_demo 0  ✅ PASSED
+    XMLIngestionEngine::ingest 1  ✅ PASSED
+    run_framework 1  ✅ PASSED
+    ModularSpaCyBridgeComponent::__call__ 2  ✅ PASSED
+    HTMLIngestionEngine::ingest 3  ✅ PASSED
+    JSONLIngestionEngine::ingest 3  ✅ PASSED
+    MetaExtensionRegistry::register 3  ✅ PASSED
+    TargetSchemaEmitter::_emit_parlamint_tei 3  ✅ PASSED
+    TargetSchemaEmitter::emit 3  ✅ PASSED
+    get_ingestion_engine 3  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/universal_framework_v2.py
+    MetaExtensionRegistry::sanitize_name 0  ✅ PASSED
+    ModularSpaCyBridgeComponentV2::__init__ 0  ✅ PASSED
+    TargetSchemaEmitter::__init__ 0  ✅ PASSED
+    TargetSchemaEmitter::_emit_akoma_ntoso 0  ✅ PASSED
+    UniversalIngestionEngine::ingest 0  ✅ PASSED
+    create_metadata_bridge_v2 0  ✅ PASSED
+    run_demo 0  ✅ PASSED
+    XMLIngestionEngine::ingest 1  ✅ PASSED
+    run_framework 1  ✅ PASSED
+    ModularSpaCyBridgeComponentV2::__call__ 2  ✅ PASSED
+    HTMLIngestionEngine::ingest 3  ✅ PASSED
+    JSONLIngestionEngine::ingest 3  ✅ PASSED
+    MetaExtensionRegistry::register 3  ✅ PASSED
+    TargetSchemaEmitter::_emit_parlacap_jsonl 3  ✅ PASSED
+    TargetSchemaEmitter::emit 3  ✅ PASSED
+    get_ingestion_engine 3  ✅ PASSED
+    TargetSchemaEmitter::_emit_parlamint_tei 10  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/universal_framework_v3.py
+    MetaExtensionRegistry::sanitize_name 0  ✅ PASSED
+    ModularSpaCyBridgeComponentV3::__init__ 0  ✅ PASSED
+    TargetSchemaEmitter::__init__ 0  ✅ PASSED
+    UniversalIngestionEngine::ingest 0  ✅ PASSED
+    _detect_modality_annotations 0  ✅ PASSED
+    create_metadata_bridge_v3 0  ✅ PASSED
+    run_framework 0  ✅ PASSED
+    _span_extension_text 1  ✅ PASSED
+    _span_group 1  ✅ PASSED
+    _string_mapping 1  ✅ PASSED
+    run_demo 1  ✅ PASSED
+    SOTAPipelineVisualizer::generate_html_report 2  ✅ PASSED
+    _chunk_metadata 2  ✅ PASSED
+    MetaExtensionRegistry::register 3  ✅ PASSED
+    ModularSpaCyBridgeComponentV3::__call__ 3  ✅ PASSED
+    TargetSchemaEmitter::_emit_parlacap_jsonl 3  ✅ PASSED
+    _modality_annotations 3  ✅ PASSED
+    get_ingestion_engine 3  ✅ PASSED
+    HTMLIngestionEngine::ingest 4  ✅ PASSED
+    TargetSchemaEmitter::emit 4  ✅ PASSED
+    _text_attr 4  ✅ PASSED
+    JSONLIngestionEngine::ingest 5  ✅ PASSED
+    XMLIngestionEngine::ingest 9  ✅ PASSED
+    TargetSchemaEmitter::_emit_parlamint_tei 10  ✅ PASSED
+    TargetSchemaEmitter::_emit_catala_dsl 18  ✅ PASSED
+    TargetSchemaEmitter::_emit_akoma_ntoso 31  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/universal_framework_v4.py
+    run_framework 2  ✅ PASSED
+    _extract_xml_payload 6  ✅ PASSED
+
+nlp-policy-nz/src/nlp_policy_nz/xml_parser.py
+    LegislativeXMLParser::__init__ 0  ✅ PASSED
+    LegislativeXMLParser::_append_text 0  ✅ PASSED
+    LegislativeXMLParser::parse 1  ✅ PASSED
+    nz_cross_reference_matcher 1  ✅ PASSED
+    _tag_attr_text 2  ✅ PASSED
+    run_demo 2  ✅ PASSED
+    nz_xml_structure_injector 3  ✅ PASSED
+    LegislativeXMLParser::_traverse 5  ✅ PASSED
+
+nlp-policy-nz/tests/benchmarks/test_pipeline_benchmark.py
+    test_pipeline_benchmark_evidence_contract_is_fixture_bounded 0  ✅ PASSED
+    test_process_legislation_throughput_benchmark 0  ✅ PASSED
+
+nlp-policy-nz/tests/benchmarks/test_vector_benchmark.py
+    test_faiss_index_build_time 0  ✅ PASSED
+    test_faiss_search_latency 0  ✅ PASSED
+    test_lancedb_index_build_time 0  ✅ PASSED
+    test_lancedb_search_latency 0  ✅ PASSED
+
+nlp-policy-nz/tests/conftest.py
+    sample_hansard_text 0  ✅ PASSED
+    sample_legislation_text 0  ✅ PASSED
+
+nlp-policy-nz/tests/e2e/test_pipeline_e2e.py
+    test_local_text_to_parquet_e2e_path 0  ✅ PASSED
+
+nlp-policy-nz/tests/fixtures/vector_benchmark_data.py
+    generate_benchmark_records 0  ✅ PASSED
+    generate_queries 0  ✅ PASSED
+
+nlp-policy-nz/tests/integration/test_guard_to_syntactic.py
+    test_guard_normalized_text_flows_into_citation_ruler 0  ✅ PASSED
+
+nlp-policy-nz/tests/integration/test_integrations_zenodo.py
+    _Response::json 0  ✅ PASSED
+    test_create_sandbox_deposit_builds_expected_payload 0  ✅ PASSED
+
+nlp-policy-nz/tests/integration/test_pipeline_record_roundtrip.py
+    test_pipeline_record_roundtrip_preserves_track_fields 0  ✅ PASSED
+
+nlp-policy-nz/tests/smoke/test_track23_validation_lane.py
+    test_track23_smoke_lane_artifacts_are_present 0  ✅ PASSED
+    test_track23_smoke_lane_config_is_parseable 0  ✅ PASSED
+    test_track23_smoke_lane_core_path_runs_without_external_services 0  ✅
+PASSED
+    test_track23_smoke_lane_docs_record_bounded_decisions 0  ✅ PASSED
+    test_track23_smoke_lane_evidence_keeps_measured_gates_pending 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_akn_v3.py
+    _root 0  ✅ PASSED
+    _validator 0  ✅ PASSED
+    test_framework_v4_emits_valid_akoma_ntoso 0  ✅ PASSED
+    test_metadata_blocks_include_tlc_event_analysis_and_references 0  ✅ PASSED
+    test_validator_rejects_missing_frbr 0  ✅ PASSED
+    test_xsd_validator_rejects_misplaced_required_elements 0  ✅ PASSED
+    test_bill_emitter_includes_full_frbr_hierarchy 1  ✅ PASSED
+    test_document_type_emitters_are_valid 1  ✅ PASSED
+    test_examples_are_checked_into_repo 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_amendments.py
+    test_amendment_lifecycle_graph_tracks_terminal_status 0  ✅ PASSED
+    test_cli_amendment_history_outputs_json 0  ✅ PASSED
+    test_cli_voting_summary_outputs_json 0  ✅ PASSED
+    test_diff_bill_versions_json_handles_nested_clause_lists 0  ✅ PASSED
+    test_diff_bill_versions_xml_identifies_added_modified_repealed 0  ✅ PASSED
+    test_parse_amendment_sop 0  ✅ PASSED
+    test_parse_amendments_detects_multiple_types 0  ✅ PASSED
+    test_pipeline_extractors_preserve_track18_fields_in_dataframe 0  ✅ PASSED
+    test_pipeline_record_includes_voting_and_amendment_fields 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_architecture_eval.py
+    test_default_registry_covers_bleeding_edge_families 0  ✅ PASSED
+    test_pareto_frontier_excludes_dominated_candidates 0  ✅ PASSED
+    test_ranking_prefers_throughput_accuracy_balance 0  ✅ PASSED
+    test_recommendation_and_report_are_explicit_about_repo_side_scope 0  ✅
+PASSED
+    test_track21_measured_external_evidence_satisfies_acceptance_gates 0  ✅
+PASSED
+    test_track21_repo_side_evidence_does_not_satisfy_external_model_gates 0  ✅
+PASSED
+
+nlp-policy-nz/tests/test_argument.py
+    test_argument_component_fixture_exceeds_f1_threshold 0  ✅ PASSED
+    test_argument_detector_identifies_premise_and_conclusion 0  ✅ PASSED
+    test_argument_graph_exports_aif_jsonld 0  ✅ PASSED
+    test_issue_argument_linking_uses_token_similarity 0  ✅ PASSED
+    test_pipeline_record_roundtrips_arguments_and_stance 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_argument_api_graph.py
+    test_api_record_dict_includes_arguments_and_stance 0  ✅ PASSED
+    test_policy_graph_exports_record_arguments_as_aif_jsonld 0  ✅ PASSED
+    test_policy_graph_namespaces_duplicate_component_ids 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_argument_training.py
+    test_track13_legal_bert_job_specs_are_serializable 0  ✅ PASSED
+    test_training_examples_ignore_predicted_discourse_fields 0  ✅ PASSED
+    test_training_examples_include_gold_argument_and_stance_tasks 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_axiom_integration.py
+    test_axiom_public_type_aliases_are_importable 0  ✅ PASSED
+    test_bill_linkage_records_reject_malformed_identity_fields 0  ✅ PASSED
+    test_bill_status_and_hansard_linkage_scaffold 0  ✅ PASSED
+    test_rulespec_reference_and_source_verification_metadata 0  ✅ PASSED
+    test_rulespec_reference_rejects_empty_normalized_fragments 0  ✅ PASSED
+    test_source_section_metadata_checksum_and_pipeline_roundtrip 0  ✅ PASSED
+    test_source_section_metadata_rejects_malformed_identity_fields 0  ✅ PASSED
+    test_source_section_rejects_unknown_document_type 0  ✅ PASSED
+    test_source_staleness_reports_current_stale_and_missing 0  ✅ PASSED
+    _contains_key 3  ✅ PASSED
+
+nlp-policy-nz/tests/test_chunking.py
+    TestChunkBySentence::test_chunk_by_sentence_char_offsets 0  ✅ PASSED
+    TestChunkBySentence::test_chunk_by_sentence_doc_id_placeholder 0  ✅ PASSED
+    TestChunkBySentence::test_chunk_by_sentence_empty_text 0  ✅ PASSED
+    TestChunkBySentence::test_chunk_by_sentence_has_required_keys 0  ✅ PASSED
+    TestChunkBySentence::test_chunk_by_sentence_multiple_sentences 0  ✅ PASSED
+    TestChunkBySentence::test_chunk_by_sentence_returns_list 0  ✅ PASSED
+    TestChunkBySentence::test_chunk_by_sentence_sentence_num_sequential 0  ✅
+PASSED
+    TestChunkBySentence::test_chunk_by_sentence_single_sentence 0  ✅ PASSED
+    TestChunkBySentence::test_chunk_by_sentence_text_preserved 0  ✅ PASSED
+    TestChunkHansardSpeech::test_chunk_hansard_speech_ids 0  ✅ PASSED
+    TestChunkHansardSpeech::test_chunk_hansard_speech_returns_list 0  ✅ PASSED
+    TestChunkLegislationDocument::test_chunk_legislation_document_ids 0  ✅
+PASSED
+    TestChunkLegislationDocument::test_chunk_legislation_document_returns_list
+0  ✅ PASSED
+    TestGenerateHansardId::test_generate_hansard_id_double_digit 0  ✅ PASSED
+    TestGenerateHansardId::test_generate_hansard_id_format 0  ✅ PASSED
+    TestGenerateHansardId::test_generate_hansard_id_matches_pattern 0  ✅
+PASSED
+    TestGenerateHansardId::test_generate_hansard_id_zero_padded 0  ✅ PASSED
+    TestGenerateLegislationId::test_generate_legislation_id_format 0  ✅ PASSED
+    TestGenerateLegislationId::test_generate_legislation_id_matches_pattern 0
+✅ PASSED
+    TestGenerateLegislationId::test_generate_legislation_id_str_section 0  ✅
+PASSED
+    TestGenerateLegislationId::test_generate_legislation_id_zero_padded 0  ✅
+PASSED
+    nlp 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_cli.py
+    TestArchiveToZenodoSubcommand::test_archive_accepts_all_flags 0  ✅ PASSED
+    TestArchiveToZenodoSubcommand::test_archive_handler_dispatches_archiver 0
+✅ PASSED
+    TestArchiveToZenodoSubcommand::test_archive_handler_parses_creators_json 0
+✅ PASSED
+    TestArchiveToZenodoSubcommand::test_archive_handler_passes_provenance_sidec
+ar 0  ✅ PASSED
+    TestArchiveToZenodoSubcommand::test_archive_requires_creators 0  ✅ PASSED
+    TestArchiveToZenodoSubcommand::test_archive_requires_description 0  ✅
+PASSED
+    TestArchiveToZenodoSubcommand::test_archive_requires_parquet 0  ✅ PASSED
+    TestArchiveToZenodoSubcommand::test_archive_requires_title 0  ✅ PASSED
+    TestArgumentParser::test_no_embeddings_default_false 0  ✅ PASSED
+    TestArgumentParser::test_parser_has_deploy_space_subcommand 0  ✅ PASSED
+    TestArgumentParser::test_parser_has_process_subcommand 0  ✅ PASSED
+    TestArgumentParser::test_parser_has_rac_export_subcommand 0  ✅ PASSED
+    TestArgumentParser::test_parser_has_search_subcommand 0  ✅ PASSED
+    TestArgumentParser::test_parser_has_upload_dataset_subcommand 0  ✅ PASSED
+    TestArgumentParser::test_verbose_flag 0  ✅ PASSED
+    TestDeploySpaceSubcommand::test_deploy_accepts_all_flags 0  ✅ PASSED
+    TestDeploySpaceSubcommand::test_deploy_accepts_dry_run 0  ✅ PASSED
+    TestDeploySpaceSubcommand::test_deploy_requires_repo_id 0  ✅ PASSED
+    TestMainFunction::test_main_function_exists 0  ✅ PASSED
+    TestMainFunction::test_main_returns_one_on_unknown_command 0  ✅ PASSED
+    TestMainFunction::test_main_returns_zero_with_help 0  ✅ PASSED
+    TestMainFunction::test_main_signature 0  ✅ PASSED
+    TestProcessSubcommand::test_process_accepts_no_embeddings_flag 0  ✅ PASSED
+    TestProcessSubcommand::test_process_requires_input 0  ✅ PASSED
+    TestProcessSubcommand::test_process_requires_output 0  ✅ PASSED
+    TestProcessSubcommand::test_process_requires_source 0  ✅ PASSED
+    TestProcessSubcommand::test_process_source_choices 0  ✅ PASSED
+    TestReleaseSubcommand::test_release_accepts_all_flags 0  ✅ PASSED
+    TestReleaseSubcommand::test_release_handler_creators_parsed 0  ✅ PASSED
+    TestReleaseSubcommand::test_release_handler_dispatches_manager 0  ✅ PASSED
+    TestReleaseSubcommand::test_release_requires_parquet 0  ✅ PASSED
+    TestReleaseSubcommand::test_release_requires_version 0  ✅ PASSED
+    TestSearchSubcommand::test_search_accepts_top_k 0  ✅ PASSED
+    TestSearchSubcommand::test_search_default_db_path 0  ✅ PASSED
+    TestSearchSubcommand::test_search_requires_query 0  ✅ PASSED
+    TestUploadDatasetSubcommand::test_upload_accepts_flags 0  ✅ PASSED
+    TestUploadDatasetSubcommand::test_upload_requires_parquet 0  ✅ PASSED
+    TestUploadDatasetSubcommand::test_upload_requires_repo_id 0  ✅ PASSED
+    _run_main 0  ✅ PASSED
+    parser 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_coverage.py
+    test_coverage_marker_is_registered 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_dataset_card.py
+    TestGenerateDatasetCard::test_citation_bibtex 0  ✅ PASSED
+    TestGenerateDatasetCard::test_contains_repo_id_in_usage 0  ✅ PASSED
+    TestGenerateDatasetCard::test_contains_title 0  ✅ PASSED
+    TestGenerateDatasetCard::test_contains_yaml_frontmatter 0  ✅ PASSED
+    TestGenerateDatasetCard::test_custom_tags 0  ✅ PASSED
+    TestGenerateDatasetCard::test_custom_year 0  ✅ PASSED
+    TestGenerateDatasetCard::test_default_tags 0  ✅ PASSED
+    TestGenerateDatasetCard::test_embedding_dim_included 0  ✅ PASSED
+    TestGenerateDatasetCard::test_embedding_dim_na_when_none 0  ✅ PASSED
+    TestGenerateDatasetCard::test_total_chunks_formatted 0  ✅ PASSED
+    TestGenerateDatasetCard::test_total_chunks_na_when_none 0  ✅ PASSED
+    TestWriteDatasetCard::test_content_matches_generate 0  ✅ PASSED
+    TestWriteDatasetCard::test_returns_resolved_path 0  ✅ PASSED
+    TestWriteDatasetCard::test_writes_file 0  ✅ PASSED
+    TestGenerateDatasetCard::test_schema_table_present 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_digitalnz_probe.py
+    TestCLI::test_main_help 0  ✅ PASSED
+    TestCLI::test_main_invalid_args 0  ✅ PASSED
+    TestCLI::test_main_query_output 0  ✅ PASSED
+    TestCLI::test_main_save_fixtures 0  ✅ PASSED
+    TestClassifyRights::test_fixture_open_record 0  ✅ PASSED
+    TestClassifyRights::test_fixture_public_domain_record 0  ✅ PASSED
+    TestClassifyRights::test_fixture_restricted_record 0  ✅ PASSED
+    TestClassifyRights::test_open_creative_commons 0  ✅ PASSED
+    TestClassifyRights::test_open_public_domain 0  ✅ PASSED
+    TestClassifyRights::test_open_via_usage 0  ✅ PASSED
+    TestClassifyRights::test_restricted_all_rights_reserved 0  ✅ PASSED
+    TestClassifyRights::test_restricted_inc 0  ✅ PASSED
+    TestClassifyRights::test_restricted_via_rights_url 0  ✅ PASSED
+    TestClassifyRights::test_unknown_no_rights_info 0  ✅ PASSED
+    TestDigitalNZProbe::test_init_defaults 0  ✅ PASSED
+    TestDigitalNZProbe::test_init_with_api_key 0  ✅ PASSED
+    TestDigitalNZProbe::test_parse_record 0  ✅ PASSED
+    TestDigitalNZProbe::test_rate_limit_enforcement 0  ✅ PASSED
+    TestDigitalNZProbe::test_search_all_breaks_when_no_more_results 0  ✅
+PASSED
+    TestDigitalNZProbe::test_search_all_with_mock 0  ✅ PASSED
+    TestDigitalNZProbe::test_search_invalid_page 0  ✅ PASSED
+    TestDigitalNZProbe::test_search_invalid_per_page_too_high 0  ✅ PASSED
+    TestDigitalNZProbe::test_search_with_mock 0  ✅ PASSED
+    TestDigitalNZRecord::test_struct_creation_full 0  ✅ PASSED
+    TestDigitalNZRecord::test_struct_creation_minimal 0  ✅ PASSED
+    TestDigitalNZRecord::test_struct_raw_dict 0  ✅ PASSED
+    TestNormaliseRecord::test_normalise_maps_title_to_display_title 0  ✅
+PASSED
+    TestNormaliseRecord::test_normalise_no_date 0  ✅ PASSED
+    TestNormaliseRecord::test_normalise_no_identifier 0  ✅ PASSED
+    TestNormaliseRecord::test_normalise_open_record 0  ✅ PASSED
+    TestNormaliseRecord::test_normalise_preserves_raw_record_ref 0  ✅ PASSED
+    TestNormaliseRecord::test_normalise_restricted_record 0  ✅ PASSED
+    TestNormalisedRecord::test_normalised_record_creation 0  ✅ PASSED
+    TestPagination::test_max_per_page_constant 0  ✅ PASSED
+    TestPagination::test_search_all_with_multi_page_mock 0  ✅ PASSED
+    TestPagination::test_search_per_page_default 0  ✅ PASSED
+    TestSearchResult::test_search_result_creation 0  ✅ PASSED
+    fixtures_dir 0  ✅ PASSED
+    mock_response 0  ✅ PASSED
+    record_fixture_data 0  ✅ PASSED
+    sample_records 0  ✅ PASSED
+    search_fixture_data 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_embeddings.py
+    TestEmbeddingGenerator::test_context_manager_protocol_mocked 0  ✅ PASSED
+    TestEmbeddingGenerator::test_embed_batch_method_exists 0  ✅ PASSED
+    TestEmbeddingGenerator::test_embed_batch_return_type 0  ✅ PASSED
+    TestEmbeddingGenerator::test_embed_batch_signature 0  ✅ PASSED
+    TestEmbeddingGenerator::test_embed_method_exists 0  ✅ PASSED
+    TestEmbeddingGenerator::test_embed_return_type 0  ✅ PASSED
+    TestEmbeddingGenerator::test_embed_signature 0  ✅ PASSED
+    TestEmbeddingGenerator::test_has_context_manager 0  ✅ PASSED
+    TestEmbeddingGenerator::test_init_custom 0  ✅ PASSED
+    TestEmbeddingGenerator::test_init_defaults 0  ✅ PASSED
+    TestEmbeddingGenerator::test_load_method_exists 0  ✅ PASSED
+    TestEmbeddingGenerator::test_model_name_property_empty_before_load 0  ✅
+PASSED
+    TestEmbeddingGenerator::test_model_property_raises_before_load 0  ✅ PASSED
+    TestEmbeddingGenerator::test_tokenizer_property_raises_before_load 0  ✅
+PASSED
+    TestEmbeddingGenerator::test_unload_method_exists 0  ✅ PASSED
+    TestEmbeddingResult::test_default_instantiation 0  ✅ PASSED
+    TestEmbeddingResult::test_is_msgspec_struct 0  ✅ PASSED
+    TestEmbeddingResult::test_repr 0  ✅ PASSED
+    TestEmbeddingResult::test_struct_field_types 0  ✅ PASSED
+    TestEmbeddingResult::test_struct_fields_exist 0  ✅ PASSED
+    TestGenerateEmbedding::test_function_exists 0  ✅ PASSED
+    TestGenerateEmbedding::test_max_length_default 0  ✅ PASSED
+    TestGenerateEmbedding::test_requires_model_and_tokenizer 0  ✅ PASSED
+    TestGenerateEmbedding::test_return_type_annotation 0  ✅ PASSED
+    TestGenerateEmbedding::test_signature_parameters 0  ✅ PASSED
+    TestGenerateEmbeddingsBatch::test_batch_size_default 0  ✅ PASSED
+    TestGenerateEmbeddingsBatch::test_function_exists 0  ✅ PASSED
+    TestGenerateEmbeddingsBatch::test_max_length_default 0  ✅ PASSED
+    TestGenerateEmbeddingsBatch::test_return_type_annotation 0  ✅ PASSED
+    TestGenerateEmbeddingsBatch::test_signature_parameters 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_extraction_schemas.py
+    _source_trace 0  ✅ PASSED
+    test_extracted_span_requires_forward_nonempty_range 0  ✅ PASSED
+    test_extraction_manifest_summarises_broad_legislative_outputs 0  ✅ PASSED
+    test_extraction_schema_rejects_invalid_source_trace_and_summary 0  ✅
+PASSED
+    test_extractor_manifest_renders_stable_yaml_and_rejects_duplicates 0  ✅
+PASSED
+    test_source_trace_report_requires_record_or_span 0  ✅ PASSED
+    test_source_trace_reports_group_records_by_source_identity 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_faiss_adapter.py
+    TestFAISSAdapterAddRecords::test_add_records 0  ✅ PASSED
+    TestFAISSAdapterCreateAndSearch::test_create_and_search 0  ✅ PASSED
+    TestFAISSAdapterCreateAndSearch::test_search_empty_index 0  ✅ PASSED
+    TestFAISSAdapterDelete::test_delete_index 0  ✅ PASSED
+    TestFAISSAdapterInit::test_init_defaults 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_feature_extraction.py
+    TestExtractBillReference::test_empty_string 0  ✅ PASSED
+    TestExtractBillReference::test_multiple_matches_returns_first 0  ✅ PASSED
+    TestExtractBillReference::test_no_match 0  ✅ PASSED
+    TestExtractBillReference::test_none_input 0  ✅ PASSED
+    TestExtractBillReference::test_regulation 0  ✅ PASSED
+    TestExtractBillReference::test_standard_act 0  ✅ PASSED
+    TestExtractBillReference::test_standard_bill 0  ✅ PASSED
+    TestExtractCommitteeName::test_empty_string 0  ✅ PASSED
+    TestExtractCommitteeName::test_generic_committee 0  ✅ PASSED
+    TestExtractCommitteeName::test_no_match 0  ✅ PASSED
+    TestExtractCommitteeName::test_none_input 0  ✅ PASSED
+    TestExtractCommitteeName::test_regulations_review_committee 0  ✅ PASSED
+    TestExtractCommitteeName::test_select_committee 0  ✅ PASSED
+    TestExtractRegulationsReviewMetadata::test_fallback_extraction 0  ✅ PASSED
+    TestExtractRegulationsReviewMetadata::test_full_metadata 0  ✅ PASSED
+    TestExtractRegulationsReviewMetadata::test_minimal_metadata 0  ✅ PASSED
+    TestExtractSelectCommitteeMetadata::test_fallback_extraction 0  ✅ PASSED
+    TestExtractSelectCommitteeMetadata::test_full_metadata 0  ✅ PASSED
+    TestExtractSelectCommitteeMetadata::test_minimal_metadata 0  ✅ PASSED
+    TestExtractSubmissionMetadata::test_fallback_extraction 0  ✅ PASSED
+    TestExtractSubmissionMetadata::test_full_metadata 0  ✅ PASSED
+    TestExtractSubmissionMetadata::test_minimal_metadata 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_framework_rac.py
+    test_catala_dsl_emission 0  ✅ PASSED
+    test_akoma_ntoso_rac_features 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_gradio_space.py
+    TestCitationNetwork::test_empty_citations 0  ✅ PASSED
+    TestCitationNetwork::test_no_citations_column 0  ✅ PASSED
+    TestCitationNetwork::test_none_df 0  ✅ PASSED
+    TestCitationNetwork::test_returns_figure 0  ✅ PASSED
+    TestComputeStats::test_citation_info 0  ✅ PASSED
+    TestComputeStats::test_embedding_info 0  ✅ PASSED
+    TestComputeStats::test_none_df 0  ✅ PASSED
+    TestComputeStats::test_returns_dict 0  ✅ PASSED
+    TestComputeStats::test_source_breakdown 0  ✅ PASSED
+    TestComputeStats::test_tereo_info 0  ✅ PASSED
+    TestComputeStats::test_total_words 0  ✅ PASSED
+    TestLoadParquet::test_loads_file 0  ✅ PASSED
+    TestLoadParquet::test_missing_file 0  ✅ PASSED
+    TestLoadParquet::test_none_path 0  ✅ PASSED
+    TestSearchChunks::test_case_insensitive 0  ✅ PASSED
+    TestSearchChunks::test_empty_query 0  ✅ PASSED
+    TestSearchChunks::test_finds_match 0  ✅ PASSED
+    TestSearchChunks::test_no_match 0  ✅ PASSED
+    TestSearchChunks::test_none_df 0  ✅ PASSED
+    TestSearchChunks::test_top_k_limit 0  ✅ PASSED
+    TestTereoChart::test_empty_terms 0  ✅ PASSED
+    TestTereoChart::test_no_column 0  ✅ PASSED
+    TestTereoChart::test_none_df 0  ✅ PASSED
+    TestTereoChart::test_returns_figure 0  ✅ PASSED
+    sample_df 0  ✅ PASSED
+    sample_parquet 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_graph.py
+    _build_sample_graph 0  ✅ PASSED
+    test_add_act_and_speech 0  ✅ PASSED
+    test_add_citation_creates_edge 0  ✅ PASSED
+    test_add_citation_without_context 0  ✅ PASSED
+    test_add_section_reference 0  ✅ PASSED
+    test_most_active_speakers 0  ✅ PASSED
+    test_most_active_speakers_respects_top_n 0  ✅ PASSED
+    test_most_cited_acts 0  ✅ PASSED
+    test_most_cited_acts_respects_top_n 0  ✅ PASSED
+    test_node_types_constant 0  ✅ PASSED
+    test_policy_graph_init_empty 0  ✅ PASSED
+    test_query_acts_mentioned_in_speech 0  ✅ PASSED
+    test_query_acts_mentioned_unknown_speech 0  ✅ PASSED
+    test_query_speeches_mentioning_act 0  ✅ PASSED
+    test_query_speeches_mentioning_unknown_act 0  ✅ PASSED
+    test_save_and_load_roundtrip 1  ✅ PASSED
+    test_to_dict_roundtrip 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_guard.py
+    TestBuildTokenizerExceptions::test_build_tokenizer_exceptions_empty_is_fals
+e 0  ✅ PASSED
+    TestBuildTokenizerExceptions::test_build_tokenizer_exceptions_returns_dict
+0  ✅ PASSED
+    TestCreateMaoriGuardComponent::test_create_maori_guard_adds_pipe 0  ✅
+PASSED
+    TestCreateMaoriGuardComponent::test_create_maori_guard_component_is_callabl
+e 0  ✅ PASSED
+    TestCreateMaoriGuardComponent::test_create_maori_guard_double_call_is_idemp
+otent 0  ✅ PASSED
+    TestCreateMaoriGuardComponent::test_create_maori_guard_pipe_is_first 0  ✅
+PASSED
+    TestTeReoLexicalAtomSet::test_te_reo_lexical_atom_set_contains_key_words 0
+✅ PASSED
+    TestTeReoLexicalAtomSet::test_te_reo_lexical_atom_set_has_at_least_twenty_i
+tems 0  ✅ PASSED
+    TestTeReoLexicalAtomSet::test_te_reo_lexical_atom_set_is_frozenset_of_strin
+gs 0  ✅ PASSED
+    test_is_macronized_false 0  ✅ PASSED
+    test_is_macronized_true 0  ✅ PASSED
+    test_language_id_code_switching 0  ✅ PASSED
+    test_language_id_detect_english 0  ✅ PASSED
+    test_language_id_detect_maori 0  ✅ PASSED
+    test_language_id_low_confidence 0  ✅ PASSED
+    test_normalize_text_maaori 0  ✅ PASSED
+    test_normalize_text_nfc 0  ✅ PASSED
+    test_preserve_macrons 0  ✅ PASSED
+    TestBuildTokenizerExceptions::test_build_tokenizer_exceptions_covers_all_at
+oms 1  ✅ PASSED
+    TestBuildTokenizerExceptions::test_build_tokenizer_exceptions_orth_format 1
+✅ PASSED
+    TestCreateMaoriGuardComponent::test_create_maori_guard_updates_tokenizer_ru
+les 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_hf_upload.py
+    TestCreateDatasetRepo::test_creates_repo 0  ✅ PASSED
+    TestCreateDatasetRepo::test_private_repo 0  ✅ PASSED
+    TestDeploySpace::test_creates_repo_and_uploads 0  ✅ PASSED
+    TestDeploySpace::test_default_commit_message 0  ✅ PASSED
+    TestDeploySpace::test_dry_run 0  ✅ PASSED
+    TestDeploySpace::test_missing_app_py 0  ✅ PASSED
+    TestDeploySpace::test_missing_requirements_txt 0  ✅ PASSED
+    TestDeploySpace::test_spaces_dir_not_found 0  ✅ PASSED
+    TestDeploySpace::test_upload_failure_raises_error 0  ✅ PASSED
+    TestParquetToDataset::test_columns_preserved 0  ✅ PASSED
+    TestParquetToDataset::test_conversion 0  ✅ PASSED
+    TestParquetToDataset::test_file_not_found 0  ✅ PASSED
+    TestParquetToDataset::test_string_path 0  ✅ PASSED
+    TestPushDatasetToHub::test_push_default_commit_message 0  ✅ PASSED
+    TestPushDatasetToHub::test_push_file_not_found 0  ✅ PASSED
+    TestPushDatasetToHub::test_push_success 0  ✅ PASSED
+    TestTokenResolution::test_get_hf_token_from_env 0  ✅ PASSED
+    TestTokenResolution::test_get_hf_token_missing 0  ✅ PASSED
+    TestTokenResolution::test_resolve_token_explicit 0  ✅ PASSED
+    TestTokenResolution::test_resolve_token_fallback 0  ✅ PASSED
+    TestTokenResolution::test_resolve_token_none_when_unset 0  ✅ PASSED
+    TestUploadIntegration::test_full_deploy_flow 0  ✅ PASSED
+    TestUploadIntegration::test_full_upload_flow 0  ✅ PASSED
+    sample_parquet 0  ✅ PASSED
+    sample_records 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_hypothesis_citations.py
+    test_hansard_ids_keep_expected_prefix_and_padding 0  ✅ PASSED
+    test_legislation_ids_keep_expected_prefix_and_padding 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_hypothesis_normalizer.py
+    test_known_maori_variants_normalise_to_macron_forms 0  ✅ PASSED
+    test_preserve_macrons_always_returns_nfc 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_isaacus_adapter.py
+    test_default_manifests_cover_required_isaacus_assets 0  ✅ PASSED
+    test_external_access_gate_is_explicit_and_report_is_repo_side 0  ✅ PASSED
+    test_local_nz_mleb_fixture_matches_schema_contract 0  ✅ PASSED
+    test_local_nz_mleb_fixture_validation_rejects_bad_judgements 0  ✅ PASSED
+    test_make_nz_mleb_query_validates_relevance_judgements 0  ✅ PASSED
+    test_manifest_json_and_cli_entrypoints 0  ✅ PASSED
+    test_normalize_isaacus_record_preserves_legal_and_maori_text 0  ✅ PASSED
+    test_normalize_record_rejects_missing_required_fields 0  ✅ PASSED
+    test_normalize_records_handles_missing_optional_citations_and_batching 0
+✅ PASSED
+    test_to_pipeline_record_maps_au_corpus_into_existing_schema 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_kb.py
+    FakeWikidataClient::__init__ 0  ✅ PASSED
+    FakeWikidataClient::fetch_properties 0  ✅ PASSED
+    test_bundled_kb_snapshot_loads_from_json 0  ✅ PASSED
+    test_default_kb_contains_required_entity_types_and_qids 0  ✅ PASSED
+    test_entity_resolution_benchmark_exceeds_precision_threshold 0  ✅ PASSED
+    test_entity_resolver_extracts_multiple_entities_from_text 0  ✅ PASSED
+    test_entity_resolver_links_aliases_with_context_disambiguation 0  ✅ PASSED
+    test_entity_resolver_uses_date_range_context 0  ✅ PASSED
+    test_pipeline_entity_context_infers_party_electorate_and_date 0  ✅ PASSED
+    test_pipeline_record_preserves_resolved_entities 0  ✅ PASSED
+    test_resolution_precision_counts_unresolved_cases 0  ✅ PASSED
+    test_resolve_entities_in_text_returns_schema_safe_dicts 0  ✅ PASSED
+    test_resolver_rejects_duplicate_entity_ids 0  ✅ PASSED
+    test_spacy_component_links_ner_spans_with_context 0  ✅ PASSED
+    test_wikidata_enricher_uses_cache 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_legal_effects.py
+    TestClassifyLegalEffectEdgeCases::test_case_insensitivity 0  ✅ PASSED
+    TestClassifyLegalEffectEdgeCases::test_empty_text 0  ✅ PASSED
+    TestClassifyLegalEffectEdgeCases::test_multiple_sentences 0  ✅ PASSED
+    TestClassifyLegalEffectEdgeCases::test_no_match_default 0  ✅ PASSED
+    TestClassifyLegalEffectFromModalities::test_empty_modalities_list 0  ✅
+PASSED
+    TestClassifyLegalEffectFromModalities::test_modalities_none 0  ✅ PASSED
+    TestClassifyLegalEffectFromModalities::test_multiple_modalities_selects_hig
+hest_priority 0  ✅ PASSED
+    TestClassifyLegalEffectFromModalities::test_obligation_from_modalities 0
+✅ PASSED
+    TestClassifyLegalEffectFromModalities::test_permission_from_modalities 0
+✅ PASSED
+    TestClassifyLegalEffectFromModalities::test_priority_cascade 0  ✅ PASSED
+    TestClassifyLegalEffectFromModalities::test_prohibition_from_modalities 0
+✅ PASSED
+    TestClassifyLegalEffectRegex::test_disability 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_disability_not_eligible 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_immunity 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_liability 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_liability_offence 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_may_permission 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_must_not_prohibition 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_must_obligation 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_power_has_the_power 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_power_may_by_notice 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_shall_not_prohibition 0  ✅ PASSED
+    TestClassifyLegalEffectRegex::test_shall_obligation 0  ✅ PASSED
+    TestLegalEffectEnum::test_enum_from_value 0  ✅ PASSED
+    TestLegalEffectEnum::test_enum_str 0  ✅ PASSED
+    test_classify_legal_effect_module_level 0  ✅ PASSED
+    TestLegalEffectEnum::test_enum_values 1  ✅ PASSED
+    nlp 2  ✅ PASSED
+
+nlp-policy-nz/tests/test_linked_data.py
+    _case_dir 0  ✅ PASSED
+    test_cli_export_rdf_and_sparql 0  ✅ PASSED
+    test_export_foaf_profiles_writes_valid_turtle 0  ✅ PASSED
+    test_export_hansard_sioc_writes_ttl_sidecar 0  ✅ PASSED
+    test_generate_foaf_graph_contains_all_mp_profiles 0  ✅ PASSED
+    test_generate_sioc_graph_models_hansard_structure 0  ✅ PASSED
+    test_query_graph_returns_sparql_bindings 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_mirror_sync_workflow.py
+    test_mirror_sync_bypasses_when_credentials_are_empty 0  ✅ PASSED
+    test_mirror_sync_supports_gitlab_and_codeberg_targets 0  ✅ PASSED
+    test_mirror_sync_triggers_on_canonical_branch_pushes 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_modality.py
+    TestDeonticModalityDetector::test_custom_patterns 0  ✅ PASSED
+    TestDeonticModalityDetector::test_factory_returns_detector 0  ✅ PASSED
+    TestDeonticModalityDetector::test_from_disk_returns_self 0  ✅ PASSED
+    TestDeonticModalityDetector::test_to_disk_no_error 0  ✅ PASSED
+    TestDeonticPatterns::test_capitalised_must 0  ✅ PASSED
+    TestDeonticPatterns::test_capitalised_shall_not 0  ✅ PASSED
+    TestDeonticPatterns::test_empty_text 0  ✅ PASSED
+    TestDeonticPatterns::test_may_detected 0  ✅ PASSED
+    TestDeonticPatterns::test_modal_after_comma 0  ✅ PASSED
+    TestDeonticPatterns::test_modal_at_sentence_middle 0  ✅ PASSED
+    TestDeonticPatterns::test_modal_at_sentence_start 0  ✅ PASSED
+    TestDeonticPatterns::test_multiple_modals_one_sentence 0  ✅ PASSED
+    TestDeonticPatterns::test_must_detected 0  ✅ PASSED
+    TestDeonticPatterns::test_must_not_detected 0  ✅ PASSED
+    TestDeonticPatterns::test_need_not_detected 0  ✅ PASSED
+    TestDeonticPatterns::test_no_modality 0  ✅ PASSED
+    TestDeonticPatterns::test_shall_detected 0  ✅ PASSED
+    TestDeonticPatterns::test_shall_not_detected 0  ✅ PASSED
+    TestDetectModality::test_auto_adds_pipe 0  ✅ PASSED
+    TestDetectModality::test_detect_modality_convenience 0  ✅ PASSED
+    TestDetectModality::test_detect_modality_empty_text 0  ✅ PASSED
+    TestDetectModality::test_detect_modality_no_modals 0  ✅ PASSED
+    TestDetectModality::test_multiple_modalities 0  ✅ PASSED
+    TestDocTokenExtensions::test_doc_modality_annotations 0  ✅ PASSED
+    TestDocTokenExtensions::test_modality_annotation_extension 0  ✅ PASSED
+    TestDocTokenExtensions::test_modality_scope_extension 0  ✅ PASSED
+    TestDocTokenExtensions::test_token_modality_extension 0  ✅ PASSED
+    TestModalityAnnotation::test_annotation_default_scope 0  ✅ PASSED
+    TestModalityAnnotation::test_annotation_equality 0  ✅ PASSED
+    TestModalityAnnotation::test_annotation_frozen 0  ✅ PASSED
+    TestModalityAnnotation::test_annotation_repr 0  ✅ PASSED
+    TestModalityAnnotation::test_annotation_to_dict 0  ✅ PASSED
+    TestScopeResolution::test_scope_multiple_sentences 0  ✅ PASSED
+    TestScopeResolution::test_scope_with_negation 0  ✅ PASSED
+    TestScopeResolution::test_scope_with_object 0  ✅ PASSED
+    TestScopeResolution::test_scope_with_prepositional_phrase 0  ✅ PASSED
+    TestScopeResolution::test_simple_scope 0  ✅ PASSED
+    TestDocTokenExtensions::test_non_modal_token_has_none 1  ✅ PASSED
+    TestScopeResolution::test_scope_no_verb_fallback 1  ✅ PASSED
+    TestScopeResolution::test_scope_with_adverbial_modifier 1  ✅ PASSED
+    nlp 2  ✅ PASSED
+
+nlp-policy-nz/tests/test_ontology_coverage_audit.py
+    test_blockers_and_backlog_are_json_serializable 0  ✅ PASSED
+    test_track25_matrix_captures_expected_standards 0  ✅ PASSED
+    test_markdown_and_artifact_writer 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_provenance.py
+    _case_dir 0  ✅ PASSED
+    test_cli_provenance_displays_sidecar 0  ✅ PASSED
+    test_process_legislation_records_embedding_model_version 0  ✅ PASSED
+    test_process_legislation_writes_provenance_sidecar 0  ✅ PASSED
+    test_recorder_captures_pipeline_context 0  ✅ PASSED
+    test_release_archive_includes_provenance_metadata 0  ✅ PASSED
+    test_serializer_emits_prov_o_jsonld 0  ✅ PASSED
+    test_sidecar_round_trip 0  ✅ PASSED
+    test_zenodo_deposit_payload_includes_provenance_notes 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_qdrant_adapter.py
+    TestQdrantAdapterAddRecords::test_add_records 0  ✅ PASSED
+    TestQdrantAdapterCreateAndSearch::test_search_before_create 0  ✅ PASSED
+    TestQdrantAdapterDelete::test_delete_index 0  ✅ PASSED
+    TestQdrantAdapterDelete::test_index_exists 0  ✅ PASSED
+    TestQdrantAdapterInit::test_init_defaults 0  ✅ PASSED
+    _make_adapter 0  ✅ PASSED
+    TestQdrantAdapterCreateAndSearch::test_create_and_search 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_quality_infrastructure.py
+    test_coveragerc_matches_pyproject_coverage_policy 0  ✅ PASSED
+    test_pyproject_has_strict_quality_tooling 0  ✅ PASSED
+    test_quality_configuration_files_exist 0  ✅ PASSED
+    test_ci_quality_steps_are_wired 2  ✅ PASSED
+    test_pixi_quality_tasks_exist 2  ✅ PASSED
+
+nlp-policy-nz/tests/test_rac_bridge.py
+    _source_section 0  ✅ PASSED
+    test_policyengine_package_skeleton_avoids_keyword_variable_names 0  ✅
+PASSED
+    test_policyengine_package_skeleton_is_source_grounded 0  ✅ PASSED
+    test_policyengine_package_skeleton_validates_direct_manifest_fields 0  ✅
+PASSED
+    test_policyengine_package_writer_rejects_paths_outside_output_dir 0  ✅
+PASSED
+    test_rac_export_cli_writes_bridge_json 0  ✅ PASSED
+    test_rac_export_cli_writes_optional_package_skeleton 0  ✅ PASSED
+    test_rules_as_code_bridge_json_is_stable_and_writable 0  ✅ PASSED
+    test_rules_as_code_bridge_preserves_source_norm_and_rulespec_metadata 0  ✅
+PASSED
+    test_rules_as_code_bridge_records_validate_direct_identity_fields 0  ✅
+PASSED
+    _contains_key 3  ✅ PASSED
+
+nlp-policy-nz/tests/test_release.py
+    TestCreateReleaseArchive::test_auto_output_dir 0  ✅ PASSED
+    TestCreateReleaseArchive::test_creates_tar_gz 0  ✅ PASSED
+    TestCreateReleaseArchive::test_metadata_json_content 0  ✅ PASSED
+    TestCreateReleaseArchive::test_parquet_file_not_found 0  ✅ PASSED
+    TestFullRelease::test_full_release_end_to_end 0  ✅ PASSED
+    TestFullRelease::test_full_release_parquet_not_found 0  ✅ PASSED
+    TestPublishToZenodo::test_publishes_archive 0  ✅ PASSED
+    mock_publish_response 0  ✅ PASSED
+    sample_parquet 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_semantic.py
+    TestBuildBnbConfig::test_4bit_config 0  ✅ PASSED
+    TestBuildBnbConfig::test_8bit_config 0  ✅ PASSED
+    TestBuildBnbConfig::test_invalid_quantization_raises_value_error 0  ✅
+PASSED
+    TestBuildBnbConfig::test_none_config 0  ✅ PASSED
+    TestConstants::test_default_model_constant 0  ✅ PASSED
+    TestConstants::test_default_quantization_constant 0  ✅ PASSED
+    TestConstants::test_fallback_model_constant 0  ✅ PASSED
+    TestModelLoadError::test_can_be_raised_with_message 0  ✅ PASSED
+    TestModelLoadError::test_is_exception 0  ✅ PASSED
+    TestQuantizationConfig::test_custom_values 0  ✅ PASSED
+    TestQuantizationConfig::test_default_instantiation 0  ✅ PASSED
+    TestQuantizationConfig::test_is_frozen 0  ✅ PASSED
+    TestQuantizationConfig::test_repr 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_semantic_finetune_dry_run.py
+    test_cli_spec_output_creates_parent_directory 0  ✅ PASSED
+    test_dry_run_payload_preserves_cli_training_parameters 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_server.py
+    TestAppAttributes::test_title 0  ✅ PASSED
+    TestAppAttributes::test_version 0  ✅ PASSED
+    TestEmbedEndpoint::test_empty 0  ✅ PASSED
+    TestEmbedEndpoint::test_missing 0  ✅ PASSED
+    TestEmbedEndpoint::test_single 0  ✅ PASSED
+    TestHealthEndpoint::test_health_json 0  ✅ PASSED
+    TestHealthEndpoint::test_health_returns_ok 0  ✅ PASSED
+    TestOpenAPI::test_docs 0  ✅ PASSED
+    TestOpenAPI::test_redoc 0  ✅ PASSED
+    TestProcessEndpoint::test_empty_input 0  ✅ PASSED
+    TestProcessEndpoint::test_inline_hansard 0  ✅ PASSED
+    TestProcessEndpoint::test_inline_legislation 0  ✅ PASSED
+    TestProcessEndpoint::test_invalid_source 0  ✅ PASSED
+    TestSearchEndpoint::test_db_not_found 0  ✅ PASSED
+    TestSearchEndpoint::test_default_top_k 0  ✅ PASSED
+    TestSearchEndpoint::test_empty_query 0  ✅ PASSED
+    TestSearchEndpoint::test_invalid_top_k 0  ✅ PASSED
+    TestSearchEndpoint::test_returns_results 0  ✅ PASSED
+    TestSearchEndpoint::test_runtime_error 0  ✅ PASSED
+    TestSearchEndpoint::test_top_k_large 0  ✅ PASSED
+    TestValidation::test_bad_json 0  ✅ PASSED
+    TestValidation::test_missing_process_input 0  ✅ PASSED
+    TestValidation::test_missing_query 0  ✅ PASSED
+    TestValidation::test_unknown_route 0  ✅ PASSED
+    client 0  ✅ PASSED
+    TestAppAttributes::test_routes 1  ✅ PASSED
+    TestOpenAPI::test_openapi_json 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_smoke.py
+    TestConductorFiles::test_product_md_exists 0  ✅ PASSED
+    TestConductorFiles::test_tracks_md_exists 0  ✅ PASSED
+    TestConfigFiles::test_pixi_toml_exists 0  ✅ PASSED
+    TestConfigFiles::test_pyproject_toml_exists 0  ✅ PASSED
+    TestConfigFiles::test_tach_toml_exists 0  ✅ PASSED
+    TestPackageImports::test_import_cli 0  ✅ PASSED
+    TestPackageImports::test_import_guard 0  ✅ PASSED
+    TestPackageImports::test_import_integrations 0  ✅ PASSED
+    TestPackageImports::test_import_nlp_policy_nz 0  ✅ PASSED
+    TestPackageImports::test_import_semantic 0  ✅ PASSED
+    TestPackageImports::test_import_storage 0  ✅ PASSED
+    TestPackageImports::test_import_syntactic 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_stance.py
+    test_stance_classifier_detects_pro_con_neutral 0  ✅ PASSED
+    test_stance_classifier_fixture_exceeds_accuracy_threshold 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_storage.py
+    TestCommitteeRecordsRoundTrip::test_committee_record_construction 0  ✅
+PASSED
+    TestCommitteeRecordsRoundTrip::test_committee_record_struct_defaults 0  ✅
+PASSED
+    TestCommitteeRecordsRoundTrip::test_committee_records_to_dataframe 0  ✅
+PASSED
+    TestParquetRoundTrip::test_deserialize_to_dataframe 0  ✅ PASSED
+    TestParquetRoundTrip::test_empty_records_raises_on_serialize 0  ✅ PASSED
+    TestParquetRoundTrip::test_file_not_found 0  ✅ PASSED
+    TestParquetRoundTrip::test_roundtrip_preserves_empty_entity_context_as_none
+0  ✅ PASSED
+    TestParquetRoundTrip::test_roundtrip_preserves_none_embeddings 0  ✅ PASSED
+    TestParquetRoundTrip::test_string_path 0  ✅ PASSED
+    TestPipelineRecord::test_embeddings_default_none 0  ✅ PASSED
+    TestPipelineRecord::test_struct_creation 0  ✅ PASSED
+    TestPipelineRecord::test_struct_field_names 0  ✅ PASSED
+    TestRecordsToDataFrame::test_columns_ordered 0  ✅ PASSED
+    TestRecordsToDataFrame::test_empty_records_raises 0  ✅ PASSED
+    TestRecordsToDataFrame::test_valid_conversion 0  ✅ PASSED
+    sample_committee_records 0  ✅ PASSED
+    sample_records 0  ✅ PASSED
+    TestCommitteeRecordsRoundTrip::test_committee_parquet_roundtrip 1  ✅
+PASSED
+    TestParquetRoundTrip::test_serialize_and_load 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_syntactic.py
+    TestActPatterns::nlp 0  ✅ PASSED
+    TestActPatterns::test_act_patterns_crime_example 0  ✅ PASSED
+    TestActPatterns::test_act_patterns_legislation_example 0  ✅ PASSED
+    TestActPatterns::test_act_patterns_maori_example 0  ✅ PASSED
+    TestActPatterns::test_act_patterns_part_ref 0  ✅ PASSED
+    TestActPatterns::test_act_patterns_schedule_ref 0  ✅ PASSED
+    TestActPatterns::test_act_patterns_section_ref 0  ✅ PASSED
+    TestActPatternsStructure::test_patterns_is_list_of_dicts 0  ✅ PASSED
+    TestCreateCitationRuler::nlp 0  ✅ PASSED
+    TestCreateCitationRuler::test_create_citation_ruler_adds_pipe 0  ✅ PASSED
+    TestCreateCitationRuler::test_create_citation_ruler_returns_entityruler 0
+✅ PASSED
+    TestCreateCitationRuler::test_ruler_raises_without_maori_guard 0  ✅ PASSED
+    TestCreateNlpPipeline::test_create_nlp_pipeline_returns_language 0  ✅
+PASSED
+    TestCreateNlpPipeline::test_pipeline_has_maori_guard 0  ✅ PASSED
+    TestLabels::test_citation_label_value 0  ✅ PASSED
+    TestLabels::test_section_label_value 0  ✅ PASSED
+    TestActPatternsStructure::test_all_labels_are_valid 1  ✅ PASSED
+    TestActPatternsStructure::test_each_pattern_has_label_and_pattern 1  ✅
+PASSED
+    TestCreateNlpPipeline::test_pipeline_has_expected_components 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_telemetry.py
+    _ActiveSpan::__init__ 0  ✅ PASSED
+    _ActiveSpan::record_exception 0  ✅ PASSED
+    _ActiveSpan::set_attribute 0  ✅ PASSED
+    _FakeEvent::__init__ 0  ✅ PASSED
+    _FakeReadableSpan::__init__ 0  ✅ PASSED
+    _FakeReadableSpan::get_span_context 0  ✅ PASSED
+    test_configure_tracing_can_disable_exporters 0  ✅ PASSED
+    test_configure_tracing_reuses_existing_handle 0  ✅ PASSED
+    test_jsonl_file_exporter_writes_span_payload 0  ✅ PASSED
+    test_process_legislation_emits_pipeline_spans 0  ✅ PASSED
+    test_span_helpers_use_current_span 0  ✅ PASSED
+    test_span_to_dict_serializes_core_trace_fields 0  ✅ PASSED
+    test_configure_tracing_registers_console_and_file_exporters 1  ✅ PASSED
+    test_tracing_falls_back_when_sdk_import_fails 2  ✅ PASSED
+
+nlp-policy-nz/tests/test_temporal.py
+    test_detects_and_normalizes_core_timex_types 0  ✅ PASSED
+    test_invalid_calendar_dates_are_not_normalized 0  ✅ PASSED
+    test_named_recurrence_iso_date_midnight_and_section_inference 0  ✅ PASSED
+    test_pipeline_record_preserves_temporal_expressions 0  ✅ PASSED
+    test_spacy_component_sets_doc_extension 0  ✅ PASSED
+    test_temporal_expression_serializes_to_pipeline_dict 0  ✅ PASSED
+    test_temporal_graph_handles_deadlines_non_dates_and_missing_sections 0  ✅
+PASSED
+    test_temporal_graph_links_effective_periods 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_track13_evidence.py
+    test_held_out_transformer_report_satisfies_track13_thresholds 0  ✅ PASSED
+    test_heuristic_fixture_scores_do_not_satisfy_external_training_gates 0  ✅
+PASSED
+    test_heuristic_transformer_label_does_not_satisfy_model_gate 0  ✅ PASSED
+    test_track13_acceptance_contract_is_json_ready_and_explicit 0  ✅ PASSED
+    test_track13_evidence_markdown_lists_open_external_gates 0  ✅ PASSED
+    test_track13_implementation_status_separates_repo_completion_from_external_
+gates 0  ✅ PASSED
+    test_track13_residual_external_gates_only_lists_classifier_gates 0  ✅
+PASSED
+
+nlp-policy-nz/tests/test_track13_external_gate_manifest.py
+    test_track13_external_gate_manifest_is_explicit 0  ✅ PASSED
+    test_track13_external_gate_manifest_rejects_surrogates 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_track13_silver_labels.py
+    test_ontology_bridge_creates_weak_rule_vote_only 0  ✅ PASSED
+    test_ontology_triangulation_manifest_links_hpo_umls_and_snomed 0  ✅ PASSED
+    test_provider_availability_uses_configured_commands 0  ✅ PASSED
+    test_provider_labelling_plan_includes_installed_and_api_providers 0  ✅
+PASSED
+    test_silver_consensus_accepts_human_calibrated_two_model_agreement 0  ✅
+PASSED
+    test_silver_consensus_routes_low_agreement_to_disagreement_queue 0  ✅
+PASSED
+    test_silver_manifest_prefers_human_labelled_calibration_sources 0  ✅
+PASSED
+    test_track13_model_recommendations_keep_classifier_and_adjudicator_roles_se
+parate 0  ✅ PASSED
+    test_track13_target_record_and_provider_prompt_are_schema_stable 0  ✅
+PASSED
+    test_calibration_vote_files_cover_all_configured_sources 3  ✅ PASSED
+
+nlp-policy-nz/tests/test_track14_benchmarks.py
+    _evidence_path 0  ✅ PASSED
+    test_msgspec_orjson_benchmark_records_dependency_statuses 0  ✅ PASSED
+    test_tokenizers_chunking_benchmark_handles_missing_spacy_and_tokenizers 0
+✅ PASSED
+    _patch_find_spec 2  ✅ PASSED
+
+nlp-policy-nz/tests/test_track19_evidence.py
+    test_full_corpus_report_satisfies_track19_thresholds 0  ✅ PASSED
+    test_repo_side_observability_does_not_satisfy_full_corpus_gates 0  ✅
+PASSED
+    test_track19_evidence_markdown_lists_external_gates 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_track19_external_gate_manifest.py
+    test_track19_external_gate_manifest_is_explicit 0  ✅ PASSED
+    test_track19_external_gate_manifest_rejects_micro_run_surrogates 1  ✅
+PASSED
+
+nlp-policy-nz/tests/test_track20_evidence.py
+    test_measured_training_report_satisfies_track20_thresholds 0  ✅ PASSED
+    test_repo_side_training_scaffold_does_not_satisfy_model_gates 0  ✅ PASSED
+    test_track20_acceptance_contract_separates_repo_and_external_scopes 0  ✅
+PASSED
+    test_track20_evidence_markdown_lists_external_training_gates 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_track21_evidence.py
+    test_measured_architecture_report_satisfies_track21_acceptance 0  ✅ PASSED
+    test_repo_side_architecture_harness_does_not_satisfy_external_gates 0  ✅
+PASSED
+    test_track21_evidence_lists_external_training_gates 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_track21_script_contracts.py
+    test_track21_evaluation_scripts_are_audit_only_by_default 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_track22_evidence.py
+    test_measured_isaacus_integration_satisfies_track22_gates 0  ✅ PASSED
+    test_repo_side_contract_requires_local_mleb_fixture_schema 0  ✅ PASSED
+    test_repo_side_isaacus_scaffold_does_not_satisfy_external_gates 0  ✅
+PASSED
+
+nlp-policy-nz/tests/test_track22_script_contracts.py
+    test_isaacus_download_wrapper_is_audit_only_by_default 0  ✅ PASSED
+    test_isaacus_evaluation_wrapper_is_audit_only_by_default 0  ✅ PASSED
+    _run_script 1  ✅ PASSED
+    test_isaacus_wrappers_reject_live_mode_repo_side 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_track23_evidence.py
+    test_measured_quality_report_satisfies_track23_gates 0  ✅ PASSED
+    test_repo_side_contracts_do_not_satisfy_strict_gates 0  ✅ PASSED
+    test_track23_evidence_markdown_lists_pending_strict_gates 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_track23_pydantic_benchmark.py
+    _evidence_path 0  ✅ PASSED
+    test_checked_in_pipeline_record_benchmark_evidence_is_complete 0  ✅ PASSED
+    test_pipeline_record_benchmark_records_msgspec_and_pydantic_results 0  ✅
+PASSED
+
+nlp-policy-nz/tests/test_track23_quality_gate_manifest.py
+    _manifest 0  ✅ PASSED
+    test_track23_coverage_gate_declares_threshold 0  ✅ PASSED
+    test_track23_mutation_gate_remains_satisfied_but_not_a_quality_surrogate 0
+✅ PASSED
+    test_track23_full_quality_gates_are_explicit 1  ✅ PASSED
+    test_track23_manifest_rejects_focused_checks_as_surrogates 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_track25_ontology_coverage.py
+    _row_index 0  ✅ PASSED
+    test_audit_bundle_is_json_serializable_and_consistent 0  ✅ PASSED
+    test_blocker_register_and_backlog_are_deterministic 0  ✅ PASSED
+    test_build_coverage_matrix_includes_implemented_and_missing_standards 0  ✅
+PASSED
+    test_enumerate_ontology_facing_systems_covers_expected_repo_surfaces 0  ✅
+PASSED
+    test_slugify_identifier_is_stable 0  ✅ PASSED
+    test_track25_writer_matches_checked_in_artifacts 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_track26_standards_registry.py
+    test_track26_controlled_concept_round_trip 0  ✅ PASSED
+    test_track26_manifest_is_deterministic_and_json_serializable 0  ✅ PASSED
+    test_track26_registry_covers_the_requested_standards 0  ✅ PASSED
+    test_track26_schema_legislation_round_trip 0  ✅ PASSED
+    test_track26_schema_matches_manifest_contract 0  ✅ PASSED
+    test_track26_writer_matches_the_checked_in_manifest 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_track53_evidence.py
+    test_track53_committed_artifacts_match_rendered_outputs 0  ✅ PASSED
+    test_track53_context_and_manifest_keep_roles_and_constraints_separate 0  ✅
+PASSED
+    test_track53_evidence_markdown_lists_model_roles 0  ✅ PASSED
+    test_track53_json_and_markdown_renderers_expose_selection_artifacts 0  ✅
+PASSED
+    test_track53_repo_side_contracts_fail_closed_when_selection_is_incomplete 0
+✅ PASSED
+    test_track53_selection_contract_is_json_ready_and_explicit 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_track54_axiom_conductor.py
+    _read 0  ✅ PASSED
+    test_track54_conductor_track_is_registered_and_complete 1  ✅ PASSED
+    test_track54_does_not_add_axiom_runtime_dependencies 1  ✅ PASSED
+    test_track54_evidence_captures_rulespec_nz_compatibility_and_full_gate 1
+✅ PASSED
+    test_track54_records_offline_axiom_integration_boundaries 1  ✅ PASSED
+
+nlp-policy-nz/tests/test_training_data.py
+    _records 0  ✅ PASSED
+    test_build_training_examples_extracts_task_specific_records 0  ✅ PASSED
+    test_mlm_collator_masks_non_special_tokens_deterministically 0  ✅ PASSED
+    test_prepare_training_splits_from_parquet_is_deterministic 0  ✅ PASSED
+    test_prepare_training_splits_handles_empty_parquet_list 0  ✅ PASSED
+    test_split_config_rejects_invalid_ratios 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_training_eval.py
+    test_classification_prf_reports_macro_scores 0  ✅ PASSED
+    test_exact_match_is_case_and_space_normalized 0  ✅ PASSED
+    test_legal_bert_job_uses_track20_defaults 0  ✅ PASSED
+    test_maori_token_integrity_scores_unsplit_terms 0  ✅ PASSED
+    test_qlora_job_records_adapter_and_quantization_settings 0  ✅ PASSED
+    test_run_qlora_prints_job_spec 0  ✅ PASSED
+    test_token_f1_handles_overlap_and_empty_inputs 0  ✅ PASSED
+    test_training_job_to_dict_is_json_ready 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_vectordb.py
+    TestLanceDBAdapterCreate::test_create_index_with_empty_records 0  ✅ PASSED
+    TestLanceDBAdapterInit::test_adapter_init_custom 0  ✅ PASSED
+    TestLanceDBAdapterInit::test_adapter_init_defaults 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_version_consistency.py
+    _pyproject_version 0  ✅ PASSED
+    test_version_consistency_check_passes 0  ✅ PASSED
+    test_version_is_well_formed 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_voting.py
+    test_parse_conscience_division 0  ✅ PASSED
+    test_parse_conscience_division_stops_at_inline_noes_marker 0  ✅ PASSED
+    test_parse_empty_division_returns_none 0  ✅ PASSED
+    test_parse_party_division 0  ✅ PASSED
+    test_parse_party_division_updates_existing_party_tallies 0  ✅ PASSED
+    test_resolve_member_party_unknown_member 0  ✅ PASSED
+
+nlp-policy-nz/tests/test_wikidata_kg.py
+    FakeHttpResponse::__init__ 0  ✅ PASSED
+    FakeHttpResponse::json 0  ✅ PASSED
+    FakeHttpResponse::raise_for_status 0  ✅ PASSED
+    FakeWikidataClient::__init__ 0  ✅ PASSED
+    FakeWikidataClient::fetch_properties 0  ✅ PASSED
+    _case_dir 0  ✅ PASSED
+    test_bulk_resolver_uses_cache 0  ✅ PASSED
+    test_cli_knowledge_graph_exports_jsonld 0  ✅ PASSED
+    test_federated_sparql_example_joins_local_and_wikidata 0  ✅ PASSED
+    test_jsonld_export_is_schema_org_compatible 0  ✅ PASSED
+    test_load_wikidata_entities_rejects_non_list_json 0  ✅ PASSED
+    test_property_enrichment_adds_wikidata_attributes 0  ✅ PASSED
+    test_sparql_client_handles_empty_or_malformed_results 0  ✅ PASSED
+    FakeWikidataClient::search_entity 1  ✅ PASSED
+    test_ontology_map_covers_required_entity_classes 1  ✅ PASSED
+    test_sparql_client_maps_search_and_property_bindings 2  ✅ PASSED
+
+nlp-policy-nz/tests/test_zenodo_archive.py
+    TestArchiveToZenodo::test_archive_to_zenodo_file_not_found 0  ✅ PASSED
+    TestArchiveToZenodo::test_archive_to_zenodo_full_flow 0  ✅ PASSED
+    TestGetDoi::test_get_doi_api_error 0  ✅ PASSED
+    TestGetDoi::test_get_doi_no_doi 0  ✅ PASSED
+    TestGetDoi::test_get_doi_success 0  ✅ PASSED
+    TestProductionEnvironment::test_archiver_default_environment_is_sandbox 0
+✅ PASSED
+    TestProductionEnvironment::test_archiver_production_environment_stored 0
+✅ PASSED
+    TestZenodoArchiver::test_create_archive_api_failure 0  ✅ PASSED
+    TestZenodoArchiver::test_create_archive_file_not_found 0  ✅ PASSED
+    TestZenodoArchiver::test_create_archive_full_flow 0  ✅ PASSED
+    TestZenodoArchiver::test_init_with_token 0  ✅ PASSED
+    TestZenodoArchiver::test_init_without_token 0  ✅ PASSED
+    TestZenodoArchiver::test_resolve_token_explicit 0  ✅ PASSED
+    TestZenodoArchiver::test_resolve_token_from_env 0  ✅ PASSED
+    mock_deposit_response 0  ✅ PASSED
+    mock_publish_response 0  ✅ PASSED
+    mock_upload_response 0  ✅ PASSED
+    TestProductionEnvironment::test_archive_to_zenodo_passes_environment 3  ✅
+PASSED
+    TestProductionEnvironment::test_create_archive_production_uses_production_u
+rl 3  ✅ PASSED
+
+All functions are within the allowed complexity.
+───────────────────────────── Analysis completed! ─────────────────────────────
+
+Pixi task (check-boundaries): tach check
+[OK] All modules validated!
+
+Pixi task (test): pytest
+============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0
+benchmark: 5.2.3 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: C:\Users\60217257\OneDrive - Flinders\repos\legal-nz\nlp-policy-nz
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.14.0, hypothesis-6.155.7, benchmark-5.2.3, cov-5.0.0, tach-0.35.0
+collected 686 items / 1 skipped
+[Tach] 686 tests in 78 files unaffected by changes (~56.0s could be saved). Skip with: pytest --tach
+[Tach] To disable: pytest -p no:tach (https://docs.gauge.sh/usage/commands#using-the-pytest-plugin-directly)
+
+tests\benchmarks\test_pipeline_benchmark.py ..                           [  0%]
+tests\benchmarks\test_vector_benchmark.py ............                   [  2%]
+tests\e2e\test_pipeline_e2e.py .                                         [  2%]
+tests\integration\test_guard_to_syntactic.py .                           [  2%]
+tests\integration\test_integrations_zenodo.py .                          [  2%]
+tests\integration\test_pipeline_record_roundtrip.py .                    [  2%]
+tests\smoke\test_track23_validation_lane.py .....                        [  3%]
+tests\test_akn_v3.py .......                                             [  4%]
+tests\test_amendments.py .........                                       [  5%]
+tests\test_architecture_eval.py ......                                   [  6%]
+tests\test_argument.py .....                                             [  7%]
+tests\test_argument_api_graph.py ...                                     [  7%]
+tests\test_argument_training.py ...                                      [  8%]
+tests\test_axiom_integration.py .........                                [  9%]
+tests\test_chunking.py .....................                             [ 12%]
+tests\test_cli.py ......................................                 [ 18%]
+tests\test_coverage.py .                                                 [ 18%]
+tests\test_dataset_card.py ...............                               [ 20%]
+tests\test_digitalnz_probe.py .....................................      [ 25%]
+tests\test_embeddings.py ..............................                  [ 30%]
+tests\test_extraction_schemas.py ......                                  [ 31%]
+tests\test_faiss_adapter.py .....                                        [ 31%]
+tests\test_feature_extraction.py ......................                  [ 34%]
+tests\test_framework_rac.py ..                                           [ 35%]
+tests\test_gradio_space.py ........................                      [ 38%]
+tests\test_graph.py ................                                     [ 41%]
+tests\test_guard.py .....................                                [ 44%]
+tests\test_hf_upload.py .......................                          [ 47%]
+tests\test_hypothesis_citations.py ..                                    [ 47%]
+tests\test_hypothesis_normalizer.py ..                                   [ 48%]
+tests\test_isaacus_adapter.py ..........                                 [ 49%]
+tests\test_kb.py .............                                           [ 51%]
+tests\test_legal_effects.py ...........................                  [ 55%]
+tests\test_linked_data.py ......                                         [ 56%]
+tests\test_mirror_sync_workflow.py ...                                   [ 56%]
+tests\test_modality.py ........................................          [ 62%]
+tests\test_ontology_coverage_audit.py ...                                [ 62%]
+tests\test_provenance.py ........                                        [ 64%]
+tests\test_quality_infrastructure.py .....                               [ 64%]
+tests\test_rac_bridge.py .........                                       [ 66%]
+tests\test_release.py .......                                            [ 67%]
+tests\test_semantic.py .............                                     [ 69%]
+tests\test_semantic_finetune_dry_run.py ..                               [ 69%]
+tests\test_server.py ..........................                          [ 73%]
+tests\test_smoke.py ............                                         [ 74%]
+tests\test_stance.py ..                                                  [ 75%]
+tests\test_storage.py .................                                  [ 77%]
+tests\test_syntactic.py .................                                [ 80%]
+tests\test_telemetry.py ........                                         [ 81%]
+tests\test_temporal.py ........                                          [ 82%]
+tests\test_track13_evidence.py .......                                   [ 83%]
+tests\test_track13_external_gate_manifest.py ..                          [ 83%]
+tests\test_track13_silver_labels.py ..........                           [ 85%]
+tests\test_track14_benchmarks.py ..                                      [ 85%]
+tests\test_track19_evidence.py ...                                       [ 86%]
+tests\test_track19_external_gate_manifest.py ..                          [ 86%]
+tests\test_track20_evidence.py ....                                      [ 86%]
+tests\test_track21_evidence.py ...                                       [ 87%]
+tests\test_track21_script_contracts.py .                                 [ 87%]
+tests\test_track22_evidence.py ...                                       [ 87%]
+tests\test_track22_script_contracts.py ...                               [ 88%]
+tests\test_track23_evidence.py ...                                       [ 88%]
+tests\test_track23_pydantic_benchmark.py ..                              [ 89%]
+tests\test_track23_quality_gate_manifest.py ....                         [ 89%]
+tests\test_track25_ontology_coverage.py ......                           [ 90%]
+tests\test_track26_standards_registry.py ......                          [ 91%]
+tests\test_track53_evidence.py ......                                    [ 92%]
+tests\test_track54_axiom_conductor.py ....                               [ 92%]
+tests\test_training_data.py .....                                        [ 93%]
+tests\test_training_eval.py ........                                     [ 94%]
+tests\test_vectordb.py ...                                               [ 95%]
+tests\test_version_consistency.py ..                                     [ 95%]
+tests\test_voting.py ......                                              [ 96%]
+tests\test_wikidata_kg.py .........                                      [ 97%]
+tests\test_zenodo_archive.py ................                            [100%]
+
+============================== warnings summary ===============================
+.pixi\envs\default\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\60217257\OneDrive - Flinders\repos\legal-nz\nlp-policy-nz\.pixi\envs\default\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_cli.py::TestSearchSubcommand::test_search_default_db_path
+  C:\Users\60217257\OneDrive - Flinders\repos\legal-nz\nlp-policy-nz\.pixi\envs\default\Lib\site-packages\transformers\models\bert\tokenization_bert.py:104: DeprecationWarning: Deprecated in 0.9.0: WordPiece.__init__ will not create from files anymore, try `WordPiece.from_file` instead
+    self._tokenizer = Tokenizer(WordPiece(self._vocab, unk_token=str(unk_token)))
+
+tests/test_wikidata_kg.py::test_cli_knowledge_graph_exports_jsonld
+  C:\Users\60217257\OneDrive - Flinders\repos\legal-nz\nlp-policy-nz\.pixi\envs\default\Lib\site-packages\rdflib\plugins\parsers\jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+------------------------------------------------------------------------------------------------------------- benchmark: 13 tests -------------------------------------------------------------------------------------------------------------
+Name (time in us)                                         Min                     Max                   Mean                StdDev                 Median                    IQR            Outliers          OPS            Rounds  Iterations
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+test_faiss_search_latency[5]                          29.3000 (1.0)        2,047.3000 (5.43)         42.3162 (1.0)         25.9851 (2.08)         36.1000 (1.0)          15.7000 (1.20)      347;261  23,631.5943 (1.0)        9217           1
+test_faiss_search_latency[10]                         30.5000 (1.04)         377.1000 (1.0)          46.5606 (1.10)        12.5199 (1.0)          46.5000 (1.29)         13.1000 (1.0)      1463;205  21,477.3735 (0.91)       9108           1
+test_faiss_search_latency[20]                         33.4000 (1.14)       3,368.7000 (8.93)         52.6812 (1.24)        40.7088 (3.25)         47.2000 (1.31)         16.3000 (1.24)      559;668  18,982.0943 (0.80)      12805           1
+test_faiss_index_build_time[10]                      185.7000 (6.34)         995.2000 (2.64)        256.9685 (6.07)        64.1696 (5.13)        240.3000 (6.66)         67.4500 (5.15)      285;105   3,891.5278 (0.16)       2380           1
+test_faiss_index_build_time[100]                   1,857.2000 (63.39)      6,958.6000 (18.45)     2,498.8259 (59.05)      620.3459 (49.55)     2,337.4000 (64.75)       548.2000 (41.85)       35;16     400.1880 (0.02)        290           1
+test_lancedb_search_latency[5]                     3,268.2000 (111.54)     9,348.1000 (24.79)     5,208.6864 (123.09)   1,494.9927 (119.41)    4,934.4500 (136.69)    1,885.7000 (143.95)       14;1     191.9870 (0.01)         44           1
+test_lancedb_search_latency[10]                    5,108.3000 (174.34)     9,820.1000 (26.04)     7,070.7417 (167.09)   1,173.2852 (93.71)     7,274.6000 (201.51)    1,392.6500 (106.31)        9;1     141.4279 (0.01)         24           1
+test_lancedb_search_latency[20]                    6,880.4000 (234.83)    18,783.6000 (49.81)     9,475.9030 (223.93)   2,280.8663 (182.18)    8,951.8000 (247.97)    2,438.5250 (186.15)        5;1     105.5308 (0.00)         33           1
+test_lancedb_index_build_time[10]                 18,352.9000 (626.38)    46,550.4000 (123.44)   29,308.9518 (692.62)   5,929.0516 (473.57)   27,977.6000 (775.00)    6,838.3500 (522.01)       12;2      34.1193 (0.00)         56           1
+test_lancedb_index_build_time[100]                20,643.0000 (704.54)    63,959.5000 (169.61)   32,823.3971 (775.67)   8,816.4970 (704.20)   29,895.8000 (828.14)    9,817.4500 (749.42)       32;5      30.4661 (0.00)        104           1
+test_faiss_index_build_time[1000]                 23,196.8000 (791.70)    38,876.5000 (103.09)   28,947.2600 (684.07)   4,473.6451 (357.32)   27,930.5000 (773.70)    6,871.0000 (524.50)       14;0      34.5456 (0.00)         40           1
+test_lancedb_index_build_time[1000]               44,643.5000 (>1000.0)   83,786.8000 (222.19)   58,367.5444 (>1000.0)  9,319.4740 (744.37)   56,373.0000 (>1000.0)   8,558.9500 (653.36)        6;3      17.1328 (0.00)         27           1
+test_process_legislation_throughput_benchmark     84,428.0000 (>1000.0)  107,167.1000 (284.19)   95,223.0125 (>1000.0)  7,932.2744 (633.57)   95,251.4000 (>1000.0)  11,484.9000 (876.71)        4;0      10.5017 (0.00)          8           1
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Legend:
+  Outliers: 1 Standard Deviation from Mean; 1.5 IQR (InterQuartile Range) from 1st Quartile and 3rd Quartile.
+  OPS: Operations Per Second, computed as 1 / Mean
+============ 686 passed, 1 skipped, 3 warnings in 65.29s (0:01:05) ============

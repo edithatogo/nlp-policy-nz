@@ -1,0 +1,211 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix map: <https://legal-nz.example.org/ontology/mapping/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix source: <https://legal-nz.example.org/ontology/source/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+map:agls-resource-to-nzgls-resource a map:MappingRecord ;
+    dc:identifier "agls-resource-to-nzgls-resource" ;
+    dcterms:source "data/ontologies/track28_standards_registry_addendum.json" ;
+    rdfs:comment "Supports AU-to-NZ corpus metadata transfer without adopting AGLS as core." ;
+    map:confidence 0.8 ;
+    map:mappingPredicate "skos:closeMatch" ;
+    map:method "manual trans-Tasman metadata crosswalk" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/agls/resource> ;
+    map:sourceStandard "AGLS" ;
+    map:sourceTerm "Resource" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/nzgls/resource> ;
+    map:targetStandard "NZGLS" ;
+    map:targetTerm "Resource" .
+
+map:dcat-dataset-to-data-govt-nz-dataset a map:MappingRecord ;
+    dc:identifier "dcat-dataset-to-data-govt-nz-dataset" ;
+    dcterms:source "data/ontologies/track28_standards_registry_addendum.json" ;
+    rdfs:comment "Maps generic dataset catalogue semantics to NZ publication metadata intake." ;
+    map:confidence 0.86 ;
+    map:mappingPredicate "source:crosswalk" ;
+    map:method "manual Track 28 dataset publication crosswalk" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/dcat/dataset> ;
+    map:sourceStandard "DCAT" ;
+    map:sourceTerm "Dataset" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/data-govt-nz-dataset-metadata/dataset> ;
+    map:targetStandard "data.govt.nz Dataset Metadata" ;
+    map:targetTerm "dataset" .
+
+map:dcat-dataset-to-nzgls-resource a map:MappingRecord ;
+    dc:identifier "dcat-dataset-to-nzgls-resource" ;
+    dcterms:source "data/ontologies/track28_standards_registry_addendum.json" ;
+    rdfs:comment "NZGLS resource metadata is used as a local publication crosswalk target." ;
+    map:confidence 0.84 ;
+    map:mappingPredicate "source:crosswalk" ;
+    map:method "manual Track 28 NZGLS addendum crosswalk" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/dcat/dataset> ;
+    map:sourceStandard "DCAT" ;
+    map:sourceTerm "Dataset" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/nzgls/resource> ;
+    map:targetStandard "NZGLS" ;
+    map:targetTerm "Resource" .
+
+map:extraction-date-to-time-instant a map:MappingRecord ;
+    dc:identifier "extraction-date-to-time-instant" ;
+    dcterms:source "src/nlp_policy_nz/extraction/schemas.py" ;
+    rdfs:comment "Only normalized dates with source spans should be mapped to Time entities." ;
+    map:confidence 0.76 ;
+    map:mappingPredicate "skos:closeMatch" ;
+    map:method "manual extraction-family to W3C Time crosswalk" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/date> ;
+    map:sourceStandard "nlp-policy-nz extraction" ;
+    map:sourceTerm "date" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/owl-time/time-instant> ;
+    map:targetStandard "OWL-Time" ;
+    map:targetTerm "time:Instant" .
+
+map:extraction-definition-to-skos-concept a map:MappingRecord ;
+    dc:identifier "extraction-definition-to-skos-concept" ;
+    dcterms:source "src/nlp_policy_nz/extraction/schemas.py" ;
+    rdfs:comment "Definitions can seed concepts but require curation before becoming a controlled vocabulary." ;
+    map:confidence 0.7 ;
+    map:mappingPredicate "skos:relatedMatch" ;
+    map:method "manual extraction-family to controlled vocabulary crosswalk" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/definition> ;
+    map:sourceStandard "nlp-policy-nz extraction" ;
+    map:sourceTerm "definition" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/skos/concept> ;
+    map:targetStandard "SKOS" ;
+    map:targetTerm "Concept" .
+
+map:extraction-rules-as-code-to-catala-scope a map:MappingRecord ;
+    dc:identifier "extraction-rules-as-code-to-catala-scope" ;
+    dcterms:source "docs/extraction-framework.md" ;
+    rdfs:comment "Requires downstream review before generating Catala code or scopes." ;
+    map:confidence 0.68 ;
+    map:mappingPredicate "source:crosswalk" ;
+    map:method "manual Track 55 to Track 28 rules-as-code bridge" ;
+    map:reviewStatus "needs_review" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/rules-as-code> ;
+    map:sourceStandard "nlp-policy-nz extraction" ;
+    map:sourceTerm "rules_as_code" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/catala/scope> ;
+    map:targetStandard "Catala" ;
+    map:targetTerm "scope" .
+
+map:foaf-person-to-schema-person a map:MappingRecord ;
+    dc:identifier "foaf-person-to-schema-person" ;
+    dcterms:source "src/nlp_policy_nz/linked_data/foaf.py" ;
+    rdfs:comment "Used for parliamentary people and speaker profile interoperability." ;
+    map:confidence 0.95 ;
+    map:mappingPredicate "owl:equivalentClass" ;
+    map:method "manual class identity crosswalk for public person metadata" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/foaf/person> ;
+    map:sourceStandard "FOAF" ;
+    map:sourceTerm "Person" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/schema-org/person> ;
+    map:targetStandard "schema.org" ;
+    map:targetTerm "Person" .
+
+map:lkif-obligation-to-akn-obligation a map:MappingRecord ;
+    dc:identifier "lkif-obligation-to-akn-obligation" ;
+    dcterms:source "conductor/tracks/track26_ontology_standards_expansion_20260625/spec.md" ;
+    rdfs:comment "LKIF normative effect is represented as an AKN-oriented semantic annotation, not native AKN markup." ;
+    map:confidence 0.82 ;
+    map:mappingPredicate "skos:closeMatch" ;
+    map:method "manual crosswalk from Track 25/26 normative effect inventory" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/lkif/obligation> ;
+    map:sourceStandard "LKIF" ;
+    map:sourceTerm "Obligation" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/akoma-ntoso/obligation> ;
+    map:targetStandard "Akoma Ntoso" ;
+    map:targetTerm "obligation" .
+
+map:lkif-permission-to-odrl-permission a map:MappingRecord ;
+    dc:identifier "lkif-permission-to-odrl-permission" ;
+    dcterms:source "data/ontologies/track28_discovery_log.json" ;
+    rdfs:comment "ODRL policy permission is adjacent to legal permission but should not be treated as full legal reasoning parity." ;
+    map:confidence 0.78 ;
+    map:mappingPredicate "skos:closeMatch" ;
+    map:method "manual Track 28 ODRL map-only decision" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/lkif/permission> ;
+    map:sourceStandard "LKIF" ;
+    map:sourceTerm "Permission" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/odrl/permission> ;
+    map:targetStandard "ODRL" ;
+    map:targetTerm "Permission" .
+
+map:lkif-prohibition-to-odrl-prohibition a map:MappingRecord ;
+    dc:identifier "lkif-prohibition-to-odrl-prohibition" ;
+    dcterms:source "data/ontologies/track28_discovery_log.json" ;
+    rdfs:comment "Use for deontic extraction inspection and not as executable ODRL policy output." ;
+    map:confidence 0.78 ;
+    map:mappingPredicate "skos:closeMatch" ;
+    map:method "manual Track 28 ODRL map-only decision" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/lkif/prohibition> ;
+    map:sourceStandard "LKIF" ;
+    map:sourceTerm "Prohibition" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/odrl/prohibition> ;
+    map:targetStandard "ODRL" ;
+    map:targetTerm "Prohibition" .
+
+map:prov-entity-to-dcat-dataset a map:MappingRecord ;
+    dc:identifier "prov-entity-to-dcat-dataset" ;
+    dcterms:source "data/ontologies/track26_standards_registry.json" ;
+    rdfs:comment "A pipeline output entity can be catalogued as a DCAT dataset when published." ;
+    map:confidence 0.72 ;
+    map:mappingPredicate "skos:relatedMatch" ;
+    map:method "manual provenance-to-catalog publication crosswalk" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/prov-o/entity> ;
+    map:sourceStandard "PROV-O" ;
+    map:sourceTerm "Entity" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/dcat/dataset> ;
+    map:targetStandard "DCAT" ;
+    map:targetTerm "Dataset" .
+
+map:sioc-post-to-akn-debate a map:MappingRecord ;
+    dc:identifier "sioc-post-to-akn-debate" ;
+    dcterms:source "src/nlp_policy_nz/linked_data/sioc.py" ;
+    rdfs:comment "SIOC post models discourse item; AKN debateSpeech models parliamentary speech structure." ;
+    map:confidence 0.74 ;
+    map:mappingPredicate "skos:closeMatch" ;
+    map:method "manual discourse-to-legislative-document crosswalk" ;
+    map:reviewStatus "approved" ;
+    map:sourceNode <https://legal-nz.example.org/ontology/standards/sioc/post> ;
+    map:sourceStandard "SIOC" ;
+    map:sourceTerm "Post" ;
+    map:targetNode <https://legal-nz.example.org/ontology/standards/akoma-ntoso/debatespeech> ;
+    map:targetStandard "Akoma Ntoso" ;
+    map:targetTerm "debateSpeech" .
+
+<https://legal-nz.example.org/ontology/standards/agls/resource> skos:closeMatch <https://legal-nz.example.org/ontology/standards/nzgls/resource> .
+
+<https://legal-nz.example.org/ontology/standards/foaf/person> owl:equivalentClass <https://legal-nz.example.org/ontology/standards/schema-org/person> .
+
+<https://legal-nz.example.org/ontology/standards/lkif/obligation> skos:closeMatch <https://legal-nz.example.org/ontology/standards/akoma-ntoso/obligation> .
+
+<https://legal-nz.example.org/ontology/standards/lkif/permission> skos:closeMatch <https://legal-nz.example.org/ontology/standards/odrl/permission> .
+
+<https://legal-nz.example.org/ontology/standards/lkif/prohibition> skos:closeMatch <https://legal-nz.example.org/ontology/standards/odrl/prohibition> .
+
+<https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/date> skos:closeMatch <https://legal-nz.example.org/ontology/standards/owl-time/time-instant> .
+
+<https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/definition> skos:relatedMatch <https://legal-nz.example.org/ontology/standards/skos/concept> .
+
+<https://legal-nz.example.org/ontology/standards/nlp-policy-nz-extraction/rules-as-code> source:crosswalk <https://legal-nz.example.org/ontology/standards/catala/scope> .
+
+<https://legal-nz.example.org/ontology/standards/prov-o/entity> skos:relatedMatch <https://legal-nz.example.org/ontology/standards/dcat/dataset> .
+
+<https://legal-nz.example.org/ontology/standards/sioc/post> skos:closeMatch <https://legal-nz.example.org/ontology/standards/akoma-ntoso/debatespeech> .
+
+<https://legal-nz.example.org/ontology/standards/dcat/dataset> source:crosswalk <https://legal-nz.example.org/ontology/standards/data-govt-nz-dataset-metadata/dataset>,
+        <https://legal-nz.example.org/ontology/standards/nzgls/resource> .

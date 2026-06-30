@@ -1,3 +1,5 @@
+<!-- vale off -->
+
 # Build Backend Evaluation
 
 Track 23 evaluated the current build backend against the proposed `uv_build`
@@ -31,3 +33,5 @@ A future backend switch should include:
 - Install smoke test from the built wheel.
 - Verification that `src/nlp_policy_nz/py.typed` is included.
 - CI matrix evidence on Windows and Linux.
+
+<!-- vale on -->

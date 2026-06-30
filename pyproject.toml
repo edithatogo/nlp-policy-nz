@@ -16,6 +16,8 @@ dependencies = [
     "torch>=2.2.0",
     "bitsandbytes>=0.42.0",
     "msgspec>=0.18.0",
+    "pydantic>=2.11.0",
+    "orjson>=3.10.0",
     "beautifulsoup4>=4.12.0",
     "narwhals>=1.0.0",
     "polars>=1.0.0",
@@ -26,6 +28,9 @@ dependencies = [
     "requests>=2.31.0",
     "xmlschema>=3.4.0",
     "defusedxml>=0.7.1",
+    "pypdf>=6.0.0",
+    "PyYAML>=6.0.0",
+    "sqlite-utils>=3.30.0",
     "loguru>=0.7.2",
     "lingua-language-detector>=1.4.0,<2.0.0",
     "datasets>=2.19.0",
@@ -105,8 +110,6 @@ select = [
 ignore = [
     "PLR0913",                   # Too many arguments (legacy code)
     "E501",                      # Line length handled by formatter
-    "ANN101",                    # Missing type annotation for `self` in methods
-    "ANN102",                    # Missing type annotation for `cls` in classmethods
     "D107",                      # Missing docstring in __init__ (redundant with class docstring)
     "D203",                      # 1 blank line required before class docstring (conflicts with D211)
     "D212",                      # Multi-line docstring summary should start at first line (conflicts with D213)
@@ -231,6 +234,7 @@ pythonpath = ["src"]
 markers = [
     "benchmark: performance benchmark tests requiring pytest-benchmark",
     "coverage: tests that exercise coverage reporting surfaces",
+    "unit: fast isolated unit tests",
 ]
 
 [tool.scalene]
@@ -243,3 +247,11 @@ reduced_profile = true
 [tool.legal_nz]
 versioning = "semver"
 logging = "loguru"
+
+[tool.legal_nz.performance_regression]
+baseline = "artifacts/baselines/pytest-benchmark.json"
+thresholds = "config/benchmark_thresholds.json"
+default_threshold = 0.10
+current = ".tmp/benchmarks/pytest-benchmark.json"
+json_report = ".tmp/benchmarks/benchmark-regression.json"
+html_report = ".tmp/benchmarks/benchmark-regression.html"

@@ -46,8 +46,7 @@ def evaluate_track20_acceptance(report: Track20EvidenceReport) -> dict[str, bool
         and report.legal_bert_perplexity_improvement > MIN_LEGAL_BERT_PERPLEXITY_IMPROVEMENT
     )
     tier2_qlora_training = (
-        report.cuda_available
-        and report.tier2_qlora_models_finetuned >= MIN_TIER2_QLORA_MODELS
+        report.cuda_available and report.tier2_qlora_models_finetuned >= MIN_TIER2_QLORA_MODELS
     )
     citation_f1 = (
         report.cuda_available
@@ -100,8 +99,7 @@ def track20_acceptance_contract(
         "legal_bert_perplexity": {
             "satisfied": status["legal_bert_perplexity"],
             "required_metric": (
-                "legal_bert_perplexity_improvement > "
-                f"{MIN_LEGAL_BERT_PERPLEXITY_IMPROVEMENT}"
+                f"legal_bert_perplexity_improvement > {MIN_LEGAL_BERT_PERPLEXITY_IMPROVEMENT}"
             ),
             "observed_metric": report.legal_bert_perplexity_improvement,
             "requires_cuda": True,
@@ -109,18 +107,14 @@ def track20_acceptance_contract(
         },
         "tier2_qlora_training": {
             "satisfied": status["tier2_qlora_training"],
-            "required_metric": (
-                f"tier2_qlora_models_finetuned >= {MIN_TIER2_QLORA_MODELS}"
-            ),
+            "required_metric": (f"tier2_qlora_models_finetuned >= {MIN_TIER2_QLORA_MODELS}"),
             "observed_metric": report.tier2_qlora_models_finetuned,
             "requires_cuda": True,
             "scope": "external",
         },
         "citation_f1_improvement": {
             "satisfied": status["citation_f1_improvement"],
-            "required_metric": (
-                f"citation_f1_improvement > {MIN_CITATION_F1_IMPROVEMENT}"
-            ),
+            "required_metric": (f"citation_f1_improvement > {MIN_CITATION_F1_IMPROVEMENT}"),
             "observed_metric": report.citation_f1_improvement,
             "requires_cuda": True,
             "scope": "external",
@@ -128,8 +122,7 @@ def track20_acceptance_contract(
         "maori_token_integrity": {
             "satisfied": status["maori_token_integrity"],
             "required_metric": (
-                "maori_token_integrity_improvement > "
-                f"{MIN_MAORI_TOKEN_INTEGRITY_IMPROVEMENT}"
+                f"maori_token_integrity_improvement > {MIN_MAORI_TOKEN_INTEGRITY_IMPROVEMENT}"
             ),
             "observed_metric": report.maori_token_integrity_improvement,
             "requires_cuda": True,
@@ -191,8 +184,7 @@ def render_track20_evidence_markdown(report: Track20EvidenceReport) -> str:
         "",
     ]
     lines.extend(
-        f"- {name}: {'satisfied' if satisfied else 'pending'}"
-        for name, satisfied in status.items()
+        f"- {name}: {'satisfied' if satisfied else 'pending'}" for name, satisfied in status.items()
     )
     lines.extend(
         [
@@ -204,8 +196,7 @@ def render_track20_evidence_markdown(report: Track20EvidenceReport) -> str:
             "- Legal-BERT perplexity improvement: "
             f"{_format_optional(report.legal_bert_perplexity_improvement)}",
             f"- Tier-2 QLoRA models fine-tuned: {report.tier2_qlora_models_finetuned}",
-            "- Citation F1 improvement: "
-            f"{_format_optional(report.citation_f1_improvement)}",
+            f"- Citation F1 improvement: {_format_optional(report.citation_f1_improvement)}",
             "- Te Reo Maori token integrity improvement: "
             f"{_format_optional(report.maori_token_integrity_improvement)}",
             f"- Published Hugging Face models: {report.published_hub_models}",

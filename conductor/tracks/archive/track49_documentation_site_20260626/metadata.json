@@ -1,0 +1,9 @@
+{
+  "track_id": "track49_documentation_site_20260626",
+  "type": "documentation",
+  "status": "archived",
+  "created_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-06-26T00:00:00+10:00",
+  "description": "Create a dedicated documentation site (ReadTheDocs or GitHub Pages) with auto-generated API reference, user guides, architecture docs, and tutorial notebooks.",
+  "oracle_notes": "Reviewed and archived: Astro/Starlight documentation site expanded with generated OpenAPI, Python API and CLI references, user guides, architecture docs, operations runbook, rendered tutorial notebook pages, versioning guidance, GitHub Pages deployment workflow, and smoke tests."
+}

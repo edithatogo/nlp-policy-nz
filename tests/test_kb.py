@@ -106,12 +106,19 @@ def test_entity_resolver_uses_date_range_context() -> None:
 def test_entity_resolver_extracts_multiple_entities_from_text() -> None:
     """Text resolution returns span-aware records suitable for PipelineRecord."""
     resolver = EntityResolver(default_nz_entities())
-    text = "Jacinda Ardern spoke for Labour in Mount Albert before the Supreme Court of New Zealand."
+    text = (
+        "Jacinda Ardern spoke for Labour in Mount Albert before the Supreme Court of New Zealand."
+    )
 
     results = resolver.resolve_text(text)
 
     names = {result.name for result in results}
-    assert {"Jacinda Ardern", "New Zealand Labour Party", "Mount Albert", "Supreme Court of New Zealand"} <= names
+    assert {
+        "Jacinda Ardern",
+        "New Zealand Labour Party",
+        "Mount Albert",
+        "Supreme Court of New Zealand",
+    } <= names
     assert all(result.start >= 0 and result.end > result.start for result in results)
 
 
@@ -149,7 +156,9 @@ def test_resolve_entities_in_text_returns_schema_safe_dicts() -> None:
 
 def test_entity_resolution_benchmark_exceeds_precision_threshold() -> None:
     """Track 12 labelled benchmark must exceed the >85% precision criterion."""
-    cases = json.loads(Path("tests/fixtures/kb_resolution_benchmark.json").read_text(encoding="utf-8"))
+    cases = json.loads(
+        Path("tests/fixtures/kb_resolution_benchmark.json").read_text(encoding="utf-8")
+    )
 
     precision = evaluate_resolution_precision(cases)
 

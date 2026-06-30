@@ -97,7 +97,9 @@ TEMPORAL_PATTERNS: tuple[dict[str, Any], ...] = (
     {
         "name": "clock_time",
         "timex_type": TemporalType.TIME,
-        "regex": re.compile(r"\b(?P<hour>1[0-2]|0?[1-9])(?::(?P<minute>\d{2}))?\s*(?P<ampm>am|pm)\b", re.IGNORECASE),
+        "regex": re.compile(
+            r"\b(?P<hour>1[0-2]|0?[1-9])(?::(?P<minute>\d{2}))?\s*(?P<ampm>am|pm)\b", re.IGNORECASE
+        ),
     },
     {
         "name": "duration",
@@ -309,7 +311,9 @@ def detect_temporal_expressions(text: str, nlp: Language) -> list[TemporalExpres
 def _overlaps(span: tuple[int, int], occupied: list[tuple[int, int]]) -> bool:
     """Return whether *span* overlaps any accepted annotation span."""
     start, end = span
-    return any(start < accepted_end and end > accepted_start for accepted_start, accepted_end in occupied)
+    return any(
+        start < accepted_end and end > accepted_start for accepted_start, accepted_end in occupied
+    )
 
 
 def _normalize_match(timex_type: TemporalType, match: re.Match[str]) -> str | None:
@@ -405,7 +409,9 @@ def _classify_role(text: str, start: int, end: int, timex_type: TemporalType) ->
 def _nearby_section_id(text: str, start: int) -> str | None:
     """Infer a nearby section identifier from preceding legal text."""
     prefix = text[max(0, start - 80) : start]
-    matches = list(re.finditer(r"\b(?:section|s)\s+(?P<section>\d+[A-Za-z]?)\b", prefix, re.IGNORECASE))
+    matches = list(
+        re.finditer(r"\b(?:section|s)\s+(?P<section>\d+[A-Za-z]?)\b", prefix, re.IGNORECASE)
+    )
     if not matches:
         return None
     return f"s{matches[-1].group('section')}"

@@ -54,8 +54,7 @@ def _write_launcher_script(path: Path, command_args: list[str]) -> Path:
     launcher = path / "track19_memray_launcher.py"
     payload = ", ".join(json.dumps(arg) for arg in command_args)
     launcher.write_text(
-        "from nlp_policy_nz.cli.main import main\n"
-        f"raise SystemExit(main([{payload}]))\n",
+        f"from nlp_policy_nz.cli.main import main\nraise SystemExit(main([{payload}]))\n",
         encoding="utf-8",
     )
     return launcher

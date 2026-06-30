@@ -1,22 +1,32 @@
 ---
-title: NLP Policy NZ
-description: Astro/Starlight documentation entrypoint for NLP Policy NZ.
+title: NLP Policy NZ documentation
+description: Searchable documentation for users, contributors, and operators.
 ---
 
-# NLP Policy NZ
+# NLP Policy NZ documentation
 
-This repository owns a local Astro/Starlight documentation surface for the Legal NZ system.
+NLP Policy NZ is the shared core package for New Zealand legislation and
+Hansard NLP pipelines. This site collects the practical material needed to use,
+extend, operate, and publish the project.
 
-## Standard commands
+## Start here
 
-- `npm run docs:dev`
-- `npm run docs:build`
-- `npm run docs:check`
+- [Install the project](./installation/)
+- [Run the five-minute quickstart](./quickstart/)
+- [Process legislation and Hansard corpora](./guides/ingestion/)
+- [Search pipeline outputs](./guides/search/)
+- [Use the Python client SDK guide](./guides/client-sdk/)
+- [Use the API and CLI references](./api/openapi/)
 
-## Source material
+## Main sections
 
-README, benchmark notes, and generated API/CLI references; no prior docs app detected.
-
-## Policy
-
-This docs app follows the root Legal NZ Astro documentation policy: Astro is the published documentation shell, while generated API, CLI, dataset, or prose references feed into Astro rather than replacing it.
+- User guides cover ingestion, ontology extraction, search, publishing, and the
+  future Python client SDK.
+- Reference pages expose the generated OpenAPI document, Python API index, and
+  CLI help.
+- Architecture pages explain the pipeline, storage, ontology graph, and
+  security boundaries.
+- Operations pages cover deploy, monitoring, backup, restore, and failure
+  recovery.
+- Tutorials provide notebook-backed examples for Hansard analysis, semantic
+  search, and argument tracing.

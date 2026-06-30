@@ -53,10 +53,7 @@ def get_hf_token() -> str:
     """
     token = os.environ.get(HF_TOKEN_ENV_VAR)
     if not token:
-        msg = (
-            f"Hugging Face token not found. "
-            f"Set the {HF_TOKEN_ENV_VAR!r} environment variable."
-        )
+        msg = f"Hugging Face token not found. Set the {HF_TOKEN_ENV_VAR!r} environment variable."
         raise ValueError(msg)
     return token
 

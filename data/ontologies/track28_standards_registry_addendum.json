@@ -1,0 +1,130 @@
+{
+  "entries": [
+    {
+      "blocker_source": "AGLS to NZGLS/DCAT crosswalk for trans-Tasman metadata imports",
+      "blocker_type": "specification",
+      "implementation_status": "adjacent",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/quality/track28_ontology_discovery.py",
+        "data/ontologies/track28_discovery_log.json"
+      ],
+      "notes": "Useful for AU-to-NZ corpus transfer and Isaacus-adjacent datasets.",
+      "source_license": "Australian Government reuse terms",
+      "source_url": "https://www.agls.gov.au/",
+      "standard": "AGLS"
+    },
+    {
+      "blocker_source": "crosswalk from extraction manifests to Catala scopes and definitions",
+      "blocker_type": "integration",
+      "implementation_status": "adjacent",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/quality/track28_ontology_discovery.py",
+        "data/ontologies/track28_discovery_log.json"
+      ],
+      "notes": "Keep as downstream mapping target; do not add runtime dependency.",
+      "source_license": "project-specific open-source license",
+      "source_url": "https://catala-lang.org/",
+      "standard": "Catala"
+    },
+    {
+      "blocker_source": "publication manifest exporter mapping repo release metadata to data.govt.nz fields",
+      "blocker_type": "integration",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/quality/track28_ontology_discovery.py",
+        "data/ontologies/track28_discovery_log.json"
+      ],
+      "notes": "Complements DCAT and NZGLS for local publication readiness.",
+      "source_license": "New Zealand Government reuse terms",
+      "source_url": "https://www.data.govt.nz/manage-data/",
+      "standard": "data.govt.nz Dataset Metadata"
+    },
+    {
+      "blocker_source": "controlled concept inventory from Legislation Guidelines headings and examples",
+      "blocker_type": "data",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/quality/track28_ontology_discovery.py",
+        "data/ontologies/track28_discovery_log.json"
+      ],
+      "notes": "Use as NZ-specific extraction taxonomy seed, not as executable legal advice.",
+      "source_license": "New Zealand Government reuse terms",
+      "source_url": "https://www.legislation.govt.nz/guide/",
+      "standard": "NZ Legislation Guidelines"
+    },
+    {
+      "blocker_source": "field-level crosswalk from NZGLS metadata to DCAT/DCAT-AP catalog records",
+      "blocker_type": "specification",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/quality/track28_ontology_discovery.py",
+        "data/ontologies/track28_discovery_log.json"
+      ],
+      "notes": "Highest-value NZ-specific metadata addition for dataset publication.",
+      "source_license": "New Zealand Government reuse terms",
+      "source_url": "https://www.data.govt.nz/manage-data/policies/nzgls/",
+      "standard": "NZGLS"
+    },
+    {
+      "blocker_source": "crosswalk from deontic extraction families to ODRL duties/prohibitions",
+      "blocker_type": "specification",
+      "implementation_status": "adjacent",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/quality/track28_ontology_discovery.py",
+        "data/ontologies/track28_discovery_log.json"
+      ],
+      "notes": "Map deontic outputs cautiously; ODRL is not a full legal reasoning ontology.",
+      "source_license": "W3C Document License",
+      "source_url": "https://www.w3.org/TR/odrl-model/",
+      "standard": "ODRL"
+    },
+    {
+      "blocker_source": "local OWL profile for extracted legislative concepts and ontology mappings",
+      "blocker_type": "specification",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/quality/track28_ontology_discovery.py",
+        "data/ontologies/track28_discovery_log.json"
+      ],
+      "notes": "Core substrate for Track 29 and Track 30 ontology mapping work.",
+      "source_license": "W3C Document License",
+      "source_url": "https://www.w3.org/TR/owl2-overview/",
+      "standard": "OWL 2"
+    },
+    {
+      "blocker_source": "RDF 1.2 serializer compatibility review across current rdflib outputs",
+      "blocker_type": "integration",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/quality/track28_ontology_discovery.py",
+        "data/ontologies/track28_discovery_log.json"
+      ],
+      "notes": "Use as graph baseline; keep existing RDF/Turtle exports compatible.",
+      "source_license": "W3C Document License",
+      "source_url": "https://www.w3.org/TR/rdf12-concepts/",
+      "standard": "RDF 1.2"
+    },
+    {
+      "blocker_source": "SHACL shape set for extraction manifests and ontology graph exports",
+      "blocker_type": "integration",
+      "implementation_status": "missing",
+      "local_representation_paths": [
+        "src/nlp_policy_nz/quality/track28_ontology_discovery.py",
+        "data/ontologies/track28_discovery_log.json"
+      ],
+      "notes": "Useful before Track 29 graph publication and Track 44 data quality gates.",
+      "source_license": "W3C Document License",
+      "source_url": "https://www.w3.org/TR/shacl/",
+      "standard": "SHACL"
+    }
+  ],
+  "extends_registry": "track26_standards_registry",
+  "registry_name": "track28_standards_registry_addendum",
+  "registry_notes": "These entries are approved intake addenda. Track 29/30 decide exact mapping and implementation order.",
+  "schema_version": "1.0",
+  "summary": {
+    "entry_count": 9,
+    "existing_overlap_count": 0,
+    "new_standard_count": 9
+  }
+}

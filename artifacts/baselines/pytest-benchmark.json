@@ -1,0 +1,16 @@
+{
+  "baseline_source": "artifacts/track19/benchmark_20260624.json",
+  "benchmarks": [
+    {
+      "fullname": "tests/benchmarks/test_pipeline_benchmark.py::test_process_legislation_throughput_benchmark",
+      "name": "test_process_legislation_throughput_benchmark",
+      "stats": {
+        "mean": 0.18955448000051547,
+        "median": 0.19082179999895743,
+        "ops": 5.275528175315512
+      }
+    }
+  ],
+  "schema_version": "1.0",
+  "track_id": "track42_performance_regression_20260626"
+}

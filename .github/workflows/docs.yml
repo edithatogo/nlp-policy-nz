@@ -4,10 +4,13 @@ on:
   pull_request:
   push:
     branches: [main, master, 'codex/**']
+    tags: ['v*']
   workflow_dispatch:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 jobs:
   docs:
@@ -28,8 +31,24 @@ jobs:
       - name: Install docs dependencies
         run: npm install --prefix docs-site --no-audit --no-fund
 
+      - name: Install reference generation dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Generate API and CLI reference
+        run: PYTHONPATH=src python scripts/generate_docs_reference.py
+
       - name: Check docs
         run: npm run docs:check
 
       - name: Build docs
         run: npm run docs:build
+
+      - name: Upload GitHub Pages artifact
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs-site/dist
+
+      - name: Deploy to GitHub Pages
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        uses: actions/deploy-pages@v4

@@ -152,9 +152,7 @@ class QdrantAdapter(VectorBackend):
 
         """
         if not self.index_exists():
-            raise RuntimeError(
-                "No collection exists. Call create_index() first."
-            )
+            raise RuntimeError("No collection exists. Call create_index() first.")
 
         points: list[PointStruct] = []
 

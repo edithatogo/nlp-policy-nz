@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "mapping_predicates": {
+      "items": {
+        "enum": [
+          "skos:exactMatch",
+          "skos:closeMatch",
+          "skos:broadMatch",
+          "skos:narrowMatch",
+          "skos:relatedMatch",
+          "owl:equivalentClass",
+          "owl:equivalentProperty",
+          "rdfs:subClassOf",
+          "rdfs:subPropertyOf",
+          "source:crosswalk"
+        ]
+      },
+      "type": "array"
+    },
+    "mappings": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "confidence": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "mapping_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "mapping_predicate": {
+            "enum": [
+              "skos:exactMatch",
+              "skos:closeMatch",
+              "skos:broadMatch",
+              "skos:narrowMatch",
+              "skos:relatedMatch",
+              "owl:equivalentClass",
+              "owl:equivalentProperty",
+              "rdfs:subClassOf",
+              "rdfs:subPropertyOf",
+              "source:crosswalk"
+            ]
+          },
+          "method": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "provenance": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "review_status": {
+            "enum": [
+              "approved",
+              "needs_review",
+              "blocked"
+            ]
+          },
+          "source_standard": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "source_term": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "target_standard": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "target_term": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "mapping_id",
+          "source_standard",
+          "target_standard",
+          "source_term",
+          "target_term",
+          "mapping_predicate",
+          "confidence",
+          "method",
+          "provenance",
+          "review_status",
+          "notes"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "review_statuses": {
+      "items": {
+        "enum": [
+          "approved",
+          "needs_review",
+          "blocked"
+        ]
+      },
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "summary": {
+      "type": "object"
+    },
+    "track_id": {
+      "const": "track29_ontology_mapping_kg_20260625"
+    }
+  },
+  "required": [
+    "schema_version",
+    "track_id",
+    "mapping_predicates",
+    "review_statuses",
+    "mappings",
+    "summary"
+  ],
+  "title": "Track 29 Ontology Mapping Manifest",
+  "type": "object"
+}

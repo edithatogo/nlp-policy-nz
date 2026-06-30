@@ -75,7 +75,9 @@ def test_prepare_training_splits_from_parquet_is_deterministic() -> None:
     first = prepare_training_splits([parquet], config=config)
     second = prepare_training_splits([parquet], config=config)
 
-    assert [example.doc_id for example in first.train] == [example.doc_id for example in second.train]
+    assert [example.doc_id for example in first.train] == [
+        example.doc_id for example in second.train
+    ]
     assert len(first.train) > 0
     assert len(first.validation) > 0
     assert len(first.test) > 0
