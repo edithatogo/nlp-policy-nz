@@ -1,0 +1,9 @@
+checks:
+  - name: ruff
+    command: pixi run ruff check .
+  - name: basedpyright
+    command: pixi run basedpyright src
+  - name: smoke-tests
+    command: pixi run test -x tests/test_smoke.py
+  - name: track43-contract
+    command: pixi run pytest tests/test_track43_agentic_automation.py -q

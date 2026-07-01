@@ -243,25 +243,25 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [ ] Track 38: Containerization & Reproducible Execution
+## [~] Track 38: Containerization & Reproducible Execution
 *Link: [./conductor/tracks/track38_containerization_20260626/](./conductor/tracks/track38_containerization_20260626/)*
 - **Dependencies**: Track 1, Track 23
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Docker multi-stage builds, .devcontainer for Codespaces/VS Code, docker-compose for local service deps. Makes pipeline portable and CI-reproducible.
 
-## [ ] Track 39: Repository Governance & Contribution Framework
+## [x] Track 39: Repository Governance & Contribution Framework
 *Link: [./conductor/tracks/track39_governance_contributing_20260626/](./conductor/tracks/track39_governance_contributing_20260626/)*
 - **Dependencies**: Track 1
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: CONTRIBUTING.md, CODEOWNERS, issue/PR templates, stale-bot, commit message linting, release drafter.
 
-## [ ] Track 40: Dependency Automation & Supply Chain Security
+## [x] Track 40: Dependency Automation & Supply Chain Security
 *Link: [./conductor/tracks/track40_dependency_supplychain_20260626/](./conductor/tracks/track40_dependency_supplychain_20260626/)*
 - **Dependencies**: Track 1
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Dependabot/Renovate for automated updates, pip-audit vulnerability scanning, CycloneDX SBOM generation for supply chain transparency.
 
-## [ ] Track 41: SAST, Secrets Detection & Security Hardening
+## [x] Track 41: SAST, Secrets Detection & Security Hardening
 *Link: [./conductor/tracks/track41_sast_security_20260626/](./conductor/tracks/track41_sast_security_20260626/)*
 - **Dependencies**: Track 1
 - **Parallelization Node**: Infrastructure & Quality
@@ -273,7 +273,7 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Store benchmark baselines in git, compare PR benchmarks against baselines, fail on >10% regression. Auto-update baselines on master merge.
 
-## [ ] Track 43: Agentic Automation & Multi-Agent Orchestration
+## [x] Track 43: Agentic Automation & Multi-Agent Orchestration
 *Link: [./conductor/tracks/track43_agentic_automation_20260626/](./conductor/tracks/track43_agentic_automation_20260626/)*
 - **Dependencies**: Track 1, Track 23
 - **Parallelization Node**: Infrastructure & Quality

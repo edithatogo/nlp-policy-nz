@@ -1,0 +1,43 @@
+name: Self Healing CI
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+jobs:
+  heal:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          fetch-depth: 0
+
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0
+        with:
+          cache: true
+
+      - name: Install environment
+        run: CI=true pixi install
+
+      - name: Attempt self-healing fixes
+        run: pixi run python scripts/ci_auto_fix.py --report .tmp/self-heal-report.json
+
+      - name: Open healing PR
+        if: ${{ github.event.workflow_run.head_repository.fork == false }}
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "fix(ci): self-heal failing checks"
+          branch: "codex/self-heal-${{ github.event.workflow_run.run_number }}"
+          title: "Self-heal CI failure for ${{ github.event.workflow_run.head_branch }}"
+          body: |
+            Automated CI healing run based on the latest workflow failure.
+

@@ -16,6 +16,7 @@ This document defines the bleeding-edge, high-performance technology stack for t
 - **Environment & Package Management**: `pixi` (for multi-language, cross-platform environment orchestration and C/Rust toolchain dependencies) integrated with `uv` (for ultra-fast Python package resolution and virtual environment management).
 - **Build System**: `hatchling` as the PEP 517 build backend, combined with `uv build` for packaging compilation.
 - **Rust Integration**: `maturin` and `pyo3` for compiling and building custom Rust extensions directly into the Python package.
+- **Future Runtime Candidate**: Mojo is tracked in `conductor/mojo-migration-roadmap.md` as an optional Linux GitHub Actions acceleration path for benchmark-proven deterministic kernels. Python and Rust-backed Python libraries remain the default, with Windows exercising Python fallback behavior until Mojo support is mature enough for that profile.
 
 ---
 
@@ -76,8 +77,35 @@ This document defines the bleeding-edge, high-performance technology stack for t
 - **The Preview Engine**: **Northflank** (automatically spins up preview environments for pull requests).
 - **Production GitOps Deployer**: **Argo CD** (enforces GitOps-based declarative deployment to production clusters).
 
+## 9. Containerization & Reproducible Execution
+
+- **Container Runtime**: Docker with multi-stage images based on `python:3.13-slim-bookworm`.
+- **Developer Onboarding**: VS Code / GitHub Codespaces devcontainer definitions for the project root.
+- **Local Service Composition**: Docker Compose for optional vector-service and app wiring during development.
+- **Container Validation**: GitHub Actions containerized CI runs the repo smoke tests inside the built image, and `hadolint` checks the Dockerfile for basic container hygiene.
+
 ---
 
 ## 9. Documentation Setup
 
 - **Documentation Portal**: **Astro** (modern static site generator built for speed, deployed on GitHub Pages).
+
+## 10. Repository Governance
+
+- **Contribution Framework**: Conventional commits, code owners, PR checklist, issue templates, and private security reporting.
+- **Maintenance Automation**: GitHub Actions stale workflow, Release Drafter, and commit-message linting through pre-commit and CI.
+
+## 11. Dependency Automation & Supply Chain Security
+
+- **Dependency Scanning**: `pip-audit` for local and CI dependency audits, with OSV-backed severity classification for high/critical gating.
+- **SBOM Generation**: `cyclonedx-bom` for CycloneDX JSON SBOM artifacts in CI and releases.
+- **Severity Classification**: `cvss` for translating OSV CVSS v3/v4 vectors into numeric severity thresholds.
+
+## 12. Agentic Automation & Multi-Agent Orchestration
+
+- **PR Review Automation**: GitHub Actions workflows that render structured review summaries from deterministic gate results.
+- **Auto-Fix and Self-Healing**: Python helpers that replay lint, format, and type-check repair steps, then hand changes back to GitHub Actions for commit/PR creation.
+- **Conductor Advancement**: Repo-side automation that updates Conductor track state when a `plan.md` is fully complete.
+- **Judged Evaluation**: Deterministic LLM-as-judge harnesses for comparing candidate model outputs against references.
+- **GPU Dispatch Entrypoint**: Shell wrapper and JSON payload generator for Google Jules-style GPU task dispatch.
+- **Execution Model**: Automation remains repo-side and deterministic in CI; live agent runtimes, write tokens, and remote GPU capacity are external requirements rather than checked-in dependencies.
