@@ -33,6 +33,8 @@ from nlp_policy_nz.ontology.mapping_graph import (
     write_mapping_artifacts,
 )
 from nlp_policy_nz.ontology.mapping_inference import (
+    INFERRED_MAPPING_MANIFEST_FILENAME,
+    LLM_INTERPRETATION_PROMPT_FILENAME,
     InferenceMethod,
     InferredMappingCandidate,
     OntologyTerm,
@@ -48,6 +50,7 @@ from nlp_policy_nz.ontology.mapping_inference import (
     slugify_mapping_token,
     write_inferred_mapping_manifest,
     write_llm_interpretation_prompt,
+    write_track30_inference_artifacts,
 )
 from nlp_policy_nz.ontology.nz_ontologies import (
     NZ_ONTOLOGY_JSONLD_FILENAME,
@@ -119,6 +122,8 @@ __all__ = [
     "ECLI_PREFIX",
     "ELI_DL_URI_BASE",
     "ELI_URI_BASE",
+    "INFERRED_MAPPING_MANIFEST_FILENAME",
+    "LLM_INTERPRETATION_PROMPT_FILENAME",
     "MAPPING_JSONLD_FILENAME",
     "MAPPING_MANIFEST_FILENAME",
     "MAPPING_MERMAID_FILENAME",
@@ -218,4 +223,5 @@ __all__ = [
     "write_ontology_standards_manifest",
     "write_policyengine_package_skeleton",
     "write_rules_as_code_bridge_json",
+    "write_track30_inference_artifacts",
 ]

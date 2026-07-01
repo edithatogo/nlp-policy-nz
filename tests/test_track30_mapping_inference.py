@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from nlp_policy_nz.ontology.mapping_inference import (
+    INFERRED_MAPPING_MANIFEST_FILENAME,
+    LLM_INTERPRETATION_PROMPT_FILENAME,
     OntologyTerm,
     infer_embedding_matches,
     infer_exact_matches,
@@ -16,7 +19,10 @@ from nlp_policy_nz.ontology.mapping_inference import (
     normalize_mapping_text,
     write_inferred_mapping_manifest,
     write_llm_interpretation_prompt,
+    write_track30_inference_artifacts,
 )
+
+ONTOLOGY_DATA = Path("data/ontologies")
 
 
 def test_normalize_mapping_text_collapses_case_punctuation_and_spacing() -> None:
@@ -58,6 +64,22 @@ def test_fuzzy_matches_respect_threshold() -> None:
         ("ODRL", "prohibit")
     ]
     assert candidates[0].mapping_predicate == "skos:closeMatch"
+    assert "fuzzy similarity" in candidates[0].evidence[0]
+
+
+def test_fuzzy_matches_include_jaro_winkler_and_levenshtein_signals() -> None:
+    """Fuzzy matching should catch common legal-label edit variants."""
+    source_terms = (OntologyTerm("A", "organisation", "Organisation"),)
+    target_terms = (
+        OntologyTerm("B", "organization", "Organization"),
+        OntologyTerm("B", "unrelated", "Commencement"),
+    )
+
+    candidates = infer_fuzzy_matches(source_terms, target_terms, threshold=0.9)
+
+    assert [(candidate.target.standard, candidate.target.term_id) for candidate in candidates] == [
+        ("B", "organization")
+    ]
 
 
 def test_synonym_and_structural_evidence_are_reviewable() -> None:
@@ -191,3 +213,16 @@ def test_manifest_and_llm_prompt_round_trip(tmp_path) -> None:
     assert prompt["task"] == "ontology_mapping_interpretation"
     assert prompt["required_output_schema"] == schema
     assert schema["properties"]["review_status"]["const"] == "needs_review"
+
+
+def test_track30_checked_in_artifacts_match_deterministic_writer(tmp_path) -> None:
+    """Checked-in Track 30 artifacts should match the offline writer."""
+    written = write_track30_inference_artifacts(tmp_path)
+
+    assert ONTOLOGY_DATA.joinpath(INFERRED_MAPPING_MANIFEST_FILENAME).read_text(
+        encoding="utf-8"
+    ) == written[INFERRED_MAPPING_MANIFEST_FILENAME].read_text(encoding="utf-8")
+    prompt_path = ONTOLOGY_DATA / "inference_prompts" / LLM_INTERPRETATION_PROMPT_FILENAME
+    assert prompt_path.read_text(encoding="utf-8") == written[
+        LLM_INTERPRETATION_PROMPT_FILENAME
+    ].read_text(encoding="utf-8")

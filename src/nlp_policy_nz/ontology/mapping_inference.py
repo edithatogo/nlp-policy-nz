@@ -17,6 +17,8 @@ if TYPE_CHECKING:
 
 InferenceMethod = Literal["exact", "fuzzy", "synonym", "structural", "embedding", "llm_prompt"]
 
+INFERRED_MAPPING_MANIFEST_FILENAME: Final[str] = "inferred_mapping_candidates.json"
+LLM_INTERPRETATION_PROMPT_FILENAME: Final[str] = "mapping_interpretation_prompt.json"
 _WORD_RE: Final[re.Pattern[str]] = re.compile(r"[a-z0-9]+")
 _STRONGEST_PREDICATES: Final[tuple[MappingPredicate, ...]] = (
     "owl:equivalentClass",
@@ -393,6 +395,34 @@ def write_inferred_mapping_manifest(
     return target
 
 
+def write_track30_inference_artifacts(output_dir: Path | str | None = None) -> dict[str, Path]:
+    """Write deterministic Track 30 candidate and prompt artifacts."""
+    root = Path(output_dir) if output_dir is not None else repo_root() / "data" / "ontologies"
+    candidates = infer_mapping_candidates(
+        _fixture_source_terms(),
+        _fixture_target_terms(),
+        synonym_groups=(("permission", "allowance", "authorization"),),
+        source_vectors={"LKIF::permission": (1.0, 0.0), "LKIF::prohibition": (0.0, 1.0)},
+        target_vectors={"ODRL::permission": (0.98, 0.02), "ODRL::prohibition": (0.02, 0.98)},
+        structural_threshold=0.4,
+        embedding_threshold=0.9,
+    )
+    return {
+        INFERRED_MAPPING_MANIFEST_FILENAME: write_inferred_mapping_manifest(
+            candidates,
+            root / INFERRED_MAPPING_MANIFEST_FILENAME,
+        ),
+        LLM_INTERPRETATION_PROMPT_FILENAME: write_llm_interpretation_prompt(
+            root / "inference_prompts" / LLM_INTERPRETATION_PROMPT_FILENAME,
+        ),
+    }
+
+
+def repo_root() -> Path:
+    """Return the repository root."""
+    return Path(__file__).resolve().parents[3]
+
+
 def llm_interpretation_prompt_schema() -> dict[str, Any]:
     """Return the required structured output schema for optional LLM review."""
     return {
@@ -447,7 +477,90 @@ def _best_similarity(source: OntologyTerm, target: OntologyTerm) -> tuple[float,
 def _similarity(left: str, right: str) -> float:
     if not left or not right:
         return 0.0
-    return SequenceMatcher(None, left, right).ratio()
+    return max(
+        SequenceMatcher(None, left, right).ratio(),
+        _levenshtein_ratio(left, right),
+        _jaro_winkler_similarity(left, right),
+    )
+
+
+def _levenshtein_ratio(left: str, right: str) -> float:
+    distance = _levenshtein_distance(left, right)
+    longest = max(len(left), len(right))
+    if longest == 0:
+        return 1.0
+    return 1 - distance / longest
+
+
+def _levenshtein_distance(left: str, right: str) -> int:
+    if left == right:
+        return 0
+    if not left:
+        return len(right)
+    if not right:
+        return len(left)
+    previous = list(range(len(right) + 1))
+    for left_index, left_char in enumerate(left, start=1):
+        current = [left_index]
+        for right_index, right_char in enumerate(right, start=1):
+            current.append(
+                min(
+                    previous[right_index] + 1,
+                    current[right_index - 1] + 1,
+                    previous[right_index - 1] + (left_char != right_char),
+                )
+            )
+        previous = current
+    return previous[-1]
+
+
+def _jaro_winkler_similarity(left: str, right: str) -> float:
+    jaro = _jaro_similarity(left, right)
+    prefix = 0
+    for left_char, right_char in zip(left, right, strict=False):
+        if left_char != right_char or prefix == 4:
+            break
+        prefix += 1
+    return jaro + prefix * 0.1 * (1 - jaro)
+
+
+def _jaro_similarity(left: str, right: str) -> float:
+    if left == right:
+        return 1.0
+    if not left or not right:
+        return 0.0
+    match_distance = max(0, max(len(left), len(right)) // 2 - 1)
+    left_matches = [False] * len(left)
+    right_matches = [False] * len(right)
+    matches = 0
+    for left_index, left_char in enumerate(left):
+        start = max(0, left_index - match_distance)
+        end = min(left_index + match_distance + 1, len(right))
+        for right_index in range(start, end):
+            if right_matches[right_index] or left_char != right[right_index]:
+                continue
+            left_matches[left_index] = True
+            right_matches[right_index] = True
+            matches += 1
+            break
+    if matches == 0:
+        return 0.0
+    transpositions = 0
+    right_index = 0
+    for left_index, left_char in enumerate(left):
+        if not left_matches[left_index]:
+            continue
+        while not right_matches[right_index]:
+            right_index += 1
+        if left_char != right[right_index]:
+            transpositions += 1
+        right_index += 1
+    half_transpositions = transpositions / 2
+    return (
+        matches / len(left)
+        + matches / len(right)
+        + (matches - half_transpositions) / matches
+    ) / 3
 
 
 def _normalized_neighbourhood(term: OntologyTerm) -> frozenset[str]:
@@ -506,7 +619,45 @@ def _strongest_predicate(predicates: tuple[MappingPredicate, ...]) -> MappingPre
     return "skos:relatedMatch"
 
 
+def _fixture_source_terms() -> tuple[OntologyTerm, ...]:
+    return (
+        OntologyTerm(
+            "LKIF",
+            "permission",
+            "Permission",
+            synonyms=("authorization",),
+            parents=("legal effect",),
+        ),
+        OntologyTerm(
+            "LKIF",
+            "prohibition",
+            "Prohibition",
+            parents=("legal effect",),
+        ),
+    )
+
+
+def _fixture_target_terms() -> tuple[OntologyTerm, ...]:
+    return (
+        OntologyTerm(
+            "ODRL",
+            "permission",
+            "Permission",
+            synonyms=("allowance",),
+            parents=("policy rule", "legal effect"),
+        ),
+        OntologyTerm(
+            "ODRL",
+            "prohibition",
+            "Prohibition",
+            parents=("policy rule", "legal effect"),
+        ),
+    )
+
+
 __all__ = [
+    "INFERRED_MAPPING_MANIFEST_FILENAME",
+    "LLM_INTERPRETATION_PROMPT_FILENAME",
     "InferenceMethod",
     "InferredMappingCandidate",
     "OntologyTerm",
@@ -519,7 +670,9 @@ __all__ = [
     "llm_interpretation_prompt_schema",
     "merge_inferred_candidates",
     "normalize_mapping_text",
+    "repo_root",
     "slugify_mapping_token",
     "write_inferred_mapping_manifest",
     "write_llm_interpretation_prompt",
+    "write_track30_inference_artifacts",
 ]

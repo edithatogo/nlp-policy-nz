@@ -1,0 +1,97 @@
+{
+  "candidate_count": 4,
+  "candidates": [
+    {
+      "candidate_id": "inferred-lkif-permission-to-odrl-permission",
+      "confidence": 0.99,
+      "evidence": [
+        "normalized alias overlap: permission",
+        "fuzzy similarity 1.000: 'permission' ~ 'permission'",
+        "shared synonym group: allowance, authorization, permission",
+        "structural neighbourhood jaccard 0.500",
+        "embedding cosine similarity 1.000"
+      ],
+      "inferred": true,
+      "mapping_predicate": "skos:exactMatch",
+      "methods": [
+        "exact",
+        "synonym",
+        "fuzzy",
+        "structural",
+        "embedding"
+      ],
+      "review_status": "needs_review",
+      "source_label": "Permission",
+      "source_standard": "LKIF",
+      "source_term": "permission",
+      "target_label": "Permission",
+      "target_standard": "ODRL",
+      "target_term": "permission"
+    },
+    {
+      "candidate_id": "inferred-lkif-permission-to-odrl-prohibition",
+      "confidence": 0.7167,
+      "evidence": [
+        "structural neighbourhood jaccard 0.500"
+      ],
+      "inferred": true,
+      "mapping_predicate": "skos:relatedMatch",
+      "methods": [
+        "structural"
+      ],
+      "review_status": "needs_review",
+      "source_label": "Permission",
+      "source_standard": "LKIF",
+      "source_term": "permission",
+      "target_label": "Prohibition",
+      "target_standard": "ODRL",
+      "target_term": "prohibition"
+    },
+    {
+      "candidate_id": "inferred-lkif-prohibition-to-odrl-permission",
+      "confidence": 0.7167,
+      "evidence": [
+        "structural neighbourhood jaccard 0.500"
+      ],
+      "inferred": true,
+      "mapping_predicate": "skos:relatedMatch",
+      "methods": [
+        "structural"
+      ],
+      "review_status": "needs_review",
+      "source_label": "Prohibition",
+      "source_standard": "LKIF",
+      "source_term": "prohibition",
+      "target_label": "Permission",
+      "target_standard": "ODRL",
+      "target_term": "permission"
+    },
+    {
+      "candidate_id": "inferred-lkif-prohibition-to-odrl-prohibition",
+      "confidence": 0.99,
+      "evidence": [
+        "normalized alias overlap: prohibition",
+        "fuzzy similarity 1.000: 'prohibition' ~ 'prohibition'",
+        "structural neighbourhood jaccard 0.500",
+        "embedding cosine similarity 1.000"
+      ],
+      "inferred": true,
+      "mapping_predicate": "skos:exactMatch",
+      "methods": [
+        "exact",
+        "fuzzy",
+        "structural",
+        "embedding"
+      ],
+      "review_status": "needs_review",
+      "source_label": "Prohibition",
+      "source_standard": "LKIF",
+      "source_term": "prohibition",
+      "target_label": "Prohibition",
+      "target_standard": "ODRL",
+      "target_term": "prohibition"
+    }
+  ],
+  "schema_version": "1.0",
+  "track_id": "track30_ontology_mapping_inference_20260625"
+}
