@@ -7,6 +7,8 @@
 - `artifacts/manuscript/manuscript.md`
 - `artifacts/manuscript/supplement.md`
 - `artifacts/manuscript/manuscript_review_log.json`
+- `scripts/manuscript/main.tex`
+- `scripts/manuscript/Makefile`
 - `.github/workflows/manuscript-review.yml`
 - `tests/test_track37_manuscript_review.py`
 - `tests/test_track37_conductor.py`

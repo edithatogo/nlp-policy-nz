@@ -58,6 +58,18 @@ def test_checked_in_track37_artifacts_match_writer(tmp_path: Path) -> None:
         )
 
 
+def test_root_manuscript_latex_scaffold_matches_generated_bundle() -> None:
+    """The repo-level LaTeX scaffold should mirror the generated arXiv bundle."""
+    for filename in ("main.tex", "macros.tex", "references.bib", "Makefile"):
+        root_file = Path("scripts") / "manuscript" / filename
+        generated_file = Path("artifacts") / "manuscript" / "scripts" / "manuscript" / filename
+
+        assert root_file.is_file()
+        assert root_file.read_text(encoding="utf-8") == generated_file.read_text(
+            encoding="utf-8"
+        )
+
+
 def test_track37_cli_dispatches_writer(tmp_path: Path) -> None:
     """The CLI should dispatch to the Track 37 manuscript writer."""
     output_dir = tmp_path / "manuscript"

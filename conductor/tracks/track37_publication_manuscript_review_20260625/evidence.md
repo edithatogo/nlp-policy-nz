@@ -14,6 +14,10 @@
 - `artifacts/manuscript/scripts/manuscript/macros.tex`
 - `artifacts/manuscript/scripts/manuscript/references.bib`
 - `artifacts/manuscript/scripts/manuscript/Makefile`
+- `scripts/manuscript/main.tex`
+- `scripts/manuscript/macros.tex`
+- `scripts/manuscript/references.bib`
+- `scripts/manuscript/Makefile`
 
 ## Source implementation
 
