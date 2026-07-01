@@ -859,7 +859,10 @@ def main(argv: list[str] | None = None) -> int:
                 records=records,
                 markdown_path=args.markdown,
             )
-            logger.info("Corpus statistics artifacts written: %s", sorted(str(path) for path in written.values()))
+            logger.info(
+                "Corpus statistics artifacts written: %s",
+                sorted(str(path) for path in written.values()),
+            )
 
         else:
             parser.print_help()
