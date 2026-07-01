@@ -26,7 +26,7 @@
 - `python -B -m pytest -p no:cacheprovider -q tests\test_argument.py tests\test_stance.py tests\test_argument_training.py tests\test_argument_api_graph.py tests\test_track13_evidence.py tests\test_storage.py --basetemp C:\tmp\nlp-policy-nz-track13-final3` -> 35 passed
 - `python -m ruff check --no-cache src\nlp_policy_nz\discourse src\nlp_policy_nz\training\track13_evidence.py src\nlp_policy_nz\training\data.py src\nlp_policy_nz\training\trainers.py src\nlp_policy_nz\training\__init__.py src\nlp_policy_nz\cli\graph.py src\nlp_policy_nz\api\server.py src\nlp_policy_nz\storage\serialization.py src\nlp_policy_nz\pipeline_api.py tests\test_argument.py tests\test_stance.py tests\test_argument_training.py tests\test_argument_api_graph.py tests\test_track13_evidence.py` -> passed
 - `python -B -m py_compile src\nlp_policy_nz\discourse\argument.py src\nlp_policy_nz\discourse\stance.py src\nlp_policy_nz\training\track13_evidence.py` -> passed
-- `python -B -m json.tool conductor\tracks\track13_argument_stance_20260613\metadata.json > nul` -> passed
+- `python -B -m json.tool conductor\tracks\archive\track13_argument_stance_20260613\metadata.json > nul` -> passed
 
 ## External Gates Still Required
 
@@ -90,4 +90,4 @@
 - Track 13 closed out after review and archive preparation on 2026-06-29.
 - Verification:
   - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_track13_silver_labels.py --basetemp C:\tmp\nlp-policy-nz-track13-models` -> 10 passed.
-  - `.\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\track13_argument_stance_20260613\ai_provider_labelling_plan.json > $null` -> passed.
+  - `.\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\archive\track13_argument_stance_20260613\ai_provider_labelling_plan.json > $null` -> passed.

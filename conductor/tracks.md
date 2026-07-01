@@ -129,6 +129,12 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Knowledge Base Integration
 - **Why**: Link MPs, parties, electorates to Wikidata QIDs. Essential for corpus-nz-hansard speaker mapping.
 
+## [x] Track 13: Argument Mining & Policy Stance Detection (archived)
+*Link: [./conductor/tracks/archive/track13_argument_stance_20260613/](./conductor/tracks/archive/track13_argument_stance_20260613/)*
+- **Dependencies**: Track 5, Track 7
+- **Parallelization Node**: Discourse Analysis
+- **Why**: Detect Hansard argument components, support/attack relations, issue links, and pro/con/neutral policy stances while keeping gold-label and held-out model gates explicit.
+
 ## [x] Track 14: Akoma-Ntoso v3 Schema Compliance & Enrichment (archived)
 *Link: [./conductor/tracks/archive/track14_akoma_ntoso_v3_20260613/](./conductor/tracks/archive/track14_akoma_ntoso_v3_20260613/)*
 - **Dependencies**: Track 4

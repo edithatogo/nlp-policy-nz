@@ -82,7 +82,7 @@ Follow-up issue: https://github.com/edithatogo/nlp-policy-nz/issues/2
 | `tests/test_argument_api_graph.py` | Created |
 | `src/nlp_policy_nz/training/track13_evidence.py` | Created |
 | `tests/test_track13_evidence.py` | Created |
-| `conductor/tracks/track13_argument_stance_20260613/evidence.md` | Created |
+| `conductor/tracks/archive/track13_argument_stance_20260613/evidence.md` | Created |
 
 ## Verification
 
@@ -97,7 +97,7 @@ Follow-up issue: https://github.com/edithatogo/nlp-policy-nz/issues/2
 - `python -B -m pytest -p no:cacheprovider -q tests\test_argument.py tests\test_stance.py tests\test_argument_training.py tests\test_argument_api_graph.py tests\test_track13_evidence.py tests\test_storage.py --basetemp C:\tmp\nlp-policy-nz-track13-final3` -> 35 passed
 - `python -m ruff check --no-cache src\nlp_policy_nz\discourse src\nlp_policy_nz\training\track13_evidence.py src\nlp_policy_nz\training\data.py src\nlp_policy_nz\training\trainers.py src\nlp_policy_nz\training\__init__.py src\nlp_policy_nz\cli\graph.py src\nlp_policy_nz\api\server.py src\nlp_policy_nz\storage\serialization.py src\nlp_policy_nz\pipeline_api.py tests\test_argument.py tests\test_stance.py tests\test_argument_training.py tests\test_argument_api_graph.py tests\test_track13_evidence.py` -> passed; removed-rule warnings only
 - `python -B -m py_compile src\nlp_policy_nz\discourse\argument.py src\nlp_policy_nz\discourse\stance.py src\nlp_policy_nz\training\track13_evidence.py` -> passed
-- `python -B -m json.tool conductor\tracks\track13_argument_stance_20260613\metadata.json > nul` -> passed
+- `python -B -m json.tool conductor\tracks\archive\track13_argument_stance_20260613\metadata.json > nul` -> passed
 - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_track13_evidence.py --basetemp C:\tmp\nlp-policy-nz-track13-status` -> 7 passed
 - `.\.venv\Scripts\python.exe -m ruff check --no-cache src\nlp_policy_nz\training\track13_evidence.py src\nlp_policy_nz\training\__init__.py tests\test_track13_evidence.py` -> passed; removed-rule warnings only
 - `.\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_argument.py tests\test_stance.py tests\test_argument_training.py tests\test_argument_api_graph.py tests\test_track13_evidence.py tests\test_track13_external_gate_manifest.py tests\test_track13_silver_labels.py --basetemp C:\tmp\nlp-policy-nz-track13-broad` -> 31 passed
