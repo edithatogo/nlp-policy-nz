@@ -113,9 +113,8 @@ class TestProcessSubcommand:
                 "--no-embeddings",
             ]
         )
-        # We expect a non-zero exit because "." is not a valid input,
-        # but the key assertion is that argparse didn't reject the flag.
-        assert rc != 0  # Actual execution fails, but argument parsing succeeded.
+        # The key assertion is that argparse did not reject the flag.
+        assert rc != 2
 
     def test_process_source_choices(self) -> None:
         """``--source`` only accepts ``legislation`` or ``hansard``."""
