@@ -30,3 +30,11 @@ def test_track23_coverage_gate_is_repo_scoped_with_explicit_exclusions() -> None
         "*/nlp_policy_nz/universal_framework_v3.py",
         "*/nlp_policy_nz/universal_framework_v4.py",
     }
+
+
+def test_track23_ci_coverage_lane_does_not_claim_full_threshold() -> None:
+    """The targeted CI report lane should not enforce full-suite coverage."""
+    pixi = tomllib.loads(Path("pixi.toml").read_text(encoding="utf-8"))
+
+    assert "--cov-fail-under=0" in pixi["tasks"]["coverage-ci"]
+    assert "--cov-fail-under=0" not in pixi["tasks"]["coverage"]
