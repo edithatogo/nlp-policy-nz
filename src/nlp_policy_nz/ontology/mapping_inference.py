@@ -15,7 +15,15 @@ from nlp_policy_nz.ontology.mapping_graph import MappingPredicate, OntologyMappi
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-InferenceMethod = Literal["exact", "fuzzy", "synonym", "structural", "embedding", "llm_prompt"]
+InferenceMethod = Literal[
+    "exact",
+    "fuzzy",
+    "synonym",
+    "structural",
+    "triangulation",
+    "embedding",
+    "llm_prompt",
+]
 
 INFERRED_MAPPING_MANIFEST_FILENAME: Final[str] = "inferred_mapping_candidates.json"
 LLM_INTERPRETATION_PROMPT_FILENAME: Final[str] = "mapping_interpretation_prompt.json"
@@ -35,6 +43,7 @@ _METHOD_ORDER: Final[tuple[InferenceMethod, ...]] = (
     "synonym",
     "fuzzy",
     "structural",
+    "triangulation",
     "embedding",
     "llm_prompt",
 )
@@ -307,6 +316,33 @@ def infer_embedding_matches(
     return tuple(candidates)
 
 
+def infer_triangulated_matches(
+    source_terms: tuple[OntologyTerm, ...],
+    target_terms: tuple[OntologyTerm, ...],
+    *,
+    bridge_mappings: tuple[OntologyMappingRecord, ...],
+) -> tuple[InferredMappingCandidate, ...]:
+    """Infer candidates by triangulating through reviewed third-party mappings."""
+    bridge_edges = _reviewed_bridge_edges(bridge_mappings)
+    candidates: list[InferredMappingCandidate] = []
+    for source in source_terms:
+        for target in target_terms:
+            shared = sorted(bridge_edges[source.key].intersection(bridge_edges[target.key]))
+            if not shared:
+                continue
+            candidates.append(
+                InferredMappingCandidate(
+                    source=source,
+                    target=target,
+                    mapping_predicate="skos:closeMatch",
+                    methods=("triangulation",),
+                    confidence=0.81,
+                    evidence=(f"third-party bridge path through: {shared[0]}",),
+                )
+            )
+    return tuple(candidates)
+
+
 def merge_inferred_candidates(
     candidates: tuple[InferredMappingCandidate, ...],
 ) -> tuple[InferredMappingCandidate, ...]:
@@ -349,6 +385,7 @@ def infer_mapping_candidates(
     synonym_groups: tuple[tuple[str, ...], ...] = (),
     source_vectors: dict[str, tuple[float, ...]] | None = None,
     target_vectors: dict[str, tuple[float, ...]] | None = None,
+    bridge_mappings: tuple[OntologyMappingRecord, ...] = (),
     embed_texts: Callable[[tuple[str, ...]], tuple[tuple[float, ...], ...]] | None = None,
     fuzzy_threshold: float = 0.84,
     structural_threshold: float = 0.5,
@@ -370,6 +407,11 @@ def infer_mapping_candidates(
         *infer_fuzzy_matches(source_terms, target_terms, threshold=fuzzy_threshold),
         *infer_synonym_matches(source_terms, target_terms, synonym_groups=synonym_groups),
         *infer_structural_matches(source_terms, target_terms, threshold=structural_threshold),
+        *infer_triangulated_matches(
+            source_terms,
+            target_terms,
+            bridge_mappings=bridge_mappings,
+        ),
         *embedding_candidates,
     )
     return merge_inferred_candidates(candidates)
@@ -404,6 +446,7 @@ def write_track30_inference_artifacts(output_dir: Path | str | None = None) -> d
         synonym_groups=(("permission", "allowance", "authorization"),),
         source_vectors={"LKIF::permission": (1.0, 0.0), "LKIF::prohibition": (0.0, 1.0)},
         target_vectors={"ODRL::permission": (0.98, 0.02), "ODRL::prohibition": (0.02, 0.98)},
+        bridge_mappings=_fixture_bridge_mappings(),
         structural_threshold=0.4,
         embedding_threshold=0.9,
     )
@@ -611,6 +654,26 @@ def _cosine_similarity(left: tuple[float, ...], right: tuple[float, ...]) -> flo
     return dot / (left_norm * right_norm)
 
 
+def _reviewed_bridge_edges(
+    mappings: tuple[OntologyMappingRecord, ...],
+) -> dict[str, frozenset[str]]:
+    edges: dict[str, set[str]] = defaultdict(set)
+    for mapping in mappings:
+        if mapping.review_status != "approved":
+            continue
+        source_key = f"{mapping.source_standard}::{mapping.source_term}"
+        target_key = f"{mapping.target_standard}::{mapping.target_term}"
+        edges[source_key].add(target_key)
+        if mapping.mapping_predicate in {
+            "skos:exactMatch",
+            "skos:closeMatch",
+            "owl:equivalentClass",
+            "owl:equivalentProperty",
+        }:
+            edges[target_key].add(source_key)
+    return defaultdict(frozenset, {key: frozenset(value) for key, value in edges.items()})
+
+
 def _strongest_predicate(predicates: tuple[MappingPredicate, ...]) -> MappingPredicate:
     predicate_set = set(predicates)
     for predicate in _STRONGEST_PREDICATES:
@@ -655,6 +718,33 @@ def _fixture_target_terms() -> tuple[OntologyTerm, ...]:
     )
 
 
+def _fixture_bridge_mappings() -> tuple[OntologyMappingRecord, ...]:
+    return (
+        OntologyMappingRecord(
+            mapping_id="fixture-lkif-permission-to-akn-permission",
+            source_standard="LKIF",
+            target_standard="Akoma Ntoso",
+            source_term="permission",
+            target_term="permission",
+            mapping_predicate="skos:closeMatch",
+            confidence=0.82,
+            method="fixture third-party bridge",
+            provenance="src/nlp_policy_nz/ontology/mapping_inference.py",
+        ),
+        OntologyMappingRecord(
+            mapping_id="fixture-akn-permission-to-odrl-permission",
+            source_standard="Akoma Ntoso",
+            target_standard="ODRL",
+            source_term="permission",
+            target_term="permission",
+            mapping_predicate="skos:closeMatch",
+            confidence=0.8,
+            method="fixture third-party bridge",
+            provenance="src/nlp_policy_nz/ontology/mapping_inference.py",
+        ),
+    )
+
+
 __all__ = [
     "INFERRED_MAPPING_MANIFEST_FILENAME",
     "LLM_INTERPRETATION_PROMPT_FILENAME",
@@ -667,6 +757,7 @@ __all__ = [
     "infer_mapping_candidates",
     "infer_structural_matches",
     "infer_synonym_matches",
+    "infer_triangulated_matches",
     "llm_interpretation_prompt_schema",
     "merge_inferred_candidates",
     "normalize_mapping_text",

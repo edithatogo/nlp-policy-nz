@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from nlp_policy_nz.ontology.mapping_graph import OntologyMappingRecord
 from nlp_policy_nz.ontology.mapping_inference import (
     INFERRED_MAPPING_MANIFEST_FILENAME,
     LLM_INTERPRETATION_PROMPT_FILENAME,
@@ -15,6 +16,7 @@ from nlp_policy_nz.ontology.mapping_inference import (
     infer_mapping_candidates,
     infer_structural_matches,
     infer_synonym_matches,
+    infer_triangulated_matches,
     llm_interpretation_prompt_schema,
     normalize_mapping_text,
     write_inferred_mapping_manifest,
@@ -118,6 +120,46 @@ def test_synonym_and_structural_evidence_are_reviewable() -> None:
     assert "structural neighbourhood" in structural[0].evidence[0]
 
 
+def test_triangulated_matches_use_reviewed_third_party_bridge() -> None:
+    """Triangulation should infer reviewable mappings through bridge standards."""
+    source_terms = (OntologyTerm("LKIF", "permission", "Permission"),)
+    target_terms = (OntologyTerm("ODRL", "permission", "Permission"),)
+    bridge_mappings = (
+        OntologyMappingRecord(
+            mapping_id="lkif-permission-to-akn-permission",
+            source_standard="LKIF",
+            target_standard="Akoma Ntoso",
+            source_term="permission",
+            target_term="permission",
+            mapping_predicate="skos:closeMatch",
+            confidence=0.82,
+            method="test bridge",
+            provenance="tests/test_track30_mapping_inference.py",
+        ),
+        OntologyMappingRecord(
+            mapping_id="akn-permission-to-odrl-permission",
+            source_standard="Akoma Ntoso",
+            target_standard="ODRL",
+            source_term="permission",
+            target_term="permission",
+            mapping_predicate="skos:closeMatch",
+            confidence=0.8,
+            method="test bridge",
+            provenance="tests/test_track30_mapping_inference.py",
+        ),
+    )
+
+    candidates = infer_triangulated_matches(
+        source_terms,
+        target_terms,
+        bridge_mappings=bridge_mappings,
+    )
+
+    assert candidates[0].methods == ("triangulation",)
+    assert candidates[0].review_status == "needs_review"
+    assert "third-party bridge path" in candidates[0].evidence[0]
+
+
 def test_embedding_matches_use_supplied_vectors_without_model_download() -> None:
     """Embedding inference should work from offline precomputed vectors."""
     source_terms = (
@@ -183,14 +225,38 @@ def test_merged_candidates_export_to_track29_mapping_record() -> None:
         source_terms,
         target_terms,
         synonym_groups=(("permission", "allowance"),),
+        bridge_mappings=(
+            OntologyMappingRecord(
+                mapping_id="lkif-permission-to-akn-permission",
+                source_standard="LKIF",
+                target_standard="Akoma Ntoso",
+                source_term="permission",
+                target_term="permission",
+                mapping_predicate="skos:closeMatch",
+                confidence=0.82,
+                method="test bridge",
+                provenance="tests/test_track30_mapping_inference.py",
+            ),
+            OntologyMappingRecord(
+                mapping_id="akn-permission-to-odrl-permission",
+                source_standard="Akoma Ntoso",
+                target_standard="ODRL",
+                source_term="permission",
+                target_term="permission",
+                mapping_predicate="skos:closeMatch",
+                confidence=0.8,
+                method="test bridge",
+                provenance="tests/test_track30_mapping_inference.py",
+            ),
+        ),
         structural_threshold=0.4,
     )
     record = candidates[0].to_mapping_record("tests/test_track30_mapping_inference.py")
 
-    assert candidates[0].methods == ("exact", "synonym", "fuzzy", "structural")
+    assert candidates[0].methods == ("exact", "synonym", "fuzzy", "structural", "triangulation")
     assert candidates[0].confidence > 0.95
     assert record.review_status == "needs_review"
-    assert record.method == "inferred:exact,synonym,fuzzy,structural"
+    assert record.method == "inferred:exact,synonym,fuzzy,structural,triangulation"
     assert record.notes.endswith("inferred=true")
 
 

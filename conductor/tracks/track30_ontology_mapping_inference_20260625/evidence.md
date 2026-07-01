@@ -2,11 +2,11 @@
 
 ## Repo-Side Implementation
 
-- Added `src/nlp_policy_nz/ontology/mapping_inference.py` with deterministic inference helpers for exact normalized alias overlap, `difflib`, Levenshtein, and Jaro-Winkler fuzzy lexical similarity, supplied synonym groups, structural neighbourhood overlap, embedding-vector cosine similarity, method-agreement scoring, candidate manifests, and optional LLM prompt contracts.
+- Added `src/nlp_policy_nz/ontology/mapping_inference.py` with deterministic inference helpers for exact normalized alias overlap, `difflib`, Levenshtein, and Jaro-Winkler fuzzy lexical similarity, supplied synonym groups, structural neighbourhood overlap, triangulation through reviewed third-party bridge mappings, embedding-vector cosine similarity, method-agreement scoring, candidate manifests, and optional LLM prompt contracts.
 - Added `InferredMappingCandidate.to_mapping_record()` so candidates can feed Track 29 as `OntologyMappingRecord` edges with `review_status="needs_review"` and `inferred=true` provenance notes.
 - Added `data/ontologies/inferred_mapping_candidates.json` as a checked-in review queue generated from deterministic Track 30 fixtures.
 - Added `data/ontologies/inference_prompts/mapping_interpretation_prompt.json` as an offline structured-output contract for future LLM-assisted interpretation.
-- Added `tests/test_track30_mapping_inference.py` covering positive mappings, negative exact-match behavior, Levenshtein/Jaro-Winkler fuzzy variants, synonym/structural evidence, embedding-vector inference, Track 29 export, and artifact round trips.
+- Added `tests/test_track30_mapping_inference.py` covering positive mappings, negative exact-match behavior, Levenshtein/Jaro-Winkler fuzzy variants, synonym/structural/triangulation evidence, embedding-vector inference, Track 29 export, and artifact round trips.
 - Added `tests/test_track30_conductor.py` covering registry state, metadata, evidence links, and checked-in review-only artifacts.
 
 ## Boundaries

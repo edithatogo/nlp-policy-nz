@@ -1,7 +1,7 @@
 # Ontology Mapping Knowledge Graph
 
 Track 29 records explicit ontology mappings as a source-grounded knowledge graph.
-It does not infer mappings; inferred mappings belong in Track 30.
+It doesn't infer mappings; inferred mappings belong in Track 30.
 
 ## Artifacts
 
@@ -34,13 +34,13 @@ Supported predicates include `skos:exactMatch`, `skos:closeMatch`,
 
 The initial mapping graph includes explicit reviewed mappings for:
 
-- LKIF normative effects to Akoma Ntoso and ODRL targets;
+- LKIF normative effects to AKN and ODRL targets;
 - FOAF `Person` to schema.org `Person`;
-- SIOC discourse posts to Akoma Ntoso debate speech;
+- SIOC discourse posts to AKN debate speech;
 - PROV-O entities to DCAT datasets;
 - DCAT to data.govt.nz and NZGLS dataset/resource metadata;
 - AGLS to NZGLS resource metadata;
-- extraction families to Catala, OWL-Time, and SKOS targets.
+- extraction families to rules-as-code, OWL-Time, and SKOS targets.
 
 Mappings with `needs_review` status are retained for inspection but excluded
 from equivalent-concept resolution helpers.
@@ -63,8 +63,10 @@ paths = traverse_mappings("Permission", "LKIF", max_hops=2)
 
 ## Known Gaps
 
-- The graph is explicit only; it does not claim inferred class equivalence.
+- The graph is explicit only; it doesn't claim inferred class equivalence.
 - Some mappings are close matches rather than semantic parity.
-- Catala and extraction-family mappings require downstream review before code
+- Rules-as-code and extraction-family mappings require downstream review before code
   generation.
-- SHACL validation shapes and mapping inference are later-track work.
+- SHACL validation shapes remain later-track work. Track 30 now provides
+  review-only mapping inference candidates; explicit mappings in this document
+  remain authoritative only after review.

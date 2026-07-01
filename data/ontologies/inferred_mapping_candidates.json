@@ -9,6 +9,7 @@
         "fuzzy similarity 1.000: 'permission' ~ 'permission'",
         "shared synonym group: allowance, authorization, permission",
         "structural neighbourhood jaccard 0.500",
+        "third-party bridge path through: Akoma Ntoso::permission",
         "embedding cosine similarity 1.000"
       ],
       "inferred": true,
@@ -18,6 +19,7 @@
         "synonym",
         "fuzzy",
         "structural",
+        "triangulation",
         "embedding"
       ],
       "review_status": "needs_review",
