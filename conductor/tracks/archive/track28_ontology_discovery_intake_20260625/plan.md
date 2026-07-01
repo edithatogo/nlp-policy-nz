@@ -14,7 +14,7 @@
 | 4 | Search rules-as-code tooling: OpenFisca, PolicyEngine, Catala, Docassemble, ErgoAI, Stoica | [x] | Rules-as-code candidates in discovery log |
 | 5 | Record candidate metadata: name, source URL, authority, license, format, NZ relevance score, implementation effort estimate | [x] | `data/ontologies/track28_discovery_log.json` |
 | 6 | Score candidates on authority (W3C REC > community draft), NZ applicability, interoperability with existing ontologies, license/access restrictions, maintenance status | [x] | `data/ontologies/track28_triage.json` |
-| 7 | Add approved candidates to `data/ontologies/standards_registry.json` (from Track 26) and update blocker register with data-access blockers | [x] | `track28_standards_registry_addendum.json`, `track28_blockers.json` |
+| 7 | Add approved candidates as a Track 26 registry addendum and update blocker register with data-access blockers | [x] | `track28_standards_registry_addendum.json`, `track28_blockers.json` |
 | 8 | Write tests validating candidate scoring and registry integrity | [x] | `tests/test_track28_ontology_discovery.py` |
 
 ## Evidence Boundary
