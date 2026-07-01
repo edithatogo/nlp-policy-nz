@@ -114,3 +114,17 @@ def test_fixture_vector_records_are_deterministic() -> None:
         record.record_id for record in records
     )
     assert all(len(record.vector) == 4 for record in records)
+
+
+def test_empty_vector_records_report_blocker_without_crashing() -> None:
+    """Supplying no vector records should produce a bounded blocker report."""
+    bundle = build_graph_vector_network_analysis(vector_records=())
+
+    assert bundle.vector_metrics["summary"]["vector_count"] == 0
+    assert bundle.vector_metrics["summary"]["dimension_count"] == 0
+    assert bundle.vector_metrics["nearest_neighbors"] == {}
+    assert bundle.vector_metrics["clusters"]["assignments"] == []
+    assert any(
+        blocker["blocker_type"] == "document_vectors_unavailable"
+        for blocker in bundle.blockers
+    )

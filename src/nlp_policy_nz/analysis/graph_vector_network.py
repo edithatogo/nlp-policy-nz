@@ -281,6 +281,22 @@ def _graph_metrics(graph: nx.Graph) -> dict[str, Any]:
 
 
 def _vector_metrics(records: tuple[VectorAnalysisRecord, ...]) -> dict[str, Any]:
+    if not records:
+        return {
+            "summary": {
+                "vector_count": 0,
+                "dimension_count": 0,
+                "kind_counts": {},
+                "mean_norm": 0.0,
+            },
+            "nearest_neighbors": {},
+            "pca_projection": [],
+            "clusters": {
+                "cluster_count": 0,
+                "assignments": [],
+                "silhouette_score": 0.0,
+            },
+        }
     matrix = np.array([record.vector for record in records], dtype=float)
     nearest = _nearest_neighbors(records, matrix)
     projections = _pca_projection(records, matrix)
