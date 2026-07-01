@@ -35,3 +35,7 @@ analysis layer:
   and explicit full graph/vector corpus blockers.
 - `nlp-policy-nz graph-vector-analysis` exposes the writer for CI and
   reproducible local generation.
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions aa2f6c6
