@@ -422,10 +422,3 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Performance and Runtime Modernization
 - **Why**: Evaluate Pydantic-core, msgspec, orjson, Polars/Arrow, Rust tokenizers, and possible PyO3/maturin extensions for extraction performance while keeping the Python API and downstream export schemas stable.
 
-## [x] Track 57: LanceDB-First Vector Store Consolidation
-*Link: [./conductor/tracks/track57_lancedb_vector_consolidation_20260701/](./conductor/tracks/track57_lancedb_vector_consolidation_20260701/)*
-- **Dependencies**: Tracks 6, 23, 33, 44, 56
-- **Parallelization Node**: Storage Dependency Consolidation
-- **Why**: Consolidate vector storage around LanceDB as the default local/serverless backend, migrate generic Qdrant workflows/tests to LanceDB-equivalent coverage unless a remote-service requirement is proven, keep Qdrant as an optional remote-service adapter, demote FAISS to an optional benchmark extra, and evaluate DuckDB VSS as an experimental analytics path over Parquet rather than a primary vector-store replacement.
-
-
