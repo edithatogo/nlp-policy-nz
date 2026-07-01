@@ -27,8 +27,8 @@ The audit covers the standards requested by the Track 25 specification, includin
 ## Validation commands
 
 ```powershell
-pixi run python -m pytest -q tests\test_track25_ontology_coverage.py tests\test_track26_standards_registry.py
-pixi run python -m ruff check --no-cache src\nlp_policy_nz\quality\track25_ontology_coverage.py tests\test_track25_ontology_coverage.py tests\test_track26_standards_registry.py
+pixi run python -m pytest -q tests\test_track25_ontology_coverage.py tests\test_track25_conductor.py tests\test_track26_standards_registry.py
+pixi run python -m ruff check --no-cache src\nlp_policy_nz\quality\track25_ontology_coverage.py tests\test_track25_ontology_coverage.py tests\test_track25_conductor.py tests\test_track26_standards_registry.py
 ```
 
 ## Residual scope
