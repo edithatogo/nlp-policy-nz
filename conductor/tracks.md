@@ -195,8 +195,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: NZ Ontology Induction
 - **Why**: Induce New Zealand-specific ontology candidates for legal, parliamentary, policy, rules-as-code, graph, vector, and publication applications.
 
-## [x] Track 33: Graph, Vector, and Network Analysis
-*Link: [./conductor/tracks/track33_graph_vector_network_analysis_20260625/](./conductor/tracks/track33_graph_vector_network_analysis_20260625/)*
+## [x] Track 33: Graph, Vector, and Network Analysis (archived)
+*Link: [./conductor/tracks/archive/track33_graph_vector_network_analysis_20260625/](./conductor/tracks/archive/track33_graph_vector_network_analysis_20260625/)*
 - **Dependencies**: Tracks 17, 29, 31-32
 - **Parallelization Node**: Graph and Embedding Analytics
 - **Why**: Analyse the knowledge graph, vector spaces, network structure, ontology links, and graph/vector relationships across the corpus.
