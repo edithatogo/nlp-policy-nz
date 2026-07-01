@@ -353,8 +353,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Model Evaluation and Selection
 - **Why**: Compare `isaacus/emubert`, `nlpaueb/legal-bert-base-uncased`, `Equall/Saul-7B-Instruct-v1`, `isaacus/open-australian-legal-llm`, and Kanon-style retrieval candidates for NZ legal NLP model selection and follow-up fine-tuning.
 
-## [x] Track 54: Axiom Foundation Interoperability
-*Link: [./conductor/tracks/track54_axiom_foundation_interop_20260629/](./conductor/tracks/track54_axiom_foundation_interop_20260629/)*
+## [x] Track 54: Axiom Foundation Interoperability (archived)
+*Link: [./conductor/tracks/archive/track54_axiom_foundation_interop_20260629/](./conductor/tracks/archive/track54_axiom_foundation_interop_20260629/)*
 - **Dependencies**: Tracks 18, 22, 27
 - **Parallelization Node**: External Legal Source and Rules-as-Code Interoperability
 - **Why**: Capture selective Axiom Foundation integration as repo-side source-section metadata, source hash staleness checks, RuleSpec identity bridge, bill/Hansard linkage scaffolding, and explicit documentation of which Axiom repositories should be used as code, design reference, future ideas, or historical context.

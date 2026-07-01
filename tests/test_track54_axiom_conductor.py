@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-TRACK54 = Path("conductor/tracks/track54_axiom_foundation_interop_20260629")
+TRACK54 = Path("conductor/tracks/archive/track54_axiom_foundation_interop_20260629")
 
 
 def _read(name: str) -> str:
@@ -15,12 +15,16 @@ def test_track54_conductor_track_is_registered_and_complete() -> None:
     registry = Path("conductor/tracks.md").read_text(encoding="utf-8")
 
     assert metadata["track_id"] == "track54_axiom_foundation_interop_20260629"
-    assert metadata["status"] == "completed"
+    assert metadata["status"] == "archived"
     assert metadata["type"] == "feature"
     assert str(TRACK54).replace("\\", "/") in registry
+    assert "## [x] Track 54: Axiom Foundation Interoperability (archived)" in registry
 
     for required_file in ("index.md", "metadata.json", "plan.md", "spec.md", "evidence.md"):
         assert TRACK54.joinpath(required_file).is_file()
+
+    index = _read("index.md")
+    assert "evidence.md" in index
 
 
 def test_track54_records_offline_axiom_integration_boundaries() -> None:
