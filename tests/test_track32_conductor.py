@@ -15,10 +15,11 @@ def test_track32_conductor_artifacts_mark_complete() -> None:
     plan = TRACK_DIR.joinpath("plan.md").read_text(encoding="utf-8")
     tracks = Path("conductor/tracks.md").read_text(encoding="utf-8")
 
-    assert metadata["status"] == "complete"
+    assert metadata["status"] == "archived"
     assert "**Status**: Complete" in spec
     assert "**Status**: Complete" in plan
-    assert "## [x] Track 32: Whole-Corpus Descriptive Statistics" not in tracks
+    assert "## [x] Track 32: Whole-Corpus Descriptive Statistics (archived)" in tracks
+    assert str(TRACK_DIR).replace("\\", "/") in tracks
     assert "- [ ]" not in spec
 
 
