@@ -1,0 +1,537 @@
+{
+  "concepts": [
+    {
+      "application_area": "act_structure",
+      "authority": "induced_nz",
+      "broader": [],
+      "concept_id": "NZActOntology",
+      "confidence": 0.86,
+      "definition": "NZ-specific ontology for Acts, Bills, provisions, amendments, and commencement.",
+      "evidence": [
+        {
+          "evidence_id": "coverage-akn-legal-docml-akoma-ntoso",
+          "evidence_type": "track25_coverage_row",
+          "source": "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py",
+          "value": "implemented coverage for Akoma Ntoso: Document emitters support amendment, bill, debate, and judgment formats."
+        }
+      ],
+      "kind": "class",
+      "label": "NZ Act ontology",
+      "ontology_anchors": [
+        {
+          "mapping_id": "sioc-post-to-akn-debate",
+          "predicate": "skos:closeMatch",
+          "standard": "Akoma Ntoso",
+          "term": "act"
+        },
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "ELI",
+          "term": "LegalResource"
+        }
+      ],
+      "related": [],
+      "review_status": "needs_review",
+      "uri": "https://legal-nz.example.org/ontology/nz/NZActOntology"
+    },
+    {
+      "application_area": "court_hierarchy",
+      "authority": "induced_nz",
+      "broader": [
+        "NZCourtOntology"
+      ],
+      "concept_id": "NZCourtLevel",
+      "confidence": 0.72,
+      "definition": "A controlled court hierarchy level used for judgment and citation metadata.",
+      "evidence": [
+        {
+          "evidence_id": "coverage-akn-legal-docml-ecli",
+          "evidence_type": "track25_coverage_row",
+          "source": "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py",
+          "value": "missing coverage for ECLI: Judgment support exists, but not the authoritative citation layer."
+        }
+      ],
+      "kind": "controlled_vocabulary",
+      "label": "NZ court level",
+      "ontology_anchors": [
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "SKOS",
+          "term": "Concept"
+        }
+      ],
+      "related": [],
+      "review_status": "needs_review",
+      "uri": "https://legal-nz.example.org/ontology/nz/NZCourtLevel"
+    },
+    {
+      "application_area": "court_hierarchy",
+      "authority": "induced_nz",
+      "broader": [],
+      "concept_id": "NZCourtOntology",
+      "confidence": 0.74,
+      "definition": "NZ-specific ontology for courts, court levels, judgments, and case citations.",
+      "evidence": [
+        {
+          "evidence_id": "coverage-akn-legal-docml-ecli",
+          "evidence_type": "track25_coverage_row",
+          "source": "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py",
+          "value": "missing coverage for ECLI: Judgment support exists, but not the authoritative citation layer."
+        }
+      ],
+      "kind": "class",
+      "label": "NZ court ontology",
+      "ontology_anchors": [
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "ECLI",
+          "term": "court"
+        },
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "schema.org",
+          "term": "Court"
+        }
+      ],
+      "related": [],
+      "review_status": "needs_review",
+      "uri": "https://legal-nz.example.org/ontology/nz/NZCourtOntology"
+    },
+    {
+      "application_area": "hansard_debate_topics",
+      "authority": "induced_nz",
+      "broader": [
+        "NZHansardOntology"
+      ],
+      "concept_id": "NZDebateTopic",
+      "confidence": 0.78,
+      "definition": "A reviewable topic label induced from debate text and publication metadata.",
+      "evidence": [
+        {
+          "evidence_id": "coverage-knowledge-graph-exports-skos",
+          "evidence_type": "track25_coverage_row",
+          "source": "data/ontologies/nz_wikidata_map.ttl, src/nlp_policy_nz/kb/wikidata_kg.py",
+          "value": "missing coverage for SKOS: SKOS is the missing substrate for controlled vocabularies here."
+        }
+      ],
+      "kind": "controlled_vocabulary",
+      "label": "NZ debate topic",
+      "ontology_anchors": [
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "SKOS",
+          "term": "Concept"
+        }
+      ],
+      "related": [],
+      "review_status": "needs_review",
+      "uri": "https://legal-nz.example.org/ontology/nz/NZDebateTopic"
+    },
+    {
+      "application_area": "government_agencies",
+      "authority": "induced_nz",
+      "broader": [],
+      "concept_id": "NZGovernmentAgencyOntology",
+      "confidence": 0.78,
+      "definition": "NZ-specific ontology for agencies, offices, portfolios, and public organizations.",
+      "evidence": [
+        {
+          "evidence_id": "coverage-knowledge-graph-exports-w3c-org",
+          "evidence_type": "track25_coverage_row",
+          "source": "data/ontologies/nz_wikidata_map.ttl, src/nlp_policy_nz/kb/wikidata_kg.py",
+          "value": "missing coverage for W3C ORG: Would strengthen the actor and institution layer."
+        }
+      ],
+      "kind": "class",
+      "label": "NZ government agency ontology",
+      "ontology_anchors": [
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "W3C ORG",
+          "term": "Organization"
+        },
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "Popolo",
+          "term": "Organization"
+        }
+      ],
+      "related": [],
+      "review_status": "needs_review",
+      "uri": "https://legal-nz.example.org/ontology/nz/NZGovernmentAgencyOntology"
+    },
+    {
+      "application_area": "hansard_debate_topics",
+      "authority": "induced_nz",
+      "broader": [],
+      "concept_id": "NZHansardOntology",
+      "confidence": 0.84,
+      "definition": "NZ-specific ontology for debate speeches, topics, questions, and votes.",
+      "evidence": [
+        {
+          "evidence_id": "mapping-sioc-post-to-akn-debate",
+          "evidence_type": "track29_mapping_record",
+          "source": "src/nlp_policy_nz/ontology/mapping_graph.py",
+          "value": "sioc-post-to-akn-debate"
+        }
+      ],
+      "kind": "class",
+      "label": "NZ Hansard ontology",
+      "ontology_anchors": [
+        {
+          "mapping_id": "sioc-post-to-akn-debate",
+          "predicate": "skos:closeMatch",
+          "standard": "SIOC",
+          "term": "Post"
+        }
+      ],
+      "related": [],
+      "review_status": "needs_review",
+      "uri": "https://legal-nz.example.org/ontology/nz/NZHansardOntology"
+    },
+    {
+      "application_area": "act_structure",
+      "authority": "induced_nz",
+      "broader": [
+        "NZActOntology"
+      ],
+      "concept_id": "NZProvision",
+      "confidence": 0.82,
+      "definition": "A section, clause, schedule item, or regulation provision with stable anchors.",
+      "evidence": [
+        {
+          "evidence_id": "coverage-akn-legal-docml-eli",
+          "evidence_type": "track25_coverage_row",
+          "source": "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py",
+          "value": "missing coverage for ELI: This is the primary legislative identifier layer missing from the repo."
+        }
+      ],
+      "kind": "class",
+      "label": "NZ provision",
+      "ontology_anchors": [
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "schema.org/Legislation",
+          "term": "legislationSection"
+        }
+      ],
+      "related": [],
+      "review_status": "needs_review",
+      "uri": "https://legal-nz.example.org/ontology/nz/NZProvision"
+    },
+    {
+      "application_area": "government_agencies",
+      "authority": "authoritative_external",
+      "broader": [
+        "NZGovernmentAgencyOntology"
+      ],
+      "concept_id": "NZPublicOrganization",
+      "confidence": 0.88,
+      "definition": "A government department, Crown entity, office, or agency in NZ public sector data.",
+      "evidence": [
+        {
+          "evidence_id": "coverage-knowledge-graph-exports-w3c-org",
+          "evidence_type": "track25_coverage_row",
+          "source": "data/ontologies/nz_wikidata_map.ttl, src/nlp_policy_nz/kb/wikidata_kg.py",
+          "value": "missing coverage for W3C ORG: Would strengthen the actor and institution layer."
+        }
+      ],
+      "kind": "class",
+      "label": "NZ public organization",
+      "ontology_anchors": [
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "W3C ORG",
+          "term": "Organization"
+        }
+      ],
+      "related": [],
+      "review_status": "approved",
+      "uri": "https://legal-nz.example.org/ontology/nz/NZPublicOrganization"
+    },
+    {
+      "application_area": "maori_legal_concepts",
+      "authority": "induced_nz",
+      "broader": [],
+      "concept_id": "TeTiriti",
+      "confidence": 0.79,
+      "definition": "Te Tiriti o Waitangi references in legal and parliamentary sources.",
+      "evidence": [
+        {
+          "evidence_id": "maori-guard-te-tiriti",
+          "evidence_type": "term",
+          "source": "docs/nz_ontologies.md",
+          "value": "Te Tiriti"
+        }
+      ],
+      "kind": "controlled_vocabulary",
+      "label": "Te Tiriti",
+      "ontology_anchors": [
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "SKOS",
+          "term": "Concept"
+        }
+      ],
+      "related": [],
+      "review_status": "needs_review",
+      "uri": "https://legal-nz.example.org/ontology/nz/TeTiriti"
+    },
+    {
+      "application_area": "maori_legal_concepts",
+      "authority": "induced_nz",
+      "broader": [],
+      "concept_id": "Tikanga",
+      "confidence": 0.8,
+      "definition": "Māori law, values, and customary practice as a reviewable NZ legal concept.",
+      "evidence": [
+        {
+          "evidence_id": "maori-guard-tikanga",
+          "evidence_type": "term",
+          "source": "src/nlp_policy_nz/guard.py",
+          "value": "tikanga"
+        }
+      ],
+      "kind": "controlled_vocabulary",
+      "label": "Tikanga",
+      "ontology_anchors": [
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "SKOS",
+          "term": "Concept"
+        },
+        {
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
+          "standard": "LKIF",
+          "term": "Legal concept"
+        }
+      ],
+      "related": [],
+      "review_status": "needs_review",
+      "uri": "https://legal-nz.example.org/ontology/nz/Tikanga"
+    }
+  ],
+  "controlled_vocabularies": [
+    {
+      "concepts": [
+        {
+          "broader": [],
+          "concept_id": "court-of-appeal",
+          "definition": "Intermediate appellate court level.",
+          "pref_label": "Court of Appeal",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/court-of-appeal"
+        },
+        {
+          "broader": [],
+          "concept_id": "district-court",
+          "definition": "First-instance court level.",
+          "pref_label": "District Court",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/district-court"
+        },
+        {
+          "broader": [],
+          "concept_id": "high-court",
+          "definition": "Superior first-instance court level.",
+          "pref_label": "High Court",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/high-court"
+        },
+        {
+          "broader": [],
+          "concept_id": "supreme-court",
+          "definition": "Final appellate court level.",
+          "pref_label": "Supreme Court",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/supreme-court"
+        }
+      ],
+      "definition": "Controlled vocabulary for New Zealand court hierarchy levels.",
+      "pref_label": "NZ court levels",
+      "scheme_id": "court-levels",
+      "uri": "https://legal-nz.example.org/ontology/nz/vocab/court-levels"
+    },
+    {
+      "concepts": [
+        {
+          "broader": [],
+          "concept_id": "crown-entity",
+          "definition": "Statutory public body.",
+          "pref_label": "Crown entity",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/crown-entity"
+        },
+        {
+          "broader": [],
+          "concept_id": "department",
+          "definition": "Central government department.",
+          "pref_label": "Department",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/department"
+        },
+        {
+          "broader": [],
+          "concept_id": "ministerial-portfolio",
+          "definition": "Ministerial area of responsibility.",
+          "pref_label": "Ministerial portfolio",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/ministerial-portfolio"
+        },
+        {
+          "broader": [],
+          "concept_id": "office",
+          "definition": "Public office or statutory role.",
+          "pref_label": "Office",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/office"
+        }
+      ],
+      "definition": "Controlled vocabulary for public sector actor classes.",
+      "pref_label": "NZ government agencies",
+      "scheme_id": "government-agencies",
+      "uri": "https://legal-nz.example.org/ontology/nz/vocab/government-agencies"
+    },
+    {
+      "concepts": [
+        {
+          "broader": [],
+          "concept_id": "budget",
+          "definition": "Debate about fiscal appropriations or spending.",
+          "pref_label": "Budget",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/budget"
+        },
+        {
+          "broader": [],
+          "concept_id": "health",
+          "definition": "Debate about health policy and services.",
+          "pref_label": "Health",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/health"
+        },
+        {
+          "broader": [],
+          "concept_id": "justice",
+          "definition": "Debate about courts, policing, or legal policy.",
+          "pref_label": "Justice",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/justice"
+        },
+        {
+          "broader": [],
+          "concept_id": "treaty",
+          "definition": "Debate about Te Tiriti o Waitangi obligations.",
+          "pref_label": "Treaty",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/treaty"
+        }
+      ],
+      "definition": "Controlled vocabulary for high-level parliamentary debate topics.",
+      "pref_label": "Hansard topics",
+      "scheme_id": "hansard-topics",
+      "uri": "https://legal-nz.example.org/ontology/nz/vocab/hansard-topics"
+    },
+    {
+      "concepts": [
+        {
+          "broader": [],
+          "concept_id": "iwi",
+          "definition": "Tribal group or people.",
+          "pref_label": "Iwi",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/iwi"
+        },
+        {
+          "broader": [],
+          "concept_id": "taonga",
+          "definition": "Treasured resource or thing.",
+          "pref_label": "Taonga",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/taonga"
+        },
+        {
+          "broader": [],
+          "concept_id": "te-tiriti",
+          "definition": "Te Tiriti o Waitangi reference.",
+          "pref_label": "Te Tiriti",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/te-tiriti"
+        },
+        {
+          "broader": [],
+          "concept_id": "tikanga",
+          "definition": "Māori law, values, and customary practice.",
+          "pref_label": "Tikanga",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/tikanga"
+        }
+      ],
+      "definition": "Controlled vocabulary for Māori legal and policy concepts.",
+      "pref_label": "Māori legal concepts",
+      "scheme_id": "maori-legal-concepts",
+      "uri": "https://legal-nz.example.org/ontology/nz/vocab/maori-legal-concepts"
+    },
+    {
+      "concepts": [
+        {
+          "broader": [],
+          "concept_id": "act",
+          "definition": "An enacted New Zealand statute.",
+          "pref_label": "Act",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/act"
+        },
+        {
+          "broader": [],
+          "concept_id": "amendment-act",
+          "definition": "An Act that modifies earlier legislation.",
+          "pref_label": "Amendment Act",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/amendment-act"
+        },
+        {
+          "broader": [],
+          "concept_id": "bill",
+          "definition": "A proposed legislative instrument before enactment.",
+          "pref_label": "Bill",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/bill"
+        },
+        {
+          "broader": [],
+          "concept_id": "regulation",
+          "definition": "A delegated legislative instrument.",
+          "pref_label": "Regulation",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/regulation"
+        }
+      ],
+      "definition": "Controlled vocabulary for New Zealand legislative document types.",
+      "pref_label": "NZ Act types",
+      "scheme_id": "nz-act-types",
+      "uri": "https://legal-nz.example.org/ontology/nz/vocab/nz-act-types"
+    }
+  ],
+  "schema_version": "1.0",
+  "source_summary": {
+    "coverage_row_count": 29,
+    "evidence_boundary": "Repo-side candidates are deterministic and reviewable. Full-corpus induction remains blocked until Track 32 dataset statistics exist.",
+    "inputs": [
+      "Track 25 ontology coverage matrix",
+      "Track 29 explicit ontology mappings",
+      "Track 30 inferred mapping contract",
+      "Track 32 whole-corpus statistics placeholder"
+    ],
+    "mapping_record_count": 12
+  },
+  "summary": {
+    "application_area_counts": {
+      "act_structure": 2,
+      "court_hierarchy": 2,
+      "government_agencies": 2,
+      "hansard_debate_topics": 2,
+      "maori_legal_concepts": 2
+    },
+    "authority_counts": {
+      "authoritative_external": 1,
+      "induced_nz": 9
+    },
+    "concept_count": 10,
+    "controlled_vocabulary_count": 5,
+    "validation_errors": []
+  },
+  "track_id": "track31_nz_data_driven_ontologies_20260625"
+}

@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0",
+  "track_id": "track31_nz_data_driven_ontologies_20260625",
+  "scheme_count": 5,
+  "schemes": [
+    {
+      "scheme_id": "court-levels",
+      "uri": "https://legal-nz.example.org/ontology/nz/vocab/court-levels",
+      "pref_label": "NZ court levels",
+      "definition": "Controlled vocabulary for New Zealand court hierarchy levels.",
+      "concepts": [
+        {
+          "concept_id": "court-of-appeal",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/court-of-appeal",
+          "pref_label": "Court of Appeal",
+          "definition": "Intermediate appellate court level.",
+          "broader": []
+        },
+        {
+          "concept_id": "district-court",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/district-court",
+          "pref_label": "District Court",
+          "definition": "First-instance court level.",
+          "broader": []
+        },
+        {
+          "concept_id": "high-court",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/high-court",
+          "pref_label": "High Court",
+          "definition": "Superior first-instance court level.",
+          "broader": []
+        },
+        {
+          "concept_id": "supreme-court",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/supreme-court",
+          "pref_label": "Supreme Court",
+          "definition": "Final appellate court level.",
+          "broader": []
+        }
+      ]
+    },
+    {
+      "scheme_id": "government-agencies",
+      "uri": "https://legal-nz.example.org/ontology/nz/vocab/government-agencies",
+      "pref_label": "NZ government agencies",
+      "definition": "Controlled vocabulary for public sector actor classes.",
+      "concepts": [
+        {
+          "concept_id": "crown-entity",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/crown-entity",
+          "pref_label": "Crown entity",
+          "definition": "Statutory public body.",
+          "broader": []
+        },
+        {
+          "concept_id": "department",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/department",
+          "pref_label": "Department",
+          "definition": "Central government department.",
+          "broader": []
+        },
+        {
+          "concept_id": "ministerial-portfolio",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/ministerial-portfolio",
+          "pref_label": "Ministerial portfolio",
+          "definition": "Ministerial area of responsibility.",
+          "broader": []
+        },
+        {
+          "concept_id": "office",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/office",
+          "pref_label": "Office",
+          "definition": "Public office or statutory role.",
+          "broader": []
+        }
+      ]
+    },
+    {
+      "scheme_id": "hansard-topics",
+      "uri": "https://legal-nz.example.org/ontology/nz/vocab/hansard-topics",
+      "pref_label": "Hansard topics",
+      "definition": "Controlled vocabulary for high-level parliamentary debate topics.",
+      "concepts": [
+        {
+          "concept_id": "budget",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/budget",
+          "pref_label": "Budget",
+          "definition": "Debate about fiscal appropriations or spending.",
+          "broader": []
+        },
+        {
+          "concept_id": "health",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/health",
+          "pref_label": "Health",
+          "definition": "Debate about health policy and services.",
+          "broader": []
+        },
+        {
+          "concept_id": "justice",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/justice",
+          "pref_label": "Justice",
+          "definition": "Debate about courts, policing, or legal policy.",
+          "broader": []
+        },
+        {
+          "concept_id": "treaty",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/treaty",
+          "pref_label": "Treaty",
+          "definition": "Debate about Te Tiriti o Waitangi obligations.",
+          "broader": []
+        }
+      ]
+    },
+    {
+      "scheme_id": "maori-legal-concepts",
+      "uri": "https://legal-nz.example.org/ontology/nz/vocab/maori-legal-concepts",
+      "pref_label": "Māori legal concepts",
+      "definition": "Controlled vocabulary for Māori legal and policy concepts.",
+      "concepts": [
+        {
+          "concept_id": "iwi",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/iwi",
+          "pref_label": "Iwi",
+          "definition": "Tribal group or people.",
+          "broader": []
+        },
+        {
+          "concept_id": "taonga",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/taonga",
+          "pref_label": "Taonga",
+          "definition": "Treasured resource or thing.",
+          "broader": []
+        },
+        {
+          "concept_id": "te-tiriti",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/te-tiriti",
+          "pref_label": "Te Tiriti",
+          "definition": "Te Tiriti o Waitangi reference.",
+          "broader": []
+        },
+        {
+          "concept_id": "tikanga",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/tikanga",
+          "pref_label": "Tikanga",
+          "definition": "Māori law, values, and customary practice.",
+          "broader": []
+        }
+      ]
+    },
+    {
+      "scheme_id": "nz-act-types",
+      "uri": "https://legal-nz.example.org/ontology/nz/vocab/nz-act-types",
+      "pref_label": "NZ Act types",
+      "definition": "Controlled vocabulary for New Zealand legislative document types.",
+      "concepts": [
+        {
+          "concept_id": "act",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/act",
+          "pref_label": "Act",
+          "definition": "An enacted New Zealand statute.",
+          "broader": []
+        },
+        {
+          "concept_id": "amendment-act",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/amendment-act",
+          "pref_label": "Amendment Act",
+          "definition": "An Act that modifies earlier legislation.",
+          "broader": []
+        },
+        {
+          "concept_id": "bill",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/bill",
+          "pref_label": "Bill",
+          "definition": "A proposed legislative instrument before enactment.",
+          "broader": []
+        },
+        {
+          "concept_id": "regulation",
+          "uri": "https://legal-nz.example.org/ontology/nz/vocab/regulation",
+          "pref_label": "Regulation",
+          "definition": "A delegated legislative instrument.",
+          "broader": []
+        }
+      ]
+    }
+  ]
+}

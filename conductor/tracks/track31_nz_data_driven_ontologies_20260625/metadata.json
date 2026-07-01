@@ -1,10 +1,10 @@
 {
   "track_id": "track31_nz_data_driven_ontologies_20260625",
   "type": "research",
-  "status": "planned",
+  "status": "complete",
   "created_at": "2026-06-25T00:00:00+10:00",
-  "updated_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Use the final ontology and dataset analysis results to induce New Zealand-specific ontologies for legal, parliamentary, policy, rules-as-code, graph, vector, and publication applications.",
-  "oracle_notes": "Develop New Zealand-specific ontologies for repo applications from the final ontology/dataset analysis results."
+  "oracle_notes": "Track 31 is complete as a deterministic repo-side NZ ontology induction layer. It exports reviewable NZ ontology candidates, SKOS vocabularies, Turtle, JSON-LD, and documentation from Track 25/29 evidence. Full-corpus induction remains bounded by Track 32 dataset statistics."
 }
 

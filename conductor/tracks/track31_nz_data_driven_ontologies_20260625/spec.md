@@ -2,7 +2,7 @@
 
 **Dependencies**: Tracks 25-30  
 **Parallelization Node**: NZ Ontology Induction  
-**Status**: Planned
+**Status**: Complete
 
 ## Goal
 
@@ -17,7 +17,7 @@ Use the final ontology and dataset analysis results to induce New Zealand-specif
 
 ## Acceptance Criteria
 
-- [ ] Produce data-driven NZ ontology candidates by application area.
-- [ ] Link every generated concept to corpus evidence, source ontology mappings, and confidence.
-- [ ] Distinguish authoritative external concepts from induced NZ concepts.
-- [ ] Export ontologies with validation tests and review notes.
+- [x] Produce data-driven NZ ontology candidates by application area.
+- [x] Link every generated concept to corpus evidence, source ontology mappings, and confidence.
+- [x] Distinguish authoritative external concepts from induced NZ concepts.
+- [x] Export ontologies with validation tests and review notes.

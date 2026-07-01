@@ -1,0 +1,312 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix evidence: <https://legal-nz.example.org/ontology/evidence/> .
+@prefix nz: <https://legal-nz.example.org/ontology/nz/> .
+@prefix nzvocab: <https://legal-nz.example.org/ontology/nz/vocab/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+nz:NZCourtLevel a skos:Concept ;
+    rdfs:label "NZ court level" ;
+    rdfs:subClassOf nz:NZCourtOntology ;
+    skos:definition "A controlled court hierarchy level used for judgment and citation metadata." ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/skos/concept> ;
+    prov:wasDerivedFrom evidence:coverage-akn-legal-docml-ecli ;
+    nz:applicationArea "court_hierarchy" ;
+    nz:authority "induced_nz" ;
+    nz:confidence 0.72 ;
+    nz:reviewStatus "needs_review" .
+
+nz:NZDebateTopic a skos:Concept ;
+    rdfs:label "NZ debate topic" ;
+    rdfs:subClassOf nz:NZHansardOntology ;
+    skos:definition "A reviewable topic label induced from debate text and publication metadata." ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/skos/concept> ;
+    prov:wasDerivedFrom evidence:coverage-knowledge-graph-exports-skos ;
+    nz:applicationArea "hansard_debate_topics" ;
+    nz:authority "induced_nz" ;
+    nz:confidence 0.78 ;
+    nz:reviewStatus "needs_review" .
+
+nz:NZProvision a owl:Class ;
+    rdfs:label "NZ provision" ;
+    rdfs:subClassOf nz:NZActOntology ;
+    skos:definition "A section, clause, schedule item, or regulation provision with stable anchors." ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/schema-org-legislation/legislationsection> ;
+    prov:wasDerivedFrom evidence:coverage-akn-legal-docml-eli ;
+    nz:applicationArea "act_structure" ;
+    nz:authority "induced_nz" ;
+    nz:confidence 0.82 ;
+    nz:reviewStatus "needs_review" .
+
+nz:NZPublicOrganization a owl:Class ;
+    rdfs:label "NZ public organization" ;
+    rdfs:subClassOf nz:NZGovernmentAgencyOntology ;
+    skos:definition "A government department, Crown entity, office, or agency in NZ public sector data." ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/w3c-org/organization> ;
+    prov:wasDerivedFrom evidence:coverage-knowledge-graph-exports-w3c-org ;
+    nz:applicationArea "government_agencies" ;
+    nz:authority "authoritative_external" ;
+    nz:confidence 0.88 ;
+    nz:reviewStatus "approved" .
+
+nz:TeTiriti a skos:Concept ;
+    rdfs:label "Te Tiriti" ;
+    skos:definition "Te Tiriti o Waitangi references in legal and parliamentary sources." ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/skos/concept> ;
+    prov:wasDerivedFrom evidence:maori-guard-te-tiriti ;
+    nz:applicationArea "maori_legal_concepts" ;
+    nz:authority "induced_nz" ;
+    nz:confidence 0.79 ;
+    nz:reviewStatus "needs_review" .
+
+nz:Tikanga a skos:Concept ;
+    rdfs:label "Tikanga" ;
+    skos:definition "Māori law, values, and customary practice as a reviewable NZ legal concept." ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/lkif/legal-concept>,
+        <https://legal-nz.example.org/ontology/nz/anchor/skos/concept> ;
+    prov:wasDerivedFrom evidence:maori-guard-tikanga ;
+    nz:applicationArea "maori_legal_concepts" ;
+    nz:authority "induced_nz" ;
+    nz:confidence 0.8 ;
+    nz:reviewStatus "needs_review" .
+
+nzvocab:act a skos:Concept ;
+    skos:definition "An enacted New Zealand statute." ;
+    skos:inScheme nzvocab:nz-act-types ;
+    skos:prefLabel "Act" .
+
+nzvocab:amendment-act a skos:Concept ;
+    skos:definition "An Act that modifies earlier legislation." ;
+    skos:inScheme nzvocab:nz-act-types ;
+    skos:prefLabel "Amendment Act" .
+
+nzvocab:bill a skos:Concept ;
+    skos:definition "A proposed legislative instrument before enactment." ;
+    skos:inScheme nzvocab:nz-act-types ;
+    skos:prefLabel "Bill" .
+
+nzvocab:budget a skos:Concept ;
+    skos:definition "Debate about fiscal appropriations or spending." ;
+    skos:inScheme nzvocab:hansard-topics ;
+    skos:prefLabel "Budget" .
+
+nzvocab:court-of-appeal a skos:Concept ;
+    skos:definition "Intermediate appellate court level." ;
+    skos:inScheme nzvocab:court-levels ;
+    skos:prefLabel "Court of Appeal" .
+
+nzvocab:crown-entity a skos:Concept ;
+    skos:definition "Statutory public body." ;
+    skos:inScheme nzvocab:government-agencies ;
+    skos:prefLabel "Crown entity" .
+
+nzvocab:department a skos:Concept ;
+    skos:definition "Central government department." ;
+    skos:inScheme nzvocab:government-agencies ;
+    skos:prefLabel "Department" .
+
+nzvocab:district-court a skos:Concept ;
+    skos:definition "First-instance court level." ;
+    skos:inScheme nzvocab:court-levels ;
+    skos:prefLabel "District Court" .
+
+nzvocab:health a skos:Concept ;
+    skos:definition "Debate about health policy and services." ;
+    skos:inScheme nzvocab:hansard-topics ;
+    skos:prefLabel "Health" .
+
+nzvocab:high-court a skos:Concept ;
+    skos:definition "Superior first-instance court level." ;
+    skos:inScheme nzvocab:court-levels ;
+    skos:prefLabel "High Court" .
+
+nzvocab:iwi a skos:Concept ;
+    skos:definition "Tribal group or people." ;
+    skos:inScheme nzvocab:maori-legal-concepts ;
+    skos:prefLabel "Iwi" .
+
+nzvocab:justice a skos:Concept ;
+    skos:definition "Debate about courts, policing, or legal policy." ;
+    skos:inScheme nzvocab:hansard-topics ;
+    skos:prefLabel "Justice" .
+
+nzvocab:ministerial-portfolio a skos:Concept ;
+    skos:definition "Ministerial area of responsibility." ;
+    skos:inScheme nzvocab:government-agencies ;
+    skos:prefLabel "Ministerial portfolio" .
+
+nzvocab:office a skos:Concept ;
+    skos:definition "Public office or statutory role." ;
+    skos:inScheme nzvocab:government-agencies ;
+    skos:prefLabel "Office" .
+
+nzvocab:regulation a skos:Concept ;
+    skos:definition "A delegated legislative instrument." ;
+    skos:inScheme nzvocab:nz-act-types ;
+    skos:prefLabel "Regulation" .
+
+nzvocab:supreme-court a skos:Concept ;
+    skos:definition "Final appellate court level." ;
+    skos:inScheme nzvocab:court-levels ;
+    skos:prefLabel "Supreme Court" .
+
+nzvocab:taonga a skos:Concept ;
+    skos:definition "Treasured resource or thing." ;
+    skos:inScheme nzvocab:maori-legal-concepts ;
+    skos:prefLabel "Taonga" .
+
+nzvocab:te-tiriti a skos:Concept ;
+    skos:definition "Te Tiriti o Waitangi reference." ;
+    skos:inScheme nzvocab:maori-legal-concepts ;
+    skos:prefLabel "Te Tiriti" .
+
+nzvocab:tikanga a skos:Concept ;
+    skos:definition "Māori law, values, and customary practice." ;
+    skos:inScheme nzvocab:maori-legal-concepts ;
+    skos:prefLabel "Tikanga" .
+
+nzvocab:treaty a skos:Concept ;
+    skos:definition "Debate about Te Tiriti o Waitangi obligations." ;
+    skos:inScheme nzvocab:hansard-topics ;
+    skos:prefLabel "Treaty" .
+
+evidence:coverage-akn-legal-docml-akoma-ntoso a prov:Entity ;
+    dcterms:source "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py" ;
+    rdf:value "implemented coverage for Akoma Ntoso: Document emitters support amendment, bill, debate, and judgment formats." ;
+    nz:evidenceType "track25_coverage_row" .
+
+evidence:coverage-akn-legal-docml-eli a prov:Entity ;
+    dcterms:source "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py" ;
+    rdf:value "missing coverage for ELI: This is the primary legislative identifier layer missing from the repo." ;
+    nz:evidenceType "track25_coverage_row" .
+
+evidence:coverage-knowledge-graph-exports-skos a prov:Entity ;
+    dcterms:source "data/ontologies/nz_wikidata_map.ttl, src/nlp_policy_nz/kb/wikidata_kg.py" ;
+    rdf:value "missing coverage for SKOS: SKOS is the missing substrate for controlled vocabularies here." ;
+    nz:evidenceType "track25_coverage_row" .
+
+evidence:maori-guard-te-tiriti a prov:Entity ;
+    dcterms:source "docs/nz_ontologies.md" ;
+    rdf:value "Te Tiriti" ;
+    nz:evidenceType "term" .
+
+evidence:maori-guard-tikanga a prov:Entity ;
+    dcterms:source "src/nlp_policy_nz/guard.py" ;
+    rdf:value "tikanga" ;
+    nz:evidenceType "term" .
+
+evidence:mapping-sioc-post-to-akn-debate a prov:Entity ;
+    dcterms:source "src/nlp_policy_nz/ontology/mapping_graph.py" ;
+    rdf:value "sioc-post-to-akn-debate" ;
+    nz:evidenceType "track29_mapping_record" .
+
+nz:NZActOntology a owl:Class ;
+    rdfs:label "NZ Act ontology" ;
+    skos:definition "NZ-specific ontology for Acts, Bills, provisions, amendments, and commencement." ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/akoma-ntoso/act>,
+        <https://legal-nz.example.org/ontology/nz/anchor/eli/legalresource> ;
+    prov:wasDerivedFrom evidence:coverage-akn-legal-docml-akoma-ntoso ;
+    nz:applicationArea "act_structure" ;
+    nz:authority "induced_nz" ;
+    nz:confidence 0.86 ;
+    nz:mappingId "sioc-post-to-akn-debate" ;
+    nz:reviewStatus "needs_review" .
+
+nz:NZCourtOntology a owl:Class ;
+    rdfs:label "NZ court ontology" ;
+    skos:definition "NZ-specific ontology for courts, court levels, judgments, and case citations." ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/ecli/court>,
+        <https://legal-nz.example.org/ontology/nz/anchor/schema-org/court> ;
+    prov:wasDerivedFrom evidence:coverage-akn-legal-docml-ecli ;
+    nz:applicationArea "court_hierarchy" ;
+    nz:authority "induced_nz" ;
+    nz:confidence 0.74 ;
+    nz:reviewStatus "needs_review" .
+
+nz:NZGovernmentAgencyOntology a owl:Class ;
+    rdfs:label "NZ government agency ontology" ;
+    skos:definition "NZ-specific ontology for agencies, offices, portfolios, and public organizations." ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/popolo/organization>,
+        <https://legal-nz.example.org/ontology/nz/anchor/w3c-org/organization> ;
+    prov:wasDerivedFrom evidence:coverage-knowledge-graph-exports-w3c-org ;
+    nz:applicationArea "government_agencies" ;
+    nz:authority "induced_nz" ;
+    nz:confidence 0.78 ;
+    nz:reviewStatus "needs_review" .
+
+nz:NZHansardOntology a owl:Class ;
+    rdfs:label "NZ Hansard ontology" ;
+    skos:definition "NZ-specific ontology for debate speeches, topics, questions, and votes." ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/sioc/post> ;
+    prov:wasDerivedFrom evidence:mapping-sioc-post-to-akn-debate ;
+    nz:applicationArea "hansard_debate_topics" ;
+    nz:authority "induced_nz" ;
+    nz:confidence 0.84 ;
+    nz:mappingId "sioc-post-to-akn-debate" ;
+    nz:reviewStatus "needs_review" .
+
+<https://legal-nz.example.org/ontology/nz/anchor/akoma-ntoso/act> rdfs:label "act" ;
+    dc:source "Akoma Ntoso" .
+
+<https://legal-nz.example.org/ontology/nz/anchor/ecli/court> rdfs:label "court" ;
+    dc:source "ECLI" .
+
+<https://legal-nz.example.org/ontology/nz/anchor/eli/legalresource> rdfs:label "LegalResource" ;
+    dc:source "ELI" .
+
+<https://legal-nz.example.org/ontology/nz/anchor/lkif/legal-concept> rdfs:label "Legal concept" ;
+    dc:source "LKIF" .
+
+<https://legal-nz.example.org/ontology/nz/anchor/popolo/organization> rdfs:label "Organization" ;
+    dc:source "Popolo" .
+
+<https://legal-nz.example.org/ontology/nz/anchor/schema-org-legislation/legislationsection> rdfs:label "legislationSection" ;
+    dc:source "schema.org/Legislation" .
+
+<https://legal-nz.example.org/ontology/nz/anchor/schema-org/court> rdfs:label "Court" ;
+    dc:source "schema.org" .
+
+<https://legal-nz.example.org/ontology/nz/anchor/sioc/post> rdfs:label "Post" ;
+    dc:source "SIOC" .
+
+evidence:coverage-akn-legal-docml-ecli a prov:Entity ;
+    dcterms:source "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py" ;
+    rdf:value "missing coverage for ECLI: Judgment support exists, but not the authoritative citation layer." ;
+    nz:evidenceType "track25_coverage_row" .
+
+evidence:coverage-knowledge-graph-exports-w3c-org a prov:Entity ;
+    dcterms:source "data/ontologies/nz_wikidata_map.ttl, src/nlp_policy_nz/kb/wikidata_kg.py" ;
+    rdf:value "missing coverage for W3C ORG: Would strengthen the actor and institution layer." ;
+    nz:evidenceType "track25_coverage_row" .
+
+<https://legal-nz.example.org/ontology/nz/anchor/w3c-org/organization> rdfs:label "Organization" ;
+    dc:source "W3C ORG" .
+
+<https://legal-nz.example.org/ontology/nz/anchor/skos/concept> rdfs:label "Concept" ;
+    dc:source "SKOS" .
+
+nzvocab:court-levels a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary for New Zealand court hierarchy levels." ;
+    skos:prefLabel "NZ court levels" .
+
+nzvocab:government-agencies a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary for public sector actor classes." ;
+    skos:prefLabel "NZ government agencies" .
+
+nzvocab:hansard-topics a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary for high-level parliamentary debate topics." ;
+    skos:prefLabel "Hansard topics" .
+
+nzvocab:maori-legal-concepts a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary for Māori legal and policy concepts." ;
+    skos:prefLabel "Māori legal concepts" .
+
+nzvocab:nz-act-types a skos:ConceptScheme ;
+    skos:definition "Controlled vocabulary for New Zealand legislative document types." ;
+    skos:prefLabel "NZ Act types" .
+
