@@ -13,11 +13,11 @@
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 1.1 | Download `isaacus/open-australian-legal-corpus` (147K docs, 6 AU jurisdictions) | [x] | Repo-side manifest and external gate complete; live download evidence external |
-| 1.2 | Download `isaacus/open-australian-legal-qa` (2.1K QA pairs) | [x] | Repo-side manifest complete; live download evidence external |
-| 1.3 | Download `isaacus/legal-rag-bench`, `isaacus/mleb-legal-rag-bench` | [x] | Repo-side manifests complete; live download evidence external |
+| 1.1 | Download `isaacus/open-australian-legal-corpus` (147K docs, 6 AU jurisdictions) | [~] | Repo-side manifest and external gate complete; live download evidence external |
+| 1.2 | Download `isaacus/open-australian-legal-qa` (2.1K QA pairs) | [~] | Repo-side manifest complete; live download evidence external |
+| 1.3 | Download `isaacus/legal-rag-bench`, `isaacus/mleb-legal-rag-bench` | [~] | Repo-side manifests complete; live download evidence external |
 | 1.4 | Normalize AU corpus to PipelineRecord format (unify with NZ Parquet schema) | [x] | Local normalization helpers and tests complete |
-| 1.5 | Create NZ-AU merged training corpus (Parquet) for cross-jurisdiction fine-tuning | [x] | Merge artifact requirements captured in external gate manifest |
+| 1.5 | Create NZ-AU merged training corpus (Parquet) for cross-jurisdiction fine-tuning | [~] | Merge artifact requirements captured in external gate manifest |
 | 1.6 | Write dataset download and normalization tests | [x] | Focused tests cover manifests, normalization, fixture validation, and access gates |
 
 ## Phase 2: Model Acquisition & Evaluation
@@ -27,11 +27,11 @@
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 2.1 | Download `isaacus/open-australian-legal-llm` (1.5B), run zero-shot on NZ legal benchmark | [x] | Model manifest and measured-evaluation gate complete; live run external |
-| 2.2 | Download `isaacus/emubert` (124M), evaluate on NZ text encoding | [x] | Model manifest and measured-evaluation gate complete; live run external |
-| 2.3 | Evaluate Kanon 2 Embedder via API on NZ legal retrieval (citation search, document similarity) | [x] | Fail-closed proprietary API gate and Kanon external gate complete |
-| 2.4 | Evaluate `kanon-2-tokenizer` vs our tokenizer on Māori token preservation | [x] | Tokenizer manifest and metric contract complete; measured run external |
-| 2.5 | Produce comparison table: Isaacus models vs our fine-tuned models on NZ tasks | [x] | Comparison artifact requirements captured in external gate manifest |
+| 2.1 | Download `isaacus/open-australian-legal-llm` (1.5B), run zero-shot on NZ legal benchmark | [~] | Model manifest and measured-evaluation gate complete; live run external |
+| 2.2 | Download `isaacus/emubert` (124M), evaluate on NZ text encoding | [~] | Model manifest and measured-evaluation gate complete; live run external |
+| 2.3 | Evaluate Kanon 2 Embedder via API on NZ legal retrieval (citation search, document similarity) | [~] | Fail-closed proprietary API gate and Kanon external gate complete |
+| 2.4 | Evaluate `kanon-2-tokenizer` vs our tokenizer on Māori token preservation | [~] | Tokenizer manifest and metric contract complete; measured run external |
+| 2.5 | Produce comparison table: Isaacus models vs our fine-tuned models on NZ tasks | [~] | Comparison artifact requirements captured in external gate manifest |
 
 ## Phase 3: AU→NZ Domain Transfer Fine-Tuning
 
@@ -40,11 +40,11 @@
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 3.1 | Continue-pretrain Open Australian Legal LLM on NZ corpus (MLM, 50K steps) | [x] | Fine-tuning evidence remains external; gate requirements documented |
-| 3.2 | Fine-tune AU→NZ transferred model on citation extraction | [x] | Task evidence remains external; benchmark requirements documented |
-| 3.3 | Fine-tune AU→NZ transferred model on deontic classification | [x] | Task evidence remains external; benchmark requirements documented |
-| 3.4 | Compare vs NLP-policy-NZ fine-tuned models: does AU legal pre-training help? | [x] | Comparison contract complete; measured results external |
-| 3.5 | Push best AU→NZ model to Hugging Face Hub | [x] | Hub publication evidence remains external |
+| 3.1 | Continue-pretrain Open Australian Legal LLM on NZ corpus (MLM, 50K steps) | [~] | Fine-tuning evidence remains external; gate requirements documented |
+| 3.2 | Fine-tune AU→NZ transferred model on citation extraction | [~] | Task evidence remains external; benchmark requirements documented |
+| 3.3 | Fine-tune AU→NZ transferred model on deontic classification | [~] | Task evidence remains external; benchmark requirements documented |
+| 3.4 | Compare vs NLP-policy-NZ fine-tuned models: does AU legal pre-training help? | [~] | Comparison contract complete; measured results external |
+| 3.5 | Push best AU→NZ model to Hugging Face Hub | [~] | Hub publication evidence remains external |
 
 ## Phase 4: MLEB-NZ Benchmark Extension
 
@@ -54,9 +54,9 @@
 | # | Task | Status | Commit |
 |---|------|--------|--------|
 | 4.1 | Create NZ retrieval benchmark following MLEB methodology (NZ legislation, Hansard, court decisions) | [x] | Local fixture contract satisfied; full live benchmark remains external |
-| 4.2 | Run NZ-MLEB on all available embedding models (our embedding, Kanon 2, OpenAI, etc.) | [x] | Measured baseline gate captured in manifest |
-| 4.3 | Publish NZ-MLEB results as technical report | [x] | Publication artifact requirements captured in manifest |
-| 4.4 | Contribute NZ-MLEB dataset to Isaacus for inclusion in upstream MLEB | [x] | Contribution/publication evidence remains external |
+| 4.2 | Run NZ-MLEB on all available embedding models (our embedding, Kanon 2, OpenAI, etc.) | [~] | Measured baseline gate captured in manifest |
+| 4.3 | Publish NZ-MLEB results as technical report | [~] | Publication artifact requirements captured in manifest |
+| 4.4 | Contribute NZ-MLEB dataset to Isaacus for inclusion in upstream MLEB | [~] | Contribution/publication evidence remains external |
 
 ## Phase 5: Tool Evaluation & Integration
 
@@ -65,9 +65,9 @@
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 5.1 | Install and evaluate `semchunk` vs `syntactic/chunking.py` on legal document segmentation quality | [x] | semchunk comparison evidence remains external; manifest gate complete |
-| 5.2 | Monitor Blackstone Graph (github.com/isaacus-dev) for stable release | [x] | Monitoring artifact requirements captured in manifest |
-| 5.3 | Evaluate Isaacus Legal RAG Bench on our pipeline | [x] | Measured RAG benchmark evidence remains external |
+| 5.1 | Install and evaluate `semchunk` vs `syntactic/chunking.py` on legal document segmentation quality | [~] | semchunk comparison evidence remains external; manifest gate complete |
+| 5.2 | Monitor Blackstone Graph (github.com/isaacus-dev) for stable release | [~] | Monitoring artifact requirements captured in manifest |
+| 5.3 | Evaluate Isaacus Legal RAG Bench on our pipeline | [~] | Measured RAG benchmark evidence remains external |
 | 5.4 | Document integration results in `docs/isaacus_integration.md` | [x] | Repo-side documentation complete |
 
 ## Files to Create/Modify
