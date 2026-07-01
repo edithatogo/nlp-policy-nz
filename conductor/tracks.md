@@ -171,12 +171,6 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [x] Track 26: Legislative and Parliamentary Ontology Standards Expansion
-*Link: [./conductor/tracks/track26_ontology_standards_expansion_20260625/](./conductor/tracks/track26_ontology_standards_expansion_20260625/)*
-- **Dependencies**: Track 25
-- **Parallelization Node**: Standards Implementation
-- **Why**: Add first-class support for ELI/ELI-DL, ECLI, EuroVoc/SKOS, CEN MetaLex, USLM, LexML, schema.org/Legislation, LKIF, LegalRuleML, Popolo, W3C ORG, DCAT/DCAT-AP, and OpenFisca/PolicyEngine ontology contracts.
-
 ## [x] Track 27: Rules-as-Code Semantic Bridge
 *Link: [./conductor/tracks/track27_rules_as_code_semantic_bridge_20260625/](./conductor/tracks/track27_rules_as_code_semantic_bridge_20260625/)*
 - **Dependencies**: Tracks 25-26
