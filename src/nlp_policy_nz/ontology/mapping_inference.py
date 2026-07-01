@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import re
 from collections import defaultdict
+from collections.abc import Callable
 from dataclasses import dataclass
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -265,6 +266,39 @@ def infer_structural_matches(
     return tuple(candidates)
 
 
+def infer_embedding_matches(
+    source_terms: tuple[OntologyTerm, ...],
+    target_terms: tuple[OntologyTerm, ...],
+    *,
+    source_vectors: dict[str, tuple[float, ...]] | None = None,
+    target_vectors: dict[str, tuple[float, ...]] | None = None,
+    embed_texts: Callable[[tuple[str, ...]], tuple[tuple[float, ...], ...]] | None = None,
+    threshold: float = 0.8,
+) -> tuple[InferredMappingCandidate, ...]:
+    """Infer candidates from supplied or injected term embedding vectors."""
+    resolved_source = _resolve_term_vectors(source_terms, source_vectors, embed_texts)
+    resolved_target = _resolve_term_vectors(target_terms, target_vectors, embed_texts)
+    candidates: list[InferredMappingCandidate] = []
+    for source in source_terms:
+        source_vector = resolved_source[source.key]
+        for target in target_terms:
+            target_vector = resolved_target[target.key]
+            score = _cosine_similarity(source_vector, target_vector)
+            if score < threshold:
+                continue
+            candidates.append(
+                InferredMappingCandidate(
+                    source=source,
+                    target=target,
+                    mapping_predicate="skos:closeMatch",
+                    methods=("embedding",),
+                    confidence=min(0.92, max(0.55, score)),
+                    evidence=(f"embedding cosine similarity {score:.3f}",),
+                )
+            )
+    return tuple(candidates)
+
+
 def merge_inferred_candidates(
     candidates: tuple[InferredMappingCandidate, ...],
 ) -> tuple[InferredMappingCandidate, ...]:
@@ -303,15 +337,30 @@ def infer_mapping_candidates(
     target_terms: tuple[OntologyTerm, ...],
     *,
     synonym_groups: tuple[tuple[str, ...], ...] = (),
+    source_vectors: dict[str, tuple[float, ...]] | None = None,
+    target_vectors: dict[str, tuple[float, ...]] | None = None,
+    embed_texts: Callable[[tuple[str, ...]], tuple[tuple[float, ...], ...]] | None = None,
     fuzzy_threshold: float = 0.84,
     structural_threshold: float = 0.5,
+    embedding_threshold: float = 0.8,
 ) -> tuple[InferredMappingCandidate, ...]:
     """Run deterministic inference methods and merge duplicate candidates."""
+    embedding_candidates: tuple[InferredMappingCandidate, ...] = ()
+    if source_vectors is not None or target_vectors is not None or embed_texts is not None:
+        embedding_candidates = infer_embedding_matches(
+            source_terms,
+            target_terms,
+            source_vectors=source_vectors,
+            target_vectors=target_vectors,
+            embed_texts=embed_texts,
+            threshold=embedding_threshold,
+        )
     candidates = (
         *infer_exact_matches(source_terms, target_terms),
         *infer_fuzzy_matches(source_terms, target_terms, threshold=fuzzy_threshold),
         *infer_synonym_matches(source_terms, target_terms, synonym_groups=synonym_groups),
         *infer_structural_matches(source_terms, target_terms, threshold=structural_threshold),
+        *embedding_candidates,
     )
     return merge_inferred_candidates(candidates)
 
@@ -404,6 +453,40 @@ def _jaccard(left: frozenset[str], right: frozenset[str]) -> float:
     return len(left.intersection(right)) / len(left.union(right))
 
 
+def _resolve_term_vectors(
+    terms: tuple[OntologyTerm, ...],
+    vectors: dict[str, tuple[float, ...]] | None,
+    embed_texts: Callable[[tuple[str, ...]], tuple[tuple[float, ...], ...]] | None,
+) -> dict[str, tuple[float, ...]]:
+    if vectors is not None:
+        missing = [term.key for term in terms if term.key not in vectors]
+        if missing:
+            raise ValueError(f"missing embedding vectors for terms: {', '.join(missing)}")
+        return vectors
+    if embed_texts is None:
+        raise ValueError("embedding inference requires vectors or an embed_texts callable")
+    texts = tuple(_embedding_text(term) for term in terms)
+    generated = embed_texts(texts)
+    if len(generated) != len(terms):
+        raise ValueError("embed_texts must return one vector per term")
+    return {term.key: tuple(vector) for term, vector in zip(terms, generated, strict=True)}
+
+
+def _embedding_text(term: OntologyTerm) -> str:
+    return " ".join(part for part in (term.label, term.definition, *term.synonyms) if part.strip())
+
+
+def _cosine_similarity(left: tuple[float, ...], right: tuple[float, ...]) -> float:
+    if not left or not right or len(left) != len(right):
+        raise ValueError("embedding vectors must be non-empty and share the same dimension")
+    dot = sum(left_item * right_item for left_item, right_item in zip(left, right, strict=True))
+    left_norm = sum(item * item for item in left) ** 0.5
+    right_norm = sum(item * item for item in right) ** 0.5
+    if left_norm == 0 or right_norm == 0:
+        return 0.0
+    return dot / (left_norm * right_norm)
+
+
 def _strongest_predicate(predicates: tuple[MappingPredicate, ...]) -> MappingPredicate:
     predicate_set = set(predicates)
     for predicate in _STRONGEST_PREDICATES:
@@ -416,6 +499,7 @@ __all__ = [
     "InferenceMethod",
     "InferredMappingCandidate",
     "OntologyTerm",
+    "infer_embedding_matches",
     "infer_exact_matches",
     "infer_fuzzy_matches",
     "infer_mapping_candidates",

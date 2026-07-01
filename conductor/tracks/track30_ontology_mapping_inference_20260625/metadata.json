@@ -1,10 +1,10 @@
 {
   "track_id": "track30_ontology_mapping_inference_20260625",
   "type": "research",
-  "status": "in_progress",
+  "status": "complete",
   "created_at": "2026-06-25T00:00:00+10:00",
   "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Create reviewable candidate mappings between ontologies where authoritative mappings do not exist.",
-  "oracle_notes": "Repo-side deterministic inference now covers exact, fuzzy, synonym, structural, scoring, review-only Track 29 export, and LLM prompt contracts. Real embedding nearest-neighbour execution remains open until model/index dependencies and corpus-scale evaluation are introduced."
+  "oracle_notes": "Repo-side deterministic inference now covers exact, fuzzy, synonym, structural, embedding-vector similarity, scoring, review-only Track 29 export, and LLM prompt contracts. Embedding inference accepts precomputed vectors or an injected encoder so existing semantic embedding infrastructure can be used without adding dependencies or requiring model downloads in offline CI."
 }
 

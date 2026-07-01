@@ -234,7 +234,7 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Ontology Alignment & Visualization
 - **Why**: Leverage explicit mappings between ontologies and build them into the system for reasoning, inspection, and knowledge-graph visualization.
 
-## [~] Track 30: Ontology Mapping Inference
+## [x] Track 30: Ontology Mapping Inference
 *Link: [./conductor/tracks/track30_ontology_mapping_inference_20260625/](./conductor/tracks/track30_ontology_mapping_inference_20260625/)*
 - **Dependencies**: Track 29
 - **Parallelization Node**: Mapping Inference
@@ -421,5 +421,11 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: Tracks 21, 23, 42, 55
 - **Parallelization Node**: Performance and Runtime Modernization
 - **Why**: Evaluate Pydantic-core, msgspec, orjson, Polars/Arrow, Rust tokenizers, and possible PyO3/maturin extensions for extraction performance while keeping the Python API and downstream export schemas stable.
+
+## [ ] Track 57: LanceDB-First Vector Store Consolidation
+*Link: [./conductor/tracks/track57_lancedb_vector_consolidation_20260701/](./conductor/tracks/track57_lancedb_vector_consolidation_20260701/)*
+- **Dependencies**: Tracks 6, 23, 33, 44, 56
+- **Parallelization Node**: Storage Dependency Consolidation
+- **Why**: Consolidate vector storage around LanceDB as the default local/serverless backend, migrate Qdrant workflows/tests to LanceDB-equivalent coverage unless a remote-service requirement is proven, demote FAISS/Qdrant to optional benchmark extras, and evaluate DuckDB VSS as an experimental analytics path over Parquet rather than a primary vector-store replacement.
 
 
