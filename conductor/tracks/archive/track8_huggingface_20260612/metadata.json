@@ -1,0 +1,9 @@
+{
+  "track_id": "track8_huggingface_20260612",
+  "type": "feature",
+  "status": "archived",
+  "created_at": "2026-06-12T02:44:00Z",
+  "updated_at": "2026-07-01T00:00:00+10:00",
+  "description": "Deploy processed Parquet outputs as Hugging Face datasets and build interactive Gradio visualization Spaces for live exploration.",
+  "oracle_notes": "Archived after verifying the repo-side Hugging Face dataset upload pipeline, dataset-card generation, Gradio Space transformation logic, deploy-space support, and offline tests with mocked Hub calls."
+}

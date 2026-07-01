@@ -93,8 +93,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: Track 6, Track 2
 - **Parallelization Node**: Downstream FFI & Graph Links
 
-## [x] Track 8: Deploy Hugging Face Datasets & Interactive Visualization Spaces [6ee0627]
-*Link: [./conductor/tracks/track8_huggingface_20260612/](./conductor/tracks/track8_huggingface_20260612/)*
+## [x] Track 8: Deploy Hugging Face Datasets & Interactive Visualization Spaces (archived) [6ee0627]
+*Link: [./conductor/tracks/archive/track8_huggingface_20260612/](./conductor/tracks/archive/track8_huggingface_20260612/)*
 - **Dependencies**: Track 7
 - **Parallelization Node**: Hugging Face Hub Integration
 
