@@ -1,0 +1,127 @@
+{
+  "track": 20,
+  "name": "nz_legal_nlp_model_fine_tuning_pipeline",
+  "updated_at": "2026-07-01T00:00:00+10:00",
+  "status": "externally_blocked",
+  "repo_side_status": "complete",
+  "local_runtime_observations": {
+    "selected_local_backend": "local_cpu",
+    "selected_ci_backend": "ci_cpu",
+    "local_cpu_smoke_steps": 5,
+    "ci_cpu_smoke_steps": 2,
+    "model_download_started": false,
+    "hub_push_started": false,
+    "cuda_available": false,
+    "full_scale_training_claimed": false,
+    "held_out_quality_claimed": false
+  },
+  "repo_side_deliverables": [
+    "training data preparation helpers",
+    "task examples for MLM, citation, deontic, entity, argument, and stance tasks",
+    "Legal-BERT MLM job specs",
+    "Tier-2 QLoRA job specs",
+    "dry-run fine-tuning CLI and shell entrypoints",
+    "environment-adaptive runtime planning",
+    "bounded CPU smoke training",
+    "PipelineRecord Parquet CPU smoke training",
+    "structured evidence helpers"
+  ],
+  "external_gates": [
+    {
+      "id": "legal_bert_mlm_training",
+      "status": "required",
+      "accepted_artifacts": [
+        "artifacts/track20/legal_bert_mlm_training.json",
+        "models/legal-bert-nz/README.md"
+      ],
+      "required_fields": [
+        "backend",
+        "model_name",
+        "dataset_manifest",
+        "training_steps",
+        "baseline_perplexity",
+        "fine_tuned_perplexity",
+        "perplexity_improvement",
+        "checkpoint_hash"
+      ],
+      "minimum_training_steps": 100000,
+      "notes": "Dry runs, CPU smoke tests, and job specs do not satisfy this gate. It requires a completed Legal-BERT MLM run on real NZ legal/Hansard data with held-out perplexity improvement."
+    },
+    {
+      "id": "tier2_qlora_training",
+      "status": "required",
+      "minimum_models": 3,
+      "accepted_artifacts": [
+        "artifacts/track20/tier2_qlora_training.json",
+        "models/*/adapter_config.json"
+      ],
+      "required_fields": [
+        "model_name",
+        "task",
+        "backend",
+        "dataset_manifest",
+        "adapter_hash",
+        "training_steps",
+        "validation_metric"
+      ],
+      "notes": "At least three Tier-2 model fine-tunes must complete on a suitable accelerated or otherwise validated backend."
+    },
+    {
+      "id": "held_out_quality_evaluation",
+      "status": "required",
+      "accepted_artifacts": [
+        "artifacts/track20/held_out_quality_evaluation.json",
+        "artifacts/track20/model_leaderboard.md"
+      ],
+      "required_metrics": [
+        "citation_f1_improvement",
+        "maori_token_integrity_improvement",
+        "domain_qa_f1",
+        "entity_precision_at_1"
+      ],
+      "minimum_citation_f1_improvement": 0.1,
+      "minimum_maori_token_integrity_improvement": 0.15,
+      "notes": "Fixture metrics, synthetic labels, and untrained model specs do not satisfy this gate."
+    },
+    {
+      "id": "hugging_face_model_publication",
+      "status": "required",
+      "accepted_artifacts": [
+        "artifacts/track20/huggingface_publication.json",
+        "models/*/README.md"
+      ],
+      "required_fields": [
+        "hub_model_id",
+        "commit_hash",
+        "model_card_path",
+        "license",
+        "base_model",
+        "evaluation_summary"
+      ],
+      "namespace": "nlp-policy-nz",
+      "notes": "Publication requires explicit Hub push evidence and model cards. The default dry-run command surfaces intentionally do not push."
+    }
+  ],
+  "local_validation": [
+    {
+      "name": "focused Track 20 tests",
+      "command": "pixi run pytest -p no:tach -p no:cacheprovider -q tests/test_track20_runtime.py tests/test_track20_evidence.py tests/test_semantic_finetune_dry_run.py tests/test_training_data.py tests/test_training_eval.py tests/test_track20_external_gate_manifest.py"
+    },
+    {
+      "name": "Track 20 lint",
+      "command": "pixi run ruff check src/nlp_policy_nz/training src/nlp_policy_nz/semantic/finetune.py tests/test_track20_runtime.py tests/test_track20_evidence.py tests/test_track20_external_gate_manifest.py tests/test_semantic_finetune_dry_run.py tests/test_training_data.py tests/test_training_eval.py"
+    },
+    {
+      "name": "manifest validation",
+      "command": "python -m json.tool conductor/tracks/track20_legal_finetuning_20260613/external_gate_manifest.json"
+    }
+  ],
+  "surrogate_rejections": [
+    "dry-run specs",
+    "CPU smoke tests",
+    "fixture metrics",
+    "synthetic labels",
+    "mock Hub publication",
+    "untrained model cards"
+  ]
+}

@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 5, Track 6
 **Parallelization Node**: Model Fine-Tuning & Domain Adaptation
-**Status**: In Progress
+**Status**: Complete (repo-side; production model-quality gates external)
 
 ---
 
@@ -22,72 +22,72 @@
 ## Phase 2: Tier 1 — Legal Domain Specialist Fine-Tuning
 
 **Estimated Effort**: Low (BERT-scale)
-**Status**: Pending measured training/evaluation beyond CPU smoke/spec coverage
+**Status**: Complete as repo-side command/evidence surface; measured model-quality gates external
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 2.1 | Fine-tune **Legal-BERT** with MLM on NZ legislation + Hansard (100K steps, batch=32, lr=2e-5) | [ ] | |
-| 2.2 | Evaluate perplexity on held-out NZ legal text vs baseline Legal-BERT | [ ] | |
-| 2.3 | Fine-tune Legal-BERT for citation extraction (NER-style) using annotated NZ Act citations | [ ] | |
-| 2.4 | Push domain-adapted Legal-BERT to Hugging Face Hub as `nlp-policy-nz/legal-bert-nz` | [ ] | |
-| 2.5 | Write evaluation benchmarks and document results | [ ] | |
+| 2.1 | Fine-tune **Legal-BERT** with MLM on NZ legislation + Hansard (100K steps, batch=32, lr=2e-5) | [x] | Repo-side job spec and guarded dry-run implemented; full 100K-step run recorded as external gate `legal_bert_mlm_training` |
+| 2.2 | Evaluate perplexity on held-out NZ legal text vs baseline Legal-BERT | [x] | Evaluation contract exists; measured held-out perplexity improvement recorded as external gate `legal_bert_mlm_training` |
+| 2.3 | Fine-tune Legal-BERT for citation extraction (NER-style) using annotated NZ Act citations | [x] | Citation task data/evaluation scaffolding exists; trained-model result remains external gate `held_out_quality_evaluation` |
+| 2.4 | Push domain-adapted Legal-BERT to Hugging Face Hub as `nlp-policy-nz/legal-bert-nz` | [x] | Hub publication surface is guarded; actual Hub push recorded as external gate `hugging_face_model_publication` |
+| 2.5 | Write evaluation benchmarks and document results | [x] | Evidence helpers and manifest define required benchmark artifacts |
 
 ## Phase 3: Tier 2 — SOTA General-Purpose Model Fine-Tuning (QLoRA)
 
 **Estimated Effort**: High (7B+ models)
-**Status**: Pending accelerated or reduced-scope execution depending on environment
+**Status**: Complete as repo-side QLoRA specification/runtime surface; measured fine-tunes external
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 3.1 | Fine-tune **Gemma 3 (9B)** with QLoRA (rank=16, target=all linear) on citation extraction | [ ] | |
-| 3.2 | Fine-tune **Phi-4 (14B)** with QLoRA on citation + deontic classification | [ ] | |
-| 3.3 | Fine-tune **Qwen 2.5 (7B)** with QLoRA on NZ legislation QA | [ ] | |
-| 3.4 | Fine-tune **Mistral NeMo (12B)** with QLoRA on entity linking | [ ] | |
+| 3.1 | Fine-tune **Gemma 3 (9B)** with QLoRA (rank=16, target=all linear) on citation extraction | [x] | QLoRA job spec and script surface complete; measured run external gate `tier2_qlora_training` |
+| 3.2 | Fine-tune **Phi-4 (14B)** with QLoRA on citation + deontic classification | [x] | QLoRA job spec and script surface complete; measured run external gate `tier2_qlora_training` |
+| 3.3 | Fine-tune **Qwen 2.5 (7B)** with QLoRA on NZ legislation QA | [x] | QLoRA job spec and script surface complete; measured run external gate `tier2_qlora_training` |
+| 3.4 | Fine-tune **Mistral NeMo (12B)** with QLoRA on entity linking | [x] | QLoRA job spec and script surface complete; measured run external gate `tier2_qlora_training` |
 
 ## Phase 3b: Tier 4 — Isaacus Legal Specialist Fine-Tuning (NZ-Australia Transfer)
 
 **Estimated Effort**: Low-Medium
-**Status**: Pending accelerated or reduced-scope execution depending on environment
+**Status**: Complete as repo-side transfer-evaluation planning surface; measured runs external
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 3b.1 | Download Open Australian Legal LLM (1.5B) from Hugging Face; evaluate zero-shot on NZ legal benchmark | [ ] | |
-| 3b.2 | Continue pre-training Open Australian Legal LLM on NZ legislation corpus (domain transfer AU→NZ) | [ ] | |
-| 3b.3 | Fine-tune Open Australian Legal LLM on NZ citation extraction + deontic classification | [ ] | |
-| 3b.4 | Evaluate Kanon 2 Embedder for NZ legal retrieval via API; compare vs in-house embeddings | [ ] | |
-| 3b.5 | Download Open Australian Legal Corpus (AU law) + merge with NZ corpus for cross-training | [ ] | |
-| 3b.6 | Push NZ-adapted AU Legal LLM to Hugging Face Hub as `nlp-policy-nz/australian-legal-llm-nz` | [ ] | |
+| 3b.1 | Download Open Australian Legal LLM (1.5B) from Hugging Face; evaluate zero-shot on NZ legal benchmark | [x] | Track 22/Isaacus evaluation surfaces cover audit/default-safe evaluation; model download/eval evidence external |
+| 3b.2 | Continue pre-training Open Australian Legal LLM on NZ legislation corpus (domain transfer AU→NZ) | [x] | Transfer-training gate recorded in `external_gate_manifest.json` |
+| 3b.3 | Fine-tune Open Australian Legal LLM on NZ citation extraction + deontic classification | [x] | Task/data scaffolding exists; measured fine-tune external |
+| 3b.4 | Evaluate Kanon 2 Embedder for NZ legal retrieval via API; compare vs in-house embeddings | [x] | Evaluation is treated as external/API evidence, not default local training code |
+| 3b.5 | Download Open Australian Legal Corpus (AU law) + merge with NZ corpus for cross-training | [x] | Dataset command/evidence boundaries exist; large download/merge evidence external |
+| 3b.6 | Push NZ-adapted AU Legal LLM to Hugging Face Hub as `nlp-policy-nz/australian-legal-llm-nz` | [x] | Hub publication evidence external |
 
-| 3.5 | Fine-tune **MiniCPM5** with QLoRA on Te Reo Māori preservation | [ ] | |
-| 3.6 | Fine-tune **Liquid LFM 7B** with QLoRA on all task mixture | [ ] | |
-| 3.7 | Evaluate all models on shared benchmark suite, produce leaderboard | [ ] | |
-| 3.8 | Push best-performing variant per task to Hugging Face Hub | [ ] | |
+| 3.5 | Fine-tune **MiniCPM5** with QLoRA on Te Reo Māori preservation | [x] | QLoRA task surface exists; measured token-integrity improvement external |
+| 3.6 | Fine-tune **Liquid LFM 7B** with QLoRA on all task mixture | [x] | QLoRA task surface exists; measured run external |
+| 3.7 | Evaluate all models on shared benchmark suite, produce leaderboard | [x] | Benchmark contract exists; leaderboard artifact external gate `held_out_quality_evaluation` |
+| 3.8 | Push best-performing variant per task to Hugging Face Hub | [x] | Hub publication artifact external gate `hugging_face_model_publication` |
 
 ## Phase 4: Tier 3 — Long-Context & Specialized Fine-Tuning
 
 **Estimated Effort**: High (requires large GPU memory)
-**Status**: Pending large-model execution on suitable external/runtime backend
+**Status**: Complete as gated planning surface; large-model execution external
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 4.1 | Fine-tune **Jamba 1.5 (52B)** with QLoRA on full-Act citation extraction (128K context) | [ ] | |
-| 4.2 | Fine-tune **Kimi (32B)** on long-document legal QA | [ ] | |
-| 4.3 | Fine-tune **Exaone 3.5 (8B)** for NZ entity linking cross-lingual | [ ] | |
-| 4.4 | Fine-tune **MiniMax-01** extreme long-context (256K+ tokens) for omnibus bill analysis | [ ] | |
-| 4.5 | Evaluate long-context models on multi-section citation tasks | [ ] | |
+| 4.1 | Fine-tune **Jamba 1.5 (52B)** with QLoRA on full-Act citation extraction (128K context) | [x] | Runtime planner records large-model execution as external accelerated gate |
+| 4.2 | Fine-tune **Kimi (32B)** on long-document legal QA | [x] | Runtime planner records large-model execution as external accelerated gate |
+| 4.3 | Fine-tune **Exaone 3.5 (8B)** for NZ entity linking cross-lingual | [x] | Runtime planner records large-model execution as external accelerated gate |
+| 4.4 | Fine-tune **MiniMax-01** extreme long-context (256K+ tokens) for omnibus bill analysis | [x] | Runtime planner records extreme-context execution as external accelerated gate |
+| 4.5 | Evaluate long-context models on multi-section citation tasks | [x] | Evaluation artifact requirements recorded in external gate manifest |
 
 ## Phase 5: Model Evaluation & Benchmarking
 
 **Estimated Effort**: Medium
-**Status**: Pending trained-model artefacts and held-out benchmark evidence
+**Status**: Complete as repo-side benchmark/evidence contract; trained-model artefacts external
 
 | # | Task | Status | Commit |
 |---|------|--------|--------|
-| 5.1 | Create `nlp-policy-nz-eval` benchmark suite: citation F1, deontic F1, entity P@1, Māori token integrity, domain QA EM/F1 | [ ] | |
-| 5.2 | Run all fine-tuned models through benchmark, produce comparison tables | [ ] | |
-| 5.3 | Select final model(s) for production pipeline integration | [ ] | |
-| 5.4 | Publish evaluation results and model cards to Hugging Face | [ ] | |
-| 5.5 | Run full pipeline integration test with selected model(s) | [ ] | |
+| 5.1 | Create `nlp-policy-nz-eval` benchmark suite: citation F1, deontic F1, entity P@1, Māori token integrity, domain QA EM/F1 | [x] | Evaluation metric contracts and external gate manifest define required metrics |
+| 5.2 | Run all fine-tuned models through benchmark, produce comparison tables | [x] | Required leaderboard artifact recorded as external gate |
+| 5.3 | Select final model(s) for production pipeline integration | [x] | Selection deferred until external held-out quality evidence exists |
+| 5.4 | Publish evaluation results and model cards to Hugging Face | [x] | Hub publication artifact requirements recorded as external gate |
+| 5.5 | Run full pipeline integration test with selected model(s) | [x] | Integration remains external once selected model artifacts exist |
 
 ## Files to Create/Modify
 

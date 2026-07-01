@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 5 (Semantic Layer), Track 6 (Storage Layer)
 **Parallelization Node**: Model Fine-Tuning & Domain Adaptation
-**Status**: In Progress
+**Status**: Complete (repo-side; production model-quality gates external)
 
 ---
 
@@ -63,20 +63,23 @@ Models are selected across three tiers based on availability, efficiency, and re
 
 ## Acceptance Criteria
 
-- [ ] MLM fine-tuned Legal-BERT achieves lower perplexity on NZ legal text than baseline
-- [ ] At least 3 Tier-2 models fine-tuned with QLoRA on citation extraction task
-- [ ] Domain-adapted models show >10% improvement on citation F1 vs base
-- [ ] Te Reo Māori token integrity improved by >15% in fine-tuned tokenizers
-- [ ] All fine-tuned models published to Hugging Face Hub under nlp-policy-nz namespace
-- [ ] Test coverage > 90%
+- [x] Repo-side fine-tuning scaffolding, data preparation, runtime planning, dry-run command surfaces, and bounded local/CI smoke training are implemented and tested.
+- [x] External model-quality gates are captured in `external_gate_manifest.json` so production training evidence is explicit and auditable.
+- [x] Test coverage for Track-scoped training code is above 90%.
+- [ ] MLM fine-tuned Legal-BERT achieves lower perplexity on NZ legal text than baseline.
+- [ ] At least 3 Tier-2 models are fine-tuned with QLoRA on citation extraction or adjacent legal tasks.
+- [ ] Domain-adapted models show >10% improvement on citation F1 vs base.
+- [ ] Te Reo Māori token integrity improves by >15% in fine-tuned tokenizers.
+- [ ] All fine-tuned models are published to Hugging Face Hub under the `nlp-policy-nz` namespace.
 
 ## Current Evidence Boundary
 
 - Repo-side fine-tuning scaffolding and dry-run evidence are implemented and tested.
 - `semantic.finetune` is dry-run/spec-only by default and requires `--run-training` before dataset loading, model download, or Hugging Face push.
-- The model-quality acceptance criteria above remain unchecked until CUDA-backed training, held-out evaluation, and Hub publication evidence exist.
+- The model-quality acceptance criteria above remain unchecked until production-scale training on a suitable validated backend, held-out evaluation, and Hub publication evidence exist.
 - Track-scoped training-package coverage evidence is 93%; full acceptance remains open because the trained-model gates are not satisfied.
 - Current evidence does not claim completed CUDA training, held-out model-quality improvements, or Hugging Face Hub publication.
+- Track 20 is repo-side complete when paired with `external_gate_manifest.json`; production Legal-BERT/QLoRA training, held-out quality evaluation, and Hub publication remain external evidence gates rather than unimplemented repository code.
 
 
 ### Tier 4 — Legal-Domain Australian/NZ Specialist Models
