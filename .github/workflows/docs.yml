@@ -50,5 +50,5 @@ jobs:
           path: docs-site/dist
 
       - name: Deploy to GitHub Pages
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && vars.DEPLOY_GITHUB_PAGES == 'true' }}
         uses: actions/deploy-pages@v4
