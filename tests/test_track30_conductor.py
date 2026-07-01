@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-TRACK30 = Path("conductor/tracks/track30_ontology_mapping_inference_20260625")
+TRACK30 = Path("conductor/tracks/archive/track30_ontology_mapping_inference_20260625")
 
 
 def test_track30_conductor_registry_and_metadata_are_complete() -> None:
@@ -12,10 +12,10 @@ def test_track30_conductor_registry_and_metadata_are_complete() -> None:
     plan = TRACK30.joinpath("plan.md").read_text(encoding="utf-8")
     spec = TRACK30.joinpath("spec.md").read_text(encoding="utf-8")
 
-    assert "## [x] Track 30: Ontology Mapping Inference" in registry
+    assert "## [x] Track 30: Ontology Mapping Inference (archived)" in registry
     assert str(TRACK30).replace("\\", "/") in registry
     assert metadata["track_id"] == "track30_ontology_mapping_inference_20260625"
-    assert metadata["status"] == "complete"
+    assert metadata["status"] == "archived"
     assert "**Status**: Complete" in plan
     assert "**Status**: Complete" in spec
     assert "| 8 | Write tests for each inference method" in plan

@@ -183,8 +183,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Ontology Alignment & Visualization
 - **Why**: Leverage explicit mappings between ontologies and build them into the system for reasoning, inspection, and knowledge-graph visualization.
 
-## [x] Track 30: Ontology Mapping Inference
-*Link: [./conductor/tracks/track30_ontology_mapping_inference_20260625/](./conductor/tracks/track30_ontology_mapping_inference_20260625/)*
+## [x] Track 30: Ontology Mapping Inference (archived)
+*Link: [./conductor/tracks/archive/track30_ontology_mapping_inference_20260625/](./conductor/tracks/archive/track30_ontology_mapping_inference_20260625/)*
 - **Dependencies**: Track 29
 - **Parallelization Node**: Mapping Inference
 - **Why**: Infer remaining ontology mappings using triangulation, direct matching, fuzzy matching, structural inference, embedding similarity, and LLM-assisted interpretation with reviewable evidence.

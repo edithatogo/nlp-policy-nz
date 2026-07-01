@@ -18,7 +18,15 @@
 
 ## Closeout Validation
 
-- `pixi run python -m pytest -q tests\test_track30_mapping_inference.py tests\test_track30_conductor.py tests\test_track29_mapping_graph.py tests\test_track29_conductor.py` passed: 22 tests.
+- `pixi run python -m pytest -q tests\test_track30_mapping_inference.py tests\test_track30_conductor.py tests\test_track29_mapping_graph.py tests\test_track29_conductor.py` passed: 23 tests.
 - `pixi run python -m ruff check --no-cache src\nlp_policy_nz\ontology\mapping_inference.py src\nlp_policy_nz\ontology\__init__.py tests\test_track30_mapping_inference.py` passed.
 - Fresh `write_track30_inference_artifacts()` output byte-matches checked-in Track 30 generated artifacts.
 - `data/ontologies/inferred_mapping_candidates.json` and `data/ontologies/inference_prompts/mapping_interpretation_prompt.json` parse as JSON.
+
+## Archive Validation
+
+- Track 30 reviewed cleanly after implementation fixes and was archived under `conductor/tracks/archive/track30_ontology_mapping_inference_20260625`.
+- `pixi run python -m pytest -q tests\test_track30_mapping_inference.py tests\test_track30_conductor.py tests\test_track29_mapping_graph.py tests\test_track29_conductor.py tests\test_track28_ontology_discovery.py tests\test_track28_conductor.py tests\test_track26_standards_registry.py tests\test_track55_56_conductor.py tests\test_track56_extraction_runtime.py tests\test_extraction_catalog.py tests\test_extraction_exporter.py tests\test_extraction_schemas.py tests\test_axiom_integration.py tests\test_track54_axiom_conductor.py` passed: 64 tests.
+- `pixi run python -m ruff check --no-cache ...` passed for the Track 30 ontology, adjacent ontology, extraction, Axiom, and conductor test paths.
+- Fresh `write_track30_inference_artifacts()` output still byte-matches checked-in Track 30 artifacts after archiving.
+- `git diff --check` passed.
