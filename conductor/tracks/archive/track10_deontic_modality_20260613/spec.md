@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 4 (Syntactic Layer), Track 5 (Semantic Layer)
 **Parallelization Node**: Legal Effect Analysis
-**Status**: Pending
+**Status**: Complete
 
 ---
 
@@ -35,9 +35,9 @@ Extract and classify deontic modality expressions from NZ legislation — identi
 
 ## Acceptance Criteria
 
-- [ ] `DeonticModalityDetector` spaCy component registers and extracts modality spans with type labels
-- [ ] Modality scope correctly identifies the governed clause/action
-- [ ] Legal effect classifier labels sections with LKIF categories
-- [ ] PipelineRecord includes `deontic_modality: list[dict]` and `legal_effect: str | None`
-- [ ] Parquet output contains new modality columns
-- [ ] Test coverage > 90% on NZ legislation test corpus
+- [x] `DeonticModalityDetector` spaCy component registers and extracts modality spans with type labels
+- [x] Modality scope correctly identifies the governed clause/action
+- [x] Legal effect classifier labels sections with LKIF categories
+- [x] PipelineRecord includes `deontic_modality: list[dict]` and `legal_effect: str | None`
+- [x] Parquet output contains new modality columns
+- [x] Test coverage > 90% on NZ legislation test corpus

@@ -111,8 +111,8 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [x] Track 10: Extract Deontic Modality & Legal Effect
-*Link: [./conductor/tracks/track10_deontic_modality_20260613/](./conductor/tracks/track10_deontic_modality_20260613/)*
+## [x] Track 10: Extract Deontic Modality & Legal Effect (archived)
+*Link: [./conductor/tracks/archive/track10_deontic_modality_20260613/](./conductor/tracks/archive/track10_deontic_modality_20260613/)*
 - **Dependencies**: Track 4, Track 5
 - **Parallelization Node**: Legal Effect Analysis
 - **Why**: Core requirement for corpus-law-nz — "must/shall/may/must not" binding obligation detection. LKIF ontology categories.
