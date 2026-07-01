@@ -185,7 +185,7 @@
     },
     {
       "name": "manifest validation",
-      "command": "pixi run python -m json.tool conductor/tracks/track22_isaacus_integration_20260613/external_gate_manifest.json"
+      "command": "pixi run python -m json.tool conductor/archive/track22_isaacus_integration_20260613/external_gate_manifest.json"
     },
     {
       "name": "fixture validation",
