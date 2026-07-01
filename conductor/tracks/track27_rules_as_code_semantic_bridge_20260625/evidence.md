@@ -29,8 +29,8 @@ The repo-side bridge covers:
 ## Validation commands
 
 ```powershell
-pixi run python -m pytest -q tests\test_rac_bridge.py tests\test_axiom_integration.py tests\test_cli.py
-pixi run python -m ruff check --no-cache src\nlp_policy_nz\ontology\rac_bridge.py src\nlp_policy_nz\ontology\__init__.py src\nlp_policy_nz\cli\main.py tests\test_rac_bridge.py src\nlp_policy_nz\axiom tests\test_axiom_integration.py tests\test_cli.py
+pixi run python -m pytest -q tests\test_rac_bridge.py tests\test_axiom_integration.py tests\test_cli.py tests\test_track27_conductor.py
+pixi run python -m ruff check --no-cache src\nlp_policy_nz\ontology\rac_bridge.py src\nlp_policy_nz\ontology\__init__.py src\nlp_policy_nz\cli\main.py tests\test_rac_bridge.py src\nlp_policy_nz\axiom tests\test_axiom_integration.py tests\test_cli.py tests\test_track27_conductor.py
 ```
 
 ## Residual scope
