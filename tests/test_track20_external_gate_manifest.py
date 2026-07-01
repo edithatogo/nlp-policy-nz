@@ -5,7 +5,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-MANIFEST = Path("conductor/tracks/track20_legal_finetuning_20260613/external_gate_manifest.json")
+MANIFEST = Path(
+    "conductor/archive/track20_legal_finetuning_20260613/external_gate_manifest.json"
+)
 
 
 def test_track20_external_gate_manifest_is_explicit() -> None:
@@ -28,7 +30,11 @@ def test_track20_external_gate_manifest_is_explicit() -> None:
     validation_commands = {
         check["name"]: check["command"] for check in manifest["local_validation"]
     }
-    assert validation_commands["manifest validation"].startswith("pixi run python ")
+    assert validation_commands["manifest validation"] == (
+        "pixi run python -m json.tool "
+        "conductor/archive/track20_legal_finetuning_20260613/"
+        "external_gate_manifest.json"
+    )
 
 
 def test_track20_external_gate_manifest_rejects_surrogates() -> None:

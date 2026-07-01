@@ -165,12 +165,6 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Complete the tech-stack observability layer. The repo-side OTel spans, profiling wrappers, and CI benchmark gates are complete; the incomplete 1 GiB profiling pass is now a roadmap note rather than a separate track.
 
-## [x] Track 20: NZ Legal NLP Model Fine-Tuning Pipeline
-*Link: [./conductor/tracks/track20_legal_finetuning_20260613/](./conductor/tracks/track20_legal_finetuning_20260613/)*
-- **Dependencies**: Track 5, Track 6
-- **Parallelization Node**: Model Fine-Tuning & Domain Adaptation
-- **Why**: Fine-tune Legal-BERT, Gemma, Phi-4, Qwen, Mistral, MiniCPM5, Liquid LFM, Kimi, Exaone, Jamba, MiniMax on NZ legal/Hansard corpora across 6 tasks.
-
 ## [~] Track 21: Bleeding-Edge Architecture Exploration
 *Link: [./conductor/tracks/track21_bleeding_edge_architectures_20260613/](./conductor/tracks/track21_bleeding_edge_architectures_20260613/)*
 - **Dependencies**: Track 20
