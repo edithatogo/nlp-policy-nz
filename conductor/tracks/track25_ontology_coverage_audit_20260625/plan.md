@@ -33,3 +33,16 @@ Repo-side Track 25 closeout is implemented:
 ## Evidence Boundary
 
 Repo-side scaffolds, manifests, fixtures, and diagrams can satisfy planning and deterministic evidence tasks. Full-corpus, live publication, authenticated API, or external-source tasks must remain blockers until the corresponding data or access is actually available and recorded.
+
+## Implementation Note - 2026-07-01
+
+Added standard Conductor closeout artifacts:
+
+- `index.md` resolves the Track 25 specification, plan, metadata, and evidence files.
+- `evidence.md` records the deterministic repo-side audit artifacts, validation commands, and external-source boundary.
+- `tests/test_track25_conductor.py` verifies the Conductor artifacts and checked-in JSON evidence links.
+
+Focused validation passed:
+
+- `pixi run python -m pytest -q tests\test_track25_ontology_coverage.py tests\test_track25_conductor.py tests\test_track26_standards_registry.py`
+- `pixi run python -m ruff check --no-cache src\nlp_policy_nz\quality\track25_ontology_coverage.py tests\test_track25_ontology_coverage.py tests\test_track25_conductor.py tests\test_track26_standards_registry.py`
