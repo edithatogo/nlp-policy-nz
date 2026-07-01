@@ -43,7 +43,7 @@ artefacts are pinned.
   provide audit-only entry points. They default to deterministic repo-side
   reports, set offline model-download flags, and reject `--live` with exit code
   64 so clone, download, train, and publish work cannot start by accident.
-- `conductor/tracks/track21_bleeding_edge_architectures_20260613/external_gate_manifest.json`
+- `conductor/archive/track21_bleeding_edge_architectures_20260613/external_gate_manifest.json`
   records the live setup, measured benchmark, profiler, recommendation, and Hub
   publication evidence required before Track 21 claims production-grade model
   results.

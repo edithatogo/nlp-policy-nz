@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 MANIFEST = Path(
-    "conductor/tracks/track21_bleeding_edge_architectures_20260613/"
+    "conductor/archive/track21_bleeding_edge_architectures_20260613/"
     "external_gate_manifest.json"
 )
 
@@ -35,7 +35,7 @@ def test_track21_external_gate_manifest_is_explicit() -> None:
     }
     assert validation_commands["manifest validation"] == (
         "pixi run python -m json.tool "
-        "conductor/tracks/track21_bleeding_edge_architectures_20260613/"
+        "conductor/archive/track21_bleeding_edge_architectures_20260613/"
         "external_gate_manifest.json"
     )
 
