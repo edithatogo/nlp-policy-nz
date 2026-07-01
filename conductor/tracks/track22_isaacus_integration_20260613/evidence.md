@@ -32,3 +32,29 @@ This note records the current repo-side Isaacus integration evidence. It does no
 - Publish measured NZ-MLEB baselines from retrieval runs over full legislation, Hansard, and court-decision corpora.
 - Install and evaluate `semchunk` against local legal chunking.
 - Integrate Blackstone Graph only after a stable upstream release exists.
+
+## Repo-Side Closeout - 2026-07-01
+
+Track 22 is now repo-side complete. The repository contains the offline Isaacus
+manifests, AU legal row normalization, PipelineRecord conversion, deterministic
+local NZ-MLEB fixture and schema validation, fail-closed network/proprietary API
+gates, audit-only shell wrappers, integration documentation, evidence helpers,
+focused tests, and `external_gate_manifest.json`.
+
+The external gate manifest records the evidence required before Track 22 may
+claim live Isaacus integration:
+
+- Open Australian Legal Corpus download, hashing, normalization, and NZ-AU
+  merged corpus artifacts.
+- Measured Isaacus open-model evaluation against NZ legal tasks.
+- Credentialed Kanon 2 API or air-gapped retrieval evaluation.
+- Measured NZ-MLEB baselines and publication artifacts.
+- semchunk segmentation comparison against local chunking.
+- Blackstone Graph stable-release monitoring with dated upstream evidence.
+
+Latest validation:
+
+- `pixi run pytest -p no:tach -p no:cacheprovider -q tests/test_isaacus_adapter.py tests/test_track22_evidence.py tests/test_track22_script_contracts.py tests/test_track22_external_gate_manifest.py` passed.
+- `pixi run ruff check src/nlp_policy_nz/training/isaacus_adapter.py src/nlp_policy_nz/training/track22_evidence.py tests/test_isaacus_adapter.py tests/test_track22_evidence.py tests/test_track22_script_contracts.py tests/test_track22_external_gate_manifest.py` passed.
+- `pixi run python -m json.tool conductor/tracks/track22_isaacus_integration_20260613/external_gate_manifest.json` passed.
+- `pixi run python -m json.tool conductor/tracks/track22_isaacus_integration_20260613/metadata.json` passed.

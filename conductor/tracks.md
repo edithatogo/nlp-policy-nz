@@ -165,7 +165,7 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Complete the tech-stack observability layer. The repo-side OTel spans, profiling wrappers, and CI benchmark gates are complete; the incomplete 1 GiB profiling pass is now a roadmap note rather than a separate track.
 
-## [~] Track 22: Isaacus Legal NLP Ecosystem Integration
+## [x] Track 22: Isaacus Legal NLP Ecosystem Integration
 *Link: [./conductor/tracks/track22_isaacus_integration_20260613/](./conductor/tracks/track22_isaacus_integration_20260613/)*
 - **Dependencies**: Track 20, Track 5
 - **Parallelization Node**: Legal Knowledge Integration

@@ -1,0 +1,209 @@
+{
+  "track": 22,
+  "name": "isaacus_legal_nlp_ecosystem_integration",
+  "updated_at": "2026-07-01T00:00:00+10:00",
+  "status": "externally_blocked",
+  "repo_side_status": "complete",
+  "local_runtime_observations": {
+    "audit_wrappers_only": true,
+    "network_download_started": false,
+    "hf_download_started": false,
+    "proprietary_api_started": false,
+    "kanon_api_called": false,
+    "model_download_started": false,
+    "live_training_started": false,
+    "fine_tuning_started": false,
+    "hub_push_started": false,
+    "published_baselines_claimed": false,
+    "measured_retrieval_claimed": false
+  },
+  "repo_side_deliverables": [
+    "offline Isaacus dataset manifests",
+    "offline Isaacus model manifests",
+    "offline Isaacus tool manifests",
+    "AU legal row normalization",
+    "PipelineRecord conversion",
+    "deterministic local NZ-MLEB fixture",
+    "NZ-MLEB fixture schema validation",
+    "fail-closed network and proprietary API gates",
+    "audit-only shell wrappers",
+    "Isaacus integration report",
+    "acceptance evidence helpers"
+  ],
+  "external_gates": [
+    {
+      "id": "hf_dataset_downloads",
+      "status": "required",
+      "datasets": 4,
+      "dataset_ids": [
+        "isaacus/open-australian-legal-corpus",
+        "isaacus/open-australian-legal-qa",
+        "isaacus/legal-rag-bench",
+        "isaacus/mleb-legal-rag-bench"
+      ],
+      "requires_hf_access": true,
+      "notes": "Repo-side manifests do not satisfy this gate. It requires live Hugging Face dataset downloads with pinned revisions and content hashes."
+    },
+    {
+      "id": "open_australian_legal_corpus_integration",
+      "status": "required",
+      "accepted_artifacts": [
+        "artifacts/track22/open_australian_legal_corpus_manifest.json",
+        "artifacts/track22/nz_au_merged_corpus_manifest.json"
+      ],
+      "required_fields": [
+        "hf_dataset_id",
+        "dataset_revision",
+        "record_count",
+        "download_hash",
+        "normalization_command",
+        "merged_parquet_path",
+        "merged_parquet_hash"
+      ],
+      "minimum_records": 147000,
+      "notes": "Offline manifests, fixture rows, and schema tests do not satisfy this gate. It requires live dataset download, hashing, normalization, and NZ-AU merge evidence."
+    },
+    {
+      "id": "isaacus_model_evaluation",
+      "status": "required",
+      "minimum_models": 3,
+      "accepted_artifacts": [
+        "artifacts/track22/isaacus_model_evaluation.json",
+        "artifacts/track22/raw_model_metrics/"
+      ],
+      "required_fields": [
+        "model_id",
+        "model_revision",
+        "benchmark_id",
+        "metric_name",
+        "metric_value",
+        "baseline_model",
+        "artifact_hash"
+      ],
+      "notes": "Audit reports and manifest entries do not satisfy this gate. It requires measured evaluation of Isaacus models against NZ legal tasks."
+    },
+    {
+      "id": "kanon_2_retrieval_evaluation",
+      "status": "required",
+      "requires_proprietary_api": true,
+      "accepted_artifacts": [
+        "artifacts/track22/kanon_2_retrieval_evaluation.json",
+        "artifacts/track22/kanon_2_raw_results.jsonl"
+      ],
+      "required_fields": [
+        "access_mode",
+        "credential_source",
+        "benchmark_id",
+        "retrieval_metric",
+        "retrieval_score",
+        "comparison_baseline",
+        "raw_result_hash"
+      ],
+      "notes": "This gate requires credentialed API or air-gapped deployment evidence. Mock API responses and fixture-only retrieval do not satisfy it."
+    },
+    {
+      "id": "au_to_nz_transfer_training",
+      "status": "required",
+      "requires_model_training": true,
+      "accepted_artifacts": [
+        "artifacts/track22/au_to_nz_transfer_training.json",
+        "artifacts/track22/au_to_nz_raw_metrics.jsonl",
+        "artifacts/track22/hub_publication_manifest.json"
+      ],
+      "required_fields": [
+        "base_model_id",
+        "base_model_revision",
+        "nz_training_corpus_hash",
+        "training_command",
+        "evaluation_tasks",
+        "baseline_comparison",
+        "hub_model_id"
+      ],
+      "notes": "A local normalization smoke test is not transfer training. This gate requires measured AU-to-NZ fine-tuning or a documented no-train decision with benchmark evidence."
+    },
+    {
+      "id": "nz_mleb_publication",
+      "status": "required",
+      "requires_publication": true,
+      "accepted_artifacts": [
+        "artifacts/track22/nz_mleb_baselines.json",
+        "artifacts/track22/nz_mleb_report.md",
+        "datasets/nlp-policy-nz/nz-mleb/README.md"
+      ],
+      "required_fields": [
+        "benchmark_revision",
+        "jurisdictions",
+        "query_count",
+        "document_count",
+        "model_results",
+        "publication_commit"
+      ],
+      "minimum_queries": 3,
+      "notes": "The local three-query fixture satisfies repo-side schema coverage only. Publication requires measured retrieval baselines over approved benchmark artifacts."
+    },
+    {
+      "id": "semchunk_comparison",
+      "status": "required",
+      "accepted_artifacts": [
+        "artifacts/track22/semchunk_comparison.json",
+        "artifacts/track22/chunking_error_analysis.md"
+      ],
+      "required_fields": [
+        "semchunk_version",
+        "local_chunker_version",
+        "dataset_manifest",
+        "segmentation_metric",
+        "latency_metric",
+        "error_analysis_hash"
+      ],
+      "notes": "The semchunk manifest entry does not satisfy this gate. It requires installed semchunk and measured comparison against local chunking."
+    },
+    {
+      "id": "blackstone_graph_release_monitoring",
+      "status": "required",
+      "accepted_artifacts": [
+        "artifacts/track22/blackstone_graph_monitoring.json"
+      ],
+      "required_fields": [
+        "repository_url",
+        "release_tag",
+        "release_status",
+        "license",
+        "integration_recommendation"
+      ],
+      "notes": "Monitoring requires a stable upstream release or explicit no-release observation with date and source."
+    }
+  ],
+  "local_validation": [
+    {
+      "name": "focused Track 22 tests",
+      "command": "pixi run pytest -p no:tach -p no:cacheprovider -q tests/test_isaacus_adapter.py tests/test_track22_evidence.py tests/test_track22_script_contracts.py tests/test_track22_external_gate_manifest.py"
+    },
+    {
+      "name": "Track 22 lint",
+      "command": "pixi run ruff check src/nlp_policy_nz/training/isaacus_adapter.py src/nlp_policy_nz/training/track22_evidence.py tests/test_isaacus_adapter.py tests/test_track22_evidence.py tests/test_track22_script_contracts.py tests/test_track22_external_gate_manifest.py"
+    },
+    {
+      "name": "manifest validation",
+      "command": "pixi run python -m json.tool conductor/tracks/track22_isaacus_integration_20260613/external_gate_manifest.json"
+    },
+    {
+      "name": "fixture validation",
+      "command": "pixi run python -m json.tool data/track22/nz_mleb_fixture.json"
+    }
+  ],
+  "surrogate_rejections": [
+    "offline manifests",
+    "repo-side manifests",
+    "local fixtures",
+    "deterministic NZ-MLEB fixture",
+    "audit wrappers",
+    "mock API responses",
+    "mock Kanon response",
+    "fixture metrics",
+    "unpublished benchmark reports",
+    "unpublished benchmark JSON",
+    "local normalization smoke test",
+    "mock Hub publication"
+  ]
+}

@@ -24,6 +24,10 @@ hashes for every downloaded artefact.
 - `tests/test_isaacus_adapter.py` covers required Isaacus assets, AU-to-pipeline
   normalisation, Maori macron preservation, MLEB relevance validation, and
   fail-closed external gates.
+- `conductor/tracks/track22_isaacus_integration_20260613/external_gate_manifest.json`
+  records the external download, API, model-evaluation, NZ-MLEB publication,
+  semchunk comparison, and Blackstone Graph monitoring evidence required before
+  live Isaacus integration is claimed.
 
 ## Script Access Boundary
 

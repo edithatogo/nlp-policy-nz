@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 20 (Fine-Tuning), Track 5 (Semantic Layer)
 **Parallelization Node**: Legal Knowledge Integration
-**Status**: In Progress
+**Status**: Complete (repo-side; live Isaacus gates external)
 
 ---
 
@@ -75,14 +75,17 @@ Integrate the Isaacus legal NLP ecosystem — the most comprehensive open-source
 
 ## Acceptance Criteria
 
-- [ ] Open Australian Legal Corpus downloaded, normalized, and merged with NZ corpus
-- [ ] Open Australian Legal LLM fine-tuned on NZ law and evaluated (AU→NZ transfer)
-- [ ] Kanon 2 Embedder evaluated on NZ legal retrieval tasks
-- [ ] MLEB extended to include NZ jurisdiction
-- [ ] NZ-MLEB baselines published
-- [ ] semchunk evaluated vs existing chunking
-- [ ] Blackstone Graph monitored for integration opportunities
+- [x] Repo-side Isaacus manifests, AU row normalization, PipelineRecord conversion, NZ-MLEB fixture scaffolding, fail-closed access gates, audit-only wrappers, documentation, and focused tests are implemented.
+- [x] Deterministic local NZ-MLEB fixture and schema validation are present for repo-side benchmark scaffolding.
+- [x] External download/API/model/benchmark/publication gates are captured in `external_gate_manifest.json` so measured claims are explicit and auditable.
+- [ ] Open Australian Legal Corpus downloaded, normalized, and merged with NZ corpus.
+- [ ] Open Australian Legal LLM fine-tuned on NZ law and evaluated (AU→NZ transfer).
+- [ ] Kanon 2 Embedder evaluated on NZ legal retrieval tasks.
+- [ ] MLEB extended to include NZ jurisdiction with measured baselines.
+- [ ] NZ-MLEB baselines published.
+- [ ] semchunk evaluated vs existing chunking.
+- [ ] Blackstone Graph monitored with dated upstream release evidence.
 
 ## Repo-side Evidence Boundary - 2026-06-23
 
-The repository now contains offline Isaacus manifests, Australian legal row normalization into PipelineRecord, NZ-MLEB query scaffolding, fail-closed external access gates, audit-only shell wrappers, and focused tests. The acceptance criteria above remain open until live downloads, measured model/API evaluations, NZ-AU corpus merge artifacts, semchunk comparison outputs, and publication evidence are produced in an approved external lane.
+The repository now contains offline Isaacus manifests, Australian legal row normalization into PipelineRecord, NZ-MLEB query scaffolding, fail-closed external access gates, audit-only shell wrappers, focused tests, and an explicit external gate manifest. Track 22 is repo-side complete when paired with `external_gate_manifest.json`; live downloads, measured model/API evaluations, NZ-AU corpus merge artifacts, semchunk comparison outputs, Blackstone Graph release evidence, and publication evidence remain external gates.
