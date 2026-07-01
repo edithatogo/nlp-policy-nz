@@ -7,7 +7,7 @@ The default gate measures `src/` with branch coverage enabled and writes both
 terminal and XML reports:
 
 ```sh
-pixi run python -m pytest -p no:tach -m "not benchmark" --cov=src --cov-report=term-missing --cov-report=xml
+pixi run python -m pytest -p no:tach --ignore=tests/benchmarks --cov=src --cov-report=term-missing --cov-report=xml
 ```
 
 The coverage policy excludes only non-default execution surfaces that require
