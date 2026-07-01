@@ -1,65 +1,12 @@
 [
   {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/court-levels",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#ConceptScheme"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Controlled vocabulary for New Zealand court hierarchy levels."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "NZ court levels"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/hansard-topics",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#ConceptScheme"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Controlled vocabulary for high-level parliamentary debate topics."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Hansard topics"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/amendment-act",
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/department",
     "@type": [
       "http://www.w3.org/2004/02/skos/core#Concept"
     ],
     "http://www.w3.org/2004/02/skos/core#definition": [
       {
-        "@value": "An Act that modifies earlier legislation."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/nz-act-types"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Amendment Act"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/ministerial-portfolio",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Ministerial area of responsibility."
+        "@value": "Central government department."
       }
     ],
     "http://www.w3.org/2004/02/skos/core#inScheme": [
@@ -69,20 +16,7 @@
     ],
     "http://www.w3.org/2004/02/skos/core#prefLabel": [
       {
-        "@value": "Ministerial portfolio"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/anchor/schema-org-legislation/legislationsection",
-    "http://purl.org/dc/elements/1.1/source": [
-      {
-        "@value": "schema.org/Legislation"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "legislationSection"
+        "@value": "Department"
       }
     ]
   },
@@ -108,18 +42,18 @@
     ]
   },
   {
-    "@id": "https://legal-nz.example.org/ontology/evidence/coverage-knowledge-graph-exports-skos",
+    "@id": "https://legal-nz.example.org/ontology/evidence/coverage-akn-legal-docml-ecli",
     "@type": [
       "http://www.w3.org/ns/prov#Entity"
     ],
     "http://purl.org/dc/terms/source": [
       {
-        "@value": "data/ontologies/nz_wikidata_map.ttl, src/nlp_policy_nz/kb/wikidata_kg.py"
+        "@value": "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py"
       }
     ],
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
       {
-        "@value": "missing coverage for SKOS: SKOS is the missing substrate for controlled vocabularies here."
+        "@value": "missing coverage for ECLI: Judgment support exists, but not the authoritative citation layer."
       }
     ],
     "https://legal-nz.example.org/ontology/nz/evidenceType": [
@@ -129,15 +63,199 @@
     ]
   },
   {
-    "@id": "https://legal-nz.example.org/ontology/nz/anchor/schema-org/court",
+    "@id": "https://legal-nz.example.org/ontology/nz/anchor/ecli/court",
     "http://purl.org/dc/elements/1.1/source": [
       {
-        "@value": "schema.org"
+        "@value": "ECLI"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
-        "@value": "Court"
+        "@value": "court"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/NZGovernmentAgencyOntology",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "NZ government agency ontology"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "NZ-specific ontology for agencies, offices, portfolios, and public organizations."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#relatedMatch": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/anchor/w3c-org/organization"
+      },
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/anchor/popolo/organization"
+      }
+    ],
+    "http://www.w3.org/ns/prov#wasDerivedFrom": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/evidence/coverage-knowledge-graph-exports-w3c-org"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/applicationArea": [
+      {
+        "@value": "government_agencies"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/authority": [
+      {
+        "@value": "induced_nz"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.78"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/reviewStatus": [
+      {
+        "@value": "needs_review"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/regulation",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "A delegated legislative instrument."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/nz-act-types"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Regulation"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/iwi",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Tribal group or people."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/maori-legal-concepts"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Iwi"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/anchor/skos/concept",
+    "http://purl.org/dc/elements/1.1/source": [
+      {
+        "@value": "SKOS"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Concept"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/te-tiriti",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Te Tiriti o Waitangi reference."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/maori-legal-concepts"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Te Tiriti"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/maori-legal-concepts",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#ConceptScheme"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Controlled vocabulary for Māori legal and policy concepts."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Māori legal concepts"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/district-court",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "First-instance court level."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/court-levels"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "District Court"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/court-of-appeal",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Intermediate appellate court level."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/court-levels"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Court of Appeal"
       }
     ]
   },
@@ -194,80 +312,6 @@
     ]
   },
   {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/crown-entity",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Statutory public body."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/government-agencies"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Crown entity"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/maori-legal-concepts",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#ConceptScheme"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Controlled vocabulary for Māori legal and policy concepts."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Māori legal concepts"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/evidence/coverage-akn-legal-docml-akoma-ntoso",
-    "@type": [
-      "http://www.w3.org/ns/prov#Entity"
-    ],
-    "http://purl.org/dc/terms/source": [
-      {
-        "@value": "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py"
-      }
-    ],
-    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
-      {
-        "@value": "implemented coverage for Akoma Ntoso: Document emitters support amendment, bill, debate, and judgment formats."
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/evidenceType": [
-      {
-        "@value": "track25_coverage_row"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/government-agencies",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#ConceptScheme"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Controlled vocabulary for public sector actor classes."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "NZ government agencies"
-      }
-    ]
-  },
-  {
     "@id": "https://legal-nz.example.org/ontology/nz/TeTiriti",
     "@type": [
       "http://www.w3.org/2004/02/skos/core#Concept"
@@ -315,6 +359,85 @@
     ]
   },
   {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/supreme-court",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Final appellate court level."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/court-levels"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Supreme Court"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/tikanga",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Māori law, values, and customary practice."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/maori-legal-concepts"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Tikanga"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/government-agencies",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#ConceptScheme"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Controlled vocabulary for public sector actor classes."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "NZ government agencies"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/amendment-act",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "An Act that modifies earlier legislation."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/nz-act-types"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Amendment Act"
+      }
+    ]
+  },
+  {
     "@id": "https://legal-nz.example.org/ontology/nz/vocab/high-court",
     "@type": [
       "http://www.w3.org/2004/02/skos/core#Concept"
@@ -336,55 +459,13 @@
     ]
   },
   {
-    "@id": "https://legal-nz.example.org/ontology/evidence/maori-guard-te-tiriti",
-    "@type": [
-      "http://www.w3.org/ns/prov#Entity"
-    ],
-    "http://purl.org/dc/terms/source": [
-      {
-        "@value": "docs/nz_ontologies.md"
-      }
-    ],
-    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
-      {
-        "@value": "Te Tiriti"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/evidenceType": [
-      {
-        "@value": "term"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/court-of-appeal",
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/ministerial-portfolio",
     "@type": [
       "http://www.w3.org/2004/02/skos/core#Concept"
     ],
     "http://www.w3.org/2004/02/skos/core#definition": [
       {
-        "@value": "Intermediate appellate court level."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/court-levels"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Court of Appeal"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/office",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Public office or statutory role."
+        "@value": "Ministerial area of responsibility."
       }
     ],
     "http://www.w3.org/2004/02/skos/core#inScheme": [
@@ -394,20 +475,243 @@
     ],
     "http://www.w3.org/2004/02/skos/core#prefLabel": [
       {
-        "@value": "Office"
+        "@value": "Ministerial portfolio"
       }
     ]
   },
   {
-    "@id": "https://legal-nz.example.org/ontology/nz/anchor/sioc/post",
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/justice",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Debate about courts, policing, or legal policy."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/hansard-topics"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Justice"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/anchor/akoma-ntoso/act",
     "http://purl.org/dc/elements/1.1/source": [
       {
-        "@value": "SIOC"
+        "@value": "Akoma Ntoso"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
-        "@value": "Post"
+        "@value": "act"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/bill",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "A proposed legislative instrument before enactment."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/nz-act-types"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Bill"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/anchor/popolo/organization",
+    "http://purl.org/dc/elements/1.1/source": [
+      {
+        "@value": "Popolo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Organization"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/evidence/coverage-knowledge-graph-exports-w3c-org",
+    "@type": [
+      "http://www.w3.org/ns/prov#Entity"
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "data/ontologies/nz_wikidata_map.ttl, src/nlp_policy_nz/kb/wikidata_kg.py"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "missing coverage for W3C ORG: Would strengthen the actor and institution layer."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/evidenceType": [
+      {
+        "@value": "track25_coverage_row"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/Tikanga",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Tikanga"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Māori law, values, and customary practice as a reviewable NZ legal concept."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#relatedMatch": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/anchor/skos/concept"
+      },
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/anchor/lkif/legal-concept"
+      }
+    ],
+    "http://www.w3.org/ns/prov#wasDerivedFrom": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/evidence/maori-guard-tikanga"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/applicationArea": [
+      {
+        "@value": "maori_legal_concepts"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/authority": [
+      {
+        "@value": "induced_nz"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/confidence": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "0.8"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/reviewStatus": [
+      {
+        "@value": "needs_review"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/anchor/eli/legalresource",
+    "http://purl.org/dc/elements/1.1/source": [
+      {
+        "@value": "ELI"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "LegalResource"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/anchor/w3c-org/organization",
+    "http://purl.org/dc/elements/1.1/source": [
+      {
+        "@value": "W3C ORG"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Organization"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/hansard-topics",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#ConceptScheme"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Controlled vocabulary for high-level parliamentary debate topics."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Hansard topics"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/crown-entity",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Statutory public body."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/government-agencies"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Crown entity"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/anchor/schema-org-legislation/legislationsection",
+    "http://purl.org/dc/elements/1.1/source": [
+      {
+        "@value": "schema.org/Legislation"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "legislationSection"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/budget",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Debate about fiscal appropriations or spending."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/hansard-topics"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Budget"
       }
     ]
   },
@@ -464,127 +768,38 @@
     ]
   },
   {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/te-tiriti",
+    "@id": "https://legal-nz.example.org/ontology/nz/NZCourtLevel",
     "@type": [
       "http://www.w3.org/2004/02/skos/core#Concept"
     ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Te Tiriti o Waitangi reference."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/maori-legal-concepts"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Te Tiriti"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/anchor/ecli/court",
-    "http://purl.org/dc/elements/1.1/source": [
-      {
-        "@value": "ECLI"
-      }
-    ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
-        "@value": "court"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/evidence/coverage-akn-legal-docml-eli",
-    "@type": [
-      "http://www.w3.org/ns/prov#Entity"
-    ],
-    "http://purl.org/dc/terms/source": [
-      {
-        "@value": "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py"
+        "@value": "NZ court level"
       }
     ],
-    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
       {
-        "@value": "missing coverage for ELI: This is the primary legislative identifier layer missing from the repo."
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/evidenceType": [
-      {
-        "@value": "track25_coverage_row"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/district-court",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "First-instance court level."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/court-levels"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "District Court"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/anchor/w3c-org/organization",
-    "http://purl.org/dc/elements/1.1/source": [
-      {
-        "@value": "W3C ORG"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "Organization"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/NZActOntology",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "NZ Act ontology"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#closeMatch": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/anchor/akoma-ntoso/act"
+        "@id": "https://legal-nz.example.org/ontology/nz/NZCourtOntology"
       }
     ],
     "http://www.w3.org/2004/02/skos/core#definition": [
       {
-        "@value": "NZ-specific ontology for Acts, Bills, provisions, amendments, and commencement."
+        "@value": "A controlled court hierarchy level used for judgment and citation metadata."
       }
     ],
     "http://www.w3.org/2004/02/skos/core#relatedMatch": [
       {
-        "@id": "https://legal-nz.example.org/ontology/nz/anchor/eli/legalresource"
+        "@id": "https://legal-nz.example.org/ontology/nz/anchor/skos/concept"
       }
     ],
     "http://www.w3.org/ns/prov#wasDerivedFrom": [
       {
-        "@id": "https://legal-nz.example.org/ontology/evidence/coverage-akn-legal-docml-akoma-ntoso"
+        "@id": "https://legal-nz.example.org/ontology/evidence/coverage-akn-legal-docml-ecli"
       }
     ],
     "https://legal-nz.example.org/ontology/nz/applicationArea": [
       {
-        "@value": "act_structure"
+        "@value": "court_hierarchy"
       }
     ],
     "https://legal-nz.example.org/ontology/nz/authority": [
@@ -595,59 +810,12 @@
     "https://legal-nz.example.org/ontology/nz/confidence": [
       {
         "@type": "http://www.w3.org/2001/XMLSchema#decimal",
-        "@value": "0.86"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/mappingId": [
-      {
-        "@value": "sioc-post-to-akn-debate"
+        "@value": "0.72"
       }
     ],
     "https://legal-nz.example.org/ontology/nz/reviewStatus": [
       {
         "@value": "needs_review"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/evidence/coverage-knowledge-graph-exports-w3c-org",
-    "@type": [
-      "http://www.w3.org/ns/prov#Entity"
-    ],
-    "http://purl.org/dc/terms/source": [
-      {
-        "@value": "data/ontologies/nz_wikidata_map.ttl, src/nlp_policy_nz/kb/wikidata_kg.py"
-      }
-    ],
-    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
-      {
-        "@value": "missing coverage for W3C ORG: Would strengthen the actor and institution layer."
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/evidenceType": [
-      {
-        "@value": "track25_coverage_row"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/iwi",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Tribal group or people."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/maori-legal-concepts"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Iwi"
       }
     ]
   },
@@ -702,286 +870,6 @@
     ]
   },
   {
-    "@id": "https://legal-nz.example.org/ontology/nz/anchor/popolo/organization",
-    "http://purl.org/dc/elements/1.1/source": [
-      {
-        "@value": "Popolo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "Organization"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/supreme-court",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Final appellate court level."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/court-levels"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Supreme Court"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/act",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "An enacted New Zealand statute."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/nz-act-types"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Act"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/evidence/mapping-sioc-post-to-akn-debate",
-    "@type": [
-      "http://www.w3.org/ns/prov#Entity"
-    ],
-    "http://purl.org/dc/terms/source": [
-      {
-        "@value": "src/nlp_policy_nz/ontology/mapping_graph.py"
-      }
-    ],
-    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
-      {
-        "@value": "sioc-post-to-akn-debate"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/evidenceType": [
-      {
-        "@value": "track29_mapping_record"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/anchor/lkif/legal-concept",
-    "http://purl.org/dc/elements/1.1/source": [
-      {
-        "@value": "LKIF"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "Legal concept"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/health",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Debate about health policy and services."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/hansard-topics"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Health"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/anchor/eli/legalresource",
-    "http://purl.org/dc/elements/1.1/source": [
-      {
-        "@value": "ELI"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "LegalResource"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/regulation",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "A delegated legislative instrument."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/nz-act-types"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Regulation"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/anchor/skos/concept",
-    "http://purl.org/dc/elements/1.1/source": [
-      {
-        "@value": "SKOS"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "Concept"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/NZCourtLevel",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "NZ court level"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/NZCourtOntology"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "A controlled court hierarchy level used for judgment and citation metadata."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#relatedMatch": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/anchor/skos/concept"
-      }
-    ],
-    "http://www.w3.org/ns/prov#wasDerivedFrom": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/evidence/coverage-akn-legal-docml-ecli"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/applicationArea": [
-      {
-        "@value": "court_hierarchy"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/authority": [
-      {
-        "@value": "induced_nz"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/confidence": [
-      {
-        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
-        "@value": "0.72"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/reviewStatus": [
-      {
-        "@value": "needs_review"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/evidence/coverage-akn-legal-docml-ecli",
-    "@type": [
-      "http://www.w3.org/ns/prov#Entity"
-    ],
-    "http://purl.org/dc/terms/source": [
-      {
-        "@value": "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py"
-      }
-    ],
-    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
-      {
-        "@value": "missing coverage for ECLI: Judgment support exists, but not the authoritative citation layer."
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/evidenceType": [
-      {
-        "@value": "track25_coverage_row"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/NZGovernmentAgencyOntology",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "NZ government agency ontology"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "NZ-specific ontology for agencies, offices, portfolios, and public organizations."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#relatedMatch": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/anchor/w3c-org/organization"
-      },
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/anchor/popolo/organization"
-      }
-    ],
-    "http://www.w3.org/ns/prov#wasDerivedFrom": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/evidence/coverage-knowledge-graph-exports-w3c-org"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/applicationArea": [
-      {
-        "@value": "government_agencies"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/authority": [
-      {
-        "@value": "induced_nz"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/confidence": [
-      {
-        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
-        "@value": "0.78"
-      }
-    ],
-    "https://legal-nz.example.org/ontology/nz/reviewStatus": [
-      {
-        "@value": "needs_review"
-      }
-    ]
-  },
-  {
     "@id": "https://legal-nz.example.org/ontology/nz/vocab/taonga",
     "@type": [
       "http://www.w3.org/2004/02/skos/core#Concept"
@@ -999,40 +887,6 @@
     "http://www.w3.org/2004/02/skos/core#prefLabel": [
       {
         "@value": "Taonga"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/anchor/akoma-ntoso/act",
-    "http://purl.org/dc/elements/1.1/source": [
-      {
-        "@value": "Akoma Ntoso"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@value": "act"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/tikanga",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Māori law, values, and customary practice."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/maori-legal-concepts"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Tikanga"
       }
     ]
   },
@@ -1058,78 +912,36 @@
     ]
   },
   {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/bill",
+    "@id": "https://legal-nz.example.org/ontology/nz/NZActOntology",
     "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "A proposed legislative instrument before enactment."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/nz-act-types"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Bill"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/justice",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Debate about courts, policing, or legal policy."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/hansard-topics"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Justice"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/Tikanga",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
+      "http://www.w3.org/2002/07/owl#Class"
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
-        "@value": "Tikanga"
+        "@value": "NZ Act ontology"
       }
     ],
     "http://www.w3.org/2004/02/skos/core#definition": [
       {
-        "@value": "Māori law, values, and customary practice as a reviewable NZ legal concept."
+        "@value": "NZ-specific ontology for Acts, Bills, provisions, amendments, and commencement."
       }
     ],
     "http://www.w3.org/2004/02/skos/core#relatedMatch": [
       {
-        "@id": "https://legal-nz.example.org/ontology/nz/anchor/skos/concept"
+        "@id": "https://legal-nz.example.org/ontology/nz/anchor/akoma-ntoso/act"
       },
       {
-        "@id": "https://legal-nz.example.org/ontology/nz/anchor/lkif/legal-concept"
+        "@id": "https://legal-nz.example.org/ontology/nz/anchor/eli/legalresource"
       }
     ],
     "http://www.w3.org/ns/prov#wasDerivedFrom": [
       {
-        "@id": "https://legal-nz.example.org/ontology/evidence/maori-guard-tikanga"
+        "@id": "https://legal-nz.example.org/ontology/evidence/coverage-akn-legal-docml-akoma-ntoso"
       }
     ],
     "https://legal-nz.example.org/ontology/nz/applicationArea": [
       {
-        "@value": "maori_legal_concepts"
+        "@value": "act_structure"
       }
     ],
     "https://legal-nz.example.org/ontology/nz/authority": [
@@ -1140,12 +952,104 @@
     "https://legal-nz.example.org/ontology/nz/confidence": [
       {
         "@type": "http://www.w3.org/2001/XMLSchema#decimal",
-        "@value": "0.8"
+        "@value": "0.86"
       }
     ],
     "https://legal-nz.example.org/ontology/nz/reviewStatus": [
       {
         "@value": "needs_review"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/evidence/coverage-knowledge-graph-exports-skos",
+    "@type": [
+      "http://www.w3.org/ns/prov#Entity"
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "data/ontologies/nz_wikidata_map.ttl, src/nlp_policy_nz/kb/wikidata_kg.py"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "missing coverage for SKOS: SKOS is the missing substrate for controlled vocabularies here."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/evidenceType": [
+      {
+        "@value": "track25_coverage_row"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/evidence/mapping-sioc-post-to-akn-debate",
+    "@type": [
+      "http://www.w3.org/ns/prov#Entity"
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "src/nlp_policy_nz/ontology/mapping_graph.py"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "sioc-post-to-akn-debate"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/evidenceType": [
+      {
+        "@value": "track29_mapping_record"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/court-levels",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#ConceptScheme"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Controlled vocabulary for New Zealand court hierarchy levels."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "NZ court levels"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/evidence/coverage-akn-legal-docml-akoma-ntoso",
+    "@type": [
+      "http://www.w3.org/ns/prov#Entity"
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "implemented coverage for Akoma Ntoso: Document emitters support amendment, bill, debate, and judgment formats."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/evidenceType": [
+      {
+        "@value": "track25_coverage_row"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/anchor/sioc/post",
+    "http://purl.org/dc/elements/1.1/source": [
+      {
+        "@value": "SIOC"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Post"
       }
     ]
   },
@@ -1166,13 +1070,34 @@
     ]
   },
   {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/department",
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/act",
     "@type": [
       "http://www.w3.org/2004/02/skos/core#Concept"
     ],
     "http://www.w3.org/2004/02/skos/core#definition": [
       {
-        "@value": "Central government department."
+        "@value": "An enacted New Zealand statute."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/nz-act-types"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Act"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/office",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Public office or statutory role."
       }
     ],
     "http://www.w3.org/2004/02/skos/core#inScheme": [
@@ -1182,7 +1107,96 @@
     ],
     "http://www.w3.org/2004/02/skos/core#prefLabel": [
       {
-        "@value": "Department"
+        "@value": "Office"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/vocab/health",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@value": "Debate about health policy and services."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "https://legal-nz.example.org/ontology/nz/vocab/hansard-topics"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Health"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/evidence/maori-guard-te-tiriti",
+    "@type": [
+      "http://www.w3.org/ns/prov#Entity"
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "docs/nz_ontologies.md"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "Te Tiriti"
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/evidenceType": [
+      {
+        "@value": "term"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/anchor/schema-org/court",
+    "http://purl.org/dc/elements/1.1/source": [
+      {
+        "@value": "schema.org"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Court"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/nz/anchor/lkif/legal-concept",
+    "http://purl.org/dc/elements/1.1/source": [
+      {
+        "@value": "LKIF"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Legal concept"
+      }
+    ]
+  },
+  {
+    "@id": "https://legal-nz.example.org/ontology/evidence/coverage-akn-legal-docml-eli",
+    "@type": [
+      "http://www.w3.org/ns/prov#Entity"
+    ],
+    "http://purl.org/dc/terms/source": [
+      {
+        "@value": "src/nlp_policy_nz/schema/akn_v3.py, src/nlp_policy_nz/universal_framework_v3.py"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "missing coverage for ELI: This is the primary legislative identifier layer missing from the repo."
+      }
+    ],
+    "https://legal-nz.example.org/ontology/nz/evidenceType": [
+      {
+        "@value": "track25_coverage_row"
       }
     ]
   },
@@ -1287,27 +1301,6 @@
     "https://legal-nz.example.org/ontology/nz/reviewStatus": [
       {
         "@value": "needs_review"
-      }
-    ]
-  },
-  {
-    "@id": "https://legal-nz.example.org/ontology/nz/vocab/budget",
-    "@type": [
-      "http://www.w3.org/2004/02/skos/core#Concept"
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@value": "Debate about fiscal appropriations or spending."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#inScheme": [
-      {
-        "@id": "https://legal-nz.example.org/ontology/nz/vocab/hansard-topics"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#prefLabel": [
-      {
-        "@value": "Budget"
       }
     ]
   }

@@ -19,8 +19,8 @@
       "label": "NZ Act ontology",
       "ontology_anchors": [
         {
-          "mapping_id": "sioc-post-to-akn-debate",
-          "predicate": "skos:closeMatch",
+          "mapping_id": "",
+          "predicate": "skos:relatedMatch",
           "standard": "Akoma Ntoso",
           "term": "act"
         },

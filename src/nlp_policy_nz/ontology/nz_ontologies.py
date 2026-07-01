@@ -458,7 +458,7 @@ def _seed_concepts(
             0.86,
             _coverage_evidence(row_index, "akn_legal_docml", "Akoma Ntoso"),
             (
-                _anchor("Akoma Ntoso", "act", mapping_index, "sioc-post-to-akn-debate"),
+                _anchor("Akoma Ntoso", "act", mapping_index),
                 _anchor("ELI", "LegalResource", mapping_index),
             ),
         ),

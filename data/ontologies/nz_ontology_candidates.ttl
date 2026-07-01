@@ -207,14 +207,13 @@ evidence:mapping-sioc-post-to-akn-debate a prov:Entity ;
 
 nz:NZActOntology a owl:Class ;
     rdfs:label "NZ Act ontology" ;
-    skos:closeMatch <https://legal-nz.example.org/ontology/nz/anchor/akoma-ntoso/act> ;
     skos:definition "NZ-specific ontology for Acts, Bills, provisions, amendments, and commencement." ;
-    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/eli/legalresource> ;
+    skos:relatedMatch <https://legal-nz.example.org/ontology/nz/anchor/akoma-ntoso/act>,
+        <https://legal-nz.example.org/ontology/nz/anchor/eli/legalresource> ;
     prov:wasDerivedFrom evidence:coverage-akn-legal-docml-akoma-ntoso ;
     nz:applicationArea "act_structure" ;
     nz:authority "induced_nz" ;
     nz:confidence 0.86 ;
-    nz:mappingId "sioc-post-to-akn-debate" ;
     nz:reviewStatus "needs_review" .
 
 nz:NZCourtOntology a owl:Class ;

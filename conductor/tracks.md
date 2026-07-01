@@ -189,6 +189,12 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Mapping Inference
 - **Why**: Infer remaining ontology mappings using triangulation, direct matching, fuzzy matching, structural inference, embedding similarity, and LLM-assisted interpretation with reviewable evidence.
 
+## [x] Track 31: New Zealand Data-Driven Ontologies (archived)
+*Link: [./conductor/tracks/archive/track31_nz_data_driven_ontologies_20260625/](./conductor/tracks/archive/track31_nz_data_driven_ontologies_20260625/)*
+- **Dependencies**: Tracks 25-30
+- **Parallelization Node**: NZ Ontology Induction
+- **Why**: Induce New Zealand-specific ontology candidates for legal, parliamentary, policy, rules-as-code, graph, vector, and publication applications.
+
 ## [ ] Track 32: Whole-Corpus Descriptive Statistics
 *Link: [./conductor/tracks/track32_corpus_descriptive_statistics_20260625/](./conductor/tracks/track32_corpus_descriptive_statistics_20260625/)*
 - **Dependencies**: Tracks 6, 18, 31

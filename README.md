@@ -50,12 +50,17 @@ nlp-policy-nz rac-export \
     --citation-path nz/statutes/example-act/2026/10 \
     --source-url https://legislation.govt.nz/example-act/section/10 \
     --retrieved-at 2026-06-29T00:00:00Z
+
+# Export deterministic New Zealand ontology candidate artifacts
+nlp-policy-nz export-nz-ontologies --output-dir data/ontologies
 ```
 
 ## Documentation
 
 - [Axiom Foundation relevance](docs/axiom-foundation-relevance.md) records the selective source identity, provenance, RuleSpec bridge, and bill/Hansard linkage conventions borrowed from Axiom Foundation repositories.
 - [Build notes](docs/build_backend.md) describe the current packaging decisions.
+- [New Zealand ontology candidates](docs/nz_ontologies.md) describes the Track 31 review-bounded ontology candidate exports.
+- [Ontology mapping](docs/ontology_mapping.md) describes the Track 29/30 ontology mapping graph and inference artifacts.
 - [Pipeline record serialization](docs/pydantic_vs_msgspec.md) records the serialization benchmark decision.
 
 ## 🏛️ Archiving & Releases

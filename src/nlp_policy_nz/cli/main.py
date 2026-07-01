@@ -13,6 +13,7 @@ Typical usage::
     nlp-policy-nz deploy-space --repo-id user/nz-policy-explorer
     nlp-policy-nz archive-to-zenodo --parquet output/legislation.parquet --title "NZ Legislation"
     nlp-policy-nz release --parquet output/legislation.parquet --version 1.0.0 --title "v1.0"
+    nlp-policy-nz export-nz-ontologies --output-dir data/ontologies
 """
 
 import argparse
@@ -517,6 +518,23 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Base URL used to build per-record source trace URLs.",
     )
 
+    # --- export-nz-ontologies subcommand -----------------------------------
+    nz_ontology_parser = subparsers.add_parser(
+        "export-nz-ontologies",
+        help="Export Track 31 NZ ontology candidates and controlled vocabularies.",
+        description=(
+            "Write deterministic Track 31 New Zealand ontology candidate JSON, "
+            "Turtle, JSON-LD, and SKOS controlled vocabulary artifacts."
+        ),
+    )
+    nz_ontology_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        default="data/ontologies",
+        help="Directory for NZ ontology artifacts (default: data/ontologies).",
+    )
+
     return parser
 
 
@@ -553,6 +571,7 @@ def main(argv: list[str] | None = None) -> int:
         "amendment-history",
         "rac-export",
         "export-extractions",
+        "export-nz-ontologies",
     }
     if argv and argv[0] not in commands and not argv[0].startswith("-"):
         parser.print_help()
@@ -779,6 +798,12 @@ def main(argv: list[str] | None = None) -> int:
                 source_url_base=args.source_url_base,
             )
             logger.info("Extraction manifest written: %s", result)
+
+        elif args.command == "export-nz-ontologies":
+            from nlp_policy_nz.ontology import write_nz_ontology_artifacts  # noqa: PLC0415
+
+            written = write_nz_ontology_artifacts(args.output_dir)
+            logger.info("NZ ontology artifacts written: %s", sorted(str(path) for path in written.values()))
 
         else:
             parser.print_help()

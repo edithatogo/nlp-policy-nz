@@ -7,6 +7,14 @@ from importlib import import_module
 __version__ = "0.1.0"
 
 _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
+    "build_nz_ontology_bundle": (
+        "nlp_policy_nz.ontology",
+        "build_nz_ontology_bundle",
+    ),
+    "build_nz_ontology_graph": (
+        "nlp_policy_nz.ontology",
+        "build_nz_ontology_graph",
+    ),
     "FrameworkConfig": ("nlp_policy_nz.universal_framework_v3", "FrameworkConfig"),
     "MetaExtensionRegistry": ("nlp_policy_nz.universal_framework_v3", "MetaExtensionRegistry"),
     "ModularSpaCyBridgeComponentV3": (
@@ -20,6 +28,14 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
         "UniversalIngestionEngine",
     ),
     "get_ingestion_engine": ("nlp_policy_nz.universal_framework_v3", "get_ingestion_engine"),
+    "validate_nz_ontology_bundle": (
+        "nlp_policy_nz.ontology",
+        "validate_nz_ontology_bundle",
+    ),
+    "write_nz_ontology_artifacts": (
+        "nlp_policy_nz.ontology",
+        "write_nz_ontology_artifacts",
+    ),
 }
 
 
@@ -49,6 +65,10 @@ __all__ = [
     "TargetSchemaEmitter",
     "UniversalIngestionEngine",
     "__version__",
+    "build_nz_ontology_bundle",
+    "build_nz_ontology_graph",
     "get_ingestion_engine",
     "run_nlp_pipeline",
+    "validate_nz_ontology_bundle",
+    "write_nz_ontology_artifacts",
 ]

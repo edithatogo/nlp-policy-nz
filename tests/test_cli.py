@@ -248,6 +248,36 @@ class TestArgumentParser:
         assert document_type_actions
         assert tuple(document_type_actions[0].choices) == DOCUMENT_TYPES
 
+    def test_parser_has_export_nz_ontologies_subcommand(self, parser: Any) -> None:
+        """Parser should have an ``export-nz-ontologies`` subcommand."""
+        subparsers_actions = [
+            action
+            for action in parser._actions
+            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
+        ]
+        assert subparsers_actions
+        choices = subparsers_actions[0].choices
+        nz_parser = choices["export-nz-ontologies"]
+        output_dir_actions = [
+            action for action in nz_parser._actions if "--output-dir" in action.option_strings
+        ]
+
+        assert "export-nz-ontologies" in choices
+        assert "Track 31" in nz_parser.description
+        assert output_dir_actions
+
+    def test_export_nz_ontologies_command_writes_artifacts(self, tmp_path: Path) -> None:
+        """The Track 31 CLI command should dispatch to the deterministic writer."""
+        output_dir = tmp_path / "ontologies"
+
+        rc = _run_main(["export-nz-ontologies", "--output-dir", str(output_dir)])
+
+        assert rc == 0
+        assert output_dir.joinpath("nz_ontology_candidates.json").is_file()
+        assert output_dir.joinpath("nz_ontology_candidates.ttl").is_file()
+        assert output_dir.joinpath("nz_ontology_candidates.jsonld").is_file()
+        assert output_dir.joinpath("nz_controlled_vocabularies.json").is_file()
+
 
 # ---------------------------------------------------------------------------
 # Tests: ``upload-dataset`` subcommand

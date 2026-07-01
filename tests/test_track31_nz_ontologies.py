@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from pathlib import Path
 
 from rdflib import Graph, URIRef
@@ -38,6 +39,14 @@ def test_nz_ontology_bundle_covers_required_application_areas() -> None:
     assert validate_nz_ontology_bundle(bundle) == []
 
 
+def test_track31_builders_are_discoverable_from_top_level_package() -> None:
+    """Track 31 helpers should be discoverable through the root package."""
+    import nlp_policy_nz  # noqa: PLC0415
+
+    assert nlp_policy_nz.build_nz_ontology_bundle is build_nz_ontology_bundle
+    assert nlp_policy_nz.write_nz_ontology_artifacts is write_nz_ontology_artifacts
+
+
 def test_nz_ontology_concepts_are_traceable_and_review_bounded() -> None:
     """Every induced concept should carry corpus evidence, anchors, and confidence."""
     bundle = build_nz_ontology_bundle()
@@ -52,6 +61,70 @@ def test_nz_ontology_concepts_are_traceable_and_review_bounded() -> None:
 
     authorities = {concept.authority for concept in bundle.concepts}
     assert authorities == {"authoritative_external", "induced_nz"}
+    assert all(
+        concept.review_status == "needs_review"
+        for concept in bundle.concepts
+        if concept.authority == "induced_nz"
+    )
+    assert [
+        concept.review_status
+        for concept in bundle.concepts
+        if concept.authority == "authoritative_external"
+    ] == ["approved"]
+    act = next(concept for concept in bundle.concepts if concept.concept_id == "NZActOntology")
+    assert "sioc-post-to-akn-debate" not in {
+        anchor.mapping_id for anchor in act.ontology_anchors
+    }
+
+
+def test_nz_ontology_validation_reports_duplicate_labels_and_broken_hierarchies() -> None:
+    """Bundle validation should catch non-unique labels and invalid hierarchy links."""
+    bundle = build_nz_ontology_bundle()
+    concepts_by_id = {concept.concept_id: concept for concept in bundle.concepts}
+    duplicate_label = replace(
+        concepts_by_id["NZProvision"],
+        label=concepts_by_id["NZActOntology"].label,
+    )
+    missing_parent = replace(concepts_by_id["NZHansardOntology"], broader=("missing-parent",))
+    broken_bundle = replace(
+        bundle,
+        concepts=tuple(
+            duplicate_label
+            if concept.concept_id == duplicate_label.concept_id
+            else missing_parent
+            if concept.concept_id == missing_parent.concept_id
+            else concept
+            for concept in bundle.concepts
+        ),
+    )
+
+    errors = validate_nz_ontology_bundle(broken_bundle)
+
+    assert "concept labels must be unique" in errors
+    assert "NZHansardOntology has unknown broader concept missing-parent" in errors
+
+
+def test_nz_ontology_validation_reports_hierarchy_cycles() -> None:
+    """Bundle validation should catch cycles in concept broader relationships."""
+    bundle = build_nz_ontology_bundle()
+    concepts_by_id = {concept.concept_id: concept for concept in bundle.concepts}
+    act = replace(concepts_by_id["NZActOntology"], broader=("NZProvision",))
+    provision = replace(concepts_by_id["NZProvision"], broader=("NZActOntology",))
+    cyclic_bundle = replace(
+        bundle,
+        concepts=tuple(
+            act
+            if concept.concept_id == act.concept_id
+            else provision
+            if concept.concept_id == provision.concept_id
+            else concept
+            for concept in bundle.concepts
+        ),
+    )
+
+    errors = validate_nz_ontology_bundle(cyclic_bundle)
+
+    assert "cycle detected: NZActOntology -> NZProvision -> NZActOntology" in errors
 
 
 def test_skos_concept_schemes_have_unique_labels_and_expected_vocabularies() -> None:
