@@ -539,7 +539,9 @@ def build_triage() -> dict[str, Any]:
     decision_counts = dict.fromkeys(TRIAGE_DECISIONS, 0)
     for candidate in candidates:
         decision_counts[candidate.decision] += 1
-    ranked = sorted(candidates, key=lambda candidate: (-candidate.total_score, candidate.candidate_id))
+    ranked = sorted(
+        candidates, key=lambda candidate: (-candidate.total_score, candidate.candidate_id)
+    )
     return {
         "schema_version": "1.0",
         "track_id": "track28_ontology_discovery_intake_20260625",

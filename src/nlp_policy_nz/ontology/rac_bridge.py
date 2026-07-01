@@ -155,7 +155,7 @@ class PolicyEnginePackageSkeleton:
             raise ValueError("files must contain at least one package artifact")
         for relative_path, content in self.files.items():
             _require_nonempty("file path", relative_path)
-            if not isinstance(content, str):
+            if type(content) is not str:
                 raise TypeError("file content must be text")
 
     def to_dict(self) -> dict[str, Any]:

@@ -9,10 +9,12 @@ still scaffolded or blocked on source data.
 from __future__ import annotations
 
 import json
-from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Final, Literal
+from typing import TYPE_CHECKING, Any, Final, Literal
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 CoverageStatus = Literal["implemented", "partial", "scaffolded", "missing"]
 BlockerType = Literal["none", "data", "spec", "integration"]

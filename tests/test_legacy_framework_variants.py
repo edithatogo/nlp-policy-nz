@@ -3,13 +3,15 @@ from __future__ import annotations
 import importlib.util
 import json
 from pathlib import Path
-from types import ModuleType
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from unittest.mock import patch
 
 import pytest
 import spacy
 from bs4 import BeautifulSoup as RealBeautifulSoup
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 REAL_SPACY_BLANK = spacy.blank
 
@@ -18,17 +20,17 @@ LEGACY_MODULES = [
     (
         "legacy_universal_framework",
         Path("src/nlp_policy_nz/universal_framework.py"),
-        "<div type=\"section\" xml:id=\"sec-5\">",
+        '<div type="section" xml:id="sec-5">',
     ),
     (
         "legacy_universal_framework_v1",
         Path("src/nlp_policy_nz/universal_framework_v1.py"),
-        "<div type=\"section\" xml:id=\"sec-5\">",
+        '<div type="section" xml:id="sec-5">',
     ),
     (
         "legacy_universal_framework_v2",
         Path("src/nlp_policy_nz/universal_framework_v2.py"),
-        "<u xml:id=\"sec-5\"",
+        '<u xml:id="sec-5"',
     ),
 ]
 
@@ -46,7 +48,7 @@ class _PatchedPipeline:
             bridge_args = config or {}
             bridge_cls = getattr(self._module, "ModularSpaCyBridgeComponent", None)
             if bridge_cls is None:
-                bridge_cls = getattr(self._module, "ModularSpaCyBridgeComponentV2")
+                bridge_cls = self._module.ModularSpaCyBridgeComponentV2
             self._bridge = bridge_cls(
                 self._nlp,
                 name,
@@ -74,7 +76,7 @@ def _load_module(module_name: str, path: Path) -> ModuleType:
         patch.object(
             spacy.language.Language,
             "factory",
-            new=lambda *args, **kwargs: (lambda func: func),
+            new=lambda *args, **kwargs: lambda func: func,
         ),
     ):
         spec = importlib.util.spec_from_file_location(module_name, path)
@@ -95,12 +97,14 @@ def _seed_span_metadata(doc: Any, schema_key: str, chunk_id_key: str, chunk: Any
     span._.set(chunk_id_key, chunk.chunk_id)
 
 
-@pytest.mark.parametrize("module_name,path,tei_marker", LEGACY_MODULES)
+@pytest.mark.parametrize(("module_name", "path", "tei_marker"), LEGACY_MODULES)
 def test_legacy_framework_variants_cover_ingestion_and_emission(
     module_name: str, path: Path, tei_marker: str
 ) -> None:
     module = _load_module(module_name, path)
-    sample_xml = '<section id="sec-5" title="Interpretation"><para>The terms apply.</para></section>'
+    sample_xml = (
+        '<section id="sec-5" title="Interpretation"><para>The terms apply.</para></section>'
+    )
     sample_html = '<article id="art-1"><p>Article text.</p></article>'
     sample_jsonl = (
         '{"id": "speech-102", "text": "I support this amendment.", '

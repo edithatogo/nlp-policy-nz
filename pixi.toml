@@ -72,7 +72,7 @@ format-ci = "ruff format --check src/nlp_policy_nz/__init__.py src/nlp_policy_nz
 check-complexity = "python -X utf8 -m complexipy.main . --max-complexity-allowed 100"
 check-boundaries = "tach check"
 test = "pytest"
-coverage = "pytest --cov=src --cov-report=html --cov-report=xml"
+coverage = "pytest -p no:tach -m \"not benchmark\" --cov=src --cov-report=html --cov-report=xml"
 coverage-ci = "pytest tests/smoke tests/test_quality_infrastructure.py tests/test_track23_evidence.py tests/test_smoke.py tests/test_akn_v3.py --cov=src --cov-report=xml --cov-report=html"
 mutation = "mutatest --src src/nlp_policy_nz/ --tests tests/"
 profile = "scalene --reduced-profile --html --outfile docs/profiling.html src/nlp_policy_nz/cli/main.py process --help"

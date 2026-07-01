@@ -8,7 +8,7 @@ import sys
 from contextlib import contextmanager
 from pathlib import Path
 from types import ModuleType
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, ClassVar
 from uuid import uuid4
 
 from nlp_policy_nz.telemetry import tracer as tracer_module
@@ -175,8 +175,8 @@ def test_span_to_dict_handles_missing_parent_and_events() -> None:
         kind = None
         start_time = None
         end_time = None
-        attributes: dict[str, Any] = {}
-        events: list[Any] = []
+        attributes: ClassVar[dict[str, Any]] = {}
+        events: ClassVar[list[Any]] = []
         status = None
 
         def get_span_context(self) -> Context:

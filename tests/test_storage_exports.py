@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import builtins
 import importlib
-from types import ModuleType
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 def test_storage_import_does_not_require_optional_vector_backends() -> None:

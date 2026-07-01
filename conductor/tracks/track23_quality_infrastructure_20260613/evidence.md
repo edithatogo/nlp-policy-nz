@@ -114,3 +114,22 @@ python -B -m json.tool conductor\tracks\track23_quality_infrastructure_20260613\
 ## 2026-06-25 full quality gate manifest
 
 Track 23 now has a machine-readable remaining-gate contract at conductor/tracks/track23_quality_infrastructure_20260613/external_gate_manifest.json. It records mutation_ci_gate as satisfied and full_ruff_strict, strict_basedpyright, coverage_threshold, and full_quality_pass as pending until durable artifacts prove them. Focused tests, scoped Ruff runs, scaffold checks, and configuration inspection are not accepted as substitutes for those gates.
+
+## 2026-07-01 closeout
+
+Track 23 is now complete. The full quality gate manifest records all required
+quality gates as satisfied:
+
+- `full_ruff_strict`: satisfied by the durable strict Ruff evidence artifacts.
+- `strict_basedpyright`: satisfied by the durable basedpyright evidence
+  artifacts.
+- `coverage_threshold`: satisfied by `artifacts/track23/coverage.xml` and
+  `artifacts/track23/coverage_20260701.json`, which record 91.2% line coverage
+  against the 90.0% threshold.
+- `full_quality_pass`: satisfied by the durable `pixi run check` evidence
+  artifacts.
+
+A duplicate full coverage rerun on 2026-07-01 was stopped after stalling while
+another full coverage process was also running. The durable coverage artifact
+used for closeout is the completed local full coverage XML generated immediately
+before this closeout, not a focused or scaffold-only surrogate.

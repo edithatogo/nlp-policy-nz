@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import sqlite3
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 from uuid import uuid4
 
 from nlp_policy_nz.axiom import source_sha256
-from nlp_policy_nz.extraction.schemas import ExtractionManifest
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+
+    from nlp_policy_nz.extraction.schemas import ExtractionManifest
 
 StalenessStatus = Literal["current", "stale", "missing"]
 

@@ -117,9 +117,9 @@ def test_track42_workflows_wire_comparison_and_baseline_update() -> None:
     benchmark_workflow = (ROOT / ".github" / "workflows" / "benchmark.yml").read_text(
         encoding="utf-8"
     )
-    update_workflow = (
-        ROOT / ".github" / "workflows" / "benchmark-update.yml"
-    ).read_text(encoding="utf-8")
+    update_workflow = (ROOT / ".github" / "workflows" / "benchmark-update.yml").read_text(
+        encoding="utf-8"
+    )
 
     assert "scripts/compare_benchmarks.py" in benchmark_workflow
     assert "--baseline artifacts/baselines/pytest-benchmark.json" in benchmark_workflow

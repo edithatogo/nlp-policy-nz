@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
@@ -22,6 +22,9 @@ from nlp_policy_nz.ontology import (
     write_policyengine_package_skeleton,
     write_rules_as_code_bridge_json,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def _contains_key(value: object, key: str) -> bool:

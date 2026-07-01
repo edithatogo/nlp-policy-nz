@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from nlp_policy_nz.extraction import (
     list_catalog_runs,
@@ -9,6 +9,9 @@ from nlp_policy_nz.extraction import (
 )
 from nlp_policy_nz.extraction.exporter import extraction_manifest_from_pipeline_records
 from nlp_policy_nz.storage import PipelineRecord
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def _pipeline_record() -> PipelineRecord:

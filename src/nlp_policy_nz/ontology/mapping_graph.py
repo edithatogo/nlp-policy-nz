@@ -267,7 +267,9 @@ def write_mapping_artifacts(output_dir: Path | str | None = None) -> dict[str, P
     manifest = build_mapping_manifest()
     graph = build_mapping_graph(SEED_MAPPINGS)
     payloads = {
-        MAPPING_MANIFEST_FILENAME: json.dumps(manifest, indent=2, ensure_ascii=False, sort_keys=True)
+        MAPPING_MANIFEST_FILENAME: json.dumps(
+            manifest, indent=2, ensure_ascii=False, sort_keys=True
+        )
         + "\n",
         MAPPING_SCHEMA_FILENAME: json.dumps(mapping_json_schema(), indent=2, sort_keys=True) + "\n",
         MAPPING_TURTLE_FILENAME: graph.serialize(format="turtle"),
@@ -310,7 +312,9 @@ def build_mapping_graph(
         graph.add((mapping_uri, BASE.sourceTerm, RdfLiteral(record.source_term)))
         graph.add((mapping_uri, BASE.targetTerm, RdfLiteral(record.target_term)))
         graph.add((mapping_uri, BASE.mappingPredicate, RdfLiteral(record.mapping_predicate)))
-        graph.add((mapping_uri, BASE.confidence, RdfLiteral(record.confidence, datatype=XSD.decimal)))
+        graph.add(
+            (mapping_uri, BASE.confidence, RdfLiteral(record.confidence, datatype=XSD.decimal))
+        )
         graph.add((mapping_uri, BASE.method, RdfLiteral(record.method)))
         graph.add((mapping_uri, DCTERMS.source, RdfLiteral(record.provenance)))
         graph.add((mapping_uri, BASE.reviewStatus, RdfLiteral(record.review_status)))
@@ -345,7 +349,12 @@ def get_equivalent(
     mappings: tuple[OntologyMappingRecord, ...] | None = None,
 ) -> tuple[str, ...]:
     """Return explicit equivalent or close target terms for a standard pair."""
-    allowed = {"skos:exactMatch", "skos:closeMatch", "owl:equivalentClass", "owl:equivalentProperty"}
+    allowed = {
+        "skos:exactMatch",
+        "skos:closeMatch",
+        "owl:equivalentClass",
+        "owl:equivalentProperty",
+    }
     return tuple(
         record.target_term
         for record in mappings_by_standard_pair(from_std, to_std, mappings=mappings)
@@ -410,7 +419,9 @@ def render_mermaid_graph(
         source = _node_id(record.source_standard)
         target = _node_id(record.target_standard)
         label = record.mapping_predicate.replace(":", "_")
-        lines.append(f'  {source}["{record.source_standard}"] -- "{label}" --> {target}["{record.target_standard}"]')
+        lines.append(
+            f'  {source}["{record.source_standard}"] -- "{label}" --> {target}["{record.target_standard}"]'
+        )
     return "\n".join(lines) + "\n"
 
 
@@ -420,7 +431,14 @@ def mapping_json_schema() -> dict[str, Any]:
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "title": "Track 29 Ontology Mapping Manifest",
         "type": "object",
-        "required": ["schema_version", "track_id", "mapping_predicates", "review_statuses", "mappings", "summary"],
+        "required": [
+            "schema_version",
+            "track_id",
+            "mapping_predicates",
+            "review_statuses",
+            "mappings",
+            "summary",
+        ],
         "properties": {
             "schema_version": {"const": "1.0"},
             "track_id": {"const": "track29_ontology_mapping_kg_20260625"},
@@ -496,7 +514,9 @@ def _predicate_uri(predicate: MappingPredicate) -> URIRef:
 
 
 def _slug(value: str) -> str:
-    return "".join(character.lower() if character.isalnum() else "-" for character in value).strip("-")
+    return "".join(character.lower() if character.isalnum() else "-" for character in value).strip(
+        "-"
+    )
 
 
 def _node_id(value: str) -> str:

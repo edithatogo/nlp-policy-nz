@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from nlp_policy_nz.cli.main import main
 from nlp_policy_nz.extraction import (
@@ -9,6 +9,9 @@ from nlp_policy_nz.extraction import (
     extraction_manifest_from_pipeline_records,
 )
 from nlp_policy_nz.storage import PipelineRecord, serialize_to_parquet
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def _pipeline_record() -> PipelineRecord:

@@ -10,7 +10,7 @@ from nlp_policy_nz.integrations import huggingface as hf
 def test_get_hf_token_and_resolve_token(monkeypatch) -> None:
     monkeypatch.delenv(hf.HF_TOKEN_ENV_VAR, raising=False)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=hf.HF_TOKEN_ENV_VAR):
         hf.get_hf_token()
 
     assert hf._resolve_token("explicit-token") == "explicit-token"

@@ -6,8 +6,7 @@ import json
 from pathlib import Path
 
 MANIFEST = Path(
-    "conductor/archive/track21_bleeding_edge_architectures_20260613/"
-    "external_gate_manifest.json"
+    "conductor/archive/track21_bleeding_edge_architectures_20260613/external_gate_manifest.json"
 )
 
 

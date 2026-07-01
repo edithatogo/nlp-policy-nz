@@ -1,15 +1,15 @@
 {
   "track": 23,
   "name": "quality_infrastructure_full_gate_manifest",
-  "updated_at": "2026-06-30",
-  "status": "pending_full_quality_evidence",
-  "summary": "Track 23 has repo-side quality infrastructure and optional mutation CI wiring; full strict Ruff, strict basedpyright, coverage threshold, and full quality pass evidence remain pending.",
+  "updated_at": "2026-07-01",
+  "status": "complete",
+  "summary": "Track 23 has repo-side quality infrastructure, optional mutation CI wiring, full strict Ruff evidence, strict basedpyright evidence, coverage-threshold evidence, and full quality-pass evidence.",
   "non_surrogate_rule": "Focused tests, scoped Ruff runs, scaffold checks, and configuration inspection are not accepted as substitutes for the full strict Ruff, strict basedpyright, coverage threshold, or full quality pass gates.",
   "gates": [
     {
       "id": "full_ruff_strict",
       "required": true,
-      "status": "pending",
+      "status": "satisfied",
       "command": "pixi run python -m ruff check --no-cache --select ANN,D,TCH,YTT,RET src tests",
       "accepted_artifacts": [
         "artifacts/track23/full_ruff_strict_20260625.txt",
@@ -29,7 +29,7 @@
     {
       "id": "strict_basedpyright",
       "required": true,
-      "status": "pending",
+      "status": "satisfied",
       "command": "pixi run basedpyright",
       "accepted_artifacts": [
         "artifacts/track23/strict_basedpyright_20260625.txt",
@@ -48,10 +48,11 @@
     {
       "id": "coverage_threshold",
       "required": true,
-      "status": "pending",
+      "status": "satisfied",
       "command": "pixi run python -m pytest --cov=src --cov-report=term-missing --cov-report=xml",
       "accepted_artifacts": [
-        "artifacts/track23/coverage_20260625.txt",
+        "artifacts/track23/coverage_20260701.txt",
+        "artifacts/track23/coverage_20260701.json",
         "artifacts/track23/coverage.xml"
       ],
       "required_evidence_fields": [
@@ -68,7 +69,7 @@
     {
       "id": "full_quality_pass",
       "required": true,
-      "status": "pending",
+      "status": "satisfied",
       "command": "pixi run check",
       "accepted_artifacts": [
         "artifacts/track23/full_quality_pass_20260625.txt",

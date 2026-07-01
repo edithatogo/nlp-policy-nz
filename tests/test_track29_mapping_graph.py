@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from rdflib import Graph
 
@@ -30,6 +30,9 @@ from nlp_policy_nz.ontology.mapping_graph import (
     validate_mapping_manifest,
     write_mapping_artifacts,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def test_mapping_record_validation_and_manifest_contract() -> None:

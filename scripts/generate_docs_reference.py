@@ -215,7 +215,10 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     """Generate reference docs and return a process exit code."""
     args = build_parser().parse_args(argv)
-    written = (*generate_reference_pages(args.output_root), *generate_notebook_pages(output_root=args.output_root))
+    written = (
+        *generate_reference_pages(args.output_root),
+        *generate_notebook_pages(output_root=args.output_root),
+    )
     for path in written:
         sys.stdout.write(f"{path}\n")
     return 0

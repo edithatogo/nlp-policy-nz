@@ -100,9 +100,7 @@ def compare_benchmarks(
             continue
         delta = BenchmarkDelta(name, baseline[name], current[name], threshold, "passed")
         status = "regressed" if delta.delta_ratio > threshold else "passed"
-        results.append(
-            BenchmarkDelta(name, baseline[name], current[name], threshold, status)
-        )
+        results.append(BenchmarkDelta(name, baseline[name], current[name], threshold, status))
     return tuple(results)
 
 

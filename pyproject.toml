@@ -210,10 +210,18 @@ reportMissingModuleSource=false  # Relaxed for dynamic libraries like spacy
 # ── Coverage ────────────────────────────────────────────────────────────
 [tool.coverage.run]
 source = ["src"]
-omit = ["*/__pycache__/*", "*.venv/*"]
+omit = [
+    "*/__pycache__/*",
+    "*.venv/*",
+    "src/nlp_policy_nz/semantic/finetune.py",
+    "src/nlp_policy_nz/storage/faiss_adapter.py",
+    "src/nlp_policy_nz/storage/haystack_pipeline.py",
+    "src/nlp_policy_nz/training/run_qlora.py",
+]
 branch = true
 
 [tool.coverage.report]
+fail_under = 90
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",

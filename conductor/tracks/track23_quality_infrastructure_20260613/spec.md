@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 1 (Environment Setup)
 **Parallelization Node**: Infrastructure & Quality
-**Status**: In Progress
+**Status**: Complete
 
 ---
 
@@ -42,18 +42,18 @@ Complete the full quality and testing tooling stack for the nlp-policy-nz projec
 
 ## Acceptance Criteria
 
-- [ ] Ruff config upgraded to include ANN, D, TCH, YTT, RET rule sets (strict annotations, docstrings, typing)
-- [ ] All source files pass `ruff check --select ANN,D,TCH,YTT,RET` (or are explicitly suppressed with `# noqa`)
-- [ ] `pyproject.toml` configured with `[tool.basedpyright] strict = true` or `[tool.mypy] strict = true`
-- [ ] All source files use consistent `ty.` typing pattern (`from __future__ import annotations` + `import typing as ty`)
-- [ ] `uv_build` evaluated as build backend; decision documented
-- [ ] Scalene profiling script created and verified
-- [ ] Codecov CI step added to `.github/workflows/ci.yml` with coverage config
-- [ ] Smoke tests created and passing (`tests/test_smoke.py`)
-- [ ] End-to-end tests created (`tests/e2e/test_pipeline_e2e.py`)
-- [ ] Integration tests created (`tests/integration/`)
-- [ ] Mutation tests wired into CI (optional gate)
-- [ ] Pydantic v2 evaluation documented with recommendation
+- [x] Ruff config upgraded to include ANN, D, TCH, YTT, RET rule sets (strict annotations, docstrings, typing)
+- [x] All source files pass `ruff check --select ANN,D,TCH,YTT,RET` (or are explicitly suppressed with `# noqa`)
+- [x] `pyproject.toml` configured with `[tool.basedpyright] strict = true` or `[tool.mypy] strict = true`
+- [x] All source files use consistent `ty.` typing pattern (`from __future__ import annotations` + `import typing as ty`)
+- [x] `uv_build` evaluated as build backend; decision documented
+- [x] Scalene profiling script created and verified
+- [x] Codecov CI step added to `.github/workflows/ci.yml` with coverage config
+- [x] Smoke tests created and passing (`tests/test_smoke.py`)
+- [x] End-to-end tests created (`tests/e2e/test_pipeline_e2e.py`)
+- [x] Integration tests created (`tests/integration/`)
+- [x] Mutation tests wired into CI (optional gate)
+- [x] Pydantic v2 evaluation documented with recommendation
 
 ## Repo-Side Evidence Boundary
 
@@ -64,5 +64,7 @@ satisfy:
 
 - strict Ruff passing across the agreed full source scope;
 - basedpyright strict passing across the agreed full source scope;
-- measured coverage meeting the agreed threshold;
+- measured coverage meeting the agreed threshold, now satisfied by
+  `artifacts/track23/coverage.xml` with 91.2% line coverage against the 90.0%
+  threshold;
 - mutation testing producing a recorded passing result.

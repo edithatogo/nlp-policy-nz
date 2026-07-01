@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from nlp_policy_nz.storage import PipelineRecord, serialize_to_parquet
 from nlp_policy_nz.training.runtime import (
@@ -17,6 +17,9 @@ from nlp_policy_nz.training.smoke import (
     run_cpu_mlm_smoke_training,
     run_cpu_mlm_smoke_training_from_parquet,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def _profile(**overrides: object) -> TrainingRuntimeProfile:

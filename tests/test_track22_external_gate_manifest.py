@@ -6,8 +6,7 @@ import json
 from pathlib import Path
 
 MANIFEST = Path(
-    "conductor/archive/track22_isaacus_integration_20260613/"
-    "external_gate_manifest.json"
+    "conductor/archive/track22_isaacus_integration_20260613/external_gate_manifest.json"
 )
 
 
@@ -25,10 +24,7 @@ def test_track22_external_gate_manifest_is_explicit() -> None:
     assert observations["measured_retrieval_claimed"] is False
 
     gates = {gate["id"]: gate for gate in manifest["external_gates"]}
-    assert (
-        gates["open_australian_legal_corpus_integration"]["minimum_records"]
-        >= 147_000
-    )
+    assert gates["open_australian_legal_corpus_integration"]["minimum_records"] >= 147_000
     assert gates["isaacus_model_evaluation"]["minimum_models"] >= 3
     assert gates["nz_mleb_publication"]["minimum_queries"] >= 3
     assert "credentialed API" in gates["kanon_2_retrieval_evaluation"]["notes"]

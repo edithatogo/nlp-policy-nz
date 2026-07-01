@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from nlp_policy_nz.integrations.data_registry import DataRecord, DataSovereigntyRegistry
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def test_registry_register_lookup_list_and_persist(tmp_path: Path) -> None:

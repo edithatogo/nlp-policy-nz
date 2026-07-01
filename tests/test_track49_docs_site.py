@@ -62,9 +62,7 @@ def test_track49_architecture_runbook_and_versioning_pages_exist() -> None:
     for page in required:
         content = (DOCS / page).read_text(encoding="utf-8")
         assert "# " in content
-    assert "flowchart" in (DOCS / "architecture/system-overview.md").read_text(
-        encoding="utf-8"
-    )
+    assert "flowchart" in (DOCS / "architecture/system-overview.md").read_text(encoding="utf-8")
 
 
 def test_track49_reference_generator_writes_openapi_python_and_cli_pages(

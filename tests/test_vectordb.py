@@ -8,12 +8,15 @@ record creation.
 from __future__ import annotations
 
 import shutil
-from collections.abc import Iterator
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
 from nlp_policy_nz.storage.vectordb import LANCE_DB_URI, LanceDBAdapter
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 
 @pytest.fixture
@@ -32,6 +35,7 @@ def vector_records() -> list[dict[str, object]]:
         {"doc_id": "b", "text": "second", "vector": [0.0, 1.0, 0.0, 0.0]},
         {"doc_id": "c", "text": "third", "vector": [0.0, 0.0, 1.0, 0.0]},
     ]
+
 
 # ---------------------------------------------------------------------------
 # Initialisation tests

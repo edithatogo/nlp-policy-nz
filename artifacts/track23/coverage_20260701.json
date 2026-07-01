@@ -1,0 +1,11 @@
+{
+  "created_at": "2026-07-01T16:15:55.6916335+10:00",
+  "command": "pixi run python -m pytest --cov=src --cov-report=term-missing --cov-report=xml",
+  "return_code": 0,
+  "passed": true,
+  "coverage_percent": 91.2,
+  "minimum_coverage_percent": 90.0,
+  "source_artifact": "coverage.xml",
+  "durable_artifact": "artifacts/track23/coverage.xml",
+  "note": "Preserved completed full coverage XML from local run; later duplicate reruns were stopped after stalling before completion."
+}

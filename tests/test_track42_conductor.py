@@ -14,10 +14,7 @@ def test_track42_conductor_registry_and_metadata_are_complete() -> None:
     plan = TRACK42.joinpath("plan.md").read_text(encoding="utf-8")
     spec = TRACK42.joinpath("spec.md").read_text(encoding="utf-8")
 
-    assert (
-        "## [x] Track 42: Performance Regression CI & Benchmark Baselines (archived)"
-        in registry
-    )
+    assert "## [x] Track 42: Performance Regression CI & Benchmark Baselines (archived)" in registry
     assert str(TRACK42).replace("\\", "/") in registry
     assert metadata["track_id"] == "track42_performance_regression_20260626"
     assert metadata["status"] == "archived"

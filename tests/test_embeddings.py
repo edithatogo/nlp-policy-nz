@@ -356,7 +356,7 @@ class TestEmbeddingBehaviour:
         assert [item.doc_id for item in batch] == ["doc-a", "doc-b"]
         assert [item.dimension for item in batch] == [1, 1]
 
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="doc_ids"):
             gen.embed_batch(["a"], doc_ids=["too", "many"])
 
         gen.unload()

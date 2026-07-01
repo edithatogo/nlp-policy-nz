@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from nlp_policy_nz.quality.track28_ontology_discovery import (
     BLOCKERS_FILENAME,
@@ -16,6 +16,9 @@ from nlp_policy_nz.quality.track28_ontology_discovery import (
     discovery_candidates,
     write_track28_discovery_artifacts,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def test_track28_discovery_log_covers_required_source_categories() -> None:
@@ -90,6 +93,4 @@ def test_track28_artifact_writer_is_deterministic(tmp_path: Path) -> None:
     assert json.loads(written[REGISTRY_ADDENDUM_FILENAME].read_text(encoding="utf-8")) == (
         build_registry_addendum()
     )
-    assert json.loads(written[BLOCKERS_FILENAME].read_text(encoding="utf-8")) == (
-        build_blockers()
-    )
+    assert json.loads(written[BLOCKERS_FILENAME].read_text(encoding="utf-8")) == (build_blockers())

@@ -5,9 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-MANIFEST = Path(
-    "conductor/archive/track20_legal_finetuning_20260613/external_gate_manifest.json"
-)
+MANIFEST = Path("conductor/archive/track20_legal_finetuning_20260613/external_gate_manifest.json")
 
 
 def test_track20_external_gate_manifest_is_explicit() -> None:
@@ -23,9 +21,7 @@ def test_track20_external_gate_manifest_is_explicit() -> None:
     gates = {gate["id"]: gate for gate in manifest["external_gates"]}
     assert gates["legal_bert_mlm_training"]["minimum_training_steps"] >= 100_000
     assert gates["tier2_qlora_training"]["minimum_models"] >= 3
-    assert (
-        gates["held_out_quality_evaluation"]["minimum_citation_f1_improvement"] >= 0.10
-    )
+    assert gates["held_out_quality_evaluation"]["minimum_citation_f1_improvement"] >= 0.10
     assert gates["hugging_face_model_publication"]["namespace"] == "nlp-policy-nz"
     validation_commands = {
         check["name"]: check["command"] for check in manifest["local_validation"]

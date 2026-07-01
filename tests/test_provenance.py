@@ -12,9 +12,9 @@ from nlp_policy_nz.provenance import (
     ProvenanceRecorder,
     load_provenance_sidecar,
     provenance_sidecar_path,
+    recorder as recorder_module,
     serialize_prov_o_jsonld,
 )
-from nlp_policy_nz.provenance import recorder as recorder_module
 
 
 def _case_dir(name: str) -> Path:
@@ -239,7 +239,9 @@ def test_process_legislation_records_embedding_model_version(monkeypatch) -> Non
     }
 
 
-def test_recorder_finish_uses_fallbacks_and_write_sidecar_default(tmp_path: Path, monkeypatch) -> None:
+def test_recorder_finish_uses_fallbacks_and_write_sidecar_default(
+    tmp_path: Path, monkeypatch
+) -> None:
     monkeypatch.setattr(recorder_module, "_package_version", lambda: "9.9.9")
     monkeypatch.setattr(recorder_module, "_git_commit_sha", lambda: "deadbeef")
     monkeypatch.setattr(recorder_module, "_utc_now", lambda: "2026-06-29T00:00:00Z")
@@ -270,8 +272,14 @@ def test_package_version_and_git_commit_fallbacks(monkeypatch) -> None:
         pass
 
     monkeypatch.setattr(recorder_module.metadata, "PackageNotFoundError", PackageNotFoundError)
-    monkeypatch.setattr(recorder_module.metadata, "version", lambda _name: (_ for _ in ()).throw(PackageNotFoundError()))
-    monkeypatch.setattr(recorder_module.subprocess, "run", lambda *args, **kwargs: (_ for _ in ()).throw(OSError()))
+    monkeypatch.setattr(
+        recorder_module.metadata,
+        "version",
+        lambda _name: (_ for _ in ()).throw(PackageNotFoundError()),
+    )
+    monkeypatch.setattr(
+        recorder_module.subprocess, "run", lambda *args, **kwargs: (_ for _ in ()).throw(OSError())
+    )
 
     assert recorder_module._package_version() == "0.0.0+local"
     assert recorder_module._git_commit_sha() == "unknown"

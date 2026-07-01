@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from pathlib import Path
 from types import SimpleNamespace
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import pytest
 
 from nlp_policy_nz import pipeline_api
 from nlp_policy_nz.ontology import standards
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def test_ontology_standard_round_trips_and_registry_helpers(tmp_path: Path) -> None:
@@ -43,9 +45,9 @@ def test_ontology_standard_round_trips_and_registry_helpers(tmp_path: Path) -> N
     assert standards.parse_eli_uri(draft_uri, base_uri=dl_base) == draft_resource
     assert standards.build_eli_uri(draft_resource, base_uri=dl_base) == draft_uri
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="draft_stage"):
         standards.build_eli_dl_uri(resource, base_uri=dl_base)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="expected prefix"):
         standards.parse_eli_uri("https://example.test/not-eli", base_uri=eli_base)
 
     identifier = standards.ECLIIdentifier(
@@ -59,7 +61,7 @@ def test_ontology_standard_round_trips_and_registry_helpers(tmp_path: Path) -> N
     assert parsed_identifier.court_code == "HC"
     assert parsed_identifier.year == identifier.year
     assert parsed_identifier.sequence == identifier.sequence
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Expected an ECLI identifier"):
         standards.parse_ecli_identifier("bad-value")
 
     concept = standards.ControlledConcept(
@@ -77,7 +79,7 @@ def test_ontology_standard_round_trips_and_registry_helpers(tmp_path: Path) -> N
     parsed_broader = standards.parse_controlled_concept(broader_string_payload)
     assert parsed_broader.broader == ("parent-2",)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="prefLabel"):
         standards.parse_controlled_concept(
             {
                 "@id": "https://example.test/scheme/item",
@@ -109,7 +111,10 @@ def test_ontology_standard_round_trips_and_registry_helpers(tmp_path: Path) -> N
     assert manifest["summary"]["total_standards"] == len(manifest["standards"])
     assert set(manifest["summary"]["round_trip_standard_ids"]) <= set(manifest["standard_ids"])
     assert standards.ontology_standard_ids() == tuple(sorted(standards.ontology_standard_ids()))
-    assert standards.ontology_standard_mappings()["eli"] == standards.get_ontology_standard("eli").namespace
+    assert (
+        standards.ontology_standard_mappings()["eli"]
+        == standards.get_ontology_standard("eli").namespace
+    )
     with pytest.raises(KeyError):
         standards.get_ontology_standard("missing-standard")
 
@@ -120,10 +125,13 @@ def test_ontology_standard_round_trips_and_registry_helpers(tmp_path: Path) -> N
     assert standards.dump_ontology_standards_manifest(tmp_path)
 
     assert standards._clean_segments("https://example.test/root/a/b") == ["root", "a", "b"]
-    assert standards._join_uri("https://example.test/root/", "/a/", "b") == "https://example.test/root/a/b"
+    assert (
+        standards._join_uri("https://example.test/root/", "/a/", "b")
+        == "https://example.test/root/a/b"
+    )
     assert standards._slug(" Demo Title! ") == "demo-title"
     assert standards._strip_template_prefix(["a", "b", "c"], ("a", "b")) == ["c"]
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="expected prefix"):
         standards._strip_template_prefix(["x"], ("a",))
 
 
@@ -201,7 +209,9 @@ def test_pipeline_helper_branches_and_search_paths(monkeypatch, tmp_path: Path) 
             return [{"query_embedding": query_embedding, "top_k": top_k, "uri": self.uri}]
 
     monkeypatch.setattr(pipeline_api, "LanguageIdentifier", FakeLanguageIdentifier)
-    monkeypatch.setattr(pipeline_api, "default_nz_entities", lambda: [FakeEntity("party", "Labour", ("LP",))])
+    monkeypatch.setattr(
+        pipeline_api, "default_nz_entities", lambda: [FakeEntity("party", "Labour", ("LP",))]
+    )
     monkeypatch.setattr(pipeline_api, "NzEntityResolverComponent", FakeResolver)
     monkeypatch.setattr(
         pipeline_api,
@@ -215,17 +225,24 @@ def test_pipeline_helper_branches_and_search_paths(monkeypatch, tmp_path: Path) 
             motion="Question agreed to.",
         ),
     )
-    monkeypatch.setattr(pipeline_api, "amendments_to_dicts", lambda items: [{"item": item} for item in items])
+    monkeypatch.setattr(
+        pipeline_api, "amendments_to_dicts", lambda items: [{"item": item} for item in items]
+    )
     monkeypatch.setattr(pipeline_api, "parse_amendments", lambda text: [text, text.upper()])
     monkeypatch.setattr(pipeline_api, "load_model", lambda: (object(), object()))
-    monkeypatch.setattr(pipeline_api, "generate_embedding", lambda text, model, tokenizer: [len(text)])
+    monkeypatch.setattr(
+        pipeline_api, "generate_embedding", lambda text, model, tokenizer: [len(text)]
+    )
     monkeypatch.setattr(pipeline_api, "LanceDBAdapter", FakeLanceDBAdapter)
 
     model_config = SimpleNamespace(_name_or_path="model/config")
     tokenizer_kwargs = SimpleNamespace(init_kwargs={"name_or_path": "tokenizer/kwargs"})
     tokenizer_direct = SimpleNamespace(name_or_path="tokenizer/direct", init_kwargs={})
 
-    assert pipeline_api._model_version_from_loaded(SimpleNamespace(config=model_config), object()) == "model/config"
+    assert (
+        pipeline_api._model_version_from_loaded(SimpleNamespace(config=model_config), object())
+        == "model/config"
+    )
     assert (
         pipeline_api._model_version_from_loaded(
             SimpleNamespace(config=SimpleNamespace(_name_or_path=None)),
@@ -258,12 +275,15 @@ def test_pipeline_helper_branches_and_search_paths(monkeypatch, tmp_path: Path) 
 
     assert pipeline_api._resolve_path(file_path).is_absolute()
     assert pipeline_api._collect_input_files(file_path) == [file_path.resolve()]
-    assert [path.name for path in pipeline_api._collect_input_files(dir_path)] == ["a.txt", "b.json"]
-    with pytest.raises(FileNotFoundError):
+    assert [path.name for path in pipeline_api._collect_input_files(dir_path)] == [
+        "a.txt",
+        "b.json",
+    ]
+    with pytest.raises(FileNotFoundError, match="does not exist"):
         pipeline_api._collect_input_files(tmp_path / "missing")
-    with pytest.raises(FileNotFoundError):
-        empty_dir = tmp_path / "empty"
-        empty_dir.mkdir()
+    empty_dir = tmp_path / "empty"
+    empty_dir.mkdir()
+    with pytest.raises(FileNotFoundError, match="No supported input files"):
         pipeline_api._collect_input_files(empty_dir)
 
     assert pipeline_api._extract_te_reo_terms("text") == ["kāwanatanga"]
@@ -317,9 +337,16 @@ def test_pipeline_helper_branches_and_search_paths(monkeypatch, tmp_path: Path) 
         ),
     )
 
-    assert pipeline_api._extract_amendment_records("alpha") == [{"item": "alpha"}, {"item": "ALPHA"}]
-    assert pipeline_api._text_mentions_entity("The Labour Party agrees", FakeEntity("party", "Labour Party", ("LP",)))
-    assert not pipeline_api._text_mentions_entity("The Greens", FakeEntity("party", "Labour Party", ("LP",)))
+    assert pipeline_api._extract_amendment_records("alpha") == [
+        {"item": "alpha"},
+        {"item": "ALPHA"},
+    ]
+    assert pipeline_api._text_mentions_entity(
+        "The Labour Party agrees", FakeEntity("party", "Labour Party", ("LP",))
+    )
+    assert not pipeline_api._text_mentions_entity(
+        "The Greens", FakeEntity("party", "Labour Party", ("LP",))
+    )
     assert pipeline_api._valid_context_date("2024-06-30") == "2024-06-30"
     assert pipeline_api._valid_context_date("30/06/2024") is None
 

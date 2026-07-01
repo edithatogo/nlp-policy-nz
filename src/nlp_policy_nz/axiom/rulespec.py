@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import re
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from nlp_policy_nz.axiom.source import SourceSectionMetadata
-from nlp_policy_nz.storage.serialization import PipelineRecord
+if TYPE_CHECKING:
+    from nlp_policy_nz.axiom.source import SourceSectionMetadata
+    from nlp_policy_nz.storage.serialization import PipelineRecord
 
 
 @dataclass(frozen=True)

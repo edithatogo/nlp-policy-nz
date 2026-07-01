@@ -4,11 +4,13 @@ from __future__ import annotations
 
 import hashlib
 import re
-from collections.abc import Mapping
 from dataclasses import asdict, dataclass, field
-from typing import Literal, get_args
+from typing import TYPE_CHECKING, Literal, get_args
 
 from nlp_policy_nz.storage.serialization import PipelineRecord
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
 
 DocumentType = Literal[
     "act",

@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from nlp_policy_nz.axiom import pipeline_record_rulespec_reference, source_sha256
 from nlp_policy_nz.extraction.schemas import (
@@ -17,6 +16,9 @@ from nlp_policy_nz.extraction.schemas import (
     render_extraction_manifest_json,
 )
 from nlp_policy_nz.storage import PipelineRecord, load_from_parquet
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 def extraction_manifest_from_pipeline_records(
@@ -91,9 +93,7 @@ def _records_for_pipeline_record(
                 confidence=0.8,
                 attributes={
                     "rulespec_id": reference.durable_id,
-                    "source_field": "legal_effect"
-                    if record.legal_effect
-                    else "deontic_modality",
+                    "source_field": "legal_effect" if record.legal_effect else "deontic_modality",
                 },
             )
         )

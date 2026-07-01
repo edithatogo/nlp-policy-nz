@@ -22,11 +22,11 @@ def test_track23_full_quality_gates_are_explicit() -> None:
         "coverage_threshold",
         "full_quality_pass",
     }
-    assert manifest["status"] == "pending_full_quality_evidence"
+    assert manifest["status"] == "complete"
 
     for gate in gates.values():
         assert gate["required"] is True
-        assert gate["status"] == "pending"
+        assert gate["status"] == "satisfied"
         assert gate["command"]
         assert gate["accepted_artifacts"]
         assert gate["required_evidence_fields"]
@@ -53,6 +53,7 @@ def test_track23_coverage_gate_declares_threshold() -> None:
     coverage_gate = gates["coverage_threshold"]
 
     assert coverage_gate["minimum_coverage_percent"] == 90.0
+    assert "artifacts/track23/coverage_20260701.json" in coverage_gate["accepted_artifacts"]
     assert "coverage_percent" in coverage_gate["required_evidence_fields"]
     assert "minimum_coverage_percent" in coverage_gate["required_evidence_fields"]
 

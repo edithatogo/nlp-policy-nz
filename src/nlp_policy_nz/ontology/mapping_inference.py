@@ -5,13 +5,15 @@ from __future__ import annotations
 import json
 import re
 from collections import defaultdict
-from collections.abc import Callable
 from dataclasses import dataclass
 from difflib import SequenceMatcher
 from pathlib import Path
-from typing import Any, Final, Literal
+from typing import TYPE_CHECKING, Any, Final, Literal
 
 from nlp_policy_nz.ontology.mapping_graph import MappingPredicate, OntologyMappingRecord
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 InferenceMethod = Literal["exact", "fuzzy", "synonym", "structural", "embedding", "llm_prompt"]
 
@@ -68,7 +70,9 @@ class OntologyTerm:
     def normalized_aliases(self) -> tuple[str, ...]:
         """Return normalized labels, IDs, definitions, and synonyms."""
         values = (self.term_id, self.label, self.definition, *self.synonyms)
-        return tuple(dict.fromkeys(normalize_mapping_text(value) for value in values if value.strip()))
+        return tuple(
+            dict.fromkeys(normalize_mapping_text(value) for value in values if value.strip())
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -195,7 +199,9 @@ def infer_fuzzy_matches(
                     mapping_predicate="skos:closeMatch",
                     methods=("fuzzy",),
                     confidence=min(0.9, max(0.55, score)),
-                    evidence=(f"fuzzy similarity {score:.3f}: {source_value!r} ~ {target_value!r}",),
+                    evidence=(
+                        f"fuzzy similarity {score:.3f}: {source_value!r} ~ {target_value!r}",
+                    ),
                 )
             )
     return tuple(candidates)
@@ -323,7 +329,9 @@ def merge_inferred_candidates(
             InferredMappingCandidate(
                 source=first.source,
                 target=first.target,
-                mapping_predicate=_strongest_predicate(tuple(candidate.mapping_predicate for candidate in group)),
+                mapping_predicate=_strongest_predicate(
+                    tuple(candidate.mapping_predicate for candidate in group)
+                ),
                 methods=methods,
                 confidence=min(0.99, base_confidence + agreement_bonus),
                 evidence=evidence,
@@ -376,7 +384,10 @@ def write_inferred_mapping_manifest(
         "schema_version": "1.0",
         "track_id": "track30_ontology_mapping_inference_20260625",
         "candidate_count": len(candidates),
-        "candidates": [candidate.to_dict() for candidate in sorted(candidates, key=lambda item: item.candidate_id)],
+        "candidates": [
+            candidate.to_dict()
+            for candidate in sorted(candidates, key=lambda item: item.candidate_id)
+        ],
     }
     target.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return target
