@@ -5,5 +5,5 @@
   "created_at": "2026-07-01T00:00:00+10:00",
   "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Consolidate vector storage around LanceDB, migrate Qdrant workflows where remote-service semantics are not required, demote FAISS/Qdrant to optional extras, remove unjustified sqlite-utils, and evaluate DuckDB VSS as an experimental analytics adjunct.",
-  "oracle_notes": "LanceDB-first consolidation is repo-side complete: sqlite-utils is removed from default dependencies, FAISS is optional-only, Qdrant/FAISS are removed from the default storage export surface, generic Qdrant lifecycle coverage is replaced by LanceDB lifecycle tests, and Qdrant remains only as an optional concrete module with import/client branch tests. Full CI must be checked after push."
+  "oracle_notes": "LanceDB-first consolidation is repo-side complete: sqlite-utils is removed from default dependencies, FAISS is optional-only, Qdrant/FAISS remain lazily import-compatible from the storage package root, generic Qdrant lifecycle coverage is replaced by LanceDB lifecycle tests, and Qdrant remains only as an optional concrete module with import/client branch tests. Full hosted CI remains a post-push check."
 }

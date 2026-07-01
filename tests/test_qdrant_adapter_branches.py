@@ -86,6 +86,20 @@ def test_init_raises_when_qdrant_is_unavailable(monkeypatch) -> None:
         module.QdrantAdapter()
 
 
+def test_init_uses_public_constructor_defaults(monkeypatch) -> None:
+    client = _FakeClient()
+
+    monkeypatch.setattr(module, "_HAS_QDRANT", True)
+    monkeypatch.setattr(module, "_QdrantClient", lambda location=None: client, raising=False)
+
+    adapter = module.QdrantAdapter()
+
+    assert adapter._collection_name == "vectors"
+    assert adapter._vector_size == 768
+    assert adapter._client is client
+    assert adapter._next_id == 0
+
+
 def test_create_index_and_search_branching(monkeypatch) -> None:
     _patch_qdrant_types(monkeypatch)
     adapter = _make_adapter()

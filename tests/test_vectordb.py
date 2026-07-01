@@ -147,3 +147,9 @@ class TestLanceDBAdapterCreate:
         results = lancedb_adapter.search([0.0, 0.0, 1.0, 0.0], top_k=5)
 
         assert [result["doc_id"] for result in results] == ["c"]
+
+    def test_distance_to_score_preserves_lower_distance_ordering(self) -> None:
+        """Distance conversion must not assume nonnegative L2-style distances."""
+        assert LanceDBAdapter._distance_to_score(0.0) == -0.0
+        assert LanceDBAdapter._distance_to_score(2.5) == -2.5
+        assert LanceDBAdapter._distance_to_score(-2.5) == 2.5

@@ -120,7 +120,7 @@ class LanceDBAdapter(VectorBackend):
         list[dict[str, Any]]
             A list of result dicts.  Each dict contains the original record
             fields plus a ``score`` key (LanceDB ``_distance`` converted to a
-            higher-is-better similarity score).
+            higher-is-better ordering score).
             The ``_distance`` key is also preserved for backwards compat.
 
         """
@@ -131,7 +131,7 @@ class LanceDBAdapter(VectorBackend):
         results: list[dict[str, Any]] = []
         for row in raw:
             distance = float(row.get("_distance", 0.0))
-            row["score"] = 1.0 / (1.0 + distance)
+            row["score"] = self._distance_to_score(distance)
             results.append(row)
         return results
 
@@ -184,6 +184,11 @@ class LanceDBAdapter(VectorBackend):
         """Drop the table and release the LanceDB connection."""
         self.delete_index()
         self._db = None  # type: ignore[assignment]
+
+    @staticmethod
+    def _distance_to_score(distance: float) -> float:
+        """Convert LanceDB lower-is-better distance to higher-is-better score."""
+        return -distance
 
     def _open_or_create_table(self) -> None:
         """Open an existing table or leave ``_table`` as ``None``."""

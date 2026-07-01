@@ -44,7 +44,7 @@
 
 | # | Task | Status | Notes |
 |---|------|--------|-------|
-| 5.1 | Run focused storage tests: LanceDB, CLI search defaults, pipeline API search, extraction catalog, and dependency-policy tests | [x] | Passed focused LanceDB/storage export/pipeline helper tests; full CI pending after push |
+| 5.1 | Run focused storage tests: LanceDB, CLI search defaults, pipeline API search, extraction catalog, and dependency-policy tests | [x] | Passed focused LanceDB/storage export/pipeline helper tests; full hosted CI remains a post-push check |
 | 5.2 | Run targeted Ruff on changed storage/tests/docs files | [x] | Targeted Ruff passed |
 | 5.3 | Record evidence and residual optional-backend decisions | [x] | `evidence.md` added |
 | 5.4 | Review and archive track when dependency simplification is complete | [x] | Repo-side completion committed; review/archive can run as a follow-up conductor action |

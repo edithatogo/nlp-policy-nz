@@ -45,7 +45,7 @@ Official docs reviewed on 2026-07-01:
 - [x] Qdrant adapter is either removed from public exports or marked optional/deprecated with import-safe behavior and clear tests.
 - [x] FAISS is no longer installed by default in Pixi unless a benchmark gate proves it should stay.
 - [x] `sqlite-utils` is removed from dependency declarations unless a real import path requires it.
-- [x] CI passes without requiring Qdrant or FAISS packages.
+- [x] Focused local validation passes without requiring Qdrant or FAISS packages; full hosted CI remains a post-push check.
 - [x] DuckDB VSS evaluation note records whether to add a later dedicated DuckDB analytics track.
 - [x] Search/API/RAG paths still use LanceDB successfully.
 

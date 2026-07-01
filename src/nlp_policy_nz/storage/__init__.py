@@ -34,3 +34,16 @@ __all__: list[str] = [
     "records_to_dataframe",
     "serialize_to_parquet",
 ]
+
+
+def __getattr__(name: str) -> object:
+    """Lazily resolve optional vector adapters without hard dependencies."""
+    if name == "FAISSAdapter":
+        from nlp_policy_nz.storage.faiss_adapter import FAISSAdapter
+
+        return FAISSAdapter
+    if name == "QdrantAdapter":
+        from nlp_policy_nz.storage.qdrant_adapter import QdrantAdapter
+
+        return QdrantAdapter
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

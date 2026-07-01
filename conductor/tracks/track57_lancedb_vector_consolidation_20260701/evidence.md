@@ -33,7 +33,7 @@ Qdrant coverage should remain only for remote-service or client-specific semanti
 ## Validation
 
 - `pixi run pytest tests/test_vectordb.py tests/test_storage_exports.py tests/test_cli.py::TestSearchSubcommand tests/test_extraction_catalog.py tests/test_qdrant_adapter_branches.py tests/test_faiss_adapter.py -q`
-  - Result: 18 passed, 1 skipped, 1 warning.
+  - Result: 22 passed, 1 skipped, 1 warning.
 - `pixi run ruff check src\nlp_policy_nz\storage\__init__.py src\nlp_policy_nz\storage\interfaces.py src\nlp_policy_nz\storage\vectordb.py tests\test_vectordb.py tests\test_storage_exports.py tests\test_qdrant_adapter_branches.py`
   - Result: all checks passed.
 - `uv lock --check`
@@ -43,4 +43,15 @@ Qdrant coverage should remain only for remote-service or client-specific semanti
 
 ## Residual Work
 
-- Run Conductor review before archive.
+- Full hosted CI should be checked after push.
+
+## Review Fixes
+
+- Preserved root-level optional adapter compatibility through lazy `__getattr__`
+  resolution without eager FAISS/Qdrant imports.
+- Changed LanceDB score conversion to `-distance` so it preserves
+  lower-is-better ordering without assuming nonnegative L2-style distances.
+- Added tests for root import compatibility, missing optional backend imports,
+  Qdrant constructor defaults, and distance-to-score conversion.
+- Corrected Conductor wording so local focused validation is not overstated as
+  hosted CI completion.
