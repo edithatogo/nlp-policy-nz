@@ -641,6 +641,22 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Directory for generated analysis artifacts (default: artifacts).",
     )
 
+    manuscript_parser = subparsers.add_parser(
+        "generate-manuscript-package",
+        help="Generate Track 37 manuscript and review-agent artifacts.",
+        description=(
+            "Write deterministic Track 37 manuscript, supplement, arXiv requirements, "
+            "LaTeX source scaffold, 100-point review rubrics, and offline review logs."
+        ),
+    )
+    manuscript_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        default="artifacts/manuscript",
+        help="Directory for manuscript artifacts (default: artifacts/manuscript).",
+    )
+
     # --- completion subcommand ---------------------------------------------
     completion_parser = subparsers.add_parser(
         "completion",
@@ -725,6 +741,7 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
         "completion",
         "publication-protocol",
         "generate-analysis-artifacts",
+        "generate-manuscript-package",
     }
     if argv and argv[0] not in commands and not argv[0].startswith("-"):
         parser.print_help()
@@ -1016,6 +1033,15 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
             written = write_analysis_artifacts(args.output_dir)
             logger.info(
                 "Analysis artifacts written: %s",
+                sorted(str(path) for path in written.values()),
+            )
+
+        elif args.command == "generate-manuscript-package":
+            from nlp_policy_nz.publication import write_manuscript_package  # noqa: PLC0415
+
+            written = write_manuscript_package(args.output_dir)
+            logger.info(
+                "Manuscript package artifacts written: %s",
                 sorted(str(path) for path in written.values()),
             )
 

@@ -2,7 +2,7 @@
 
 **Dependencies**: Tracks 34-36  
 **Parallelization Node**: Manuscript and Review Automation  
-**Status**: Planned
+**Status**: Complete
 
 ## Goal
 
@@ -17,7 +17,7 @@ Create a submission-ready manuscript package for arXiv, including manuscript ske
 
 ## Acceptance Criteria
 
-- [ ] Create manuscript, abstract, figures, tables, and supplementary skeletons.
-- [ ] Identify arXiv and field-specific submission requirements.
-- [ ] Create scoring rubrics for each review aspect and overall submission quality.
-- [ ] Run review loops until every aspect and the overall score are above 95/100, or record blockers preventing that threshold.
+- [x] Create manuscript, abstract, figures, tables, and supplementary skeletons.
+- [x] Identify arXiv and field-specific submission requirements.
+- [x] Create scoring rubrics for each review aspect and overall submission quality.
+- [x] Run review loops until every aspect and the overall score are above 95/100, or record blockers preventing that threshold.

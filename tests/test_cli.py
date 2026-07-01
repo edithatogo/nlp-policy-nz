@@ -354,6 +354,26 @@ class TestArgumentParser:
         assert "Track 35" in artifact_parser.description
         assert output_dir_actions
 
+    def test_parser_has_generate_manuscript_package_subcommand(self, parser: Any) -> None:
+        """Parser should have a Track 37 ``generate-manuscript-package`` subcommand."""
+        subparsers_actions = [
+            action
+            for action in parser._actions
+            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
+        ]
+        assert subparsers_actions
+        choices = subparsers_actions[0].choices
+        manuscript_parser = choices["generate-manuscript-package"]
+        output_dir_actions = [
+            action
+            for action in manuscript_parser._actions
+            if "--output-dir" in action.option_strings
+        ]
+
+        assert "generate-manuscript-package" in choices
+        assert "Track 37" in manuscript_parser.description
+        assert output_dir_actions
+
 
 # ---------------------------------------------------------------------------
 # Tests: ``upload-dataset`` subcommand
