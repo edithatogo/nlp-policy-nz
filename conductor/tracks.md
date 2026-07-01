@@ -83,8 +83,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: Track 3
 - **Parallelization Node**: Deep Learning Core
 
-## [x] Track 6: Standardize Output Schema & LanceDB Vector Engine [b65c685]
-*Link: [./conductor/tracks/track6_storage_search_20260609/](./conductor/tracks/track6_storage_search_20260609/)*
+## [x] Track 6: Standardize Output Schema & LanceDB Vector Engine (archived) [b65c685]
+*Link: [./conductor/tracks/archive/track6_storage_search_20260609/](./conductor/tracks/archive/track6_storage_search_20260609/)*
 - **Dependencies**: Track 4, Track 5
 - **Parallelization Node**: Storage Engine
 
