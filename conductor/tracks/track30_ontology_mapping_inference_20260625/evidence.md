@@ -7,6 +7,7 @@
 - Added `data/ontologies/inferred_mapping_candidates.json` as a checked-in review queue generated from deterministic Track 30 fixtures.
 - Added `data/ontologies/inference_prompts/mapping_interpretation_prompt.json` as an offline structured-output contract for future LLM-assisted interpretation.
 - Added `tests/test_track30_mapping_inference.py` covering positive mappings, negative exact-match behavior, Levenshtein/Jaro-Winkler fuzzy variants, synonym/structural evidence, embedding-vector inference, Track 29 export, and artifact round trips.
+- Added `tests/test_track30_conductor.py` covering registry state, metadata, evidence links, and checked-in review-only artifacts.
 
 ## Boundaries
 
@@ -17,7 +18,7 @@
 
 ## Closeout Validation
 
-- `pixi run python -m pytest -q tests\test_track30_mapping_inference.py tests\test_track29_mapping_graph.py tests\test_track29_conductor.py` passed: 20 tests.
+- `pixi run python -m pytest -q tests\test_track30_mapping_inference.py tests\test_track30_conductor.py tests\test_track29_mapping_graph.py tests\test_track29_conductor.py` passed: 22 tests.
 - `pixi run python -m ruff check --no-cache src\nlp_policy_nz\ontology\mapping_inference.py src\nlp_policy_nz\ontology\__init__.py tests\test_track30_mapping_inference.py` passed.
 - Fresh `write_track30_inference_artifacts()` output byte-matches checked-in Track 30 generated artifacts.
 - `data/ontologies/inferred_mapping_candidates.json` and `data/ontologies/inference_prompts/mapping_interpretation_prompt.json` parse as JSON.
