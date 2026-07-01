@@ -1,9 +1,9 @@
 {
   "track_id": "track35_analysis_artifact_execution_20260625",
   "type": "analysis",
-  "status": "planned",
+  "status": "complete",
   "created_at": "2026-06-25T00:00:00+10:00",
-  "updated_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Execute available analyses and produce publication-ready artefacts, including tables, figures, conceptual diagrams, workflow diagrams, and network diagrams.",
   "oracle_notes": "Ensure analyses are executed and tables, figures, conceptual diagrams, workflow diagrams, and network diagrams are produced."
 }

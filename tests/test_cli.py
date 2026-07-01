@@ -336,6 +336,24 @@ class TestArgumentParser:
         assert "Track 34" in publication_parser.description
         assert output_dir_actions
 
+    def test_parser_has_generate_analysis_artifacts_subcommand(self, parser: Any) -> None:
+        """Parser should have a Track 35 ``generate-analysis-artifacts`` subcommand."""
+        subparsers_actions = [
+            action
+            for action in parser._actions
+            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
+        ]
+        assert subparsers_actions
+        choices = subparsers_actions[0].choices
+        artifact_parser = choices["generate-analysis-artifacts"]
+        output_dir_actions = [
+            action for action in artifact_parser._actions if "--output-dir" in action.option_strings
+        ]
+
+        assert "generate-analysis-artifacts" in choices
+        assert "Track 35" in artifact_parser.description
+        assert output_dir_actions
+
 
 # ---------------------------------------------------------------------------
 # Tests: ``upload-dataset`` subcommand

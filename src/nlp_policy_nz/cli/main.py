@@ -17,6 +17,7 @@ Typical usage::
     nlp-policy-nz corpus-stats --parquet output/legislation.parquet --output-dir data/statistics
     nlp-policy-nz graph-vector-analysis --output-dir data/analysis
     nlp-policy-nz publication-protocol --output-dir data/publication
+    nlp-policy-nz generate-analysis-artifacts --output-dir artifacts
 """
 
 import argparse
@@ -623,6 +624,23 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Path for the Markdown protocol document.",
     )
 
+    artifact_parser = subparsers.add_parser(
+        "generate-analysis-artifacts",
+        help="Generate Track 35 tables, figures, diagrams, and blockers.",
+        description=(
+            "Execute deterministic Track 35 artifact production from checked-in "
+            "Track 32-34 analysis outputs, writing machine-readable tables, SVG "
+            "figures, Mermaid diagrams, blockers, and a visual inspection checklist."
+        ),
+    )
+    artifact_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        default="artifacts",
+        help="Directory for generated analysis artifacts (default: artifacts).",
+    )
+
     # --- completion subcommand ---------------------------------------------
     completion_parser = subparsers.add_parser(
         "completion",
@@ -706,6 +724,7 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
         "graph-vector-analysis",
         "completion",
         "publication-protocol",
+        "generate-analysis-artifacts",
     }
     if argv and argv[0] not in commands and not argv[0].startswith("-"):
         parser.print_help()
@@ -988,6 +1007,15 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
             )
             logger.info(
                 "Publication protocol artifacts written: %s",
+                sorted(str(path) for path in written.values()),
+            )
+
+        elif args.command == "generate-analysis-artifacts":
+            from nlp_policy_nz.analysis import write_analysis_artifacts  # noqa: PLC0415
+
+            written = write_analysis_artifacts(args.output_dir)
+            logger.info(
+                "Analysis artifacts written: %s",
                 sorted(str(path) for path in written.values()),
             )
 

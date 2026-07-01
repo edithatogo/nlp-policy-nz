@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" role="img">
+<style>.title{font:700 20px Arial,sans-serif;fill:#1f2937}.label{font:12px Arial,sans-serif;fill:#374151}.metric{font:700 14px Arial,sans-serif;fill:#111827}.axis{stroke:#6b7280;stroke-width:1.5}.bar{fill:#0072b2}.node{fill:#009e73;opacity:.85}.node.alt{fill:#d55e00}.edge{stroke:#6b7280;stroke-width:3;opacity:.65}.point{fill:#cc79a7;opacity:.9}</style>
+<text x="360" y="35" text-anchor="middle" class="title">Entity Density by Corpus</text>
+<line x1="80" y1="320" x2="640" y2="320" class="axis"/>
+<line x1="80" y1="70" x2="80" y2="320" class="axis"/>
+<rect x="104" y="195" width="102" height="125" class="bar"/>
+<text x="155" y="187" text-anchor="middle" class="label">1</text>
+<text x="155" y="348" text-anchor="middle" class="label">court</text>
+<rect x="290" y="195" width="102" height="125" class="bar"/>
+<text x="341" y="187" text-anchor="middle" class="label">1</text>
+<text x="341" y="348" text-anchor="middle" class="label">hansard</text>
+<rect x="476" y="70" width="102" height="250" class="bar"/>
+<text x="527" y="62" text-anchor="middle" class="label">2</text>
+<text x="527" y="348" text-anchor="middle" class="label">legislation</text>
+</svg>

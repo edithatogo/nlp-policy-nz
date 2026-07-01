@@ -18,4 +18,4 @@
 
 ## Evidence Boundary
 
-Client SDK code, shell completion scripts, Docker Compose YAML, quickstart guide, and example scripts satisfy repo-side evidence. Postman collection export is optional.
+Client SDK code, shell completion scripts, Docker Compose YAML, quickstart guide, and example scripts satisfy repo-side evidence. The optional `[client]` extra packages `httpx` for sync and async SDK transport. Postman collection export is optional.
