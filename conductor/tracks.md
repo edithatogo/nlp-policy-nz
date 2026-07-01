@@ -88,8 +88,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: Track 4, Track 5
 - **Parallelization Node**: Storage Engine
 
-## [x] Track 7: Design Downstream API & Multi-Agent Verification [b65c685]
-*Link: [./conductor/tracks/track7_downstream_integration_20260609/](./conductor/tracks/track7_downstream_integration_20260609/)*
+## [x] Track 7: Design Downstream API & Multi-Agent Verification (archived) [b65c685]
+*Link: [./conductor/tracks/archive/track7_downstream_integration_20260609/](./conductor/tracks/archive/track7_downstream_integration_20260609/)*
 - **Dependencies**: Track 6, Track 2
 - **Parallelization Node**: Downstream FFI & Graph Links
 
