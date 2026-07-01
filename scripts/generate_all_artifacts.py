@@ -4,6 +4,11 @@ Usage:
     python scripts/generate_all_artifacts.py --output-dir artifacts
 """
 
+# /// script
+# requires-python = ">=3.11"
+# dependencies = []
+# ///
+
 from __future__ import annotations
 
 import argparse

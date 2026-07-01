@@ -3,8 +3,8 @@
     "artifact_id": "full-corpus-embedding-umap",
     "artifact_type": "figure",
     "blocker_sources": [
-      "data\\statistics\\corpus_statistics_blockers.json",
-      "data\\analysis\\graph_vector_blockers.json"
+      "data/statistics/corpus_statistics_blockers.json",
+      "data/analysis/graph_vector_blockers.json"
     ],
     "inherited_blocker_count": 6,
     "reason": "Publication UMAP over the complete corpus requires canonical full-corpus vector exports; deterministic fixture projection is available as figures/embedding_projection.svg.",

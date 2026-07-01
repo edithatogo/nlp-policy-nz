@@ -1,6 +1,7 @@
 {
   "artifacts": [
     {
+      "artifact_format": "csv",
       "artifact_id": "table-corpus-summary",
       "artifact_type": "table",
       "output_path": "tables/corpus_summary.csv",
@@ -8,13 +9,15 @@
       "status": "available"
     },
     {
-      "artifact_id": "table-corpus-summary",
+      "artifact_format": "tex",
+      "artifact_id": "table-corpus-summary-tex",
       "artifact_type": "table",
       "output_path": "tables/corpus_summary.tex",
       "source": "data/statistics and data/analysis checked-in tables",
       "status": "available"
     },
     {
+      "artifact_format": "csv",
       "artifact_id": "table-entity-density",
       "artifact_type": "table",
       "output_path": "tables/entity_density.csv",
@@ -22,6 +25,7 @@
       "status": "available"
     },
     {
+      "artifact_format": "csv",
       "artifact_id": "table-ontology-coverage",
       "artifact_type": "table",
       "output_path": "tables/ontology_coverage.csv",
@@ -29,6 +33,7 @@
       "status": "available"
     },
     {
+      "artifact_format": "csv",
       "artifact_id": "table-topic-distribution",
       "artifact_type": "table",
       "output_path": "tables/topic_distribution.csv",
@@ -36,6 +41,7 @@
       "status": "available"
     },
     {
+      "artifact_format": "svg",
       "artifact_id": "figure-embedding-projection",
       "artifact_type": "figure",
       "output_path": "figures/embedding_projection.svg",
@@ -43,6 +49,7 @@
       "status": "available"
     },
     {
+      "artifact_format": "svg",
       "artifact_id": "figure-entity-density",
       "artifact_type": "figure",
       "output_path": "figures/entity_density.svg",
@@ -50,6 +57,7 @@
       "status": "available"
     },
     {
+      "artifact_format": "svg",
       "artifact_id": "figure-network-overview",
       "artifact_type": "figure",
       "output_path": "figures/network_overview.svg",
@@ -57,6 +65,7 @@
       "status": "available"
     },
     {
+      "artifact_format": "svg",
       "artifact_id": "figure-temporal-trends",
       "artifact_type": "figure",
       "output_path": "figures/temporal_trends.svg",
@@ -64,6 +73,7 @@
       "status": "available"
     },
     {
+      "artifact_format": "mmd",
       "artifact_id": "diagram-pipeline-architecture",
       "artifact_type": "diagram",
       "output_path": "diagrams/pipeline_architecture.mmd",
@@ -71,6 +81,7 @@
       "status": "available"
     },
     {
+      "artifact_format": "mmd",
       "artifact_id": "diagram-track-dependency",
       "artifact_type": "diagram",
       "output_path": "diagrams/track_dependency.mmd",
@@ -78,6 +89,7 @@
       "status": "available"
     },
     {
+      "artifact_format": "mmd",
       "artifact_id": "diagram-workflow-data-flow",
       "artifact_type": "diagram",
       "output_path": "diagrams/workflow_data_flow.mmd",

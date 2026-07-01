@@ -144,17 +144,36 @@ def _artifact_rows(
     diagrams: dict[str, str],
 ) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
+    artifact_formats: dict[str, list[str]] = {}
     for artifact_type, mapping in (
         ("table", tables),
         ("figure", figures),
         ("diagram", diagrams),
     ):
         for output_path in sorted(mapping):
-            artifact_id = output_path.removeprefix(f"{artifact_type}s/").rsplit(".", 1)[0]
+            artifact_name, artifact_format = output_path.removeprefix(
+                f"{artifact_type}s/"
+            ).rsplit(".", 1)
+            artifact_id = f"{artifact_type}-{artifact_name.replace('_', '-')}"
+            artifact_formats.setdefault(artifact_id, []).append(artifact_format)
+
+    for artifact_type, mapping in (
+        ("table", tables),
+        ("figure", figures),
+        ("diagram", diagrams),
+    ):
+        for output_path in sorted(mapping):
+            artifact_name, artifact_format = output_path.removeprefix(
+                f"{artifact_type}s/"
+            ).rsplit(".", 1)
+            artifact_id = f"{artifact_type}-{artifact_name.replace('_', '-')}"
+            if len(artifact_formats[artifact_id]) > 1 and artifact_format != "csv":
+                artifact_id = f"{artifact_id}-{artifact_format}"
             rows.append(
                 {
-                    "artifact_id": f"{artifact_type}-{artifact_id.replace('_', '-')}",
+                    "artifact_id": artifact_id,
                     "artifact_type": artifact_type,
+                    "artifact_format": artifact_format,
                     "output_path": output_path,
                     "source": _source_for(output_path),
                     "status": "available",
@@ -190,7 +209,9 @@ def _blockers(root: Path) -> tuple[dict[str, Any], ...]:
                 "full-corpus vector exports; deterministic fixture projection is "
                 "available as figures/embedding_projection.svg."
             ),
-            "blocker_sources": [str(path.relative_to(root)) for path in blocker_sources],
+            "blocker_sources": [
+                path.relative_to(root).as_posix() for path in blocker_sources
+            ],
             "inherited_blocker_count": len(inherited),
         },
         {

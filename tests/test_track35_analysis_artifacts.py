@@ -22,6 +22,7 @@ def test_track35_bundle_lists_tables_figures_diagrams_and_blockers() -> None:
     manifest = bundle.manifest
     available = {item["artifact_id"] for item in manifest["artifacts"]}
     blocked = {item["artifact_id"] for item in bundle.blockers}
+    artifact_ids = [item["artifact_id"] for item in manifest["artifacts"]]
 
     assert manifest["track_id"] == "track35_analysis_artifact_execution_20260625"
     assert manifest["summary"]["available_count"] >= 8
@@ -31,6 +32,7 @@ def test_track35_bundle_lists_tables_figures_diagrams_and_blockers() -> None:
     assert "diagram-pipeline-architecture" in available
     assert "full-corpus-embedding-umap" in blocked
     assert all(item["output_path"] for item in manifest["artifacts"])
+    assert len(artifact_ids) == len(set(artifact_ids))
 
 
 def test_track35_writer_emits_expected_artifact_files(tmp_path: Path) -> None:
@@ -59,18 +61,7 @@ def test_checked_in_track35_artifacts_match_writer(tmp_path: Path) -> None:
     written = write_analysis_artifacts(tmp_path)
     checked_in_dir = Path("artifacts")
 
-    for relative_path in (
-        ANALYSIS_ARTIFACT_MANIFEST_FILENAME,
-        ANALYSIS_ARTIFACT_BLOCKERS_FILENAME,
-        ANALYSIS_ARTIFACT_VISUAL_CHECKLIST_FILENAME,
-        "tables/corpus_summary.csv",
-        "tables/corpus_summary.tex",
-        "figures/temporal_trends.svg",
-        "figures/network_overview.svg",
-        "diagrams/pipeline_architecture.mmd",
-        "diagrams/workflow_data_flow.mmd",
-        "diagrams/track_dependency.mmd",
-    ):
+    for relative_path in written:
         assert checked_in_dir.joinpath(relative_path).read_text(encoding="utf-8") == (
             written[relative_path].read_text(encoding="utf-8")
         )
