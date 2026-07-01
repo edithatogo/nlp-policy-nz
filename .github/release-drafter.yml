@@ -1,0 +1,48 @@
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+categories:
+  - title: "Features"
+    labels:
+      - "feature"
+      - "enhancement"
+  - title: "Fixes"
+    labels:
+      - "bug"
+      - "fix"
+  - title: "Documentation"
+    labels:
+      - "docs"
+  - title: "Maintenance"
+    labels:
+      - "chore"
+      - "refactor"
+  - title: "Security"
+    labels:
+      - "security"
+  - title: "Governance"
+    labels:
+      - "track/39"
+      - "kind/governance"
+exclude-labels:
+  - "skip-changelog"
+change-template: "- $TITLE (@$AUTHOR, #$NUMBER)"
+version-template: "$MAJOR.$MINOR.$PATCH"
+autolabeler:
+  - label: "docs"
+    files:
+      - "CONTRIBUTING.md"
+      - "CODE_OF_CONDUCT.md"
+      - "SECURITY.md"
+      - "README.md"
+      - "docs/**"
+  - label: "bug"
+    title:
+      - "/fix/i"
+  - label: "enhancement"
+    title:
+      - "/feat/i"

@@ -71,6 +71,16 @@ nlp-policy-nz graph-vector-analysis --output-dir data/analysis
 - [Ontology mapping](docs/ontology_mapping.md) describes the Track 29/30 ontology mapping graph and inference artifacts.
 - [Pipeline record serialization](docs/pydantic_vs_msgspec.md) records the serialization benchmark decision.
 
+## Containerization
+
+The repository includes a Dockerfile, Docker Compose file, and devcontainer for reproducible execution and onboarding.
+
+```bash
+docker build -t nlp-policy-nz .
+docker run --rm nlp-policy-nz
+docker compose up --build
+```
+
 ## 🏛️ Archiving & Releases
 
 Processed corpora can be archived to [Zenodo](https://zenodo.org) for citable, long-term preservation.

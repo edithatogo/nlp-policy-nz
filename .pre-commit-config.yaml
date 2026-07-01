@@ -8,6 +8,12 @@ repos:
 
   - repo: local
     hooks:
+      - id: commit-message-lint
+        name: Conventional Commit Message Lint
+        entry: pixi run python scripts/check_commit_message.py
+        language: system
+        stages: [commit-msg]
+
       - id: tach-check
         name: Tach Modular Boundaries Check
         entry: pixi run check-boundaries
@@ -28,3 +34,9 @@ repos:
         language: system
         files: \.(md|txt)$
         pass_filenames: true
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: [--baseline, .secrets.baseline]

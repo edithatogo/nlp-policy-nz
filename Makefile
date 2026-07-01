@@ -28,15 +28,19 @@ clean:
 
 # === Security ===
 security-sast:
-	pixi run bandit -r src/nlp_policy_nz/ -ll
+	pixi run bandit -c .bandit -r src/nlp_policy_nz/ -lll -iii
+	pixi run semgrep scan --config p/python --severity WARNING --error --metrics=off src/nlp_policy_nz/
 
 security-deps:
-	pixi run pip-audit
+	pixi run python scripts/check_dependency_security.py
 
 security-secrets:
 	pixi run detect-secrets scan --baseline .secrets.baseline
 
-security: security-sast security-deps
+security-secrets:
+	pre-commit run detect-secrets --all-files
+
+security: security-sast security-secrets security-deps
 
 # === Performance ===
 benchmark:
@@ -107,8 +111,9 @@ help:
 	@@echo "  coverage         Run tests with coverage"
 	@@echo "  clean            Clean build artifacts"
 	@@echo "Security:"
-	@@echo "  security-sast    Run Bandit SAST scan"
+	@@echo "  security-sast    Run Bandit and Semgrep scans"
 	@@echo "  security-deps    Run pip-audit vulnerability scan"
+	@@echo "  security-secrets  Run detect-secrets scan"
 	@@echo "  security         Run all security scans"
 	@@echo "Performance:"
 	@@echo "  benchmark        Run pytest-benchmark"

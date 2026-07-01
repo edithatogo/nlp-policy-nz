@@ -1,9 +1,9 @@
 {
   "track_id": "track39_governance_contributing_20260626",
   "type": "infrastructure",
-  "status": "planned",
+  "status": "complete",
   "created_at": "2026-06-26T00:00:00+10:00",
-  "updated_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Establish repository governance: CONTRIBUTING.md, issue/PR templates, CODEOWNERS, stale-bot, label management, and commit convention enforcement.",
   "oracle_notes": "No governance files exist beyond CI workflows. No CONTRIBUTING.md, CODEOWNERS, issue templates, or PR template. Pre-commit exists but no commit message linting."
 }

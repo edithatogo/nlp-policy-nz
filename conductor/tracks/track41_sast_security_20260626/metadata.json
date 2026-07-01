@@ -1,9 +1,9 @@
 {
   "track_id": "track41_sast_security_20260626",
   "type": "infrastructure",
-  "status": "planned",
+  "status": "complete",
   "created_at": "2026-06-26T00:00:00+10:00",
-  "updated_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Add SAST scanning (Bandit/Semgrep), secrets detection (detect-secrets/talisman), and general security hardening to CI pipeline.",
   "oracle_notes": "No security scanning exists in CI. Ruff covers style/lint but not security. No secrets detection. No Bandit or Semgrep rules configured."
 }

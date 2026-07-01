@@ -1,0 +1,38 @@
+# Repository governance and docs
+/.github/ @edithatogo
+/CONTRIBUTING.md @edithatogo
+/CODE_OF_CONDUCT.md @edithatogo
+/SECURITY.md @edithatogo
+
+# Core Python packages
+/src/nlp_policy_nz/analysis/ @edithatogo
+/src/nlp_policy_nz/api/ @edithatogo
+/src/nlp_policy_nz/axiom/ @edithatogo
+/src/nlp_policy_nz/cli/ @edithatogo
+/src/nlp_policy_nz/discourse/ @edithatogo
+/src/nlp_policy_nz/extraction/ @edithatogo
+/src/nlp_policy_nz/guard/ @edithatogo
+/src/nlp_policy_nz/integrations/ @edithatogo
+/src/nlp_policy_nz/kb/ @edithatogo
+/src/nlp_policy_nz/legal/ @edithatogo
+/src/nlp_policy_nz/linked_data/ @edithatogo
+/src/nlp_policy_nz/ontology/ @edithatogo
+/src/nlp_policy_nz/parliament/ @edithatogo
+/src/nlp_policy_nz/provenance/ @edithatogo
+/src/nlp_policy_nz/publication/ @edithatogo
+/src/nlp_policy_nz/quality/ @edithatogo
+/src/nlp_policy_nz/schema/ @edithatogo
+/src/nlp_policy_nz/semantic/ @edithatogo
+/src/nlp_policy_nz/storage/ @edithatogo
+/src/nlp_policy_nz/syntactic/ @edithatogo
+/src/nlp_policy_nz/telemetry/ @edithatogo
+/src/nlp_policy_nz/training/ @edithatogo
+/src/nlp_policy_nz/governance/ @edithatogo
+
+# Supporting docs and tests
+/docs/ @edithatogo
+/tests/ @edithatogo
+/scripts/ @edithatogo
+
+# Fallback
+* @edithatogo

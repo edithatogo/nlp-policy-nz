@@ -5,6 +5,7 @@
 - [ ] Add repository-scoped script to append learning candidates without automatic commit in CI failure paths.
 - [ ] Capture registry/review/skills-feedback events into the backlog from failing submission workflows.
 - [ ] Add phase-level retrospective notes for each Phase 1/2/3/4 run and record reviewer sign-off.
+- [ ] Revisit `conductor/mojo-migration-roadmap.md` during future runtime planning; trial Mojo first as an optional Linux GitHub Actions acceleration path, not as a default Windows dependency.
 
 ## Skills touched by this workspace
 - `conductor-implement`

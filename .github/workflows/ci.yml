@@ -19,6 +19,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0
@@ -26,8 +28,28 @@ jobs:
           cache: true
           cache-write: ${{ github.event_name == 'push' }}
 
+      - name: Hadolint Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+
       - name: Install environment
         run: CI=true pixi install
+
+      - name: Supply-chain dependency audit
+        run: pixi run python scripts/check_dependency_security.py
+
+      - name: Static application security testing
+        run: |
+          pixi run bandit -c .bandit -r src/nlp_policy_nz/ -lll -iii
+          pixi run semgrep scan --config p/python --severity WARNING --error --metrics=off src/nlp_policy_nz/
+
+      - name: Generate CycloneDX SBOM
+        run: pixi run python -c "import sys; from pathlib import Path; sys.path.insert(0, 'src'); from nlp_policy_nz.security import generate_cyclonedx_sbom; generate_cyclonedx_sbom(Path('.tmp/sbom/nlp-policy-nz.cdx.json'))"
+
+      - name: Commit message lint
+        if: ${{ github.event_name == 'pull_request' }}
+        run: pixi run python scripts/check_commit_message.py
 
       - name: Track 23 CI/config validation
         run: CI=true pixi run test -- tests/smoke tests/test_quality_infrastructure.py tests/test_track23_evidence.py -q
@@ -55,6 +77,12 @@ jobs:
 
       - name: Test with coverage
         run: CI=true pip install pytest-cov && pixi run coverage-ci
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nlp-policy-nz-sbom
+          path: .tmp/sbom/nlp-policy-nz.cdx.json
 
       - name: Optional mutation tests
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_mutation_tests }}

@@ -1,0 +1,38 @@
+name: Containerized CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  containerized-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build runtime image
+        run: docker build --target runtime --tag nlp-policy-nz:ci .
+
+      - name: Run container smoke tests
+        run: >
+          docker run --rm
+          nlp-policy-nz:ci
+          python -m pytest tests/test_track38_containerization.py -q
+
+      - name: Run repo smoke tests inside the container
+        run: >
+          docker run --rm
+          nlp-policy-nz:ci
+          python -m pytest tests/test_smoke.py tests/test_server.py -q
+
+      - name: Verify non-root output permissions
+        run: >
+          docker run --rm --user 10001:10001
+          nlp-policy-nz:ci
+          python -c "from pathlib import Path; output = Path('/tmp/nlp-policy-nz-output'); output.mkdir(parents=True, exist_ok=True); (output / 'probe.txt').write_text('ok', encoding='utf-8')"

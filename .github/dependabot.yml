@@ -1,0 +1,41 @@
+version: 2
+
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "track/40"
+    groups:
+      production-dependencies:
+        dependency-type: "production"
+        update-types:
+          - "major"
+          - "minor"
+          - "patch"
+      development-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "major"
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "track/40"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+# Pixi does not have native Dependabot ecosystem support yet. The Pixi lockfile
+# is refreshed from the same PEP 621 manifest versions and reviewed alongside
+# the pip manifest updates above.
