@@ -7,7 +7,13 @@ from typing import Any
 
 
 class VectorBackend(ABC):
-    """Abstract vector-store backend (LanceDB, FAISS, Qdrant, etc.)."""
+    """Abstract vector-store backend.
+
+    LanceDB is the default local/serverless implementation used by runtime,
+    API, CLI, and RAG workflows. FAISS and Qdrant adapters are optional modules
+    for benchmark or remote-service experiments and must not be required for
+    default imports or CI.
+    """
 
     @abstractmethod
     def create_index(

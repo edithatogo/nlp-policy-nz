@@ -96,7 +96,7 @@ The current baseline is deliberately incremental:
 - `PyYAML` for extractor catalogs and handoff manifests.
 - `pypdf` for official-PDF ingestion fallback when better structured sources
   are unavailable.
-- `sqlite-utils` as the candidate local catalog layer for manifest summaries and
+- Python stdlib `sqlite3` as the local catalog layer for manifest summaries and
   stale-output audits.
 
 Track 56 covers runtime acceleration decisions. The current policy is documented

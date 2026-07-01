@@ -71,7 +71,11 @@ def _patch_qdrant_types(monkeypatch) -> None:
     monkeypatch.setattr(
         module,
         "PointStruct",
-        lambda *, id, vector, payload: SimpleNamespace(id=id, vector=vector, payload=payload),
+        lambda *, id, vector, payload: SimpleNamespace(  # noqa: A006
+            id=id,
+            vector=vector,
+            payload=payload,
+        ),
         raising=False,
     )
 
@@ -87,7 +91,7 @@ def test_create_index_and_search_branching(monkeypatch) -> None:
     adapter = _make_adapter()
     client = adapter._client
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="empty record list"):
         adapter.create_index([])
 
     client.collection_names = ["vectors"]
@@ -102,7 +106,8 @@ def test_create_index_and_search_branching(monkeypatch) -> None:
         overwrite=True,
     )
     assert client.deleted == ["vectors"]
-    assert client.created and client.upserted
+    assert client.created
+    assert client.upserted
     assert adapter._next_id == 2
 
     search_results = adapter.search([1.0, 0.0, 0.0, 0.0], top_k=2)
@@ -122,7 +127,7 @@ def test_add_records_delete_and_close(monkeypatch) -> None:
         adapter.add_records([{"doc_id": "a", "text": "x", "vector": [1.0, 0.0, 0.0, 0.0]}])
 
     client.collection_names = ["vectors"]
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="has no vector"):
         adapter.add_records([{"doc_id": "missing", "text": "x"}])
 
     adapter.add_records(

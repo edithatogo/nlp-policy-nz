@@ -37,7 +37,7 @@ This document prioritizes the functional and non-functional requirements for the
 - **Code-Switching Detection**:
   - Automatically classification of text blocks/sentences as English or Te Reo Māori to enable targeted processing.
 - **Local Semantic Search Indexing**:
-  - Incorporating `faiss-cpu` / `lancedb` for zero-database, in-memory semantic similarity search over the Parquet outputs.
+  - Incorporating LanceDB as the default zero-service semantic search index over Parquet outputs, with `faiss-cpu` retained only as an optional benchmark/comparison extra.
 
 ## 3. Could Have (Desirable but Deferred)
 - **NetworkX Relational Graph**:

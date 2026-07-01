@@ -7,11 +7,31 @@ record creation.
 
 from __future__ import annotations
 
+import shutil
+from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
 
 from nlp_policy_nz.storage.vectordb import LANCE_DB_URI, LanceDBAdapter
+
+
+@pytest.fixture
+def lancedb_adapter(tmp_path: Path) -> Iterator[LanceDBAdapter]:
+    """Return an isolated LanceDB adapter for lifecycle tests."""
+    adapter = LanceDBAdapter(uri=str(tmp_path / "lancedb"), table_name="vectors")
+    yield adapter
+    adapter.close()
+
+
+@pytest.fixture
+def vector_records() -> list[dict[str, object]]:
+    """Return small deterministic vector records."""
+    return [
+        {"doc_id": "a", "text": "first", "vector": [1.0, 0.0, 0.0, 0.0]},
+        {"doc_id": "b", "text": "second", "vector": [0.0, 1.0, 0.0, 0.0]},
+        {"doc_id": "c", "text": "third", "vector": [0.0, 0.0, 1.0, 0.0]},
+    ]
 
 # ---------------------------------------------------------------------------
 # Initialisation tests
@@ -28,7 +48,7 @@ class TestLanceDBAdapterInit:
         default_expected = str(Path(LANCE_DB_URI).resolve())
         assert idx._uri == default_expected
         assert idx._table_name == "embeddings"
-        idx.delete_index()
+        idx.close()
 
     def test_adapter_init_custom(self) -> None:
         """Custom URI and table name are propagated correctly."""
@@ -36,9 +56,7 @@ class TestLanceDBAdapterInit:
         idx = LanceDBAdapter(uri=custom_uri, table_name="my_vectors")
         assert idx._uri == custom_uri
         assert idx._table_name == "my_vectors"
-        idx.delete_index()
-        import shutil  # noqa: PLC0415
-
+        idx.close()
         shutil.rmtree(custom_uri, ignore_errors=True)
 
 
@@ -55,4 +73,77 @@ class TestLanceDBAdapterCreate:
         idx = LanceDBAdapter()
         with pytest.raises(ValueError, match="empty record list"):
             idx.create_index([])
-        idx.delete_index()
+        idx.close()
+
+    def test_create_index_and_search(
+        self,
+        lancedb_adapter: LanceDBAdapter,
+        vector_records: list[dict[str, object]],
+    ) -> None:
+        """Creating and searching returns top-k records with similarity scores."""
+        lancedb_adapter.create_index(vector_records)
+
+        results = lancedb_adapter.search([1.0, 0.5, 0.0, 0.0], top_k=3)
+
+        assert len(results) == 3
+        assert [result["doc_id"] for result in results] == ["a", "b", "c"]
+        scores = [result["score"] for result in results]
+        assert scores == sorted(scores, reverse=True)
+        for result in results:
+            assert "score" in result
+            assert "_distance" in result
+            assert "doc_id" in result
+            assert "text" in result
+
+    def test_search_before_create(self, lancedb_adapter: LanceDBAdapter) -> None:
+        """Searching before table creation returns an empty result list."""
+        assert lancedb_adapter.search([1.0, 0.0, 0.0, 0.0]) == []
+
+    def test_add_records(
+        self,
+        lancedb_adapter: LanceDBAdapter,
+        vector_records: list[dict[str, object]],
+    ) -> None:
+        """Records can be appended to an existing LanceDB table."""
+        lancedb_adapter.create_index(vector_records[:2])
+        lancedb_adapter.add_records(vector_records[2:])
+
+        results = lancedb_adapter.search([1.0, 0.0, 0.0, 0.0], top_k=3)
+
+        assert {result["doc_id"] for result in results} == {"a", "b", "c"}
+
+    def test_add_records_requires_existing_index(
+        self,
+        lancedb_adapter: LanceDBAdapter,
+        vector_records: list[dict[str, object]],
+    ) -> None:
+        """Appending before table creation raises a clear error."""
+        with pytest.raises(RuntimeError, match="create_index"):
+            lancedb_adapter.add_records(vector_records)
+
+    def test_delete_index(
+        self,
+        lancedb_adapter: LanceDBAdapter,
+        vector_records: list[dict[str, object]],
+    ) -> None:
+        """Deleting the table makes the index disappear and search empty."""
+        lancedb_adapter.create_index(vector_records)
+        assert lancedb_adapter.index_exists() is True
+
+        lancedb_adapter.delete_index()
+
+        assert lancedb_adapter.index_exists() is False
+        assert lancedb_adapter.search([1.0, 0.0, 0.0, 0.0]) == []
+
+    def test_overwrite_replaces_existing_records(
+        self,
+        lancedb_adapter: LanceDBAdapter,
+        vector_records: list[dict[str, object]],
+    ) -> None:
+        """Overwrite mode replaces the table contents."""
+        lancedb_adapter.create_index(vector_records[:2])
+        lancedb_adapter.create_index(vector_records[2:], overwrite=True)
+
+        results = lancedb_adapter.search([0.0, 0.0, 1.0, 0.0], top_k=5)
+
+        assert [result["doc_id"] for result in results] == ["c"]

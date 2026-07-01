@@ -29,16 +29,19 @@
 | Boundary validation | `pydantic v2` | **optional** | C7 in requirements.md: "Pydantic v2 Evaluation (benchmark vs msgspec for API)". `msgspec` is the primary struct validation tool. Pydantic is candidate after benchmarking. |
 | Hot record serialization | `msgspec` | **required** | Runtime dependency in `pyproject.toml`. Core to high-throughput pipeline. MoSCoW M. |
 | Dataframes | `polars` | **required** | Runtime dependency. Core DataFrame engine for Parquet operations. MoSCoW M. |
-| Query validation | `duckdb` | **not_applicable** | Not in nlp-policy-nz dependency tree. Query validation belongs in corpus repos (`corpus-law-nz`, `corpus-nz-hansard`) rather than the shared NLP engine. |
+| Query / vector analytics | `duckdb` + VSS | **experimental** | Candidate for follow-up analytics over Parquet/vector arrays, not default vector search. |
 | Columnar data | `pyarrow` / Parquet | **required** | Runtime dependency. Core to dataset I/O and HF/DuckDB compatibility. MoSCoW M. |
+| Vector store | `lancedb` | **required** | Default local/serverless vector backend for CLI, API, pipeline search, and RAG workflows. |
+| Vector service | `qdrant-client` | **optional** | Remote-service semantics only; generic local vector lifecycle coverage belongs to LanceDB. |
+| Vector benchmark | `faiss-cpu` | **optional/dev** | Benchmark comparison backend; not required for default ingestion, extraction, API, or search. |
+| Local catalog helper | `sqlite-utils` | **not_applicable** | No current import path requires it; stdlib `sqlite3` remains enough for extraction catalogs, so the dependency is removed. |
+| Embedded key-value store | RocksDB | **not_applicable** | Does not replace Parquet artifacts, LanceDB vector search, or SQLite manifest catalogs. |
 | JSON schema | `jsonschema` | **optional** | Not currently a dependency. nlp-policy-nz uses native serialization (msgspec, Parquet). Would be useful for registry/submission schema contracts (future). |
 | HTTP clients | `httpx` / `requests` | **required** | `requests` is a runtime dependency (Zenodo API, HF Hub). MoSCoW M. Keep `requests`; consider `httpx` for new async code paths. |
 | Retry/backoff | `tenacity` | **deferred** | Not currently a dependency. Would be useful for resilient external API calls (Zenodo, HF Hub), but nlp-policy-nz is primarily a processing engine — retry logic is in corpus ingestion repos. |
 | HTML parsing | `beautifulsoup4` / `selectolax` | **required** | `beautifulsoup4` is MoSCoW M for XML/HTML ingestion. `selectolax` is deferred until parser-parity benchmarks prove it beats bs4 for NZ legislation sources. |
 | Terminal UI | `rich` | **optional** | Not a current dependency. Would enhance CLI operator UX (progress bars, formatted output) but not blocking. |
 | Checksums/manifests | repo-local utilities | **deferred** | Product vision includes Zenodo release workflow with manifests. Not implemented yet — deferred to archive/release track. |
-| Local vector store | `lancedb` | **required** | Runtime dependency. Core serverless vector DB. MoSCoW M. |
-| Service vector DB | `qdrant` | **optional** | Candidate per consensus baseline ("evaluate centrally in nlp-policy-nz"). Not yet a dependency. Benchmarks must justify the switch from lancedb. |
 | RAG orchestration | `haystack` | **optional** | Consensus says "nlp-policy-nz prototypes". Not a current dependency. Suitable for modular RAG experiments — adopt behind `[project.optional-dependencies] rag`. |
 | HF publication | `huggingface_hub` / `datasets` | **required** | Both are runtime dependencies. Core to model and dataset publishing pipeline. MoSCoW M. |
 | Archive/DOI | Zenodo / OSF | **deferred** | Product vision includes Zenodo archive workflow, but no dedicated adapter package exists yet. Uses `requests` + REST API currently. |
@@ -55,7 +58,7 @@
 |---|---|
 | Do not add heavy ML deps to corpus repos | ✅ nlp-policy-nz owns the ML stack |
 | Keep RAG orchestration in nlp-policy-nz | ✅ haystack is `optional` here |
-| Keep vector-store experiments centralised in nlp-policy-nz | ✅ lancedb is `required`; qdrant is `optional` |
+| Keep vector-store experiments centralised in nlp-policy-nz | ✅ LanceDB is `required`; Qdrant, FAISS, and DuckDB VSS are optional/experimental |
 | Prefer repo-local utilities over root imports | ✅ No root-code imports in this matrix |
 | Use `selectolax` only after parser benchmarks | ✅ Deferred — bs4 is required |
-| Keep `torch`/`transformers`/`bitsandbytes`/`faiss-cpu` mainly in nlp-policy-nz | ✅ All three are required or optional here |
+| Keep `torch`/`transformers`/`bitsandbytes`/`faiss-cpu` mainly in nlp-policy-nz | ✅ ML deps stay here; FAISS is benchmark/dev optional only |

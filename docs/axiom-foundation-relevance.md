@@ -122,7 +122,7 @@ Candidate libraries from Axiom projects:
   handoff files become YAML-first. JSON-LD remains the current bridge format.
 - `pypdf`: useful for official PDF files that can't be sourced as text, HTML, or
   XML. It should be optional rather than a core dependency.
-- `sqlite-utils` or direct SQLite: useful for local source catalogs, extraction
+- Python stdlib `sqlite3`: useful for local source catalogs, extraction
   run indexes, and staleness audit state. This is a good future candidate.
 - Rust `serde`, `serde_json`, `serde_yaml`, `chrono`, and `rust_decimal`:
   useful patterns for a future executable rules engine, but not needed in this

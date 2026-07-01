@@ -144,12 +144,10 @@ Ontology standards registry, rules-as-code bridge, and helper exports.
 
 Storage Module.
 
-- `FAISSAdapter`: In-memory vector index using FAISS IndexFlatIP with cosine similarity.
 - `HaystackRAGPipeline`: Orchestrate embedding-based retrieval with a Haystack-compatible interface.
 - `LanceDBAdapter`: A vector index backed by a LanceDB table.
 - `PipelineRecord`: A single processed document record flowing through the NLP pipeline.
-- `QdrantAdapter`: VectorBackend implementation backed by Qdrant.
-- `VectorBackend`: Abstract vector-store backend (LanceDB, FAISS, Qdrant, etc.).
+- `VectorBackend`: Abstract vector-store backend.
 - `load_from_parquet`: Load pipeline records from a Parquet file on disk.
 - `records_to_dataframe`: Convert a sequence of pipeline records to a Narwhals-compatible DataFrame.
 - `serialize_to_parquet`: Serialize pipeline records to a Parquet file on disk.
