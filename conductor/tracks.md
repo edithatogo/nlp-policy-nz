@@ -63,8 +63,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: None
 - **Parallelization Node**: Core Setup Orchestration
 
-## [x] Track 2: Configure External Integrations & Data Sovereignty Registry [b65c685]
-*Link: [./conductor/tracks/track2_external_repos_20260609/](./conductor/tracks/track2_external_repos_20260609/)*
+## [x] Track 2: Configure External Integrations & Data Sovereignty Registry (archived) [b65c685]
+*Link: [./conductor/tracks/archive/track2_external_repos_20260609/](./conductor/tracks/archive/track2_external_repos_20260609/)*
 - **Dependencies**: Track 1
 - **Parallelization Node**: Integration Registry
 
