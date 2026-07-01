@@ -16,6 +16,7 @@ Typical usage::
     nlp-policy-nz export-nz-ontologies --output-dir data/ontologies
     nlp-policy-nz corpus-stats --parquet output/legislation.parquet --output-dir data/statistics
     nlp-policy-nz graph-vector-analysis --output-dir data/analysis
+    nlp-policy-nz publication-protocol --output-dir data/publication
 """
 
 import argparse
@@ -599,6 +600,29 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Path for the Markdown summary.",
     )
 
+    publication_parser = subparsers.add_parser(
+        "publication-protocol",
+        help="Export Track 34 standards-based publication protocol.",
+        description=(
+            "Write deterministic Track 34 publication protocol artifacts, including "
+            "claim evidence mapping, artifact inventory, reproducibility commands, "
+            "and overclaim-risk review."
+        ),
+    )
+    publication_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        default="data/publication",
+        help="Directory for publication protocol JSON artifacts.",
+    )
+    publication_parser.add_argument(
+        "--markdown",
+        type=str,
+        default=None,
+        help="Path for the Markdown protocol document.",
+    )
+
     # --- completion subcommand ---------------------------------------------
     completion_parser = subparsers.add_parser(
         "completion",
@@ -681,6 +705,7 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
         "corpus-stats",
         "graph-vector-analysis",
         "completion",
+        "publication-protocol",
     }
     if argv and argv[0] not in commands and not argv[0].startswith("-"):
         parser.print_help()
@@ -949,6 +974,20 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
             )
             logger.info(
                 "Graph/vector analysis artifacts written: %s",
+                sorted(str(path) for path in written.values()),
+            )
+
+        elif args.command == "publication-protocol":
+            from nlp_policy_nz.publication.protocol import (  # noqa: PLC0415
+                write_publication_protocol_artifacts,
+            )
+
+            written = write_publication_protocol_artifacts(
+                args.output_dir,
+                markdown_path=args.markdown,
+            )
+            logger.info(
+                "Publication protocol artifacts written: %s",
                 sorted(str(path) for path in written.values()),
             )
 

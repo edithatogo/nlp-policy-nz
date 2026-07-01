@@ -23,6 +23,10 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
         "nlp_policy_nz.ontology",
         "build_nz_ontology_graph",
     ),
+    "build_publication_protocol": (
+        "nlp_policy_nz.publication.protocol",
+        "build_publication_protocol",
+    ),
     "FrameworkConfig": ("nlp_policy_nz.universal_framework_v3", "FrameworkConfig"),
     "MetaExtensionRegistry": ("nlp_policy_nz.universal_framework_v3", "MetaExtensionRegistry"),
     "ModularSpaCyBridgeComponentV3": (
@@ -51,6 +55,10 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
     "write_nz_ontology_artifacts": (
         "nlp_policy_nz.ontology",
         "write_nz_ontology_artifacts",
+    ),
+    "write_publication_protocol_artifacts": (
+        "nlp_policy_nz.publication.protocol",
+        "write_publication_protocol_artifacts",
     ),
 }
 
@@ -85,10 +93,12 @@ __all__ = [
     "build_graph_vector_network_analysis",
     "build_nz_ontology_bundle",
     "build_nz_ontology_graph",
+    "build_publication_protocol",
     "get_ingestion_engine",
     "run_nlp_pipeline",
     "validate_nz_ontology_bundle",
     "write_corpus_statistics_artifacts",
     "write_graph_vector_network_artifacts",
     "write_nz_ontology_artifacts",
+    "write_publication_protocol_artifacts",
 ]

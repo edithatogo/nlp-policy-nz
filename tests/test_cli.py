@@ -316,6 +316,26 @@ class TestArgumentParser:
         assert "Track 33" in graph_vector_parser.description
         assert output_dir_actions
 
+    def test_parser_has_publication_protocol_subcommand(self, parser: Any) -> None:
+        """Parser should have a Track 34 ``publication-protocol`` subcommand."""
+        subparsers_actions = [
+            action
+            for action in parser._actions
+            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
+        ]
+        assert subparsers_actions
+        choices = subparsers_actions[0].choices
+        publication_parser = choices["publication-protocol"]
+        output_dir_actions = [
+            action
+            for action in publication_parser._actions
+            if "--output-dir" in action.option_strings
+        ]
+
+        assert "publication-protocol" in choices
+        assert "Track 34" in publication_parser.description
+        assert output_dir_actions
+
 
 # ---------------------------------------------------------------------------
 # Tests: ``upload-dataset`` subcommand
