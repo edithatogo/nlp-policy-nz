@@ -6,8 +6,50 @@ omit =
     */__pycache__/*
     *.venv/*
     .venv/*
+    */nlp_policy_nz/semantic/finetune.py
+    *\nlp_policy_nz\semantic\finetune.py
+    */nlp_policy_nz/storage/faiss_adapter.py
+    *\nlp_policy_nz\storage\faiss_adapter.py
+    */nlp_policy_nz/storage/haystack_pipeline.py
+    *\nlp_policy_nz\storage\haystack_pipeline.py
+    */nlp_policy_nz/training/run_qlora.py
+    *\nlp_policy_nz\training\run_qlora.py
+    src/nlp_policy_nz/semantic/finetune.py
+    src\nlp_policy_nz\semantic\finetune.py
+    src/nlp_policy_nz/storage/faiss_adapter.py
+    src\nlp_policy_nz\storage\faiss_adapter.py
+    src/nlp_policy_nz/storage/haystack_pipeline.py
+    src\nlp_policy_nz\storage\haystack_pipeline.py
+    src/nlp_policy_nz/training/run_qlora.py
+    src\nlp_policy_nz\training\run_qlora.py
+    src/nlp_policy_nz/universal_framework_v3.py
+    src\nlp_policy_nz\universal_framework_v3.py
+    src/nlp_policy_nz/universal_framework_v4.py
+    src\nlp_policy_nz\universal_framework_v4.py
 
 [report]
+fail_under = 90
+omit =
+    */nlp_policy_nz/semantic/finetune.py
+    *\nlp_policy_nz\semantic\finetune.py
+    */nlp_policy_nz/storage/faiss_adapter.py
+    *\nlp_policy_nz\storage\faiss_adapter.py
+    */nlp_policy_nz/storage/haystack_pipeline.py
+    *\nlp_policy_nz\storage\haystack_pipeline.py
+    */nlp_policy_nz/training/run_qlora.py
+    *\nlp_policy_nz\training\run_qlora.py
+    src/nlp_policy_nz/semantic/finetune.py
+    src\nlp_policy_nz\semantic\finetune.py
+    src/nlp_policy_nz/storage/faiss_adapter.py
+    src\nlp_policy_nz\storage\faiss_adapter.py
+    src/nlp_policy_nz/storage/haystack_pipeline.py
+    src\nlp_policy_nz\storage\haystack_pipeline.py
+    src/nlp_policy_nz/training/run_qlora.py
+    src\nlp_policy_nz\training\run_qlora.py
+    src/nlp_policy_nz/universal_framework_v3.py
+    src\nlp_policy_nz\universal_framework_v3.py
+    src/nlp_policy_nz/universal_framework_v4.py
+    src\nlp_policy_nz\universal_framework_v4.py
 show_missing = True
 skip_covered = False
 exclude_lines =

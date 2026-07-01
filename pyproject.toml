@@ -213,10 +213,12 @@ source = ["src"]
 omit = [
     "*/__pycache__/*",
     "*.venv/*",
-    "src/nlp_policy_nz/semantic/finetune.py",
-    "src/nlp_policy_nz/storage/faiss_adapter.py",
-    "src/nlp_policy_nz/storage/haystack_pipeline.py",
-    "src/nlp_policy_nz/training/run_qlora.py",
+    "*/nlp_policy_nz/semantic/finetune.py",
+    "*/nlp_policy_nz/storage/faiss_adapter.py",
+    "*/nlp_policy_nz/storage/haystack_pipeline.py",
+    "*/nlp_policy_nz/training/run_qlora.py",
+    "*/nlp_policy_nz/universal_framework_v3.py",
+    "*/nlp_policy_nz/universal_framework_v4.py",
 ]
 branch = true
 

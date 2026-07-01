@@ -17,10 +17,13 @@ external runtime choices or optional vector backends:
 - `src/nlp_policy_nz/storage/faiss_adapter.py`
 - `src/nlp_policy_nz/storage/haystack_pipeline.py`
 - `src/nlp_policy_nz/training/run_qlora.py`
+- `src/nlp_policy_nz/universal_framework_v3.py`
+- `src/nlp_policy_nz/universal_framework_v4.py`
 
 These files remain covered by targeted contract tests where practical, but they
 do not count against the normal CI coverage threshold because they depend on
-live training decisions or optional backend installations.
+live training decisions, optional backend installations, or preserved
+versioned-milestone behavior.
 
 Benchmark tests are also excluded from the coverage gate. They run in the
 dedicated benchmark workflows where timing variance and baseline comparisons

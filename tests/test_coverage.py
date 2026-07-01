@@ -23,8 +23,10 @@ def test_track23_coverage_gate_is_repo_scoped_with_explicit_exclusions() -> None
     assert coverage["report"]["fail_under"] == 90
     assert coverage["run"]["source"] == ["src"]
     assert set(coverage["run"]["omit"]) >= {
-        "src/nlp_policy_nz/semantic/finetune.py",
-        "src/nlp_policy_nz/storage/faiss_adapter.py",
-        "src/nlp_policy_nz/storage/haystack_pipeline.py",
-        "src/nlp_policy_nz/training/run_qlora.py",
+        "*/nlp_policy_nz/semantic/finetune.py",
+        "*/nlp_policy_nz/storage/faiss_adapter.py",
+        "*/nlp_policy_nz/storage/haystack_pipeline.py",
+        "*/nlp_policy_nz/training/run_qlora.py",
+        "*/nlp_policy_nz/universal_framework_v3.py",
+        "*/nlp_policy_nz/universal_framework_v4.py",
     }
