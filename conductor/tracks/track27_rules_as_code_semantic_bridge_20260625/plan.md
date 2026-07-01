@@ -47,3 +47,16 @@ Track 27 is complete for repo-side scaffolding. Live executable parity with Open
 ## Evidence Boundary
 
 Repo-side scaffolds, manifests, fixtures, and diagrams can satisfy planning and deterministic evidence tasks. Full-corpus, live publication, authenticated API, or external-source tasks must remain blockers until the corresponding data or access is actually available and recorded.
+
+## Implementation Note - 2026-07-01
+
+Added standard Conductor closeout artifacts:
+
+- `index.md` resolves the Track 27 specification, plan, metadata, and evidence files.
+- `evidence.md` records the implemented rules-as-code bridge surface, validation commands, and live executable-parity boundary.
+- `tests/test_track27_conductor.py` verifies the Conductor artifacts and evidence references.
+
+Focused validation passed:
+
+- `pixi run python -m pytest -q tests\test_rac_bridge.py tests\test_axiom_integration.py tests\test_cli.py`
+- `pixi run python -m ruff check --no-cache src\nlp_policy_nz\ontology\rac_bridge.py src\nlp_policy_nz\ontology\__init__.py src\nlp_policy_nz\cli\main.py tests\test_rac_bridge.py src\nlp_policy_nz\axiom tests\test_axiom_integration.py tests\test_cli.py`
