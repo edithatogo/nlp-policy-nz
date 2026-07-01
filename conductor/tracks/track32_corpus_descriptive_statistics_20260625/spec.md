@@ -2,7 +2,7 @@
 
 **Dependencies**: Tracks 6, 18, 31  
 **Parallelization Node**: Corpus Analytics  
-**Status**: Planned
+**Status**: Complete
 
 ## Goal
 
@@ -17,7 +17,7 @@ Generate comprehensive descriptive statistics for the whole dataset and over tim
 
 ## Acceptance Criteria
 
-- [ ] Produce dataset-level, document-level, section-level, temporal, and ontology-coverage statistics.
-- [ ] Produce time-series statistics for available dated records.
-- [ ] Record missing data blockers for unavailable full corpora or date coverage.
-- [ ] Export tables as machine-readable files and publication-ready summaries.
+- [x] Produce dataset-level, document-level, section-level, temporal, and ontology-coverage statistics.
+- [x] Produce time-series statistics for available dated records.
+- [x] Record missing data blockers for unavailable full corpora or date coverage.
+- [x] Export tables as machine-readable files and publication-ready summaries.

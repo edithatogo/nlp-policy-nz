@@ -1,0 +1,30 @@
+[
+  {
+    "blocker_id": "full-corpus-inputs",
+    "blocker_type": "full_corpus_unavailable",
+    "corpus": "all",
+    "description": "No canonical whole-corpus Parquet inventory is checked into this repo; statistics are bounded to supplied inputs or deterministic fixtures.",
+    "resolution": "Supply full PipelineRecord Parquet exports for legislation, Hansard, and case law."
+  },
+  {
+    "blocker_id": "date-coverage",
+    "blocker_type": "date_coverage_incomplete",
+    "corpus": "all",
+    "description": "Not every PipelineRecord guarantees normalized temporal metadata.",
+    "resolution": "Populate temporal_expressions or date metadata across all corpus rows."
+  },
+  {
+    "blocker_id": "case_law-parquet-missing",
+    "blocker_type": "corpus_unavailable",
+    "corpus": "case_law",
+    "description": "No case_law PipelineRecord rows were supplied.",
+    "resolution": "Run the ingestion pipeline for case_law and pass the Parquet export."
+  },
+  {
+    "blocker_id": "track28-analytics-measurement",
+    "blocker_type": "ontology_measurement_dependency",
+    "corpus": "ontology",
+    "description": "Track 28 identified analytics measurement model work for Track 32.",
+    "resolution": "Use this Track 32 manifest as the measurement model seed."
+  }
+]

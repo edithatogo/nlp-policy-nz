@@ -1,0 +1,4 @@
+year,record_count,corpus_sources,token_count,citation_count,deontic_count,temporal_expression_count
+2023,1,['court'],10,0,0,1
+2024,1,['legislation'],14,1,2,1
+2025,1,['hansard'],11,0,1,1

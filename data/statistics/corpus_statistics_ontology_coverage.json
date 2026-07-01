@@ -1,0 +1,77 @@
+{
+  "track25": {
+    "blocker_type_counts": {
+      "integration": 2,
+      "source_data": 12,
+      "specification": 10
+    },
+    "row_count": 29,
+    "status_counts": {
+      "adjacent": 2,
+      "implemented": 5,
+      "missing": 13,
+      "partial": 7,
+      "prototype": 2
+    }
+  },
+  "track29": {
+    "mapping_count": 12,
+    "predicate_counts": {
+      "owl:equivalentClass": 1,
+      "skos:closeMatch": 6,
+      "skos:relatedMatch": 2,
+      "source:crosswalk": 3
+    },
+    "review_status_counts": {
+      "approved": 11,
+      "needs_review": 1
+    },
+    "standard_count": 15,
+    "standards": [
+      "AGLS",
+      "Akoma Ntoso",
+      "Catala",
+      "data.govt.nz Dataset Metadata",
+      "DCAT",
+      "FOAF",
+      "LKIF",
+      "nlp-policy-nz extraction",
+      "NZGLS",
+      "ODRL",
+      "OWL-Time",
+      "PROV-O",
+      "schema.org",
+      "SIOC",
+      "SKOS"
+    ]
+  },
+  "track30": {
+    "candidate_count": 4,
+    "method_counts": {
+      "embedding": 2,
+      "exact": 2,
+      "fuzzy": 2,
+      "structural": 4,
+      "synonym": 1,
+      "triangulation": 1
+    },
+    "review_status_counts": {
+      "needs_review": 4
+    }
+  },
+  "track31": {
+    "application_area_counts": {
+      "act_structure": 2,
+      "court_hierarchy": 2,
+      "government_agencies": 2,
+      "hansard_debate_topics": 2,
+      "maori_legal_concepts": 2
+    },
+    "authority_counts": {
+      "authoritative_external": 1,
+      "induced_nz": 9
+    },
+    "concept_count": 10,
+    "controlled_vocabulary_count": 5
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "producer": "nlp-policy-nz",
+  "schema_version": "1.0",
+  "source_boundary": "Repo-side statistics summarize supplied PipelineRecord rows or deterministic fixtures and checked-in ontology artifacts. They do not claim canonical full-corpus coverage unless full-corpus Parquet inputs are supplied.",
+  "summary": {
+    "blocker_count": 4,
+    "citation_count": 1,
+    "corpus_count": 3,
+    "deontic_count": 3,
+    "embedding_record_count": 2,
+    "entity_count": 4,
+    "entity_type_count": 3,
+    "record_count": 3,
+    "temporal_expression_count": 3,
+    "token_count": 35,
+    "year_count": 3
+  },
+  "tables": {
+    "blockers": "corpus_statistics_blockers.json",
+    "entity_types": "corpus_statistics_entity_types.csv",
+    "ontology_coverage": "corpus_statistics_ontology_coverage.json",
+    "per_corpus": "corpus_statistics_per_corpus.csv",
+    "per_year": "corpus_statistics_per_year.csv"
+  },
+  "track_id": "track32_corpus_descriptive_statistics_20260625"
+}

@@ -278,6 +278,24 @@ class TestArgumentParser:
         assert output_dir.joinpath("nz_ontology_candidates.jsonld").is_file()
         assert output_dir.joinpath("nz_controlled_vocabularies.json").is_file()
 
+    def test_parser_has_corpus_stats_subcommand(self, parser: Any) -> None:
+        """Parser should have a ``corpus-stats`` subcommand."""
+        subparsers_actions = [
+            action
+            for action in parser._actions
+            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
+        ]
+        assert subparsers_actions
+        choices = subparsers_actions[0].choices
+        stats_parser = choices["corpus-stats"]
+        parquet_actions = [
+            action for action in stats_parser._actions if "--parquet" in action.option_strings
+        ]
+
+        assert "corpus-stats" in choices
+        assert "Track 32" in stats_parser.description
+        assert parquet_actions
+
 
 # ---------------------------------------------------------------------------
 # Tests: ``upload-dataset`` subcommand

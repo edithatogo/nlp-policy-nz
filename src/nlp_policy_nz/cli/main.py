@@ -14,6 +14,7 @@ Typical usage::
     nlp-policy-nz archive-to-zenodo --parquet output/legislation.parquet --title "NZ Legislation"
     nlp-policy-nz release --parquet output/legislation.parquet --version 1.0.0 --title "v1.0"
     nlp-policy-nz export-nz-ontologies --output-dir data/ontologies
+    nlp-policy-nz corpus-stats --parquet output/legislation.parquet --output-dir data/statistics
 """
 
 import argparse
@@ -535,6 +536,39 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Directory for NZ ontology artifacts (default: data/ontologies).",
     )
 
+    # --- corpus-stats subcommand -------------------------------------------
+    corpus_stats_parser = subparsers.add_parser(
+        "corpus-stats",
+        help="Export Track 32 corpus descriptive statistics.",
+        description=(
+            "Compute deterministic Track 32 statistics from PipelineRecord Parquet "
+            "inputs and checked-in ontology/blocker manifests."
+        ),
+    )
+    corpus_stats_parser.add_argument(
+        "--parquet",
+        "-p",
+        action="append",
+        default=[],
+        help=(
+            "PipelineRecord Parquet file to include. May be supplied more than once; "
+            "if omitted, deterministic repo fixtures are used."
+        ),
+    )
+    corpus_stats_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        default="data/statistics",
+        help="Directory for JSON and CSV statistics artifacts (default: data/statistics).",
+    )
+    corpus_stats_parser.add_argument(
+        "--markdown",
+        type=str,
+        default=None,
+        help="Path for the Markdown summary.",
+    )
+
     return parser
 
 
@@ -572,6 +606,7 @@ def main(argv: list[str] | None = None) -> int:
         "rac-export",
         "export-extractions",
         "export-nz-ontologies",
+        "corpus-stats",
     }
     if argv and argv[0] not in commands and not argv[0].startswith("-"):
         parser.print_help()
@@ -806,6 +841,25 @@ def main(argv: list[str] | None = None) -> int:
             logger.info(
                 "NZ ontology artifacts written: %s", sorted(str(path) for path in written.values())
             )
+
+        elif args.command == "corpus-stats":
+            from nlp_policy_nz.analysis import (  # noqa: PLC0415
+                build_fixture_records,
+                load_pipeline_records,
+                write_corpus_statistics_artifacts,
+            )
+
+            records = (
+                load_pipeline_records(tuple(args.parquet))
+                if args.parquet
+                else build_fixture_records()
+            )
+            written = write_corpus_statistics_artifacts(
+                args.output_dir,
+                records=records,
+                markdown_path=args.markdown,
+            )
+            logger.info("Corpus statistics artifacts written: %s", sorted(str(path) for path in written.values()))
 
         else:
             parser.print_help()
