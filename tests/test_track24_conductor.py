@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TRACK24 = ROOT / "conductor" / "tracks" / "multi_git_archive_mirroring_20260614"
+TRACK24 = ROOT / "conductor" / "archive" / "multi_git_archive_mirroring_20260614"
 
 
 def test_track24_conductor_artifacts_exist() -> None:

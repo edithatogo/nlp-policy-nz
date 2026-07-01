@@ -165,13 +165,6 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Complete the tech-stack observability layer. The repo-side OTel spans, profiling wrappers, and CI benchmark gates are complete; the incomplete 1 GiB profiling pass is now a roadmap note rather than a separate track.
 
-## [x] Track 24: Multi-Git and Multi-Archive Mirroring Setup
-*Link: [./conductor/tracks/multi_git_archive_mirroring_20260614/](./conductor/tracks/multi_git_archive_mirroring_20260614/)*
-- **Dependencies**: Track 23
-- **Parallelization Node**: Infrastructure & Quality
-- **Why**: Establish multi-git and multi-archive mirroring setup to prevent single-point-of-failure repository/dataset takedowns.
-
-
 ---
 
 ## Phase III - Ontology, Rules-as-Code, Analytics, and Publication Expansion
