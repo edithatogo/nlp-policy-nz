@@ -171,12 +171,6 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [x] Track 27: Rules-as-Code Semantic Bridge
-*Link: [./conductor/tracks/track27_rules_as_code_semantic_bridge_20260625/](./conductor/tracks/track27_rules_as_code_semantic_bridge_20260625/)*
-- **Dependencies**: Tracks 25-26
-- **Parallelization Node**: Rules-as-Code Bridge
-- **Why**: Connect source anchoring, norm semantics, temporal validity, OpenFisca/PolicyEngine package skeletons, policy taxonomy, provenance, and linked-data discoverability into a repo-side rules-as-code bridge. Live executable parity remains an external gate.
-
 ## [x] Track 28: Ontology Discovery and Intake (archived)
 *Link: [./conductor/tracks/archive/track28_ontology_discovery_intake_20260625/](./conductor/tracks/archive/track28_ontology_discovery_intake_20260625/)*
 - **Dependencies**: Track 25
