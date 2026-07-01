@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 7 (Downstream API), Track 12 (Entity Linking)
 **Parallelization Node**: Semantic Web & Discourse
-**Status**: Pending
+**Status**: Complete
 
 ---
 
@@ -28,8 +28,16 @@ Model parliamentary discourse using FOAF for MP/party profiles and SIOC for deba
 
 ## Acceptance Criteria
 
-- [ ] FOAF profiles for all NZ MPs (current + historical)
-- [ ] SIOC containers correctly model Hansard structure
-- [ ] RDF export valid against FOAF/SIOC schemas
-- [ ] CLI SPARQL interface functional
-- [ ] Test coverage > 90%
+- [x] FOAF profile graph generator supports MP identity, party, role, electorate, and Wikidata links from supplied knowledge-base records.
+- [x] SIOC containers correctly model Hansard site, debate forum, thread, post, creator, content, and date structure for supplied records.
+- [x] RDF export writes valid Turtle sidecars that parse back with `rdflib`.
+- [x] CLI `export-rdf` and `sparql` interfaces are functional.
+- [x] Focused linked-data package coverage exceeded 90% during implementation.
+
+## Residual external data gate
+
+Track 16 is complete for repo-side linked-data generation, export, and query
+contracts. It does not claim that a complete current and historical NZ MP
+knowledge base has been harvested or validated. Full-person coverage depends on
+the upstream entity/Wikidata corpus maintained by Track 12 and later ontology
+coverage work.

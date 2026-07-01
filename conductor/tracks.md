@@ -147,8 +147,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Provenance & Reproducibility
 - **Why**: Track pipeline version, model params, timestamps per run. W3C PROV-O JSON-LD sidecar files.
 
-## [x] Track 16: FOAF & SIOC Ontologies for Parliamentary Discourse
-*Link: [./conductor/tracks/track16_faaf_sioc_discourse_20260613/](./conductor/tracks/track16_faaf_sioc_discourse_20260613/)*
+## [x] Track 16: FOAF & SIOC Ontologies for Parliamentary Discourse (archived)
+*Link: [./conductor/tracks/archive/track16_faaf_sioc_discourse_20260613/](./conductor/tracks/archive/track16_faaf_sioc_discourse_20260613/)*
 - **Dependencies**: Track 7, Track 12
 - **Parallelization Node**: Semantic Web & Discourse
 - **Why**: MP FOAF profiles, SIOC debate threading, RDF/Turtle export for linked data consumption.
