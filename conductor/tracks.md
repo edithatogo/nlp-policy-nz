@@ -98,8 +98,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: Track 7
 - **Parallelization Node**: Hugging Face Hub Integration
 
-## [x] Track 9: Establish Citable Zenodo Archives & Release Workflows [6ee0627]
-*Link: [./conductor/tracks/track9_zenodo_20260609/](./conductor/tracks/track9_zenodo_20260609/)*
+## [x] Track 9: Establish Citable Zenodo Archives & Release Workflows (archived) [6ee0627]
+*Link: [./conductor/tracks/archive/track9_zenodo_20260609/](./conductor/tracks/archive/track9_zenodo_20260609/)*
 - **Dependencies**: Track 8
 - **Parallelization Node**: Zenodo API Deposit Registry
 
