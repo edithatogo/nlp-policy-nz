@@ -73,8 +73,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: Track 1
 - **Parallelization Node**: Linguistic Guard (Can run in parallel with Track 2)
 
-## [x] Track 4: Build Versioned Universal Ingestion Engine & Schema Emitters (v1 & v2) [b65c685]
-*Link: [./conductor/tracks/track4_syntactic_layer_20260609/](./conductor/tracks/track4_syntactic_layer_20260609/)*
+## [x] Track 4: Build Versioned Universal Ingestion Engine & Schema Emitters (v1 & v2) (archived) [b65c685]
+*Link: [./conductor/tracks/archive/track4_syntactic_layer_20260609/](./conductor/tracks/archive/track4_syntactic_layer_20260609/)*
 - **Dependencies**: Track 3
 - **Parallelization Node**: Ingestion, Dynamic Registry, and Versioned Schema Emitters
 
@@ -195,7 +195,7 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: NZ Ontology Induction
 - **Why**: Induce New Zealand-specific ontology candidates for legal, parliamentary, policy, rules-as-code, graph, vector, and publication applications.
 
-## [ ] Track 33: Graph, Vector, and Network Analysis
+## [~] Track 33: Graph, Vector, and Network Analysis
 *Link: [./conductor/tracks/track33_graph_vector_network_analysis_20260625/](./conductor/tracks/track33_graph_vector_network_analysis_20260625/)*
 - **Dependencies**: Tracks 17, 29, 31-32
 - **Parallelization Node**: Graph and Embedding Analytics
