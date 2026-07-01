@@ -25,4 +25,3 @@
 ## Boundary
 
 The checked-in outputs are deterministic, fixture-bounded Track 32 artifacts. Full-corpus publication requires supplied `PipelineRecord` Parquet exports.
-
