@@ -58,8 +58,8 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [x] Track 1: Initialize Workspace Environment & Quality Tooling [b65c685]
-*Link: [./conductor/tracks/track1_env_setup_20260609/](./conductor/tracks/track1_env_setup_20260609/)*
+## [x] Track 1: Initialize Workspace Environment & Quality Tooling (archived) [b65c685]
+*Link: [./conductor/tracks/archive/track1_env_setup_20260609/](./conductor/tracks/archive/track1_env_setup_20260609/)*
 - **Dependencies**: None
 - **Parallelization Node**: Core Setup Orchestration
 
