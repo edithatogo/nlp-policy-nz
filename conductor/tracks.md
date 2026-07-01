@@ -153,8 +153,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Semantic Web & Discourse
 - **Why**: MP FOAF profiles, SIOC debate threading, RDF/Turtle export for linked data consumption.
 
-## [x] Track 17: Wikidata NZ Ontology Integration
-*Link: [./conductor/tracks/track17_wikidata_integration_20260613/](./conductor/tracks/track17_wikidata_integration_20260613/)*
+## [x] Track 17: Wikidata NZ Ontology Integration (archived)
+*Link: [./conductor/tracks/archive/track17_wikidata_integration_20260613/](./conductor/tracks/archive/track17_wikidata_integration_20260613/)*
 - **Dependencies**: Track 12
 - **Parallelization Node**: Knowledge Graph
 - **Why**: OWL mapping of NZ legal concepts to Wikidata QIDs. Federated SPARQL queries.
