@@ -1,11 +1,11 @@
-"""Conductor implementation tests for Track 37."""
+"""Conductor closeout tests for Track 37."""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
-TRACK_DIR = Path("conductor/tracks/track37_publication_manuscript_review_20260625")
+TRACK_DIR = Path("conductor/tracks/archive/track37_publication_manuscript_review_20260625")
 
 
 def test_track37_conductor_artifacts_mark_complete() -> None:
@@ -18,8 +18,8 @@ def test_track37_conductor_artifacts_mark_complete() -> None:
     assert metadata["status"] == "complete"
     assert "**Status**: Complete" in spec
     assert "**Status**: Complete" in plan
-    assert "## [x] Track 37: Publication Manuscript and Review Agents" in tracks
-    assert "track37_publication_manuscript_review_20260625" in tracks
+    assert "## [x] Track 37: Publication Manuscript and Review Agents (archived)" in tracks
+    assert "conductor/tracks/archive/track37_publication_manuscript_review_20260625" in tracks
     assert "- [ ]" not in spec
 
 

@@ -231,8 +231,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Public Exploration Interface
 - **Why**: Create a Hugging Face Space where ontology, corpus, graph, vector, and publication artefacts can be explored interactively.
 
-## [x] Track 37: Publication Manuscript and Review Agents
-*Link: [./conductor/tracks/track37_publication_manuscript_review_20260625/](./conductor/tracks/track37_publication_manuscript_review_20260625/)*
+## [x] Track 37: Publication Manuscript and Review Agents (archived)
+  *Link: [./conductor/tracks/archive/track37_publication_manuscript_review_20260625/](./conductor/tracks/archive/track37_publication_manuscript_review_20260625/)*
 - **Dependencies**: Tracks 34-36
 - **Parallelization Node**: Manuscript and Review Automation
 - **Why**: Create the arXiv-ready manuscript skeleton, supplements, figures, tables, and review-agent loops that score and refine the submission until every aspect exceeds 95/100.
