@@ -25,6 +25,10 @@ def test_track20_external_gate_manifest_is_explicit() -> None:
         gates["held_out_quality_evaluation"]["minimum_citation_f1_improvement"] >= 0.10
     )
     assert gates["hugging_face_model_publication"]["namespace"] == "nlp-policy-nz"
+    validation_commands = {
+        check["name"]: check["command"] for check in manifest["local_validation"]
+    }
+    assert validation_commands["manifest validation"].startswith("pixi run python ")
 
 
 def test_track20_external_gate_manifest_rejects_surrogates() -> None:

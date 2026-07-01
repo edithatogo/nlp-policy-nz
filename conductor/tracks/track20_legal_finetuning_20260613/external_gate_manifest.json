@@ -113,7 +113,7 @@
     },
     {
       "name": "manifest validation",
-      "command": "python -m json.tool conductor/tracks/track20_legal_finetuning_20260613/external_gate_manifest.json"
+      "command": "pixi run python -m json.tool conductor/tracks/track20_legal_finetuning_20260613/external_gate_manifest.json"
     }
   ],
   "surrogate_rejections": [
