@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import json
 import sys
+from argparse import ArgumentParser, Namespace
 from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import TYPE_CHECKING
 
+from nlp_policy_nz.storage import load_from_parquet
 from nlp_policy_nz.training.runtime import TrainingExecutionPlan, choose_training_execution_plan
 
 if TYPE_CHECKING:
@@ -108,9 +111,39 @@ def render_smoke_training_json(
     return json.dumps(result.to_dict(), indent=2, sort_keys=True)
 
 
+def run_cpu_mlm_smoke_training_from_parquet(
+    parquet_paths: Sequence[str | Path],
+    *,
+    plan: TrainingExecutionPlan | None = None,
+    seed: int = 42,
+) -> SmokeTrainingResult:
+    """Run bounded CPU smoke training from real pipeline Parquet records."""
+    texts: list[str] = []
+    for path in parquet_paths:
+        texts.extend(record.raw_text for record in load_from_parquet(path) if record.raw_text)
+    if not texts:
+        raise ValueError("At least one Parquet record with raw_text is required")
+    return run_cpu_mlm_smoke_training(plan=plan, texts=texts, seed=seed)
+
+
+def render_parquet_smoke_training_json(
+    parquet_paths: Sequence[str | Path],
+    *,
+    plan: TrainingExecutionPlan | None = None,
+) -> str:
+    """Render a real-Parquet CPU smoke-training result as JSON."""
+    result = run_cpu_mlm_smoke_training_from_parquet(parquet_paths, plan=plan)
+    return json.dumps(result.to_dict(), indent=2, sort_keys=True)
+
+
 def main() -> int:
     """Run the environment-selected CPU smoke training path."""
-    sys.stdout.write(f"{render_smoke_training_json()}\n")
+    args = _parse_args()
+    if args.parquet:
+        rendered = render_parquet_smoke_training_json(args.parquet)
+    else:
+        rendered = render_smoke_training_json()
+    sys.stdout.write(f"{rendered}\n")
     return 0
 
 
@@ -124,6 +157,18 @@ def _encode_texts(texts: Sequence[str]) -> tuple[list[list[int]], int]:
                 vocab[token] = len(vocab)
     encoded = [[vocab[token] for token in row if token] for row in tokenized]
     return [row for row in encoded if len(row) >= 2], len(vocab)
+
+
+def _parse_args() -> Namespace:
+    """Parse smoke-training command-line arguments."""
+    parser = ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--parquet",
+        action="append",
+        type=Path,
+        help="PipelineRecord Parquet file to use instead of built-in fixture text. Repeatable.",
+    )
+    return parser.parse_args()
 
 
 if __name__ == "__main__":

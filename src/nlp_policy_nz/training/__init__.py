@@ -99,8 +99,10 @@ _EXPORT_MODULES: dict[str, str] = {
     "render_track53_selection_markdown": "nlp_policy_nz.training.track53_evidence",
     "render_track53_recommendation_markdown": "nlp_policy_nz.training.track53_evidence",
     "render_runtime_plan_json": "nlp_policy_nz.training.runtime",
+    "render_parquet_smoke_training_json": "nlp_policy_nz.training.smoke",
     "render_smoke_training_json": "nlp_policy_nz.training.smoke",
     "run_cpu_mlm_smoke_training": "nlp_policy_nz.training.smoke",
+    "run_cpu_mlm_smoke_training_from_parquet": "nlp_policy_nz.training.smoke",
     "track53_selection_contract": "nlp_policy_nz.training.track53_evidence",
 }
 

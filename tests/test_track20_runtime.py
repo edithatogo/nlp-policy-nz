@@ -3,15 +3,19 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
+from nlp_policy_nz.storage import PipelineRecord, serialize_to_parquet
 from nlp_policy_nz.training.runtime import (
     TrainingRuntimeProfile,
     choose_training_execution_plan,
     render_runtime_plan_json,
 )
 from nlp_policy_nz.training.smoke import (
+    render_parquet_smoke_training_json,
     render_smoke_training_json,
     run_cpu_mlm_smoke_training,
+    run_cpu_mlm_smoke_training_from_parquet,
 )
 
 
@@ -134,3 +138,61 @@ def test_smoke_training_json_is_stable() -> None:
 
     assert payload["backend"] == "ci_cpu"
     assert payload["steps_run"] == 2
+
+
+def test_ci_cpu_plan_runs_smoke_training_from_real_parquet(tmp_path: Path) -> None:
+    """The CI-safe smoke path should train from real PipelineRecord Parquet."""
+    parquet = tmp_path / "track20-smoke.parquet"
+    serialize_to_parquet(
+        [
+            PipelineRecord(
+                doc_id="smoke-1",
+                corpus_source="legislation",
+                raw_text="The Minister must publish a notice.",
+                cleaned_tokens=["The", "Minister", "must", "publish"],
+                nz_act_citations=[],
+                te_reo_terms=[],
+            ),
+            PipelineRecord(
+                doc_id="smoke-2",
+                corpus_source="hansard",
+                raw_text="A member may ask a question.",
+                cleaned_tokens=["A", "member", "may", "ask"],
+                nz_act_citations=[],
+                te_reo_terms=[],
+            ),
+        ],
+        parquet,
+    )
+    plan = choose_training_execution_plan(_profile(ci=True))
+
+    result = run_cpu_mlm_smoke_training_from_parquet([parquet], plan=plan)
+
+    assert result.backend == "ci_cpu"
+    assert result.steps_run == 2
+    assert result.records_seen == 2
+    assert result.loss_decreased is True
+
+
+def test_parquet_smoke_training_json_is_stable(tmp_path: Path) -> None:
+    """Real-Parquet smoke results should be JSON-renderable for CI logs."""
+    parquet = tmp_path / "track20-smoke-json.parquet"
+    serialize_to_parquet(
+        [
+            PipelineRecord(
+                doc_id="smoke-json",
+                corpus_source="legislation",
+                raw_text="No person must obstruct the process.",
+                cleaned_tokens=["No", "person", "must", "obstruct"],
+                nz_act_citations=[],
+                te_reo_terms=[],
+            )
+        ],
+        parquet,
+    )
+    plan = choose_training_execution_plan(_profile(ci=True))
+
+    payload = json.loads(render_parquet_smoke_training_json([parquet], plan=plan))
+
+    assert payload["backend"] == "ci_cpu"
+    assert payload["records_seen"] == 1
