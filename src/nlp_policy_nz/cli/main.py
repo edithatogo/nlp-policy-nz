@@ -803,7 +803,9 @@ def main(argv: list[str] | None = None) -> int:
             from nlp_policy_nz.ontology import write_nz_ontology_artifacts  # noqa: PLC0415
 
             written = write_nz_ontology_artifacts(args.output_dir)
-            logger.info("NZ ontology artifacts written: %s", sorted(str(path) for path in written.values()))
+            logger.info(
+                "NZ ontology artifacts written: %s", sorted(str(path) for path in written.values())
+            )
 
         else:
             parser.print_help()
