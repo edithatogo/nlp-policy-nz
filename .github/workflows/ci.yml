@@ -35,6 +35,12 @@ jobs:
       - name: Smoke tests (fast)
         run: CI=true pixi run test -x tests/test_smoke.py
 
+      - name: Track 20 adaptive training runtime
+        run: |
+          CI=true pixi run track20-runtime
+          CI=true pixi run track20-smoke
+          CI=true pixi run test -- tests/test_track20_runtime.py tests/test_track20_evidence.py -q
+
       - name: Validate AKN v3 examples
         run: CI=true pixi run test -- tests/test_akn_v3.py -q
 

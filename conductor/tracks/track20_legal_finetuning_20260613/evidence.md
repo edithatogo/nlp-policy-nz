@@ -8,6 +8,7 @@
 - Tier-2 QLoRA job specs: satisfied for Gemma, Phi-4, Qwen, Mistral, and additional compatible task specs
 - Fine-tune command surfaces: dry-run/spec-only by default
 - Environment-adaptive runtime planning: satisfied for local CPU, GitHub Actions CPU, and optional accelerated backends
+- Bounded CPU smoke training: satisfied for local CPU and GitHub Actions CPU plans
 - Track-scoped training package coverage: 93%
 
 ## Acceptance Gate Status
@@ -18,6 +19,8 @@
 - Hugging Face CLI availability: satisfied in the Pixi runtime
 - Local execution plan: satisfied (`local_cpu`, CPU smoke mode, max 32 records, max 5 steps, no model download, no Hub push)
 - GitHub Actions execution plan: satisfied (`ci_cpu`, CPU smoke mode, max 8 records, max 2 steps, no model download, no Hub push)
+- Local CPU smoke training: satisfied (5 steps, loss decreased from 3.4447 to 3.1598)
+- GitHub Actions CPU smoke training: satisfied with `CI=true` (2 steps, loss decreased from 3.4447 to 3.3707)
 - Accelerated backend validation: optional and pending for CUDA/ROCm/MPS/DirectML when such hardware/runtime exists
 - Legal-BERT held-out perplexity improvement: pending
 - At least 3 completed Tier-2 QLoRA fine-tunes: pending
@@ -41,6 +44,8 @@
 - Local hardware profile: Windows, 22 logical CPUs, about 32 GiB RAM, Intel graphics, PyTorch `2.12.1+cpu`, no CUDA, no MPS, no DirectML, and no ONNX Runtime.
 - Selected local plan: `local_cpu`, CPU smoke mode, max 32 records, max 5 steps, no model download, and no Hub push.
 - Selected CI plan with `CI=true`: `ci_cpu`, CPU smoke mode, max 8 records, max 2 steps, no model download, and no Hub push.
+- Local smoke-training result: backend `local_cpu`, 4 fixture records, 5 steps, decreasing loss.
+- CI smoke-training result: backend `ci_cpu`, 4 fixture records, 2 steps, decreasing loss.
 
 ## Validation
 
@@ -56,11 +61,13 @@
 - Inline runtime probe with `PYTHONPATH=src` passed and reported 519 Parquet inputs, importable training dependencies, available `hf` CLI, unavailable CUDA, and missing `nvidia-smi`.
 - `pixi run track20-runtime` passed and selected `local_cpu`.
 - `CI=true pixi run track20-runtime` passed and selected `ci_cpu`.
-- `pixi run pytest -p no:tach -p no:cacheprovider -q tests\test_track20_runtime.py tests\test_track20_evidence.py tests\test_semantic_finetune_dry_run.py tests\test_training_data.py tests\test_training_eval.py` passed: 24 passed.
+- `pixi run track20-smoke` passed and ran local CPU smoke training with decreasing loss.
+- `CI=true pixi run track20-smoke` passed and ran CI CPU smoke training with decreasing loss.
+- `pixi run pytest -p no:tach -p no:cacheprovider -q tests\test_track20_runtime.py tests\test_track20_evidence.py tests\test_semantic_finetune_dry_run.py tests\test_training_data.py tests\test_training_eval.py` passed: 27 passed.
 
 ## Residual External Gates
 
-- Run bounded CPU smoke training/evaluation in CI on tiny fixtures whenever the training loop is upgraded beyond current dry-run/job-spec coverage.
+- Extend the smoke-training fixture into a small real-Parquet CPU evaluation job once an agreed tiny fixture subset is selected.
 - Run Legal-BERT MLM training on real NZ legal/Hansard Parquet inputs using the best available backend and compare held-out perplexity against the baseline model.
 - Complete at least 3 Tier-2 QLoRA fine-tunes on a suitable accelerated backend and record model artifact hashes.
 - Evaluate held-out citation F1 and Te Reo Maori token integrity improvements against base models.

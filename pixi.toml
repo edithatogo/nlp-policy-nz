@@ -81,6 +81,8 @@ profile = "scalene --reduced-profile --html --outfile docs/profiling.html src/nl
 memray = "python scripts/memray_trace.py --help"
 benchmark = "pytest tests/benchmarks -q"
 qlora-spec = "python -m nlp_policy_nz.training.run_qlora --help"
+track20-runtime = "python -c \"import sys; sys.path.insert(0, 'src'); from nlp_policy_nz.training.runtime import main; raise SystemExit(main())\""
+track20-smoke = "python -c \"import sys; sys.path.insert(0, 'src'); from nlp_policy_nz.training.smoke import main; raise SystemExit(main())\""
 typecheck = "basedpyright src"
 typecheck-ci = "basedpyright --version && python -m py_compile src/nlp_policy_nz/__init__.py src/nlp_policy_nz/cli/main.py src/nlp_policy_nz/guard/__init__.py"
 check = { depends-on = ["lint", "format", "check-complexity", "check-boundaries", "test"] }
