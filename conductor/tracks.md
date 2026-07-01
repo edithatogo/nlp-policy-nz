@@ -68,8 +68,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: Track 1
 - **Parallelization Node**: Integration Registry
 
-## [x] Track 3: Implement Māori Language Guard [b65c685]
-*Link: [./conductor/tracks/track3_maori_guard_20260609/](./conductor/tracks/track3_maori_guard_20260609/)*
+## [x] Track 3: Implement Māori Language Guard (archived) [b65c685]
+*Link: [./conductor/tracks/archive/track3_maori_guard_20260609/](./conductor/tracks/archive/track3_maori_guard_20260609/)*
 - **Dependencies**: Track 1
 - **Parallelization Node**: Linguistic Guard (Can run in parallel with Track 2)
 
