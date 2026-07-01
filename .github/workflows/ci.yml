@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -29,7 +29,7 @@ jobs:
           cache-write: ${{ github.event_name == 'push' }}
 
       - name: Hadolint Dockerfile
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.3.0
         with:
           dockerfile: Dockerfile
 
@@ -79,7 +79,7 @@ jobs:
         run: CI=true pip install pytest-cov && pixi run coverage-ci
 
       - name: Upload SBOM artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nlp-policy-nz-sbom
           path: .tmp/sbom/nlp-policy-nz.cdx.json
@@ -89,7 +89,7 @@ jobs:
         run: CI=true pixi run mutation
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v7
         with:
           file: ./coverage.xml
           fail_ci_if_error: false
