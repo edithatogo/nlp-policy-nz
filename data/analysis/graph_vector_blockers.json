@@ -1,0 +1,14 @@
+[
+  {
+    "blocker_id": "full-graph-inputs",
+    "blocker_type": "full_graph_unavailable",
+    "description": "No canonical full citation, co-vote, co-speech, or Wikidata graph export is checked in.",
+    "resolution": "Supply full graph exports or generated NetworkX node-link artifacts."
+  },
+  {
+    "blocker_id": "full-vector-index",
+    "blocker_type": "full_vector_index_unavailable",
+    "description": "No canonical full LanceDB vector index is checked in for repo-side CI.",
+    "resolution": "Supply a reproducible LanceDB or PipelineRecord vector export."
+  }
+]

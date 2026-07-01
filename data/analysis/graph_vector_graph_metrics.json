@@ -1,0 +1,270 @@
+{
+  "centrality": {
+    "betweenness_top": [
+      {
+        "node": "term:SKOS:Concept",
+        "score": 0.345455
+      },
+      {
+        "node": "ontology:NZDebateTopic",
+        "score": 0.218182
+      },
+      {
+        "node": "ontology:NZHansardOntology",
+        "score": 0.202597
+      },
+      {
+        "node": "term:SIOC:Post",
+        "score": 0.199351
+      },
+      {
+        "node": "term:Akoma Ntoso:debateSpeech",
+        "score": 0.169481
+      },
+      {
+        "node": "standard:Akoma Ntoso",
+        "score": 0.155844
+      },
+      {
+        "node": "ontology:Tikanga",
+        "score": 0.144805
+      },
+      {
+        "node": "term:Akoma Ntoso:obligation",
+        "score": 0.140909
+      },
+      {
+        "node": "term:nlp-policy-nz extraction:definition",
+        "score": 0.140909
+      },
+      {
+        "node": "standard:nlp-policy-nz extraction",
+        "score": 0.130519
+      }
+    ],
+    "degree_top": [
+      {
+        "node": "term:SKOS:Concept",
+        "score": 0.107143
+      },
+      {
+        "node": "ontology:NZActOntology",
+        "score": 0.071429
+      },
+      {
+        "node": "ontology:NZCourtOntology",
+        "score": 0.071429
+      },
+      {
+        "node": "term:DCAT:Dataset",
+        "score": 0.071429
+      },
+      {
+        "node": "doc:fixture-legislation-2024-001",
+        "score": 0.053571
+      },
+      {
+        "node": "ontology:NZCourtLevel",
+        "score": 0.053571
+      },
+      {
+        "node": "ontology:NZDebateTopic",
+        "score": 0.053571
+      },
+      {
+        "node": "ontology:NZGovernmentAgencyOntology",
+        "score": 0.053571
+      },
+      {
+        "node": "ontology:NZHansardOntology",
+        "score": 0.053571
+      },
+      {
+        "node": "ontology:NZProvision",
+        "score": 0.053571
+      }
+    ],
+    "eigenvector_top": [
+      {
+        "node": "term:SKOS:Concept",
+        "score": 0.525239
+      },
+      {
+        "node": "ontology:NZCourtLevel",
+        "score": 0.335824
+      },
+      {
+        "node": "ontology:NZDebateTopic",
+        "score": 0.314476
+      },
+      {
+        "node": "ontology:Tikanga",
+        "score": 0.28569
+      },
+      {
+        "node": "ontology:NZCourtOntology",
+        "score": 0.244245
+      },
+      {
+        "node": "term:nlp-policy-nz extraction:definition",
+        "score": 0.217922
+      },
+      {
+        "node": "ontology:NZHansardOntology",
+        "score": 0.203914
+      },
+      {
+        "node": "doc:fixture-legislation-2024-001",
+        "score": 0.201272
+      },
+      {
+        "node": "doc:fixture-court-2023-001",
+        "score": 0.200772
+      },
+      {
+        "node": "ontology:TeTiriti",
+        "score": 0.181796
+      }
+    ]
+  },
+  "communities": {
+    "communities": [
+      {
+        "community_id": 1,
+        "nodes": [
+          "standard:AGLS",
+          "standard:DCAT",
+          "standard:NZGLS",
+          "standard:PROV-O",
+          "standard:data.govt.nz Dataset Metadata",
+          "term:AGLS:Resource",
+          "term:DCAT:Dataset",
+          "term:NZGLS:Resource",
+          "term:PROV-O:Entity",
+          "term:data.govt.nz Dataset Metadata:dataset"
+        ]
+      },
+      {
+        "community_id": 2,
+        "nodes": [
+          "standard:Catala",
+          "standard:OWL-Time",
+          "standard:nlp-policy-nz extraction",
+          "term:Catala:scope",
+          "term:OWL-Time:time:Instant",
+          "term:nlp-policy-nz extraction:date",
+          "term:nlp-policy-nz extraction:definition",
+          "term:nlp-policy-nz extraction:rules_as_code"
+        ]
+      },
+      {
+        "community_id": 3,
+        "nodes": [
+          "doc:fixture-legislation-2024-001",
+          "ontology:NZActOntology",
+          "ontology:NZProvision",
+          "ontology:Tikanga",
+          "term:Akoma Ntoso:act",
+          "term:ELI:LegalResource",
+          "term:LKIF:Legal concept",
+          "term:schema.org/Legislation:legislationSection"
+        ]
+      },
+      {
+        "community_id": 4,
+        "nodes": [
+          "doc:fixture-hansard-2025-001",
+          "ontology:NZDebateTopic",
+          "ontology:NZHansardOntology",
+          "ontology:TeTiriti",
+          "standard:SKOS",
+          "term:SKOS:Concept"
+        ]
+      },
+      {
+        "community_id": 5,
+        "nodes": [
+          "standard:LKIF",
+          "standard:ODRL",
+          "term:LKIF:Permission",
+          "term:LKIF:Prohibition",
+          "term:ODRL:Permission",
+          "term:ODRL:Prohibition"
+        ]
+      },
+      {
+        "community_id": 6,
+        "nodes": [
+          "standard:Akoma Ntoso",
+          "standard:SIOC",
+          "term:Akoma Ntoso:debateSpeech",
+          "term:Akoma Ntoso:obligation",
+          "term:LKIF:Obligation",
+          "term:SIOC:Post"
+        ]
+      },
+      {
+        "community_id": 7,
+        "nodes": [
+          "doc:fixture-court-2023-001",
+          "ontology:NZCourtLevel",
+          "ontology:NZCourtOntology",
+          "term:ECLI:court",
+          "term:schema.org:Court"
+        ]
+      },
+      {
+        "community_id": 8,
+        "nodes": [
+          "standard:FOAF",
+          "standard:schema.org",
+          "term:FOAF:Person",
+          "term:schema.org:Person"
+        ]
+      },
+      {
+        "community_id": 9,
+        "nodes": [
+          "ontology:NZGovernmentAgencyOntology",
+          "ontology:NZPublicOrganization",
+          "term:Popolo:Organization",
+          "term:W3C ORG:Organization"
+        ]
+      }
+    ],
+    "community_count": 9
+  },
+  "degree_distribution": [
+    {
+      "degree": 1,
+      "node_count": 19
+    },
+    {
+      "degree": 2,
+      "node_count": 23
+    },
+    {
+      "degree": 3,
+      "node_count": 11
+    },
+    {
+      "degree": 4,
+      "node_count": 3
+    },
+    {
+      "degree": 6,
+      "node_count": 1
+    }
+  ],
+  "network_metrics": {
+    "mapping_edge_count": 26,
+    "ontology_link_edge_count": 7
+  },
+  "summary": {
+    "connected_component_count": 4,
+    "density": 0.036341,
+    "edge_count": 58,
+    "largest_component_size": 39,
+    "node_count": 57
+  }
+}

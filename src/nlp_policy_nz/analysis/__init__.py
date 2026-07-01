@@ -14,6 +14,20 @@ from nlp_policy_nz.analysis.corpus_statistics import (
     load_pipeline_records,
     write_corpus_statistics_artifacts,
 )
+from nlp_policy_nz.analysis.graph_vector_network import (
+    GRAPH_VECTOR_ALIGNMENT_FILENAME,
+    GRAPH_VECTOR_BLOCKERS_FILENAME,
+    GRAPH_VECTOR_GRAPH_METRICS_FILENAME,
+    GRAPH_VECTOR_MANIFEST_FILENAME,
+    GRAPH_VECTOR_MARKDOWN_FILENAME,
+    GRAPH_VECTOR_MERMAID_FILENAME,
+    GRAPH_VECTOR_VECTOR_METRICS_FILENAME,
+    GraphVectorNetworkBundle,
+    VectorAnalysisRecord,
+    build_fixture_vector_records,
+    build_graph_vector_network_analysis,
+    write_graph_vector_network_artifacts,
+)
 
 __all__ = [
     "CORPUS_STATISTICS_BLOCKERS_FILENAME",
@@ -23,9 +37,21 @@ __all__ = [
     "CORPUS_STATISTICS_ONTOLOGY_FILENAME",
     "CORPUS_STATISTICS_PER_CORPUS_FILENAME",
     "CORPUS_STATISTICS_PER_YEAR_FILENAME",
+    "GRAPH_VECTOR_ALIGNMENT_FILENAME",
+    "GRAPH_VECTOR_BLOCKERS_FILENAME",
+    "GRAPH_VECTOR_GRAPH_METRICS_FILENAME",
+    "GRAPH_VECTOR_MANIFEST_FILENAME",
+    "GRAPH_VECTOR_MARKDOWN_FILENAME",
+    "GRAPH_VECTOR_MERMAID_FILENAME",
+    "GRAPH_VECTOR_VECTOR_METRICS_FILENAME",
     "CorpusStatisticsBundle",
+    "GraphVectorNetworkBundle",
+    "VectorAnalysisRecord",
     "build_corpus_statistics",
     "build_fixture_records",
+    "build_fixture_vector_records",
+    "build_graph_vector_network_analysis",
     "load_pipeline_records",
     "write_corpus_statistics_artifacts",
+    "write_graph_vector_network_artifacts",
 ]

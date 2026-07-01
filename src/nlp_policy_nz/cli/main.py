@@ -15,6 +15,7 @@ Typical usage::
     nlp-policy-nz release --parquet output/legislation.parquet --version 1.0.0 --title "v1.0"
     nlp-policy-nz export-nz-ontologies --output-dir data/ontologies
     nlp-policy-nz corpus-stats --parquet output/legislation.parquet --output-dir data/statistics
+    nlp-policy-nz graph-vector-analysis --output-dir data/analysis
 """
 
 import argparse
@@ -569,6 +570,29 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Path for the Markdown summary.",
     )
 
+    # --- graph-vector-analysis subcommand ---------------------------------
+    graph_vector_parser = subparsers.add_parser(
+        "graph-vector-analysis",
+        help="Export Track 33 graph, vector, and network analysis.",
+        description=(
+            "Compute deterministic Track 33 graph topology, vector clustering, "
+            "and graph/vector alignment metrics from checked-in artifacts."
+        ),
+    )
+    graph_vector_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        default="data/analysis",
+        help="Directory for JSON, CSV, and Mermaid analysis artifacts.",
+    )
+    graph_vector_parser.add_argument(
+        "--markdown",
+        type=str,
+        default=None,
+        help="Path for the Markdown summary.",
+    )
+
     return parser
 
 
@@ -607,6 +631,7 @@ def main(argv: list[str] | None = None) -> int:
         "export-extractions",
         "export-nz-ontologies",
         "corpus-stats",
+        "graph-vector-analysis",
     }
     if argv and argv[0] not in commands and not argv[0].startswith("-"):
         parser.print_help()
@@ -861,6 +886,20 @@ def main(argv: list[str] | None = None) -> int:
             )
             logger.info(
                 "Corpus statistics artifacts written: %s",
+                sorted(str(path) for path in written.values()),
+            )
+
+        elif args.command == "graph-vector-analysis":
+            from nlp_policy_nz.analysis import (  # noqa: PLC0415
+                write_graph_vector_network_artifacts,
+            )
+
+            written = write_graph_vector_network_artifacts(
+                args.output_dir,
+                markdown_path=args.markdown,
+            )
+            logger.info(
+                "Graph/vector analysis artifacts written: %s",
                 sorted(str(path) for path in written.values()),
             )
 

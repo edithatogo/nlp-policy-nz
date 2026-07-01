@@ -1,0 +1,21 @@
+{
+  "producer": "nlp-policy-nz",
+  "schema_version": "1.0",
+  "source_boundary": "Repo-side graph/vector analysis summarizes checked-in ontology mappings, NZ ontology candidates, Track 32 statistics, and deterministic vector fixtures. It does not claim full graph/vector corpus coverage.",
+  "summary": {
+    "alignment_pair_count": 7,
+    "blocker_count": 2,
+    "cluster_count": 4,
+    "graph_edge_count": 58,
+    "graph_node_count": 57,
+    "vector_count": 7
+  },
+  "tables": {
+    "alignment": "graph_vector_alignment.csv",
+    "blockers": "graph_vector_blockers.json",
+    "graph_metrics": "graph_vector_graph_metrics.json",
+    "network": "graph_vector_network.mmd",
+    "vector_metrics": "graph_vector_vector_metrics.json"
+  },
+  "track_id": "track33_graph_vector_network_analysis_20260625"
+}

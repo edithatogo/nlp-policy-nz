@@ -1,0 +1,8 @@
+source_id,linked_concept_id,graph_distance,cosine_similarity,nearest_rank,aligned_in_top3
+doc:fixture-court-2023-001,NZCourtLevel,1,0.0,,False
+doc:fixture-court-2023-001,NZCourtOntology,1,0.998265,1,True
+doc:fixture-hansard-2025-001,NZDebateTopic,1,0.0,,False
+doc:fixture-hansard-2025-001,NZHansardOntology,1,0.997494,1,True
+doc:fixture-legislation-2024-001,NZActOntology,1,0.996869,1,True
+doc:fixture-legislation-2024-001,NZProvision,1,0.0,,False
+doc:fixture-legislation-2024-001,Tikanga,1,0.480815,2,True

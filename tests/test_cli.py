@@ -296,6 +296,26 @@ class TestArgumentParser:
         assert "Track 32" in stats_parser.description
         assert parquet_actions
 
+    def test_parser_has_graph_vector_analysis_subcommand(self, parser: Any) -> None:
+        """Parser should have a Track 33 ``graph-vector-analysis`` subcommand."""
+        subparsers_actions = [
+            action
+            for action in parser._actions
+            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
+        ]
+        assert subparsers_actions
+        choices = subparsers_actions[0].choices
+        graph_vector_parser = choices["graph-vector-analysis"]
+        output_dir_actions = [
+            action
+            for action in graph_vector_parser._actions
+            if "--output-dir" in action.option_strings
+        ]
+
+        assert "graph-vector-analysis" in choices
+        assert "Track 33" in graph_vector_parser.description
+        assert output_dir_actions
+
 
 # ---------------------------------------------------------------------------
 # Tests: ``upload-dataset`` subcommand

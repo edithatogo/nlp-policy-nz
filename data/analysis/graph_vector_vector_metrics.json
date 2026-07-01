@@ -1,0 +1,322 @@
+{
+  "clusters": {
+    "assignments": [
+      {
+        "cluster_id": "axis_3",
+        "record_id": "doc:fixture-court-2023-001"
+      },
+      {
+        "cluster_id": "axis_2",
+        "record_id": "doc:fixture-hansard-2025-001"
+      },
+      {
+        "cluster_id": "axis_1",
+        "record_id": "doc:fixture-legislation-2024-001"
+      },
+      {
+        "cluster_id": "axis_1",
+        "record_id": "ontology:NZActOntology"
+      },
+      {
+        "cluster_id": "axis_3",
+        "record_id": "ontology:NZCourtOntology"
+      },
+      {
+        "cluster_id": "axis_2",
+        "record_id": "ontology:NZHansardOntology"
+      },
+      {
+        "cluster_id": "axis_4",
+        "record_id": "ontology:Tikanga"
+      }
+    ],
+    "cluster_count": 4,
+    "silhouette_score": 0.927123
+  },
+  "nearest_neighbors": {
+    "doc:fixture-court-2023-001": [
+      {
+        "cosine_similarity": 0.998265,
+        "euclidean_distance": 0.06,
+        "record_id": "ontology:NZCourtOntology"
+      },
+      {
+        "cosine_similarity": 0.488918,
+        "euclidean_distance": 0.9272,
+        "record_id": "ontology:NZActOntology"
+      },
+      {
+        "cosine_similarity": 0.430233,
+        "euclidean_distance": 0.989949,
+        "record_id": "doc:fixture-legislation-2024-001"
+      },
+      {
+        "cosine_similarity": 0.391349,
+        "euclidean_distance": 1.013311,
+        "record_id": "ontology:NZHansardOntology"
+      },
+      {
+        "cosine_similarity": 0.335266,
+        "euclidean_distance": 1.072381,
+        "record_id": "doc:fixture-hansard-2025-001"
+      },
+      {
+        "cosine_similarity": 0.32427,
+        "euclidean_distance": 1.1,
+        "record_id": "ontology:Tikanga"
+      }
+    ],
+    "doc:fixture-hansard-2025-001": [
+      {
+        "cosine_similarity": 0.997494,
+        "euclidean_distance": 0.069282,
+        "record_id": "ontology:NZHansardOntology"
+      },
+      {
+        "cosine_similarity": 0.478043,
+        "euclidean_distance": 0.969536,
+        "record_id": "ontology:Tikanga"
+      },
+      {
+        "cosine_similarity": 0.361779,
+        "euclidean_distance": 1.036147,
+        "record_id": "ontology:NZCourtOntology"
+      },
+      {
+        "cosine_similarity": 0.335266,
+        "euclidean_distance": 1.072381,
+        "record_id": "doc:fixture-court-2023-001"
+      },
+      {
+        "cosine_similarity": 0.309874,
+        "euclidean_distance": 1.080602,
+        "record_id": "ontology:NZActOntology"
+      },
+      {
+        "cosine_similarity": 0.25434,
+        "euclidean_distance": 1.135782,
+        "record_id": "doc:fixture-legislation-2024-001"
+      }
+    ],
+    "doc:fixture-legislation-2024-001": [
+      {
+        "cosine_similarity": 0.996869,
+        "euclidean_distance": 0.075498,
+        "record_id": "ontology:NZActOntology"
+      },
+      {
+        "cosine_similarity": 0.480815,
+        "euclidean_distance": 0.964365,
+        "record_id": "ontology:Tikanga"
+      },
+      {
+        "cosine_similarity": 0.478784,
+        "euclidean_distance": 0.933595,
+        "record_id": "ontology:NZCourtOntology"
+      },
+      {
+        "cosine_similarity": 0.430233,
+        "euclidean_distance": 0.989949,
+        "record_id": "doc:fixture-court-2023-001"
+      },
+      {
+        "cosine_similarity": 0.308336,
+        "euclidean_distance": 1.080185,
+        "record_id": "ontology:NZHansardOntology"
+      },
+      {
+        "cosine_similarity": 0.25434,
+        "euclidean_distance": 1.135782,
+        "record_id": "doc:fixture-hansard-2025-001"
+      }
+    ],
+    "ontology:NZActOntology": [
+      {
+        "cosine_similarity": 0.996869,
+        "euclidean_distance": 0.075498,
+        "record_id": "doc:fixture-legislation-2024-001"
+      },
+      {
+        "cosine_similarity": 0.536593,
+        "euclidean_distance": 0.87,
+        "record_id": "ontology:NZCourtOntology"
+      },
+      {
+        "cosine_similarity": 0.498756,
+        "euclidean_distance": 0.937923,
+        "record_id": "ontology:Tikanga"
+      },
+      {
+        "cosine_similarity": 0.488918,
+        "euclidean_distance": 0.9272,
+        "record_id": "doc:fixture-court-2023-001"
+      },
+      {
+        "cosine_similarity": 0.36494,
+        "euclidean_distance": 1.023181,
+        "record_id": "ontology:NZHansardOntology"
+      },
+      {
+        "cosine_similarity": 0.309874,
+        "euclidean_distance": 1.080602,
+        "record_id": "doc:fixture-hansard-2025-001"
+      }
+    ],
+    "ontology:NZCourtOntology": [
+      {
+        "cosine_similarity": 0.998265,
+        "euclidean_distance": 0.06,
+        "record_id": "doc:fixture-court-2023-001"
+      },
+      {
+        "cosine_similarity": 0.536593,
+        "euclidean_distance": 0.87,
+        "record_id": "ontology:NZActOntology"
+      },
+      {
+        "cosine_similarity": 0.478784,
+        "euclidean_distance": 0.933595,
+        "record_id": "doc:fixture-legislation-2024-001"
+      },
+      {
+        "cosine_similarity": 0.418963,
+        "euclidean_distance": 0.975705,
+        "record_id": "ontology:NZHansardOntology"
+      },
+      {
+        "cosine_similarity": 0.361779,
+        "euclidean_distance": 1.036147,
+        "record_id": "doc:fixture-hansard-2025-001"
+      },
+      {
+        "cosine_similarity": 0.349914,
+        "euclidean_distance": 1.064707,
+        "record_id": "ontology:Tikanga"
+      }
+    ],
+    "ontology:NZHansardOntology": [
+      {
+        "cosine_similarity": 0.997494,
+        "euclidean_distance": 0.069282,
+        "record_id": "doc:fixture-hansard-2025-001"
+      },
+      {
+        "cosine_similarity": 0.504058,
+        "euclidean_distance": 0.934238,
+        "record_id": "ontology:Tikanga"
+      },
+      {
+        "cosine_similarity": 0.418963,
+        "euclidean_distance": 0.975705,
+        "record_id": "ontology:NZCourtOntology"
+      },
+      {
+        "cosine_similarity": 0.391349,
+        "euclidean_distance": 1.013311,
+        "record_id": "doc:fixture-court-2023-001"
+      },
+      {
+        "cosine_similarity": 0.36494,
+        "euclidean_distance": 1.023181,
+        "record_id": "ontology:NZActOntology"
+      },
+      {
+        "cosine_similarity": 0.308336,
+        "euclidean_distance": 1.080185,
+        "record_id": "doc:fixture-legislation-2024-001"
+      }
+    ],
+    "ontology:Tikanga": [
+      {
+        "cosine_similarity": 0.504058,
+        "euclidean_distance": 0.934238,
+        "record_id": "ontology:NZHansardOntology"
+      },
+      {
+        "cosine_similarity": 0.498756,
+        "euclidean_distance": 0.937923,
+        "record_id": "ontology:NZActOntology"
+      },
+      {
+        "cosine_similarity": 0.480815,
+        "euclidean_distance": 0.964365,
+        "record_id": "doc:fixture-legislation-2024-001"
+      },
+      {
+        "cosine_similarity": 0.478043,
+        "euclidean_distance": 0.969536,
+        "record_id": "doc:fixture-hansard-2025-001"
+      },
+      {
+        "cosine_similarity": 0.349914,
+        "euclidean_distance": 1.064707,
+        "record_id": "ontology:NZCourtOntology"
+      },
+      {
+        "cosine_similarity": 0.32427,
+        "euclidean_distance": 1.1,
+        "record_id": "doc:fixture-court-2023-001"
+      }
+    ]
+  },
+  "pca_projection": [
+    {
+      "pc1": 0.265179,
+      "pc1_explained_variance": 0.464502,
+      "pc2": -0.545156,
+      "pc2_explained_variance": 0.352282,
+      "record_id": "doc:fixture-court-2023-001"
+    },
+    {
+      "pc1": -0.631711,
+      "pc1_explained_variance": 0.464502,
+      "pc2": -0.013076,
+      "pc2_explained_variance": 0.352282,
+      "record_id": "doc:fixture-hansard-2025-001"
+    },
+    {
+      "pc1": 0.428277,
+      "pc1_explained_variance": 0.464502,
+      "pc2": 0.394596,
+      "pc2_explained_variance": 0.352282,
+      "record_id": "doc:fixture-legislation-2024-001"
+    },
+    {
+      "pc1": 0.390774,
+      "pc1_explained_variance": 0.464502,
+      "pc2": 0.335374,
+      "pc2_explained_variance": 0.352282,
+      "record_id": "ontology:NZActOntology"
+    },
+    {
+      "pc1": 0.258955,
+      "pc1_explained_variance": 0.464502,
+      "pc2": -0.490478,
+      "pc2_explained_variance": 0.352282,
+      "record_id": "ontology:NZCourtOntology"
+    },
+    {
+      "pc1": -0.568051,
+      "pc1_explained_variance": 0.464502,
+      "pc2": -0.021143,
+      "pc2_explained_variance": 0.352282,
+      "record_id": "ontology:NZHansardOntology"
+    },
+    {
+      "pc1": -0.143423,
+      "pc1_explained_variance": 0.464502,
+      "pc2": 0.339882,
+      "pc2_explained_variance": 0.352282,
+      "record_id": "ontology:Tikanga"
+    }
+  ],
+  "summary": {
+    "dimension_count": 4,
+    "kind_counts": {
+      "document": 3,
+      "ontology": 4
+    },
+    "mean_norm": 0.924068,
+    "vector_count": 7
+  }
+}

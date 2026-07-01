@@ -56,6 +56,9 @@ nlp-policy-nz export-nz-ontologies --output-dir data/ontologies
 
 # Export deterministic corpus statistics from one or more PipelineRecord Parquet files
 nlp-policy-nz corpus-stats --parquet output/legislation.parquet --output-dir data/statistics
+
+# Export deterministic graph/vector/network analysis artifacts
+nlp-policy-nz graph-vector-analysis --output-dir data/analysis
 ```
 
 ## Documentation
@@ -64,6 +67,7 @@ nlp-policy-nz corpus-stats --parquet output/legislation.parquet --output-dir dat
 - [Build notes](docs/build_backend.md) describe the current packaging decisions.
 - [New Zealand ontology candidates](docs/nz_ontologies.md) describes the Track 31 review-bounded ontology candidate exports.
 - [Corpus statistics](docs/corpus_statistics.md) describes the Track 32 descriptive statistics and full-corpus blockers.
+- [Graph, vector, and network analysis](docs/graph_vector_network_analysis.md) describes the Track 33 topology, vector, alignment, and full graph/vector blockers.
 - [Ontology mapping](docs/ontology_mapping.md) describes the Track 29/30 ontology mapping graph and inference artifacts.
 - [Pipeline record serialization](docs/pydantic_vs_msgspec.md) records the serialization benchmark decision.
 

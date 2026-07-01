@@ -11,6 +11,10 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
         "nlp_policy_nz.analysis",
         "build_corpus_statistics",
     ),
+    "build_graph_vector_network_analysis": (
+        "nlp_policy_nz.analysis",
+        "build_graph_vector_network_analysis",
+    ),
     "build_nz_ontology_bundle": (
         "nlp_policy_nz.ontology",
         "build_nz_ontology_bundle",
@@ -39,6 +43,10 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
     "write_corpus_statistics_artifacts": (
         "nlp_policy_nz.analysis",
         "write_corpus_statistics_artifacts",
+    ),
+    "write_graph_vector_network_artifacts": (
+        "nlp_policy_nz.analysis",
+        "write_graph_vector_network_artifacts",
     ),
     "write_nz_ontology_artifacts": (
         "nlp_policy_nz.ontology",
@@ -74,11 +82,13 @@ __all__ = [
     "UniversalIngestionEngine",
     "__version__",
     "build_corpus_statistics",
+    "build_graph_vector_network_analysis",
     "build_nz_ontology_bundle",
     "build_nz_ontology_graph",
     "get_ingestion_engine",
     "run_nlp_pipeline",
     "validate_nz_ontology_bundle",
     "write_corpus_statistics_artifacts",
+    "write_graph_vector_network_artifacts",
     "write_nz_ontology_artifacts",
 ]
