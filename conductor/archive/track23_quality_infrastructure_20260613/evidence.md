@@ -36,7 +36,7 @@ recorded.
 python -B -m pytest -p no:cacheprovider -q tests\smoke tests\test_quality_infrastructure.py tests\test_track23_evidence.py tests\test_smoke.py tests\integration tests\e2e
 python -m ruff check --no-cache src\nlp_policy_nz\quality src\nlp_policy_nz\training\__init__.py tests\test_track23_evidence.py tests\test_quality_infrastructure.py tests\test_smoke.py tests\smoke tests\integration tests\e2e
 python -B -m py_compile src\nlp_policy_nz\quality\track23_evidence.py
-python -B -m json.tool conductor\tracks\track23_quality_infrastructure_20260613\metadata.json > nul
+python -B -m json.tool conductor\archive\track23_quality_infrastructure_20260613\metadata.json > nul
 ```
 
 ## Residual Measured Gates
@@ -113,7 +113,7 @@ python -B -m json.tool conductor\tracks\track23_quality_infrastructure_20260613\
 
 ## 2026-06-25 full quality gate manifest
 
-Track 23 now has a machine-readable remaining-gate contract at conductor/tracks/track23_quality_infrastructure_20260613/external_gate_manifest.json. It records mutation_ci_gate as satisfied and full_ruff_strict, strict_basedpyright, coverage_threshold, and full_quality_pass as pending until durable artifacts prove them. Focused tests, scoped Ruff runs, scaffold checks, and configuration inspection are not accepted as substitutes for those gates.
+Track 23 now has a machine-readable remaining-gate contract at conductor/archive/track23_quality_infrastructure_20260613/external_gate_manifest.json. It records mutation_ci_gate as satisfied and full_ruff_strict, strict_basedpyright, coverage_threshold, and full_quality_pass as pending until durable artifacts prove them. Focused tests, scoped Ruff runs, scaffold checks, and configuration inspection are not accepted as substitutes for those gates.
 
 ## 2026-07-01 closeout
 

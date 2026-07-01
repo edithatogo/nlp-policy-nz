@@ -165,12 +165,6 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Complete the tech-stack observability layer. The repo-side OTel spans, profiling wrappers, and CI benchmark gates are complete; the incomplete 1 GiB profiling pass is now a roadmap note rather than a separate track.
 
-## [x] Track 23: Quality Tooling & Testing Infrastructure Overhaul
-*Link: [./conductor/tracks/track23_quality_infrastructure_20260613/](./conductor/tracks/track23_quality_infrastructure_20260613/)*
-- **Dependencies**: Track 1
-- **Parallelization Node**: Infrastructure & Quality
-- **Why**: Close all quality-tooling gaps: ruff strict (ANN/D/TCH/YTT/RET), mypy/pyright strict, `ty` module convention, smoke/integration/E2E tests, mutation tests, scalene, codecov, pydantic v2 eval, uv_build eval.
-
 ## [x] Track 24: Multi-Git and Multi-Archive Mirroring Setup
 *Link: [./conductor/tracks/multi_git_archive_mirroring_20260614/](./conductor/tracks/multi_git_archive_mirroring_20260614/)*
 - **Dependencies**: Track 23

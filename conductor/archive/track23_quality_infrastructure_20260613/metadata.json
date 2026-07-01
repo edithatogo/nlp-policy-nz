@@ -6,6 +6,6 @@
     "updated_at": "2026-07-01T16:15:55.6916335+10:00",
     "description": "Complete the testing & quality tooling stack: uv_build, ruff strict+ANN/D, mypy/basedpyright strict, scalene, codecov, smoke/E2E/integration tests, pydantic v2 eval, mutation tests, property-based test expansion.",
     "oracle_notes": "Track 23 is complete. Repo-side quality scaffold, deterministic evidence contract, optional mutation CI gate, full strict Ruff evidence, strict basedpyright evidence, coverage-threshold evidence, and full quality-pass evidence are present. Coverage evidence records 91.2% line coverage against a 90.0% threshold. Full mutation execution remains optional/manual; CI wiring is present.",
-    "external_gate_manifest": "conductor/tracks/track23_quality_infrastructure_20260613/external_gate_manifest.json",
+    "external_gate_manifest": "conductor/archive/track23_quality_infrastructure_20260613/external_gate_manifest.json",
     "remaining_full_quality_gates": []
 }

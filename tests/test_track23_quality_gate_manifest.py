@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-TRACK23 = Path("conductor/tracks/track23_quality_infrastructure_20260613")
+TRACK23 = Path("conductor/archive/track23_quality_infrastructure_20260613")
 MANIFEST = TRACK23 / "external_gate_manifest.json"
 
 
