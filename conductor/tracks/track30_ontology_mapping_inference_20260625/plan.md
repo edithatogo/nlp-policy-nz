@@ -19,8 +19,8 @@
 
 ## Implementation Notes
 
-- Deterministic repo-side inference now covers exact alias overlap, Python `difflib` fuzzy similarity, supplied synonym groups, structural neighbourhood overlap, method-agreement scoring, and Track 29 `OntologyMappingRecord` export with `review_status="needs_review"`.
-- Fuzzy matching uses deterministic standard-library similarity for offline CI. Dedicated Levenshtein/Jaro-Winkler calibration can be added later if evaluation shows a practical benefit.
+- Deterministic repo-side inference now covers exact alias overlap, `difflib`, Levenshtein, and Jaro-Winkler fuzzy similarity, supplied synonym groups, structural neighbourhood overlap, embedding-vector cosine similarity, method-agreement scoring, checked-in review queue artifacts, and Track 29 `OntologyMappingRecord` export with `review_status="needs_review"`.
+- Fuzzy matching uses deterministic standard-library implementations for offline CI. Dedicated third-party calibration libraries can be adopted later if evaluation shows a practical benefit.
 - Embedding inference accepts precomputed term vectors or an injected text encoder, allowing the existing semantic embedding layer to be plugged in without forcing model downloads in tests. Corpus-scale nearest-neighbour evaluation remains future analysis work.
 
 ## Evidence Boundary
