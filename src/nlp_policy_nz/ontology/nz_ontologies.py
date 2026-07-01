@@ -17,7 +17,11 @@ from typing import Any, Final, Literal
 from rdflib import RDF, RDFS, Graph, Literal as RdfLiteral, Namespace, URIRef
 from rdflib.namespace import DC, DCTERMS, OWL, PROV, SKOS, XSD
 
-from nlp_policy_nz.ontology.mapping_graph import SEED_MAPPINGS, OntologyMappingRecord
+from nlp_policy_nz.ontology.mapping_graph import (
+    SEED_MAPPINGS,
+    MappingPredicate,
+    OntologyMappingRecord,
+)
 from nlp_policy_nz.quality.track25_ontology_coverage import build_coverage_matrix, repo_root
 
 ApplicationArea = Literal[
@@ -386,7 +390,7 @@ def build_nz_ontology_graph(bundle: NZOntologyBundle | None = None) -> Graph:
             graph.add((subject, SKOS.related, NZ[related]))
         for anchor in concept.ontology_anchors:
             anchor_node = _anchor_uri(anchor)
-            graph.add((subject, SKOS.relatedMatch, anchor_node))
+            graph.add((subject, _mapping_predicate_uri(anchor.predicate), anchor_node))
             graph.add((anchor_node, RDFS.label, RdfLiteral(anchor.term)))
             graph.add((anchor_node, DC.source, RdfLiteral(anchor.standard)))
             if anchor.mapping_id:
@@ -683,6 +687,17 @@ def _rdf_type(concept: NZOntologyConcept) -> URIRef:
 
 def _anchor_uri(anchor: OntologyAnchor) -> URIRef:
     return URIRef(f"{NZ}anchor/{_slug(anchor.standard)}/{_slug(anchor.term)}")
+
+
+def _mapping_predicate_uri(predicate: MappingPredicate | str) -> URIRef:
+    namespace, name = predicate.split(":", 1)
+    if namespace == "skos":
+        return SKOS[name]
+    if namespace == "owl":
+        return OWL[name]
+    if namespace == "rdfs":
+        return RDFS[name]
+    return NZ[f"source/{name}"]
 
 
 def _add_skos_schemes(graph: Graph, schemes: tuple[SKOSConceptScheme, ...]) -> None:

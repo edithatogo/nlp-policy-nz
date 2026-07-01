@@ -5,7 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from rdflib import Graph
+from rdflib import Graph, URIRef
+from rdflib.namespace import SKOS
 
 from nlp_policy_nz.ontology.nz_ontologies import (
     NZ_ONTOLOGY_JSONLD_FILENAME,
@@ -83,6 +84,22 @@ def test_nz_ontology_graph_exports_rdf_with_stable_nodes() -> None:
     assert "NZActOntology" in turtle
     assert "NZHansardOntology" in turtle
     assert "Tikanga" in jsonld
+
+
+def test_nz_ontology_graph_preserves_anchor_mapping_predicates() -> None:
+    """RDF export should preserve Track 29 mapping predicate semantics."""
+    graph = build_nz_ontology_graph()
+
+    assert (
+        URIRef("https://legal-nz.example.org/ontology/nz/NZHansardOntology"),
+        SKOS.closeMatch,
+        URIRef("https://legal-nz.example.org/ontology/nz/anchor/sioc/post"),
+    ) in graph
+    assert (
+        URIRef("https://legal-nz.example.org/ontology/nz/NZActOntology"),
+        SKOS.relatedMatch,
+        URIRef("https://legal-nz.example.org/ontology/nz/anchor/eli/legalresource"),
+    ) in graph
 
 
 def test_nz_ontology_artifact_writer_round_trips(tmp_path: Path) -> None:
