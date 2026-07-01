@@ -1,9 +1,9 @@
 {
   "track_id": "track56_rust_accelerated_extraction_runtime_20260630",
   "type": "feature",
-  "status": "completed",
+  "status": "archived",
   "created_at": "2026-06-30T00:00:00+10:00",
-  "updated_at": "2026-06-30T00:00:00+10:00",
+  "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Evaluate and incrementally adopt Rust-backed or bleeding-edge libraries for extraction, serialization, parsing, storage, and downstream rules-as-code handoff without destabilizing the Python API.",
   "oracle_notes": "Completed extraction runtime benchmark harness, local evidence artifact, runtime dependency policy, and future FFI boundary. Custom Rust/PyO3 extraction work is explicitly deferred until profiling justifies it."
 }

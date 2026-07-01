@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 TRACK55 = Path("conductor/tracks/archive/track55_broad_legislation_extraction_framework_20260630")
-TRACK56 = Path("conductor/tracks/track56_rust_accelerated_extraction_runtime_20260630")
+TRACK56 = Path("conductor/tracks/archive/track56_rust_accelerated_extraction_runtime_20260630")
 
 
 def test_tracks_55_and_56_are_registered_complete_and_evidenced() -> None:
@@ -12,7 +12,7 @@ def test_tracks_55_and_56_are_registered_complete_and_evidenced() -> None:
 
     for marker, track in (
         ("## [x] Track 55: Broad Legislation Extraction Framework (archived)", TRACK55),
-        ("## [x] Track 56: Rust-Accelerated Extraction Runtime", TRACK56),
+        ("## [x] Track 56: Rust-Accelerated Extraction Runtime (archived)", TRACK56),
     ):
         assert marker in registry
         assert str(track).replace("\\", "/") in registry
@@ -37,9 +37,12 @@ def test_track55_metadata_and_plan_mark_extraction_framework_complete() -> None:
 def test_track56_metadata_and_plan_mark_runtime_decision_complete() -> None:
     metadata = json.loads(TRACK56.joinpath("metadata.json").read_text(encoding="utf-8"))
     plan = TRACK56.joinpath("plan.md").read_text(encoding="utf-8")
+    index = TRACK56.joinpath("index.md").read_text(encoding="utf-8")
     evidence = TRACK56.joinpath("evidence.md").read_text(encoding="utf-8")
 
     assert metadata["track_id"] == "track56_rust_accelerated_extraction_runtime_20260630"
+    assert metadata["status"] == "archived"
     assert "**Status**: Complete" in plan
+    assert "evidence.md" in index
     assert "Rust Deferral and FFI Boundary" in evidence
     assert "34 tests passed and Ruff passed" in evidence

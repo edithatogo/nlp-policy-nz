@@ -365,8 +365,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Source-Grounded Legislative Extraction
 - **Why**: Promote rules-as-code from a standalone bridge into one output family of a broader source-grounded extraction system covering definitions, obligations, powers, conditions, exceptions, dates, entities, amendments, commencement, repeal, penalties, delegations, review rights, and traceable manifests.
 
-## [x] Track 56: Rust-Accelerated Extraction Runtime
-*Link: [./conductor/tracks/track56_rust_accelerated_extraction_runtime_20260630/](./conductor/tracks/track56_rust_accelerated_extraction_runtime_20260630/)*
+## [x] Track 56: Rust-Accelerated Extraction Runtime (archived)
+*Link: [./conductor/tracks/archive/track56_rust_accelerated_extraction_runtime_20260630/](./conductor/tracks/archive/track56_rust_accelerated_extraction_runtime_20260630/)*
 - **Dependencies**: Tracks 21, 23, 42, 55
 - **Parallelization Node**: Performance and Runtime Modernization
 - **Why**: Evaluate Pydantic-core, msgspec, orjson, Polars/Arrow, Rust tokenizers, and possible PyO3/maturin extensions for extraction performance while keeping the Python API and downstream export schemas stable.
