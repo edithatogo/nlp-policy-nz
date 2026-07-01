@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-TRACK25 = Path("conductor/tracks/track25_ontology_coverage_audit_20260625")
+TRACK25 = Path("conductor/archive/track25_ontology_coverage_audit_20260625")
 
 
 def test_track25_conductor_artifacts_are_complete() -> None:
@@ -14,8 +14,8 @@ def test_track25_conductor_artifacts_are_complete() -> None:
     metadata = json.loads(TRACK25.joinpath("metadata.json").read_text(encoding="utf-8"))
     plan = TRACK25.joinpath("plan.md").read_text(encoding="utf-8")
 
-    assert "## [x] Track 25: Ontology Coverage Audit for Existing Systems" in registry
-    assert str(TRACK25).replace("\\", "/") in registry
+    assert "## [x] Track 25: Ontology Coverage Audit for Existing Systems" not in registry
+    assert str(TRACK25).replace("\\", "/") not in registry
     assert metadata["track_id"] == "track25_ontology_coverage_audit_20260625"
     assert metadata["status"] == "completed"
     assert "**Status**: Completed" in plan

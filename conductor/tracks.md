@@ -171,12 +171,6 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [x] Track 25: Ontology Coverage Audit for Existing Systems
-*Link: [./conductor/tracks/track25_ontology_coverage_audit_20260625/](./conductor/tracks/track25_ontology_coverage_audit_20260625/)*
-- **Dependencies**: Tracks 10-18, 22
-- **Parallelization Node**: Ontology Discovery & Gap Analysis
-- **Why**: Identify the complete ontology or ontology set behind each partially implemented system, map current implementation coverage, and record data blockers where ontology source data is missing.
-
 ## [x] Track 26: Legislative and Parliamentary Ontology Standards Expansion
 *Link: [./conductor/tracks/track26_ontology_standards_expansion_20260625/](./conductor/tracks/track26_ontology_standards_expansion_20260625/)*
 - **Dependencies**: Track 25
