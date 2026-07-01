@@ -359,8 +359,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: External Legal Source and Rules-as-Code Interoperability
 - **Why**: Capture selective Axiom Foundation integration as repo-side source-section metadata, source hash staleness checks, RuleSpec identity bridge, bill/Hansard linkage scaffolding, and explicit documentation of which Axiom repositories should be used as code, design reference, future ideas, or historical context.
 
-## [x] Track 55: Broad Legislation Extraction Framework
-*Link: [./conductor/tracks/track55_broad_legislation_extraction_framework_20260630/](./conductor/tracks/track55_broad_legislation_extraction_framework_20260630/)*
+## [x] Track 55: Broad Legislation Extraction Framework (archived)
+*Link: [./conductor/tracks/archive/track55_broad_legislation_extraction_framework_20260630/](./conductor/tracks/archive/track55_broad_legislation_extraction_framework_20260630/)*
 - **Dependencies**: Tracks 4, 10, 11, 14, 15, 18, 26, 27, 54
 - **Parallelization Node**: Source-Grounded Legislative Extraction
 - **Why**: Promote rules-as-code from a standalone bridge into one output family of a broader source-grounded extraction system covering definitions, obligations, powers, conditions, exceptions, dates, entities, amendments, commencement, repeal, penalties, delegations, review rights, and traceable manifests.

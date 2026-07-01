@@ -1,4 +1,4 @@
-# Track track55_broad_legislation_extraction_framework_20260630 Context
+# Track 55: Broad Legislation Extraction Framework
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)

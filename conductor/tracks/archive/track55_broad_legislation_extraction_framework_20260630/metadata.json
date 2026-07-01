@@ -1,9 +1,9 @@
 {
   "track_id": "track55_broad_legislation_extraction_framework_20260630",
   "type": "feature",
-  "status": "completed",
+  "status": "archived",
   "created_at": "2026-06-30T00:00:00+10:00",
-  "updated_at": "2026-06-30T00:00:00+10:00",
+  "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Build a broad source-grounded extraction framework for legislation outputs, including rules-as-code as one extraction family rather than the whole architecture.",
   "oracle_notes": "Completed broad source-grounded extraction schemas, extractor manifests, source trace reports, known-gap ratchets, Parquet-to-manifest CLI export, local SQLite catalog storage, stale-source audits, downstream documentation, and focused tests."
 }
