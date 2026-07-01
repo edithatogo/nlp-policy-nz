@@ -225,8 +225,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Reproducible Artifact Production
 - **Why**: Ensure analyses are executed and tables, figures, conceptual diagrams, workflow diagrams, and network diagrams are produced.
 
-## [x] Track 36: Hugging Face Exploration Site
-*Link: [./conductor/tracks/track36_huggingface_exploration_site_20260625/](./conductor/tracks/track36_huggingface_exploration_site_20260625/)*
+## [x] Track 36: Hugging Face Exploration Site (archived)
+  *Link: [./conductor/tracks/archive/track36_huggingface_exploration_site_20260625/](./conductor/tracks/archive/track36_huggingface_exploration_site_20260625/)*
 - **Dependencies**: Tracks 8, 32-35
 - **Parallelization Node**: Public Exploration Interface
 - **Why**: Create a Hugging Face Space where ontology, corpus, graph, vector, and publication artefacts can be explored interactively.
