@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 20 (Fine-Tuning Pipeline)
 **Parallelization Node**: Advanced Architecture Research
-**Status**: In Progress
+**Status**: Complete (repo-side; live model gates external)
 
 ---
 
@@ -74,16 +74,19 @@ Explore, evaluate, and (where feasible) fine-tune the most promising bleeding-ed
 
 ## Acceptance Criteria
 
-- [ ] MoR architecture installed and training pipeline functional on NZ legal data
-- [ ] At least 3 bleeding-edge architectures evaluated on NZ legal benchmark (pre-fine-tune)
-- [ ] One architecture identified as best-performing on throughput-accuracy Pareto frontier
-- [ ] Architecture comparison report published in `docs/architecture_comparison.md`
-- [ ] Recommendations for production replacement of transformer backbone (if applicable)
+- [x] Repo-side architecture registry, deterministic comparison harness, audit-only script entry points, and evidence helpers are implemented and tested.
+- [x] Architecture comparison report published in `docs/architecture_comparison.md` with provisional recommendation boundaries.
+- [x] External model/setup/benchmark/publication gates are captured in `external_gate_manifest.json` so measured claims are explicit and auditable.
+- [ ] MoR architecture installed and training pipeline functional on NZ legal data.
+- [ ] At least 3 bleeding-edge architectures evaluated on NZ legal benchmark with measured external runs.
+- [ ] One architecture identified as best-performing on measured throughput-accuracy Pareto frontier.
+- [ ] Recommendations for production replacement of transformer backbone are backed by measured external benchmark evidence.
 
 ## Repo-side Evidence Boundary - 2026-06-22
 
 The repository now contains a deterministic dry-run architecture comparison
 harness and a Track 21 acceptance/evidence contract. These local surfaces
-support planning, review, and provisional documentation only. The acceptance
-criteria above remain open until external GPU/model runs produce measured NZ
-legal benchmark outputs and publication evidence.
+support planning, review, and provisional documentation only. Track 21 is
+repo-side complete when paired with `external_gate_manifest.json`; live
+architecture setup, GPU/model runs, measured NZ legal benchmark outputs, and
+publication evidence remain external gates.

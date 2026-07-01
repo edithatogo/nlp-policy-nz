@@ -1,0 +1,138 @@
+{
+  "track": 21,
+  "name": "bleeding_edge_architecture_exploration_for_nz_legal_nlp",
+  "updated_at": "2026-07-01T00:00:00+10:00",
+  "status": "externally_blocked",
+  "repo_side_status": "complete",
+  "local_runtime_observations": {
+    "audit_wrappers_only": true,
+    "model_download_started": false,
+    "dataset_download_started": false,
+    "checkpoint_publication_started": false,
+    "live_training_started": false,
+    "full_scale_benchmark_claimed": false,
+    "measured_pareto_claimed": false
+  },
+  "repo_side_deliverables": [
+    "architecture candidate registry",
+    "deterministic example metrics",
+    "Pareto frontier and weighted ranking helpers",
+    "repo-side recommendation report",
+    "audit-only shell entrypoints",
+    "acceptance evidence helpers",
+    "script contract tests",
+    "expanded 2026 candidate coverage"
+  ],
+  "external_gates": [
+    {
+      "id": "third_party_architecture_setup",
+      "status": "required",
+      "minimum_architectures": 3,
+      "accepted_artifacts": [
+        "artifacts/track21/third_party_architecture_setup.json",
+        "artifacts/track21/reproducible_environment.lock"
+      ],
+      "required_fields": [
+        "architecture_id",
+        "source_repository",
+        "source_commit",
+        "license",
+        "runtime_backend",
+        "dependency_lock_hash"
+      ],
+      "notes": "Audit wrappers and registry entries do not satisfy this gate. It requires pinned third-party implementations in a reviewed live environment."
+    },
+    {
+      "id": "measured_nz_legal_benchmark",
+      "status": "required",
+      "minimum_architectures": 3,
+      "accepted_artifacts": [
+        "artifacts/track21/measured_nz_legal_benchmark.jsonl",
+        "artifacts/track21/raw_metrics/"
+      ],
+      "required_metrics": [
+        "tokens_per_second",
+        "peak_memory_gb",
+        "citation_f1",
+        "perplexity",
+        "max_context_tokens",
+        "maori_token_integrity"
+      ],
+      "minimum_context_tokens": 50000,
+      "notes": "Deterministic example metrics, fixture metrics, and dry-run reports do not satisfy this gate."
+    },
+    {
+      "id": "profiler_and_scaling_evidence",
+      "status": "required",
+      "accepted_artifacts": [
+        "artifacts/track21/profiler_traces/",
+        "artifacts/track21/context_scaling_report.md"
+      ],
+      "required_fields": [
+        "architecture_id",
+        "backend",
+        "input_tokens",
+        "wall_time_seconds",
+        "peak_memory_gb",
+        "profiler_trace_hash"
+      ],
+      "notes": "Full-Act throughput and memory claims require raw profiler traces from a validated backend."
+    },
+    {
+      "id": "production_backbone_recommendation",
+      "status": "required",
+      "accepted_artifacts": [
+        "docs/architecture_comparison.md",
+        "artifacts/track21/pareto_frontier.json",
+        "artifacts/track21/recommendation_review.md"
+      ],
+      "required_fields": [
+        "recommended_architecture",
+        "baseline_architecture",
+        "measured_metric_source",
+        "risk_assessment",
+        "rollback_plan"
+      ],
+      "notes": "The current Mamba-3 recommendation is provisional and repo-side only until measured external evidence exists."
+    },
+    {
+      "id": "hugging_face_evaluation_publication",
+      "status": "required",
+      "accepted_artifacts": [
+        "artifacts/track21/huggingface_publication.json",
+        "datasets/nlp-policy-nz/architecture-evaluation/README.md"
+      ],
+      "required_fields": [
+        "hub_dataset_id",
+        "commit_hash",
+        "dataset_card_path",
+        "license",
+        "evaluation_summary"
+      ],
+      "namespace": "nlp-policy-nz",
+      "notes": "Publication requires explicit Hub evidence; audit scripts intentionally do not push."
+    }
+  ],
+  "local_validation": [
+    {
+      "name": "focused Track 21 tests",
+      "command": "pixi run pytest -p no:tach -p no:cacheprovider -q tests/test_architecture_eval.py tests/test_track21_evidence.py tests/test_track21_script_contracts.py tests/test_track21_external_gate_manifest.py"
+    },
+    {
+      "name": "Track 21 lint",
+      "command": "pixi run ruff check src/nlp_policy_nz/training/eval_arch.py src/nlp_policy_nz/training/track21_evidence.py tests/test_architecture_eval.py tests/test_track21_evidence.py tests/test_track21_script_contracts.py tests/test_track21_external_gate_manifest.py"
+    },
+    {
+      "name": "manifest validation",
+      "command": "pixi run python -m json.tool conductor/tracks/track21_bleeding_edge_architectures_20260613/external_gate_manifest.json"
+    }
+  ],
+  "surrogate_rejections": [
+    "audit wrappers",
+    "deterministic example metrics",
+    "dry-run reports",
+    "fixture metrics",
+    "unpublished checkpoint manifests",
+    "mock Hub publication"
+  ]
+}

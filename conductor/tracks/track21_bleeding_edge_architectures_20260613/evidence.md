@@ -56,3 +56,27 @@ evaluation or is ready to replace the transformer backbone in production.
 
 - `python -B -m pytest -p no:cacheprovider -q tests\test_architecture_eval.py tests\test_track21_evidence.py tests\test_track21_script_contracts.py` passed: 10 passed.
 - `python -m ruff check --no-cache src\nlp_policy_nz\training\eval_arch.py src\nlp_policy_nz\training\track21_evidence.py src\nlp_policy_nz\training\__init__.py tests\test_architecture_eval.py tests\test_track21_evidence.py tests\test_track21_script_contracts.py` passed.
+
+## Repo-Side Closeout - 2026-07-01
+
+Track 21 is now repo-side complete. The repository contains the deterministic
+architecture registry, comparison harness, audit-only scripts, provisional
+comparison report, acceptance evidence helpers, script safety tests, and
+`external_gate_manifest.json`.
+
+The external gate manifest records that the following evidence is still required
+before Track 21 may claim measured architecture results or a production backbone
+replacement:
+
+- Pinned third-party architecture implementations and dependency locks.
+- Measured NZ legal benchmark runs for at least three architectures.
+- Raw profiler traces for full-Act throughput and memory measurements.
+- Measured Pareto frontier artefacts and reviewed replacement recommendation.
+- Hugging Face publication evidence for evaluation datasets or checkpoints.
+
+Latest validation:
+
+- `pixi run pytest -p no:tach -p no:cacheprovider -q tests/test_architecture_eval.py tests/test_track21_evidence.py tests/test_track21_script_contracts.py tests/test_track21_external_gate_manifest.py` passed: 12 passed.
+- `pixi run ruff check src/nlp_policy_nz/training/eval_arch.py src/nlp_policy_nz/training/track21_evidence.py tests/test_architecture_eval.py tests/test_track21_evidence.py tests/test_track21_script_contracts.py tests/test_track21_external_gate_manifest.py` passed.
+- `pixi run python -m json.tool conductor/tracks/track21_bleeding_edge_architectures_20260613/external_gate_manifest.json` passed.
+- `pixi run python -m json.tool conductor/tracks/track21_bleeding_edge_architectures_20260613/metadata.json` passed.

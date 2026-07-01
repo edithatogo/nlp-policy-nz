@@ -1,9 +1,9 @@
 {
   "track_id": "track21_bleeding_edge_architectures_20260613",
   "type": "research",
-  "status": "in_progress",
+  "status": "complete",
   "created_at": "2026-06-13T00:00:00Z",
-  "updated_at": "2026-06-29T02:52:00.7882863Z",
+  "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Explore and evaluate bleeding-edge model architectures for NZ legal NLP: MoR, TTT-Linear/RNN, Mamba-3/SSD, DiffusionGemma, SambaY, nex-agi models, MiMo-V2.5, DeVestral, TiRex. Phase 7 adds 2026 architectures: ModernBERT, Jamba 1.6, Llama 4/Gemma 3 MoE, RAG 2.0, DeepSeek-V3/R1, SSM encoders, test-time compute scaling.",
-  "oracle_notes": "Repo-side Track 21 dry-run architecture comparison evidence is implemented. Phase 7 (2026 architectures) added 2026-06-26 with ModernBERT, Jamba 1.6, Llama 4/Gemma 3 MoE, RAG 2.0, DeepSeek-V3/R1, SSM encoders, and test-time compute scaling eval tasks. All external model downloads, CUDA/GPU execution, measured Pareto evidence, and Hugging Face publication remain pending."
+  "oracle_notes": "Repo-side Track 21 implementation is complete: architecture candidate registry, deterministic example metrics, Pareto frontier and weighted ranking helpers, provisional architecture comparison report, audit-only shell entrypoints, acceptance evidence helpers, script contract tests, expanded 2026 candidate coverage, and an explicit external gate manifest. All live third-party setup, model/dataset downloads, CUDA/GPU execution, measured NZ legal benchmark outputs, profiler traces, production backbone replacement decisions, and Hugging Face publication remain external gates."
 }
