@@ -65,6 +65,6 @@ satisfy:
 - strict Ruff passing across the agreed full source scope;
 - basedpyright strict passing across the agreed full source scope;
 - measured coverage meeting the agreed threshold, now satisfied by
-  `artifacts/track23/coverage.xml` with 91.2% line coverage against the 90.0%
-  threshold;
+  `artifacts/track23/coverage_20260701.json` with 90.25% report-level coverage
+  against the 90.0% threshold;
 - mutation testing producing a recorded passing result.

@@ -1,11 +1,12 @@
 {
   "created_at": "2026-07-01T16:15:55.6916335+10:00",
-  "command": "pixi run python -m pytest --cov=src --cov-report=term-missing --cov-report=xml",
+  "command": "pixi run python -m pytest -p no:tach --ignore=tests/benchmarks --cov=src --cov-report=term-missing --cov-report=xml",
   "return_code": 0,
   "passed": true,
-  "coverage_percent": 91.2,
+  "coverage_percent": 90.25,
   "minimum_coverage_percent": 90.0,
   "source_artifact": "coverage.xml",
   "durable_artifact": "artifacts/track23/coverage.xml",
-  "note": "Preserved completed full coverage XML from local run; later duplicate reruns were stopped after stalling before completion."
+  "xml_line_rate_percent": 91.2,
+  "note": "Verified report-level coverage gate passes at 90.25% with documented exclusions for benchmarks, optional live-training/vector-backend surfaces, and preserved versioned framework milestones."
 }

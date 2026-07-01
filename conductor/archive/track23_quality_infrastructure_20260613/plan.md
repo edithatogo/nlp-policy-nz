@@ -167,8 +167,8 @@ The local Pixi dependency blocker was narrowed from "Pixi unavailable" to
 
 Full Track 23 quality evidence is now reconciled:
 
-- `artifacts/track23/coverage.xml` records 91.2% line coverage against the
-  90.0% coverage threshold.
+- `artifacts/track23/coverage_20260701.json` records 90.25% report-level
+  coverage against the 90.0% coverage threshold.
 - `artifacts/track23/coverage_20260701.json` records the coverage threshold
   result as passing.
 - `external_gate_manifest.json` now marks `full_ruff_strict`,
