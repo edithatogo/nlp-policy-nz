@@ -29,3 +29,7 @@ Track 35 is implemented as deterministic artifact execution over the checked-in 
 - `scripts/generate_all_artifacts.py` and `nlp-policy-nz generate-analysis-artifacts` regenerate the `artifacts/` tree.
 - `artifacts/` contains checked-in CSV/LaTeX tables, SVG figures, Mermaid diagrams, `analysis_artifact_manifest.json`, `analysis_artifact_blockers.json`, and `visual_inspection_checklist.md`.
 - Full-corpus UMAP and citation graph production remain blocked until canonical corpus vectors and citation edge exports are supplied.
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions 8792438
