@@ -1,0 +1,51 @@
+{
+  "instruction": "Compare the source and target ontology terms using only the supplied labels, definitions, hierarchy evidence, and provenance. Return JSON that conforms to the schema. Do not mark inferred mappings as authoritative.",
+  "required_output_schema": {
+    "additionalProperties": false,
+    "properties": {
+      "confidence": {
+        "maximum": 1,
+        "minimum": 0,
+        "type": "number"
+      },
+      "evidence": {
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "inferred": {
+        "const": true
+      },
+      "mapping_predicate": {
+        "enum": [
+          "owl:equivalentClass",
+          "owl:equivalentProperty",
+          "skos:exactMatch",
+          "skos:closeMatch",
+          "skos:relatedMatch",
+          "skos:broadMatch",
+          "skos:narrowMatch",
+          "source:crosswalk"
+        ]
+      },
+      "review_status": {
+        "const": "needs_review"
+      },
+      "reviewer_notes": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "mapping_predicate",
+      "confidence",
+      "evidence",
+      "review_status",
+      "inferred",
+      "reviewer_notes"
+    ],
+    "type": "object"
+  },
+  "task": "ontology_mapping_interpretation"
+}

@@ -1,10 +1,10 @@
 {
   "track_id": "track30_ontology_mapping_inference_20260625",
   "type": "research",
-  "status": "planned",
+  "status": "in_progress",
   "created_at": "2026-06-25T00:00:00+10:00",
-  "updated_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Create reviewable candidate mappings between ontologies where authoritative mappings do not exist.",
-  "oracle_notes": "Infer remaining ontology mappings using triangulation, direct matching, fuzzy matching, structural inference, embedding similarity, and LLM-assisted interpretation with reviewable evidence."
+  "oracle_notes": "Repo-side deterministic inference now covers exact, fuzzy, synonym, structural, scoring, review-only Track 29 export, and LLM prompt contracts. Real embedding nearest-neighbour execution remains open until model/index dependencies and corpus-scale evaluation are introduced."
 }
 

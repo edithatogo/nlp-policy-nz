@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 29  
 **Parallelization Node**: Mapping Inference  
-**Status**: Planned
+**Status**: In Progress
 
 ## Goal
 
@@ -18,7 +18,7 @@ Create reviewable candidate mappings between ontologies where authoritative mapp
 
 ## Acceptance Criteria
 
-- [ ] Candidate mappings include method, evidence, confidence, and review status.
-- [ ] No inferred mapping is treated as authoritative before review.
-- [ ] Evaluation fixtures include known positive and negative mapping examples.
-- [ ] Outputs feed Track 29 as inferred, reviewable graph edges.
+- [x] Candidate mappings include method, evidence, confidence, and review status.
+- [x] No inferred mapping is treated as authoritative before review.
+- [x] Evaluation fixtures include known positive and negative mapping examples.
+- [x] Outputs feed Track 29 as inferred, reviewable graph edges.
