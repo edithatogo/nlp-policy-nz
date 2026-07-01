@@ -159,8 +159,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Knowledge Graph
 - **Why**: OWL mapping of NZ legal concepts to Wikidata QIDs. Federated SPARQL queries.
 
-## [x] Track 18: Voting Record Analysis & Amendment Tracking
-*Link: [./conductor/tracks/track18_voting_amendments_20260613/](./conductor/tracks/track18_voting_amendments_20260613/)*
+## [x] Track 18: Voting Record Analysis & Amendment Tracking (archived)
+*Link: [./conductor/tracks/archive/track18_voting_amendments_20260613/](./conductor/tracks/archive/track18_voting_amendments_20260613/)*
 - **Dependencies**: Track 4, Track 7
 - **Parallelization Node**: Parliamentary Analytics
 - **Why**: Parse divisions, aye/nay votes, bill version diffs, amendment lifecycle.
