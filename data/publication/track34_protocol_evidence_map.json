@@ -1,0 +1,167 @@
+{
+  "track_id": "track34_publication_protocol_20260625",
+  "schema_version": "1.0",
+  "claim_policy": "Every publication claim must resolve to repo_evidence, external_evidence, planned_work, or blocker status. Fixture-bounded evidence must not be described as full-corpus evidence.",
+  "claims": [
+    {
+      "claim_id": "pipeline-architecture",
+      "claim": "The repository implements a modular NLP pipeline with ingestion, schema emission, downstream integration, storage/search, release, and quality tracks.",
+      "status": "repo_evidence",
+      "evidence": [
+        "conductor/product.md",
+        "conductor/tracks/archive/track1_env_setup_20260609/spec.md",
+        "conductor/tracks/archive/track4_syntactic_layer_20260609/spec.md",
+        "conductor/tracks/archive/track5_semantic_layer_20260609/spec.md",
+        "conductor/tracks/archive/track6_storage_search_20260609/spec.md",
+        "conductor/tracks/archive/track7_downstream_integration_20260609/spec.md",
+        "conductor/tracks/archive/track8_huggingface_20260612/spec.md",
+        "conductor/tracks/archive/track9_zenodo_20260609/spec.md",
+        "tests/test_quality_infrastructure.py",
+        "tests/test_track23_evidence.py",
+        "tests/smoke/test_track23_validation_lane.py"
+      ],
+      "publication_wording": "Implemented repository-side pipeline components are documented by completed track artifacts and tests."
+    },
+    {
+      "claim_id": "standards-coverage",
+      "claim": "The repository records standards coverage for Akoma Ntoso, PROV-O, FOAF/SIOC, Wikidata, ontology mapping, Axiom-compatible source identity, and downstream publication outputs.",
+      "status": "repo_evidence",
+      "evidence": [
+        "conductor/tracks/archive/track14_akoma_ntoso_v3_20260613/spec.md",
+        "conductor/tracks/archive/track15_prov_o_provenance_20260613/spec.md",
+        "conductor/tracks/archive/track16_faaf_sioc_discourse_20260613/evidence.md",
+        "conductor/tracks/archive/track17_wikidata_integration_20260613/evidence.md",
+        "conductor/tracks/archive/track29_ontology_mapping_kg_20260625/evidence.md",
+        "conductor/tracks/archive/track31_nz_data_driven_ontologies_20260625/evidence.md",
+        "conductor/tracks/archive/track54_axiom_foundation_interop_20260629/evidence.md",
+        "data/ontologies/coverage_manifest.json",
+        "docs/axiom-foundation-relevance.md",
+        "docs/nz_ontologies.md",
+        "docs/ontology_mapping.md"
+      ],
+      "publication_wording": "Standards coverage is repository-evidenced where artifacts and tests exist, and is otherwise reported as planned or blocked."
+    },
+    {
+      "claim_id": "rules-as-code-bridge",
+      "claim": "The repository emits source-grounded bridge metadata for downstream rules-as-code consumers while keeping executable RuleSpec semantics out of the NLP package.",
+      "status": "repo_evidence",
+      "evidence": [
+        "src/nlp_policy_nz/axiom/rulespec.py",
+        "src/nlp_policy_nz/axiom/source.py",
+        "src/nlp_policy_nz/axiom",
+        "src/nlp_policy_nz/cli/main.py",
+        "tests/test_axiom_integration.py",
+        "tests/test_rac_bridge.py",
+        "docs/axiom-foundation-relevance.md"
+      ],
+      "publication_wording": "Rules-as-code output is a non-executable, source-grounded bridge for downstream projects."
+    },
+    {
+      "claim_id": "ontology-strategy",
+      "claim": "Ontology coverage, ontology mapping, mapping inference, and New Zealand-specific ontology candidates are recorded as checked-in data artifacts.",
+      "status": "repo_evidence",
+      "evidence": [
+        "data/ontologies/coverage_manifest.json",
+        "data/ontologies/ontology_mappings.json",
+        "data/ontologies/inferred_mapping_candidates.json",
+        "data/ontologies/nz_ontology_candidates.json",
+        "docs/coverage.md",
+        "docs/ontology_mapping.md",
+        "docs/nz_ontologies.md",
+        "data/ontologies/coverage_manifest.json",
+        "conductor/tracks/archive/track29_ontology_mapping_kg_20260625/evidence.md",
+        "conductor/tracks/archive/track30_ontology_mapping_inference_20260625/evidence.md",
+        "conductor/tracks/archive/track31_nz_data_driven_ontologies_20260625/evidence.md"
+      ],
+      "publication_wording": "Ontology claims are bounded to checked-in coverage, mapping, inference, and candidate artifacts."
+    },
+    {
+      "claim_id": "statistics-boundary",
+      "claim": "Whole-corpus descriptive statistics are currently fixture-bounded unless supplied PipelineRecord Parquet exports are provided.",
+      "status": "blocker",
+      "evidence": [
+        "data/statistics/corpus_statistics_manifest.json",
+        "data/statistics/corpus_statistics_blockers.json",
+        "docs/corpus_statistics.md",
+        "conductor/tracks/archive/track32_corpus_descriptive_statistics_20260625/evidence.md"
+      ],
+      "blockers": [
+        "full-corpus-inputs",
+        "date-coverage"
+      ],
+      "publication_wording": "The statistics report is deterministic and fixture-bounded; full-corpus claims require external Parquet inputs."
+    },
+    {
+      "claim_id": "graph-vector-boundary",
+      "claim": "Graph, vector, and network analysis is currently fixture-bounded unless full graph exports and vector indexes are supplied.",
+      "status": "blocker",
+      "evidence": [
+        "data/analysis/graph_vector_manifest.json",
+        "data/analysis/graph_vector_blockers.json",
+        "docs/graph_vector_network_analysis.md",
+        "conductor/tracks/archive/track33_graph_vector_network_analysis_20260625/evidence.md"
+      ],
+      "blockers": [
+        "full-graph-inputs",
+        "full-vector-index"
+      ],
+      "publication_wording": "The graph/vector report is deterministic and fixture-bounded; full graph/vector claims require canonical exports."
+    },
+    {
+      "claim_id": "reproducibility",
+      "claim": "A fresh checkout can reproduce repository-side checks with the documented pixi, pytest, ruff, docs, benchmark, and GitHub Actions workflows.",
+      "status": "repo_evidence",
+      "evidence": [
+        "conductor/workflow.md",
+        "pyproject.toml",
+        ".github/workflows/ci.yml",
+        ".github/workflows/docs.yml",
+        ".github/workflows/benchmark-update.yml",
+        "docs/perf_regression.md",
+        "tests/test_quality_infrastructure.py",
+        "tests/test_track23_evidence.py",
+        "conductor/tracks/archive/track42_performance_regression_20260626/evidence.md"
+      ],
+      "publication_wording": "Repository-side reproducibility is CI-backed; external corpora, credentials, and live services remain outside the default offline run."
+    },
+    {
+      "claim_id": "publication-readiness",
+      "claim": "The repository has publication-ready documentation scaffolding and analysis artifacts, while user-facing exploration and manuscript production remain later tracks.",
+      "status": "planned_work",
+      "evidence": [
+        "docs/architecture_comparison.md",
+        "docs/extraction-framework.md",
+        "docs/extraction-runtime.md",
+        "conductor/tracks/track35_analysis_artifact_execution_20260625/spec.md",
+        "conductor/tracks/track36_huggingface_exploration_site_20260625/spec.md",
+        "conductor/tracks/track37_publication_manuscript_review_20260625/spec.md",
+        "conductor/tracks/archive/track49_documentation_site_20260626/evidence.md"
+      ],
+      "publication_wording": "Publication protocol artifacts are present; figures, interactive exploration, and manuscript automation remain planned downstream work."
+    }
+  ],
+  "artifact_inventory": {
+    "protocol_document": "docs/publication_protocol.md",
+    "evidence_map": "data/publication/track34_protocol_evidence_map.json",
+    "standards_inputs": [
+      "data/ontologies/coverage_manifest.json",
+      "data/ontologies/data_blocker_register.json",
+      "data/ontologies/ontology_implementation_backlog.json"
+    ],
+    "analysis_inputs": [
+      "data/statistics/corpus_statistics_manifest.json",
+      "data/analysis/graph_vector_manifest.json"
+    ],
+    "quality_inputs": [
+      ".github/workflows/ci.yml",
+      ".github/workflows/docs.yml",
+      ".github/workflows/benchmark-update.yml"
+    ]
+  },
+  "overclaim_guardrails": [
+    "Use fixture-bounded for checked-in Track 32 and Track 33 reports.",
+    "Use repository-side for artifacts generated without full external corpora.",
+    "Use planned for Tracks 35-37 outputs until those tracks are complete.",
+    "Use blocker for full-corpus, live publication, authenticated API, or external-source claims without checked-in evidence."
+  ]
+}

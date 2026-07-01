@@ -2,7 +2,7 @@
 
 **Dependencies**: Tracks 24-33  
 **Parallelization Node**: Publication Protocol  
-**Status**: Planned
+**Status**: Complete
 
 ## Goal
 
@@ -17,7 +17,7 @@ Write a standards-based publication protocol that describes the pipeline, ontolo
 
 ## Acceptance Criteria
 
-- [ ] Produce a protocol document with standards, methods, data, analyses, artefacts, and limitations sections.
-- [ ] Link every claim to repo evidence, external evidence, or explicit planned/blocker status.
-- [ ] Include reproducibility instructions and artefact inventory.
-- [ ] Ensure protocol wording does not overclaim unavailable full-corpus or external-gate evidence.
+- [x] Produce a protocol document with standards, methods, data, analyses, artefacts, and limitations sections.
+- [x] Link every claim to repo evidence, external evidence, or explicit planned/blocker status.
+- [x] Include reproducibility instructions and artefact inventory.
+- [x] Ensure protocol wording does not overclaim unavailable full-corpus or external-gate evidence.

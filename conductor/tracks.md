@@ -213,8 +213,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Graph and Embedding Analytics
 - **Why**: Analyse the knowledge graph, vector spaces, network structure, ontology links, and graph/vector relationships across the corpus.
 
-## [ ] Track 34: Standards-Based Publication Protocol
-*Link: [./conductor/tracks/track34_publication_protocol_20260625/](./conductor/tracks/track34_publication_protocol_20260625/)*
+## [x] Track 34: Standards-Based Publication Protocol (archived)
+*Link: [./conductor/tracks/archive/track34_publication_protocol_20260625/](./conductor/tracks/archive/track34_publication_protocol_20260625/)*
 - **Dependencies**: Tracks 24-33
 - **Parallelization Node**: Publication Protocol
 - **Why**: Document a publication-ready, standards-based protocol covering what the repo has achieved and what remains planned.
