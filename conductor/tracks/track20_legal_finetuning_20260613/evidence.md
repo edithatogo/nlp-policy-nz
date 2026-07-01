@@ -7,12 +7,18 @@
 - Legal-BERT MLM job spec: satisfied
 - Tier-2 QLoRA job specs: satisfied for Gemma, Phi-4, Qwen, Mistral, and additional compatible task specs
 - Fine-tune command surfaces: dry-run/spec-only by default
+- Environment-adaptive runtime planning: satisfied for local CPU, GitHub Actions CPU, and optional accelerated backends
 - Track-scoped training package coverage: 93%
 
 ## Acceptance Gate Status
 
 - Repo-side contracts: satisfied
-- CUDA validation: pending
+- Runtime dependency imports: satisfied
+- Parquet training input availability: satisfied (519 files found under the checked roots)
+- Hugging Face CLI availability: satisfied in the Pixi runtime
+- Local execution plan: satisfied (`local_cpu`, CPU smoke mode, max 32 records, max 5 steps, no model download, no Hub push)
+- GitHub Actions execution plan: satisfied (`ci_cpu`, CPU smoke mode, max 8 records, max 2 steps, no model download, no Hub push)
+- Accelerated backend validation: optional and pending for CUDA/ROCm/MPS/DirectML when such hardware/runtime exists
 - Legal-BERT held-out perplexity improvement: pending
 - At least 3 completed Tier-2 QLoRA fine-tunes: pending
 - Citation F1 improvement greater than 10%: pending
@@ -21,10 +27,20 @@
 
 ## Non-Claim Boundary
 
-- No CUDA-backed training run is evidenced in this track package.
+- No publication-quality accelerated training run is evidenced in this track package.
 - No held-out perplexity, citation F1, or Te Reo Maori token-integrity improvement is evidenced.
 - No Hugging Face Hub model publication or model-card publication is evidenced.
-- Dry-run JSON and shell entrypoint checks prove command/spec surfaces only; they do not prove model download, training, evaluation, or upload.
+- Dry-run JSON, shell entrypoint checks, and adaptive runtime planning prove command/spec/runtime-selection surfaces; they do not prove full model download, long training, benchmark improvement, or upload.
+
+## Runtime Gate Evidence
+
+- A live local runtime probe on 2026-07-01 records the workstation's training readiness.
+- Importable training stack: `torch`, `transformers`, `datasets`, `peft`, `trl`, `bitsandbytes`, and `wandb`.
+- Data visibility: 519 Parquet files found under `.` and `C:\Users\60217257\OneDrive - Flinders\repos\legal-nz\corpus-law-nz`.
+- Publication tooling: `hf` CLI is available inside the Pixi runtime.
+- Local hardware profile: Windows, 22 logical CPUs, about 32 GiB RAM, Intel graphics, PyTorch `2.12.1+cpu`, no CUDA, no MPS, no DirectML, and no ONNX Runtime.
+- Selected local plan: `local_cpu`, CPU smoke mode, max 32 records, max 5 steps, no model download, and no Hub push.
+- Selected CI plan with `CI=true`: `ci_cpu`, CPU smoke mode, max 8 records, max 2 steps, no model download, and no Hub push.
 
 ## Validation
 
@@ -37,11 +53,15 @@
 - `set PYTHONPATH=src&& python -B -m nlp_policy_nz.training.run_qlora --model-name google/gemma-3-9b --task citation --output-dir models/gemma-3-9b-citation --hub-model-id nlp-policy-nz/gemma-3-9b-citation --print-spec` passed.
 - `python -B -m pytest -p no:cacheprovider -q tests\test_training_data.py tests\test_training_eval.py tests\test_track20_evidence.py tests\test_semantic_finetune_dry_run.py` passed: 19 passed.
 - `python -m ruff check --no-cache src\nlp_policy_nz\training src\nlp_policy_nz\semantic\finetune.py tests\test_training_data.py tests\test_training_eval.py tests\test_track20_evidence.py tests\test_semantic_finetune_dry_run.py` passed.
+- Inline runtime probe with `PYTHONPATH=src` passed and reported 519 Parquet inputs, importable training dependencies, available `hf` CLI, unavailable CUDA, and missing `nvidia-smi`.
+- `pixi run track20-runtime` passed and selected `local_cpu`.
+- `CI=true pixi run track20-runtime` passed and selected `ci_cpu`.
+- `pixi run pytest -p no:tach -p no:cacheprovider -q tests\test_track20_runtime.py tests\test_track20_evidence.py tests\test_semantic_finetune_dry_run.py tests\test_training_data.py tests\test_training_eval.py` passed: 24 passed.
 
 ## Residual External Gates
 
-- Provision a CUDA/GPU environment and record `nvidia-smi`/runtime evidence.
-- Run Legal-BERT MLM training on real NZ legal/Hansard Parquet inputs and compare held-out perplexity against the baseline model.
-- Complete at least 3 Tier-2 QLoRA fine-tunes and record model artifact hashes.
+- Run bounded CPU smoke training/evaluation in CI on tiny fixtures whenever the training loop is upgraded beyond current dry-run/job-spec coverage.
+- Run Legal-BERT MLM training on real NZ legal/Hansard Parquet inputs using the best available backend and compare held-out perplexity against the baseline model.
+- Complete at least 3 Tier-2 QLoRA fine-tunes on a suitable accelerated backend and record model artifact hashes.
 - Evaluate held-out citation F1 and Te Reo Maori token integrity improvements against base models.
 - Publish final adapted models and model cards to the Hugging Face `nlp-policy-nz` namespace.
