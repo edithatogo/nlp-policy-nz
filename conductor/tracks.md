@@ -78,8 +78,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Dependencies**: Track 3
 - **Parallelization Node**: Ingestion, Dynamic Registry, and Versioned Schema Emitters
 
-## [x] Track 5: Integrate Semantic Layer & Quantized Embeddings [b65c685]
-*Link: [./conductor/tracks/track5_semantic_layer_20260609/](./conductor/tracks/track5_semantic_layer_20260609/)*
+## [x] Track 5: Integrate Semantic Layer & Quantized Embeddings (archived) [b65c685]
+*Link: [./conductor/tracks/archive/track5_semantic_layer_20260609/](./conductor/tracks/archive/track5_semantic_layer_20260609/)*
 - **Dependencies**: Track 3
 - **Parallelization Node**: Deep Learning Core
 

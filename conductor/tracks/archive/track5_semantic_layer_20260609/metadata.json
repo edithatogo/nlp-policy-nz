@@ -1,0 +1,9 @@
+{
+  "track_id": "track5_semantic_layer_20260609",
+  "type": "feature",
+  "status": "archived",
+  "created_at": "2026-06-10T00:50:00Z",
+  "updated_at": "2026-07-01T00:00:00+10:00",
+  "description": "Semantic layer: quantized Hugging Face transformer model loading (4-bit/8-bit bitsandbytes), with embedding generation (mean pooling, single/batch) via EmbeddingGenerator context manager.",
+  "oracle_notes": "Archived after verifying the repo-side semantic model-loader and embedding surfaces, including quantization configuration, fallback loading behavior, mean-pooling helpers, batch embedding APIs, and offline tests that avoid model downloads."
+}
