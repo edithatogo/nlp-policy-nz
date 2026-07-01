@@ -272,8 +272,8 @@ def write_mapping_artifacts(output_dir: Path | str | None = None) -> dict[str, P
         )
         + "\n",
         MAPPING_SCHEMA_FILENAME: json.dumps(mapping_json_schema(), indent=2, sort_keys=True) + "\n",
-        MAPPING_TURTLE_FILENAME: graph.serialize(format="turtle"),
-        MAPPING_JSONLD_FILENAME: graph.serialize(format="json-ld", indent=2),
+        MAPPING_TURTLE_FILENAME: graph.serialize(format="turtle").rstrip() + "\n",
+        MAPPING_JSONLD_FILENAME: _canonical_jsonld(graph),
         MAPPING_SUMMARY_FILENAME: json.dumps(
             mapping_summary(SEED_MAPPINGS), indent=2, ensure_ascii=False, sort_keys=True
         )
@@ -286,6 +286,27 @@ def write_mapping_artifacts(output_dir: Path | str | None = None) -> dict[str, P
         path.write_text(str(content), encoding="utf-8")
         written[filename] = path
     return written
+
+
+def _canonical_jsonld(graph: Graph) -> str:
+    """Return stable JSON-LD text for a graph."""
+    jsonld = graph.serialize(format="json-ld")
+    return json.dumps(
+        _canonical_json(json.loads(jsonld)),
+        indent=2,
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+
+
+def _canonical_json(value: object) -> object:
+    """Return JSON-compatible data with deterministic object and list ordering."""
+    if isinstance(value, dict):
+        return {key: _canonical_json(value[key]) for key in sorted(value)}
+    if isinstance(value, list):
+        canonical_items = [_canonical_json(item) for item in value]
+        return sorted(canonical_items, key=lambda item: json.dumps(item, sort_keys=True))
+    return value
 
 
 def build_mapping_graph(

@@ -3,7 +3,18 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from nlp_policy_nz.ontology.mapping_graph import (
+    MAPPING_JSONLD_FILENAME,
+    MAPPING_MANIFEST_FILENAME,
+    MAPPING_MERMAID_FILENAME,
+    MAPPING_SCHEMA_FILENAME,
+    MAPPING_SUMMARY_FILENAME,
+    MAPPING_TURTLE_FILENAME,
+    write_mapping_artifacts,
+)
+
 TRACK29 = Path("conductor/tracks/archive/track29_ontology_mapping_kg_20260625")
+ONTOLOGY_DATA = Path("data/ontologies")
 
 
 def test_track29_conductor_registry_and_metadata_are_complete() -> None:
@@ -47,3 +58,19 @@ def test_track29_checked_in_artifacts_are_present_and_linked() -> None:
     assert len(manifest["mappings"]) >= 10
     assert summary["mapping_count"] == len(manifest["mappings"])
     assert mermaid.startswith("graph LR")
+
+
+def test_track29_checked_in_artifacts_match_deterministic_writer(tmp_path: Path) -> None:
+    written = write_mapping_artifacts(tmp_path)
+
+    for filename in (
+        MAPPING_MANIFEST_FILENAME,
+        MAPPING_SCHEMA_FILENAME,
+        MAPPING_TURTLE_FILENAME,
+        MAPPING_JSONLD_FILENAME,
+        MAPPING_SUMMARY_FILENAME,
+        MAPPING_MERMAID_FILENAME,
+    ):
+        assert ONTOLOGY_DATA.joinpath(filename).read_text(encoding="utf-8") == (
+            written[filename].read_text(encoding="utf-8")
+        )

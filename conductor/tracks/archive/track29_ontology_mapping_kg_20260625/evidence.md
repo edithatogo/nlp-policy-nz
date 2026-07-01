@@ -20,6 +20,7 @@
 - RDF/Turtle and JSON-LD exports are generated from the same manifest and parse with `rdflib`.
 - Query helpers include `mappings_by_standard_pair`, `get_equivalent`, and `traverse_mappings`.
 - Mapping record maintenance helpers include `add_mapping_record`, `replace_mapping_record`, `remove_mapping_record`, and `update_mapping_review_status`.
+- JSON-LD export is canonicalized before writing so repeated artifact generation is stable.
 - The visual graph artifact is `ontology_mapping_graph.mmd`.
 
 ## Validation
@@ -34,3 +35,11 @@
 - `.\.venv\Scripts\python.exe -B -m pytest -q tests\test_track29_mapping_graph.py tests\test_track29_conductor.py tests\test_track28_ontology_discovery.py tests\test_track28_conductor.py tests\test_track26_standards_registry.py` passed: 22 tests.
 - `.\.venv\Scripts\python.exe -B -m pytest -q tests\test_track29_mapping_graph.py tests\test_track29_conductor.py tests\test_track28_ontology_discovery.py tests\test_track28_conductor.py tests\test_track26_standards_registry.py tests\test_track55_56_conductor.py tests\test_track56_extraction_runtime.py tests\test_extraction_catalog.py tests\test_extraction_exporter.py tests\test_extraction_schemas.py tests\test_axiom_integration.py tests\test_rac_bridge.py tests\test_track54_axiom_conductor.py` passed: 59 tests.
 - `.\.venv\Scripts\python.exe -m ruff check src\nlp_policy_nz\ontology\mapping_graph.py src\nlp_policy_nz\ontology\__init__.py src\nlp_policy_nz\quality\track28_ontology_discovery.py src\nlp_policy_nz\extraction src\nlp_policy_nz\axiom src\nlp_policy_nz\ontology\rac_bridge.py src\nlp_policy_nz\cli\main.py scripts\benchmark_extraction_manifest_runtime.py tests\test_track29_mapping_graph.py tests\test_track29_conductor.py tests\test_track28_ontology_discovery.py tests\test_track28_conductor.py tests\test_track26_standards_registry.py tests\test_track55_56_conductor.py tests\test_track56_extraction_runtime.py tests\test_extraction_catalog.py tests\test_extraction_exporter.py tests\test_extraction_schemas.py tests\test_axiom_integration.py tests\test_rac_bridge.py tests\test_track54_axiom_conductor.py` passed after archive.
+
+## Implementation closeout validation
+
+- Closeout fix applied: canonicalized JSON-LD serialization and added a checked-in artifact drift regression test covering JSON, schema, Turtle, JSON-LD, summary, and Mermaid outputs.
+- `pixi run python -m pytest -q tests\test_track29_mapping_graph.py tests\test_track29_conductor.py tests\test_track28_ontology_discovery.py tests\test_track28_conductor.py tests\test_track26_standards_registry.py` passed: 23 tests.
+- `pixi run python -m pytest -q tests\test_track29_mapping_graph.py tests\test_track29_conductor.py tests\test_track28_ontology_discovery.py tests\test_track28_conductor.py tests\test_track26_standards_registry.py tests\test_track55_56_conductor.py tests\test_track56_extraction_runtime.py tests\test_extraction_catalog.py tests\test_extraction_exporter.py tests\test_extraction_schemas.py tests\test_axiom_integration.py tests\test_rac_bridge.py tests\test_track54_axiom_conductor.py` passed: 60 tests.
+- `pixi run python -m ruff check --no-cache src\nlp_policy_nz\ontology\mapping_graph.py src\nlp_policy_nz\ontology\__init__.py tests\test_track29_mapping_graph.py tests\test_track29_conductor.py` passed.
+- Fresh `write_mapping_artifacts()` output now byte-matches the checked-in Track 29 generated artifacts.
