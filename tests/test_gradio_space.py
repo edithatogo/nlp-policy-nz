@@ -14,10 +14,17 @@ import pytest
 
 from spaces.app import (
     build_citation_network,
+    build_corpus_statistics_chart,
+    build_fixture_mode_notice,
+    build_graph_vector_projection,
+    build_ontology_coverage_table,
+    build_publication_claims_table,
     build_tereo_chart,
     compute_stats,
+    load_explorer_artifacts,
     load_parquet,
     search_chunks,
+    summarize_explorer_artifacts,
 )
 
 if TYPE_CHECKING:
@@ -253,3 +260,63 @@ class TestComputeStats:
         """Verify fallback status when df is None."""
         stats = compute_stats(None)
         assert "Status" in stats
+
+
+# ---------------------------------------------------------------------------
+# Track 36 explorer artifact tests
+# ---------------------------------------------------------------------------
+
+
+class TestTrack36ExplorerArtifacts:
+    """Tests for fixture-backed Hugging Face exploration pages."""
+
+    def test_loads_checked_in_explorer_artifacts(self) -> None:
+        """Verify Track 32-35 artifacts are loaded for fixture-mode pages."""
+        artifacts = load_explorer_artifacts()
+
+        assert artifacts["mode"] == "fixture"
+        assert "corpus_statistics" in artifacts
+        assert "ontology_coverage" in artifacts
+        assert "graph_vector" in artifacts
+        assert "analysis_artifacts" in artifacts
+        assert "publication_protocol" in artifacts
+
+    def test_fixture_notice_declares_full_corpus_boundary(self) -> None:
+        """Verify the Space labels fixture-only evidence and missing full data."""
+        notice = build_fixture_mode_notice()
+
+        assert "Fixture mode" in notice
+        assert "Requires full corpus" in notice
+        assert "LanceDB" in notice
+
+    def test_summary_surfaces_blockers_and_page_names(self) -> None:
+        """Verify the overview summary is bounded and page-oriented."""
+        summary = summarize_explorer_artifacts(load_explorer_artifacts())
+
+        assert summary["mode"] == "fixture"
+        assert summary["space_pages"] == [
+            "Overview",
+            "Corpus Statistics",
+            "Ontology Coverage",
+            "Graph and Vectors",
+            "Artifacts",
+            "Publication Protocol",
+            "Dataset Browser",
+        ]
+        assert summary["known_blockers"] >= 1
+
+    def test_builds_static_page_tables_and_figures(self) -> None:
+        """Verify static exploration pages have renderable data."""
+        artifacts = load_explorer_artifacts()
+
+        ontology_table = build_ontology_coverage_table(artifacts)
+        claims_table = build_publication_claims_table(artifacts)
+        corpus_chart = build_corpus_statistics_chart(artifacts)
+        vector_projection = build_graph_vector_projection(artifacts)
+
+        assert not ontology_table.empty
+        assert {"track", "metric", "value"}.issubset(ontology_table.columns)
+        assert not claims_table.empty
+        assert {"claim_id", "claim_status", "claim"}.issubset(claims_table.columns)
+        assert isinstance(corpus_chart, go.Figure)
+        assert isinstance(vector_projection, go.Figure)

@@ -1,9 +1,9 @@
 {
   "track_id": "track36_huggingface_exploration_site_20260625",
   "type": "feature",
-  "status": "planned",
+  "status": "complete",
   "created_at": "2026-06-25T00:00:00+10:00",
-  "updated_at": "2026-06-26T00:00:00+10:00",
+  "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Build a Hugging Face Space where users can explore corpus statistics, ontology coverage, mappings, knowledge graph outputs, vector summaries, analysis artefacts, and publication outputs.",
   "oracle_notes": "Create a Hugging Face Space where ontology, corpus, graph, vector, and publication artefacts can be explored interactively."
 }
