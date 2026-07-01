@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-TRACK_DIR = Path("conductor/tracks/track32_corpus_descriptive_statistics_20260625")
+TRACK_DIR = Path("conductor/tracks/archive/track32_corpus_descriptive_statistics_20260625")
 
 
 def test_track32_conductor_artifacts_mark_complete() -> None:
@@ -18,7 +18,7 @@ def test_track32_conductor_artifacts_mark_complete() -> None:
     assert metadata["status"] == "complete"
     assert "**Status**: Complete" in spec
     assert "**Status**: Complete" in plan
-    assert "## [x] Track 32: Whole-Corpus Descriptive Statistics" in tracks
+    assert "## [x] Track 32: Whole-Corpus Descriptive Statistics" not in tracks
     assert "- [ ]" not in spec
 
 

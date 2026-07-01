@@ -34,3 +34,7 @@ Track 32 is implemented as a deterministic, fixture-bounded statistics layer:
   explicit full-corpus/date coverage blockers.
 - `nlp-policy-nz corpus-stats` exposes the pipeline for one or more Parquet
   inputs while defaulting to fixture-bounded repo-side output for CI.
+
+## Review Fixes
+
+- [x] Task: Apply review suggestions 097cc9c
