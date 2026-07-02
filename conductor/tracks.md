@@ -309,8 +309,8 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [x] Track 47: Cross-Platform CI Matrix & Binary Distribution
-*Link: [./conductor/tracks/track47_cross_platform_ci_20260626/](./conductor/tracks/track47_cross_platform_ci_20260626/)*
+## [x] Track 47: Cross-Platform CI Matrix & Binary Distribution (archived)
+*Link: [./conductor/tracks/archive/track47_cross_platform_ci_20260626/](./conductor/tracks/archive/track47_cross_platform_ci_20260626/)*
 - **Dependencies**: Tracks 1, 23, 38
 - **Parallelization Node**: CI/CD Automation
 - **Why**: Current CI only runs on ubuntu-latest. Mature products test on all three target platforms (Windows, macOS, Linux). Adds binary distribution for users who cannot run pixi or Docker.
@@ -327,7 +327,7 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Developer Experience
 - **Why**: Create a dedicated MkDocs/ReadTheDocs site with auto-generated API reference, user guides (ingestion, ontology, search, publishing), architecture docs, Jupyter tutorial notebooks, and operations runbook. Every mature product needs searchable, versioned, auto-generated documentation.
 
-## [~] Track 50: Public Sector Compliance & Accessibility
+## [x] Track 50: Public Sector Compliance & Accessibility
 *Link: [./conductor/tracks/track50_compliance_accessibility_20260626/](./conductor/tracks/track50_compliance_accessibility_20260626/)*
 - **Dependencies**: Tracks 36, 44, 46
 - **Parallelization Node**: Compliance & Governance
