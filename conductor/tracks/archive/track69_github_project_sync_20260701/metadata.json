@@ -1,0 +1,9 @@
+{
+  "track_id": "track69_github_project_sync_20260701",
+  "type": "chore",
+  "status": "archived",
+  "created_at": "2026-06-30T00:00:00+10:00",
+  "updated_at": "2026-07-02T00:00:00+10:00",
+  "description": "Create and maintain a GitHub Projects v2 roadmap where every Conductor track is mirrored as an issue and project item.",
+  "oracle_notes": "Archived record of the GitHub project synchronization work. The mirror was completed and closed out on GitHub; this folder preserves the local Conductor history for the Phase IX governance track."
+}

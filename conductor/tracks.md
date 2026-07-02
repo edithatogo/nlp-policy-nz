@@ -421,3 +421,15 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Dependencies**: Tracks 70, 71, 72
 - **Parallelization Node**: Optional Mojo Runtime Integration
 - **Why**: Integrate one proven private Mojo kernel behind optional feature detection and Python fallback only if Track 72 meets the roadmap promotion threshold; otherwise record a deferral decision.
+
+---
+
+## Phase IX — GitHub Project Synchronization
+
+---
+
+## [x] Track 69: GitHub Project and Conductor Issue Synchronization (archived)
+*Link: [./conductor/tracks/archive/track69_github_project_sync_20260701/](./conductor/tracks/archive/track69_github_project_sync_20260701/)*
+- **Dependencies**: Tracks 23, 39, 45, 57-68
+- **Parallelization Node**: Repository Governance and Planning Operations
+- **Why**: Keep the Conductor roadmap mirrored into GitHub issues and GitHub Projects with stable phase, status, dependency, and path metadata while preserving the completed track as a historical record.
