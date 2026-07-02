@@ -32,8 +32,7 @@ jobs:
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0
         with:
-          cache: true
-          cache-write: ${{ github.event_name == 'push' }}
+          cache: false
           run-install: false
 
       - name: Configure matrix environment
