@@ -905,7 +905,9 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
             import json as _json  # noqa: PLC0415
 
             if args.auth_command == "create-key":
-                payload = create_api_key(name=args.name, scopes=args.scopes, expires_at=args.expires_at)
+                payload = create_api_key(
+                    name=args.name, scopes=args.scopes, expires_at=args.expires_at
+                )
                 sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
             elif args.auth_command == "list-keys":
                 payload = list_api_keys()

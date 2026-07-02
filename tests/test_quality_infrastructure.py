@@ -52,9 +52,9 @@ def test_ci_quality_steps_are_wired() -> None:
     workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
 
     assert "Smoke tests" in workflow
-    assert "ruff format" in workflow or "pixi run format" in workflow
-    assert "basedpyright" in workflow
-    assert "pytest-cov" in workflow or "--cov=src" in workflow
+    assert "format-ci" in workflow
+    assert "typecheck-ci" in workflow
+    assert "coverage-ci" in workflow
     assert "codecov/codecov-action" in workflow
     assert "workflow_dispatch" in workflow
     assert "Optional mutation tests" in workflow
