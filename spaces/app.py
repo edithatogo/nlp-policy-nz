@@ -46,6 +46,44 @@ SPACE_PAGES = [
     "Publication Protocol",
     "Dataset Browser",
 ]
+SPACE_CSS = """
+.gradio-container :focus-visible {
+    outline: 3px solid #0b5fff;
+    outline-offset: 2px;
+}
+
+#skip-link {
+    margin-bottom: 0.75rem;
+}
+
+#main-content {
+    scroll-margin-top: 1rem;
+}
+
+#privacy-footer {
+    border-top: 1px solid #cbd5e1;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    color: #0f172a;
+}
+
+#privacy-footer p {
+    max-width: 72ch;
+}
+
+.gradio-container .tabitem {
+    text-wrap: balance;
+}
+"""
+
+PRIVACY_NOTICE = (
+    "Privacy notice: this Space is fixture-first and may display parliamentary "
+    "and legislative content that includes names, electorate references, and "
+    "other potentially identifying information. For deletion or correction "
+    "requests, email privacy@nlp-policy-nz.example and include the dataset "
+    "source, document identifier, and the requested change. See PRIVACY.md "
+    "for retention and processor details."
+)
 
 
 def _read_json(path: Path, fallback: object) -> object:
@@ -521,17 +559,26 @@ def build_app() -> object:
 
     with gr.Blocks(
         title="nlp-policy-nz Explorer",
+        theme=gr.themes.Soft(primary_hue="blue", secondary_hue="green", neutral_hue="slate"),
+        css=SPACE_CSS,
+        analytics_enabled=False,
     ) as app:
         gr.Markdown(
-            "# nlp-policy-nz Explorer\nInteractive visualisation of NZ parliamentary and legislative NLP datasets."
+            "[Skip to main content](#main-content)",
+            elem_id="skip-link",
+        )
+        gr.Markdown(
+            "# nlp-policy-nz Explorer\nInteractive visualisation of NZ parliamentary and legislative NLP datasets.",
         )
         gr.Markdown(explorer_artifacts["mode_notice"])
 
         file_input = gr.File(
-            label="Upload Parquet Dataset",
+            label="Upload a Parquet dataset",
             file_types=[".parquet"],
             type="filepath",
         )
+
+        gr.Markdown("", elem_id="main-content")
 
         with gr.Tabs():
             with gr.Tab("Overview"):
@@ -641,6 +688,12 @@ def build_app() -> object:
                     inputs=[state_df],
                     outputs=[stats_output],
                 )
+
+        gr.Markdown(
+            f"<div id='privacy-footer'>{PRIVACY_NOTICE} "
+            "The Space footer is part of the public-facing compliance surface. "
+            "[Read the policy](../PRIVACY.md).</div>",
+        )
 
     return app
 

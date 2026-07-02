@@ -1,0 +1,34 @@
+name: Accessibility Scan
+
+on:
+  workflow_run:
+    workflows: ["Publish Hugging Face Space"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    env:
+      HF_SPACE_URL: ${{ secrets.HF_SPACE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install axe and Playwright
+        run: |
+          npm install --no-save @axe-core/cli playwright
+          npx playwright install --with-deps chromium
+      - name: Run axe-core scan
+        run: |
+          if [ -z "$HF_SPACE_URL" ]; then
+            echo "HF_SPACE_URL secret is required"
+            exit 1
+          fi
+          npx axe "$HF_SPACE_URL" --tags wcag2a,wcag2aa --exit

@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
-
 import tomllib
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TRACK47 = ROOT / "conductor" / "tracks" / "track47_cross_platform_ci_20260626"

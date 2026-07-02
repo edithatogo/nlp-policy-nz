@@ -8,6 +8,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Final
 
+from nlp_policy_nz.publication.protocol import (
+    PUBLICATION_PROTOCOL_CLAIMS_FILENAME,
+    PUBLICATION_PROTOCOL_MANIFEST_FILENAME,
+    build_publication_protocol,
+)
+
 TRACK_ID: Final[str] = "track37_publication_manuscript_review_20260625"
 DEFAULT_OUTPUT_DIR: Final[Path] = Path("artifacts") / "manuscript"
 
@@ -34,11 +40,7 @@ def build_manuscript_package(
 ) -> ManuscriptPackage:
     """Build the deterministic Track 37 manuscript and review package."""
     root = Path(repo_root_path) if repo_root_path is not None else _repo_root()
-    publication_manifest = _read_json(root / "data" / "publication" / "publication_protocol_manifest.json")
-    claims = _read_json(root / "data" / "publication" / "publication_protocol_claims.json").get(
-        "claims",
-        [],
-    )
+    publication_manifest, claims = _publication_inputs(root)
     analysis_manifest = _read_json(root / "artifacts" / "analysis_artifact_manifest.json")
     review_inputs = _review_inputs(root)
     requirements = _submission_requirements()
@@ -122,6 +124,17 @@ def _manifest(
             *sorted(latex_files),
         ],
     }
+
+
+def _publication_inputs(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    publication_dir = root / "data" / "publication"
+    manifest_path = publication_dir / PUBLICATION_PROTOCOL_MANIFEST_FILENAME
+    claims_path = publication_dir / PUBLICATION_PROTOCOL_CLAIMS_FILENAME
+    if manifest_path.is_file() and claims_path.is_file():
+        return _read_json(manifest_path), _read_json(claims_path).get("claims", [])
+
+    bundle = build_publication_protocol(repo_root_path=root)
+    return bundle.manifest, list(bundle.claims)
 
 
 def _submission_requirements() -> str:

@@ -29,10 +29,13 @@ Interactive visualisation of New Zealand parliamentary and legislative NLP datas
 - **Artifacts** - Track 35 generated publication tables, figures, diagrams, and inspection checklist
 - **Publication Protocol** - Track 34 evidence-mapped publication claims and overclaim review
 - **Dataset Browser** - Optional uploaded Parquet search, citation, Te Reo Maori, and corpus statistics tools
+- **Privacy** - Footer notice and `PRIVACY.md` data-retention and request process
 
 ## Usage
 
 The Space starts in fixture mode and loads checked-in artifacts from `data/`, `docs/`, and `artifacts/`. This mode is deterministic and works without Hugging Face, Zenodo, LanceDB, or external API credentials.
+
+The Gradio Space includes visible focus styling, a skip link, and a privacy footer so keyboard users and screen-reader users can reach the primary content and policy details quickly.
 
 Upload a Parquet file produced by the `nlp-policy-nz` pipeline in the Dataset Browser tab for local full-data exploration. Corpus-wide claims still require supplied canonical full-corpus Parquet or LanceDB exports.
 

@@ -41,10 +41,6 @@
         {
           "count": 2,
           "path": "artifacts/analysis_artifact_blockers.json"
-        },
-        {
-          "count": 4,
-          "path": "data/publication/publication_protocol_overclaim_review.json"
         }
       ]
     },
@@ -77,10 +73,6 @@
         {
           "count": 2,
           "path": "artifacts/analysis_artifact_blockers.json"
-        },
-        {
-          "count": 4,
-          "path": "data/publication/publication_protocol_overclaim_review.json"
         }
       ]
     },
@@ -113,10 +105,6 @@
         {
           "count": 2,
           "path": "artifacts/analysis_artifact_blockers.json"
-        },
-        {
-          "count": 4,
-          "path": "data/publication/publication_protocol_overclaim_review.json"
         }
       ]
     },
@@ -149,10 +137,6 @@
         {
           "count": 2,
           "path": "artifacts/analysis_artifact_blockers.json"
-        },
-        {
-          "count": 4,
-          "path": "data/publication/publication_protocol_overclaim_review.json"
         }
       ]
     },
@@ -185,10 +169,6 @@
         {
           "count": 2,
           "path": "artifacts/analysis_artifact_blockers.json"
-        },
-        {
-          "count": 4,
-          "path": "data/publication/publication_protocol_overclaim_review.json"
         }
       ]
     },
@@ -221,10 +201,6 @@
         {
           "count": 2,
           "path": "artifacts/analysis_artifact_blockers.json"
-        },
-        {
-          "count": 4,
-          "path": "data/publication/publication_protocol_overclaim_review.json"
         }
       ]
     }
