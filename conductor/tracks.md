@@ -55,10 +55,10 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Planned — 68, 70-73): Mojo Migration
-  ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit)
-  ├─ 70 (Readiness Audit) ──► 71 (Linux CI Sandbox)
-  ├─ 70 (Readiness Audit) ──► 72 (Hotspot Benchmark)
+Phase VIII (Planned — 68, 71-73; Archived — 70): Mojo Migration
+  ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit) [archived]
+  ├─ 70 (Readiness Audit) [archived] ──► 71 (Linux CI Sandbox)
+  ├─ 70 (Readiness Audit) [archived] ──► 72 (Hotspot Benchmark)
   └─ 70 + 71 + 72 ──► 73 (Optional Acceleration)
 
 Phase IX (Complete — 69): GitHub Project Synchronization
@@ -398,11 +398,11 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: Experimental Runtime Strategy
 - **Why**: Maintain the umbrella decision record for introducing Mojo as an optional Linux GitHub Actions acceleration path, while keeping concrete work split into Tracks 70-73.
 
-## [ ] Track 70: Mojo Readiness Audit
-*Link: [./conductor/tracks/track70_mojo_readiness_audit_20260702/](./conductor/tracks/track70_mojo_readiness_audit_20260702/)*
+## [x] Track 70: Mojo Readiness Audit (archived)
+*Link: [./conductor/tracks/archive/track70_mojo_readiness_audit_20260702/](./conductor/tracks/archive/track70_mojo_readiness_audit_20260702/)*
 - **Dependencies**: Tracks 21, 23, 42, 56, 67, 68
 - **Parallelization Node**: Mojo Toolchain Readiness
-- **Why**: Verify OS support, packaging, licensing, GitHub Actions install path, Pixi/uv compatibility, and candidate kernel shortlist before any runtime code changes.
+- **Why**: Verify OS support, packaging, licensing, GitHub Actions install path, Pixi/uv compatibility, and candidate kernel shortlist before any runtime code changes. The readiness audit is complete and the historical record now lives in the archive tree.
 
 ## [ ] Track 71: Mojo Linux CI Sandbox
 *Link: [./conductor/tracks/track71_mojo_linux_ci_sandbox_20260702/](./conductor/tracks/track71_mojo_linux_ci_sandbox_20260702/)*
