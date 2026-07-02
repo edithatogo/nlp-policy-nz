@@ -209,7 +209,7 @@ app = FastAPI(
 )
 register_problem_handlers(app)
 
-cors_origins = ["*"] if "*" in _settings.cors_origins else list(_settings.cors_origins)
+cors_origins = list(_settings.cors_origins)
 
 app.add_middleware(
     CORSMiddleware,

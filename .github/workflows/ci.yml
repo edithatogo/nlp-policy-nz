@@ -34,6 +34,7 @@ jobs:
         with:
           cache: true
           cache-write: ${{ github.event_name == 'push' }}
+          run-install: false
 
       - name: Configure matrix environment
         run: |
@@ -47,15 +48,17 @@ jobs:
           dockerfile: Dockerfile
 
       - name: Install environment
-        run: CI=true pixi install
+        run: CI=true pixi install --locked --skip-with-deps semgrep --skip-with-deps scalene
 
       - name: Supply-chain dependency audit
         run: pixi run python scripts/check_dependency_security.py
 
       - name: Static application security testing
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
         run: |
+          python -m pip install --user semgrep==1.168.0
           pixi run bandit -c .bandit -r src/nlp_policy_nz/ -lll -iii
-          pixi run semgrep scan --config p/python --severity WARNING --error --metrics=off src/nlp_policy_nz/
+          semgrep scan --config p/python --severity WARNING --error --metrics=off src/nlp_policy_nz/
 
       - name: Generate CycloneDX SBOM
         run: pixi run python -c "import sys; from pathlib import Path; sys.path.insert(0, 'src'); from nlp_policy_nz.security import generate_cyclonedx_sbom; generate_cyclonedx_sbom(Path('.tmp/sbom/nlp-policy-nz.cdx.json'))"
@@ -102,6 +105,8 @@ jobs:
         if: always()
         env:
           JOB_STATUS: ${{ job.status }}
+          CI_PLATFORM: ${{ matrix.os }}
+          PYTHON_VERSION: ${{ matrix.python-version }}
         run: |
           mkdir -p .tmp/ci-status
           python - <<'PY'

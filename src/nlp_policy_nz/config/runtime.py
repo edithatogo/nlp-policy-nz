@@ -25,7 +25,7 @@ class RuntimeSettings:
     """Runtime knobs for deployment and production hardening."""
 
     api_versions: tuple[str, ...] = ("v1", "v2")
-    cors_origins: tuple[str, ...] = ("*",)
+    cors_origins: tuple[str, ...] = ()
     db_path: str = "./lancedb_data"
     last_run_timestamp: str | None = None
     rate_limit_per_minute: int = 60
@@ -36,7 +36,7 @@ class RuntimeSettings:
 def load_runtime_settings() -> RuntimeSettings:
     """Load runtime settings from environment variables."""
     api_versions = tuple(_env_list("NLP_POLICY_NZ_API_VERSIONS", ["v1", "v2"]))
-    cors_origins = tuple(_env_list("NLP_POLICY_NZ_CORS_ORIGINS", ["*"]))
+    cors_origins = tuple(_env_list("NLP_POLICY_NZ_CORS_ORIGINS", []))
     last_run_timestamp = os.getenv("NLP_POLICY_NZ_LAST_RUN_TIMESTAMP") or None
     return RuntimeSettings(
         api_versions=api_versions,
