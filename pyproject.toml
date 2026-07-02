@@ -74,6 +74,9 @@ client = [
 unstructured = [
     "unstructured>=0.15.0",
 ]
+vllm = [
+    "vllm>=0.8.5",
+]
 faiss = ["faiss-cpu>=1.8.0"]
 qdrant = ["qdrant-client>=1.9.0"]
 rag = ["haystack-ai>=2.0.0"]

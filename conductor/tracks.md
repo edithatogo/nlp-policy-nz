@@ -55,13 +55,15 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Planned — 68; Archived — 58-61, 70-73): Runtime Modernization
+Phase VIII (Completed — 62; Planned — 68; Archived — 58-61, 70-73): Runtime Modernization
   ├─ 58 (LangGraph Eval) [archived] ──► deterministic legal workflow orchestration decision record
   │   [depends on 43, 52, 55, 57]
   ├─ 60 (LanceDB Hardening) ──► 62 (Issue mirror and project fields)
   │   [depends on 6, 22, 33, 44, 52]
   ├─ 61 (Unstructured Adapter) ──► opt-in messy-document fallback
   │   [depends on 4, 23, 44, 55]
+  ├─ 62 (vLLM Eval) ──► optional local generation runtime and OpenAI-compatible serving
+  │   [depends on 20, 21, 22, 38, 46, 53]
   ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 71 (Linux CI Sandbox) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 72 (Hotspot Benchmark)
@@ -469,6 +471,12 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Dependencies**: Track 4, Track 23, Track 44, Track 55
 - **Parallelization Node**: Document Ingestion Modernization
 - **Why**: Evaluate Unstructured as an opt-in fallback for messy document partitioning without replacing the canonical legislative source parsers. The repo needs a clear adapter boundary, provenance preservation, and a packaging/documentation guardrail.
+
+## [x] Track 62: vLLM Local Inference Runtime Evaluation
+*Link: [./conductor/tracks/track62_vllm_local_inference_runtime_20260701/](./conductor/tracks/track62_vllm_local_inference_runtime_20260701/)*
+- **Dependencies**: Tracks 20, 21, 22, 38, 46, 53
+- **Parallelization Node**: Local Model Serving
+- **Why**: Evaluate vLLM as an optional high-throughput local generation runtime and OpenAI-compatible serving layer for legal NLP, while keeping Python fallback behavior canonical.
 
 ## [ ] Track 68: Mojo Runtime Feasibility for Hot Python Paths
 *Link: [./conductor/tracks/track68_mojo_runtime_feasibility_20260701/](./conductor/tracks/track68_mojo_runtime_feasibility_20260701/)*

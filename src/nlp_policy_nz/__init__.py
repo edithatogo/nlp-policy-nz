@@ -31,6 +31,8 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
         "nlp_policy_nz.publication.protocol",
         "build_publication_protocol",
     ),
+    "Track62BenchmarkRow": ("nlp_policy_nz.semantic.vllm_runtime", "Track62BenchmarkRow"),
+    "Track62EvidenceReport": ("nlp_policy_nz.semantic.vllm_runtime", "Track62EvidenceReport"),
     "FrameworkConfig": ("nlp_policy_nz.universal_framework_v3", "FrameworkConfig"),
     "MetaExtensionRegistry": ("nlp_policy_nz.universal_framework_v3", "MetaExtensionRegistry"),
     "ModularSpaCyBridgeComponentV3": (
@@ -43,6 +45,11 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
         "nlp_policy_nz.universal_framework_v3",
         "UniversalIngestionEngine",
     ),
+    "VLLMGenerationResult": (
+        "nlp_policy_nz.semantic.vllm_runtime",
+        "VLLMGenerationResult",
+    ),
+    "VLLMRuntimeError": ("nlp_policy_nz.semantic.vllm_runtime", "VLLMRuntimeError"),
     "UnstructuredIngestionEngine": (
         "nlp_policy_nz.unstructured_ingestion",
         "UnstructuredIngestionEngine",
@@ -99,8 +106,12 @@ __all__ = [
     "ModularSpaCyBridgeComponentV3",
     "SOTAPipelineVisualizer",
     "TargetSchemaEmitter",
+    "Track62BenchmarkRow",
+    "Track62EvidenceReport",
     "UniversalIngestionEngine",
     "UnstructuredIngestionEngine",
+    "VLLMGenerationResult",
+    "VLLMRuntimeError",
     "__version__",
     "build_analysis_artifact_bundle",
     "build_corpus_statistics",

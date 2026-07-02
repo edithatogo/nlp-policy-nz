@@ -1,0 +1,9 @@
+{
+  "track_id": "track62_vllm_local_inference_runtime_20260701",
+  "type": "runtime-modernization",
+  "status": "completed",
+  "created_at": "2026-07-03T00:00:00+10:00",
+  "updated_at": "2026-07-03T00:00:00+10:00",
+  "description": "Evaluate vLLM as an optional high-throughput local generation runtime and OpenAI-compatible serving layer, while keeping Python fallback behavior canonical.",
+  "oracle_notes": "Track 62 is complete as a repo-side evaluation. The implementation proves deterministic offline and endpoint-backed paths, documents the runtime boundary, and preserves Windows fallback behavior."
+}
