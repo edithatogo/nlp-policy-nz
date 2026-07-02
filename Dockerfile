@@ -18,7 +18,7 @@ RUN curl -fsSL https://pixi.sh/install.sh | sh -s -- -b /opt/pixi/bin
 
 WORKDIR /app
 
-COPY pyproject.toml pixi.toml pixi.lock README.md Dockerfile .dockerignore docker-compose.yml ./
+COPY pyproject.toml pixi.toml pixi.lock README.md Dockerfile .dockerignore .tach.toml docker-compose.yml ./
 COPY .devcontainer ./.devcontainer
 COPY .github ./.github
 COPY src ./src

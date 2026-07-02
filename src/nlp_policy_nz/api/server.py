@@ -392,7 +392,7 @@ async def observability_middleware(
                     instance=path,
                 )
 
-        if response is None and not _is_public_path(path):
+        if response is None and _security_settings.auth_required and not _is_public_path(path):
             secret = extract_api_key(dict(request.headers))
             if secret is None:
                 response = problem_response(
