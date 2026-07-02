@@ -60,23 +60,18 @@ class JsonFormatter(logging.Formatter):
             "logger": record.name,
             "message": record.getMessage(),
             "request_id": getattr(record, "request_id", current_request_id()),
+            "endpoint": getattr(record, "endpoint", None),
+            "duration_ms": getattr(record, "duration_ms", None),
+            "duration_seconds": getattr(record, "duration_seconds", None),
+            "method": getattr(record, "method", None),
+            "status": getattr(record, "status", None),
+            "version": getattr(record, "version", None),
+            "config_hash": getattr(record, "config_hash", None),
+            "error_code": getattr(record, "error_code", None),
+            "scope": getattr(record, "scope", None),
+            "client_ip": getattr(record, "client_ip", None),
+            "degraded": getattr(record, "degraded", None),
         }
-        for field in (
-            "endpoint",
-            "duration_ms",
-            "duration_seconds",
-            "method",
-            "status",
-            "version",
-            "config_hash",
-            "error_code",
-            "scope",
-            "client_ip",
-            "degraded",
-        ):
-            value = getattr(record, field, None)
-            if value is not None:
-                payload[field] = value
         if record.exc_info:
             payload["exception"] = self.formatException(record.exc_info)
         return json.dumps(payload, ensure_ascii=False, sort_keys=True)

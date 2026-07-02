@@ -345,8 +345,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Security & Observability
 - **Why**: Add API key authentication, scope-based authorization, key lifecycle management, audit logging, and security headers to the FastAPI server. Zero auth is the single biggest security gap for any production deployment.
 
-## [x] Track 52: Observability & Error Standardization
-*Link: [./conductor/tracks/track52_observability_20260626/](./conductor/tracks/track52_observability_20260626/)*
+## [x] Track 52: Observability & Error Standardization (archived)
+*Link: [./conductor/tracks/archive/track52_observability_20260626/](./conductor/tracks/archive/track52_observability_20260626/)*
 - **Dependencies**: Tracks 19, 46, 51
 - **Parallelization Node**: Security & Observability
 - **Why**: Implement structured JSON logging, RFC 7807 standardized error responses, request ID tracing, Prometheus metrics, graceful model degradation, and ops documentation. Makes the API fully observable and resilient in production.
