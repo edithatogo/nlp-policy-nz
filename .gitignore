@@ -45,6 +45,10 @@ output/
 *.parquet
 *.tar.gz
 
+# Security runtime state
+config/api_keys.json
+logs/
+
 # Temporary diagnostics
 ruff_out.txt
 pixi_*.txt

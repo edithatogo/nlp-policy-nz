@@ -8,6 +8,7 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from nlp_policy_nz.api import server
+from nlp_policy_nz.api.auth import APIKeyStore, SecuritySettings, build_audit_logger
 from nlp_policy_nz.config import (
     FeatureFlags,
     RuntimeSettings,
@@ -116,9 +117,26 @@ def test_track46_versioned_routes_health_and_version_manifest(monkeypatch) -> No
     assert "build_timestamp" in version.json()
 
 
-def test_track46_feature_flags_and_rate_limit(monkeypatch) -> None:
+def test_track46_feature_flags_and_rate_limit(monkeypatch, tmp_path: Path) -> None:
     """Feature flags should disable stages and the limiter should block abusive clients."""
+    store_path = tmp_path / "config" / "api_keys.json"
+    audit_log_path = tmp_path / "logs" / "api_audit.log"
+    store = APIKeyStore.load(store_path)
+    read_secret, _ = store.create_key(name="track46", scopes=["read"])
+
     monkeypatch.setattr(server, "_settings", RuntimeSettings(rate_limit_per_minute=1))
+    monkeypatch.setattr(
+        server,
+        "_security_settings",
+        SecuritySettings(
+            auth_required=True,
+            api_keys_path=store_path,
+            audit_log_path=audit_log_path,
+            max_body_bytes=1024,
+        ),
+    )
+    monkeypatch.setattr(server, "_api_key_store", APIKeyStore.load(store_path))
+    monkeypatch.setattr(server, "_audit_logger", build_audit_logger(audit_log_path))
     monkeypatch.setattr(
         server,
         "_feature_flags",
@@ -139,12 +157,13 @@ def test_track46_feature_flags_and_rate_limit(monkeypatch) -> None:
     monkeypatch.setattr(server, "search_similar", lambda **kwargs: [{"doc_id": "d1", "text": "x"}])
 
     client = TestClient(server.app)
+    headers = {"Authorization": f"Bearer {read_secret}"}
 
-    disabled = client.post("/v2/embed", json={"texts": ["hello"]})
+    disabled = client.post("/v2/embed", json={"texts": ["hello"]}, headers=headers)
     assert disabled.status_code == 503
 
-    first = client.post("/v2/search", json={"query": "health", "top_k": 1})
-    second = client.post("/v2/search", json={"query": "health", "top_k": 1})
+    first = client.post("/v2/search", json={"query": "health", "top_k": 1}, headers=headers)
+    second = client.post("/v2/search", json={"query": "health", "top_k": 1}, headers=headers)
     assert first.status_code == 200
     assert second.status_code == 429
 

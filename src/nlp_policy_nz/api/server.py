@@ -23,12 +23,25 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from starlette.middleware.base import RequestResponseEndpoint
 
+from nlp_policy_nz.api.auth import (
+    APIKeyStore,
+    AuthContext,
+    build_audit_logger,
+    emit_audit_event,
+    extract_api_key,
+    load_security_settings,
+    required_scope_for_path,
+    verify_api_key,
+)
 from nlp_policy_nz.config import load_feature_flags, load_runtime_settings
 
 logger = logging.getLogger(__name__)
 
 _settings = load_runtime_settings()
 _feature_flags = load_feature_flags()
+_security_settings = load_security_settings()
+_api_key_store = APIKeyStore.load(_security_settings.api_keys_path)
+_audit_logger = build_audit_logger(_security_settings.audit_log_path)
 _version_manifest_path = Path(__file__).resolve().parents[3] / "VERSION.json"
 
 
@@ -48,6 +61,17 @@ def _load_version_manifest() -> dict[str, str]:
 
 _version_manifest = _load_version_manifest()
 _rate_limit_history: dict[str, deque[float]] = defaultdict(deque)
+_PUBLIC_PATHS = {
+    "/health",
+    "/version",
+    "/v1/health",
+    "/v2/health",
+    "/v1/version",
+    "/v2/version",
+    "/docs",
+    "/redoc",
+    "/openapi.json",
+}
 
 # --- Models ---
 
@@ -197,17 +221,33 @@ def _build_health_response() -> HealthResponse:
     )
 
 
-def _rate_limit_key(request: Request) -> str:
-    client_host = request.client.host if request.client else "unknown"
+def _is_public_path(path: str) -> bool:
+    normalized = path.rstrip("/") or "/"
+    return normalized in _PUBLIC_PATHS
+
+
+def _client_ip(request: Request) -> str:
+    if request.client and request.client.host:
+        return request.client.host
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",", 1)[0].strip()
+    return "unknown"
+
+
+def _rate_limit_key(request: Request, auth_context: AuthContext | None) -> str:
+    client_host = _client_ip(request)
+    if auth_context is not None:
+        return f"{auth_context.key_hash}:{request.url.path}"
     return f"{client_host}:{request.url.path}"
 
 
-def _check_rate_limit(request: Request) -> Response | None:
+def _check_rate_limit(request: Request, auth_context: AuthContext | None) -> Response | None:
     if _settings.rate_limit_per_minute <= 0:
         return None
-    if request.url.path in {"/health", "/v1/health", "/v2/health", "/version", "/v1/version", "/v2/version", "/openapi.json", "/docs", "/redoc"}:
+    if _is_public_path(request.url.path):
         return None
-    key = _rate_limit_key(request)
+    key = _rate_limit_key(request, auth_context)
     history = _rate_limit_history[key]
     now = time.monotonic()
     window = 60.0
@@ -221,6 +261,7 @@ def _check_rate_limit(request: Request) -> Response | None:
         )
         response.headers["X-RateLimit-Limit"] = str(_settings.rate_limit_per_minute)
         response.headers["X-RateLimit-Remaining"] = "0"
+        response.headers["X-RateLimit-Reset"] = str(int(time.time()) + retry_after)
         response.headers["Retry-After"] = str(retry_after)
         return response
     history.append(now)
@@ -228,15 +269,96 @@ def _check_rate_limit(request: Request) -> Response | None:
 
 
 @app.middleware("http")
-async def rate_limit_middleware(
+async def security_middleware(
     request: Request,
     call_next: RequestResponseEndpoint,
 ) -> Response:
-    """Apply a light token-bucket limiter to production endpoints."""
-    limited = _check_rate_limit(request)
-    if limited is not None:
-        return limited
-    return await call_next(request)
+    """Apply authentication, rate limiting, headers, and audit logging."""
+    started = time.perf_counter()
+    path = request.url.path
+    api_version = _request_api_version(path)
+    auth_context: AuthContext | None = None
+    status_code = 500
+    response: Response | None = None
+    scope = required_scope_for_path(path)
+    body_limit = _security_settings.max_body_bytes
+    content_length = request.headers.get("content-length")
+
+    if request.method in {"POST", "PUT", "PATCH"} and content_length:
+        try:
+            if int(content_length) > body_limit:
+                response = JSONResponse(
+                    status_code=413,
+                    content={"detail": "Request body too large."},
+                )
+        except ValueError:
+            response = JSONResponse(
+                status_code=400,
+                content={"detail": "Invalid Content-Length header."},
+            )
+
+    if response is None and not _is_public_path(path):
+        secret = extract_api_key(dict(request.headers))
+        if secret is None:
+            response = JSONResponse(
+                status_code=401,
+                content={"detail": "API key required."},
+            )
+        else:
+            required_scope = scope or "read"
+            try:
+                auth_context = verify_api_key(_api_key_store, secret, required_scope)
+            except PermissionError as exc:
+                message = str(exc).lower()
+                response = JSONResponse(
+                    status_code=403 if "scope" in message else 401,
+                    content={"detail": str(exc)},
+                )
+
+    if response is None:
+        limited = _check_rate_limit(request, auth_context)
+        if limited is not None:
+            response = limited
+
+    if response is None:
+        try:
+            response = await call_next(request)
+        except Exception:
+            logger.exception("Request processing failed")
+            response = JSONResponse(
+                status_code=500,
+                content={"detail": "Internal server error."},
+            )
+
+    status_code = response.status_code
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "no-referrer"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers.setdefault("Permissions-Policy", "geolocation=(), microphone=(), camera=()")
+    if request.url.scheme == "https" or request.headers.get("x-forwarded-proto") == "https":
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    _apply_version_headers(response, api_version)
+    if auth_context is not None:
+        remaining = max(0, _settings.rate_limit_per_minute - len(_rate_limit_history[_rate_limit_key(request, auth_context)]))
+        response.headers["X-RateLimit-Limit"] = str(_settings.rate_limit_per_minute)
+        response.headers["X-RateLimit-Remaining"] = str(remaining)
+        response.headers["X-RateLimit-Reset"] = str(int(time.time()) + 60)
+    duration = round(time.perf_counter() - started, 4)
+    emit_audit_event(
+        _audit_logger,
+        {
+            "timestamp": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+            "key_hash": auth_context.key_hash if auth_context else None,
+            "key_id": auth_context.key_id if auth_context else None,
+            "endpoint": path,
+            "method": request.method,
+            "status": status_code,
+            "duration_seconds": duration,
+            "client_ip": _client_ip(request),
+            "authorized": auth_context is not None,
+        },
+    )
+    return response
 
 
 @app.on_event("shutdown")

@@ -28,6 +28,7 @@ from pathlib import Path
 
 from nlp_policy_nz.api import process_hansard, process_legislation, search_similar
 from nlp_policy_nz.axiom import DOCUMENT_TYPES
+from nlp_policy_nz.cli.auth import create_api_key, list_api_keys, revoke_api_key, rotate_api_key
 from nlp_policy_nz.cli.completion import (
     SUPPORTED_SHELLS,
     build_completion_script,
@@ -198,6 +199,56 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Custom commit message for the upload.",
     )
+
+    # --- auth subcommand ----------------------------------------------------
+    auth_parser = subparsers.add_parser(
+        "auth",
+        help="Manage API keys for secured API access.",
+        description="Create, list, revoke, and rotate hashed API keys.",
+    )
+    auth_subparsers = auth_parser.add_subparsers(
+        dest="auth_command",
+        required=True,
+        help="Auth lifecycle commands.",
+    )
+
+    auth_create_parser = auth_subparsers.add_parser(
+        "create-key",
+        help="Create a new API key.",
+        description="Generate a new secret key and persist the hashed record.",
+    )
+    auth_create_parser.add_argument("--name", required=True, help="Human-friendly key name.")
+    auth_create_parser.add_argument(
+        "--scopes",
+        nargs="+",
+        required=True,
+        help="One or more scopes to grant, such as read write admin.",
+    )
+    auth_create_parser.add_argument(
+        "--expires-at",
+        default=None,
+        help="Optional ISO 8601 expiration timestamp.",
+    )
+
+    auth_subparsers.add_parser(
+        "list-keys",
+        help="List API keys.",
+        description="Show stored API key metadata without revealing secrets.",
+    )
+
+    auth_revoke_parser = auth_subparsers.add_parser(
+        "revoke-key",
+        help="Revoke an API key.",
+        description="Mark an API key revoked by key ID.",
+    )
+    auth_revoke_parser.add_argument("--key-id", required=True, help="Key identifier to revoke.")
+
+    auth_rotate_parser = auth_subparsers.add_parser(
+        "rotate-key",
+        help="Rotate an API key.",
+        description="Revoke the old key and mint a replacement with the same scopes.",
+    )
+    auth_rotate_parser.add_argument("--key-id", required=True, help="Key identifier to rotate.")
 
     # --- deploy-space subcommand ---------------------------------------------
     deploy_parser = subparsers.add_parser(
@@ -727,6 +778,7 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
         "deploy-space",
         "archive-to-zenodo",
         "release",
+        "auth",
         "provenance",
         "export-rdf",
         "sparql",
@@ -848,6 +900,25 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
                 creators=creators,
             )
             logger.info("Release published - DOI: %s", result.get("doi", "N/A"))
+
+        elif args.command == "auth":
+            import json as _json  # noqa: PLC0415
+
+            if args.auth_command == "create-key":
+                payload = create_api_key(name=args.name, scopes=args.scopes, expires_at=args.expires_at)
+                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+            elif args.auth_command == "list-keys":
+                payload = list_api_keys()
+                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+            elif args.auth_command == "revoke-key":
+                payload = revoke_api_key(key_id=args.key_id)
+                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+            elif args.auth_command == "rotate-key":
+                payload = rotate_api_key(key_id=args.key_id)
+                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+            else:
+                parser.print_help()
+                return 1
 
         elif args.command == "provenance":
             import json as _json  # noqa: PLC0415
