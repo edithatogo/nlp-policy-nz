@@ -57,7 +57,6 @@ accelerate = ">=0.30.0"
 peft = ">=0.11.0"
 trl = ">=0.9.0"
 wandb = ">=0.17.0"
-scalene = { version = ">=1.5.0", env-markers = "python_version >= '3.12'" }
 memray = { version = ">=1.12.0", env-markers = "sys_platform != 'win32'" }
 pytest-benchmark = ">=4.0.0"
 pytest-cov = ">=5.0.0"
@@ -67,7 +66,6 @@ pip-audit = ">=2.10.0"
 cyclonedx-bom = ">=1.5.0"
 cvss = ">=3.6"
 bandit = ">=1.8.3"
-semgrep = { version = ">=1.93.0", env-markers = "python_version >= '3.12'" }
 detect-secrets = ">=1.5.0"
 
 [feature.py311.dependencies]
@@ -76,9 +74,20 @@ python = "3.11.*"
 [feature.py312.dependencies]
 python = "3.12.*"
 
+[feature.profiling.pypi-dependencies]
+scalene = ">=1.5.0"
+
+[feature.profiling.tasks]
+profile-scalene = "scalene --reduced-profile --html --outfile docs/profiling.html src/nlp_policy_nz/cli/main.py process --help"
+
+[feature.security.pypi-dependencies]
+semgrep = ">=1.93.0"
+
 [environments]
 py311 = ["py311"]
 py312 = ["py312"]
+profiling = ["py312", "profiling"]
+security = ["py312", "security"]
 
 [tasks]
 install-git-hooks = "pre-commit install"
@@ -92,7 +101,7 @@ test = "pytest"
 coverage = "pytest -p no:tach --ignore=tests/benchmarks --cov=src --cov-report=html --cov-report=xml"
 coverage-ci = "pytest tests/smoke tests/test_quality_infrastructure.py tests/test_track23_evidence.py tests/test_smoke.py tests/test_akn_v3.py --cov=src --cov-report=xml --cov-report=html --cov-fail-under=0"
 mutation = "mutatest --src src/nlp_policy_nz/ --tests tests/"
-profile = "scalene --reduced-profile --html --outfile docs/profiling.html src/nlp_policy_nz/cli/main.py process --help"
+profile = "pixi run -e profiling profile-scalene"
 memray = "python scripts/memray_trace.py --help"
 benchmark = "pytest tests/benchmarks -q"
 qlora-spec = "python -m nlp_policy_nz.training.run_qlora --help"

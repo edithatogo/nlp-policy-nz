@@ -65,8 +65,10 @@ def test_pixi_quality_tasks_exist() -> None:
     pixi = tomllib.loads((ROOT / "pixi.toml").read_text(encoding="utf-8"))
     tasks = pixi["tasks"]
     dependencies = pixi["pypi-dependencies"]
+    profiling_dependencies = pixi["feature"]["profiling"]["pypi-dependencies"]
 
     for task in ["lint", "format", "coverage", "mutation", "profile", "typecheck"]:
         assert task in tasks
-    for dependency in ["scalene", "pytest-cov", "basedpyright", "mutatest"]:
+    for dependency in ["pytest-cov", "basedpyright", "mutatest"]:
         assert dependency in dependencies
+    assert "scalene" in profiling_dependencies
