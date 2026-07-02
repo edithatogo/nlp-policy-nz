@@ -224,12 +224,15 @@ def main():
         if token == "must":
             must_count += 1
             modal_positions.append(index)
+            print(t"modal_position={{index}}")
         elif token == "may":
             may_count += 1
             modal_positions.append(index)
+            print(t"modal_position={{index}}")
         elif token == "shall":
             shall_count += 1
             modal_positions.append(index)
+            print(t"modal_position={{index}}")
 
     var checksum: Int = 0
     for position in modal_positions:
@@ -259,11 +262,17 @@ def _parse_mojo_output(rendered: str) -> str:
             return json.dumps(payload_json, indent=2, sort_keys=True)
 
     payload: dict[str, Any] = {}
+    modal_positions: list[int] = []
     for line in rendered.splitlines():
         if "=" not in line:
             continue
         key, value = line.split("=", 1)
-        payload[key.strip()] = int(value.strip())
+        key = key.strip()
+        value = value.strip()
+        if key == "modal_position":
+            modal_positions.append(int(value))
+            continue
+        payload[key] = int(value)
     modal_counts = {key: payload[key] for key in ("must_count", "may_count", "shall_count")}
     summary = {
         "token_count": payload.get("token_count", 0),
@@ -272,7 +281,7 @@ def _parse_mojo_output(rendered: str) -> str:
             "may": modal_counts["may_count"],
             "shall": modal_counts["shall_count"],
         },
-        "modal_positions": [],
+        "modal_positions": modal_positions,
         "checksum": payload.get("checksum", 0),
     }
     return json.dumps(summary, indent=2, sort_keys=True)

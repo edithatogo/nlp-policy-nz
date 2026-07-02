@@ -111,3 +111,23 @@ def test_track72_benchmark_proceeds_only_when_mojo_beats_fastest_baseline(monkey
     assert payload["decision"]["track73"] == "proceed"
     assert payload["decision"]["comparison"]["best_non_mojo"] == "orjson_json"
     assert payload["decision"]["comparison"]["speedup_ratio"] == pytest.approx(2.0 / 3.0)
+
+
+def test_track72_mojo_output_parser_accepts_key_value_modal_positions() -> None:
+    rendered = "\n".join(
+        [
+            "token_count=8",
+            "modal_position=1",
+            "modal_position=4",
+            "must_count=1",
+            "may_count=1",
+            "shall_count=0",
+            "checksum=16",
+        ]
+    )
+
+    summary = json.loads(track72_mojo_hotspot_benchmark._parse_mojo_output(rendered))
+
+    assert summary["token_count"] == 8
+    assert summary["modal_positions"] == [1, 4]
+    assert summary["modal_counts"] == {"must": 1, "may": 1, "shall": 0}
