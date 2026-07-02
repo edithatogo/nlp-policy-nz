@@ -1,7 +1,7 @@
 {
   "track_id": "track36_huggingface_exploration_site_20260625",
   "type": "feature",
-  "status": "complete",
+  "status": "archived",
   "created_at": "2026-06-25T00:00:00+10:00",
   "updated_at": "2026-07-01T00:00:00+10:00",
   "description": "Build a Hugging Face Space where users can explore corpus statistics, ontology coverage, mappings, knowledge graph outputs, vector summaries, analysis artefacts, and publication outputs.",
