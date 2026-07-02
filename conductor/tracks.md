@@ -55,7 +55,7 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Planned — 61, 68; Archived — 58-60, 70-73): Runtime Modernization
+Phase VIII (Planned — 68; Archived — 58-61, 70-73): Runtime Modernization
   ├─ 58 (LangGraph Eval) [archived] ──► deterministic legal workflow orchestration decision record
   │   [depends on 43, 52, 55, 57]
   ├─ 60 (LanceDB Hardening) ──► 62 (Issue mirror and project fields)
@@ -464,8 +464,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: Vector Retrieval and Local Search
 - **Why**: Harden LanceDB as the default local vector retrieval runtime, document the supported lifecycle, and record explicit substitution criteria for alternative vector stores.
 
-## [x] Track 61: Unstructured Ingestion Adapter Evaluation
-*Link: [./conductor/tracks/track61_unstructured_ingestion_adapter_20260701/](./conductor/tracks/track61_unstructured_ingestion_adapter_20260701/)*
+## [x] Track 61: Unstructured Ingestion Adapter Evaluation (archived)
+*Link: [./conductor/archive/track61_unstructured_ingestion_adapter_20260701/](./conductor/archive/track61_unstructured_ingestion_adapter_20260701/)*
 - **Dependencies**: Track 4, Track 23, Track 44, Track 55
 - **Parallelization Node**: Document Ingestion Modernization
 - **Why**: Evaluate Unstructured as an opt-in fallback for messy document partitioning without replacing the canonical legislative source parsers. The repo needs a clear adapter boundary, provenance preservation, and a packaging/documentation guardrail.
