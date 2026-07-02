@@ -180,11 +180,59 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Complete the tech-stack observability layer. The repo-side OTel spans, profiling wrappers, and CI benchmark gates are complete; the incomplete 1 GiB profiling pass is now a roadmap note rather than a separate track.
 
+## [x] Track 20: NZ Legal NLP Model Fine-Tuning Pipeline (archived)
+*Link: [./conductor/archive/track20_legal_finetuning_20260613/](./conductor/archive/track20_legal_finetuning_20260613/)*
+- **Dependencies**: Track 5, Track 6
+- **Parallelization Node**: Model Fine-Tuning & Domain Adaptation
+- **Why**: Fine-tune SOTA open legal NLP models and general-purpose models on NZ legislative and Hansard corpora. Repo-side training data prep, metrics, job specs, dry-run CLI evidence, dependency declarations, bounded CPU smoke training, and external gate manifests are complete.
+
+## [x] Track 21: Bleeding-Edge Architecture Exploration (archived)
+*Link: [./conductor/archive/track21_bleeding_edge_architectures_20260613/](./conductor/archive/track21_bleeding_edge_architectures_20260613/)*
+- **Dependencies**: Track 20
+- **Parallelization Node**: Advanced Architecture Research
+- **Why**: Evaluate bleeding-edge model architectures for NZ legal NLP, including MoR, TTT-Linear/RNN, Mamba-3/SSD, DiffusionGemma, SambaY, MiMo-V2.5, DeVestral, TiRex, and newer 2026 architectures.
+
+## [x] Track 22: Isaacus Legal NLP Ecosystem Integration (archived)
+*Link: [./conductor/archive/track22_isaacus_integration_20260613/](./conductor/archive/track22_isaacus_integration_20260613/)*
+- **Dependencies**: Track 20, Track 5
+- **Parallelization Node**: Legal Knowledge Integration
+- **Why**: Integrate the Isaacus legal NLP ecosystem with offline manifests, AU-to-NZ transfer scaffolding, NZ-MLEB fixtures, and fail-closed external gates.
+
+## [x] Track 23: Quality Tooling & Testing Infrastructure Overhaul (archived)
+*Link: [./conductor/archive/track23_quality_infrastructure_20260613/](./conductor/archive/track23_quality_infrastructure_20260613/)*
+- **Dependencies**: Track 1
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Complete the testing and quality tooling stack, including strict linting, strict typing, profiling, coverage gates, smoke/E2E/integration tests, and evidence-backed validation.
+
+## [x] Track 24: Multi-Git and Multi-Archive Mirroring Setup (archived)
+*Link: [./conductor/archive/multi_git_archive_mirroring_20260614/](./conductor/archive/multi_git_archive_mirroring_20260614/)*
+- **Dependencies**: Track 23
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Establish multi-git and multi-archive mirroring setup to prevent single-point-of-failure repository or dataset takedowns.
+
 ---
 
 ## Phase III - Ontology, Rules-as-Code, Analytics, and Publication Expansion
 
 ---
+
+## [x] Track 25: Ontology Coverage Audit for Existing Systems (archived)
+*Link: [./conductor/archive/track25_ontology_coverage_audit_20260625/](./conductor/archive/track25_ontology_coverage_audit_20260625/)*
+- **Dependencies**: Tracks 10-18, 22
+- **Parallelization Node**: Ontology Discovery & Gap Analysis
+- **Why**: Identify the ontology or ontology set behind each partly implemented system, compare current implementation coverage, and record explicit blockers.
+
+## [x] Track 26: Legislative and Parliamentary Ontology Standards Expansion (archived)
+*Link: [./conductor/archive/track26_ontology_standards_expansion_20260625/](./conductor/archive/track26_ontology_standards_expansion_20260625/)*
+- **Dependencies**: Track 25
+- **Parallelization Node**: Standards Implementation
+- **Why**: Add structured support for the missing ontology standards needed for legal linked data, parliamentary linked data, and rules-as-code tooling.
+
+## [x] Track 27: Rules-as-Code Semantic Bridge (archived)
+*Link: [./conductor/archive/track27_rules_as_code_semantic_bridge_20260625/](./conductor/archive/track27_rules_as_code_semantic_bridge_20260625/)*
+- **Dependencies**: Tracks 25-26
+- **Parallelization Node**: Rules-as-Code Bridge
+- **Why**: Expose a rules-as-code intermediate representation linking legal source provisions to OpenFisca/PolicyEngine entities, variables, formulas, parameters, periods, and provenance.
 
 ## [x] Track 28: Ontology Discovery and Intake (archived)
 *Link: [./conductor/tracks/archive/track28_ontology_discovery_intake_20260625/](./conductor/tracks/archive/track28_ontology_discovery_intake_20260625/)*
