@@ -77,6 +77,9 @@ python = "3.12.*"
 [feature.profiling.pypi-dependencies]
 scalene = ">=1.5.0"
 
+[feature.unstructured.pypi-dependencies]
+unstructured = ">=0.15.0"
+
 [feature.profiling.tasks]
 profile-scalene = "scalene --reduced-profile --html --outfile docs/profiling.html src/nlp_policy_nz/cli/main.py process --help"
 
@@ -88,6 +91,7 @@ py311 = ["py311"]
 py312 = ["py312"]
 profiling = ["py312", "profiling"]
 security = ["py312", "security"]
+unstructured = ["py312", "unstructured"]
 
 [tasks]
 install-git-hooks = "pre-commit install"

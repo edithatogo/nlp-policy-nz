@@ -43,6 +43,10 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
         "nlp_policy_nz.universal_framework_v3",
         "UniversalIngestionEngine",
     ),
+    "UnstructuredIngestionEngine": (
+        "nlp_policy_nz.unstructured_ingestion",
+        "UnstructuredIngestionEngine",
+    ),
     "get_ingestion_engine": ("nlp_policy_nz.universal_framework_v3", "get_ingestion_engine"),
     "validate_nz_ontology_bundle": (
         "nlp_policy_nz.ontology",
@@ -96,6 +100,7 @@ __all__ = [
     "SOTAPipelineVisualizer",
     "TargetSchemaEmitter",
     "UniversalIngestionEngine",
+    "UnstructuredIngestionEngine",
     "__version__",
     "build_analysis_artifact_bundle",
     "build_corpus_statistics",

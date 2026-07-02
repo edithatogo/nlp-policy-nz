@@ -35,6 +35,7 @@ This document defines the bleeding-edge, high-performance technology stack for t
 - **Language Detection**: `lingua-rs` (via Python bindings, providing SOTA language detection for short policy segments).
 - **Data Engine**: `polars` (Rust-backed DataFrame library for lightning-fast Parquet operations).
 - **Polars Plugins (Rust-Native Expressions)**: Custom compiled Rust functions registered directly with Polars. These must be structured as a decoupled, isolated crate so they can be easily contributed to the upstream Polars plugins ecosystem.
+- **Messy Document Fallback**: `unstructured` (optional extra for fallback partitioning of PDFs, DOCX, HTML, and scanned-like inputs when a first-party source parser is not available; never the canonical legislative source of truth).
 
 ---
 

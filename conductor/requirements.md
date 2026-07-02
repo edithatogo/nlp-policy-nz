@@ -22,6 +22,8 @@ This document prioritizes the functional and non-functional requirements for the
 - **spaCy Cross-Reference Matcher**:
   - Custom `nz_cross_reference_matcher` rule-based matcher to extract references like "section 5(2)(b)" or "Part 3" from clean text.
 - **Unified Local Ingestion**: Python script to load and stream NZ Hansard and Legislation datasets from local directories or Hugging Face.
+  - Optional `UnstructuredIngestionEngine` adapter for messy PDF/DOCX/HTML inputs, enabled only through the `unstructured` extra or an explicit feature flag.
+  - Canonical XML, Akoma-Ntoso, and legislation source parsers remain the default and must not be replaced by the adapter.
 - **SOTA Māori Language Guard**:
   - Custom spaCy tokenizer rules to protect key Te Reo Māori vocabulary from subword fragmentation.
   - Unicode normalization (NFC) for macron variations (`ā`, `ē`, `ī`, `ō`, `ū`).

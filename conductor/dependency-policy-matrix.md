@@ -41,6 +41,7 @@
 | HTTP clients | `httpx` / `requests` | **required** | `requests` is a runtime dependency (Zenodo API, HF Hub). MoSCoW M. Keep `requests`; consider `httpx` for new async code paths. |
 | Retry/backoff | `tenacity` | **deferred** | Not currently a dependency. Would be useful for resilient external API calls (Zenodo, HF Hub), but nlp-policy-nz is primarily a processing engine — retry logic is in corpus ingestion repos. |
 | HTML parsing | `beautifulsoup4` / `selectolax` | **required** | `beautifulsoup4` is MoSCoW M for XML/HTML ingestion. `selectolax` is deferred until parser-parity benchmarks prove it beats bs4 for NZ legislation sources. |
+| Messy document partitioning | `unstructured` | **optional** | Useful for fallback ingestion of PDFs, DOCX, HTML, and scans, but it must remain behind an explicit extra or feature flag so canonical legislative parsers stay authoritative. |
 | Terminal UI | `rich` | **optional** | Not a current dependency. Would enhance CLI operator UX (progress bars, formatted output) but not blocking. |
 | Checksums/manifests | repo-local utilities | **deferred** | Product vision includes Zenodo release workflow with manifests. Not implemented yet — deferred to archive/release track. |
 | RAG orchestration | `haystack` | **optional** | Consensus says "nlp-policy-nz prototypes". Not a current dependency. Suitable for modular RAG experiments — adopt behind `[project.optional-dependencies] rag`. |

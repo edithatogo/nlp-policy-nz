@@ -1,0 +1,9 @@
+{
+  "track_id": "track61_unstructured_ingestion_adapter_20260701",
+  "type": "evaluation",
+  "status": "complete",
+  "created_at": "2026-07-01T00:00:00+10:00",
+  "updated_at": "2026-07-03T00:00:00+10:00",
+  "description": "Implement an optional Unstructured-backed ingestion adapter for messy documents while preserving canonical legislative parsers as the default source of truth.",
+  "oracle_notes": "Track 61 is fallback-only evaluation work. It adds an opt-in adapter for messy inputs, keeps XML/HTML/JSONL parsing canonical, and records the packaging and documentation boundary that prevents canonical-source substitution."
+}
