@@ -27,7 +27,7 @@ COPY docs ./docs
 COPY config ./config
 COPY conductor ./conductor
 
-RUN pixi install --locked
+RUN pixi install --locked --skip-with-deps semgrep
 
 
 FROM python:3.13-slim-bookworm AS runtime
