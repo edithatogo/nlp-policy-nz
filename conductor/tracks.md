@@ -448,8 +448,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
-## [x] Track 59: Polars-Native Corpus Pipeline Substitution
-*Link: [./conductor/tracks/track59_polars_native_pipeline_20260701/](./conductor/tracks/track59_polars_native_pipeline_20260701/)*
+## [x] Track 59: Polars-Native Corpus Pipeline Substitution (archived)
+*Link: [./conductor/archive/track59_polars_native_pipeline_20260701/](./conductor/archive/track59_polars_native_pipeline_20260701/)*
 - **Dependencies**: Tracks 6, 23, 32, 55, 56
 - **Parallelization Node**: Runtime Modernization
 - **Why**: Shift the hottest corpus-browser dataframe paths to Polars while keeping the public Gradio/pandas boundary stable. This records the Polars core, benchmark boundary, and decision on which surfaces remain hybrid.
