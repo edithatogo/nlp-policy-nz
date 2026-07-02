@@ -25,6 +25,12 @@ from pathlib import Path
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import polars as pl
+
+from nlp_policy_nz.storage.polars_pipeline import (  # noqa: E402
+    load_parquet_polars,
+    search_chunks_polars,
+)
 
 try:
     import gradio as gr
@@ -125,7 +131,7 @@ def load_explorer_artifacts(repo_root: Path | str | None = None) -> dict[str, ob
     publication_dir = root / "data" / "publication"
     artifacts_dir = root / "artifacts"
 
-    publication_claims = _read_json(publication_dir / "publication_protocol_claims.json", {})
+    publication_claims = _read_json(publication_dir / "track34_protocol_evidence_map.json", {})
     if not isinstance(publication_claims, dict):
         publication_claims = {}
 
@@ -318,12 +324,10 @@ def load_parquet(file_path: str | None) -> pd.DataFrame | None:
         The loaded DataFrame, or ``None`` if no file is provided.
 
     """
-    if file_path is None:
+    parquet = load_parquet_polars(file_path)
+    if parquet is None:
         return None
-    path = Path(file_path)
-    if not path.is_file():
-        return None
-    return pd.read_parquet(path)
+    return parquet.to_pandas()
 
 
 # ---------------------------------------------------------------------------
@@ -354,22 +358,11 @@ def search_chunks(
 
     """
     if df is None or not query.strip():
-        return pd.DataFrame()
+        return pd.DataFrame(columns=["doc_id", "corpus_source", "raw_text", "relevance"])
 
-    query_lower = query.lower()
-    mask = df["raw_text"].str.lower().str.contains(query_lower, na=False)
-    matches = df[mask].head(top_k).copy()
-
-    if matches.empty:
-        return matches
-
-    matches["relevance"] = (
-        matches["raw_text"]
-        .str.lower()
-        .apply(lambda t: t.count(query_lower) / max(len(t.split()), 1))
-    )
-    display_cols = ["doc_id", "corpus_source", "raw_text", "relevance"]
-    return matches[display_cols].sort_values("relevance", ascending=False)
+    polars_df = pl.from_pandas(df, include_index=False)
+    matches = search_chunks_polars(query, polars_df, top_k)
+    return matches.to_pandas()
 
 
 # ---------------------------------------------------------------------------

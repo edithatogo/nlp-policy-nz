@@ -55,7 +55,7 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Planned — 68, 72-73; Archived — 58, 70-71): Mojo Migration
+Phase VIII (Planned — 68; Completed — 59; Archived — 58, 70-71): Runtime Modernization
   ├─ 58 (LangGraph Eval) [archived] ──► deterministic legal workflow orchestration decision record
   │   [depends on 43, 52, 55, 57]
   ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit) [archived]
@@ -444,9 +444,15 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
-## Phase VIII — Mojo Migration
+## Phase VIII — Runtime Modernization
 
 ---
+
+## [x] Track 59: Polars-Native Corpus Pipeline Substitution
+*Link: [./conductor/tracks/track59_polars_native_pipeline_20260701/](./conductor/tracks/track59_polars_native_pipeline_20260701/)*
+- **Dependencies**: Tracks 6, 23, 32, 55, 56
+- **Parallelization Node**: Runtime Modernization
+- **Why**: Shift the hottest corpus-browser dataframe paths to Polars while keeping the public Gradio/pandas boundary stable. This records the Polars core, benchmark boundary, and decision on which surfaces remain hybrid.
 
 ## [ ] Track 68: Mojo Runtime Feasibility for Hot Python Paths
 *Link: [./conductor/tracks/track68_mojo_runtime_feasibility_20260701/](./conductor/tracks/track68_mojo_runtime_feasibility_20260701/)*

@@ -1,0 +1,9 @@
+{
+  "track_id": "track59_polars_native_pipeline_20260701",
+  "type": "runtime",
+  "status": "complete",
+  "created_at": "2026-07-02T00:00:00+10:00",
+  "updated_at": "2026-07-02T00:00:00+10:00",
+  "description": "Replace the hottest corpus-browser dataframe paths with a Polars-native core while preserving the public pandas boundary.",
+  "oracle_notes": "Track 59 measures a local Polars substitution for load, search, and stats. The UI contract remains pandas until a later track proves a broader switch is worthwhile."
+}

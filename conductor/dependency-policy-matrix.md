@@ -29,6 +29,7 @@
 | Boundary validation | `pydantic v2` | **optional** | C7 in requirements.md: "Pydantic v2 Evaluation (benchmark vs msgspec for API)". `msgspec` is the primary struct validation tool. Pydantic is candidate after benchmarking. |
 | Hot record serialization | `msgspec` | **required** | Runtime dependency in `pyproject.toml`. Core to high-throughput pipeline. MoSCoW M. |
 | Dataframes | `polars` | **required** | Runtime dependency. Core DataFrame engine for Parquet operations. MoSCoW M. |
+| Corpus browser dataframe boundary | `polars` core + `pandas` stats/UI boundary | **required** | Track 59 keeps Parquet load and chunk search on Polars internally while preserving the public Gradio/pandas contract. The small stats aggregation remains pandas-first because the benchmark does not justify the conversion overhead. |
 | Query / vector analytics | `duckdb` + VSS | **experimental** | Candidate for follow-up analytics over Parquet/vector arrays, not default vector search. |
 | Columnar data | `pyarrow` / Parquet | **required** | Runtime dependency. Core to dataset I/O and HF/DuckDB compatibility. MoSCoW M. |
 | Vector store | `lancedb` | **required** | Default local/serverless vector backend for CLI, API, pipeline search, and RAG workflows. |
