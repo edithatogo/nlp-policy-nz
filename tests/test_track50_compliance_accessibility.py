@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TRACK50 = ROOT / "conductor" / "tracks" / "track50_compliance_accessibility_20260626"
+TRACK50 = ROOT / "conductor" / "tracks" / "archive" / "track50_compliance_accessibility_20260626"
 
 
 def test_track50_repo_artifacts_exist() -> None:
@@ -15,6 +15,7 @@ def test_track50_repo_artifacts_exist() -> None:
         ROOT / "PRIVACY.md",
         ROOT / ".github" / "workflows" / "a11y-scan.yml",
         TRACK50 / "index.md",
+        TRACK50 / "evidence.md",
         TRACK50 / "metadata.json",
         TRACK50 / "plan.md",
         TRACK50 / "screen_reader_audit.md",
@@ -26,7 +27,7 @@ def test_track50_repo_artifacts_exist() -> None:
 
 
 def test_track50_registry_and_plan_are_linked() -> None:
-    """Track 50 should be registered and marked complete."""
+    """Track 50 should be registered and archived."""
     registry = (ROOT / "conductor" / "tracks.md").read_text(encoding="utf-8")
     metadata = json.loads((TRACK50 / "metadata.json").read_text(encoding="utf-8"))
     plan = (TRACK50 / "plan.md").read_text(encoding="utf-8")
@@ -36,9 +37,9 @@ def test_track50_registry_and_plan_are_linked() -> None:
     space = (ROOT / "spaces" / "app.py").read_text(encoding="utf-8")
 
     assert "Track 50: Public Sector Compliance & Accessibility" in registry
-    assert "./conductor/tracks/track50_compliance_accessibility_20260626/" in registry
+    assert "./conductor/tracks/archive/track50_compliance_accessibility_20260626/" in registry
     assert metadata["track_id"] == "track50_compliance_accessibility_20260626"
-    assert metadata["status"] == "complete"
+    assert metadata["status"] == "archived"
     assert "WCAG 2.1 AA" in plan or "WCAG 2.1 AA" in privacy
     assert "NVDA" in audit
     assert "VoiceOver" in audit

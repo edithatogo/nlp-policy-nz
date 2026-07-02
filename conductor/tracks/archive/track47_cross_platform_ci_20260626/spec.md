@@ -2,7 +2,7 @@
 
 **Dependencies**: Tracks 1, 23, 38
 **Parallelization Node**: CI/CD Automation
-**Status**: Planned
+**Status**: Archived
 
 ## Goal
 
@@ -33,9 +33,9 @@ Extend CI from ubuntu-only to a full platform matrix (ubuntu, windows, macOS), r
 
 ## Acceptance Criteria
 
-- [ ] CI matrix runs ubuntu, windows, macOS in parallel on every PR and master push
-- [ ] All platform-specific test exclusions are documented with links to upstream issues
-- [ ] Platform-specific binary builds produce standalone executables
-- [ ] Binary executables uploaded to GitHub Release pass smoke tests
-- [ ] Minimum Python version documented in `pyproject.toml` `python_requires`
-- [ ] CI matrix report shows all platform statuses in a single view
+- [x] CI matrix runs ubuntu, windows, macOS in parallel on every PR and master push
+- [x] All platform-specific test exclusions are documented with links to upstream issues
+- [x] Platform-specific binary builds produce standalone executables
+- [x] Binary executables uploaded to GitHub Release pass smoke tests
+- [x] Minimum Python version documented in `pyproject.toml` `python_requires`
+- [x] CI matrix report shows all platform statuses in a single view

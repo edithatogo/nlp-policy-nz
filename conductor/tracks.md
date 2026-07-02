@@ -327,8 +327,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Developer Experience
 - **Why**: Create a dedicated MkDocs/ReadTheDocs site with auto-generated API reference, user guides (ingestion, ontology, search, publishing), architecture docs, Jupyter tutorial notebooks, and operations runbook. Every mature product needs searchable, versioned, auto-generated documentation.
 
-## [x] Track 50: Public Sector Compliance & Accessibility
-*Link: [./conductor/tracks/track50_compliance_accessibility_20260626/](./conductor/tracks/track50_compliance_accessibility_20260626/)*
+## [x] Track 50: Public Sector Compliance & Accessibility (archived)
+*Link: [./conductor/tracks/archive/track50_compliance_accessibility_20260626/](./conductor/tracks/archive/track50_compliance_accessibility_20260626/)*
 - **Dependencies**: Tracks 36, 44, 46
 - **Parallelization Node**: Compliance & Governance
 - **Why**: Ensure the public-facing Gradio Space meets NZ Web Accessibility Standard (WCAG 2.1 AA) and NZ Privacy Act 2020 data governance requirements. A mature government-adjacent product must be accessible and privacy-compliant by default.

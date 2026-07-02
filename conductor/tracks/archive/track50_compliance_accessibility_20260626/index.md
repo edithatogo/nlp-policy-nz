@@ -3,4 +3,5 @@
 - **Spec**: [spec.md](./spec.md)
 - **Plan**: [plan.md](./plan.md)
 - **Metadata**: [metadata.json](./metadata.json)
+- **Evidence**: [evidence.md](./evidence.md)
 - **Scope**: WCAG 2.1 AA, privacy policy, accessibility testing, public-sector compliance
