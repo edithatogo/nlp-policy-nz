@@ -50,3 +50,10 @@ def test_track57_acceptance_and_markdown_cover_the_go_no_go_decision() -> None:
     assert "DSPy" in markdown
     assert "rollback" not in markdown.casefold() or experiment.rollback_steps
 
+
+def test_track57_empty_custom_examples_do_not_fall_back_to_defaults() -> None:
+    report, experiment = build_track57_evidence_report(examples=tuple())
+
+    assert report.eval_examples == 0
+    assert not report.review_ready
+    assert experiment.results == ()

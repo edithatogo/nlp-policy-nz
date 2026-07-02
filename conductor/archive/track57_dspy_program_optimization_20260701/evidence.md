@@ -33,6 +33,7 @@ not justify adding a new default runtime dependency.
 
 - `.\\.venv\\Scripts\\python.exe -m pytest -p no:tach -q tests\\test_track57_dspy_optimization.py`
 - `.\\.venv\\Scripts\\python.exe -m ruff check src\\nlp_policy_nz\\training\\track57_dspy.py src\\nlp_policy_nz\\training\\__init__.py tests\\test_track57_dspy_optimization.py`
+- Custom empty signature/example inputs now remain empty instead of falling back to the default evaluation set.
 
 ## Rollback
 

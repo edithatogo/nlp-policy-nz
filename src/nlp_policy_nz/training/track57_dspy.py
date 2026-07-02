@@ -167,8 +167,8 @@ def run_track57_optimizer_experiment(
     examples: tuple[Track57EvaluationExample, ...] | None = None,
 ) -> Track57OptimizerExperiment:
     """Run a deterministic proxy for a DSPy optimization experiment."""
-    signature_specs = signatures or default_track57_signatures()
-    eval_examples = examples or default_track57_examples()
+    signature_specs = default_track57_signatures() if signatures is None else signatures
+    eval_examples = default_track57_examples() if examples is None else examples
     indexed_signatures = {signature.name: signature for signature in signature_specs}
     results: list[Track57ExperimentResult] = []
     for example in eval_examples:
@@ -191,14 +191,24 @@ def run_track57_optimizer_experiment(
                 review_metadata_present=bool(example.reviewer and example.review_status),
             )
         )
-    average_baseline_exact_match = fmean(result.baseline_exact_match for result in results)
-    average_optimized_exact_match = fmean(result.optimized_exact_match for result in results)
-    average_baseline_token_f1 = fmean(result.baseline_token_f1 for result in results)
-    average_optimized_token_f1 = fmean(result.optimized_token_f1 for result in results)
-    source_anchor_coverage = fmean(1.0 if result.source_anchor_present else 0.0 for result in results)
-    review_metadata_coverage = fmean(
-        1.0 if result.review_metadata_present else 0.0 for result in results
-    )
+    if results:
+        average_baseline_exact_match = fmean(result.baseline_exact_match for result in results)
+        average_optimized_exact_match = fmean(result.optimized_exact_match for result in results)
+        average_baseline_token_f1 = fmean(result.baseline_token_f1 for result in results)
+        average_optimized_token_f1 = fmean(result.optimized_token_f1 for result in results)
+        source_anchor_coverage = fmean(
+            1.0 if result.source_anchor_present else 0.0 for result in results
+        )
+        review_metadata_coverage = fmean(
+            1.0 if result.review_metadata_present else 0.0 for result in results
+        )
+    else:
+        average_baseline_exact_match = 0.0
+        average_optimized_exact_match = 0.0
+        average_baseline_token_f1 = 0.0
+        average_optimized_token_f1 = 0.0
+        source_anchor_coverage = 0.0
+        review_metadata_coverage = 0.0
     recommendation = (
         "reject required DSPy dependency; keep deterministic helpers and optional prototype shims"
     )
@@ -228,12 +238,13 @@ def build_track57_evidence_report(
     docs_present: bool = True,
 ) -> tuple[Track57EvidenceReport, Track57OptimizerExperiment]:
     """Build the default Track 57 evidence report and experiment."""
-    signature_specs = signatures or default_track57_signatures()
+    signature_specs = default_track57_signatures() if signatures is None else signatures
     experiment = run_track57_optimizer_experiment(signature_specs, examples)
+    eval_examples = default_track57_examples() if examples is None else examples
     report = Track57EvidenceReport(
         signature_count=len(signature_specs),
         optimizer_experiments=1,
-        eval_examples=len(examples or default_track57_examples()),
+        eval_examples=len(eval_examples),
         source_anchor_coverage=experiment.source_anchor_coverage,
         review_metadata_coverage=experiment.review_metadata_coverage,
         dependency_state=experiment.dependency_state,
@@ -243,7 +254,7 @@ def build_track57_evidence_report(
         review_ready=(
             docs_present
             and len(signature_specs) >= 3
-            and len(examples or default_track57_examples()) >= 3
+            and len(eval_examples) >= 3
             and experiment.dependency_state in {"optional", "experimental", "rejected"}
         ),
     )
