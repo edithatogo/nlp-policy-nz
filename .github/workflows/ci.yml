@@ -58,50 +58,50 @@ jobs:
 
       - name: Supply-chain dependency audit
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
-        run: pixi run -e "$PIXI_ENVIRONMENT" python scripts/check_dependency_security.py
+        run: pixi run --as-is -e "$PIXI_ENVIRONMENT" python scripts/check_dependency_security.py
 
       - name: Static application security testing
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
         run: |
           python -m pip install --user semgrep==1.168.0
-          pixi run -e "$PIXI_ENVIRONMENT" bandit -c .bandit -r src/nlp_policy_nz/ -lll -iii
+          pixi run --as-is -e "$PIXI_ENVIRONMENT" bandit -c .bandit -r src/nlp_policy_nz/ -lll -iii
           semgrep scan --config p/python --severity WARNING --error --metrics=off src/nlp_policy_nz/
 
       - name: Generate CycloneDX SBOM
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
-        run: pixi run -e "$PIXI_ENVIRONMENT" python -c "import sys; from pathlib import Path; sys.path.insert(0, 'src'); from nlp_policy_nz.security import generate_cyclonedx_sbom; generate_cyclonedx_sbom(Path('.tmp/sbom/nlp-policy-nz.cdx.json'))"
+        run: pixi run --as-is -e "$PIXI_ENVIRONMENT" python -c "import sys; from pathlib import Path; sys.path.insert(0, 'src'); from nlp_policy_nz.security import generate_cyclonedx_sbom; generate_cyclonedx_sbom(Path('.tmp/sbom/nlp-policy-nz.cdx.json'))"
 
       - name: Commit message lint
         if: ${{ github.event_name == 'pull_request' }}
-        run: pixi run -e "$PIXI_ENVIRONMENT" python scripts/check_commit_message.py
+        run: pixi run --as-is -e "$PIXI_ENVIRONMENT" python scripts/check_commit_message.py
 
       - name: Track 23 CI/config validation
-        run: CI=true pixi run -e "$PIXI_ENVIRONMENT" test -- tests/smoke tests/test_quality_infrastructure.py tests/test_track23_evidence.py -q
+        run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" test -- tests/smoke tests/test_quality_infrastructure.py tests/test_track23_evidence.py -q
 
       - name: Smoke tests (fast)
-        run: CI=true pixi run -e "$PIXI_ENVIRONMENT" test -x tests/test_smoke.py
+        run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" test -x tests/test_smoke.py
 
       - name: Track 20 adaptive training runtime
         if: matrix.os == 'ubuntu-latest'
         run: |
-          CI=true pixi run -e "$PIXI_ENVIRONMENT" track20-runtime
-          CI=true pixi run -e "$PIXI_ENVIRONMENT" track20-smoke
-          CI=true pixi run -e "$PIXI_ENVIRONMENT" test -- tests/test_track20_runtime.py tests/test_track20_evidence.py -q
+          CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" track20-runtime
+          CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" track20-smoke
+          CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" test -- tests/test_track20_runtime.py tests/test_track20_evidence.py -q
 
       - name: Validate AKN v3 examples
-        run: CI=true pixi run -e "$PIXI_ENVIRONMENT" test -- tests/test_akn_v3.py -q
+        run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" test -- tests/test_akn_v3.py -q
 
       - name: Targeted lint
-        run: CI=true pixi run -e "$PIXI_ENVIRONMENT" lint-ci
+        run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" lint-ci
 
       - name: Targeted format check
-        run: CI=true pixi run -e "$PIXI_ENVIRONMENT" format-ci
+        run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" format-ci
 
       - name: Targeted basedpyright type check
-        run: CI=true pixi run -e "$PIXI_ENVIRONMENT" typecheck-ci
+        run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" typecheck-ci
 
       - name: Test with coverage
-        run: CI=true pixi run -e "$PIXI_ENVIRONMENT" coverage-ci
+        run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" coverage-ci
 
       - name: Upload SBOM artifact
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
