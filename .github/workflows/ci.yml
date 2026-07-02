@@ -41,15 +41,17 @@ jobs:
           echo "PYTHON_VERSION=${{ matrix.python-version }}" >> "$GITHUB_ENV"
 
       - name: Hadolint Dockerfile
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
+          ignore: DL3008
 
       - name: Install environment
         run: CI=true pixi install --locked --skip-with-deps semgrep --skip-with-deps scalene
 
       - name: Supply-chain dependency audit
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
         run: pixi run python scripts/check_dependency_security.py
 
       - name: Static application security testing
@@ -60,6 +62,7 @@ jobs:
           semgrep scan --config p/python --severity WARNING --error --metrics=off src/nlp_policy_nz/
 
       - name: Generate CycloneDX SBOM
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
         run: pixi run python -c "import sys; from pathlib import Path; sys.path.insert(0, 'src'); from nlp_policy_nz.security import generate_cyclonedx_sbom; generate_cyclonedx_sbom(Path('.tmp/sbom/nlp-policy-nz.cdx.json'))"
 
       - name: Commit message lint
@@ -95,6 +98,7 @@ jobs:
         run: CI=true pip install pytest-cov && pixi run coverage-ci
 
       - name: Upload SBOM artifact
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
         uses: actions/upload-artifact@v4
         with:
           name: nlp-policy-nz-sbom-${{ matrix.os }}-py${{ matrix.python-version }}

@@ -14,7 +14,9 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends build-essential ca-certificates curl git \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL https://pixi.sh/install.sh | sh -s -- -b /opt/pixi/bin
+RUN curl -fsSL https://pixi.sh/install.sh -o /tmp/pixi-install.sh \
+    && sh /tmp/pixi-install.sh -b /opt/pixi/bin \
+    && rm /tmp/pixi-install.sh
 
 WORKDIR /app
 
