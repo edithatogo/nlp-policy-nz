@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 6, Track 19
 **Parallelization Node**: Infrastructure & Quality
-**Status**: Planned
+**Status**: Archived
 
 ## Goal
 
@@ -19,9 +19,9 @@ Implement data quality monitoring across the pipeline: schema validation on inge
 
 ## Acceptance Criteria
 
-- [ ] Input schema validation runs on every pipeline invocation and logs structured errors
-- [ ] Data drift detector reports distribution shifts in corpus statistics per run
-- [ ] Quality metrics computed and stored per PipelineRecord batch
-- [ ] Health dashboard renders run history with pass/fail and quality trends
-- [ ] Quality degradation below configurable threshold triggers GitHub issue alert
-- [ ] All monitoring data queryable via CLI or API
+- [x] Input schema validation runs on every pipeline invocation and logs structured errors
+- [x] Data drift detector reports distribution shifts in corpus statistics per run
+- [x] Quality metrics computed and stored per PipelineRecord batch
+- [x] Health dashboard renders run history with pass/fail and quality trends
+- [x] Quality degradation below configurable threshold triggers GitHub issue alert
+- [x] All monitoring data queryable via CLI or API

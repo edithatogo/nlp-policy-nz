@@ -35,6 +35,15 @@ from nlp_policy_nz.cli.completion import (
     build_manpage,
     write_text_output,
 )
+from nlp_policy_nz.quality import (
+    build_quality_report,
+    history_reports,
+    load_quality_report,
+    persist_quality_report,
+    report_to_json,
+    validate_ingestion_inputs,
+    write_dashboard_html,
+)
 from nlp_policy_nz.integrations.hf_uploader import deploy_space, push_dataset_to_hub
 from nlp_policy_nz.integrations.release import ReleaseManager
 from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
@@ -708,6 +717,102 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Directory for manuscript artifacts (default: artifacts/manuscript).",
     )
 
+    quality_parser = subparsers.add_parser(
+        "quality",
+        help="Inspect data quality validation, reports, dashboards, and alerts.",
+        description=(
+            "Validate ingestion inputs, render batch quality reports, write a static "
+            "dashboard, or evaluate the latest quality run for alerting."
+        ),
+    )
+    quality_subparsers = quality_parser.add_subparsers(
+        dest="quality_command",
+        required=True,
+        help="Quality command to execute.",
+    )
+
+    quality_validate_parser = quality_subparsers.add_parser(
+        "validate",
+        help="Validate ingestion inputs before processing.",
+    )
+    quality_validate_parser.add_argument(
+        "--input",
+        "-i",
+        action="append",
+        required=True,
+        help="Input file to validate. May be supplied more than once.",
+    )
+
+    quality_report_parser = quality_subparsers.add_parser(
+        "report",
+        help="Render a batch quality report from PipelineRecord Parquet input.",
+    )
+    quality_report_parser.add_argument(
+        "--parquet",
+        "-p",
+        action="append",
+        required=True,
+        help="PipelineRecord Parquet file to include in the report.",
+    )
+    quality_report_parser.add_argument(
+        "--output",
+        "-o",
+        type=str,
+        default="data/quality/latest.quality.json",
+        help="Destination quality report JSON file.",
+    )
+    quality_report_parser.add_argument(
+        "--history-dir",
+        type=str,
+        default="data/quality/runs",
+        help="Directory that receives immutable history copies of the report.",
+    )
+    quality_report_parser.add_argument(
+        "--baseline",
+        type=str,
+        default="data/quality/baseline.json",
+        help="Optional baseline report used for drift detection.",
+    )
+
+    quality_dashboard_parser = quality_subparsers.add_parser(
+        "dashboard",
+        help="Write a static HTML quality dashboard from historical reports.",
+    )
+    quality_dashboard_parser.add_argument(
+        "--history-dir",
+        type=str,
+        default="data/quality/runs",
+        help="Directory containing persisted quality reports.",
+    )
+    quality_dashboard_parser.add_argument(
+        "--output",
+        type=str,
+        default="data/quality/dashboard.html",
+        help="Destination HTML dashboard.",
+    )
+
+    quality_alert_parser = quality_subparsers.add_parser(
+        "alert",
+        help="Evaluate the latest quality report and optionally create a GitHub issue.",
+    )
+    quality_alert_parser.add_argument(
+        "--history-dir",
+        type=str,
+        default="data/quality/runs",
+        help="Directory containing persisted quality reports.",
+    )
+    quality_alert_parser.add_argument(
+        "--threshold",
+        type=float,
+        default=0.75,
+        help="Minimum acceptable quality score before alerting.",
+    )
+    quality_alert_parser.add_argument(
+        "--create-issue",
+        action="store_true",
+        help="Create a GitHub issue when the latest run fails the alert criteria.",
+    )
+
     # --- completion subcommand ---------------------------------------------
     completion_parser = subparsers.add_parser(
         "completion",
@@ -794,6 +899,7 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
         "publication-protocol",
         "generate-analysis-artifacts",
         "generate-manuscript-package",
+        "quality",
     }
     if argv and argv[0] not in commands and not argv[0].startswith("-"):
         parser.print_help()
@@ -1117,6 +1223,77 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
                 "Manuscript package artifacts written: %s",
                 sorted(str(path) for path in written.values()),
             )
+
+        elif args.command == "quality":
+            import json as _json  # noqa: PLC0415
+
+            if args.quality_command == "validate":
+                validation = validate_ingestion_inputs([Path(path) for path in args.input])
+                sys.stdout.write(
+                    f"{_json.dumps([item.to_dict() for item in validation], indent=2, ensure_ascii=False)}\n"
+                )
+            elif args.quality_command == "report":
+                parquet_paths = [Path(path) for path in args.parquet]
+                records = []
+                for parquet_path in parquet_paths:
+                    records.extend(load_from_parquet(parquet_path))
+                baseline = None
+                baseline_path = Path(args.baseline)
+                if baseline_path.is_file():
+                    baseline = load_quality_report(baseline_path).summary
+                report = build_quality_report(
+                    records,
+                    source_paths=parquet_paths,
+                    baseline_summary=baseline,
+                    validate_sources=False,
+                )
+                persist_quality_report(report, args.output, history_dir=args.history_dir)
+                sys.stdout.write(report_to_json(report))
+            elif args.quality_command == "dashboard":
+                reports = history_reports(args.history_dir)
+                output = write_dashboard_html(reports, args.output)
+                logger.info("Quality dashboard written: %s", output)
+            elif args.quality_command == "alert":
+                reports = history_reports(args.history_dir)
+                if not reports:
+                    logger.info("No quality history available.")
+                else:
+                    latest = reports[-1]
+                    quality_score = float(latest.summary.get("quality_score", 0.0))
+                    validation_failed = int(latest.summary.get("validation_failed", 0))
+                    drifted = any(signal.drifted for signal in latest.drift)
+                    if validation_failed or drifted or quality_score < args.threshold:
+                        message = (
+                            f"Quality alert for {latest.run_id}: score={quality_score:.2f}, "
+                            f"validation_failed={validation_failed}, drifted={drifted}"
+                        )
+                        logger.warning(message)
+                        if args.create_issue:
+                            import subprocess  # noqa: PLC0415
+
+                            subprocess.run(
+                                [
+                                    "gh",
+                                    "issue",
+                                    "create",
+                                    "--title",
+                                    f"Quality alert: {latest.run_id}",
+                                    "--body",
+                                    message,
+                                    "--label",
+                                    "quality",
+                                ],
+                                check=False,
+                            )
+                    else:
+                        logger.info(
+                            "Latest quality run is healthy: score=%.2f run=%s",
+                            quality_score,
+                            latest.run_id,
+                        )
+            else:
+                parser.print_help()
+                return 1
 
         elif args.command == "completion":
             if args.completion_command == "install":

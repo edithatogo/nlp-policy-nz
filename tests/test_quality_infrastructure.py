@@ -18,8 +18,10 @@ def test_quality_configuration_files_exist() -> None:
         ROOT / "tests" / ".mutatest.toml",
         ROOT / "scripts" / "profile_with_scalene.py",
         ROOT / "scripts" / "benchmark_pipeline_record_msgspec_pydantic.py",
+        ROOT / "docs" / "data_quality_monitoring.md",
         ROOT / "tests" / "integration" / "__init__.py",
         ROOT / "tests" / "e2e" / "__init__.py",
+        ROOT / ".github" / "workflows" / "quality-alert.yml",
     ]
 
     missing = [path for path in expected_paths if not path.is_file()]
@@ -72,3 +74,11 @@ def test_pixi_quality_tasks_exist() -> None:
     for dependency in ["pytest-cov", "basedpyright", "mutatest"]:
         assert dependency in dependencies
     assert "scalene" in profiling_dependencies
+
+
+def test_quality_alert_workflow_is_wired() -> None:
+    """Quality alerting should have a scheduled workflow surface."""
+    workflow = (ROOT / ".github" / "workflows" / "quality-alert.yml").read_text(encoding="utf-8")
+
+    assert "schedule:" in workflow
+    assert "quality alert" in workflow.lower()

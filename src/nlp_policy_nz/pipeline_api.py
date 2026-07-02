@@ -26,6 +26,14 @@ from nlp_policy_nz.legal import classify_legal_effect, detect_modality, detect_t
 from nlp_policy_nz.parliament.amendments import amendments_to_dicts, parse_amendments
 from nlp_policy_nz.parliament.voting import parse_division
 from nlp_policy_nz.provenance import ProvenanceRecorder
+from nlp_policy_nz.quality import (
+    IngestionValidationResult,
+    QualityReport,
+    build_quality_report,
+    persist_quality_report,
+    register_quality_span_attributes,
+    validate_ingestion_inputs,
+)
 from nlp_policy_nz.semantic import generate_embedding
 from nlp_policy_nz.semantic.model_loader import DEFAULT_MODEL, load_model
 from nlp_policy_nz.storage import LanceDBAdapter, PipelineRecord, serialize_to_parquet
@@ -41,6 +49,8 @@ if TYPE_CHECKING:
     from spacy.language import Language
 
 logger = logging.getLogger(__name__)
+QUALITY_HISTORY_DIR = Path("data/quality/runs")
+QUALITY_BASELINE_PATH = Path("data/quality/baseline.json")
 
 
 def _model_version_from_loaded(model: object, tokenizer: object) -> str:
@@ -217,6 +227,8 @@ def _process_legislation_records(
     generate_embeddings: bool,
 ) -> Path:
     """Run the legislation processing implementation for resolved inputs."""
+    validation = validate_ingestion_inputs(tuple(input_files))
+    _raise_on_validation_failure(validation)
     recorder = ProvenanceRecorder(
         pipeline_name="process_legislation",
         parameters={"generate_embeddings": generate_embeddings, "source": "legislation"},
@@ -296,6 +308,14 @@ def _process_legislation_records(
 
     with pipeline_span("pipeline.storage.serialize", {"pipeline.record_count": len(records)}):
         result = serialize_to_parquet(records, output)
+    quality_report = _persist_quality_artifacts(
+        records=records,
+        input_files=input_files,
+        output=result,
+        validation=validation,
+    )
+    set_span_attribute("pipeline.quality_report_path", str(result.with_suffix(".quality.json")))
+    register_quality_span_attributes(quality_report)
     recorder.finish(
         input_paths=input_files, output_path=result, record_count=len(records)
     ).write_sidecar(result)
@@ -335,6 +355,8 @@ def _process_hansard_records(
     generate_embeddings: bool,
 ) -> Path:
     """Run the Hansard processing implementation for resolved inputs."""
+    validation = validate_ingestion_inputs(tuple(input_files))
+    _raise_on_validation_failure(validation)
     recorder = ProvenanceRecorder(
         pipeline_name="process_hansard",
         parameters={"generate_embeddings": generate_embeddings, "source": "hansard"},
@@ -419,6 +441,14 @@ def _process_hansard_records(
 
     with pipeline_span("pipeline.storage.serialize", {"pipeline.record_count": len(records)}):
         result = serialize_to_parquet(records, output)
+    quality_report = _persist_quality_artifacts(
+        records=records,
+        input_files=input_files,
+        output=result,
+        validation=validation,
+    )
+    set_span_attribute("pipeline.quality_report_path", str(result.with_suffix(".quality.json")))
+    register_quality_span_attributes(quality_report)
     recorder.finish(
         input_paths=input_files, output_path=result, record_count=len(records)
     ).write_sidecar(result)
@@ -449,3 +479,70 @@ def search_similar(
         raise RuntimeError(msg)
 
     return index.search(query_embedding, top_k=top_k)
+
+
+def _baseline_quality_summary() -> dict[str, Any] | None:
+    if not QUALITY_BASELINE_PATH.is_file():
+        return None
+    import json as _json
+
+    try:
+        payload = _json.loads(QUALITY_BASELINE_PATH.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return None
+    summary = payload.get("summary") if isinstance(payload, dict) else None
+    return dict(summary) if isinstance(summary, dict) else None
+
+
+def _raise_on_validation_failure(validation: tuple[IngestionValidationResult, ...]) -> None:
+    invalid = [item for item in validation if getattr(item, "valid", True) is False]
+    if not invalid:
+        return
+    logger.error(
+        "Input schema validation failed",
+        extra={
+            "validation_failed": len(invalid),
+            "validation_paths": [item.path for item in invalid],
+        },
+    )
+    details = []
+    for item in invalid:
+        issues = getattr(item, "issues", ())
+        issue_text = "; ".join(f"{getattr(issue, 'code', 'unknown')}: {getattr(issue, 'message', '')}" for issue in issues)
+        details.append(f"{getattr(item, 'path', '<unknown>')}: {issue_text}")
+    raise ValueError("Input schema validation failed: " + " | ".join(details))
+
+
+def _persist_quality_artifacts(
+    *,
+    records: list[PipelineRecord],
+    input_files: list[Path],
+    output: Path,
+    validation: tuple[IngestionValidationResult, ...],
+) -> QualityReport:
+    import json as _json
+
+    baseline = _baseline_quality_summary()
+    report = build_quality_report(
+        records,
+        source_paths=input_files,
+        baseline_summary=baseline,
+        validation_results=validation,
+    )
+    report_path = persist_quality_report(
+        report,
+        output.with_suffix(".quality.json"),
+        history_dir=QUALITY_HISTORY_DIR,
+    )
+    logger.info(
+        "Quality report written to %s",
+        report_path,
+        extra={
+            "quality_score": report.summary.get("quality_score"),
+            "quality_gate_pass": report.summary.get("quality_gate_pass"),
+            "validation_failed": report.summary.get("validation_failed"),
+            "drift_count": len(report.drift),
+        },
+    )
+    logger.debug("Quality report payload: %s", _json.dumps(report.to_dict(), ensure_ascii=False))
+    return report
