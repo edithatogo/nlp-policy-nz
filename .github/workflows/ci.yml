@@ -30,7 +30,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -48,7 +48,7 @@ jobs:
 
       - name: Hadolint Dockerfile
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.3.0
         with:
           dockerfile: Dockerfile
           ignore: DL3008
@@ -132,7 +132,7 @@ jobs:
 
       - name: Upload SBOM artifact
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nlp-policy-nz-sbom-${{ matrix.os }}-py${{ matrix.python-version }}
           path: .tmp/sbom/nlp-policy-nz.cdx.json
@@ -163,7 +163,7 @@ jobs:
 
       - name: Upload matrix status artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ci-status-${{ matrix.os }}-py${{ matrix.python-version }}
           path: .tmp/ci-status/status.json
@@ -174,7 +174,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.os == 'ubuntu-latest'
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v7
         with:
           file: ./coverage.xml
           fail_ci_if_error: false
@@ -188,7 +188,7 @@ jobs:
         shell: bash
     steps:
       - name: Download matrix statuses
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: .tmp/ci-statuses
       - name: Render matrix summary
