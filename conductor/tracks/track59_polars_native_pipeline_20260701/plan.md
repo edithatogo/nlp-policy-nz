@@ -8,13 +8,13 @@
 
 | # | Task | Status | Owner |
 |---|------|--------|-------|
-| 1 | Inventory the current corpus-browser hot paths and define the pandas/Polars boundary | [x] a2395f5 | conductor_orchestrator |
-| 2 | Implement a Polars-native storage/search/stats core behind stable wrappers in `spaces/app.py` | [x] a2395f5 | conductor_orchestrator |
-| 3 | Add a benchmark harness that compares pandas baseline timings against the Polars candidate paths | [x] a2395f5 | conductor_orchestrator |
-| 4 | Add parity tests and regression tests for the new Polars core and the public pandas boundary | [x] a2395f5 | conductor_orchestrator |
-| 5 | Update the dependency policy matrix and supporting docs with the dataframe surface decision | [x] a2395f5 | conductor_orchestrator |
-| 6 | Sync the Conductor registry, GitHub issue mirror, and GitHub Projects | [x] a2395f5 | conductor_orchestrator |
-| 7 | Capture validation evidence, mark the track complete, and record the final commit hashes | [x] a2395f5 | conductor_orchestrator |
+| 1 | Inventory the current corpus-browser hot paths and define the pandas/Polars boundary | [x] ade3fa2 | conductor_orchestrator |
+| 2 | Implement a Polars-native storage/search/stats core behind stable wrappers in `spaces/app.py` | [x] ade3fa2 | conductor_orchestrator |
+| 3 | Add a benchmark harness that compares pandas baseline timings against the Polars candidate paths | [x] ade3fa2 | conductor_orchestrator |
+| 4 | Add parity tests and regression tests for the new Polars core and the public pandas boundary | [x] ade3fa2 | conductor_orchestrator |
+| 5 | Update the dependency policy matrix and supporting docs with the dataframe surface decision | [x] ade3fa2 | conductor_orchestrator |
+| 6 | Sync the Conductor registry, GitHub issue mirror, and GitHub Projects | [x] ade3fa2 | conductor_orchestrator |
+| 7 | Capture validation evidence, mark the track complete, and record the final commit hashes | [x] ade3fa2 | conductor_orchestrator |
 
 ## Evidence Notes
 
