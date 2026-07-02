@@ -37,5 +37,5 @@ supported lifecycle, comparison threshold, and GitHub mirror state.
 
 ## Residual Notes
 
-- The issue acceptance criteria are now satisfied locally, but the track remains
-  in the local registry until the closeout step marks it complete.
+- The issue acceptance criteria are satisfied locally. The track stays in the
+  registry as a completed track until review or archive cleanup is requested.
