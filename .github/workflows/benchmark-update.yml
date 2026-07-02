@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: true
 
@@ -35,13 +35,13 @@ jobs:
           cp .tmp/benchmarks/pytest-benchmark.json artifacts/baselines/pytest-benchmark.json
 
       - name: Commit benchmark baseline when changed
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore(benchmarks): Update performance baselines"
           file_pattern: artifacts/baselines/pytest-benchmark.json
 
       - name: Upload benchmark baseline evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: benchmark-baseline-update
