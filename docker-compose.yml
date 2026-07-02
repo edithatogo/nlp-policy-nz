@@ -1,5 +1,5 @@
 services:
-  app:
+  api:
     build:
       context: .
       dockerfile: Dockerfile
@@ -7,13 +7,29 @@ services:
     environment:
       HF_HUB_OFFLINE: "1"
       LANCEDB_DATA_DIR: /app/lancedb_data
+      NLP_POLICY_NZ_DB_PATH: /app/lancedb_data
       QDRANT_URL: http://qdrant:6333
       ZENODO_API_URL: https://zenodo.org/api
     ports:
       - "8000:8000"
     volumes:
       - lancedb_data:/app/lancedb_data
+      - model_cache:/home/app/.cache/huggingface
     user: "${UID:-10001}:${GID:-10001}"
+    depends_on:
+      - lancedb
+      - qdrant
+      - model-cache
+  lancedb:
+    image: alpine:3.20
+    command: ["sh", "-lc", "mkdir -p /data/lancedb && tail -f /dev/null"]
+    volumes:
+      - lancedb_data:/data/lancedb
+  model-cache:
+    image: alpine:3.20
+    command: ["sh", "-lc", "mkdir -p /cache && tail -f /dev/null"]
+    volumes:
+      - model_cache:/cache
   qdrant:
     image: qdrant/qdrant:v1.13.4
     ports:
@@ -23,4 +39,5 @@ services:
 
 volumes:
   lancedb_data:
+  model_cache:
   qdrant_storage:

@@ -1,0 +1,45 @@
+name: Publish OSF Archive
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    env:
+      OSF_PROJECT_ID: ${{ secrets.OSF_PROJECT_ID }}
+      OSF_TOKEN: ${{ secrets.OSF_TOKEN }}
+      OSF_SOURCE_DIR: .tmp/osf
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0
+        with:
+          cache: true
+      - name: Install environment
+        run: CI=true pixi install
+      - name: Prepare archive payload
+        run: |
+          RELEASE_VERSION="${GITHUB_REF_NAME#v}"
+          mkdir -p "$OSF_SOURCE_DIR"
+          python scripts/release_metadata.py \
+            --root . \
+            --output-dir "$OSF_SOURCE_DIR" \
+            --version "$RELEASE_VERSION" \
+            --title "nlp-policy-nz" \
+            --repository-url "https://github.com/${{ github.repository }}" \
+            --release-notes "Prepared for OSF publication."
+      - name: Install OSF client
+        run: python -m pip install --upgrade osfclient
+      - name: Upload to OSF
+        run: |
+          osf -p "$OSF_PROJECT_ID" upload "$OSF_SOURCE_DIR" /release/${{ github.ref_name }}
+        env:
+          OSF_TOKEN: ${{ secrets.OSF_TOKEN }}

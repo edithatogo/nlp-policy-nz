@@ -1,0 +1,41 @@
+name: Publish Hugging Face Models
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      HF_MODEL_REPO_ID: ${{ secrets.HF_MODEL_REPO_ID }}
+      MODEL_ARTIFACT_DIR: dist/model
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0
+        with:
+          cache: true
+      - name: Install environment
+        run: CI=true pixi install
+      - name: Upload model artifacts
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from huggingface_hub import HfApi
+
+          repo_id = os.environ["HF_MODEL_REPO_ID"]
+          token = os.environ["HF_TOKEN"]
+          source_dir = Path(os.environ["MODEL_ARTIFACT_DIR"])
+          HfApi().create_repo(repo_id, repo_type="model", exist_ok=True, token=token)
+          HfApi().upload_folder(
+              repo_id=repo_id,
+              repo_type="model",
+              folder_path=str(source_dir),
+              token=token,
+          )
+          PY

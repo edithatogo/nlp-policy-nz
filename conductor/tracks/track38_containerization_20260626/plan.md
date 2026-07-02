@@ -22,3 +22,7 @@
 ## Evidence Boundary
 
 Repo-side Docker/devcontainer files, working multi-arch builds, and GHCR publication satisfy this track.
+
+## Verification Note
+
+Local Docker verification was attempted on 2026-07-02, but the Windows workstation does not have the Docker CLI available. Keep task 3 in progress until the pushed `containerized-ci.yml` and `docker-publish.yml` workflows verify build/run behavior on GitHub Actions.

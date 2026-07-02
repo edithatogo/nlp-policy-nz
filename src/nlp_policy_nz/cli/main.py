@@ -26,6 +26,12 @@ from pathlib import Path
 
 from nlp_policy_nz.api import process_hansard, process_legislation, search_similar
 from nlp_policy_nz.axiom import DOCUMENT_TYPES
+from nlp_policy_nz.cli.completion import (
+    SUPPORTED_SHELLS,
+    build_completion_script,
+    build_manpage,
+    write_text_output,
+)
 from nlp_policy_nz.integrations.hf_uploader import deploy_space, push_dataset_to_hub
 from nlp_policy_nz.integrations.release import ReleaseManager
 from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
@@ -593,10 +599,52 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Path for the Markdown summary.",
     )
 
+    # --- completion subcommand ---------------------------------------------
+    completion_parser = subparsers.add_parser(
+        "completion",
+        help="Generate shell completions and a man page.",
+        description="Render installable shell completion snippets and a manual page.",
+    )
+    completion_subparsers = completion_parser.add_subparsers(
+        dest="completion_command",
+        required=True,
+        help="Completion artifacts.",
+    )
+
+    install_parser = completion_subparsers.add_parser(
+        "install",
+        help="Generate shell completion output.",
+        description="Write a completion script for bash, zsh, or PowerShell.",
+    )
+    install_parser.add_argument(
+        "--shell",
+        required=True,
+        choices=SUPPORTED_SHELLS,
+        help="Target shell for the completion script.",
+    )
+    install_parser.add_argument(
+        "--output",
+        type=str,
+        default=None,
+        help="Optional destination file. Prints to stdout when omitted.",
+    )
+
+    manpage_parser = completion_subparsers.add_parser(
+        "manpage",
+        help="Generate a man page from the parser.",
+        description="Write a roff man page derived from the argparse parser.",
+    )
+    manpage_parser.add_argument(
+        "--output",
+        type=str,
+        default=None,
+        help="Optional destination file. Prints to stdout when omitted.",
+    )
+
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
     """CLI entry point for the nlp-policy-nz pipeline.
 
     Parses command-line arguments and dispatches to the appropriate
@@ -632,6 +680,7 @@ def main(argv: list[str] | None = None) -> int:
         "export-nz-ontologies",
         "corpus-stats",
         "graph-vector-analysis",
+        "completion",
     }
     if argv and argv[0] not in commands and not argv[0].startswith("-"):
         parser.print_help()
@@ -902,6 +951,18 @@ def main(argv: list[str] | None = None) -> int:
                 "Graph/vector analysis artifacts written: %s",
                 sorted(str(path) for path in written.values()),
             )
+
+        elif args.command == "completion":
+            if args.completion_command == "install":
+                write_text_output(
+                    build_completion_script(parser, args.shell),
+                    args.output,
+                )
+            elif args.completion_command == "manpage":
+                write_text_output(build_manpage(parser), args.output)
+            else:
+                parser.print_help()
+                return 1
 
         else:
             parser.print_help()

@@ -35,6 +35,19 @@ jobs:
           tag: ${{ github.ref_name }}
           dry-run: true
 
+      - name: Generate release metadata files
+        env:
+          RELEASE_NOTES: ${{ steps.release_notes.outputs.body }}
+        run: |
+          RELEASE_VERSION="${GITHUB_REF_NAME#v}"
+          python scripts/release_metadata.py \
+            --root . \
+            --output-dir .tmp/release \
+            --version "$RELEASE_VERSION" \
+            --title "nlp-policy-nz" \
+            --repository-url "https://github.com/${{ github.repository }}" \
+            --release-notes "$RELEASE_NOTES"
+
       - name: Smoke test package
         run: CI=true pixi run test -x tests/test_smoke.py
 
@@ -46,6 +59,22 @@ jobs:
       - name: Generate CycloneDX SBOM
         run: pixi run python -c "import sys; from pathlib import Path; sys.path.insert(0, 'src'); from nlp_policy_nz.security import generate_cyclonedx_sbom; generate_cyclonedx_sbom(Path('.tmp/sbom/nlp-policy-nz.cdx.json'))"
 
+      - name: Generate release checksums
+        run: |
+          python - <<'PY'
+          from hashlib import sha256
+          from pathlib import Path
+
+          files = sorted(Path("dist").glob("*"))
+          output = Path(".tmp/release/checksums.txt")
+          output.parent.mkdir(parents=True, exist_ok=True)
+          lines = []
+          for path in files:
+              digest = sha256(path.read_bytes()).hexdigest()
+              lines.append(f"{digest}  {path.name}")
+          output.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+          PY
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -53,4 +82,8 @@ jobs:
           body: ${{ steps.release_notes.outputs.body }}
           files: |
             dist/*
+            .tmp/release/VERSION.json
+            .tmp/release/CITATION.cff
+            .tmp/release/CHANGELOG.md
+            .tmp/release/checksums.txt
             .tmp/sbom/nlp-policy-nz.cdx.json
