@@ -2,7 +2,7 @@
 
 **Dependencies**: Track 1, Track 23
 **Parallelization Node**: Infrastructure & Quality
-**Status**: Planned
+**Status**: Complete
 
 ## Implementation Plan
 
@@ -10,7 +10,7 @@
 |---|------|--------|-------|
 | 1 | Create `.dockerignore` excluding `.tmp/`, `artifacts/`, `data/`, `__pycache__` | [x] | conductor_orchestrator |
 | 2 | Write multi-stage `Dockerfile` with pixi install + runtime layer | [x] | conductor_orchestrator |
-| 3 | Verify `docker build` succeeds and `docker run` passes smoke tests | [~] | conductor_orchestrator |
+| 3 | Verify `docker build` succeeds and `docker run` passes smoke tests | [x] | conductor_orchestrator |
 | 4 | Create `.devcontainer/devcontainer.json` with pixi, pre-commit, Python, and Ruff extensions | [x] | conductor_orchestrator |
 | 5 | Create `docker-compose.yml` for LanceDB and other service dependencies | [x] | conductor_orchestrator |
 | 6 | Add `containerized-ci.yml` workflow that builds image and runs tests inside container | [x] | conductor_orchestrator |
@@ -25,4 +25,4 @@ Repo-side Docker/devcontainer files, working multi-arch builds, and GHCR publica
 
 ## Verification Note
 
-Local Docker verification was attempted on 2026-07-02, but the Windows workstation does not have the Docker CLI available. Keep task 3 in progress until the pushed `containerized-ci.yml` and `docker-publish.yml` workflows verify build/run behavior on GitHub Actions.
+Local Docker verification was attempted on 2026-07-02, but the Windows workstation does not have the Docker CLI available. GitHub Actions verified the pushed container workflow on 2026-07-02: Containerized CI run https://github.com/edithatogo/nlp-policy-nz/actions/runs/28560448862 passed `docker build`, Track 38 container contract tests, repo smoke tests inside the container, and non-root output permission checks.
