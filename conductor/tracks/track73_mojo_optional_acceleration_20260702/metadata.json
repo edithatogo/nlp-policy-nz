@@ -1,0 +1,9 @@
+{
+  "track_id": "track73_mojo_optional_acceleration_20260702",
+  "type": "feature",
+  "status": "planned",
+  "created_at": "2026-07-02T00:00:00+10:00",
+  "updated_at": "2026-07-02T00:00:00+10:00",
+  "description": "Integrate one proven private Mojo kernel behind optional feature detection and Python fallback only if Track 72 meets the roadmap promotion threshold.",
+  "oracle_notes": "Implementation is conditional. If Track 72 fails the promotion threshold, this track records a deferral decision instead of integrating Mojo."
+}

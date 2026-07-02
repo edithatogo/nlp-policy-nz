@@ -54,6 +54,15 @@ Phase VII (Planned — 51-52): Security & Observability
   │   [depends on 7, 45, 46]
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
+
+Phase VIII (Planned — 68, 70-73): Mojo Migration
+  ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit)
+  ├─ 70 (Readiness Audit) ──► 71 (Linux CI Sandbox)
+  ├─ 70 (Readiness Audit) ──► 72 (Hotspot Benchmark)
+  └─ 70 + 71 + 72 ──► 73 (Optional Acceleration)
+
+Phase IX (Complete — 69): GitHub Project Synchronization
+  └─ 69 (GitHub Project Sync) [historical issue/project synchronization track]
 ```
 
 ---
@@ -377,3 +386,38 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Performance and Runtime Modernization
 - **Why**: Evaluate Pydantic-core, msgspec, orjson, Polars/Arrow, Rust tokenizers, and possible PyO3/maturin extensions for extraction performance while keeping the Python API and downstream export schemas stable.
 
+---
+
+## Phase VIII — Mojo Migration
+
+---
+
+## [ ] Track 68: Mojo Runtime Feasibility for Hot Python Paths
+*Link: [./conductor/tracks/track68_mojo_runtime_feasibility_20260701/](./conductor/tracks/track68_mojo_runtime_feasibility_20260701/)*
+- **Dependencies**: Tracks 21, 23, 42, 56, 67
+- **Parallelization Node**: Experimental Runtime Strategy
+- **Why**: Maintain the umbrella decision record for introducing Mojo as an optional Linux GitHub Actions acceleration path, while keeping concrete work split into Tracks 70-73.
+
+## [ ] Track 70: Mojo Readiness Audit
+*Link: [./conductor/tracks/track70_mojo_readiness_audit_20260702/](./conductor/tracks/track70_mojo_readiness_audit_20260702/)*
+- **Dependencies**: Tracks 21, 23, 42, 56, 67, 68
+- **Parallelization Node**: Mojo Toolchain Readiness
+- **Why**: Verify OS support, packaging, licensing, GitHub Actions install path, Pixi/uv compatibility, and candidate kernel shortlist before any runtime code changes.
+
+## [ ] Track 71: Mojo Linux CI Sandbox
+*Link: [./conductor/tracks/track71_mojo_linux_ci_sandbox_20260702/](./conductor/tracks/track71_mojo_linux_ci_sandbox_20260702/)*
+- **Dependencies**: Track 70
+- **Parallelization Node**: Optional Linux Runtime Sandbox
+- **Why**: Add an optional Linux-only Mojo experiment sandbox and non-blocking CI path after readiness criteria pass, without touching production imports.
+
+## [ ] Track 72: Mojo Hotspot Benchmark
+*Link: [./conductor/tracks/track72_mojo_hotspot_benchmark_20260702/](./conductor/tracks/track72_mojo_hotspot_benchmark_20260702/)*
+- **Dependencies**: Tracks 19, 42, 56, 67, 70
+- **Parallelization Node**: Mojo Benchmark Governance
+- **Why**: Profile current hot paths, benchmark Mojo candidate kernels, compare against Python/Rust/Polars alternatives, and record go/no-go evidence.
+
+## [ ] Track 73: Mojo Optional Acceleration
+*Link: [./conductor/tracks/track73_mojo_optional_acceleration_20260702/](./conductor/tracks/track73_mojo_optional_acceleration_20260702/)*
+- **Dependencies**: Tracks 70, 71, 72
+- **Parallelization Node**: Optional Mojo Runtime Integration
+- **Why**: Integrate one proven private Mojo kernel behind optional feature detection and Python fallback only if Track 72 meets the roadmap promotion threshold; otherwise record a deferral decision.
