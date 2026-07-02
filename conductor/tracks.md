@@ -410,12 +410,6 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: Optional Linux Runtime Sandbox
 - **Why**: Add an optional Linux-only Mojo experiment sandbox and non-blocking CI path after readiness criteria pass, without touching production imports. The sandbox is complete and now lives in the archive tree.
 
-## [ ] Track 73: Mojo Optional Acceleration
-*Link: [./conductor/tracks/track73_mojo_optional_acceleration_20260702/](./conductor/tracks/track73_mojo_optional_acceleration_20260702/)*
-- **Dependencies**: Tracks 70, 71, 72
-- **Parallelization Node**: Optional Mojo Runtime Integration
-- **Why**: Integrate one proven private Mojo kernel behind optional feature detection and Python fallback only if Track 72 meets the roadmap promotion threshold; otherwise record a deferral decision.
-
 ---
 
 ## Phase IX — GitHub Project Synchronization
