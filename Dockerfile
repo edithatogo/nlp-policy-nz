@@ -36,6 +36,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PATH=/opt/pixi/bin:/app/.pixi/envs/default/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends passwd \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN useradd --create-home --uid 10001 --shell /usr/sbin/nologin appuser
 
 WORKDIR /app
