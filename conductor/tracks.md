@@ -279,8 +279,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Claude Code subagents for PR review + auto-fix CI, Google Jules GPU task dispatch, LLM-as-judge evaluation, conductor advancement automation, self-healing CI.
 
-## [ ] Track 44: Data Quality & Pipeline Monitoring
-*Link: [./conductor/tracks/track44_data_quality_monitoring_20260626/](./conductor/tracks/track44_data_quality_monitoring_20260626/)*
+## [x] Track 44: Data Quality & Pipeline Monitoring (archived)
+*Link: [./conductor/tracks/archive/track44_data_quality_monitoring_20260626/](./conductor/tracks/archive/track44_data_quality_monitoring_20260626/)*
 - **Dependencies**: Track 6, Track 19
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Input schema validation, data drift detection, per-record quality metrics, pipeline health dashboard, automated degradation alerts.
@@ -309,7 +309,7 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [~] Track 47: Cross-Platform CI Matrix & Binary Distribution
+## [x] Track 47: Cross-Platform CI Matrix & Binary Distribution
 *Link: [./conductor/tracks/track47_cross_platform_ci_20260626/](./conductor/tracks/track47_cross_platform_ci_20260626/)*
 - **Dependencies**: Tracks 1, 23, 38
 - **Parallelization Node**: CI/CD Automation

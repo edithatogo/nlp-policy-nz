@@ -26,7 +26,7 @@ def test_track47_repo_artifacts_exist() -> None:
 
 
 def test_track47_registry_and_plan_are_in_sync() -> None:
-    """Track 47 should be recorded as in progress with matrix and binary scope."""
+    """Track 47 should be recorded as complete with matrix and binary scope."""
     registry = (ROOT / "conductor" / "tracks.md").read_text(encoding="utf-8")
     metadata = json.loads((TRACK47 / "metadata.json").read_text(encoding="utf-8"))
     plan = (TRACK47 / "plan.md").read_text(encoding="utf-8")
@@ -35,7 +35,7 @@ def test_track47_registry_and_plan_are_in_sync() -> None:
     assert "Track 47: Cross-Platform CI Matrix & Binary Distribution" in registry
     assert "./conductor/tracks/track47_cross_platform_ci_20260626/" in registry
     assert metadata["track_id"] == "track47_cross_platform_ci_20260626"
-    assert metadata["status"] == "in_progress"
+    assert metadata["status"] == "complete"
     assert "ubuntu-latest" in plan
     assert "windows-latest" in plan
     assert "macos-latest" in plan
