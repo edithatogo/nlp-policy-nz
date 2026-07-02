@@ -55,7 +55,9 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Planned — 68, 72-73; Archived — 70-71): Mojo Migration
+Phase VIII (Planned — 58, 68, 72-73; Archived — 70-71): Mojo Migration
+  ├─ 58 (LangGraph Eval) ──► deterministic legal workflow orchestration decision record
+  │   [depends on 43, 52, 55, 57]
   ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 71 (Linux CI Sandbox) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 72 (Hotspot Benchmark)
@@ -433,6 +435,12 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Dependencies**: Tracks 21, 23, 42, 55
 - **Parallelization Node**: Performance and Runtime Modernization
 - **Why**: Evaluate Pydantic-core, msgspec, orjson, Polars/Arrow, Rust tokenizers, and possible PyO3/maturin extensions for extraction performance while keeping the Python API and downstream export schemas stable.
+
+## [x] Track 58: LangGraph Agent Workflow Orchestration Evaluation
+*Link: [./conductor/tracks/track58_langgraph_orchestration_eval_20260701/](./conductor/tracks/track58_langgraph_orchestration_eval_20260701/)*
+- **Dependencies**: Tracks 43, 52, 55, 57
+- **Parallelization Node**: Agentic Orchestration
+- **Why**: Evaluate LangGraph only for durable, inspectable, human-in-the-loop legal NLP workflows while keeping deterministic pipelines and Python fallback paths as the default.
 
 ---
 
