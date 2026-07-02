@@ -88,6 +88,33 @@ jobs:
           CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" track20-smoke
           CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" test -- tests/test_track20_runtime.py tests/test_track20_evidence.py -q
 
+      - name: Track 71 Mojo Linux CI sandbox
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" test -- tests/test_track71_mojo_sandbox.py -q
+          sandbox_dir="$GITHUB_WORKSPACE/.tmp/mojo-sandbox"
+          rm -rf "$sandbox_dir"
+          mkdir -p "$sandbox_dir"
+          cp experiments/mojo/kernel.mojo "$sandbox_dir/kernel.mojo"
+          cd "$sandbox_dir"
+          pixi init mojo-sandbox -c https://conda.modular.com/max/ -c conda-forge
+          pixi add mojo
+          pixi run mojo --version
+          pixi run mojo kernel.mojo > mojo-output.json
+          PYTHONPATH="$GITHUB_WORKSPACE" python - <<'PY'
+          import json
+          from pathlib import Path
+
+          from experiments.mojo.sandbox import render_reference_json
+
+          expected = json.loads(render_reference_json())
+          actual = json.loads(Path("mojo-output.json").read_text(encoding="utf-8"))
+          if actual != expected:
+              raise SystemExit(f"Mojo output mismatch: {actual!r} != {expected!r}")
+          PY
+
       - name: Validate AKN v3 examples
         run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" test -- tests/test_akn_v3.py -q
 

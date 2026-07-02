@@ -55,9 +55,9 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Planned — 68, 71-73; Archived — 70): Mojo Migration
+Phase VIII (Planned — 68, 72-73; Archived — 70-71): Mojo Migration
   ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit) [archived]
-  ├─ 70 (Readiness Audit) [archived] ──► 71 (Linux CI Sandbox)
+  ├─ 70 (Readiness Audit) [archived] ──► 71 (Linux CI Sandbox) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 72 (Hotspot Benchmark)
   └─ 70 + 71 + 72 ──► 73 (Optional Acceleration)
 
@@ -404,11 +404,11 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: Mojo Toolchain Readiness
 - **Why**: Verify OS support, packaging, licensing, GitHub Actions install path, Pixi/uv compatibility, and candidate kernel shortlist before any runtime code changes. The readiness audit is complete and the historical record now lives in the archive tree.
 
-## [ ] Track 71: Mojo Linux CI Sandbox
-*Link: [./conductor/tracks/track71_mojo_linux_ci_sandbox_20260702/](./conductor/tracks/track71_mojo_linux_ci_sandbox_20260702/)*
+## [x] Track 71: Mojo Linux CI Sandbox (archived)
+*Link: [./conductor/tracks/archive/track71_mojo_linux_ci_sandbox_20260702/](./conductor/tracks/archive/track71_mojo_linux_ci_sandbox_20260702/)*
 - **Dependencies**: Track 70
 - **Parallelization Node**: Optional Linux Runtime Sandbox
-- **Why**: Add an optional Linux-only Mojo experiment sandbox and non-blocking CI path after readiness criteria pass, without touching production imports.
+- **Why**: Add an optional Linux-only Mojo experiment sandbox and non-blocking CI path after readiness criteria pass, without touching production imports. The sandbox is complete and now lives in the archive tree.
 
 ## [ ] Track 72: Mojo Hotspot Benchmark
 *Link: [./conductor/tracks/track72_mojo_hotspot_benchmark_20260702/](./conductor/tracks/track72_mojo_hotspot_benchmark_20260702/)*
