@@ -12,6 +12,7 @@ from typing import Any
 import httpx
 from pydantic import BaseModel
 
+from nlp_policy_nz.client.errors import APIError, raise_for_problem
 from nlp_policy_nz.client.models import (
     EmbedRequest,
     EmbedResponse,
@@ -72,15 +73,15 @@ class AsyncNLPPolicyNZClient(_BaseClient):
                 if self._retryable_status(response.status_code) and attempt + 1 < self._config.retry_attempts:
                     await asyncio.sleep(self._config.retry_backoff_seconds * (2**attempt))
                     continue
-                response.raise_for_status()
+                try:
+                    raise_for_problem(response)
+                except APIError as exc:
+                    if not self._retryable_status(response.status_code) or attempt + 1 >= self._config.retry_attempts:
+                        raise
+                    last_error = exc
+                    await asyncio.sleep(self._config.retry_backoff_seconds * (2**attempt))
+                    continue
                 return response
-            except httpx.HTTPStatusError as exc:
-                if (
-                    not self._retryable_status(exc.response.status_code)
-                    or attempt + 1 >= self._config.retry_attempts
-                ):
-                    raise
-                last_error = exc
             except httpx.TransportError as exc:
                 last_error = exc
             await asyncio.sleep(self._config.retry_backoff_seconds * (2**attempt))
