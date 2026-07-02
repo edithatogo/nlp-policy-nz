@@ -162,19 +162,21 @@ def _run_item(item: Mapping[str, Any], workflow: CandidateWorkflow) -> dict[str,
     item_id = str(item["item_id"])
     needs_review = bool(item.get("needs_review", False))
     needs_recovery = bool(item.get("needs_recovery", False))
-    trace = ["intake", "triage", "draft"]
-    telemetry = [f"{item_id}:intake", f"{item_id}:triage", f"{item_id}:draft"]
-    if needs_review:
-        trace.append("review")
-        telemetry.append(f"{item_id}:review")
-    if needs_recovery:
-        trace.append("recover")
-        telemetry.append(f"{item_id}:recover")
-        if "review" not in trace:
-            trace.append("review")
-            telemetry.append(f"{item_id}:review")
-    trace.append("complete")
-    telemetry.append(f"{item_id}:complete")
+    transition_map = {transition.state: transition.next_state for transition in workflow.transitions}
+    trace: list[str] = []
+    telemetry: list[str] = []
+    state = "intake"
+    while state is not None:
+        trace.append(state)
+        telemetry.append(f"{item_id}:{state}")
+        if state == "complete":
+            break
+        next_state = transition_map.get(state)
+        if (state == "draft" and not needs_review) or (
+            state == "review" and not needs_recovery
+        ) or state == "recover":
+            next_state = "complete"
+        state = next_state
     if any(state not in workflow.states for state in trace):
         raise ValueError(f"Unexpected state in prototype trace for {item_id}")
     checkpoints = tuple(str(name) for name in item.get("checkpoint_files", ()))
