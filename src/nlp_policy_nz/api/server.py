@@ -8,15 +8,46 @@ so the server starts up quickly.
 
 from __future__ import annotations
 
+import asyncio
+import json
 import logging
 import time
+from collections import defaultdict, deque
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
+from starlette.middleware.base import RequestResponseEndpoint
+
+from nlp_policy_nz.config import load_feature_flags, load_runtime_settings
 
 logger = logging.getLogger(__name__)
+
+_settings = load_runtime_settings()
+_feature_flags = load_feature_flags()
+_version_manifest_path = Path(__file__).resolve().parents[3] / "VERSION.json"
+
+
+def _load_version_manifest() -> dict[str, str]:
+    if _version_manifest_path.is_file():
+        try:
+            return json.loads(_version_manifest_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            logger.warning("VERSION.json is invalid; falling back to default version")
+    return {
+        "version": "0.1.0",
+        "build_timestamp": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "commit_sha": "unknown",
+        "dataset_revision": "0",
+    }
+
+
+_version_manifest = _load_version_manifest()
+_rate_limit_history: dict[str, deque[float]] = defaultdict(deque)
 
 # --- Models ---
 
@@ -86,9 +117,21 @@ class HealthResponse(BaseModel):
     """Health check response body."""
 
     status: str
+    pipeline_status: str
+    db_connected: bool
     model_loaded: bool
     model_name: str
-    version: str = "0.1.0"
+    version: str
+    last_run_timestamp: str | None = None
+
+
+class VersionResponse(BaseModel):
+    """Version metadata response body."""
+
+    version: str
+    build_timestamp: str
+    commit_sha: str
+    dataset_revision: str
 
 
 # --- FastAPI app ---
@@ -99,14 +142,107 @@ app = FastAPI(
         "HTTP API for the NLP Policy NZ pipeline. Provides embedding "
         "generation, semantic search, and full pipeline processing."
     ),
-    version="0.1.0",
+    version=_version_manifest["version"],
     docs_url="/docs",
     redoc_url="/redoc",
+)
+
+cors_origins = ["*"] if "*" in _settings.cors_origins else list(_settings.cors_origins)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # --- Lazy-loaded resources ---
 
 _embedding_generator: object | None = None
+
+
+app.state.last_run_timestamp = _settings.last_run_timestamp
+
+
+def _request_api_version(path: str) -> str:
+    if path.startswith("/v1/"):
+        return "v1"
+    if path.startswith("/v2/"):
+        return "v2"
+    return "root"
+
+
+def _apply_version_headers(response: Response, api_version: str) -> None:
+    response.headers["X-API-Version"] = _version_manifest["version"]
+    if api_version == "v1":
+        response.headers["Deprecation"] = "true"
+        sunset = datetime.now(UTC) + timedelta(days=_settings.sunset_days_v1)
+        response.headers["Sunset"] = sunset.strftime("%a, %d %b %Y %H:%M:%S GMT")
+
+
+def _build_health_response() -> HealthResponse:
+    model_loaded = _embedding_generator is not None
+    db_connected = Path(_settings.db_path).exists()
+    pipeline_status = "ok" if db_connected and model_loaded else "degraded"
+    model_name = _embedding_generator.model_name if model_loaded else ""
+    return HealthResponse(
+        status="ok",
+        pipeline_status=pipeline_status,
+        db_connected=db_connected,
+        model_loaded=model_loaded,
+        model_name=model_name,
+        version=_version_manifest["version"],
+        last_run_timestamp=app.state.last_run_timestamp,
+    )
+
+
+def _rate_limit_key(request: Request) -> str:
+    client_host = request.client.host if request.client else "unknown"
+    return f"{client_host}:{request.url.path}"
+
+
+def _check_rate_limit(request: Request) -> Response | None:
+    if _settings.rate_limit_per_minute <= 0:
+        return None
+    if request.url.path in {"/health", "/v1/health", "/v2/health", "/version", "/v1/version", "/v2/version", "/openapi.json", "/docs", "/redoc"}:
+        return None
+    key = _rate_limit_key(request)
+    history = _rate_limit_history[key]
+    now = time.monotonic()
+    window = 60.0
+    while history and now - history[0] > window:
+        history.popleft()
+    if len(history) >= _settings.rate_limit_per_minute:
+        retry_after = max(1, int(window - (now - history[0]))) if history else 60
+        response = JSONResponse(
+            status_code=429,
+            content={"detail": "Rate limit exceeded."},
+        )
+        response.headers["X-RateLimit-Limit"] = str(_settings.rate_limit_per_minute)
+        response.headers["X-RateLimit-Remaining"] = "0"
+        response.headers["Retry-After"] = str(retry_after)
+        return response
+    history.append(now)
+    return None
+
+
+@app.middleware("http")
+async def rate_limit_middleware(
+    request: Request,
+    call_next: RequestResponseEndpoint,
+) -> Response:
+    """Apply a light token-bucket limiter to production endpoints."""
+    limited = _check_rate_limit(request)
+    if limited is not None:
+        return limited
+    return await call_next(request)
+
+
+@app.on_event("shutdown")
+async def _shutdown_event() -> None:
+    """Record shutdown state for production diagnostics."""
+    app.state.shutdown_completed = True
 
 
 def search_similar(
@@ -172,20 +308,36 @@ def _get_embedding_generator() -> object:
 
 
 @app.get("/health", response_model=HealthResponse, summary="Health check")
-async def health() -> HealthResponse:
+@app.get("/v1/health", response_model=HealthResponse, summary="Health check")
+@app.get("/v2/health", response_model=HealthResponse, summary="Health check")
+async def health(request: Request, response: Response) -> HealthResponse:
     """Return API health and lazy model-load state."""
-    model_loaded = _embedding_generator is not None
-    model_name = _embedding_generator.model_name if model_loaded else ""
-    return HealthResponse(status="ok", model_loaded=model_loaded, model_name=model_name)
+    _apply_version_headers(response, _request_api_version(request.url.path))
+    return _build_health_response()
+
+
+@app.get("/version", response_model=VersionResponse, summary="Version metadata")
+@app.get("/v1/version", response_model=VersionResponse, summary="Version metadata")
+@app.get("/v2/version", response_model=VersionResponse, summary="Version metadata")
+async def version(request: Request, response: Response) -> VersionResponse:
+    """Return the canonical release version metadata."""
+    _apply_version_headers(response, _request_api_version(request.url.path))
+    return VersionResponse(**_version_manifest)
 
 
 @app.post("/embed", response_model=EmbedResponse, summary="Generate embeddings")
-async def embed(request: EmbedRequest) -> EmbedResponse:
+@app.post("/v1/embed", response_model=EmbedResponse, summary="Generate embeddings")
+@app.post("/v2/embed", response_model=EmbedResponse, summary="Generate embeddings")
+async def embed(request: Request, payload: EmbedRequest, response: Response) -> EmbedResponse:
     """Generate embeddings for one or more input texts."""
+    api_version = _request_api_version(request.url.path)
+    _apply_version_headers(response, api_version)
+    if not _feature_flags.embed_enabled or _feature_flags.kill_switch:
+        raise HTTPException(status_code=503, detail="Embedding generation is disabled by feature flag.")
     t0 = time.perf_counter()
     try:
-        gen = _get_embedding_generator()
-        results = gen.embed_batch(request.texts)
+        gen = await asyncio.to_thread(_get_embedding_generator)
+        results = await asyncio.to_thread(gen.embed_batch, payload.texts)
     except Exception as exc:
         logger.exception("Embedding request failed")
         raise HTTPException(status_code=500, detail=f"Embedding failed: {exc}") from exc
@@ -200,14 +352,20 @@ async def embed(request: EmbedRequest) -> EmbedResponse:
 
 
 @app.post("/search", response_model=SearchResponse, summary="Semantic search")
-async def search(request: SearchRequest) -> SearchResponse:
+@app.post("/v1/search", response_model=SearchResponse, summary="Semantic search")
+@app.post("/v2/search", response_model=SearchResponse, summary="Semantic search")
+async def search(request: Request, payload: SearchRequest, response: Response) -> SearchResponse:
     """Run semantic vector search over the configured index."""
+    _apply_version_headers(response, _request_api_version(request.url.path))
+    if not _feature_flags.search_enabled or _feature_flags.kill_switch:
+        raise HTTPException(status_code=503, detail="Search is disabled by feature flag.")
     t0 = time.perf_counter()
     try:
-        results = search_similar(
-            query=request.query,
-            db_path=request.db_path,
-            top_k=request.top_k,
+        results = await asyncio.to_thread(
+            search_similar,
+            query=payload.query,
+            db_path=payload.db_path,
+            top_k=payload.top_k,
         )
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=f"Vector database not found: {exc}") from exc
@@ -219,20 +377,28 @@ async def search(request: SearchRequest) -> SearchResponse:
     elapsed = time.perf_counter() - t0
     return SearchResponse(
         results=results,
-        query=request.query,
+        query=payload.query,
         count=len(results),
         elapsed_seconds=round(elapsed, 4),
     )
 
 
 @app.post("/process", response_model=ProcessResponse, summary="Run full pipeline")
-async def process(request: ProcessRequest) -> ProcessResponse:
+@app.post("/v1/process", response_model=ProcessResponse, summary="Run full pipeline")
+@app.post("/v2/process", response_model=ProcessResponse, summary="Run full pipeline")
+async def process(request: Request, payload: ProcessRequest, response: Response) -> ProcessResponse:
     """Run pipeline processing against a path or inline text."""
+    _apply_version_headers(response, _request_api_version(request.url.path))
+    if not _feature_flags.process_enabled or _feature_flags.kill_switch:
+        raise HTTPException(status_code=503, detail="Processing is disabled by feature flag.")
     t0 = time.perf_counter()
-    input_path_candidate = Path(request.input)
+    effective_payload = payload
+    if _feature_flags.degraded_embeddings or not _feature_flags.embed_enabled:
+        effective_payload = payload.model_copy(update={"generate_embeddings": False})
+    input_path_candidate = Path(effective_payload.input)
     if input_path_candidate.is_file():
-        return await _run_file_pipeline(request, input_path_candidate, t0)
-    return await _run_inline_pipeline(request, t0)
+        return await _run_file_pipeline(effective_payload, input_path_candidate, t0)
+    return await _run_inline_pipeline(effective_payload, t0)
 
 
 async def _run_file_pipeline(
@@ -249,7 +415,8 @@ async def _run_file_pipeline(
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / f"{input_path.stem}_{request.source}.parquet"
     try:
-        result_path = runner(
+        result_path = await asyncio.to_thread(
+            runner,
             input_path=str(input_path),
             output_path=str(output_path),
             generate_embeddings=request.generate_embeddings,
@@ -259,7 +426,7 @@ async def _run_file_pipeline(
         raise HTTPException(status_code=500, detail=f"Pipeline processing failed: {exc}") from exc
     elapsed = time.perf_counter() - t0
     try:
-        records = load_from_parquet(result_path)
+        records = await asyncio.to_thread(load_from_parquet, result_path)
     except Exception:
         records = []
     return ProcessResponse(
@@ -369,4 +536,9 @@ def _record_to_dict(record: object) -> dict[str, object]:
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(
+        app,
+        host="127.0.0.1",
+        port=8000,
+        workers=_settings.uvicorn_workers,
+    )

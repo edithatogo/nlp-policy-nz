@@ -291,13 +291,13 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [ ] Track 45: Release Engineering & Automated Publishing
+## [x] Track 45: Release Engineering & Automated Publishing
 *Link: [./conductor/tracks/track45_release_engineering_20260626/](./conductor/tracks/track45_release_engineering_20260626/)*
 - **Dependencies**: Tracks 8, 9, 24, 36
 - **Parallelization Node**: CI/CD Automation
 - **Why**: Semantic versioning from conventional commits, auto-changelog, CI/CD auto-publish to HF datasets/spaces, Zenodo DOIs, OSF archives, and PyPI. Closes the gap between manual CLI publishing and fully automated release pipeline.
 
-## [ ] Track 46: Production Hardening & API Maturity
+## [x] Track 46: Production Hardening & API Maturity
 *Link: [./conductor/tracks/track46_production_hardening_20260626/](./conductor/tracks/track46_production_hardening_20260626/)*
 - **Dependencies**: Tracks 7, 23, 38, 44
 - **Parallelization Node**: Infrastructure & Quality

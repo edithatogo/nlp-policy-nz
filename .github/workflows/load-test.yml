@@ -1,0 +1,25 @@
+name: Load Test
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  load-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0
+        with:
+          cache: true
+      - name: Install environment
+        run: CI=true pixi install
+      - name: Install Locust
+        run: python -m pip install locust
+      - name: Run load test
+        run: locust -f tests/load/locustfile.py --headless --users 10 --spawn-rate 2 --run-time 1m --host http://127.0.0.1:8000
