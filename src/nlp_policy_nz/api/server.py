@@ -530,10 +530,13 @@ def search_similar(
     db_path: str = "./lancedb_data",
     top_k: int = 10,
 ) -> list[dict[str, Any]]:
-    """Lazy proxy for vector search.
+    """Lazy proxy for LanceDB-backed vector search.
 
     Kept as a module attribute so tests and callers can patch the endpoint
     boundary without importing semantic dependencies at server import time.
+    The underlying pipeline keeps the create/add/search/delete/reopen lifecycle
+    stable and will fall back to an empty local state if a persisted table
+    cannot be opened.
     """
     from nlp_policy_nz.pipeline_api import search_similar as _search_similar
 

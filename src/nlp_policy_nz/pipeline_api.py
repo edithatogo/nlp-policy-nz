@@ -461,7 +461,13 @@ def search_similar(
     db_path: str = "./lancedb_data",
     top_k: int = 10,
 ) -> list[dict[str, Any]]:
-    """Search the vector index for documents similar to *query*."""
+    """Search the LanceDB index for documents similar to *query*.
+
+    The supported lifecycle is create, add, search, delete, and reopen through
+    a fresh adapter instance. Missing or unreadable persisted tables are
+    handled by the LanceDB adapter, while this entrypoint preserves the current
+    Python boundary and default ``./lancedb_data`` location.
+    """
     db = Path(db_path).resolve()
     if not db.is_dir():
         msg = f"LanceDB database directory not found: {db}"

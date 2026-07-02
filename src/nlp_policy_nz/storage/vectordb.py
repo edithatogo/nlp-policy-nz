@@ -161,7 +161,7 @@ class LanceDBAdapter(VectorBackend):
         :meth:`create_index` must be called again before any further
         operations.
         """
-        if self._table is not None:
+        if self._table is not None and self._db is not None:
             self._db.drop_table(self._table_name)
             self._table = None
 
@@ -174,6 +174,8 @@ class LanceDBAdapter(VectorBackend):
             ``True`` if a table with the configured name exists.
 
         """
+        if self._db is None:
+            return False
         return self._table_name in self._db.list_tables().tables
 
     # ------------------------------------------------------------------
@@ -181,8 +183,8 @@ class LanceDBAdapter(VectorBackend):
     # ------------------------------------------------------------------
 
     def close(self) -> None:
-        """Drop the table and release the LanceDB connection."""
-        self.delete_index()
+        """Release the LanceDB connection without deleting persisted data."""
+        self._table = None
         self._db = None  # type: ignore[assignment]
 
     @staticmethod
@@ -193,6 +195,9 @@ class LanceDBAdapter(VectorBackend):
     def _open_or_create_table(self) -> None:
         """Open an existing table or leave ``_table`` as ``None``."""
         if self.index_exists():
-            self._table = self._db.open_table(self._table_name)
+            try:
+                self._table = self._db.open_table(self._table_name)
+            except Exception:
+                self._table = None
         else:
             self._table = None

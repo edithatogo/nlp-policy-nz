@@ -19,6 +19,30 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
 
+class _FakeTableList:
+    def __init__(self, tables: list[str]) -> None:
+        self.tables = tables
+
+
+class _CorruptingDB:
+    def __init__(self, table_name: str) -> None:
+        self.table_name = table_name
+        self.dropped: list[str] = []
+
+    def list_tables(self) -> _FakeTableList:
+        return _FakeTableList([self.table_name])
+
+    def open_table(self, _name: str) -> object:
+        raise RuntimeError("corrupted persisted table")
+
+    def create_table(self, *_args, **_kwargs) -> object:
+        msg = "not used in this test"
+        raise AssertionError(msg)
+
+    def drop_table(self, name: str) -> None:
+        self.dropped.append(name)
+
+
 @pytest.fixture
 def lancedb_adapter(tmp_path: Path) -> Iterator[LanceDBAdapter]:
     """Return an isolated LanceDB adapter for lifecycle tests."""
@@ -151,6 +175,42 @@ class TestLanceDBAdapterCreate:
         results = lancedb_adapter.search([0.0, 0.0, 1.0, 0.0], top_k=5)
 
         assert [result["doc_id"] for result in results] == ["c"]
+
+    def test_adapter_reopens_persisted_table(
+        self,
+        tmp_path: Path,
+        vector_records: list[dict[str, object]],
+    ) -> None:
+        """A new adapter instance should reopen an existing LanceDB table."""
+        uri = str(tmp_path / "lancedb_reopen")
+        first = LanceDBAdapter(uri=uri, table_name="vectors")
+        first.create_index(vector_records)
+        first.close()
+
+        second = LanceDBAdapter(uri=uri, table_name="vectors")
+        results = second.search([1.0, 0.0, 0.0, 0.0], top_k=3)
+
+        assert second.index_exists() is True
+        assert results
+        assert results[0]["doc_id"] == "a"
+        second.close()
+
+    def test_corrupted_table_reopens_as_empty_state(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        tmp_path: Path,
+    ) -> None:
+        """A failed reopen should leave the adapter in an empty safe state."""
+        corrupt_db = _CorruptingDB("vectors")
+        monkeypatch.setattr(
+            "nlp_policy_nz.storage.vectordb.lancedb.connect",
+            lambda _uri: corrupt_db,
+        )
+
+        adapter = LanceDBAdapter(uri=str(tmp_path / "corrupt"), table_name="vectors")
+
+        assert adapter.index_exists() is True
+        assert adapter.search([1.0, 0.0, 0.0, 0.0]) == []
 
     def test_distance_to_score_preserves_lower_distance_ordering(self) -> None:
         """Distance conversion must not assume nonnegative L2-style distances."""

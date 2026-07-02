@@ -55,9 +55,11 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Planned — 68; Completed — 59; Archived — 58, 70-71): Runtime Modernization
+Phase VIII (Completed — 59-60; Planned — 68; Archived — 58, 70-71): Runtime Modernization
   ├─ 58 (LangGraph Eval) [archived] ──► deterministic legal workflow orchestration decision record
   │   [depends on 43, 52, 55, 57]
+  ├─ 60 (LanceDB Hardening) ──► 62 (Issue mirror and project fields)
+  │   [depends on 6, 22, 33, 44, 52]
   ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 71 (Linux CI Sandbox) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 72 (Hotspot Benchmark)
@@ -453,6 +455,12 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Dependencies**: Tracks 6, 23, 32, 55, 56
 - **Parallelization Node**: Runtime Modernization
 - **Why**: Shift the hottest corpus-browser dataframe paths to Polars while keeping the public Gradio/pandas boundary stable. This records the Polars core, benchmark boundary, and decision on which surfaces remain hybrid.
+
+## [x] Track 60: LanceDB Retrieval Runtime Hardening
+*Link: [./conductor/tracks/track60_lancedb_retrieval_runtime_20260701/](./conductor/tracks/track60_lancedb_retrieval_runtime_20260701/)*
+- **Dependencies**: Tracks 6, 22, 33, 44, 52
+- **Parallelization Node**: Vector Retrieval and Local Search
+- **Why**: Harden LanceDB as the default local vector retrieval runtime, document the supported lifecycle, and record explicit substitution criteria for alternative vector stores.
 
 ## [ ] Track 68: Mojo Runtime Feasibility for Hot Python Paths
 *Link: [./conductor/tracks/track68_mojo_runtime_feasibility_20260701/](./conductor/tracks/track68_mojo_runtime_feasibility_20260701/)*
