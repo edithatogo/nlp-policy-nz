@@ -15,8 +15,15 @@ on:
 
 jobs:
   ci:
-    runs-on: ubuntu-latest
-
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,7 +35,13 @@ jobs:
           cache: true
           cache-write: ${{ github.event_name == 'push' }}
 
+      - name: Configure matrix environment
+        run: |
+          echo "CI_PLATFORM=${{ matrix.os }}" >> "$GITHUB_ENV"
+          echo "PYTHON_VERSION=${{ matrix.python-version }}" >> "$GITHUB_ENV"
+
       - name: Hadolint Dockerfile
+        if: matrix.os == 'ubuntu-latest'
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
@@ -58,6 +71,7 @@ jobs:
         run: CI=true pixi run test -x tests/test_smoke.py
 
       - name: Track 20 adaptive training runtime
+        if: matrix.os == 'ubuntu-latest'
         run: |
           CI=true pixi run track20-runtime
           CI=true pixi run track20-smoke
@@ -81,15 +95,72 @@ jobs:
       - name: Upload SBOM artifact
         uses: actions/upload-artifact@v4
         with:
-          name: nlp-policy-nz-sbom
+          name: nlp-policy-nz-sbom-${{ matrix.os }}-py${{ matrix.python-version }}
           path: .tmp/sbom/nlp-policy-nz.cdx.json
+
+      - name: Record matrix status
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          mkdir -p .tmp/ci-status
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          payload = {
+              "os": os.environ["CI_PLATFORM"],
+              "python": os.environ["PYTHON_VERSION"],
+              "status": os.environ["JOB_STATUS"],
+          }
+          Path(".tmp/ci-status/status.json").write_text(
+              json.dumps(payload, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Upload matrix status artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-status-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: .tmp/ci-status/status.json
 
       - name: Optional mutation tests
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_mutation_tests }}
         run: CI=true pixi run mutation
 
       - name: Upload coverage to Codecov
+        if: matrix.os == 'ubuntu-latest'
         uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
           fail_ci_if_error: false
+
+  ci-report:
+    if: always()
+    needs: ci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Download matrix statuses
+        uses: actions/download-artifact@v4
+        with:
+          path: .tmp/ci-statuses
+      - name: Render matrix summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          rows = ["| OS | Python | Status |", "|---|---|---|"]
+          for status_file in sorted(Path(".tmp/ci-statuses").rglob("status.json")):
+              data = json.loads(status_file.read_text(encoding="utf-8"))
+              rows.append(f"| {data['os']} | {data['python']} | {data['status']} |")
+          summary = Path(".tmp/ci-statuses/summary.md")
+          summary.write_text("\n".join(rows) + "\n", encoding="utf-8")
+          print(summary.read_text(encoding="utf-8"))
+          PY

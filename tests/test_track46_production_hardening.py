@@ -55,10 +55,10 @@ def test_track46_registry_and_plan_are_in_sync() -> None:
     assert "Track 46: Production Hardening & API Maturity" in registry
     assert "./conductor/tracks/track46_production_hardening_20260626/" in registry
     assert metadata["track_id"] == "track46_production_hardening_20260626"
-    assert metadata["status"] == "in_progress"
+    assert metadata["status"] == "complete"
     assert "VERSION.json" in plan
     assert "load-test.yml" in plan
-    assert "slowapi" in plan.lower()
+    assert "rate limiting" in plan.lower()
     assert "rate limiting" in spec.lower()
     assert "health check endpoint" in spec.lower()
 

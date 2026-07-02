@@ -246,9 +246,12 @@ directory = "coverage_html"
 testpaths = ["tests"]
 pythonpath = ["src"]
 markers = [
-    "benchmark: performance benchmark tests requiring pytest-benchmark",
+    "benchmark: performance benchmark tests requiring pytest-benchmark",        
     "coverage: tests that exercise coverage reporting surfaces",
     "unit: fast isolated unit tests",
+    "linux: Linux-specific tests and fixtures",
+    "windows: Windows-specific tests and fixtures",
+    "macos: macOS-specific tests and fixtures",
 ]
 
 [tool.scalene]
