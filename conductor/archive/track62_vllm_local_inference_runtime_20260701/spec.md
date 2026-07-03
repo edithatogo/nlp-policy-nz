@@ -19,12 +19,12 @@ later justifies it.
 
 ## Acceptance Criteria
 
-- [ ] vLLM generation helpers exist for offline and OpenAI-compatible modes.
-- [ ] Tests cover a local fake endpoint fixture and a dependency-missing path.
-- [ ] Benchmarks compare at least one prompt against a baseline completion path.
-- [ ] Documentation records supported and unsupported runtime modes.
-- [ ] Documentation records how DSPy and spaCy-llm could target the runtime.
-- [ ] A go/no-go decision records whether vLLM is default, optional, or rejected.
+- [x] vLLM generation helpers exist for offline and OpenAI-compatible modes.
+- [x] Tests cover a local fake endpoint fixture and a dependency-missing path.
+- [x] Benchmarks compare at least one prompt against a baseline completion path.
+- [x] Documentation records supported and unsupported runtime modes.
+- [x] Documentation records how DSPy and spaCy-llm could target the runtime.
+- [x] A go/no-go decision records whether vLLM is default, optional, or rejected.
 
 ## Out of Scope
 

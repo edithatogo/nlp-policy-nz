@@ -16,3 +16,8 @@
 - [x] Task: Verify the GitHub issue and project fields remain synchronized after the implementation updates.
 - [x] Task: Record the go/no-go decision and capture the implementation evidence.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Closeout' (Protocol in workflow.md)
+
+## Phase 3: Archive Handoff
+
+- [ ] Task: Move the track folder into `conductor/archive/`, update registry links, and close out the GitHub mirror as archived.
+- [ ] Task: Conductor - User Manual Verification 'Phase 3: Archive Handoff' (Protocol in workflow.md)

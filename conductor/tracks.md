@@ -55,7 +55,7 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Completed — 62; Planned — 68; Archived — 58-61, 70-73): Runtime Modernization
+Phase VIII (Archived — 58-62, 70-73; Planned — 68): Runtime Modernization
   ├─ 58 (LangGraph Eval) [archived] ──► deterministic legal workflow orchestration decision record
   │   [depends on 43, 52, 55, 57]
   ├─ 60 (LanceDB Hardening) ──► 62 (Issue mirror and project fields)
@@ -472,8 +472,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: Document Ingestion Modernization
 - **Why**: Evaluate Unstructured as an opt-in fallback for messy document partitioning without replacing the canonical legislative source parsers. The repo needs a clear adapter boundary, provenance preservation, and a packaging/documentation guardrail.
 
-## [x] Track 62: vLLM Local Inference Runtime Evaluation
-*Link: [./conductor/tracks/track62_vllm_local_inference_runtime_20260701/](./conductor/tracks/track62_vllm_local_inference_runtime_20260701/)*
+## [x] Track 62: vLLM Local Inference Runtime Evaluation (archived)
+*Link: [./conductor/archive/track62_vllm_local_inference_runtime_20260701/](./conductor/archive/track62_vllm_local_inference_runtime_20260701/)*
 - **Dependencies**: Tracks 20, 21, 22, 38, 46, 53
 - **Parallelization Node**: Local Model Serving
 - **Why**: Evaluate vLLM as an optional high-throughput local generation runtime and OpenAI-compatible serving layer for legal NLP, while keeping Python fallback behavior canonical.

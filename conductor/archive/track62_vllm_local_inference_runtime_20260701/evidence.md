@@ -4,7 +4,7 @@
 
 Track 62 evaluates vLLM as an optional high-throughput local generation
 runtime and OpenAI-compatible serving layer. The implementation is repo-side
-only and keeps Python fallback behavior canonical.
+only, keeps Python fallback behavior canonical, and is now archived.
 
 ## Implementation Notes
 
@@ -19,7 +19,8 @@ only and keeps Python fallback behavior canonical.
   - Records supported and unsupported runtime modes plus DSPy and spaCy-llm
     integration points.
 - `conductor/tracks.md`
-  - Registers Track 62 in the Phase VIII registry and marks it complete.
+  - Registers Track 62 in the Phase VIII registry and moves it to the archived
+    section.
 
 ## Validation
 
@@ -30,12 +31,12 @@ only and keeps Python fallback behavior canonical.
 
 ## GitHub Mirror
 
-- GitHub issue `#64` is updated with the completed Track 62 implementation
+- GitHub issue `#64` is updated with the archived Track 62 implementation
   state.
 - The issue is present in GitHub Projects `#3` and `#4` with completed status
   and mirrored Track 62 metadata.
 
 ## Residual Notes
 
-- The track remains in the active registry tree until the review/archive step
-  is requested.
+- The archived track now lives under
+  `conductor/archive/track62_vllm_local_inference_runtime_20260701/`.
