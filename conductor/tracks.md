@@ -55,7 +55,7 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Archived — 58-62, 70-73; Planned — 68): Runtime Modernization
+Phase VIII (Archived — 58-62, 70-73; Completed — 63; Planned — 68): Runtime Modernization
   ├─ 58 (LangGraph Eval) [archived] ──► deterministic legal workflow orchestration decision record
   │   [depends on 43, 52, 55, 57]
   ├─ 60 (LanceDB Hardening) ──► 62 (Issue mirror and project fields)
@@ -64,6 +64,8 @@ Phase VIII (Archived — 58-62, 70-73; Planned — 68): Runtime Modernization
   │   [depends on 4, 23, 44, 55]
   ├─ 62 (vLLM Eval) ──► optional local generation runtime and OpenAI-compatible serving
   │   [depends on 20, 21, 22, 38, 46, 53]
+  ├─ 63 (nlprule Eval) ──► grammar and rule-matching evaluation with spaCy fallback
+  │   [depends on 3, 10, 13, 23, 55]
   ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 71 (Linux CI Sandbox) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 72 (Hotspot Benchmark)
@@ -477,6 +479,12 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Dependencies**: Tracks 20, 21, 22, 38, 46, 53
 - **Parallelization Node**: Local Model Serving
 - **Why**: Evaluate vLLM as an optional high-throughput local generation runtime and OpenAI-compatible serving layer for legal NLP, while keeping Python fallback behavior canonical.
+
+## [x] Track 63: nlprule Grammar and Rule Matching Evaluation
+*Link: [./conductor/tracks/track63_nlprule_grammar_matching_eval_20260701/](./conductor/tracks/track63_nlprule_grammar_matching_eval_20260701/)*
+- **Dependencies**: Tracks 3, 10, 13, 23, 55
+- **Parallelization Node**: Rust-Backed Rule Matching
+- **Why**: Evaluate nlprule-style grammar and rule matching for legal drafting quality checks and extraction cues while preserving spaCy alignment.
 
 ## [ ] Track 68: Mojo Runtime Feasibility for Hot Python Paths
 *Link: [./conductor/tracks/track68_mojo_runtime_feasibility_20260701/](./conductor/tracks/track68_mojo_runtime_feasibility_20260701/)*
