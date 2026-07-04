@@ -1,0 +1,14 @@
+Track 74 archive closeout.
+
+Changes:
+- Moved the local Track 74 follow-up artifacts into conductor/archive.
+- Removed Track 74 from conductor/tracks.md.
+- Marked the archived metadata as status=archived.
+- Added evidence.md to record that the trigger artifact is still absent.
+- Updated the regression test to assert the archived state.
+
+Validation:
+- uv run python -m pytest tests/test_track74_conductor.py -q
+- git diff --check
+
+Commit: a2168ba
