@@ -54,7 +54,7 @@ jobs:
           ignore: DL3008
 
       - name: Install environment
-        run: CI=true pixi install -e "$PIXI_ENVIRONMENT" --locked
+        run: CI=true pixi install -e "$PIXI_ENVIRONMENT"
 
       - name: Supply-chain dependency audit
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
