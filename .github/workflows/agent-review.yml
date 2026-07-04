@@ -23,7 +23,7 @@ jobs:
           run-install: false
 
       - name: Install environment
-        run: CI=true pixi install --skip-with-deps semgrep --skip-with-deps scalene
+        run: CI=true pixi install -e default --skip-with-deps semgrep --skip-with-deps scalene
 
       - name: Run quality gates
         id: gates
