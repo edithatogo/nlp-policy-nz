@@ -3,3 +3,6 @@
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
+- [Run Record](./run_record.json)
+- [Model Card](./model_card.md)
+- [Evidence](./evidence.md)

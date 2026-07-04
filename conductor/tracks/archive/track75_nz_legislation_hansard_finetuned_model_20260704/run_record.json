@@ -1,0 +1,52 @@
+{
+  "track_id": "track75_nz_legislation_hansard_finetuned_model_20260704",
+  "training_seed": 20260704,
+  "training_job_spec": {
+    "task": "mlm",
+    "model": {
+      "model_name": "nlpaueb/legal-bert-base-uncased",
+      "output_dir": "models/nz-legislation-hansard-finetuned",
+      "tokenizer_name": null,
+      "trust_remote_code": false
+    },
+    "training": {
+      "max_steps": 100000,
+      "num_epochs": 3,
+      "per_device_batch_size": 16,
+      "learning_rate": 2e-05,
+      "max_length": 128,
+      "warmup_ratio": 0.1,
+      "gradient_accumulation_steps": 1,
+      "report_to": "wandb"
+    },
+    "qlora": null,
+    "dataset_split_dir": null,
+    "hub_model_id": "nlp-policy-nz/legal-bert-nz"
+  },
+  "training_data_manifest_path": "data/track74/held_out_evaluation_set.json",
+  "training_data_manifest_id": "track74_nz_legal_hansard_evaluation_set_20260704",
+  "training_data_manifest_hash": "06dc4e108f250484ac749169021db02cc8b0ba577aee902950ce61f1c50fe837",
+  "artifact_layout": {
+    "model_output_dir": "models/nz-legislation-hansard-finetuned",
+    "model_card_path": "conductor/tracks/archive/track75_nz_legislation_hansard_finetuned_model_20260704/model_card.md",
+    "run_record_path": "conductor/tracks/archive/track75_nz_legislation_hansard_finetuned_model_20260704/run_record.json",
+    "track74_manifest_path": "data/track74/held_out_evaluation_set.json",
+    "fallback_path": "nlp_policy_nz.semantic.model_loader:load_model"
+  },
+  "comparison": {
+    "track74_manifest_id": "track74_nz_legal_hansard_evaluation_set_20260704",
+    "track74_overall_score": 0.7143,
+    "track74_promotion_threshold": 0.75,
+    "promotion_margin": -0.0357,
+    "promotion_ready": false,
+    "fine_tuned_model_score": null,
+    "decision": "defer",
+    "decision_reason": "Track 74 baseline remains below the promotion threshold; defer live model promotion until a measured live fine-tuned run improves the held-out score"
+  },
+  "residual_external_gates": [
+    "Live fine-tuning run on the selected model",
+    "Measured evaluation on the Track 74 held-out set",
+    "Model card publication with artifact hashes",
+    "Optional Hugging Face Hub publication after promotion approval"
+  ]
+}

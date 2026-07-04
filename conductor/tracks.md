@@ -446,8 +446,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: Model Evaluation Data Infrastructure
 - **Why**: Create a held-out NZ legal/Hansard evaluation set with leakage controls, provenance, and stable metrics to gate model selection and future fine-tuning.
 
-## [ ] Track 75: NZ Legislation/Hansard Fine-Tuned Model
-*Link: [./conductor/tracks/track75_nz_legislation_hansard_finetuned_model_20260704/](./conductor/tracks/track75_nz_legislation_hansard_finetuned_model_20260704/)*
+## [x] Track 75: NZ Legislation/Hansard Fine-Tuned Model (archived)
+*Link: [./conductor/tracks/archive/track75_nz_legislation_hansard_finetuned_model_20260704/](./conductor/tracks/archive/track75_nz_legislation_hansard_finetuned_model_20260704/)*
 - **Dependencies**: Tracks 74, 20, 53
 - **Parallelization Node**: Model Fine-Tuning and Evaluation
 - **Why**: Fine-tune a NZ legislation/Hansard model only after the held-out evaluation set establishes a defensible baseline and promotion threshold.
