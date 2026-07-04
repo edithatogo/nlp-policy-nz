@@ -31,7 +31,7 @@ COPY docs ./docs
 COPY config ./config
 COPY conductor ./conductor
 
-RUN pixi install --skip-with-deps semgrep --skip-with-deps scalene
+RUN pixi install --skip-with-deps semgrep --skip-with-deps scalene --skip-with-deps vllm
 
 
 FROM python:3.13-slim-bookworm AS runtime
