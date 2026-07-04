@@ -29,3 +29,4 @@
 
 - The closeout is repo-side and deterministic. The run record, model card, and evidence files are archived with the track.
 - The comparison currently defers promotion because Track 74 remains below the promotion threshold and no live fine-tuned weights are published yet.
+- Closeout commit: `06fe8d3`
