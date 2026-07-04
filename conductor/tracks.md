@@ -433,3 +433,21 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Dependencies**: Tracks 23, 39, 45, 57-68
 - **Parallelization Node**: Repository Governance and Planning Operations
 - **Why**: Keep the Conductor roadmap mirrored into GitHub issues and GitHub Projects with stable phase, status, dependency, and path metadata while preserving the completed track as a historical record.
+
+---
+
+## Phase X — NZ Legal/Hansard Evaluation and Fine-Tuning
+
+---
+
+## [ ] Track 74: NZ Legal/Hansard Held-Out Evaluation Set
+*Link: [./conductor/tracks/track74_nz_legal_hansard_evaluation_set_20260704/](./conductor/tracks/track74_nz_legal_hansard_evaluation_set_20260704/)*
+- **Dependencies**: Tracks 13, 19, 20, 23, 53
+- **Parallelization Node**: Model Evaluation Data Infrastructure
+- **Why**: Create a held-out NZ legal/Hansard evaluation set with leakage controls, provenance, and stable metrics to gate model selection and future fine-tuning.
+
+## [ ] Track 75: NZ Legislation/Hansard Fine-Tuned Model
+*Link: [./conductor/tracks/track75_nz_legislation_hansard_finetuned_model_20260704/](./conductor/tracks/track75_nz_legislation_hansard_finetuned_model_20260704/)*
+- **Dependencies**: Tracks 74, 20, 53
+- **Parallelization Node**: Model Fine-Tuning and Evaluation
+- **Why**: Fine-tune a NZ legislation/Hansard model only after the held-out evaluation set establishes a defensible baseline and promotion threshold.

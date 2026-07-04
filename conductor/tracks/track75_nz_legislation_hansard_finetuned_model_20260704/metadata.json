@@ -1,0 +1,9 @@
+{
+  "track_id": "track75_nz_legislation_hansard_finetuned_model_20260704",
+  "type": "feature",
+  "status": "planned",
+  "created_at": "2026-07-04T21:40:43.6815268+10:00",
+  "updated_at": "2026-07-04T21:40:43.6815268+10:00",
+  "description": "Fine-tune a NZ legislation/Hansard model only after the held-out evaluation set establishes a defensible promotion threshold and baseline comparison.",
+  "oracle_notes": "Conditional track. This work may not proceed until Track 74 exists and the selected baseline evidence justifies training."
+}
