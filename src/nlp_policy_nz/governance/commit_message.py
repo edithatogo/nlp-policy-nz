@@ -49,7 +49,7 @@ def load_commit_messages_from_git() -> list[str]:
 def _git_subjects(range_spec: str, *, fallback_single: bool = False) -> list[str]:
     try:
         result = subprocess.run(  # noqa: S603
-            ["git", "log", "--format=%s", range_spec],
+            ["git", "log", "--no-merges", "--format=%s", range_spec],
             check=True,
             capture_output=True,
             text=True,
@@ -58,13 +58,21 @@ def _git_subjects(range_spec: str, *, fallback_single: bool = False) -> list[str
         if not fallback_single:
             raise
         single = subprocess.run(  # noqa: S603
-            ["git", "log", "-1", "--format=%s"],
+            ["git", "log", "--no-merges", "-1", "--format=%s"],
             check=True,
             capture_output=True,
             text=True,
         )
-        return [line for line in single.stdout.splitlines() if line.strip()]
-    return [line for line in result.stdout.splitlines() if line.strip()]
+        return _filter_commit_subjects(single.stdout.splitlines())
+    return _filter_commit_subjects(result.stdout.splitlines())
+
+
+def _filter_commit_subjects(lines: Iterable[str]) -> list[str]:
+    return [
+        line
+        for line in lines
+        if (subject := line.strip()) and not subject.startswith("Merge ")
+    ]
 
 
 def _first_meaningful_line(message: str) -> str | None:

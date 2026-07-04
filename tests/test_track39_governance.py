@@ -5,6 +5,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
+from nlp_policy_nz.governance import commit_message as commit_message_module
 from nlp_policy_nz.governance.commit_message import lint_commit_message, lint_commit_messages
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -85,3 +88,26 @@ def test_track39_commit_message_linting_accepts_conventional_messages() -> None:
     assert lint_commit_message("fix: correct stale workflow") == []
     assert lint_commit_message("update docs") != []
     assert lint_commit_messages(["docs: add security policy", "bad message"]) != []
+
+
+def test_track39_commit_message_loader_skips_merge_commits(monkeypatch: pytest.MonkeyPatch) -> None:
+    """CI should ignore GitHub's synthetic merge commit when linting PR commit subjects."""
+
+    calls: list[list[str]] = []
+
+    def fake_run(args: list[str], *, check: bool, capture_output: bool, text: bool) -> object:
+        calls.append(args)
+        if "--no-merges" not in args:
+            raise AssertionError(f"expected --no-merges in {args!r}")
+
+        class Result:
+            stdout = "feat: add change\nMerge pull request #76 from example/branch\n"
+
+        return Result()
+
+    monkeypatch.setenv("GITHUB_BASE_REF", "master")
+    monkeypatch.setattr(commit_message_module.subprocess, "run", fake_run)
+
+    assert commit_message_module.load_commit_messages_from_git() == ["feat: add change"]
+    assert calls
+    assert calls[0][:3] == ["git", "log", "--no-merges"]
