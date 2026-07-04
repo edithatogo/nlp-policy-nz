@@ -1,9 +1,9 @@
 {
   "track_id": "track74_nz_legal_hansard_evaluation_set_20260704",
   "type": "analysis",
-  "status": "planned",
+  "status": "archived",
   "created_at": "2026-07-04T21:40:43.6815268+10:00",
-  "updated_at": "2026-07-04T21:40:43.6815268+10:00",
+  "updated_at": "2026-07-05T03:16:14.9345181+10:00",
   "description": "Create a held-out NZ legal/Hansard evaluation set with leak checks, provenance, and stable metrics to gate model selection and future fine-tuning.",
-  "oracle_notes": "Evaluation gate for NZ legal model work. Fine-tuning must not proceed until this track defines a reproducible held-out benchmark and leakage controls."
+  "oracle_notes": "Archived evaluation gate for NZ legal model work. The manifest, leakage checks, baseline report, issue mirror, and project records are now complete."
 }

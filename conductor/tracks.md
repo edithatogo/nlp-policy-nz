@@ -440,8 +440,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
-## [ ] Track 74: NZ Legal/Hansard Held-Out Evaluation Set
-*Link: [./conductor/tracks/track74_nz_legal_hansard_evaluation_set_20260704/](./conductor/tracks/track74_nz_legal_hansard_evaluation_set_20260704/)*
+## [x] Track 74: NZ Legal/Hansard Held-Out Evaluation Set (archived)
+*Link: [./conductor/tracks/archive/track74_nz_legal_hansard_evaluation_set_20260704/](./conductor/tracks/archive/track74_nz_legal_hansard_evaluation_set_20260704/)*
 - **Dependencies**: Tracks 13, 19, 20, 23, 53
 - **Parallelization Node**: Model Evaluation Data Infrastructure
 - **Why**: Create a held-out NZ legal/Hansard evaluation set with leakage controls, provenance, and stable metrics to gate model selection and future fine-tuning.

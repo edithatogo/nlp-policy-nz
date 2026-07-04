@@ -1,0 +1,134 @@
+{
+  "track_id": "track74_nz_legal_hansard_evaluation_set_20260704",
+  "track_number": 74,
+  "status": "planned",
+  "selection_rules": [
+    "Hold out NZ legislation and Hansard examples from the repo-side fixture pool.",
+    "Keep source-path, source-hash, version, date, and split reason for every case.",
+    "Reject any case whose hash overlaps the explicitly enumerated training pool.",
+    "Use one stable baseline prediction per case so CI can compare future models deterministically."
+  ],
+  "promotion_threshold": 0.75,
+  "training_pool": [
+    {
+      "source_id": "train-legislation-sample",
+      "source_path": "data/samples/sample_legislation.txt",
+      "source_kind": "legislation",
+      "source_title": "Sample legislation fixture",
+      "document_version": "fixture",
+      "document_date": "2024-01-01",
+      "source_hash": "129e1b5cb8918b8fe48b3352b8318694bcfae3c1857d3c98e2d8675f706671d5"
+    },
+    {
+      "source_id": "train-hansard-sample",
+      "source_path": "data/samples/sample_hansard.txt",
+      "source_kind": "hansard",
+      "source_title": "Sample Hansard fixture",
+      "document_version": "fixture",
+      "document_date": "2024-01-01",
+      "source_hash": "9dc5d159a23abac06f57be7e52eae282471d981bfff07a525a5253bc9084cdfc"
+    },
+    {
+      "source_id": "train-axiom-source-section",
+      "source_path": "tests/fixtures/axiom/nz_source_section.txt",
+      "source_kind": "legislation",
+      "source_title": "Axiom source section fixture",
+      "document_version": "fixture",
+      "document_date": "2024-01-01",
+      "source_hash": "1d183bf584c39fc39b34f31996bb61dc57d7d1a1b88040167a61e3ad5afd5164"
+    },
+    {
+      "source_id": "nz-leg-te-ture-whenua-1993-s2",
+      "source_path": "data/track22/nz_mleb_fixture.json",
+      "source_kind": "legislation",
+      "source_title": "Te Ture Whenua Maori Act 1993 section 2",
+      "document_version": "track22.nz-mleb.fixture.v1",
+      "document_date": "2024-01-01",
+      "source_hash": "7dbf64c2a37ae5c2472d27a6c475c8541fa0489869b6b65a25e4b099135d84a9"
+    },
+    {
+      "source_id": "nz-hansard-water-services-2023",
+      "source_path": "data/track22/nz_mleb_fixture.json",
+      "source_kind": "hansard",
+      "source_title": "Hansard debate on water services entities",
+      "document_version": "track22.nz-mleb.fixture.v1",
+      "document_date": "2024-01-01",
+      "source_hash": "06d236f2ef0795b6dc8d978c1ce296f46a29e577dc58ef9c4d74200e43b3d38d"
+    },
+    {
+      "source_id": "nz-case-ellis-2022-tikanga",
+      "source_path": "data/track22/nz_mleb_fixture.json",
+      "source_kind": "court_decision",
+      "source_title": "Ellis v R tikanga discussion",
+      "document_version": "track22.nz-mleb.fixture.v1",
+      "document_date": "2024-01-01",
+      "source_hash": "2052f983715e426066b6bd51d196e02617bf77ef579e3b7f7a1f5b3e6da67e4b"
+    }
+  ],
+  "held_out_cases": [
+    {
+      "case_id": "track74-case-01",
+      "task": "classification",
+      "source_id": "holdout-legislation-commencement",
+      "source_kind": "legislation",
+      "source_path": "data/track74/sources/legislation_commencement.txt",
+      "source_title": "Held-out commencement clause",
+      "document_version": "track74-holdout-v1",
+      "document_date": "2026-06-01",
+      "source_hash": "f3c43ac60aca60eb9df886fe9260a0a60d16b731de6fde848e9118d52341744b",
+      "split_reason": "Held out from the training pool to preserve commencement-detection evidence.",
+      "metric_kind": "classification_accuracy",
+      "prompt": "Classify whether this clause is about commencement or an operative duty.",
+      "reference_answer": "commencement",
+      "baseline_prediction": "commencement"
+    },
+    {
+      "case_id": "track74-case-02",
+      "task": "stance",
+      "source_id": "holdout-hansard-water-services",
+      "source_kind": "hansard",
+      "source_path": "data/track74/sources/hansard_water_services.txt",
+      "source_title": "Held-out Hansard water services debate",
+      "document_version": "track74-holdout-v1",
+      "document_date": "2026-06-02",
+      "source_hash": "5f10431afbe2ccbf18736256508796a00f67033d04b9ece7dff7f57d67af2928",
+      "split_reason": "Reserved for stance and policy-position gating on Hansard text.",
+      "metric_kind": "classification_accuracy",
+      "prompt": "Classify the stance of the speech on water services reform.",
+      "reference_answer": "support",
+      "baseline_prediction": "neutral"
+    },
+    {
+      "case_id": "track74-case-03",
+      "task": "retrieval",
+      "source_id": "holdout-legislation-tikanga",
+      "source_kind": "legislation",
+      "source_path": "data/track74/sources/legislation_tikanga.txt",
+      "source_title": "Held-out tikanga and public administration clause",
+      "document_version": "track74-holdout-v1",
+      "document_date": "2026-06-03",
+      "source_hash": "e6a1bdc5df2bd4520cf06adb44d5c214276eb8601c205c2f5b01b425e5e214c6",
+      "split_reason": "Reserved for retrieval and citation-search gating without reuse of fixture text.",
+      "metric_kind": "exact_match",
+      "prompt": "Retrieve the key phrase describing tikanga and public administration.",
+      "reference_answer": "recognise tikanga Māori and provide for public administration",
+      "baseline_prediction": "recognise tikanga Māori and provide for public administration"
+    },
+    {
+      "case_id": "track74-case-04",
+      "task": "extraction",
+      "source_id": "holdout-hansard-treaty",
+      "source_kind": "hansard",
+      "source_path": "data/track74/sources/hansard_treaty.txt",
+      "source_title": "Held-out Treaty principles Hansard debate",
+      "document_version": "track74-holdout-v1",
+      "document_date": "2026-06-04",
+      "source_hash": "e36c33c460df9de028a5fc21c1b8f5d17cf42bd1a4f6e0dea94723d5d3f37082",
+      "split_reason": "Reserved for extraction-style evaluation on Treaty principles.",
+      "metric_kind": "token_f1",
+      "prompt": "Extract the core treaty-principles phrase from the speech.",
+      "reference_answer": "partnership protection and participation",
+      "baseline_prediction": "partnership and protection"
+    }
+  ]
+}

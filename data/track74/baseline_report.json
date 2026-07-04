@@ -1,0 +1,45 @@
+{
+  "manifest_track_id": "track74_nz_legal_hansard_evaluation_set_20260704",
+  "leakage_free": true,
+  "example_count": 4,
+  "task_scores": {
+    "classification": 1.0,
+    "extraction": 0.8571,
+    "retrieval": 1.0,
+    "stance": 0.0
+  },
+  "overall_score": 0.7143,
+  "promotion_threshold": 0.75,
+  "promotion_ready": false,
+  "case_scores": [
+    {
+      "case_id": "track74-case-01",
+      "metric_kind": "classification_accuracy",
+      "score": 1.0,
+      "reference_answer": "commencement",
+      "baseline_prediction": "commencement"
+    },
+    {
+      "case_id": "track74-case-02",
+      "metric_kind": "classification_accuracy",
+      "score": 0.0,
+      "reference_answer": "support",
+      "baseline_prediction": "neutral"
+    },
+    {
+      "case_id": "track74-case-03",
+      "metric_kind": "exact_match",
+      "score": 1.0,
+      "reference_answer": "recognise tikanga Māori and provide for public administration",
+      "baseline_prediction": "recognise tikanga Māori and provide for public administration"
+    },
+    {
+      "case_id": "track74-case-04",
+      "metric_kind": "token_f1",
+      "score": 0.8571,
+      "reference_answer": "partnership protection and participation",
+      "baseline_prediction": "partnership and protection"
+    }
+  ],
+  "validation_errors": []
+}
