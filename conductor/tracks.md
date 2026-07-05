@@ -252,26 +252,26 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
-## [x] Track 38: Containerization & Reproducible Execution
-*Link: [./conductor/tracks/track38_containerization_20260626/](./conductor/tracks/track38_containerization_20260626/)*
+## [x] Track 38: Containerization & Reproducible Execution (archived)
+*Link: [./conductor/tracks/archive/track38_containerization_20260626/](./conductor/tracks/archive/track38_containerization_20260626/)*
 - **Dependencies**: Track 1, Track 23
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Docker multi-stage builds, .devcontainer for Codespaces/VS Code, docker-compose for local service deps. Makes pipeline portable and CI-reproducible.
 
-## [x] Track 39: Repository Governance & Contribution Framework
-*Link: [./conductor/tracks/track39_governance_contributing_20260626/](./conductor/tracks/track39_governance_contributing_20260626/)*
+## [x] Track 39: Repository Governance & Contribution Framework (archived)
+*Link: [./conductor/tracks/archive/track39_governance_contributing_20260626/](./conductor/tracks/archive/track39_governance_contributing_20260626/)*
 - **Dependencies**: Track 1
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: CONTRIBUTING.md, CODEOWNERS, issue/PR templates, stale-bot, commit message linting, release drafter.
 
-## [x] Track 40: Dependency Automation & Supply Chain Security
-*Link: [./conductor/tracks/track40_dependency_supplychain_20260626/](./conductor/tracks/track40_dependency_supplychain_20260626/)*
+## [x] Track 40: Dependency Automation & Supply Chain Security (archived)
+*Link: [./conductor/tracks/archive/track40_dependency_supplychain_20260626/](./conductor/tracks/archive/track40_dependency_supplychain_20260626/)*
 - **Dependencies**: Track 1
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Dependabot/Renovate for automated updates, pip-audit vulnerability scanning, CycloneDX SBOM generation for supply chain transparency.
 
-## [x] Track 41: SAST, Secrets Detection & Security Hardening
-*Link: [./conductor/tracks/track41_sast_security_20260626/](./conductor/tracks/track41_sast_security_20260626/)*
+## [x] Track 41: SAST, Secrets Detection & Security Hardening (archived)
+*Link: [./conductor/tracks/archive/track41_sast_security_20260626/](./conductor/tracks/archive/track41_sast_security_20260626/)*
 - **Dependencies**: Track 1
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Bandit + Semgrep SAST scanning, detect-secrets pre-commit hook, security disclosure policy. Catches security issues before production.
@@ -282,8 +282,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Store benchmark baselines in git, compare PR benchmarks against baselines, fail on >10% regression. Auto-update baselines on master merge.
 
-## [x] Track 43: Agentic Automation & Multi-Agent Orchestration
-*Link: [./conductor/tracks/track43_agentic_automation_20260626/](./conductor/tracks/track43_agentic_automation_20260626/)*
+## [x] Track 43: Agentic Automation & Multi-Agent Orchestration (archived)
+*Link: [./conductor/tracks/archive/track43_agentic_automation_20260626/](./conductor/tracks/archive/track43_agentic_automation_20260626/)*
 - **Dependencies**: Track 1, Track 23
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Claude Code subagents for PR review + auto-fix CI, Google Jules GPU task dispatch, LLM-as-judge evaluation, conductor advancement automation, self-healing CI.
@@ -300,14 +300,14 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
-## [x] Track 45: Release Engineering & Automated Publishing
-*Link: [./conductor/tracks/track45_release_engineering_20260626/](./conductor/tracks/track45_release_engineering_20260626/)*
+## [x] Track 45: Release Engineering & Automated Publishing (archived)
+*Link: [./conductor/tracks/archive/track45_release_engineering_20260626/](./conductor/tracks/archive/track45_release_engineering_20260626/)*
 - **Dependencies**: Tracks 8, 9, 24, 36
 - **Parallelization Node**: CI/CD Automation
 - **Why**: Semantic versioning from conventional commits, auto-changelog, CI/CD auto-publish to HF datasets/spaces, Zenodo DOIs, OSF archives, and PyPI. Closes the gap between manual CLI publishing and fully automated release pipeline.
 
-## [x] Track 46: Production Hardening & API Maturity
-*Link: [./conductor/tracks/track46_production_hardening_20260626/](./conductor/tracks/track46_production_hardening_20260626/)*
+## [x] Track 46: Production Hardening & API Maturity (archived)
+*Link: [./conductor/tracks/archive/track46_production_hardening_20260626/](./conductor/tracks/archive/track46_production_hardening_20260626/)*
 - **Dependencies**: Tracks 7, 23, 38, 44
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Transitions the project from alpha/beta research prototype to mature production system: API versioning (v1/v2), dev/staging/prod environments, database migrations, load/stress testing, feature flags, health endpoints, rate limiting, runbook.
@@ -324,8 +324,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: CI/CD Automation
 - **Why**: Current CI only runs on ubuntu-latest. Mature products test on all three target platforms (Windows, macOS, Linux). Adds binary distribution for users who cannot run pixi or Docker.
 
-## [x] Track 48: API Client SDK & Developer Tooling
-*Link: [./conductor/tracks/track48_client_sdk_tooling_20260626/](./conductor/tracks/track48_client_sdk_tooling_20260626/)*
+## [x] Track 48: API Client SDK & Developer Tooling (archived)
+*Link: [./conductor/tracks/archive/track48_client_sdk_tooling_20260626/](./conductor/tracks/archive/track48_client_sdk_tooling_20260626/)*
 - **Dependencies**: Tracks 7, 38, 46
 - **Parallelization Node**: Developer Experience
 - **Why**: Build a first-class Python client SDK wrapping the FastAPI server, CLI shell completion, Docker Compose local dev stack, and 5-minute quickstart guide for API consumers.
@@ -348,8 +348,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
-## [x] Track 51: API Security & Authentication
-*Link: [./conductor/tracks/track51_api_security_20260626/](./conductor/tracks/track51_api_security_20260626/)*
+## [x] Track 51: API Security & Authentication (archived)
+*Link: [./conductor/tracks/archive/track51_api_security_20260626/](./conductor/tracks/archive/track51_api_security_20260626/)*
 - **Dependencies**: Tracks 7, 45, 46
 - **Parallelization Node**: Security & Observability
 - **Why**: Add API key authentication, scope-based authorization, key lifecycle management, audit logging, and security headers to the FastAPI server. Zero auth is the single biggest security gap for any production deployment.
