@@ -31,4 +31,4 @@
 ## Implementation Notes
 
 - The track is archived as a deferral record and no Mojo integration code was added because Track 72 did not clear the promotion threshold.
-- Archive commit: pending in the next commit.
+- Archive commit: `bee34db` (`chore(conductor): archive track 73 optional acceleration`).
