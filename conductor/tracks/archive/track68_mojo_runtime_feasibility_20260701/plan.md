@@ -24,4 +24,4 @@
 
 - The live GitHub issue `#70` remains open as the operating umbrella; the archived local track is the historical registry record.
 - No production code or dependency changes were introduced.
-- Archive commit: pending in the next commit.
+- Archive commit: `907c26d`
