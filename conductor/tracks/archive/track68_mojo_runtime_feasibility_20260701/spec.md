@@ -2,7 +2,7 @@
 
 ## Overview
 
-Track 68 is the umbrella roadmap track for Mojo migration. It evaluates whether Mojo should be introduced incrementally for isolated hot Python paths or deferred in favor of the current Python, Rust-backed Python libraries, Polars, LanceDB, and possible Rust/PyO3 extensions.
+Track 68 is the archived umbrella roadmap track for Mojo migration. It records the decision boundary for whether Mojo should be introduced incrementally for isolated hot Python paths or deferred in favor of the current Python, Rust-backed Python libraries, Polars, LanceDB, and possible Rust/PyO3 extensions.
 
 ## Requirements
 
@@ -14,11 +14,11 @@ Track 68 is the umbrella roadmap track for Mojo migration. It evaluates whether 
 
 ## Acceptance Criteria
 
-- [ ] Track 68 stays open as the umbrella issue and local Conductor context.
-- [ ] Tracks 70-73 exist as child tracks with explicit dependency ordering and acceptance criteria.
-- [ ] GitHub issue #70 links to the child issues once they exist.
-- [ ] The Mojo roadmap remains the source of migration principles and rollback criteria.
-- [ ] No production path depends on Mojo through this umbrella track.
+- [x] Track 68 stays open as the umbrella issue and local Conductor context.
+- [x] Tracks 70-73 exist as child tracks with explicit dependency ordering and acceptance criteria.
+- [x] GitHub issue #70 links to the child issues once they exist.
+- [x] The Mojo roadmap remains the source of migration principles and rollback criteria.
+- [x] No production path depends on Mojo through this umbrella track.
 
 ## Out of Scope
 

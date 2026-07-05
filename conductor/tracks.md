@@ -392,8 +392,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
-## [ ] Track 68: Mojo Runtime Feasibility for Hot Python Paths
-*Link: [./conductor/tracks/track68_mojo_runtime_feasibility_20260701/](./conductor/tracks/track68_mojo_runtime_feasibility_20260701/)*
+## [x] Track 68: Mojo Runtime Feasibility for Hot Python Paths (archived)
+*Link: [./conductor/tracks/archive/track68_mojo_runtime_feasibility_20260701/](./conductor/tracks/archive/track68_mojo_runtime_feasibility_20260701/)*
 - **Dependencies**: Tracks 21, 23, 42, 56, 67
 - **Parallelization Node**: Experimental Runtime Strategy
 - **Why**: Maintain the umbrella decision record for introducing Mojo as an optional Linux GitHub Actions acceleration path, while keeping concrete work split into Tracks 70-73.
