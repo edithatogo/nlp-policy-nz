@@ -30,4 +30,4 @@
 ## Implementation Notes
 
 - The live GitHub issue `#79` is closed and records the defer decision for Track 73.
-- Archive commit: pending in the next commit.
+- Archive commit: `563250e`
