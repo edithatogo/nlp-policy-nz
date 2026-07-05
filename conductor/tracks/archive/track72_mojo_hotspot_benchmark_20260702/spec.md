@@ -2,7 +2,7 @@
 
 ## Overview
 
-Measure whether Mojo improves a real deterministic repo bottleneck enough to justify optional integration.
+Archived benchmark gate for measuring whether Mojo improves a real deterministic repo bottleneck enough to justify optional integration.
 
 ## Requirements
 
@@ -14,11 +14,11 @@ Measure whether Mojo improves a real deterministic repo bottleneck enough to jus
 
 ## Acceptance Criteria
 
-- [ ] At least one stable benchmark fixture is selected with reproducible inputs and expected outputs.
-- [ ] Baseline profiler and benchmark evidence is recorded.
-- [ ] Mojo is compared against Python/Rust-backed behavior and at least one non-Mojo alternative.
-- [ ] Artifact parity passes for the selected candidate or Mojo is deferred.
-- [ ] A go/no-go decision states whether Track 73 may proceed.
+- [x] At least one stable benchmark fixture is selected with reproducible inputs and expected outputs.
+- [x] Baseline profiler and benchmark evidence is recorded.
+- [x] Mojo is compared against Python/Rust-backed behavior and at least one non-Mojo alternative.
+- [x] Artifact parity passes for the selected candidate or Mojo is deferred.
+- [x] A go/no-go decision states whether Track 73 may proceed.
 
 ## Out of Scope
 

@@ -1,9 +1,9 @@
 {
   "track_id": "track72_mojo_hotspot_benchmark_20260702",
   "type": "analysis",
-  "status": "planned",
+  "status": "archived",
   "created_at": "2026-07-02T00:00:00+10:00",
-  "updated_at": "2026-07-02T00:00:00+10:00",
+  "updated_at": "2026-07-05T17:51:00.3835408+10:00",
   "description": "Profile current hot paths, benchmark Mojo candidate kernels, compare against Python/Rust/Polars alternatives, and record go/no-go evidence.",
-  "oracle_notes": "Benchmark gate for any Mojo integration. Track 73 must not proceed unless this track proves material end-to-end value with artifact parity."
+  "oracle_notes": "Archived benchmark gate for any Mojo integration. The live GitHub issue remains closed and records the go/no-go decision for Track 73."
 }

@@ -410,8 +410,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: Optional Linux Runtime Sandbox
 - **Why**: Add an optional Linux-only Mojo experiment sandbox and non-blocking CI path after readiness criteria pass, without touching production imports. The sandbox is complete and now lives in the archive tree.
 
-## [ ] Track 72: Mojo Hotspot Benchmark
-*Link: [./conductor/tracks/track72_mojo_hotspot_benchmark_20260702/](./conductor/tracks/track72_mojo_hotspot_benchmark_20260702/)*
+## [x] Track 72: Mojo Hotspot Benchmark (archived)
+*Link: [./conductor/tracks/archive/track72_mojo_hotspot_benchmark_20260702/](./conductor/tracks/archive/track72_mojo_hotspot_benchmark_20260702/)*
 - **Dependencies**: Tracks 19, 42, 56, 67, 70
 - **Parallelization Node**: Mojo Benchmark Governance
 - **Why**: Profile current hot paths, benchmark Mojo candidate kernels, compare against Python/Rust/Polars alternatives, and record go/no-go evidence.
