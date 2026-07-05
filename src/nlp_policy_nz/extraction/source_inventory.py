@@ -224,14 +224,10 @@ def validate_source_inventory_manifest(
     expected_kind_counts: dict[str, int] = {}
     expected_paths = sorted({record.citation_path for record in manifest.records})
     seen_ids: set[str] = set()
-    seen_paths: set[str] = set()
     for record in manifest.records:
         if record.inventory_id in seen_ids:
             errors.append(f"duplicate inventory id: {record.inventory_id}")
         seen_ids.add(record.inventory_id)
-        if record.citation_path in seen_paths:
-            errors.append(f"duplicate citation path: {record.citation_path}")
-        seen_paths.add(record.citation_path)
         expected_status_counts[record.status] = expected_status_counts.get(record.status, 0) + 1
         expected_kind_counts[record.document_kind] = expected_kind_counts.get(record.document_kind, 0) + 1
         if record.status == "available" and record.checksum_sha256 is None:

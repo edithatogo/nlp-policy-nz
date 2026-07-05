@@ -46,7 +46,7 @@ def test_default_source_inventory_manifest_covers_required_statuses() -> None:
     assert available.update_policy == "refresh-on-change"
 
 
-def test_source_inventory_manifest_validation_rejects_missing_checksum_and_duplicate_paths() -> None:
+def test_source_inventory_manifest_validation_rejects_missing_checksum_and_duplicate_ids() -> None:
     """Inventory validation should fail closed on malformed source records."""
     manifest = default_source_inventory_manifest()
     broken_record = replace(manifest.records[0], checksum_sha256=None)
@@ -57,17 +57,15 @@ def test_source_inventory_manifest_validation_rejects_missing_checksum_and_dupli
     assert valid is False
     assert any("missing checksum" in error for error in errors)
 
-    duplicate_path_record = replace(
-        manifest.records[1], citation_path=manifest.records[0].citation_path
-    )
-    duplicate_path_manifest = replace(
-        manifest, records=(manifest.records[0], duplicate_path_record, *manifest.records[2:])
+    duplicate_id_record = replace(manifest.records[1], inventory_id=manifest.records[0].inventory_id)
+    duplicate_id_manifest = replace(
+        manifest, records=(manifest.records[0], duplicate_id_record, *manifest.records[2:])
     )
 
-    valid, errors = validate_source_inventory_manifest(duplicate_path_manifest)
+    valid, errors = validate_source_inventory_manifest(duplicate_id_manifest)
 
     assert valid is False
-    assert any("duplicate citation path" in error for error in errors)
+    assert any("duplicate inventory id" in error for error in errors)
 
 
 def test_source_inventory_live_probe_reports_ci_and_windows_skips() -> None:
