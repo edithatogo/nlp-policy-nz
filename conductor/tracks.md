@@ -68,8 +68,7 @@ Phase X (Complete — 74-75): NZ Legal/Hansard Evaluation and Fine-Tuning
   ├─ 74 (Held-Out Evaluation Set) [archived]
   └─ 75 (Fine-Tuned Model) [archived]
 
-Phase XI (Planned — 76-80): Executable Rules-as-Code Completion
-  ├─ 76 (All NZ Legislation Source Inventory) ──► 77 (Batch RAC Candidate Export)
+Phase XI (Planned — 77-80; 76 archived): Executable Rules-as-Code Completion
   ├─ 77 (Batch RAC Candidate Export) ──► 78 (RuleSpec Promotion Contract)
   ├─ 78 (RuleSpec Promotion Contract) ──► 79 (PolicyEngine Executable Pilot)
   └─ 79 (PolicyEngine Executable Pilot) ──► 80 (OpenFisca and Multi-Engine Parity)
@@ -467,12 +466,6 @@ Phase XI (Planned — 76-80): Executable Rules-as-Code Completion
 ## Phase XI — Executable Rules-as-Code Completion
 
 ---
-
-## [~] Track 76: All NZ Legislation Source Inventory
-*Link: [./conductor/tracks/track76_all_nz_legislation_source_inventory_20260705/](./conductor/tracks/track76_all_nz_legislation_source_inventory_20260705/)*
-- **Dependencies**: Tracks 4, 14, 23, 32, 54, 55
-- **Parallelization Node**: Full-Corpus Source Readiness
-- **Why**: Create the canonical source inventory required before this repository can claim it processes all New Zealand legislation for downstream rules-as-code use.
 
 ## [ ] Track 77: Batch Rules-as-Code Candidate Export
 *Link: [./conductor/tracks/track77_batch_rules_as_code_candidate_export_20260705/](./conductor/tracks/track77_batch_rules_as_code_candidate_export_20260705/)*
