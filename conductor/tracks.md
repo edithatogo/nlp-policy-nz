@@ -55,11 +55,11 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Planned — 68, 72-73; Archived — 70-71): Mojo Migration
-  ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit) [archived]
+Phase VIII (Archived — 68, 70-73): Mojo Migration
+  ├─ 68 (Mojo Umbrella) [archived] ──► 70 (Readiness Audit) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 71 (Linux CI Sandbox) [archived]
-  ├─ 70 (Readiness Audit) [archived] ──► 72 (Hotspot Benchmark)
-  └─ 70 + 71 + 72 ──► 73 (Optional Acceleration)
+  ├─ 70 (Readiness Audit) [archived] ──► 72 (Hotspot Benchmark) [archived]
+  └─ 70 + 71 + 72 ──► 73 (Optional Acceleration) [archived]
 
 Phase IX (Complete — 69): GitHub Project Synchronization
   └─ 69 (GitHub Project Sync) [historical issue/project synchronization track]
@@ -416,8 +416,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Parallelization Node**: Mojo Benchmark Governance
 - **Why**: Profile current hot paths, benchmark Mojo candidate kernels, compare against Python/Rust/Polars alternatives, and record go/no-go evidence.
 
-## [ ] Track 73: Mojo Optional Acceleration
-*Link: [./conductor/tracks/track73_mojo_optional_acceleration_20260702/](./conductor/tracks/track73_mojo_optional_acceleration_20260702/)*
+## [x] Track 73: Mojo Optional Acceleration (archived)
+*Link: [./conductor/tracks/archive/track73_mojo_optional_acceleration_20260702/](./conductor/tracks/archive/track73_mojo_optional_acceleration_20260702/)*
 - **Dependencies**: Tracks 70, 71, 72
 - **Parallelization Node**: Optional Mojo Runtime Integration
 - **Why**: Integrate one proven private Mojo kernel behind optional feature detection and Python fallback only if Track 72 meets the roadmap promotion threshold; otherwise record a deferral decision.

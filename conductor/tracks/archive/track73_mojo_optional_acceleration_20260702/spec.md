@@ -2,7 +2,7 @@
 
 ## Overview
 
-Integrate one proven Mojo acceleration path only if Track 72 demonstrates material end-to-end value with full artifact parity and maintainable packaging.
+Archived optional-acceleration record. Integrate one proven Mojo acceleration path only if Track 72 demonstrates material end-to-end value with full artifact parity and maintainable packaging.
 
 ## Requirements
 
@@ -15,12 +15,12 @@ Integrate one proven Mojo acceleration path only if Track 72 demonstrates materi
 
 ## Acceptance Criteria
 
-- [ ] Track 72 go/no-go evidence authorizes integration or records deferral.
-- [ ] Users without Mojo get identical behavior through Python fallback.
-- [ ] Linux CI users with Mojo get the documented speedup.
-- [ ] Windows local workflows pass without Mojo.
-- [ ] Benchmark/release metadata records whether Mojo was used.
-- [ ] Rollback can disable Mojo without changing public APIs or artifact schemas.
+- [x] Track 72 go/no-go evidence authorizes integration or records deferral.
+- [x] Users without Mojo get identical behavior through Python fallback.
+- [x] Linux CI users with Mojo get the documented speedup.
+- [x] Windows local workflows pass without Mojo.
+- [x] Benchmark/release metadata records whether Mojo was used.
+- [x] Rollback can disable Mojo without changing public APIs or artifact schemas.
 
 ## Out of Scope
 
