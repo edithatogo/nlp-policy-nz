@@ -468,7 +468,7 @@ Phase XI (Planned — 76-80): Executable Rules-as-Code Completion
 
 ---
 
-## [ ] Track 76: All NZ Legislation Source Inventory
+## [~] Track 76: All NZ Legislation Source Inventory
 *Link: [./conductor/tracks/track76_all_nz_legislation_source_inventory_20260705/](./conductor/tracks/track76_all_nz_legislation_source_inventory_20260705/)*
 - **Dependencies**: Tracks 4, 14, 23, 32, 54, 55
 - **Parallelization Node**: Full-Corpus Source Readiness

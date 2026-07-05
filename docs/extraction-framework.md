@@ -103,3 +103,22 @@ Track 56 covers runtime acceleration decisions. The current policy is documented
 in `docs/extraction-runtime.md`: keep Pydantic 2 and `orjson` in the core path,
 use Polars/Arrow only for optional table projections, and defer PyO3 or maturin
 until profiling identifies a stable Python hot path worth moving.
+
+## Source Inventory Contract
+
+Track 76 adds the fixture-bounded source inventory used to gate "whole NZ
+legislation" claims:
+
+- `default_source_inventory_manifest()` loads the checked-in fixture contract
+  from `data/track76/source_inventory_fixtures.json`.
+- `render_source_inventory_json()` and `render_source_inventory_markdown()`
+  produce deterministic review artifacts for the manifest.
+- `write_source_inventory_parquet()` exports the same record table to Parquet
+  when a Parquet lane is useful in CI or downstream analysis.
+- `detect_source_inventory_live_probe_report()` stays opt-in and reports a
+  skip on non-Linux runners or GitHub Actions, keeping the default path offline
+  and deterministic.
+
+The inventory proves fixture-bounded source readiness only. It does not claim
+full-corpus completeness, live crawling, or rights clearance for every NZ
+legislation source until a later live collection track closes those gaps.

@@ -6,7 +6,7 @@
 
 ## Phase 1: Source Inventory Contract
 
-- [ ] Task: Add failing tests for inventory schema validation, stable citation paths, source checksums, and known-gap records.
+- [~] Task: Add failing tests for inventory schema validation, stable citation paths, source checksums, and known-gap records.
 - [ ] Task: Implement versioned inventory models and deterministic renderers.
 - [ ] Task: Add fixture records for Acts, secondary legislation, amendments, commencement, repeals, redirects, and unavailable sources.
 - [ ] Task: Document the source identity contract and whole-corpus claim boundary.

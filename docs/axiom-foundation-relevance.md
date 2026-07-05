@@ -93,6 +93,8 @@ Already adopted in this repository:
   `source_url` fields under `module.source_verification`;
 - bill lifecycle and Hansard-to-bill linkage scaffolding;
 - offline `rac-export` JSON-LD bridge output;
+- fixture-bounded legislation source inventory manifests with stable claim
+  boundaries and known-gap ratchets;
 - non-executable OpenFisca/PolicyEngine-style package skeletons;
 - no Axiom runtime dependency or repository copying.
 

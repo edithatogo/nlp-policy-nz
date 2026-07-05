@@ -118,6 +118,9 @@ jobs:
       - name: Validate AKN v3 examples
         run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" test -- tests/test_akn_v3.py -q
 
+      - name: Track 76 source inventory validation
+        run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" test -- tests/test_source_inventory.py -q
+
       - name: Targeted lint
         run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" lint-ci
 
