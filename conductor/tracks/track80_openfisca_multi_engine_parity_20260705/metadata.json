@@ -1,0 +1,16 @@
+{
+  "track_id": "track80_openfisca_multi_engine_parity_20260705",
+  "track_number": 80,
+  "title": "OpenFisca and Multi-Engine Parity",
+  "type": "feature",
+  "status": "planned",
+  "phase": "Phase XI",
+  "workstream": "Rules-as-Code Completion",
+  "priority": "P2",
+  "effort": "L",
+  "gate_type": "Implementation",
+  "dependencies": ["Track 46", "Track 50", "Track 52", "Track 78", "Track 79"],
+  "created_at": "2026-07-05T00:00:00+10:00",
+  "updated_at": "2026-07-05T00:00:00+10:00",
+  "description": "Add OpenFisca export and multi-engine parity validation after the PolicyEngine pilot is proven."
+}

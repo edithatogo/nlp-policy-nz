@@ -1,0 +1,16 @@
+{
+  "track_id": "track76_all_nz_legislation_source_inventory_20260705",
+  "track_number": 76,
+  "title": "All NZ Legislation Source Inventory",
+  "type": "feature",
+  "status": "planned",
+  "phase": "Phase XI",
+  "workstream": "Rules-as-Code Completion",
+  "priority": "P1",
+  "effort": "L",
+  "gate_type": "Implementation",
+  "dependencies": ["Track 4", "Track 14", "Track 23", "Track 32", "Track 54", "Track 55"],
+  "created_at": "2026-07-05T00:00:00+10:00",
+  "updated_at": "2026-07-05T00:00:00+10:00",
+  "description": "Create the canonical source inventory required to process all New Zealand legislation for rules-as-code downstream use."
+}
