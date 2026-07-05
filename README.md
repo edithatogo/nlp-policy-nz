@@ -51,6 +51,9 @@ nlp-policy-nz rac-export \
     --source-url https://legislation.govt.nz/example-act/section/10 \
     --retrieved-at 2026-06-29T00:00:00Z
 
+# Export batch rules-as-code candidate artifacts from the fixture inventory
+nlp-policy-nz export-rac-candidates --output-dir output/rac-batch
+
 # Export deterministic New Zealand ontology candidate artifacts
 nlp-policy-nz export-nz-ontologies --output-dir data/ontologies
 
@@ -65,11 +68,19 @@ nlp-policy-nz publication-protocol --output-dir data/publication
 
 # Generate deterministic publication tables, figures, and diagrams
 nlp-policy-nz generate-analysis-artifacts --output-dir artifacts
+
+# Build the Track 80 OpenFisca and PolicyEngine parity bundle
+nlp-policy-nz multi-engine-parity \
+    --manifest data/track79/policyengine_pilot_manifest.json \
+    --output-dir output/multi-engine-parity
 ```
 
 ## Documentation
 
 - [Axiom Foundation relevance](docs/axiom-foundation-relevance.md) records the selective source identity, provenance, RuleSpec bridge, and bill/Hansard linkage conventions borrowed from Axiom Foundation repositories.
+- [RuleSpec promotion contract](docs/rulespec-promotion.md) documents the fail-closed reviewed handoff boundary for downstream executable RuleSpec, PolicyEngine, and OpenFisca work.
+- [PolicyEngine pilot](docs/policyengine-pilot.md) documents the first reviewed executable PolicyEngine package generated from a narrow commencement domain.
+- [Multi-engine parity](docs/multi-engine-parity.md) documents the Track 80 parity bundle, support levels, and downstream engine boundary.
 - [Build notes](docs/build_backend.md) describe the current packaging decisions.
 - [New Zealand ontology candidates](docs/nz_ontologies.md) describes the Track 31 review-bounded ontology candidate exports.
 - [Corpus statistics](docs/corpus_statistics.md) describes the Track 32 descriptive statistics and full-corpus blockers.

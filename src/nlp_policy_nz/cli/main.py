@@ -26,7 +26,6 @@ import logging
 import sys
 from pathlib import Path
 
-from nlp_policy_nz.api import process_hansard, process_legislation, search_similar
 from nlp_policy_nz.axiom import DOCUMENT_TYPES
 from nlp_policy_nz.cli.auth import create_api_key, list_api_keys, revoke_api_key, rotate_api_key
 from nlp_policy_nz.cli.completion import (
@@ -35,6 +34,8 @@ from nlp_policy_nz.cli.completion import (
     build_manpage,
     write_text_output,
 )
+from nlp_policy_nz.integrations.release import ReleaseManager  # noqa: F401
+from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver  # noqa: F401
 from nlp_policy_nz.quality import (
     build_quality_report,
     history_reports,
@@ -44,10 +45,6 @@ from nlp_policy_nz.quality import (
     validate_ingestion_inputs,
     write_dashboard_html,
 )
-from nlp_policy_nz.integrations.hf_uploader import deploy_space, push_dataset_to_hub
-from nlp_policy_nz.integrations.release import ReleaseManager
-from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
-from nlp_policy_nz.provenance import load_provenance_sidecar, provenance_sidecar_path
 from nlp_policy_nz.storage import load_from_parquet
 
 logger = logging.getLogger(__name__)
@@ -552,6 +549,52 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Package name to use with --package-output-dir.",
     )
 
+    # --- policyengine-pilot subcommand ------------------------------------
+    policyengine_pilot_parser = subparsers.add_parser(
+        "policyengine-pilot",
+        help="Build the Track 79 PolicyEngine pilot package from a reviewed manifest.",
+        description=(
+            "Generate the first reviewed PolicyEngine pilot package from a"
+            " tracked commencement domain and deterministic oracle fixtures."
+        ),
+    )
+    policyengine_pilot_parser.add_argument(
+        "--manifest",
+        type=str,
+        default="data/track79/policyengine_pilot_manifest.json",
+        help="Path to the reviewed pilot manifest JSON.",
+    )
+    policyengine_pilot_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        required=True,
+        help="Directory for the generated pilot package.",
+    )
+
+    # --- multi-engine-parity subcommand -----------------------------------
+    multi_engine_parity_parser = subparsers.add_parser(
+        "multi-engine-parity",
+        help="Build the Track 80 OpenFisca and PolicyEngine parity bundle.",
+        description=(
+            "Generate both downstream package skeletons and a deterministic "
+            "parity report from the reviewed commencement pilot manifest."
+        ),
+    )
+    multi_engine_parity_parser.add_argument(
+        "--manifest",
+        type=str,
+        default="data/track79/policyengine_pilot_manifest.json",
+        help="Path to the reviewed pilot manifest JSON.",
+    )
+    multi_engine_parity_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        required=True,
+        help="Directory for the generated parity bundle.",
+    )
+
     # --- export-extractions subcommand -------------------------------------
     export_extractions_parser = subparsers.add_parser(
         "export-extractions",
@@ -586,6 +629,53 @@ def _build_parser() -> argparse.ArgumentParser:
         type=str,
         default="pipeline://records",
         help="Base URL used to build per-record source trace URLs.",
+    )
+
+    # --- export-rac-candidates subcommand ---------------------------------
+    rac_candidates_parser = subparsers.add_parser(
+        "export-rac-candidates",
+        help="Export batch rules-as-code candidate manifests and bridge records.",
+        description=(
+            "Build deterministic batch rules-as-code candidates from the fixture "
+            "inventory, a stored extraction manifest, or pipeline Parquet rows."
+        ),
+    )
+    rac_candidates_parser.add_argument(
+        "--source-inventory",
+        type=str,
+        default=None,
+        help="Path to a source inventory manifest JSON file.",
+    )
+    rac_candidates_parser.add_argument(
+        "--manifest",
+        type=str,
+        default=None,
+        help="Path to an extraction manifest JSON file.",
+    )
+    rac_candidates_parser.add_argument(
+        "--parquet",
+        type=str,
+        default=None,
+        help="Path to pipeline Parquet output.",
+    )
+    rac_candidates_parser.add_argument(
+        "--retrieved-at",
+        type=str,
+        default=None,
+        help="Required when exporting from Parquet to stamp source trace provenance.",
+    )
+    rac_candidates_parser.add_argument(
+        "--source-url-base",
+        type=str,
+        default="pipeline://records",
+        help="Base URL used to build per-record source trace URLs for Parquet input.",
+    )
+    rac_candidates_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        required=True,
+        help="Directory for rules-as-code candidate artifacts.",
     )
 
     # --- export-nz-ontologies subcommand -----------------------------------
@@ -891,7 +981,10 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
         "voting-summary",
         "amendment-history",
         "rac-export",
+        "policyengine-pilot",
+        "multi-engine-parity",
         "export-extractions",
+        "export-rac-candidates",
         "export-nz-ontologies",
         "corpus-stats",
         "graph-vector-analysis",
@@ -919,6 +1012,8 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
 
     try:
         if args.command == "process":
+            from nlp_policy_nz.api import process_hansard, process_legislation  # noqa: PLC0415
+
             generate_emb = not args.no_embeddings
             input_path = Path(args.input)
             output_path = Path(args.output)
@@ -939,6 +1034,8 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
             logger.info("Processing complete.")
 
         elif args.command == "search":
+            from nlp_policy_nz.api import search_similar  # noqa: PLC0415
+
             results = search_similar(
                 query=args.query,
                 db_path=args.db,
@@ -955,6 +1052,8 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
                     text[:120] + "..." if len(text) > 120 else text  # noqa: PLR2004
 
         elif args.command == "upload-dataset":
+            from nlp_policy_nz.integrations.hf_uploader import push_dataset_to_hub  # noqa: PLC0415
+
             url = push_dataset_to_hub(
                 parquet_path=args.parquet,
                 repo_id=args.repo_id,
@@ -965,6 +1064,8 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
             logger.info("Dataset uploaded: %s", url)
 
         elif args.command == "deploy-space":
+            from nlp_policy_nz.integrations.hf_uploader import deploy_space  # noqa: PLC0415
+
             url = deploy_space(
                 repo_id=args.repo_id,
                 spaces_dir=args.spaces_dir,
@@ -976,6 +1077,11 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
 
         elif args.command == "archive-to-zenodo":
             import json as _json  # noqa: PLC0415
+
+            from nlp_policy_nz.provenance import (  # noqa: PLC0415
+                load_provenance_sidecar,
+                provenance_sidecar_path,
+            )
 
             creators = _json.loads(args.creators)
             provenance_path = provenance_sidecar_path(args.parquet)
@@ -1030,6 +1136,8 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
 
         elif args.command == "provenance":
             import json as _json  # noqa: PLC0415
+
+            from nlp_policy_nz.provenance import load_provenance_sidecar  # noqa: PLC0415
 
             data = load_provenance_sidecar(args.parquet)
             sys.stdout.write(f"{_json.dumps(data, indent=2, ensure_ascii=False)}\n")
@@ -1135,6 +1243,38 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
                 )
                 logger.info("Package skeleton written: %s", package_dir)
 
+        elif args.command == "policyengine-pilot":
+            from nlp_policy_nz.policyengine_pilot import (  # noqa: PLC0415
+                build_policyengine_pilot_package,
+                load_policyengine_pilot_domain_json,
+                write_policyengine_pilot_package,
+            )
+
+            domain = load_policyengine_pilot_domain_json(args.manifest)
+            package = build_policyengine_pilot_package(domain)
+            package_dir = write_policyengine_pilot_package(package, args.output_dir)
+            logger.info(
+                "PolicyEngine pilot package written: %s (passed=%s)",
+                package_dir,
+                package.execution_report.passed,
+            )
+
+        elif args.command == "multi-engine-parity":
+            from nlp_policy_nz.ontology.multi_engine_parity import (  # noqa: PLC0415
+                build_multi_engine_parity_bundle,
+                load_track80_domain_json,
+                write_multi_engine_parity_bundle,
+            )
+
+            domain = load_track80_domain_json(args.manifest)
+            bundle = build_multi_engine_parity_bundle(domain)
+            bundle_dir = write_multi_engine_parity_bundle(bundle, args.output_dir)
+            logger.info(
+                "Track 80 parity bundle written: %s (passed=%s)",
+                bundle_dir,
+                bundle.report.passed,
+            )
+
         elif args.command == "export-extractions":
             from nlp_policy_nz.extraction import (  # noqa: PLC0415
                 export_extraction_manifest_from_parquet,
@@ -1147,6 +1287,45 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
                 source_url_base=args.source_url_base,
             )
             logger.info("Extraction manifest written: %s", result)
+
+        elif args.command == "export-rac-candidates":
+            from nlp_policy_nz.extraction import (  # noqa: PLC0415
+                default_source_inventory_manifest,
+                export_rules_as_code_candidates_from_extraction_manifest,
+                export_rules_as_code_candidates_from_pipeline_parquet,
+                export_rules_as_code_candidates_from_source_inventory,
+                load_source_inventory_manifest_json,
+            )
+
+            if args.parquet:
+                if not args.retrieved_at:
+                    msg = "--retrieved-at is required when exporting from Parquet"
+                    raise ValueError(msg)
+                written = export_rules_as_code_candidates_from_pipeline_parquet(
+                    args.parquet,
+                    args.output_dir,
+                    retrieved_at=args.retrieved_at,
+                    source_url_base=args.source_url_base,
+                )
+            elif args.manifest:
+                written = export_rules_as_code_candidates_from_extraction_manifest(
+                    args.manifest,
+                    args.output_dir,
+                )
+            else:
+                inventory = (
+                    load_source_inventory_manifest_json(args.source_inventory)
+                    if args.source_inventory
+                    else default_source_inventory_manifest()
+                )
+                written = export_rules_as_code_candidates_from_source_inventory(
+                    args.output_dir,
+                    inventory,
+                )
+            logger.info(
+                "Rules-as-code candidate artifacts written: %s",
+                sorted(str(path) for path in written.values()),
+            )
 
         elif args.command == "export-nz-ontologies":
             from nlp_policy_nz.ontology import write_nz_ontology_artifacts  # noqa: PLC0415

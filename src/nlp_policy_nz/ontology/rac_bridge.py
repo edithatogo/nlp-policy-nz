@@ -108,12 +108,19 @@ class RulesAsCodeBridgeRecord:
     taxonomy: PolicyTaxonomy
     rulespec: dict[str, Any]
     schema_legislation: dict[str, Any]
+    confidence: float = 1.0
+    review_status: str = "unreviewed"
+    known_gap_ids: tuple[str, ...] = field(default_factory=tuple)
     provenance: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         """Validate bridge record identity."""
         _require_nonempty("record_id", self.record_id)
         _rulespec_durable_id(self.rulespec)
+        if not 0.0 <= self.confidence <= 1.0:
+            raise ValueError("confidence must be between 0.0 and 1.0")
+        object.__setattr__(self, "review_status", _review_status(self.review_status))
+        object.__setattr__(self, "known_gap_ids", tuple(_require_nonempty("known_gap_id", gap) for gap in self.known_gap_ids))
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-compatible bridge record."""
@@ -125,6 +132,9 @@ class RulesAsCodeBridgeRecord:
             "taxonomy": self.taxonomy.to_dict(),
             "rulespec": self.rulespec,
             "schema_legislation": self.schema_legislation,
+            "confidence": self.confidence,
+            "review_status": self.review_status,
+            "known_gap_ids": list(self.known_gap_ids),
             "provenance": dict(self.provenance),
         }
 
@@ -174,6 +184,9 @@ def build_rules_as_code_bridge(
     concept: str | None = None,
     taxonomy: PolicyTaxonomy | None = None,
     temporal_validity: TemporalValidity | None = None,
+    confidence: float = 1.0,
+    review_status: str = "unreviewed",
+    known_gap_ids: tuple[str, ...] | None = None,
     provenance: dict[str, Any] | None = None,
 ) -> RulesAsCodeBridgeRecord:
     """Build one source-grounded rules-as-code bridge record."""
@@ -212,6 +225,9 @@ def build_rules_as_code_bridge(
         ),
         rulespec=verification,
         schema_legislation=build_schema_legislation(profile),
+        confidence=confidence,
+        review_status=review_status,
+        known_gap_ids=known_gap_ids or (),
         provenance=provenance
         or {
             "prov:wasGeneratedBy": "nlp-policy-nz.rules-as-code-bridge",
@@ -225,47 +241,17 @@ def build_policyengine_package_skeleton(
     *,
     package_name: str = "policyengine_nz_generated",
 ) -> PolicyEnginePackageSkeleton:
-    """Build an offline OpenFisca/PolicyEngine-style package skeleton.
+    """Build an offline PolicyEngine-style package skeleton."""
+    return _build_package_skeleton(record, package_name=package_name, runtime_label="PolicyEngine")
 
-    The generated files are intentionally placeholders. They make source,
-    entity, variable, period, and parameter decisions explicit without claiming
-    executable parity with an external OpenFisca or PolicyEngine package.
-    """
-    safe_package = _python_identifier(package_name)
-    variable_name = _python_identifier(
-        record.rulespec["rulespec_reference"]["concept"] or "generated_rule"
-    )
-    citation = record.source_anchor.citation_path
-    rulespec_id = record.rulespec["rulespec_reference"]["durable_id"]
-    legal_effect = record.norm_semantics.legal_effect or "unknown"
-    source_sha = record.source_anchor.source_sha256
-    files = {
-        "pyproject.toml": _package_pyproject(safe_package),
-        f"{safe_package}/__init__.py": '"""Generated NZ rules package skeleton."""\n',
-        f"{safe_package}/variables/__init__.py": "",
-        f"{safe_package}/variables/generated.py": _variable_module(
-            variable_name=variable_name,
-            citation=citation,
-            rulespec_id=rulespec_id,
-            legal_effect=legal_effect,
-            source_sha=source_sha,
-        ),
-        f"{safe_package}/parameters/generated.yaml": _parameter_yaml(
-            citation=citation,
-            source_sha=source_sha,
-        ),
-        "README.md": _package_readme(
-            package_name=safe_package,
-            citation=citation,
-            rulespec_id=rulespec_id,
-        ),
-    }
-    return PolicyEnginePackageSkeleton(
-        package_name=safe_package,
-        files=files,
-        source_citation_path=citation,
-        rulespec_id=rulespec_id,
-    )
+
+def build_openfisca_package_skeleton(
+    record: RulesAsCodeBridgeRecord,
+    *,
+    package_name: str = "openfisca_nz_generated",
+) -> PolicyEnginePackageSkeleton:
+    """Build an offline OpenFisca-style package skeleton."""
+    return _build_package_skeleton(record, package_name=package_name, runtime_label="OpenFisca")
 
 
 def write_policyengine_package_skeleton(
@@ -392,6 +378,15 @@ def _validate_sha256(value: str) -> str:
     return stripped
 
 
+def _review_status(value: str) -> str:
+    """Return a normalized review status for candidate bridge records."""
+    normalized = _require_nonempty("review_status", value).replace("-", "_").lower()
+    allowed = {"unreviewed", "reviewed", "blocked", "deferred"}
+    if normalized not in allowed:
+        raise ValueError(f"review_status must be one of: {', '.join(sorted(allowed))}")
+    return normalized
+
+
 def _package_pyproject(package_name: str) -> str:
     """Return pyproject metadata for the generated skeleton."""
     return (
@@ -442,11 +437,56 @@ def _parameter_yaml(*, citation: str, source_sha: str) -> str:
     )
 
 
-def _package_readme(*, package_name: str, citation: str, rulespec_id: str) -> str:
+def _build_package_skeleton(
+    record: RulesAsCodeBridgeRecord,
+    *,
+    package_name: str,
+    runtime_label: str,
+) -> PolicyEnginePackageSkeleton:
+    """Build a deterministic skeleton for a downstream rules engine."""
+    safe_package = _python_identifier(package_name)
+    variable_name = _python_identifier(
+        record.rulespec["rulespec_reference"]["concept"] or "generated_rule"
+    )
+    citation = record.source_anchor.citation_path
+    rulespec_id = record.rulespec["rulespec_reference"]["durable_id"]
+    legal_effect = record.norm_semantics.legal_effect or "unknown"
+    source_sha = record.source_anchor.source_sha256
+    files = {
+        "pyproject.toml": _package_pyproject(safe_package),
+        f"{safe_package}/__init__.py": f'"""Generated {runtime_label} rules package skeleton."""\n',
+        f"{safe_package}/variables/__init__.py": "",
+        f"{safe_package}/variables/generated.py": _variable_module(
+            variable_name=variable_name,
+            citation=citation,
+            rulespec_id=rulespec_id,
+            legal_effect=legal_effect,
+            source_sha=source_sha,
+        ),
+        f"{safe_package}/parameters/generated.yaml": _parameter_yaml(
+            citation=citation,
+            source_sha=source_sha,
+        ),
+        "README.md": _package_readme(
+            runtime_label=runtime_label,
+            package_name=safe_package,
+            citation=citation,
+            rulespec_id=rulespec_id,
+        ),
+    }
+    return PolicyEnginePackageSkeleton(
+        package_name=safe_package,
+        files=files,
+        source_citation_path=citation,
+        rulespec_id=rulespec_id,
+    )
+
+
+def _package_readme(*, runtime_label: str, package_name: str, citation: str, rulespec_id: str) -> str:
     """Return README text for the generated skeleton."""
     return (
         f"# {package_name}\n\n"
-        "Generated by `nlp-policy-nz` as a rules-as-code package skeleton.\n\n"
+        f"Generated by `nlp-policy-nz` as an {runtime_label} rules-as-code package skeleton.\n\n"
         f"- Source citation path: `{citation}`\n"
         f"- RuleSpec ID: `{rulespec_id}`\n"
         "- Status: non-executable placeholder until reviewed formulas, target "

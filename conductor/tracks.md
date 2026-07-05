@@ -68,7 +68,7 @@ Phase X (Complete — 74-75): NZ Legal/Hansard Evaluation and Fine-Tuning
   ├─ 74 (Held-Out Evaluation Set) [archived]
   └─ 75 (Fine-Tuned Model) [archived]
 
-Phase XI (Planned — 77-80; 76 archived): Executable Rules-as-Code Completion
+Phase XI (Planned — 78-80; 76-77 archived): Executable Rules-as-Code Completion
   ├─ 77 (Batch RAC Candidate Export) ──► 78 (RuleSpec Promotion Contract)
   ├─ 78 (RuleSpec Promotion Contract) ──► 79 (PolicyEngine Executable Pilot)
   └─ 79 (PolicyEngine Executable Pilot) ──► 80 (OpenFisca and Multi-Engine Parity)
@@ -467,26 +467,20 @@ Phase XI (Planned — 77-80; 76 archived): Executable Rules-as-Code Completion
 
 ---
 
-## [ ] Track 77: Batch Rules-as-Code Candidate Export
-*Link: [./conductor/tracks/track77_batch_rules_as_code_candidate_export_20260705/](./conductor/tracks/track77_batch_rules_as_code_candidate_export_20260705/)*
-- **Dependencies**: Tracks 10, 11, 12, 14, 15, 18, 26, 27, 54, 55, 56, 76
-- **Parallelization Node**: Rules-as-Code Candidate Generation
-- **Why**: Promote the single-section `rac-export` bridge into a batch source-grounded candidate pipeline over the all-legislation inventory.
-
-## [ ] Track 78: RuleSpec Promotion Contract
-*Link: [./conductor/tracks/track78_rulespec_promotion_contract_20260705/](./conductor/tracks/track78_rulespec_promotion_contract_20260705/)*
+## [x] Track 78: RuleSpec Promotion Contract (archived)
+*Link: [./conductor/archive/track78_rulespec_promotion_contract_20260705/](./conductor/archive/track78_rulespec_promotion_contract_20260705/)*
 - **Dependencies**: Tracks 27, 54, 55, 76, 77
 - **Parallelization Node**: Reviewed RuleSpec Handoff
 - **Why**: Define the fail-closed review and handoff contract that turns NLP-generated RAC candidates into RuleSpec-ready artifacts without making this repo the executable rules runtime.
 
-## [ ] Track 79: PolicyEngine Executable Pilot
-*Link: [./conductor/tracks/track79_policyengine_executable_pilot_20260705/](./conductor/tracks/track79_policyengine_executable_pilot_20260705/)*
+## [x] Track 79: PolicyEngine Executable Pilot (archived)
+*Link: [./conductor/archive/track79_policyengine_executable_pilot_20260705/](./conductor/archive/track79_policyengine_executable_pilot_20260705/)*
 - **Dependencies**: Tracks 7, 10, 11, 15, 20, 23, 27, 53, 74, 75, 77, 78
 - **Parallelization Node**: PolicyEngine Runtime Pilot
 - **Why**: Generate and execute the first reviewed PolicyEngine package from promoted NZ legislation handoff artifacts, proving the primary downstream runtime path.
 
-## [ ] Track 80: OpenFisca and Multi-Engine Parity
-*Link: [./conductor/tracks/track80_openfisca_multi_engine_parity_20260705/](./conductor/tracks/track80_openfisca_multi_engine_parity_20260705/)*
+## [x] Track 80: OpenFisca and Multi-Engine Parity (archived)
+*Link: [./conductor/archive/track80_openfisca_multi_engine_parity_20260705/](./conductor/archive/track80_openfisca_multi_engine_parity_20260705/)*
 - **Dependencies**: Tracks 46, 50, 52, 78, 79
 - **Parallelization Node**: Multi-Engine Rules-as-Code Validation
 - **Why**: Add OpenFisca export and deterministic parity reporting after the PolicyEngine pilot is proven, then document how other engines should be onboarded.
