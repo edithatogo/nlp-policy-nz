@@ -1,0 +1,16 @@
+{
+  "track_id": "track83_public_api_contract_formalization_20260706",
+  "track_number": 83,
+  "title": "Public API Contract Formalization",
+  "type": "feature",
+  "status": "planned",
+  "phase": "Phase XII",
+  "workstream": "Interface Productization",
+  "priority": "P1",
+  "effort": "M",
+  "gate_type": "Implementation",
+  "dependencies": ["Track 46", "Track 48", "Track 51", "Track 52", "Track 81"],
+  "created_at": "2026-07-06T00:00:00+10:00",
+  "updated_at": "2026-07-06T00:00:00+10:00",
+  "description": "Formalize the FastAPI and client SDK surface with versioned OpenAPI artifacts, request/response contracts, auth scopes, and compatibility tests."
+}

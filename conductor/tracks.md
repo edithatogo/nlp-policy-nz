@@ -72,6 +72,12 @@ Phase XI (Planned — 78-80; 76-77 archived): Executable Rules-as-Code Completio
   ├─ 77 (Batch RAC Candidate Export) ──► 78 (RuleSpec Promotion Contract)
   ├─ 78 (RuleSpec Promotion Contract) ──► 79 (PolicyEngine Executable Pilot)
   └─ 79 (PolicyEngine Executable Pilot) ──► 80 (OpenFisca and Multi-Engine Parity)
+
+Phase XII (Planned — 81-85): Formalized CLI/API/MCP Interface Surfaces
+  ├─ 81 (Interface Surface Contract) ──► 82 (CLI Contract Hardening)
+  ├─ 81 (Interface Surface Contract) ──► 83 (Public API Contract)
+  ├─ 81 (Interface Surface Contract) ──► 84 (MCP Server Surface)
+  └─ 82 + 83 + 84 ──► 85 (Cross-Surface Contract Governance)
 ```
 
 ---
@@ -484,3 +490,39 @@ Phase XI (Planned — 78-80; 76-77 archived): Executable Rules-as-Code Completio
 - **Dependencies**: Tracks 46, 50, 52, 78, 79
 - **Parallelization Node**: Multi-Engine Rules-as-Code Validation
 - **Why**: Add OpenFisca export and deterministic parity reporting after the PolicyEngine pilot is proven, then document how other engines should be onboarded.
+
+---
+
+## Phase XII — Formalized CLI/API/MCP Interface Surfaces
+
+---
+
+## [ ] Track 81: Interface Surface Contract and Capability Registry
+*Link: [./conductor/tracks/track81_interface_surface_contract_20260706/](./conductor/tracks/track81_interface_surface_contract_20260706/)*
+- **Dependencies**: Tracks 7, 46, 48, 49, 51, 52, 80
+- **Parallelization Node**: Interface Contract Foundation
+- **Why**: Define a canonical capability registry and interface contract so CLI, HTTP API, SDK, and MCP surfaces expose the same core behavior without drifting apart.
+
+## [ ] Track 82: CLI Contract Hardening and Stable Command Reference
+*Link: [./conductor/tracks/track82_cli_contract_hardening_20260706/](./conductor/tracks/track82_cli_contract_hardening_20260706/)*
+- **Dependencies**: Tracks 48, 49, 81
+- **Parallelization Node**: CLI Product Surface
+- **Why**: Formalize the existing `nlp-policy-nz` CLI as a stable user-facing interface with contract tests, structured output, exit code policy, and generated reference docs.
+
+## [ ] Track 83: Public API Contract Formalization
+*Link: [./conductor/tracks/track83_public_api_contract_formalization_20260706/](./conductor/tracks/track83_public_api_contract_formalization_20260706/)*
+- **Dependencies**: Tracks 46, 48, 51, 52, 81
+- **Parallelization Node**: HTTP API Product Surface
+- **Why**: Formalize the FastAPI and client SDK surface with versioned OpenAPI artifacts, request/response contracts, auth scopes, and compatibility tests.
+
+## [ ] Track 84: MCP Server Surface for Agentic Consumption
+*Link: [./conductor/tracks/track84_mcp_server_surface_20260706/](./conductor/tracks/track84_mcp_server_surface_20260706/)*
+- **Dependencies**: Tracks 43, 46, 48, 49, 51, 52, 81
+- **Parallelization Node**: MCP Agent Surface
+- **Why**: Expose a safe MCP server adapter over selected `nlp-policy-nz` capabilities, starting with read-only search, provenance, quality, ontology, and rules-as-code inspection tools.
+
+## [ ] Track 85: Cross-Surface Contract Governance and Release Automation
+*Link: [./conductor/tracks/track85_cross_surface_contract_governance_20260706/](./conductor/tracks/track85_cross_surface_contract_governance_20260706/)*
+- **Dependencies**: Tracks 39, 45, 49, 81, 82, 83, 84
+- **Parallelization Node**: Interface Governance and CI
+- **Why**: Add cross-surface conformance tests, docs generation, and release governance so CLI, HTTP API, SDK, and MCP contracts remain aligned over time.
