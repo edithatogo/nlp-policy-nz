@@ -1,0 +1,16 @@
+{
+  "track_id": "track82_cli_contract_hardening_20260706",
+  "track_number": 82,
+  "title": "CLI Contract Hardening and Stable Command Reference",
+  "type": "feature",
+  "status": "archived",
+  "phase": "Phase XII",
+  "workstream": "Interface Productization",
+  "priority": "P1",
+  "effort": "M",
+  "gate_type": "Implementation",
+  "dependencies": ["Track 48", "Track 49", "Track 81"],
+  "created_at": "2026-07-06T00:00:00+10:00",
+  "updated_at": "2026-07-07T00:00:00+10:00",
+  "description": "Formalize the existing nlp-policy-nz CLI as a stable user-facing interface with contract tests, structured output, exit code policy, and generated reference docs."
+}

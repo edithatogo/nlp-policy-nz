@@ -1,0 +1,16 @@
+{
+  "track_id": "track78_rulespec_promotion_contract_20260705",
+  "track_number": 78,
+  "title": "RuleSpec Promotion Contract",
+  "type": "feature",
+  "status": "completed",
+  "phase": "Phase XI",
+  "workstream": "Rules-as-Code Completion",
+  "priority": "P1",
+  "effort": "M",
+  "gate_type": "Governance",
+  "dependencies": ["Track 27", "Track 54", "Track 55", "Track 76", "Track 77"],
+  "created_at": "2026-07-05T00:00:00+10:00",
+  "updated_at": "2026-07-06T00:00:00+10:00",
+  "description": "Define fail-closed promotion from RAC candidates into RuleSpec-ready reviewed handoff artifacts."
+}

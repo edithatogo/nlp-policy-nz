@@ -1,0 +1,33 @@
+{
+  "track_id": "track79_policyengine_executable_pilot_20260705",
+  "package_name": "policyengine_nz_commencement_pilot",
+  "domain_id": "commencement_after_royal_assent",
+  "domain_title": "Commencement after Royal assent",
+  "source_path": "data/track74/sources/legislation_commencement.txt",
+  "source_citation_path": "nz/statutes/commencement/2026/1",
+  "source_url": "https://example.invalid/track79/legislation_commencement",
+  "retrieved_at": "2026-07-05T00:00:00Z",
+  "source_title": "Held-out commencement clause",
+  "source_excerpt": "This Act commences on the day after Royal assent.",
+  "source_sha256": "cad38bfcdfc6ebd5336fad61b19c4099e598fa4b0608ed07a3fabe95dbe7d311",
+  "concept": "commencement_after_royal_assent",
+  "entity": "person",
+  "period": "day",
+  "parameter_name": "royal_assent_date",
+  "parameter_value": "2026-06-30",
+  "formula_id": "act_commenced",
+  "variable_name": "act_commenced",
+  "expression": "assessment_date > royal_assent_date",
+  "review_state": "promoted",
+  "reviewer_evidence": [
+    {
+      "reviewer": "legal-reviewer",
+      "reviewed_at": "2026-07-05T00:00:00Z",
+      "evidence_uri": "data/track79/reviews/policyengine_pilot_review.md",
+      "notes": "Reviewed the commencement pilot domain, formula, and oracle fixture coverage."
+    }
+  ],
+  "oracle_fixture_path": "data/track79/oracles/policyengine_oracles.json",
+  "review_note_path": "data/track79/reviews/policyengine_pilot_review.md",
+  "downstream_targets": ["policyengine"]
+}

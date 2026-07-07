@@ -1,0 +1,16 @@
+{
+  "track_id": "track85_cross_surface_contract_governance_20260706",
+  "track_number": 85,
+  "title": "Cross-Surface Contract Governance and Release Automation",
+  "type": "feature",
+  "status": "archived",
+  "phase": "Phase XII",
+  "workstream": "Interface Productization",
+  "priority": "P2",
+  "effort": "M",
+  "gate_type": "Quality",
+  "dependencies": ["Track 39", "Track 45", "Track 49", "Track 81", "Track 82", "Track 83", "Track 84"],
+  "created_at": "2026-07-06T00:00:00+10:00",
+  "updated_at": "2026-07-07T00:00:00+10:00",
+  "description": "Add cross-surface conformance tests, docs generation, and release governance so CLI, HTTP API, SDK, and MCP contracts remain aligned over time."
+}

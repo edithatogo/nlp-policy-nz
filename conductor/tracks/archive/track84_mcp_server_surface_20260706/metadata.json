@@ -1,0 +1,16 @@
+{
+  "track_id": "track84_mcp_server_surface_20260706",
+  "track_number": 84,
+  "title": "MCP Server Surface for Agentic Consumption",
+  "type": "feature",
+  "status": "archived",
+  "phase": "Phase XII",
+  "workstream": "Interface Productization",
+  "priority": "P1",
+  "effort": "L",
+  "gate_type": "Implementation",
+  "dependencies": ["Track 43", "Track 46", "Track 48", "Track 49", "Track 51", "Track 52", "Track 81"],
+  "created_at": "2026-07-06T00:00:00+10:00",
+  "updated_at": "2026-07-07T00:00:00+10:00",
+  "description": "Expose a safe MCP server adapter over selected nlp-policy-nz capabilities, starting with read-only search, provenance, quality, ontology, and rules-as-code inspection tools."
+}

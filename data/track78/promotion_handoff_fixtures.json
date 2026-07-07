@@ -1,0 +1,220 @@
+{
+  "schema_version": "track78.rulespec-promotion.fixtures.v1",
+  "examples": [
+    {
+      "review_state": "promoted",
+      "rulespec_reference": {
+        "jurisdiction": "nz",
+        "path": "statutes/example-act/2026/10",
+        "concept": "information_duty",
+        "durable_id": "nz:statutes/example-act/2026/10#information_duty"
+      },
+      "source_trace": {
+        "citation_path": "nz/statutes/example-act/2026/10",
+        "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "source_url": "https://legislation.govt.nz/example-act/section/10",
+        "retrieved_at": "2026-07-05T00:00:00Z",
+        "spans": [
+          {
+            "start": 0,
+            "end": 34,
+            "text": "A person must provide information."
+          }
+        ]
+      },
+      "source_verification": {
+        "corpus_citation_path": "nz/statutes/example-act/2026/10",
+        "jurisdiction": "NZ",
+        "document_type": "act",
+        "authoritative_source_url": "https://legislation.govt.nz/example-act/section/10",
+        "retrieved_at": "2026-07-05T00:00:00Z",
+        "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "legal_effect": "obligation",
+      "entities": [
+        {
+          "entity_id": "person",
+          "label": "Person"
+        }
+      ],
+      "periods": [
+        {
+          "period_id": "working-day",
+          "label": "working days"
+        }
+      ],
+      "parameters": {
+        "deadline_days": 20
+      },
+      "formulas": [
+        {
+          "formula_id": "information_duty",
+          "status": "reviewed",
+          "expression": "person.must_provide_information_within_20_working_days",
+          "entity": "Person",
+          "period": "day",
+          "parameters": [
+            "deadline_days"
+          ],
+          "source_spans": [
+            {
+              "start": 0,
+              "end": 34,
+              "text": "A person must provide information."
+            }
+          ]
+        }
+      ],
+      "oracle_fixture_refs": [
+        {
+          "fixture_id": "policyengine-oracle-001",
+          "path": "data/track78/oracles/policyengine_oracle_001.json",
+          "description": "PolicyEngine oracle fixture for section 10"
+        }
+      ],
+      "reviewer_evidence": [
+        {
+          "reviewer": "legal-reviewer",
+          "reviewed_at": "2026-07-05T00:00:00Z",
+          "evidence_uri": "data/track78/reviews/policyengine_oracle_review.md",
+          "notes": "Reviewed formula and oracle fixture coverage."
+        }
+      ],
+      "review_notes": "Reviewed and promotable.",
+      "downstream_targets": [
+        "rulespec-nz",
+        "policyengine",
+        "openfisca"
+      ]
+    },
+    {
+      "review_state": "rejected",
+      "rulespec_reference": {
+        "jurisdiction": "nz",
+        "path": "statutes/example-act/2026/11",
+        "concept": "information_duty",
+        "durable_id": "nz:statutes/example-act/2026/11#information_duty"
+      },
+      "source_trace": {
+        "citation_path": "nz/statutes/example-act/2026/11",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "source_url": "https://legislation.govt.nz/example-act/section/11",
+        "retrieved_at": "2026-07-05T00:00:00Z",
+        "spans": [
+          {
+            "start": 0,
+            "end": 39,
+            "text": "This example is rejected after review."
+          }
+        ]
+      },
+      "source_verification": {
+        "corpus_citation_path": "nz/statutes/example-act/2026/11",
+        "jurisdiction": "NZ",
+        "document_type": "act",
+        "authoritative_source_url": "https://legislation.govt.nz/example-act/section/11",
+        "retrieved_at": "2026-07-05T00:00:00Z",
+        "source_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "legal_effect": "obligation",
+      "reviewer_evidence": [
+        {
+          "reviewer": "legal-reviewer",
+          "reviewed_at": "2026-07-05T00:00:00Z",
+          "evidence_uri": "data/track78/reviews/rejected.md",
+          "notes": "Rejected because the source scope was ambiguous."
+        }
+      ],
+      "rejection_reason": "Source scope is not specific enough for promotion.",
+      "downstream_targets": [
+        "rulespec-nz"
+      ]
+    },
+    {
+      "review_state": "deferred",
+      "rulespec_reference": {
+        "jurisdiction": "nz",
+        "path": "statutes/example-act/2026/12",
+        "concept": "information_duty",
+        "durable_id": "nz:statutes/example-act/2026/12#information_duty"
+      },
+      "source_trace": {
+        "citation_path": "nz/statutes/example-act/2026/12",
+        "source_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "source_url": "https://legislation.govt.nz/example-act/section/12",
+        "retrieved_at": "2026-07-05T00:00:00Z",
+        "spans": [
+          {
+            "start": 0,
+            "end": 39,
+            "text": "This example is deferred pending oracle."
+          }
+        ]
+      },
+      "source_verification": {
+        "corpus_citation_path": "nz/statutes/example-act/2026/12",
+        "jurisdiction": "NZ",
+        "document_type": "act",
+        "authoritative_source_url": "https://legislation.govt.nz/example-act/section/12",
+        "retrieved_at": "2026-07-05T00:00:00Z",
+        "source_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      "legal_effect": "obligation",
+      "reviewer_evidence": [
+        {
+          "reviewer": "legal-reviewer",
+          "reviewed_at": "2026-07-05T00:00:00Z",
+          "evidence_uri": "data/track78/reviews/deferred.md",
+          "notes": "Deferred until oracle fixtures are available."
+        }
+      ],
+      "defer_reason": "Oracle fixtures are not ready yet.",
+      "downstream_targets": [
+        "rulespec-nz"
+      ]
+    },
+    {
+      "review_state": "blocked",
+      "rulespec_reference": {
+        "jurisdiction": "nz",
+        "path": "statutes/example-act/2026/13",
+        "concept": "information_duty",
+        "durable_id": "nz:statutes/example-act/2026/13#information_duty"
+      },
+      "source_trace": {
+        "citation_path": "nz/statutes/example-act/2026/13",
+        "source_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "source_url": "https://legislation.govt.nz/example-act/section/13",
+        "retrieved_at": "2026-07-05T00:00:00Z",
+        "spans": [
+          {
+            "start": 0,
+            "end": 33,
+            "text": "This example is blocked on review."
+          }
+        ]
+      },
+      "source_verification": {
+        "corpus_citation_path": "nz/statutes/example-act/2026/13",
+        "jurisdiction": "NZ",
+        "document_type": "act",
+        "authoritative_source_url": "https://legislation.govt.nz/example-act/section/13",
+        "retrieved_at": "2026-07-05T00:00:00Z",
+        "source_sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      "legal_effect": "obligation",
+      "reviewer_evidence": [
+        {
+          "reviewer": "legal-reviewer",
+          "reviewed_at": "2026-07-05T00:00:00Z",
+          "evidence_uri": "data/track78/reviews/blocked.md",
+          "notes": "Blocked pending policy sign-off."
+        }
+      ],
+      "review_notes": "Blocked until policy sign-off is completed.",
+      "downstream_targets": [
+        "rulespec-nz"
+      ]
+    }
+  ]
+}

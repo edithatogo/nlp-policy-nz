@@ -1,0 +1,32 @@
+{
+  "schema_version": "track79.policyengine-pilot.oracles.v1",
+  "track_id": "track79_policyengine_executable_pilot_20260705",
+  "package_name": "policyengine_nz_commencement_pilot",
+  "formula_id": "act_commenced",
+  "source_citation_path": "nz/statutes/commencement/2026/1",
+  "source_sha256": "cad38bfcdfc6ebd5336fad61b19c4099e598fa4b0608ed07a3fabe95dbe7d311",
+  "source_excerpt": "This Act commences on the day after Royal assent.",
+  "cases": [
+    {
+      "case_id": "commencement-day-of-assent",
+      "assessment_date": "2026-06-30",
+      "royal_assent_date": "2026-06-30",
+      "expected_output": false,
+      "notes": "The Act does not commence on the day of assent."
+    },
+    {
+      "case_id": "commencement-day-after-assent",
+      "assessment_date": "2026-07-01",
+      "royal_assent_date": "2026-06-30",
+      "expected_output": true,
+      "notes": "The Act commences the day after assent."
+    },
+    {
+      "case_id": "commencement-later-date",
+      "assessment_date": "2026-07-02",
+      "royal_assent_date": "2026-06-30",
+      "expected_output": true,
+      "notes": "Later dates remain commenced."
+    }
+  ]
+}
