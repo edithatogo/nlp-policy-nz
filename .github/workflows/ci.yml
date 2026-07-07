@@ -121,6 +121,12 @@ jobs:
       - name: Track 76 source inventory validation
         run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" test -- tests/test_source_inventory.py -q
 
+      - name: Conductor mirror check
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" python scripts/check_conductor_mirror.py
+
       - name: Targeted lint
         run: CI=true pixi run --as-is -e "$PIXI_ENVIRONMENT" lint-ci
 
