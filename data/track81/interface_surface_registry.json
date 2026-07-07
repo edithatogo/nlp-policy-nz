@@ -1,0 +1,762 @@
+{
+  "registry_id": "track81.interface-surface-registry",
+  "schema_version": "track81.interface-surface-registry.v1",
+  "owner_module": "nlp_policy_nz.governance.interface_contract",
+  "documentation": [
+    "docs/interface-contract-governance.md",
+    "docs-site/src/content/docs/api/cli.md",
+    "docs-site/src/content/docs/api/openapi.md",
+    "docs-site/src/content/docs/api/python.md",
+    "docs-site/src/content/docs/guides/client-sdk.md",
+    "conductor/tracks/archive/track84_mcp_server_surface_20260706/spec.md"
+  ],
+  "capabilities": [
+    {
+      "capability_id": "nlp.process",
+      "title": "Process corpus inputs",
+      "summary": "Process legislation or Hansard through the core pipeline.",
+      "input_shape": "file path or inline text plus corpus source",
+      "output_shape": "Parquet output or API ProcessResponse payload",
+      "side_effect": "write",
+      "auth_scope": "write",
+      "error_shape": "API RFC 7807 responses, CLI non-zero exit codes, SDK APIError exceptions",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.pipeline_api",
+      "core_functions": [
+        "nlp_policy_nz.pipeline_api.process_legislation",
+        "nlp_policy_nz.pipeline_api.process_hansard"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "process"
+          ]
+        },
+        "api": {
+          "status": "implemented",
+          "identifiers": [
+            "POST /process",
+            "POST /v1/process",
+            "POST /v2/process"
+          ]
+        },
+        "sdk": {
+          "status": "implemented",
+          "identifiers": [
+            "NLPPolicyNZClient.process",
+            "AsyncNLPPolicyNZClient.process"
+          ]
+        },
+        "mcp": {
+          "status": "not_applicable",
+          "identifiers": []
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.search",
+      "title": "Search similar records",
+      "summary": "Run semantic search against the configured vector index.",
+      "input_shape": "search query string plus top_k and optional db_path",
+      "output_shape": "SearchResponse payload or result list",
+      "side_effect": "read-only",
+      "auth_scope": "read",
+      "error_shape": "API RFC 7807 responses, CLI non-zero exit codes, SDK APIError exceptions",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.pipeline_api",
+      "core_functions": [
+        "nlp_policy_nz.pipeline_api.search_similar"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "search"
+          ]
+        },
+        "api": {
+          "status": "implemented",
+          "identifiers": [
+            "POST /search",
+            "POST /v1/search",
+            "POST /v2/search"
+          ]
+        },
+        "sdk": {
+          "status": "implemented",
+          "identifiers": [
+            "NLPPolicyNZClient.search",
+            "AsyncNLPPolicyNZClient.search"
+          ]
+        },
+        "mcp": {
+          "status": "implemented",
+          "identifiers": [
+            "tool:search_catalog"
+          ]
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.embed",
+      "title": "Generate embeddings",
+      "summary": "Produce embeddings from input texts via the API and SDK.",
+      "input_shape": "list of text strings",
+      "output_shape": "EmbedResponse payload",
+      "side_effect": "read-only",
+      "auth_scope": "read",
+      "error_shape": "API RFC 7807 responses and SDK APIError exceptions",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.semantic.embeddings",
+      "core_functions": [
+        "nlp_policy_nz.semantic.generate_embedding"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "api": {
+          "status": "implemented",
+          "identifiers": [
+            "POST /embed",
+            "POST /v1/embed",
+            "POST /v2/embed"
+          ]
+        },
+        "sdk": {
+          "status": "implemented",
+          "identifiers": [
+            "NLPPolicyNZClient.embed",
+            "AsyncNLPPolicyNZClient.embed"
+          ]
+        },
+        "mcp": {
+          "status": "not_applicable",
+          "identifiers": []
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.observability",
+      "title": "Report service health and version metadata",
+      "summary": "Expose health, version, probe, and metrics endpoints for deployment diagnostics.",
+      "input_shape": "HTTP GET requests",
+      "output_shape": "HealthResponse, VersionResponse, ProbeResponse, or text metrics",
+      "side_effect": "read-only",
+      "auth_scope": "public",
+      "error_shape": "API RFC 7807 responses",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.api.server",
+      "core_functions": [
+        "nlp_policy_nz.api.server.health",
+        "nlp_policy_nz.api.server.version",
+        "nlp_policy_nz.api.server.startup_probe",
+        "nlp_policy_nz.api.server.readiness_probe",
+        "nlp_policy_nz.api.server.liveness_probe",
+        "nlp_policy_nz.api.server.metrics"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "api": {
+          "status": "implemented",
+          "identifiers": [
+            "GET /health",
+            "GET /v1/health",
+            "GET /v2/health",
+            "GET /startup",
+            "GET /ready",
+            "GET /live",
+            "GET /version",
+            "GET /v1/version",
+            "GET /v2/version",
+            "GET /metrics",
+            "GET /v1/openapi.json",
+            "GET /v2/openapi.json"
+          ]
+        },
+        "sdk": {
+          "status": "implemented",
+          "identifiers": [
+            "NLPPolicyNZClient.health",
+            "NLPPolicyNZClient.version",
+            "AsyncNLPPolicyNZClient.health",
+            "AsyncNLPPolicyNZClient.version"
+          ]
+        },
+        "mcp": {
+          "status": "implemented",
+          "identifiers": [
+            "resource:capability_registry",
+            "resource:tool_schemas",
+            "resource:resource_schemas",
+            "resource:generated_docs",
+            "resource:track81_status",
+            "resource:track84_status"
+          ]
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.provenance",
+      "title": "Read provenance sidecars",
+      "summary": "Inspect provenance metadata for generated pipeline outputs.",
+      "input_shape": "Parquet path or provenance sidecar path",
+      "output_shape": "JSON provenance payload",
+      "side_effect": "read-only",
+      "auth_scope": "read",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.provenance",
+      "core_functions": [
+        "nlp_policy_nz.provenance.load_provenance_sidecar",
+        "nlp_policy_nz.provenance.provenance_sidecar_path"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "provenance"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "implemented",
+          "identifiers": [
+            "tool:inspect_provenance"
+          ]
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.linked_data",
+      "title": "Export linked data",
+      "summary": "Write RDF exports and query local graph snapshots.",
+      "input_shape": "Parquet path, RDF query, or base URI",
+      "output_shape": "Turtle sidecar or SPARQL rows",
+      "side_effect": "local-only",
+      "auth_scope": "read",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.linked_data",
+      "core_functions": [
+        "nlp_policy_nz.linked_data.export_hansard_sioc",
+        "nlp_policy_nz.linked_data.query_graph",
+        "nlp_policy_nz.linked_data.rdf_sidecar_path"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "export-rdf",
+            "sparql"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "not_applicable",
+          "identifiers": []
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.knowledge_graph",
+      "title": "Export a knowledge graph",
+      "summary": "Build JSON-LD knowledge graph exports from resolved entities.",
+      "input_shape": "JSON entity file and output path",
+      "output_shape": "schema.org JSON-LD graph",
+      "side_effect": "local-only",
+      "auth_scope": "read",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.kb.wikidata_kg",
+      "core_functions": [
+        "nlp_policy_nz.kb.wikidata_kg.export_knowledge_graph_jsonld",
+        "nlp_policy_nz.kb.wikidata_kg.load_wikidata_entities"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "knowledge-graph"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "implemented",
+          "identifiers": [
+            "tool:summarize_knowledge_graph"
+          ]
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.voting_amendments",
+      "title": "Summarize voting and amendment records",
+      "summary": "Parse Hansard division records and amendment histories.",
+      "input_shape": "Hansard division or amendment text",
+      "output_shape": "JSON summary payloads",
+      "side_effect": "read-only",
+      "auth_scope": "read",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.parliament",
+      "core_functions": [
+        "nlp_policy_nz.parliament.voting.parse_division",
+        "nlp_policy_nz.parliament.amendments.parse_amendments",
+        "nlp_policy_nz.parliament.amendments.amendments_to_dicts"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "voting-summary",
+            "amendment-history"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "not_applicable",
+          "identifiers": []
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.rules_as_code",
+      "title": "Export rules as code handoffs",
+      "summary": "Build source-grounded rules-as-code bridge artifacts and package skeletons.",
+      "input_shape": "source text, citation path, and metadata",
+      "output_shape": "rules-as-code bridge JSON and optional package skeleton",
+      "side_effect": "write",
+      "auth_scope": "write",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.ontology.rac_bridge",
+      "core_functions": [
+        "nlp_policy_nz.ontology.build_rules_as_code_bridge",
+        "nlp_policy_nz.ontology.write_rules_as_code_bridge_json",
+        "nlp_policy_nz.ontology.build_policyengine_package_skeleton",
+        "nlp_policy_nz.ontology.write_policyengine_package_skeleton"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "rac-export"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "implemented",
+          "identifiers": [
+            "tool:inspect_rules_as_code_candidates"
+          ]
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.policyengine_pilot",
+      "title": "Build the PolicyEngine pilot package",
+      "summary": "Generate the reviewed PolicyEngine pilot package from a manifest.",
+      "input_shape": "reviewed manifest JSON",
+      "output_shape": "generated package directory and execution report",
+      "side_effect": "write",
+      "auth_scope": "write",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.policyengine_pilot",
+      "core_functions": [
+        "nlp_policy_nz.policyengine_pilot.build_policyengine_pilot_package",
+        "nlp_policy_nz.policyengine_pilot.load_policyengine_pilot_domain_json",
+        "nlp_policy_nz.policyengine_pilot.write_policyengine_pilot_package"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "policyengine-pilot"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "not_applicable",
+          "identifiers": []
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.multi_engine_parity",
+      "title": "Build the multi-engine parity bundle",
+      "summary": "Generate deterministic OpenFisca and PolicyEngine parity artifacts.",
+      "input_shape": "reviewed pilot manifest JSON",
+      "output_shape": "parity bundle directory and report",
+      "side_effect": "write",
+      "auth_scope": "write",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.ontology.multi_engine_parity",
+      "core_functions": [
+        "nlp_policy_nz.ontology.multi_engine_parity.build_multi_engine_parity_bundle",
+        "nlp_policy_nz.ontology.multi_engine_parity.load_track80_domain_json",
+        "nlp_policy_nz.ontology.multi_engine_parity.write_multi_engine_parity_bundle"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "multi-engine-parity"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "implemented",
+          "identifiers": [
+            "tool:inspect_multi_engine_parity"
+          ]
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.extraction_exports",
+      "title": "Export extraction manifests and candidate bundles",
+      "summary": "Emit deterministic extraction manifests and rules-as-code candidate artifacts.",
+      "input_shape": "Parquet path, extraction manifest, or source inventory",
+      "output_shape": "extraction manifest JSON and candidate bundle artifacts",
+      "side_effect": "write",
+      "auth_scope": "write",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.extraction",
+      "core_functions": [
+        "nlp_policy_nz.extraction.export_extraction_manifest_from_parquet",
+        "nlp_policy_nz.extraction.export_rules_as_code_candidates_from_extraction_manifest",
+        "nlp_policy_nz.extraction.export_rules_as_code_candidates_from_pipeline_parquet",
+        "nlp_policy_nz.extraction.export_rules_as_code_candidates_from_source_inventory",
+        "nlp_policy_nz.extraction.default_source_inventory_manifest",
+        "nlp_policy_nz.extraction.load_source_inventory_manifest_json"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "export-extractions",
+            "export-rac-candidates"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "not_applicable",
+          "identifiers": []
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.ontology_exports",
+      "title": "Export ontology artifacts",
+      "summary": "Write ontology manifests and supporting artifacts.",
+      "input_shape": "output directory",
+      "output_shape": "ontology manifest and companion files",
+      "side_effect": "write",
+      "auth_scope": "write",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.ontology",
+      "core_functions": [
+        "nlp_policy_nz.ontology.write_nz_ontology_artifacts"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "export-nz-ontologies"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "implemented",
+          "identifiers": [
+            "tool:summarize_ontology"
+          ]
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.analysis_exports",
+      "title": "Export analysis and publication artifacts",
+      "summary": "Build corpus statistics, graph/vector analysis, publication protocol, and manuscript artifacts.",
+      "input_shape": "output directory plus optional markdown output",
+      "output_shape": "analysis and manuscript artifact bundles",
+      "side_effect": "write",
+      "auth_scope": "write",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.analysis",
+      "core_functions": [
+        "nlp_policy_nz.analysis.write_corpus_statistics_artifacts",
+        "nlp_policy_nz.analysis.write_graph_vector_network_artifacts",
+        "nlp_policy_nz.analysis.write_analysis_artifacts",
+        "nlp_policy_nz.publication.protocol.write_publication_protocol_artifacts",
+        "nlp_policy_nz.publication.write_manuscript_package"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "corpus-stats",
+            "graph-vector-analysis",
+            "publication-protocol",
+            "generate-analysis-artifacts",
+            "generate-manuscript-package"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "not_applicable",
+          "identifiers": []
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.quality",
+      "title": "Validate and report on quality",
+      "summary": "Run quality validation, reports, dashboards, and alerting workflows.",
+      "input_shape": "input files, parquet files, and optional report history paths",
+      "output_shape": "quality validation rows, JSON reports, and HTML dashboard output",
+      "side_effect": "read-only",
+      "auth_scope": "read",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.quality",
+      "core_functions": [
+        "nlp_policy_nz.quality.validate_ingestion_inputs",
+        "nlp_policy_nz.quality.build_quality_report",
+        "nlp_policy_nz.quality.load_quality_report",
+        "nlp_policy_nz.quality.persist_quality_report",
+        "nlp_policy_nz.quality.history_reports",
+        "nlp_policy_nz.quality.write_dashboard_html"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "quality",
+            "quality validate",
+            "quality report",
+            "quality dashboard",
+            "quality alert"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "implemented",
+          "identifiers": [
+            "tool:inspect_quality_report"
+          ]
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.release",
+      "title": "Publish datasets and release artifacts",
+      "summary": "Upload datasets, deploy spaces, archive releases, and publish versioned archives.",
+      "input_shape": "Parquet file, release metadata, or Hugging Face repository identifiers",
+      "output_shape": "dataset URLs, space URLs, Zenodo DOI payloads, or release records",
+      "side_effect": "publish",
+      "auth_scope": "publish",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.integrations",
+      "core_functions": [
+        "nlp_policy_nz.integrations.hf_uploader.push_dataset_to_hub",
+        "nlp_policy_nz.integrations.hf_uploader.deploy_space",
+        "nlp_policy_nz.integrations.zenodo_archive.ZenodoArchiver",
+        "nlp_policy_nz.integrations.release.ReleaseManager"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "upload-dataset",
+            "deploy-space",
+            "archive-to-zenodo",
+            "release"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "not_applicable",
+          "identifiers": []
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.auth",
+      "title": "Manage API keys",
+      "summary": "Create, list, revoke, and rotate API keys for secured API access.",
+      "input_shape": "key name, scopes, expiration, or key ID",
+      "output_shape": "JSON key metadata",
+      "side_effect": "write",
+      "auth_scope": "admin",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.cli.auth",
+      "core_functions": [
+        "nlp_policy_nz.cli.auth.create_api_key",
+        "nlp_policy_nz.cli.auth.list_api_keys",
+        "nlp_policy_nz.cli.auth.revoke_api_key",
+        "nlp_policy_nz.cli.auth.rotate_api_key"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "auth",
+            "auth create-key",
+            "auth list-keys",
+            "auth revoke-key",
+            "auth rotate-key"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "not_applicable",
+          "identifiers": []
+        }
+      }
+    },
+    {
+      "capability_id": "nlp.tooling",
+      "title": "Generate CLI completion and manpage assets",
+      "summary": "Build shell-completion scripts and a manual page for the CLI.",
+      "input_shape": "shell name and optional output path",
+      "output_shape": "completion script or manpage text",
+      "side_effect": "local-only",
+      "auth_scope": "public",
+      "error_shape": "CLI non-zero exit codes",
+      "version": 1,
+      "owner_module": "nlp_policy_nz.cli.completion",
+      "core_functions": [
+        "nlp_policy_nz.cli.completion.build_completion_script",
+        "nlp_policy_nz.cli.completion.build_manpage",
+        "nlp_policy_nz.cli.completion.write_text_output"
+      ],
+      "surfaces": {
+        "cli": {
+          "status": "implemented",
+          "identifiers": [
+            "completion",
+            "completion install",
+            "completion manpage"
+          ]
+        },
+        "api": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "sdk": {
+          "status": "not_applicable",
+          "identifiers": []
+        },
+        "mcp": {
+          "status": "not_applicable",
+          "identifiers": []
+        }
+      }
+    }
+  ]
+}

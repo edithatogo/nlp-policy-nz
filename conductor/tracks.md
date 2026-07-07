@@ -14,14 +14,14 @@ Phase I (Complete — 1-9): Core Pipeline & Integrations
   │                                                                  └─► 9 (Zenodo)
   └─ 24 (Multi-Git Mirroring) [runs after 23]
 
-Phase II (In Progress — 10-23): Ontology + Features + Quality
+Phase II (Complete — 10-23): Ontology + Features + Quality
   ├─ Ontology: 10 (Deontic) → 11 (Temporal) → 12 (Entity)
   │             → 13 (Argument) → 14 (AKN v3) → 15 (PROV-O)
   │             → 16 (FOAF/SIOC) → 17 (Wikidata) → 18 (Voting)
   ├─ Fine-Tuning: 20 (Models) → 21 (Architectures) → 22 (Isaacus)
   └─ Quality: 19 (Observability) ──► 23 (Tooling)
 
-Phase III (Planned — 25-37): Ontology + Analytics + Publication
+Phase III (Complete — 25-37): Ontology + Analytics + Publication
   ├─ Discovery: 25 (Coverage Audit) → 26 (Standards) + 28 (Discovery)
   ├─ Mapping:   27 (RaC Bridge) + 29 (Mapping KG) → 30 (Inference)
   ├─ Ontology:  31 (NZ Ontologies)
@@ -29,17 +29,17 @@ Phase III (Planned — 25-37): Ontology + Analytics + Publication
   ├─ Protocol:  34 (Publication Protocol)
   └─ Delivery:  35 (Artifacts) → 36 (HF Site) → 37 (Manuscript)
 
-Phase IV (Planned — 38-44): Infrastructure + Automation + Security
+Phase IV (Complete — 38-44): Infrastructure + Automation + Security
   ├─ Quality:   38 (Container) → 39 (Governance) → 40 (Dependency Security)
   └─ Security:  41 (SAST) → 42 (Perf Regression) → 43 (Agentic) → 44 (Data Quality)
 
-Phase V (Planned — 45-46): Release Engineering + Production Maturity
+Phase V (Complete — 45-46): Release Engineering + Production Maturity
   ├─ 45 (Release Engineering) ──► HF/Zenodo/OSF/PyPI auto-publish
   │   [depends on 8, 9, 24, 36]
   └─ 46 (Production Hardening) ──► API v1/v2, env separation, migration, load test
       [depends on 7, 23, 38, 44]
 
-Phase VI (Planned — 47-50): Cross-Platform + DX + Docs + Compliance
+Phase VI (Complete — 47-50): Cross-Platform + DX + Docs + Compliance
   ├─ 47 (Cross-Platform CI) ──► multi-OS matrix, binary builds
   │   [depends on 1, 23, 38]
   ├─ 48 (Client SDK) ──► Python client, shell completion, Docker Compose
@@ -49,7 +49,7 @@ Phase VI (Planned — 47-50): Cross-Platform + DX + Docs + Compliance
   └─ 50 (Compliance) ──► WCAG 2.1 AA, Privacy Act, a11y CI
       [depends on 36, 44, 46]
 
-Phase VII (Planned — 51-52): Security & Observability
+Phase VII (Complete — 51-52): Security & Observability
   ├─ 51 (API Security) ──► API key auth, key lifecycle, scopes, audit log
   │   [depends on 7, 45, 46]
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
@@ -68,12 +68,12 @@ Phase X (Complete — 74-75): NZ Legal/Hansard Evaluation and Fine-Tuning
   ├─ 74 (Held-Out Evaluation Set) [archived]
   └─ 75 (Fine-Tuned Model) [archived]
 
-Phase XI (Planned — 78-80; 76-77 archived): Executable Rules-as-Code Completion
+Phase XI (Complete — 76-80): Executable Rules-as-Code Completion
   ├─ 77 (Batch RAC Candidate Export) ──► 78 (RuleSpec Promotion Contract)
   ├─ 78 (RuleSpec Promotion Contract) ──► 79 (PolicyEngine Executable Pilot)
   └─ 79 (PolicyEngine Executable Pilot) ──► 80 (OpenFisca and Multi-Engine Parity)
 
-Phase XII (Planned — 81-85): Formalized CLI/API/MCP Interface Surfaces
+Phase XII (Complete — 81-85): Formalized CLI/API/MCP Interface Surfaces
   ├─ 81 (Interface Surface Contract) ──► 82 (CLI Contract Hardening)
   ├─ 81 (Interface Surface Contract) ──► 83 (Public API Contract)
   ├─ 81 (Interface Surface Contract) ──► 84 (MCP Server Surface)
@@ -497,32 +497,32 @@ Phase XII (Planned — 81-85): Formalized CLI/API/MCP Interface Surfaces
 
 ---
 
-## [ ] Track 81: Interface Surface Contract and Capability Registry
-*Link: [./conductor/tracks/track81_interface_surface_contract_20260706/](./conductor/tracks/track81_interface_surface_contract_20260706/)*
+## [x] Track 81: Interface Surface Contract and Capability Registry (archived)
+*Link: [./conductor/tracks/archive/track81_interface_surface_contract_20260706/](./conductor/tracks/archive/track81_interface_surface_contract_20260706/)*
 - **Dependencies**: Tracks 7, 46, 48, 49, 51, 52, 80
 - **Parallelization Node**: Interface Contract Foundation
 - **Why**: Define a canonical capability registry and interface contract so CLI, HTTP API, SDK, and MCP surfaces expose the same core behavior without drifting apart.
 
-## [ ] Track 82: CLI Contract Hardening and Stable Command Reference
-*Link: [./conductor/tracks/track82_cli_contract_hardening_20260706/](./conductor/tracks/track82_cli_contract_hardening_20260706/)*
+## [x] Track 82: CLI Contract Hardening and Stable Command Reference (archived)
+*Link: [./conductor/tracks/archive/track82_cli_contract_hardening_20260706/](./conductor/tracks/archive/track82_cli_contract_hardening_20260706/)*
 - **Dependencies**: Tracks 48, 49, 81
 - **Parallelization Node**: CLI Product Surface
 - **Why**: Formalize the existing `nlp-policy-nz` CLI as a stable user-facing interface with contract tests, structured output, exit code policy, and generated reference docs.
 
-## [ ] Track 83: Public API Contract Formalization
-*Link: [./conductor/tracks/track83_public_api_contract_formalization_20260706/](./conductor/tracks/track83_public_api_contract_formalization_20260706/)*
+## [x] Track 83: Public API Contract Formalization (archived)
+*Link: [./conductor/tracks/archive/track83_public_api_contract_formalization_20260706/](./conductor/tracks/archive/track83_public_api_contract_formalization_20260706/)*
 - **Dependencies**: Tracks 46, 48, 51, 52, 81
 - **Parallelization Node**: HTTP API Product Surface
 - **Why**: Formalize the FastAPI and client SDK surface with versioned OpenAPI artifacts, request/response contracts, auth scopes, and compatibility tests.
 
-## [ ] Track 84: MCP Server Surface for Agentic Consumption
-*Link: [./conductor/tracks/track84_mcp_server_surface_20260706/](./conductor/tracks/track84_mcp_server_surface_20260706/)*
+## [x] Track 84: MCP Server Surface for Agentic Consumption (archived)
+*Link: [./conductor/tracks/archive/track84_mcp_server_surface_20260706/](./conductor/tracks/archive/track84_mcp_server_surface_20260706/)*
 - **Dependencies**: Tracks 43, 46, 48, 49, 51, 52, 81
 - **Parallelization Node**: MCP Agent Surface
 - **Why**: Expose a safe MCP server adapter over selected `nlp-policy-nz` capabilities, starting with read-only search, provenance, quality, ontology, and rules-as-code inspection tools.
 
-## [ ] Track 85: Cross-Surface Contract Governance and Release Automation
-*Link: [./conductor/tracks/track85_cross_surface_contract_governance_20260706/](./conductor/tracks/track85_cross_surface_contract_governance_20260706/)*
+## [x] Track 85: Cross-Surface Contract Governance and Release Automation (archived)
+*Link: [./conductor/tracks/archive/track85_cross_surface_contract_governance_20260706/](./conductor/tracks/archive/track85_cross_surface_contract_governance_20260706/)*
 - **Dependencies**: Tracks 39, 45, 49, 81, 82, 83, 84
 - **Parallelization Node**: Interface Governance and CI
 - **Why**: Add cross-surface conformance tests, docs generation, and release governance so CLI, HTTP API, SDK, and MCP contracts remain aligned over time.
