@@ -10,8 +10,6 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-import datasets
-import pyarrow.parquet as pq
 from huggingface_hub import HfApi
 from huggingface_hub.errors import HfHubHTTPError
 
@@ -73,7 +71,7 @@ def _resolve_token(token: str | None) -> str | None:
 # ---------------------------------------------------------------------------
 
 
-def parquet_to_dataset(parquet_path: str | Path) -> datasets.Dataset:
+def parquet_to_dataset(parquet_path: str | Path) -> object:
     """Load a Parquet file and convert it to a Hugging Face ``datasets.Dataset``.
 
     Parameters
@@ -92,6 +90,9 @@ def parquet_to_dataset(parquet_path: str | Path) -> datasets.Dataset:
         If the Parquet file does not exist.
 
     """
+    import datasets  # noqa: PLC0415
+    import pyarrow.parquet as pq  # noqa: PLC0415
+
     src = Path(parquet_path).resolve()
     if not src.is_file():
         raise FileNotFoundError(f"Parquet file not found: {src}")

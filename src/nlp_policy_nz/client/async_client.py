@@ -103,7 +103,7 @@ class AsyncNLPPolicyNZClient(_BaseClient):
 
     async def embed(self, texts: Iterable[str]) -> EmbedResponse:
         request = EmbedRequest(texts=list(texts))
-        response = await self._request("POST", "embed", json=request.model_dump(mode="json"))
+        response = await self._request("POST", "embed", json=self._model_payload(request))
         return self._parse(response, EmbedResponse)
 
     async def search(
@@ -114,7 +114,7 @@ class AsyncNLPPolicyNZClient(_BaseClient):
         db_path: str = "./lancedb_data",
     ) -> SearchResponse:
         request = SearchRequest(query=query, top_k=top_k, db_path=db_path)
-        response = await self._request("POST", "search", json=request.model_dump(mode="json"))
+        response = await self._request("POST", "search", json=self._model_payload(request))
         return self._parse(response, SearchResponse)
 
     async def process(
@@ -129,7 +129,7 @@ class AsyncNLPPolicyNZClient(_BaseClient):
             source=source,
             generate_embeddings=generate_embeddings,
         )
-        response = await self._request("POST", "process", json=request.model_dump(mode="json"))
+        response = await self._request("POST", "process", json=self._model_payload(request))
         return self._parse(response, ProcessResponse)
 
 

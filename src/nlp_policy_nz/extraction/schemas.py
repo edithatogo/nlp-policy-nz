@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections import Counter
 from enum import StrEnum
+from pathlib import Path
 from typing import Any
 
 import orjson
@@ -203,6 +204,14 @@ class ExtractionManifest(BaseModel):
         if dict(expected) != self.summary.families:
             raise ValueError("summary.families must match record family counts")
         return self
+
+
+def load_extraction_manifest_json(path: str | Path) -> ExtractionManifest:
+    """Load an extraction manifest from deterministic JSON."""
+    src = Path(path).resolve()
+    if not src.is_file():
+        raise FileNotFoundError(f"Extraction manifest not found: {src}")
+    return ExtractionManifest.model_validate_json(src.read_text(encoding="utf-8"))
 
 
 def extraction_manifest_from_records(

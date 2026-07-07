@@ -9,6 +9,10 @@ import pytest
 
 from nlp_policy_nz.axiom import SourceSection
 from nlp_policy_nz.cli.main import main
+from nlp_policy_nz.extraction import (
+    build_rules_as_code_candidate_bundle_from_extraction_manifest,
+    build_rules_as_code_candidate_bundle_from_source_inventory,
+)
 from nlp_policy_nz.ontology import (
     NormSemantics,
     PolicyEnginePackageSkeleton,
@@ -295,3 +299,61 @@ def test_rac_export_cli_writes_optional_package_skeleton(tmp_path: Path) -> None
     assert rc == 0
     assert (package_output / "policyengine_nz_records" / "variables" / "generated.py").is_file()
     assert (package_output / "policyengine_nz_records" / "parameters" / "generated.yaml").is_file()
+
+
+def test_batch_rac_candidate_bundle_from_source_inventory_preserves_gaps_and_order() -> None:
+    """Batch export should stay fixture-bounded and preserve review gating."""
+    bundle = build_rules_as_code_candidate_bundle_from_source_inventory()
+
+    assert bundle.manifest.summary.total_records == 5
+    assert len(bundle.manifest.summary.known_gaps) == 5
+    assert [record.record_id for record in bundle.manifest.records] == [
+        "nz:amendments/2026/redirected-1#source_text",
+        "nz:commencement/2026/9#source_text",
+        "nz:regulations/2026/14#obligation",
+        "nz:repeals/2026/4#source_text",
+        "nz:statutes/2026/1#obligation",
+    ]
+    assert bundle.bridge_records[0].review_status == "deferred"
+    assert bundle.bridge_records[0].known_gap_ids == ("track76-gap-redirected-amendment",)
+    assert bundle.bridge_records[-1].review_status == "unreviewed"
+    assert bundle.bridge_records[-1].known_gap_ids == ()
+    assert all(record.family == bundle.manifest.records[0].family for record in bundle.manifest.records)
+    assert bundle.manifest.records[4].attributes["rulespec_id"] == "nz:statutes/2026/1#obligation"
+
+
+def test_batch_rac_candidate_bundle_from_extraction_manifest_round_trips_bundle() -> None:
+    """Extraction-manifest inputs should preserve candidate ordering and bridge IDs."""
+    source_bundle = build_rules_as_code_candidate_bundle_from_source_inventory()
+    bundle = build_rules_as_code_candidate_bundle_from_extraction_manifest(source_bundle.manifest)
+
+    assert [record.record_id for record in bundle.manifest.records] == [
+        record.record_id for record in source_bundle.manifest.records
+    ]
+    assert [record["@id"] for record in [bridge.to_jsonld() for bridge in bundle.bridge_records]] == [
+        bridge["@id"] for bridge in [record.to_jsonld() for record in source_bundle.bridge_records]
+    ]
+
+
+def test_export_rac_candidates_cli_writes_manifest_and_bridges(tmp_path: Path) -> None:
+    """The batch CLI should emit manifest and bridge artifacts from the fixture inventory."""
+    output_dir = tmp_path / "rac-batch"
+    rc = main([
+        "export-rac-candidates",
+        "--output-dir",
+        str(output_dir),
+    ])
+
+    manifest_path = output_dir / "rules_as_code_candidates.json"
+    bridges_path = output_dir / "rules_as_code_bridges.json"
+    summary_path = output_dir / "rules_as_code_candidates.md"
+    payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    bridges = json.loads(bridges_path.read_text(encoding="utf-8"))
+
+    assert rc == 0
+    assert manifest_path.is_file()
+    assert bridges_path.is_file()
+    assert summary_path.is_file()
+    assert payload["summary"]["total_records"] == 5
+    assert len(bridges) == 5
+    assert bridges[0]["review_status"] == "deferred"

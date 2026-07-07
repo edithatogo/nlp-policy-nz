@@ -1,13 +1,12 @@
 """API layer for nlp-policy-nz.
 
-Exports the FastAPI app and lazy wrappers around the public pipeline API.
+Exports lazy wrappers around the public pipeline API and the FastAPI app.
 """
 
 from __future__ import annotations
 
+import importlib
 from typing import TYPE_CHECKING, Any
-
-from nlp_policy_nz.api.server import app
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -47,8 +46,30 @@ def search_similar(
 
 
 __all__ = [
+    "API_CONTRACT_VERSION",
+    "API_VERSIONS",
     "app",
+    "AUTH_SCOPE_MAP",
+    "ENDPOINT_INVENTORY",
+    "api_contract_summary",
+    "api_endpoint_inventory",
     "process_hansard",
     "process_legislation",
     "search_similar",
 ]
+
+
+def __getattr__(name: str) -> object:
+    """Lazily expose the FastAPI app to avoid importing it on CLI-only paths."""
+    if name in {
+        "app",
+        "API_CONTRACT_VERSION",
+        "API_VERSIONS",
+        "AUTH_SCOPE_MAP",
+        "ENDPOINT_INVENTORY",
+        "api_contract_summary",
+        "api_endpoint_inventory",
+    }:
+        server = importlib.import_module("nlp_policy_nz.api.server")
+        return getattr(server, name)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

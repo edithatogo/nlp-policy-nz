@@ -346,6 +346,31 @@ def write_source_inventory_artifacts(
     }
 
 
+def load_source_inventory_manifest_json(path: str | Path) -> SourceInventoryManifest:
+    """Load a source inventory manifest from deterministic JSON."""
+    src = Path(path).resolve()
+    if not src.is_file():
+        raise FileNotFoundError(f"Source inventory manifest not found: {src}")
+    payload = json.loads(src.read_text(encoding="utf-8"))
+    records = tuple(_record_from_fixture(item, generated_at=str(payload["generated_at"])) for item in payload["records"])
+    known_gaps = tuple(_gap_from_record(record) for record in records if record.status != "available")
+    summary = _build_summary(records, known_gaps, claim_boundary=str(payload["claim_boundary"]))
+    manifest = SourceInventoryManifest(
+        schema_version=str(payload.get("schema_version", "1.0")),
+        producer=str(payload.get("producer", "nlp-policy-nz")),
+        fixture_path=str(payload["fixture_path"]),
+        generated_at=str(payload["generated_at"]),
+        claim_boundary=str(payload["claim_boundary"]),
+        records=records,
+        known_gaps=known_gaps,
+        summary=summary,
+    )
+    valid, errors = validate_source_inventory_manifest(manifest)
+    if not valid:
+        raise ValueError("; ".join(errors))
+    return manifest
+
+
 def _load_fixture_payload() -> dict[str, Any]:
     """Load the checked-in fixture contract from disk."""
     return json.loads(FIXTURE_PATH.read_text(encoding="utf-8"))
@@ -463,6 +488,7 @@ __all__ = [
     "build_source_inventory_rows",
     "default_source_inventory_manifest",
     "detect_source_inventory_live_probe_report",
+    "load_source_inventory_manifest_json",
     "render_source_inventory_json",
     "render_source_inventory_markdown",
     "validate_source_inventory_manifest",

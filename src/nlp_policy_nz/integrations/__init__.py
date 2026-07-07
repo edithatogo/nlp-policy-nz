@@ -1,5 +1,4 @@
-"""
-Integrations Module.
+"""Integrations Module.
 
 Provides data loading and integration interfaces for external data sources
 used in the NLP preprocessing pipeline, including:
@@ -12,37 +11,7 @@ used in the NLP preprocessing pipeline, including:
 
 from __future__ import annotations
 
-from nlp_policy_nz.integrations.data_registry import (
-    DataRecord,
-    DataSovereigntyRegistry,
-)
-from nlp_policy_nz.integrations.dataset_card import (
-    generate_dataset_card,
-    write_dataset_card,
-)
-from nlp_policy_nz.integrations.hf_uploader import (
-    UploadError,
-    create_dataset_repo,
-    deploy_space,
-    parquet_to_dataset,
-    push_dataset_to_hub,
-)
-from nlp_policy_nz.integrations.release import ReleaseManager
-from nlp_policy_nz.integrations.zenodo import (
-    ZENODO_PRODUCTION_API_URL,
-    ZENODO_PRODUCTION_TOKEN,
-    ZENODO_SANDBOX_API_URL,
-    ZENODO_TOKEN_ENV_VAR,
-    DepositError,
-    create_sandbox_deposit,
-    get_zenodo_token,
-    publish_deposit,
-    upload_file_to_deposit,
-)
-from nlp_policy_nz.integrations.zenodo_archive import (
-    ZenodoArchiver,
-    archive_to_zenodo,
-)
+from importlib import import_module
 
 __all__: list[str] = [
     "ZENODO_PRODUCTION_API_URL",
@@ -70,3 +39,42 @@ __all__: list[str] = [
     "write_dataset_card",
     "zenodo",
 ]
+
+_EXPORTS: dict[str, str] = {
+    "DataRecord": "nlp_policy_nz.integrations.data_registry",
+    "DataSovereigntyRegistry": "nlp_policy_nz.integrations.data_registry",
+    "generate_dataset_card": "nlp_policy_nz.integrations.dataset_card",
+    "write_dataset_card": "nlp_policy_nz.integrations.dataset_card",
+    "UploadError": "nlp_policy_nz.integrations.hf_uploader",
+    "create_dataset_repo": "nlp_policy_nz.integrations.hf_uploader",
+    "deploy_space": "nlp_policy_nz.integrations.hf_uploader",
+    "parquet_to_dataset": "nlp_policy_nz.integrations.hf_uploader",
+    "push_dataset_to_hub": "nlp_policy_nz.integrations.hf_uploader",
+    "ReleaseManager": "nlp_policy_nz.integrations.release",
+    "ZENODO_PRODUCTION_API_URL": "nlp_policy_nz.integrations.zenodo",
+    "ZENODO_PRODUCTION_TOKEN": "nlp_policy_nz.integrations.zenodo",
+    "ZENODO_SANDBOX_API_URL": "nlp_policy_nz.integrations.zenodo",
+    "ZENODO_TOKEN_ENV_VAR": "nlp_policy_nz.integrations.zenodo",
+    "DepositError": "nlp_policy_nz.integrations.zenodo",
+    "create_sandbox_deposit": "nlp_policy_nz.integrations.zenodo",
+    "get_zenodo_token": "nlp_policy_nz.integrations.zenodo",
+    "publish_deposit": "nlp_policy_nz.integrations.zenodo",
+    "upload_file_to_deposit": "nlp_policy_nz.integrations.zenodo",
+    "ZenodoArchiver": "nlp_policy_nz.integrations.zenodo_archive",
+    "archive_to_zenodo": "nlp_policy_nz.integrations.zenodo_archive",
+}
+
+
+def __getattr__(name: str) -> object:
+    """Lazily resolve integration helpers to avoid optional imports on CLI-only paths."""
+    if name == "data_registry":
+        return import_module("nlp_policy_nz.integrations.data_registry")
+    if name == "huggingface":
+        return import_module("nlp_policy_nz.integrations.huggingface")
+    if name == "zenodo":
+        return import_module("nlp_policy_nz.integrations.zenodo")
+    module_path = _EXPORTS.get(name)
+    if module_path is None:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    module = import_module(module_path)
+    return getattr(module, name)

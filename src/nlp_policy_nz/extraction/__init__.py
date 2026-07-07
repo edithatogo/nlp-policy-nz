@@ -17,6 +17,7 @@ _SCHEMA_EXPORTS = {
     "KnownGap",
     "SourceTrace",
     "SourceTraceReport",
+    "load_extraction_manifest_json",
     "extraction_manifest_from_records",
     "render_extraction_manifest_json",
     "render_extractor_manifest_yaml",
@@ -34,6 +35,16 @@ _EXPORTER_EXPORTS = {
     "export_extraction_manifest_from_parquet",
     "extraction_manifest_from_pipeline_records",
 }
+_RULES_AS_CODE_EXPORTS = {
+    "RulesAsCodeCandidateBundle",
+    "build_rules_as_code_candidate_bundle_from_extraction_manifest",
+    "build_rules_as_code_candidate_bundle_from_pipeline_parquet",
+    "build_rules_as_code_candidate_bundle_from_source_inventory",
+    "export_rules_as_code_candidates_from_extraction_manifest",
+    "export_rules_as_code_candidates_from_pipeline_parquet",
+    "export_rules_as_code_candidates_from_source_inventory",
+    "write_rules_as_code_candidate_bundle",
+}
 _SOURCE_INVENTORY_EXPORTS = {
     "SourceInventoryGapStatus",
     "SourceInventoryGapType",
@@ -45,6 +56,7 @@ _SOURCE_INVENTORY_EXPORTS = {
     "build_source_inventory_rows",
     "default_source_inventory_manifest",
     "detect_source_inventory_live_probe_report",
+    "load_source_inventory_manifest_json",
     "render_source_inventory_json",
     "render_source_inventory_markdown",
     "validate_source_inventory_manifest",
@@ -65,6 +77,7 @@ __all__ = [
     "GapStatus",
     "GapType",
     "KnownGap",
+    "RulesAsCodeCandidateBundle",
     "SourceInventoryGapStatus",
     "SourceInventoryGapType",
     "SourceInventoryKnownGap",
@@ -74,14 +87,22 @@ __all__ = [
     "SourceInventorySummary",
     "SourceTrace",
     "SourceTraceReport",
+    "build_rules_as_code_candidate_bundle_from_extraction_manifest",
+    "build_rules_as_code_candidate_bundle_from_pipeline_parquet",
+    "build_rules_as_code_candidate_bundle_from_source_inventory",
     "build_source_inventory_rows",
     "default_source_inventory_manifest",
     "detect_source_inventory_live_probe_report",
     "export_extraction_manifest_from_parquet",
+    "export_rules_as_code_candidates_from_extraction_manifest",
+    "export_rules_as_code_candidates_from_pipeline_parquet",
+    "export_rules_as_code_candidates_from_source_inventory",
     "extraction_manifest_from_pipeline_records",
     "extraction_manifest_from_records",
     "initialise_extraction_catalog",
     "list_catalog_runs",
+    "load_extraction_manifest_json",
+    "load_source_inventory_manifest_json",
     "render_extraction_manifest_json",
     "render_extractor_manifest_yaml",
     "render_source_inventory_json",
@@ -90,6 +111,7 @@ __all__ = [
     "source_trace_reports_from_records",
     "validate_source_inventory_manifest",
     "write_manifest_to_catalog",
+    "write_rules_as_code_candidate_bundle",
     "write_source_inventory_artifacts",
     "write_source_inventory_parquet",
 ]
@@ -105,6 +127,9 @@ def __getattr__(name: str) -> object:
         return getattr(module, name)
     if name in _EXPORTER_EXPORTS:
         module = import_module("nlp_policy_nz.extraction.exporter")
+        return getattr(module, name)
+    if name in _RULES_AS_CODE_EXPORTS:
+        module = import_module("nlp_policy_nz.extraction.rules_as_code")
         return getattr(module, name)
     if name in _SOURCE_INVENTORY_EXPORTS:
         module = import_module("nlp_policy_nz.extraction.source_inventory")

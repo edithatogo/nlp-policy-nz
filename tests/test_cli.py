@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import inspect
+import json
 from pathlib import Path
 from typing import Any
 from unittest.mock import patch
@@ -16,7 +17,7 @@ from unittest.mock import patch
 import pytest
 
 from nlp_policy_nz.axiom import DOCUMENT_TYPES
-from nlp_policy_nz.cli.main import main
+from nlp_policy_nz.cli.main import CLI_CAPABILITY_BY_COMMAND, main
 
 TMP_ROOT = Path("/") / "tmp"
 
@@ -40,6 +41,35 @@ def _run_main(args: list[str]) -> int:
         Exit code from :func:`main`.
     """
     return main([*args])
+
+
+def _top_level_choices(parser: argparse.ArgumentParser) -> dict[str, argparse.ArgumentParser]:
+    for action in parser._actions:  # noqa: SLF001
+        if isinstance(action, argparse._SubParsersAction):  # type: ignore[attr-defined] # noqa: SLF001
+            return action.choices
+    return {}
+
+
+def _leaf_command_paths(
+    parser: argparse.ArgumentParser,
+    prefix: tuple[str, ...] = (),
+) -> set[tuple[str, ...]]:
+    paths: set[tuple[str, ...]] = set()
+    for action in parser._actions:  # noqa: SLF001
+        if not isinstance(action, argparse._SubParsersAction):  # type: ignore[attr-defined] # noqa: SLF001
+            continue
+        for name, child in action.choices.items():
+            child_prefix = (*prefix, name)
+            nested_actions = [
+                nested_action
+                for nested_action in child._actions  # noqa: SLF001
+                if isinstance(nested_action, argparse._SubParsersAction)  # type: ignore[attr-defined] # noqa: SLF001
+            ]
+            if nested_actions:
+                paths.update(_leaf_command_paths(child, child_prefix))
+            else:
+                paths.add(child_prefix)
+    return paths
 
 
 # ---------------------------------------------------------------------------
@@ -68,9 +98,9 @@ class TestMainFunction:
         assert rc == 0
 
     def test_main_returns_one_on_unknown_command(self) -> None:
-        """Unknown commands should result in exit code 1."""
+        """Unknown commands should result in argparse exit code 2."""
         rc = _run_main(["unknown"])
-        assert rc == 1
+        assert rc == 2
 
 
 # ---------------------------------------------------------------------------
@@ -83,18 +113,15 @@ class TestProcessSubcommand:
 
     def test_process_requires_input(self) -> None:
         """``process`` without ``--input`` should fail (argparse error)."""
-        with pytest.raises(SystemExit):
-            _run_main(["process", "-o", "out.parquet", "-s", "legislation"])
+        assert _run_main(["process", "-o", "out.parquet", "-s", "legislation"]) == 2
 
     def test_process_requires_output(self) -> None:
         """``process`` without ``--output`` should fail (argparse error)."""
-        with pytest.raises(SystemExit):
-            _run_main(["process", "-i", "input.txt", "-s", "legislation"])
+        assert _run_main(["process", "-i", "input.txt", "-s", "legislation"]) == 2
 
     def test_process_requires_source(self) -> None:
         """``process`` without ``--source`` should fail (argparse error)."""
-        with pytest.raises(SystemExit):
-            _run_main(["process", "-i", "input.txt", "-o", "out.parquet"])
+        assert _run_main(["process", "-i", "input.txt", "-o", "out.parquet"]) == 2
 
     def test_process_accepts_no_embeddings_flag(self) -> None:
         """``process`` with ``--no-embeddings`` should parse without error.
@@ -118,7 +145,7 @@ class TestProcessSubcommand:
 
     def test_process_source_choices(self) -> None:
         """``--source`` only accepts ``legislation`` or ``hansard``."""
-        with pytest.raises(SystemExit):
+        assert (
             _run_main(
                 [
                     "process",
@@ -130,6 +157,8 @@ class TestProcessSubcommand:
                     "invalid_source",
                 ]
             )
+            == 2
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -142,8 +171,7 @@ class TestSearchSubcommand:
 
     def test_search_requires_query(self) -> None:
         """``search`` without ``--query`` should fail (argparse error)."""
-        with pytest.raises(SystemExit):
-            _run_main(["search"])
+        assert _run_main(["search"]) == 2
 
     def test_search_accepts_top_k(self) -> None:
         """``search`` with ``--top-k`` parses correctly."""
@@ -176,71 +204,39 @@ class TestArgumentParser:
 
     def test_parser_has_process_subcommand(self, parser: Any) -> None:
         """Parser should have a ``process`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
-        assert "process" in choices
+        assert "process" in _top_level_choices(parser)
 
     def test_parser_has_search_subcommand(self, parser: Any) -> None:
         """Parser should have a ``search`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
-        assert "search" in choices
+        assert "search" in _top_level_choices(parser)
 
     def test_verbose_flag(self, parser: Any) -> None:
         """Parser should accept ``--verbose`` / ``-v`` flag."""
         args = parser.parse_args(["--verbose", "search", "-q", "test"])
         assert args.verbose is True
+        assert args.cli_capability_id == "track81.cli.search"
 
     def test_no_embeddings_default_false(self, parser: Any) -> None:
         """``--no-embeddings`` defaults to ``False``."""
         args = parser.parse_args(["process", "-i", ".", "-o", "out.parquet", "-s", "legislation"])
         assert hasattr(args, "no_embeddings")
         assert args.no_embeddings is False
+        assert args.cli_capability_id == "track81.cli.process"
 
     def test_parser_has_upload_dataset_subcommand(self, parser: Any) -> None:
         """Parser should have an ``upload-dataset`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
-        assert "upload-dataset" in choices
+        assert "upload-dataset" in _top_level_choices(parser)
 
     def test_parser_has_deploy_space_subcommand(self, parser: Any) -> None:
         """Parser should have a ``deploy-space`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
-        assert "deploy-space" in choices
+        assert "deploy-space" in _top_level_choices(parser)
 
     def test_parser_has_rac_export_subcommand(self, parser: Any) -> None:
         """Parser should have a ``rac-export`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
+        choices = _top_level_choices(parser)
         rac_parser = choices["rac-export"]
         document_type_actions = [
-            action for action in rac_parser._actions if "--document-type" in action.option_strings
+            action for action in rac_parser._actions if "--document-type" in action.option_strings  # noqa: SLF001
         ]
 
         assert "rac-export" in choices
@@ -250,16 +246,10 @@ class TestArgumentParser:
 
     def test_parser_has_export_nz_ontologies_subcommand(self, parser: Any) -> None:
         """Parser should have an ``export-nz-ontologies`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
+        choices = _top_level_choices(parser)
         nz_parser = choices["export-nz-ontologies"]
         output_dir_actions = [
-            action for action in nz_parser._actions if "--output-dir" in action.option_strings
+            action for action in nz_parser._actions if "--output-dir" in action.option_strings  # noqa: SLF001
         ]
 
         assert "export-nz-ontologies" in choices
@@ -280,16 +270,10 @@ class TestArgumentParser:
 
     def test_parser_has_corpus_stats_subcommand(self, parser: Any) -> None:
         """Parser should have a ``corpus-stats`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
+        choices = _top_level_choices(parser)
         stats_parser = choices["corpus-stats"]
         parquet_actions = [
-            action for action in stats_parser._actions if "--parquet" in action.option_strings
+            action for action in stats_parser._actions if "--parquet" in action.option_strings  # noqa: SLF001
         ]
 
         assert "corpus-stats" in choices
@@ -298,17 +282,11 @@ class TestArgumentParser:
 
     def test_parser_has_graph_vector_analysis_subcommand(self, parser: Any) -> None:
         """Parser should have a Track 33 ``graph-vector-analysis`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
+        choices = _top_level_choices(parser)
         graph_vector_parser = choices["graph-vector-analysis"]
         output_dir_actions = [
             action
-            for action in graph_vector_parser._actions
+            for action in graph_vector_parser._actions  # noqa: SLF001
             if "--output-dir" in action.option_strings
         ]
 
@@ -318,17 +296,11 @@ class TestArgumentParser:
 
     def test_parser_has_publication_protocol_subcommand(self, parser: Any) -> None:
         """Parser should have a Track 34 ``publication-protocol`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
+        choices = _top_level_choices(parser)
         publication_parser = choices["publication-protocol"]
         output_dir_actions = [
             action
-            for action in publication_parser._actions
+            for action in publication_parser._actions  # noqa: SLF001
             if "--output-dir" in action.option_strings
         ]
 
@@ -338,16 +310,10 @@ class TestArgumentParser:
 
     def test_parser_has_generate_analysis_artifacts_subcommand(self, parser: Any) -> None:
         """Parser should have a Track 35 ``generate-analysis-artifacts`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
+        choices = _top_level_choices(parser)
         artifact_parser = choices["generate-analysis-artifacts"]
         output_dir_actions = [
-            action for action in artifact_parser._actions if "--output-dir" in action.option_strings
+            action for action in artifact_parser._actions if "--output-dir" in action.option_strings  # noqa: SLF001
         ]
 
         assert "generate-analysis-artifacts" in choices
@@ -356,23 +322,89 @@ class TestArgumentParser:
 
     def test_parser_has_generate_manuscript_package_subcommand(self, parser: Any) -> None:
         """Parser should have a Track 37 ``generate-manuscript-package`` subcommand."""
-        subparsers_actions = [
-            action
-            for action in parser._actions
-            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
-        ]
-        assert subparsers_actions
-        choices = subparsers_actions[0].choices
+        choices = _top_level_choices(parser)
         manuscript_parser = choices["generate-manuscript-package"]
         output_dir_actions = [
             action
-            for action in manuscript_parser._actions
+            for action in manuscript_parser._actions  # noqa: SLF001
             if "--output-dir" in action.option_strings
         ]
 
         assert "generate-manuscript-package" in choices
         assert "Track 37" in manuscript_parser.description
         assert output_dir_actions
+
+
+class TestCapabilityRegistry:
+    """Track 81 capability registry coverage and command mapping."""
+
+    def test_registry_matches_live_parser_inventory(self, parser: Any) -> None:
+        """The capability registry should cover every public leaf command."""
+        assert _leaf_command_paths(parser) == set(CLI_CAPABILITY_BY_COMMAND)
+
+    def test_parser_assigns_capability_ids(self, parser: Any) -> None:
+        """Representative commands should surface Track 81 capability IDs."""
+        search_args = parser.parse_args(["search", "-q", "test"])
+        quality_args = parser.parse_args(
+            ["quality", "validate", "--input", "sample.txt", "--output-format", "json"]
+        )
+
+        assert search_args.cli_capability_id == "track81.cli.search"
+        assert quality_args.cli_capability_id == "track81.cli.quality.validate"
+
+    def test_completion_and_manpage_are_derived_from_live_parser(self, parser: Any) -> None:
+        """Generated CLI docs should reflect nested groups and capability metadata."""
+        from nlp_policy_nz.cli.completion import build_completion_script, build_manpage
+
+        bash = build_completion_script(parser, "bash")
+        manpage = build_manpage(parser, CLI_CAPABILITY_BY_COMMAND.values())
+
+        assert "quality) COMPREPLY" in bash
+        assert "auth) COMPREPLY" in bash
+        assert ".SH CAPABILITIES" in manpage
+        assert "track81.cli.search" in manpage
+
+
+class TestStructuredOutputContracts:
+    """Representative JSON output contracts for automation-facing commands."""
+
+    def test_search_emits_json_payload_by_default(self, capsys: Any) -> None:
+        """Search should emit explicit JSON with the original query and results."""
+        with patch(
+            "nlp_policy_nz.api.search_similar",
+            return_value=[{"doc_id": "doc-1", "text": "matched", "_distance": 0.1}],
+        ):
+            rc = _run_main(["search", "-q", "climate change", "-d", "./db"])
+
+        assert rc == 0
+        payload = json.loads(capsys.readouterr().out)
+        assert payload["query"] == "climate change"
+        assert payload["count"] == 1
+        assert payload["results"][0]["doc_id"] == "doc-1"
+
+    def test_quality_validate_emits_json_payload_by_default(self, capsys: Any) -> None:
+        """Quality validation should emit explicit JSON for automation."""
+        from nlp_policy_nz.quality import IngestionIssue, IngestionValidationResult
+
+        with patch(
+            "nlp_policy_nz.cli.main.validate_ingestion_inputs",
+            return_value=(
+                IngestionValidationResult(
+                    path="sample.txt",
+                    file_format="text",
+                    valid=False,
+                    issue_count=1,
+                    issues=(IngestionIssue(code="input_missing", message="missing"),),
+                ),
+            ),
+        ):
+            rc = _run_main(["quality", "validate", "--input", "sample.txt"])
+
+        assert rc == 0
+        payload = json.loads(capsys.readouterr().out)
+        assert payload[0]["path"] == "sample.txt"
+        assert payload[0]["valid"] is False
+        assert payload[0]["issue_count"] == 1
 
 
 # ---------------------------------------------------------------------------
@@ -385,13 +417,11 @@ class TestUploadDatasetSubcommand:
 
     def test_upload_requires_parquet(self) -> None:
         """``upload-dataset`` without ``--parquet`` should fail."""
-        with pytest.raises(SystemExit):
-            _run_main(["upload-dataset", "--repo-id", "user/ds"])
+        assert _run_main(["upload-dataset", "--repo-id", "user/ds"]) == 2
 
     def test_upload_requires_repo_id(self) -> None:
         """``upload-dataset`` without ``--repo-id`` should fail."""
-        with pytest.raises(SystemExit):
-            _run_main(["upload-dataset", "--parquet", "file.parquet"])
+        assert _run_main(["upload-dataset", "--parquet", "file.parquet"]) == 2
 
     def test_upload_accepts_flags(self) -> None:
         """``upload-dataset`` with all flags should parse without error."""
@@ -423,8 +453,7 @@ class TestDeploySpaceSubcommand:
 
     def test_deploy_requires_repo_id(self) -> None:
         """``deploy-space`` without ``--repo-id`` should fail."""
-        with pytest.raises(SystemExit):
-            _run_main(["deploy-space"])
+        assert _run_main(["deploy-space"]) == 2
 
     def test_deploy_accepts_dry_run(self) -> None:
         """``deploy-space`` with ``--dry-run`` parses correctly."""
@@ -467,7 +496,7 @@ class TestArchiveToZenodoSubcommand:
 
     def test_archive_requires_parquet(self) -> None:
         """``archive-to-zenodo`` without ``--parquet`` should fail."""
-        with pytest.raises(SystemExit):
+        assert (
             _run_main(
                 [
                     "archive-to-zenodo",
@@ -479,10 +508,12 @@ class TestArchiveToZenodoSubcommand:
                     '[{"name": "Doe, Jane"}]',
                 ]
             )
+            == 2
+        )
 
     def test_archive_requires_title(self) -> None:
         """``archive-to-zenodo`` without ``--title`` should fail."""
-        with pytest.raises(SystemExit):
+        assert (
             _run_main(
                 [
                     "archive-to-zenodo",
@@ -494,10 +525,12 @@ class TestArchiveToZenodoSubcommand:
                     '[{"name": "Doe, Jane"}]',
                 ]
             )
+            == 2
+        )
 
     def test_archive_requires_description(self) -> None:
         """``archive-to-zenodo`` without ``--description`` should fail."""
-        with pytest.raises(SystemExit):
+        assert (
             _run_main(
                 [
                     "archive-to-zenodo",
@@ -509,10 +542,12 @@ class TestArchiveToZenodoSubcommand:
                     '[{"name": "Doe, Jane"}]',
                 ]
             )
+            == 2
+        )
 
     def test_archive_requires_creators(self) -> None:
         """``archive-to-zenodo`` without ``--creators`` should fail."""
-        with pytest.raises(SystemExit):
+        assert (
             _run_main(
                 [
                     "archive-to-zenodo",
@@ -524,6 +559,8 @@ class TestArchiveToZenodoSubcommand:
                     "Test Description",
                 ]
             )
+            == 2
+        )
 
     def test_archive_accepts_all_flags(self) -> None:
         """``archive-to-zenodo`` with all flags including optional ones.
@@ -676,7 +713,7 @@ class TestReleaseSubcommand:
 
     def test_release_requires_parquet(self) -> None:
         """``release`` without ``--parquet`` should fail."""
-        with pytest.raises(SystemExit):
+        assert (
             _run_main(
                 [
                     "release",
@@ -690,10 +727,12 @@ class TestReleaseSubcommand:
                     '[{"name": "Doe, Jane"}]',
                 ]
             )
+            == 2
+        )
 
     def test_release_requires_version(self) -> None:
         """``release`` without ``--version`` should fail."""
-        with pytest.raises(SystemExit):
+        assert (
             _run_main(
                 [
                     "release",
@@ -707,6 +746,8 @@ class TestReleaseSubcommand:
                     '[{"name": "Doe, Jane"}]',
                 ]
             )
+            == 2
+        )
 
     def test_release_accepts_all_flags(self) -> None:
         """``release`` with all flags should parse without argparse error.

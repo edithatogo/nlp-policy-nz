@@ -38,6 +38,18 @@ nlp-policy-nz export-extractions `
   --source-url-base https://example.test/source
 ```
 
+Batch rules-as-code candidate exports are available through the same
+deterministic surface:
+
+```powershell
+nlp-policy-nz export-rac-candidates `
+  --output-dir output/rac-batch
+```
+
+The batch exporter can also consume a stored extraction manifest or a pipeline
+Parquet file, while preserving review status and known-gap metadata in the
+generated candidate bundle.
+
 For local run tracking and stale-output checks, use the optional SQLite catalog:
 
 ```python
@@ -86,6 +98,21 @@ durable IDs in record attributes when available, for example:
 The NLP package should export candidate source verification metadata. Executable
 RuleSpec content, formula correctness, and runtime evaluation remain downstream
 responsibilities.
+
+Track 77 extends that handoff with a batch candidate bundle that keeps
+`review_status` and `known_gap_ids` attached to each candidate so fixture or
+heuristic outputs remain visibly non-executable.
+
+Track 78 adds the reviewed promotion layer on top of that batch contract. It
+keeps the repository-side payload limited to source proof, reviewer evidence,
+oracle fixture references, and deterministic JSON/YAML exports. Executable
+RuleSpec modules, reviewed formulas, and engine-specific runtime logic remain
+downstream in `rulespec-nz`.
+
+Track 79 takes one reviewed commencement domain from that handoff boundary and
+turns it into a deterministic PolicyEngine-style package with oracle fixtures
+and a repo-local execution harness. It is intentionally narrow and does not
+claim whole-corpus executable-law coverage.
 
 ## Library Direction
 

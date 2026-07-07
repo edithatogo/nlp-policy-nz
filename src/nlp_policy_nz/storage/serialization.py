@@ -13,7 +13,6 @@ from typing import TYPE_CHECKING, Any
 
 import msgspec
 import narwhals as nw
-import pyarrow.parquet as pq
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -246,6 +245,8 @@ def serialize_to_parquet(
         If *records* is empty.
 
     """
+    import pyarrow.parquet as pq  # noqa: PLC0415
+
     output_path = Path(path).resolve()
     df = records_to_dataframe(records)
     native = nw.to_native(df)
@@ -292,6 +293,8 @@ def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
         If the file at *path* does not exist.
 
     """
+    import pyarrow.parquet as pq  # noqa: PLC0415
+
     src = Path(path).resolve()
     if not src.is_file():
         msg = f"Parquet file not found: {src}"
@@ -365,6 +368,8 @@ def deserialize_to_dataframe(path: str | Path) -> object:
         If the file at *path* does not exist.
 
     """
+    import pyarrow.parquet as pq  # noqa: PLC0415
+
     src = Path(path).resolve()
     if not src.is_file():
         msg = f"Parquet file not found: {src}"

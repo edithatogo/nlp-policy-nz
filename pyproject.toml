@@ -44,6 +44,7 @@ dependencies = [
 
 [project.scripts]
 nlp-policy-nz = "nlp_policy_nz.cli.main:main"
+nlp-policy-nz-mcp = "nlp_policy_nz.mcp.server:main"
 
 [project.optional-dependencies]
 dev = [

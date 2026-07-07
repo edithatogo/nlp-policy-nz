@@ -11,6 +11,7 @@ from __future__ import annotations
 import asyncio
 import json
 import time
+from dataclasses import dataclass
 from collections import defaultdict, deque
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -19,6 +20,7 @@ from typing import Any
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from starlette.middleware.base import RequestResponseEndpoint
 
@@ -84,6 +86,260 @@ def _load_version_manifest() -> dict[str, str]:
 
 _version_manifest = _load_version_manifest()
 _rate_limit_history: dict[str, deque[float]] = defaultdict(deque)
+API_VERSIONS = ("v1", "v2")
+API_CONTRACT_VERSION = "2026-07-07"
+
+
+@dataclass(frozen=True, slots=True)
+class EndpointContract:
+    """Describe one public HTTP contract surface for the API."""
+
+    method: str
+    path: str
+    operation_id: str
+    summary: str
+    tag: str
+    request_model: str | None
+    response_model: str
+    scope: str | None
+    versions: tuple[str, ...]
+    error_codes: tuple[str, ...]
+    deprecated: bool = False
+
+
+ENDPOINT_INVENTORY: tuple[EndpointContract, ...] = (
+    EndpointContract(
+        method="GET",
+        path="/health",
+        operation_id="getHealth",
+        summary="Health check",
+        tag="system",
+        request_model=None,
+        response_model="HealthResponse",
+        scope=None,
+        versions=("root", "v1", "v2"),
+        error_codes=("INTERNAL_ERROR", "PIPELINE_FAILURE", "RATE_LIMITED"),
+    ),
+    EndpointContract(
+        method="GET",
+        path="/startup",
+        operation_id="getStartupProbe",
+        summary="Startup probe",
+        tag="system",
+        request_model=None,
+        response_model="ProbeResponse",
+        scope=None,
+        versions=("root",),
+        error_codes=("INTERNAL_ERROR", "PIPELINE_FAILURE", "RATE_LIMITED"),
+    ),
+    EndpointContract(
+        method="GET",
+        path="/ready",
+        operation_id="getReadinessProbe",
+        summary="Readiness probe",
+        tag="system",
+        request_model=None,
+        response_model="ProbeResponse",
+        scope=None,
+        versions=("root",),
+        error_codes=("INTERNAL_ERROR", "PIPELINE_FAILURE", "RATE_LIMITED"),
+    ),
+    EndpointContract(
+        method="GET",
+        path="/live",
+        operation_id="getLivenessProbe",
+        summary="Liveness probe",
+        tag="system",
+        request_model=None,
+        response_model="ProbeResponse",
+        scope=None,
+        versions=("root",),
+        error_codes=("INTERNAL_ERROR", "PIPELINE_FAILURE", "RATE_LIMITED"),
+    ),
+    EndpointContract(
+        method="GET",
+        path="/version",
+        operation_id="getVersion",
+        summary="Version metadata",
+        tag="system",
+        request_model=None,
+        response_model="VersionResponse",
+        scope=None,
+        versions=("root", "v1", "v2"),
+        error_codes=("INTERNAL_ERROR", "PIPELINE_FAILURE", "RATE_LIMITED"),
+    ),
+    EndpointContract(
+        method="GET",
+        path="/metrics",
+        operation_id="getMetrics",
+        summary="Prometheus metrics",
+        tag="observability",
+        request_model=None,
+        response_model="text/plain",
+        scope=None,
+        versions=("root",),
+        error_codes=("INTERNAL_ERROR", "PIPELINE_FAILURE", "RATE_LIMITED"),
+    ),
+    EndpointContract(
+        method="POST",
+        path="/embed",
+        operation_id="postEmbed",
+        summary="Generate embeddings",
+        tag="embeddings",
+        request_model="EmbedRequest",
+        response_model="EmbedResponse",
+        scope="read",
+        versions=("root", "v1", "v2"),
+        error_codes=("AUTH_INVALID_KEY", "AUTH_INSUFFICIENT_SCOPE", "MODEL_NOT_LOADED", "PIPELINE_FAILURE", "RATE_LIMITED", "VALIDATION_ERROR"),
+    ),
+    EndpointContract(
+        method="POST",
+        path="/search",
+        operation_id="postSearch",
+        summary="Semantic search",
+        tag="search",
+        request_model="SearchRequest",
+        response_model="SearchResponse",
+        scope="read",
+        versions=("root", "v1", "v2"),
+        error_codes=("AUTH_INVALID_KEY", "AUTH_INSUFFICIENT_SCOPE", "MODEL_NOT_LOADED", "NOT_FOUND", "PIPELINE_FAILURE", "RATE_LIMITED", "VALIDATION_ERROR"),
+    ),
+    EndpointContract(
+        method="POST",
+        path="/process",
+        operation_id="postProcess",
+        summary="Run full pipeline",
+        tag="pipeline",
+        request_model="ProcessRequest",
+        response_model="ProcessResponse",
+        scope="write",
+        versions=("root", "v1", "v2"),
+        error_codes=("AUTH_INVALID_KEY", "AUTH_INSUFFICIENT_SCOPE", "MODEL_NOT_LOADED", "PIPELINE_FAILURE", "RATE_LIMITED", "VALIDATION_ERROR"),
+    ),
+    EndpointContract(
+        method="GET",
+        path="/openapi.json",
+        operation_id="getOpenApiDocument",
+        summary="OpenAPI document",
+        tag="system",
+        request_model=None,
+        response_model="OpenAPI",
+        scope=None,
+        versions=("root",),
+        error_codes=("INTERNAL_ERROR",),
+    ),
+    EndpointContract(
+        method="GET",
+        path="/v1/openapi.json",
+        operation_id="getVersionedOpenApiDocumentV1",
+        summary="Versioned OpenAPI document",
+        tag="system",
+        request_model=None,
+        response_model="OpenAPI",
+        scope=None,
+        versions=("v1",),
+        error_codes=("INTERNAL_ERROR",),
+    ),
+    EndpointContract(
+        method="GET",
+        path="/v2/openapi.json",
+        operation_id="getVersionedOpenApiDocumentV2",
+        summary="Versioned OpenAPI document",
+        tag="system",
+        request_model=None,
+        response_model="OpenAPI",
+        scope=None,
+        versions=("v2",),
+        error_codes=("INTERNAL_ERROR",),
+    ),
+)
+
+ENDPOINT_CONTRACT_BY_METHOD_PATH = {
+    (contract.method, contract.path): contract for contract in ENDPOINT_INVENTORY
+}
+
+
+def api_endpoint_inventory() -> list[dict[str, Any]]:
+    """Return the public HTTP endpoint inventory as JSON-ready data."""
+    return [
+        {
+            "method": contract.method,
+            "path": contract.path,
+            "operation_id": contract.operation_id,
+            "summary": contract.summary,
+            "tag": contract.tag,
+            "request_model": contract.request_model,
+            "response_model": contract.response_model,
+            "scope": contract.scope,
+            "versions": list(contract.versions),
+            "error_codes": list(contract.error_codes),
+            "deprecated": contract.deprecated,
+        }
+        for contract in ENDPOINT_INVENTORY
+    ]
+
+
+def api_contract_summary(api_version: str = "canonical") -> dict[str, Any]:
+    """Return a compact summary for docs and drift checks."""
+    return {
+        "api_contract_version": API_CONTRACT_VERSION,
+        "api_version": api_version,
+        "endpoint_count": len(ENDPOINT_INVENTORY),
+        "public_paths": sorted(_PUBLIC_PATHS),
+        "scoped_paths": {
+            contract.path: contract.scope
+            for contract in ENDPOINT_INVENTORY
+            if contract.scope is not None
+        },
+    }
+
+
+def _resolve_contract(method: str, path: str) -> EndpointContract | None:
+    """Resolve a contract for a concrete path, including versioned aliases."""
+    contract = ENDPOINT_CONTRACT_BY_METHOD_PATH.get((method, path))
+    if contract is not None:
+        return contract
+    if path.startswith("/v1/") or path.startswith("/v2/"):
+        normalized = path[3:]
+        return ENDPOINT_CONTRACT_BY_METHOD_PATH.get((method, normalized))
+    return None
+
+
+def _operation_id_for_path(contract: EndpointContract, path: str) -> str:
+    """Return a stable, unique operationId for the concrete route path."""
+    if path == contract.path:
+        return contract.operation_id
+    if path.startswith("/v1/"):
+        return f"{contract.operation_id}V1"
+    if path.startswith("/v2/"):
+        return f"{contract.operation_id}V2"
+    return contract.operation_id
+
+
+def _alias_paths(contract: EndpointContract) -> tuple[str, ...]:
+    """Return the concrete route aliases for a canonical contract path."""
+    if contract.path.startswith(("/v1/", "/v2/")):
+        return (contract.path,)
+    aliases = [contract.path]
+    for version in contract.versions:
+        if version in API_VERSIONS:
+            aliases.append(f"/{version}{contract.path}")
+    return tuple(dict.fromkeys(aliases))
+
+
+AUTH_SCOPE_MAP = {
+    "public": [
+        alias
+        for contract in ENDPOINT_INVENTORY
+        if contract.scope is None
+        for alias in _alias_paths(contract)
+    ],
+    "read": [alias for contract in ENDPOINT_INVENTORY if contract.scope == "read" for alias in _alias_paths(contract)],
+    "write": [alias for contract in ENDPOINT_INVENTORY if contract.scope == "write" for alias in _alias_paths(contract)],
+    "admin": ["/auth/*"],
+}
+
+
 _PUBLIC_PATHS = {
     "/health",
     "/version",
@@ -94,6 +350,8 @@ _PUBLIC_PATHS = {
     "/docs",
     "/redoc",
     "/openapi.json",
+    "/v1/openapi.json",
+    "/v2/openapi.json",
     "/startup",
     "/ready",
     "/live",
@@ -204,6 +462,13 @@ app = FastAPI(
         "generation, semantic search, and full pipeline processing."
     ),
     version=_version_manifest["version"],
+    openapi_tags=[
+        {"name": "system", "description": "Health, version, readiness, and documentation endpoints."},
+        {"name": "embeddings", "description": "Embedding generation endpoints."},
+        {"name": "search", "description": "Semantic search endpoints."},
+        {"name": "pipeline", "description": "Pipeline processing endpoints."},
+        {"name": "observability", "description": "Metrics and runtime visibility endpoints."},
+    ],
     docs_url="/docs",
     redoc_url="/redoc",
 )
@@ -225,24 +490,74 @@ app.state.degraded_embeddings = False
 app.state.startup_complete = False
 
 
-def _custom_openapi() -> dict[str, Any]:
-    """Inject RFC 7807 schemas and default problem responses into OpenAPI."""
-    if app.openapi_schema:
-        return app.openapi_schema
-    schema = get_openapi(
-        title=app.title,
-        version=app.version,
-        description=app.description,
-        routes=app.routes,
-    )
+def _openapi_contract_extensions(api_version: str) -> dict[str, Any]:
+    """Return deterministic contract metadata for the public API surface."""
+    return {
+        "x-api-contract-version": API_CONTRACT_VERSION,
+        "x-api-version": api_version,
+        "x-api-versions": list(API_VERSIONS),
+        "x-endpoint-inventory": [
+            {
+                "method": contract.method,
+                "path": contract.path,
+                "aliases": list(_alias_paths(contract)),
+                "operation_id": contract.operation_id,
+                "summary": contract.summary,
+                "tag": contract.tag,
+                "request_model": contract.request_model,
+                "response_model": contract.response_model,
+                "scope": contract.scope,
+                "versions": list(contract.versions),
+                "error_codes": list(contract.error_codes),
+                "deprecated": contract.deprecated,
+            }
+            for contract in ENDPOINT_INVENTORY
+        ],
+        "x-auth-scope-map": {scope: list(paths) for scope, paths in AUTH_SCOPE_MAP.items()},
+        "x-path-scope-map": {
+            alias: contract.scope
+            for contract in ENDPOINT_INVENTORY
+            for alias in _alias_paths(contract)
+            if contract.scope is not None
+        },
+    }
+
+
+def _decorate_openapi_schema(
+    schema: dict[str, Any],
+    api_version: str,
+    *,
+    cache_schema: bool,
+) -> dict[str, Any]:
+    """Inject RFC 7807 schemas, contract extensions, and auth metadata."""
     components = schema.setdefault("components", {})
     schemas = components.setdefault("schemas", {})
     schemas["ProblemError"] = ProblemError.model_json_schema(ref_template="#/components/schemas/{model}")
     schemas["ProblemDetail"] = ProblemDetail.model_json_schema(ref_template="#/components/schemas/{model}")
-    for path_item in schema.get("paths", {}).values():
-        for operation in path_item.values():
+    components.setdefault("securitySchemes", {})["ApiKeyAuth"] = {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "API key required for read/write protected endpoints.",
+    }
+    schema.update(_openapi_contract_extensions(api_version))
+    for path, path_item in schema.get("paths", {}).items():
+        for method, operation in path_item.items():
             if not isinstance(operation, dict):
                 continue
+            contract = _resolve_contract(str(method).upper(), path)
+            if contract is not None:
+                operation["tags"] = [contract.tag]
+                operation["operationId"] = _operation_id_for_path(contract, path)
+                operation["x-request-model"] = contract.request_model
+                operation["x-response-model"] = contract.response_model
+                operation["x-required-scope"] = contract.scope
+                operation["x-error-codes"] = list(contract.error_codes)
+                operation["x-api-versions"] = list(contract.versions)
+                if contract.scope is not None:
+                    operation["security"] = [{"ApiKeyAuth": []}]
+                if contract.deprecated:
+                    operation["deprecated"] = True
             responses = operation.setdefault("responses", {})
             for status_code in ("400", "401", "403", "404", "413", "422", "429", "500", "503"):
                 responses.setdefault(
@@ -256,8 +571,40 @@ def _custom_openapi() -> dict[str, Any]:
                         },
                     },
                 )
-    app.openapi_schema = schema
+            responses.setdefault(
+                "default",
+                {
+                    "description": "RFC 7807 problem detail response",
+                    "content": {
+                        "application/problem+json": {
+                            "schema": {"$ref": "#/components/schemas/ProblemDetail"}
+                        }
+                    },
+                },
+            )
+    if cache_schema:
+        app.openapi_schema = schema
     return schema
+
+
+def _build_openapi_document(api_version: str) -> dict[str, Any]:
+    """Construct a deterministic OpenAPI document for the requested version."""
+    return _decorate_openapi_schema(
+        get_openapi(
+            title=app.title,
+            version=app.version,
+            description=app.description,
+            routes=app.routes,
+        ),
+        api_version,
+        cache_schema=api_version == "canonical",
+    )
+
+
+def _custom_openapi() -> dict[str, Any]:
+    if app.openapi_schema:
+        return app.openapi_schema
+    return _build_openapi_document("canonical")
 
 
 app.openapi = _custom_openapi
@@ -652,6 +999,18 @@ async def version(request: Request, response: Response) -> VersionResponse:
     return VersionResponse(**_version_manifest)
 
 
+@app.get("/v1/openapi.json", include_in_schema=False)
+async def versioned_openapi_v1() -> JSONResponse:
+    """Return the versioned OpenAPI document for v1 clients."""
+    return JSONResponse(_build_openapi_document("v1"))
+
+
+@app.get("/v2/openapi.json", include_in_schema=False)
+async def versioned_openapi_v2() -> JSONResponse:
+    """Return the versioned OpenAPI document for v2 clients."""
+    return JSONResponse(_build_openapi_document("v2"))
+
+
 @app.get("/metrics", summary="Prometheus metrics", include_in_schema=False)
 async def metrics() -> Response:
     """Expose Prometheus-compatible metrics."""
@@ -829,13 +1188,8 @@ async def _run_file_pipeline(
 async def _run_inline_pipeline(request: ProcessRequest, t0: float) -> ProcessResponse:
     """Run the lightweight inline pipeline for a single request body."""
     from dataclasses import asdict
-
-    from nlp_policy_nz.discourse import ArgumentDetector, StanceClassifier
-    from nlp_policy_nz.legal import detect_temporal_expressions
     from nlp_policy_nz.parliament.amendments import amendments_to_dicts, parse_amendments
     from nlp_policy_nz.parliament.voting import parse_division
-    from nlp_policy_nz.semantic import generate_embedding
-    from nlp_policy_nz.semantic.model_loader import load_model
     from nlp_policy_nz.storage.serialization import PipelineRecord
 
     nlp = create_nlp_pipeline()
@@ -847,9 +1201,15 @@ async def _run_inline_pipeline(request: ProcessRequest, t0: float) -> ProcessRes
     te_reo_segments = identifier.detect_code_switching(clean_text)
     te_reo_terms = [seg for lang, seg in te_reo_segments if lang == "mi"]
     citations = [ent.text for ent in doc.ents if ent.label_ in {"NZ_ACT", "NZ_SECTION", "CITATION"}]
-    temporal_expressions = [
-        annotation.to_dict() for annotation in detect_temporal_expressions(clean_text, nlp)
-    ]
+    temporal_expressions = []
+    try:
+        from nlp_policy_nz.legal import detect_temporal_expressions
+    except Exception:  # noqa: BLE001
+        logger.warning("Temporal expression extraction unavailable; returning empty annotations.")
+    else:
+        temporal_expressions = [
+            annotation.to_dict() for annotation in detect_temporal_expressions(clean_text, nlp)
+        ]
     division = parse_division(clean_text) if request.source == "hansard" else None
     voting_record = asdict(division) if division is not None else None
     if voting_record is not None:
@@ -863,10 +1223,15 @@ async def _run_inline_pipeline(request: ProcessRequest, t0: float) -> ProcessRes
     argument_label_source = None
     stance_label_source = None
     if request.source == "hansard":
-        arguments = [argument.to_dict() for argument in ArgumentDetector().detect(clean_text)]
-        stance = StanceClassifier().classify(clean_text).stance
-        argument_label_source = "predicted"
-        stance_label_source = "predicted"
+        try:
+            from nlp_policy_nz.discourse import ArgumentDetector, StanceClassifier
+        except Exception:  # noqa: BLE001
+            logger.warning("Discourse classification unavailable; returning empty labels.")
+        else:
+            arguments = [argument.to_dict() for argument in ArgumentDetector().detect(clean_text)]
+            stance = StanceClassifier().classify(clean_text).stance
+            argument_label_source = "predicted"
+            stance_label_source = "predicted"
     record = PipelineRecord(
         doc_id="inline-001",
         corpus_source=request.source,
@@ -884,8 +1249,14 @@ async def _run_inline_pipeline(request: ProcessRequest, t0: float) -> ProcessRes
         stance_label_source=stance_label_source,
     )
     if request.generate_embeddings:
-        model, tokenizer = load_model()
-        record.embeddings = generate_embedding(record.raw_text, model, tokenizer)
+        try:
+            from nlp_policy_nz.semantic import generate_embedding
+            from nlp_policy_nz.semantic.model_loader import load_model
+
+            model, tokenizer = load_model()
+            record.embeddings = generate_embedding(record.raw_text, model, tokenizer)
+        except Exception:  # noqa: BLE001
+            logger.warning("Embedding generation unavailable; leaving embeddings unset.")
     elapsed = time.perf_counter() - t0
     return ProcessResponse(
         records=[_record_to_dict(record)],

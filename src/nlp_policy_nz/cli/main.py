@@ -20,11 +20,15 @@ Typical usage::
     nlp-policy-nz generate-analysis-artifacts --output-dir artifacts
 """
 
+# ruff: noqa: SLF001
+
 import argparse
 import json
 import logging
 import sys
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Any, Final
 
 from nlp_policy_nz.axiom import DOCUMENT_TYPES
 from nlp_policy_nz.cli.auth import create_api_key, list_api_keys, revoke_api_key, rotate_api_key
@@ -48,6 +52,338 @@ from nlp_policy_nz.quality import (
 from nlp_policy_nz.storage import load_from_parquet
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass(frozen=True, slots=True)
+class CLICapability:
+    """Stable Track 81 capability metadata for a public CLI command."""
+
+    capability_id: str
+    command_path: tuple[str, ...]
+    summary: str
+    owner_module: str
+    side_effect: str
+    output_mode: str = "none"
+    structured_output: bool = False
+
+    def to_dict(self) -> dict[str, Any]:
+        """Convert the capability to a serialisable mapping."""
+        return {
+            "capability_id": self.capability_id,
+            "command_path": list(self.command_path),
+            "summary": self.summary,
+            "owner_module": self.owner_module,
+            "side_effect": self.side_effect,
+            "output_mode": self.output_mode,
+            "structured_output": self.structured_output,
+        }
+
+
+CLI_CAPABILITIES: Final[tuple[CLICapability, ...]] = (
+    CLICapability(
+        capability_id="track81.cli.process",
+        command_path=("process",),
+        summary="Process legislation or Hansard documents into pipeline output.",
+        owner_module="nlp_policy_nz.api",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.search",
+        command_path=("search",),
+        summary="Search the vector index for similar documents.",
+        owner_module="nlp_policy_nz.api",
+        side_effect="read",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.upload-dataset",
+        command_path=("upload-dataset",),
+        summary="Upload a processed dataset to the Hugging Face Hub.",
+        owner_module="nlp_policy_nz.integrations.hf_uploader",
+        side_effect="publish",
+    ),
+    CLICapability(
+        capability_id="track81.cli.deploy-space",
+        command_path=("deploy-space",),
+        summary="Deploy the Gradio Space to Hugging Face Hub.",
+        owner_module="nlp_policy_nz.integrations.hf_uploader",
+        side_effect="publish",
+    ),
+    CLICapability(
+        capability_id="track81.cli.archive-to-zenodo",
+        command_path=("archive-to-zenodo",),
+        summary="Archive a Parquet file to the Zenodo Sandbox.",
+        owner_module="nlp_policy_nz.integrations.zenodo_archive",
+        side_effect="publish",
+    ),
+    CLICapability(
+        capability_id="track81.cli.release",
+        command_path=("release",),
+        summary="Create a versioned release archive and publish it to Zenodo.",
+        owner_module="nlp_policy_nz.integrations.release",
+        side_effect="publish",
+    ),
+    CLICapability(
+        capability_id="track81.cli.auth.create-key",
+        command_path=("auth", "create-key"),
+        summary="Create a hashed API key record.",
+        owner_module="nlp_policy_nz.cli.auth",
+        side_effect="write",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.auth.list-keys",
+        command_path=("auth", "list-keys"),
+        summary="List stored API key metadata.",
+        owner_module="nlp_policy_nz.cli.auth",
+        side_effect="read",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.auth.revoke-key",
+        command_path=("auth", "revoke-key"),
+        summary="Revoke an API key by ID.",
+        owner_module="nlp_policy_nz.cli.auth",
+        side_effect="write",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.auth.rotate-key",
+        command_path=("auth", "rotate-key"),
+        summary="Rotate an API key by ID.",
+        owner_module="nlp_policy_nz.cli.auth",
+        side_effect="write",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.provenance",
+        command_path=("provenance",),
+        summary="Display PROV-O provenance for a Parquet output.",
+        owner_module="nlp_policy_nz.provenance",
+        side_effect="read",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.export-rdf",
+        command_path=("export-rdf",),
+        summary="Export Hansard records as linked-data Turtle RDF.",
+        owner_module="nlp_policy_nz.linked_data",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.sparql",
+        command_path=("sparql",),
+        summary="Run a SPARQL SELECT query over a Turtle RDF file.",
+        owner_module="nlp_policy_nz.linked_data",
+        side_effect="read",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.knowledge-graph",
+        command_path=("knowledge-graph",),
+        summary="Export resolved entities as JSON-LD.",
+        owner_module="nlp_policy_nz.kb",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.voting-summary",
+        command_path=("voting-summary",),
+        summary="Parse a Hansard division into structured voting data.",
+        owner_module="nlp_policy_nz.parliament.voting",
+        side_effect="read",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.amendment-history",
+        command_path=("amendment-history",),
+        summary="Parse amendment records into structured JSON.",
+        owner_module="nlp_policy_nz.parliament.amendments",
+        side_effect="read",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.rac-export",
+        command_path=("rac-export",),
+        summary="Export a rules-as-code bridge record.",
+        owner_module="nlp_policy_nz.ontology.rac_bridge",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.policyengine-pilot",
+        command_path=("policyengine-pilot",),
+        summary="Build the Track 79 PolicyEngine pilot package.",
+        owner_module="nlp_policy_nz.policyengine_pilot",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.multi-engine-parity",
+        command_path=("multi-engine-parity",),
+        summary="Build the Track 80 parity bundle.",
+        owner_module="nlp_policy_nz.ontology.multi_engine_parity",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.export-extractions",
+        command_path=("export-extractions",),
+        summary="Export pipeline Parquet records as extraction artifacts.",
+        owner_module="nlp_policy_nz.extraction",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.export-rac-candidates",
+        command_path=("export-rac-candidates",),
+        summary="Export batch rules-as-code candidate artifacts.",
+        owner_module="nlp_policy_nz.extraction",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.export-nz-ontologies",
+        command_path=("export-nz-ontologies",),
+        summary="Export Track 31 NZ ontology candidate artifacts.",
+        owner_module="nlp_policy_nz.ontology",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.corpus-stats",
+        command_path=("corpus-stats",),
+        summary="Export Track 32 corpus statistics.",
+        owner_module="nlp_policy_nz.analysis",
+        side_effect="read",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.graph-vector-analysis",
+        command_path=("graph-vector-analysis",),
+        summary="Export Track 33 graph and vector analysis artifacts.",
+        owner_module="nlp_policy_nz.analysis",
+        side_effect="read",
+    ),
+    CLICapability(
+        capability_id="track81.cli.publication-protocol",
+        command_path=("publication-protocol",),
+        summary="Export the Track 34 publication protocol.",
+        owner_module="nlp_policy_nz.publication.protocol",
+        side_effect="read",
+    ),
+    CLICapability(
+        capability_id="track81.cli.generate-analysis-artifacts",
+        command_path=("generate-analysis-artifacts",),
+        summary="Generate Track 35 analysis artifacts.",
+        owner_module="nlp_policy_nz.analysis",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.generate-manuscript-package",
+        command_path=("generate-manuscript-package",),
+        summary="Generate the manuscript package artifacts.",
+        owner_module="nlp_policy_nz.publication",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.quality.validate",
+        command_path=("quality", "validate"),
+        summary="Validate ingestion inputs before processing.",
+        owner_module="nlp_policy_nz.quality.monitoring",
+        side_effect="read",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.quality.report",
+        command_path=("quality", "report"),
+        summary="Render a batch quality report from Parquet input.",
+        owner_module="nlp_policy_nz.quality.monitoring",
+        side_effect="read",
+        output_mode="json",
+        structured_output=True,
+    ),
+    CLICapability(
+        capability_id="track81.cli.quality.dashboard",
+        command_path=("quality", "dashboard"),
+        summary="Write a static HTML quality dashboard.",
+        owner_module="nlp_policy_nz.quality.monitoring",
+        side_effect="read",
+    ),
+    CLICapability(
+        capability_id="track81.cli.quality.alert",
+        command_path=("quality", "alert"),
+        summary="Evaluate the latest quality report and optionally open an issue.",
+        owner_module="nlp_policy_nz.quality.monitoring",
+        side_effect="write",
+    ),
+    CLICapability(
+        capability_id="track81.cli.completion.install",
+        command_path=("completion", "install"),
+        summary="Generate shell completion output from the live parser.",
+        owner_module="nlp_policy_nz.cli.completion",
+        side_effect="read",
+    ),
+    CLICapability(
+        capability_id="track81.cli.completion.manpage",
+        command_path=("completion", "manpage"),
+        summary="Generate a man page from the live parser.",
+        owner_module="nlp_policy_nz.cli.completion",
+        side_effect="read",
+    ),
+)
+
+CLI_CAPABILITY_BY_COMMAND: Final[dict[tuple[str, ...], CLICapability]] = {
+    capability.command_path: capability for capability in CLI_CAPABILITIES
+}
+
+
+def cli_capability_inventory() -> list[dict[str, Any]]:
+    """Return the public CLI capability inventory as JSON-ready data."""
+    return [capability.to_dict() for capability in CLI_CAPABILITIES]
+
+
+def cli_contract_summary() -> dict[str, Any]:
+    """Return a compact summary for docs and drift checks."""
+    return {
+        "capability_count": len(CLI_CAPABILITIES),
+        "commands": [list(capability.command_path) for capability in CLI_CAPABILITIES],
+        "structured_output_commands": [
+            list(capability.command_path)
+            for capability in CLI_CAPABILITIES
+            if capability.structured_output
+        ],
+    }
+
+
+def _json_output(payload: object) -> None:
+    sys.stdout.write(f"{json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+
+
+def _text_output(payload: str) -> None:
+    sys.stdout.write(f"{payload}\n")
+
+
+def _attach_capability_metadata(
+    parser: argparse.ArgumentParser,
+    command_path: tuple[str, ...] = (),
+) -> None:
+    for action in parser._actions:
+        if not isinstance(action, argparse._SubParsersAction):  # type: ignore[attr-defined]
+            continue
+        for name, subparser in action.choices.items():
+            child_path = (*command_path, name)
+            capability = CLI_CAPABILITY_BY_COMMAND.get(child_path)
+            if capability is not None:
+                subparser.set_defaults(
+                    cli_capability_id=capability.capability_id,
+                    cli_command_path=child_path,
+                )
+            _attach_capability_metadata(subparser, child_path)
 
 
 def _setup_logging(verbose: bool = False) -> None:
@@ -162,6 +498,12 @@ def _build_parser() -> argparse.ArgumentParser:
         type=str,
         default="./lancedb_data",
         help="Path to the LanceDB database directory (default: ./lancedb_data).",
+    )
+    search_parser.add_argument(
+        "--output-format",
+        choices=("json", "text"),
+        default="json",
+        help="Render search results as JSON or text (default: json).",
     )
 
     # --- upload-dataset subcommand --------------------------------------------
@@ -832,6 +1174,12 @@ def _build_parser() -> argparse.ArgumentParser:
         required=True,
         help="Input file to validate. May be supplied more than once.",
     )
+    quality_validate_parser.add_argument(
+        "--output-format",
+        choices=("json", "text"),
+        default="json",
+        help="Render validation output as JSON or text (default: json).",
+    )
 
     quality_report_parser = quality_subparsers.add_parser(
         "report",
@@ -862,6 +1210,12 @@ def _build_parser() -> argparse.ArgumentParser:
         type=str,
         default="data/quality/baseline.json",
         help="Optional baseline report used for drift detection.",
+    )
+    quality_report_parser.add_argument(
+        "--output-format",
+        choices=("json", "text"),
+        default="json",
+        help="Render the report summary on stdout as JSON or text (default: json).",
     )
 
     quality_dashboard_parser = quality_subparsers.add_parser(
@@ -945,6 +1299,7 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Optional destination file. Prints to stdout when omitted.",
     )
 
+    _attach_capability_metadata(parser)
     return parser
 
 
@@ -966,47 +1321,10 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
 
     """
     parser = _build_parser()
-    commands = {
-        "process",
-        "search",
-        "upload-dataset",
-        "deploy-space",
-        "archive-to-zenodo",
-        "release",
-        "auth",
-        "provenance",
-        "export-rdf",
-        "sparql",
-        "knowledge-graph",
-        "voting-summary",
-        "amendment-history",
-        "rac-export",
-        "policyengine-pilot",
-        "multi-engine-parity",
-        "export-extractions",
-        "export-rac-candidates",
-        "export-nz-ontologies",
-        "corpus-stats",
-        "graph-vector-analysis",
-        "completion",
-        "publication-protocol",
-        "generate-analysis-artifacts",
-        "generate-manuscript-package",
-        "quality",
-    }
-    if argv and argv[0] not in commands and not argv[0].startswith("-"):
-        parser.print_help()
-        return 1
-
     try:
         args = parser.parse_args(argv)
     except SystemExit as exc:
-        if argv and argv[0] in {"--help", "-h"}:
-            return exc.code if isinstance(exc.code, int) else 1
-        code = exc.code if isinstance(exc.code, int) else 1
-        if code == 0:
-            return 0
-        raise
+        return exc.code if isinstance(exc.code, int) else 1
 
     _setup_logging(verbose=args.verbose)
 
@@ -1041,15 +1359,25 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
                 db_path=args.db,
                 top_k=args.top_k,
             )
-
-            if not results:
-                pass
+            payload = {
+                "query": args.query,
+                "db": args.db,
+                "top_k": args.top_k,
+                "count": len(results),
+                "results": results,
+            }
+            if args.output_format == "json":
+                _json_output(payload)
+            elif not results:
+                _text_output(f"No search results for {args.query!r}.")
             else:
-                for _i, res in enumerate(results, start=1):
-                    res.get("doc_id", "?")
-                    text = res.get("text", "")
-                    res.get("_distance", "?")
-                    text[:120] + "..." if len(text) > 120 else text  # noqa: PLR2004
+                _text_output(f"Search results for {args.query!r} ({len(results)} matches)")
+                for index, res in enumerate(results, start=1):
+                    doc_id = res.get("doc_id", "?")
+                    distance = res.get("_distance", "?")
+                    text = str(res.get("text", ""))
+                    snippet = text[:120] + "..." if len(text) > 120 else text
+                    _text_output(f"{index}. {doc_id} distance={distance} {snippet}")
 
         elif args.command == "upload-dataset":
             from nlp_policy_nz.integrations.hf_uploader import push_dataset_to_hub  # noqa: PLC0415
@@ -1114,33 +1442,29 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
             logger.info("Release published - DOI: %s", result.get("doi", "N/A"))
 
         elif args.command == "auth":
-            import json as _json  # noqa: PLC0415
-
             if args.auth_command == "create-key":
                 payload = create_api_key(
                     name=args.name, scopes=args.scopes, expires_at=args.expires_at
                 )
-                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+                _json_output(payload)
             elif args.auth_command == "list-keys":
                 payload = list_api_keys()
-                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+                _json_output(payload)
             elif args.auth_command == "revoke-key":
                 payload = revoke_api_key(key_id=args.key_id)
-                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+                _json_output(payload)
             elif args.auth_command == "rotate-key":
                 payload = rotate_api_key(key_id=args.key_id)
-                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+                _json_output(payload)
             else:
                 parser.print_help()
                 return 1
 
         elif args.command == "provenance":
-            import json as _json  # noqa: PLC0415
-
             from nlp_policy_nz.provenance import load_provenance_sidecar  # noqa: PLC0415
 
             data = load_provenance_sidecar(args.parquet)
-            sys.stdout.write(f"{_json.dumps(data, indent=2, ensure_ascii=False)}\n")
+            _json_output(data)
 
         elif args.command == "export-rdf":
             from nlp_policy_nz.linked_data import (  # noqa: PLC0415
@@ -1158,12 +1482,10 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
             logger.info("RDF export written: %s", result)
 
         elif args.command == "sparql":
-            import json as _json  # noqa: PLC0415
-
             from nlp_policy_nz.linked_data import query_graph  # noqa: PLC0415
 
             rows = query_graph(args.rdf, args.query)
-            sys.stdout.write(f"{_json.dumps(rows, indent=2, ensure_ascii=False)}\n")
+            _json_output(rows)
 
         elif args.command == "knowledge-graph":
             from nlp_policy_nz.kb import (  # noqa: PLC0415
@@ -1404,13 +1726,22 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
             )
 
         elif args.command == "quality":
-            import json as _json  # noqa: PLC0415
-
             if args.quality_command == "validate":
                 validation = validate_ingestion_inputs([Path(path) for path in args.input])
-                sys.stdout.write(
-                    f"{_json.dumps([item.to_dict() for item in validation], indent=2, ensure_ascii=False)}\n"
-                )
+                payload = [item.to_dict() for item in validation]
+                if args.output_format == "json":
+                    _json_output(payload)
+                else:
+                    valid_count = sum(1 for item in validation if item.valid)
+                    invalid_count = len(validation) - valid_count
+                    _text_output(
+                        f"Validated {len(validation)} input(s): {valid_count} valid, {invalid_count} invalid"
+                    )
+                    for item in validation:
+                        state = "valid" if item.valid else "invalid"
+                        _text_output(
+                            f"- {item.path} [{item.file_format}] {state} issues={item.issue_count}"
+                        )
             elif args.quality_command == "report":
                 parquet_paths = [Path(path) for path in args.parquet]
                 records = []
@@ -1427,7 +1758,15 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
                     validate_sources=False,
                 )
                 persist_quality_report(report, args.output, history_dir=args.history_dir)
-                sys.stdout.write(report_to_json(report))
+                if args.output_format == "json":
+                    _text_output(report_to_json(report).rstrip("\n"))
+                else:
+                    summary = report.summary
+                    _text_output(
+                        "Quality report: "
+                        f"records={summary.get('record_count', 0)} "
+                        f"quality_score={summary.get('quality_score', 0.0):.3f}"
+                    )
             elif args.quality_command == "dashboard":
                 reports = history_reports(args.history_dir)
                 output = write_dashboard_html(reports, args.output)
@@ -1481,7 +1820,7 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
                     args.output,
                 )
             elif args.completion_command == "manpage":
-                write_text_output(build_manpage(parser), args.output)
+                write_text_output(build_manpage(parser, CLI_CAPABILITIES), args.output)
             else:
                 parser.print_help()
                 return 1
