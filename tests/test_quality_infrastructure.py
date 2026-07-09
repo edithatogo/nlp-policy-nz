@@ -52,14 +52,24 @@ def test_coveragerc_matches_pyproject_coverage_policy() -> None:
 def test_ci_quality_steps_are_wired() -> None:
     """CI runs smoke tests, format, type checking, coverage, and Codecov."""
     workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    build_binaries = (ROOT / ".github" / "workflows" / "build-binaries.yml").read_text(
+        encoding="utf-8"
+    )
+    docker_publish = (ROOT / ".github" / "workflows" / "docker-publish.yml").read_text(
+        encoding="utf-8"
+    )
 
+    assert "fail-fast: true" in workflow
     assert "Smoke tests" in workflow
     assert "format-ci" in workflow
     assert "typecheck-ci" in workflow
     assert "coverage-ci" in workflow
     assert "codecov/codecov-action" in workflow
+    assert "fail_ci_if_error: true" in workflow
     assert "workflow_dispatch" in workflow
     assert "Optional mutation tests" in workflow
+    assert "fail-fast: true" in build_binaries
+    assert "fail-fast: true" in docker_publish
 
 
 def test_pixi_quality_tasks_exist() -> None:

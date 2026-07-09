@@ -107,6 +107,39 @@ appropriate publication claims. Executable legal-effect evaluation belongs in
 downstream projects such as `rulespec-nz` unless this repository later adds a
 reviewed executable use case.
 
+## Interface surfaces and downstream use
+
+Publications and the manuscript package should describe how adjacent datasets
+and downstream systems consume this repository:
+
+- GitHub Actions is the default automation surface for validation, packaging,
+  and release checks.
+- The CLI is the primary human operator surface.
+- The HTTP API and Python SDK are programmatic surfaces for callers that need
+  reusable functions instead of shell steps.
+- MCP is the agent-facing read-only surface and should remain a thin adapter
+  over core helpers.
+- Exported datasets and checked-in artifacts are the preferred interchange
+  format for downstream policy-engine, OpenFisca, or other rules-as-code
+  workflows.
+
+## Comparative tooling and runtime choices
+
+When the paper discusses implementation choices, it should include a compact
+comparison matrix and keep the justification evidence-bound:
+
+- LanceDB is the default local vector store because it keeps CI and local
+  reproduction simple.
+- Qdrant remains an optional service backend for deployments that explicitly
+  need remote vector-service semantics.
+- Polars and Arrow-backed transforms should be described as the default
+  tabular-analysis path when they are used.
+- Generic ingestion libraries such as Unstructured should be framed as optional
+  future adapters, not as required paper dependencies, unless they are actually
+  committed and reviewed in-tree.
+- Mojo, vLLM, or other experimental acceleration paths should be presented as
+  staged options, not as prerequisites for the repository's baseline results.
+
 ## Corpus statistics methodology
 
 Track 32 produces deterministic descriptive statistics from supplied
@@ -161,6 +194,8 @@ Before publication, check that:
 - fixture-bounded Track 32 and Track 33 outputs are not described as full-corpus
   results;
 - rules-as-code bridge outputs are not described as executable policy programs;
+- the manuscript states whether each adjacent-dataset workflow is repo-run,
+  library-called, API-called, MCP-called, or dataset-consumed;
 - Tracks 35-37 outputs are described as planned until their evidence is
   archived;
 - CI, Docs, benchmark, and focused protocol tests pass for the publication

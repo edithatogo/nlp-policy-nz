@@ -50,4 +50,4 @@ jobs:
             .tmp/benchmarks/pytest-benchmark.json
             .tmp/benchmarks/benchmark-regression.json
             .tmp/benchmarks/benchmark-regression.html
-          if-no-files-found: warn
+          if-no-files-found: error

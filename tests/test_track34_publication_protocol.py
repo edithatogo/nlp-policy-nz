@@ -47,6 +47,10 @@ def test_publication_protocol_inventory_includes_reproducible_artifacts() -> Non
         for command in bundle.reproducibility_commands
     )
     assert any(review["risk_level"] == "high" for review in bundle.overclaim_review)
+    assert "Interface surfaces and downstream use" in bundle.markdown
+    assert "Comparative tooling and runtime choices" in bundle.markdown
+    assert "Data and code availability" in bundle.markdown
+    assert "Decision appendix" in bundle.markdown
 
 
 def test_publication_protocol_writer_round_trips(tmp_path: Path) -> None:

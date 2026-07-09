@@ -25,6 +25,9 @@ def test_track37_package_contains_manuscript_supplement_and_reviews() -> None:
     assert "arXiv" in package.requirements
     assert "## Methods" in package.documents["manuscript.md"]
     assert "## Figure gallery" in package.documents["supplement.md"]
+    assert "## Comparative tooling and deployment choices" in package.documents["manuscript.md"]
+    assert "## Data and code availability" in package.documents["manuscript.md"]
+    assert "## Decision appendix" in package.documents["manuscript.md"]
     assert all(review["score"] > 95 for review in package.review_log["reviews"])
 
 

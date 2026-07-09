@@ -16,7 +16,7 @@ on:
 jobs:
   ci:
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ["3.11", "3.12"]
@@ -186,7 +186,7 @@ jobs:
         uses: codecov/codecov-action@v7
         with:
           file: ./coverage.xml
-          fail_ci_if_error: false
+          fail_ci_if_error: true
 
   ci-report:
     if: always()

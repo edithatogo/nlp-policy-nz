@@ -26,6 +26,10 @@ Detailed corpus tables are available under `data/statistics/` and publication-re
 3. `nlp-policy-nz generate-manuscript-package --output-dir artifacts/manuscript`
 4. `pixi run python -m pytest -q tests/test_track37_manuscript_review.py`
 
+## Operational notes
+
+The repository is intended to be executed from GitHub Actions for routine validation, but the same deterministic artifacts can be consumed locally or by downstream workflows. Paper text should distinguish between repository-run jobs, library-style integration, CLI automation, and exported datasets so the operating model is unambiguous.
+
 ## Evidence boundary
 
 The package is generated from checked-in Track 34-36 artifacts. Full-corpus claims, live external reviewer agents, and actual arXiv submission remain blocked until canonical exports and credentials are supplied.
