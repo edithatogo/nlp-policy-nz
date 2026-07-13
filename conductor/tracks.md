@@ -533,7 +533,7 @@ Phase XII (Complete — 81-85): Formalized CLI/API/MCP Interface Surfaces
 
 ---
 
-## [~] Track 88: Historical Parliament Structure Reconstruction
+## [x] Track 88: Historical Parliament Structure Reconstruction (complete)
 *Link: [./conductor/tracks/track88_historical_parliament_structure_20260713/](./conductor/tracks/track88_historical_parliament_structure_20260713/)*
 - **Dependencies**: Tracks 53, 55, 74, 87
 - **Parallelization Node**: Hansard Structure and Semantics
