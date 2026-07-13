@@ -11,3 +11,6 @@
 ## Phase 3: Assurance
 - [x] Run round-trip, property, mutation, compatibility, and performance tests. (commit: 98782b7)
 - [x] Publish schema documentation and checkpoint evidence. (commit: 98782b7)
+
+## Phase: Review Fixes
+- [x] Apply review suggestions. (commit: c2cd88c)
