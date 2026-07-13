@@ -11,3 +11,6 @@
 ## Phase 3: Assurance
 - [x] Gate on CER, WER, layout, reading order, table, calibration, cost, and throughput. (commit: f79394f)
 - [x] Publish benchmark/model cards and checkpoint evidence. (commit: f79394f)
+
+## Phase: Review Fixes
+- [~] Apply review suggestions.

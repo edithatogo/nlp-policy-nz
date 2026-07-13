@@ -129,3 +129,41 @@ def test_benchmark_defaults_unannotated_structure_to_pass() -> None:
     assert result.layout_accuracy == 1
     assert result.reading_order_accuracy == 1
     assert result.table_accuracy == 1
+
+
+def test_benchmark_orders_unannotated_blocks_after_explicit_orders() -> None:
+    token = OCRToken(
+        text="text",
+        confidence=0.95,
+        bbox=BoundingBox(x0=0, y0=0, x1=0.5, y1=0.2),
+    )
+    blocks = (
+        LayoutBlock(
+            block_id="lower-unannotated",
+            block_type="paragraph",
+            bbox=BoundingBox(x0=0, y0=0.8, x1=1, y1=1),
+            text="text",
+            tokens=(token,),
+        ),
+        LayoutBlock(
+            block_id="upper-explicit",
+            block_type="paragraph",
+            bbox=BoundingBox(x0=0, y0=0, x1=1, y1=0.2),
+            reading_order=0,
+            text="text",
+            tokens=(token,),
+        ),
+    )
+    observation = _observation("text", engine="candidate").model_copy(update={"blocks": blocks})
+    case = BenchmarkCase(
+        case_id="mixed-order",
+        reference=_observation("text", engine="reference"),
+        candidate=observation,
+        expected_reading_order=("upper-explicit", "lower-unannotated"),
+    )
+
+    result = evaluate_benchmark(
+        (case,), engine="candidate", elapsed_seconds=1, cost_usd=0, thresholds=_thresholds()
+    )
+
+    assert result.reading_order_accuracy == 1

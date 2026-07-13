@@ -15,6 +15,7 @@
 - `basedpyright src/nlp_policy_nz/ocr`: 0 errors, 0 warnings, 0 notes.
 - Ruff check and format checks passed.
 - Engine promotion remains fail-closed while registry digests are null.
+- Review fix: benchmark reading-order scoring now distinguishes explicit order zero from unannotated blocks and uses deterministic geometry and identifier fallbacks; a mixed-order regression test covers this boundary.
 
 ## Boundary
 

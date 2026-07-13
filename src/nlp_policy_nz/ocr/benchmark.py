@@ -116,7 +116,16 @@ def _reading_order_accuracy(case: BenchmarkCase) -> float:
         return 1.0
     actual = tuple(
         block.block_id
-        for block in sorted(case.candidate.blocks, key=lambda block: block.reading_order or 0)
+        for block in sorted(
+            case.candidate.blocks,
+            key=lambda block: (
+                block.reading_order is None,
+                block.reading_order if block.reading_order is not None else 0,
+                block.bbox.y0,
+                block.bbox.x0,
+                block.block_id,
+            ),
+        )
     )
     return _sequence_accuracy(case.expected_reading_order, actual)
 
