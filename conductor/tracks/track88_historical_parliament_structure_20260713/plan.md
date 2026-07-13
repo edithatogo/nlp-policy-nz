@@ -1,7 +1,7 @@
 # Track 88 Plan
 
 ## Phase 1: Ontology and Gold Data
-- [ ] Define parliamentary hierarchy, identity, uncertainty, and review schemas.
+- [~] Define parliamentary hierarchy, identity, uncertainty, and review schemas.
 - [ ] Build temporally and typographically stratified held-out annotations.
 
 ## Phase 2: Extraction
