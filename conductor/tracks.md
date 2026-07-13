@@ -533,12 +533,6 @@ Phase XII (Complete — 81-85): Formalized CLI/API/MCP Interface Surfaces
 
 ---
 
-## [x] Track 86: HathiTrust-NZ Ingestion Contract (complete)
-*Link: [./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/](./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/)*
-- **Dependencies**: Tracks 23, 39, 45, 81, 85
-- **Parallelization Node**: Archive Contract and Rights Boundary
-- **Why**: Import HathiTrust-NZ manifests through a deterministic, fail-closed contract before any cloud processing.
-
 ## [ ] Track 87: Layout-Aware OCR Ensemble
 *Link: [./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/](./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/)*
 - **Dependencies**: Tracks 56, 74, 86
