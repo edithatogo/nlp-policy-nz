@@ -11,3 +11,6 @@
 ## Phase 3: Evaluation
 - [x] Measure structure, attribution, linking, abstention, and span-fidelity performance. (commit: 478baa4)
 - [x] Document limitations and checkpoint evidence. (commit: 478baa4)
+
+## Phase: Review Fixes
+- [x] Apply review suggestions. (commit: cf527b1)
