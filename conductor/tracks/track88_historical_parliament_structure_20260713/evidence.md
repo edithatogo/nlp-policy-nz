@@ -11,8 +11,8 @@
 
 ## Verification
 
-- Track 88 tests: 9 passed.
-- New structure/evaluation module coverage: 92.63%.
+- Track 88 tests: 13 passed.
+- New structure/evaluation module coverage: 92.95%.
 - `basedpyright src/nlp_policy_nz/parliament/structure.py src/nlp_policy_nz/parliament/evaluation.py`: 0 errors, 0 warnings, 0 notes.
 - Ruff check and format checks passed for all Track 88 source and test files.
 
@@ -21,3 +21,11 @@
 - The extractor does not download corpus content or claim historical completeness.
 - Identity resolution is deterministic and uncertainty-aware; external authority reconciliation and corpus-scale cloud execution remain downstream work in Tracks 89-91.
 - The gold artifact contains no document text or OCR payload, preventing evaluation leakage.
+
+## Review Fixes
+
+- Speech nodes now remain children of the active debate/question container instead of nesting subsequent speeches under the previous speech.
+- Link source offsets now account for indentation and preserve exact text slices.
+- Volume and interjection headings are explicitly segmented.
+- Source spans support token identifiers and OCR alternatives; speaker attributions carry temporal-validity fields.
+- JSON-LD exports speaker attributions and review queue items, and span fidelity evaluates all assertion classes.

@@ -100,17 +100,17 @@ def _f1(reference: set[tuple[str, str, str]], candidate: set[tuple[str, str, str
 
 
 def _span_score(reference: StructureDocument, candidate: StructureDocument) -> float:
-    expected = {
-        (span.page_id, span.block_id, span.start, span.end, span.text)
-        for node in reference.nodes
-        for span in node.source_spans
-    }
-    actual = {
-        (span.page_id, span.block_id, span.start, span.end, span.text)
-        for node in candidate.nodes
-        for span in node.source_spans
-    }
+    expected = _span_keys(reference)
+    actual = _span_keys(candidate)
     return 1.0 if not expected else len(expected & actual) / len(expected)
+
+
+def _span_keys(document: StructureDocument) -> set[tuple[str, str, int, int, str]]:
+    spans = [span for node in document.nodes for span in node.source_spans]
+    spans.extend(span for item in document.speakers for span in item.source_spans)
+    spans.extend(span for item in document.links for span in item.source_spans)
+    spans.extend(span for item in document.review_queue for span in item.source_spans)
+    return {(span.page_id, span.block_id, span.start, span.end, span.text) for span in spans}
 
 
 def _abstention_score(reference: StructureDocument, candidate: StructureDocument) -> float:

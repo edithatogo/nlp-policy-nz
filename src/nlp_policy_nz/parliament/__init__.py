@@ -17,6 +17,7 @@ from nlp_policy_nz.parliament.evaluation import (
 )
 from nlp_policy_nz.parliament.structure import (
     CallableStructureAdapter,
+    OCRAlternative,
     ParliamentaryNode,
     ReviewItem,
     SemanticLink,
@@ -40,6 +41,7 @@ __all__ = [
     "DivisionRecord",
     "EvaluationThresholds",
     "MemberVote",
+    "OCRAlternative",
     "ParliamentaryNode",
     "ReviewItem",
     "SemanticLink",

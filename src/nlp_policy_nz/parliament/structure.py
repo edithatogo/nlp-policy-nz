@@ -68,6 +68,16 @@ _PUBLICATION_PATTERN = re.compile(
 )
 
 
+class OCRAlternative(BaseModel):
+    """An alternative OCR reading retained with engine provenance."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    engine: str = Field(min_length=1)
+    text: str = Field(min_length=1)
+    confidence: float = Field(ge=0, le=1)
+
+
 class SourceSpan(BaseModel):
     """A non-empty character span tied to one OCR/layout block."""
 
@@ -78,6 +88,8 @@ class SourceSpan(BaseModel):
     start: int = Field(ge=0)
     end: int = Field(ge=1)
     text: str = Field(min_length=1)
+    token_ids: tuple[str, ...] = ()
+    ocr_alternatives: tuple[OCRAlternative, ...] = ()
 
     @model_validator(mode="after")
     def validate_range(self) -> SourceSpan:
@@ -112,6 +124,8 @@ class SpeakerAttribution(BaseModel):
     identity_id: str | None = None
     canonical_name: str | None = None
     role: str | None = None
+    valid_from: str | None = None
+    valid_to: str | None = None
     confidence: float = Field(ge=0, le=1)
     abstained: bool = False
     source_spans: tuple[SourceSpan, ...]
@@ -226,8 +240,9 @@ def reconstruct_structure(page_id: str, text: str) -> StructureDocument:
                         candidate_ids=(),
                     )
                 )
-            links.extend(_extract_links(node, body, start + stripped.index(body), page_id))
-            current_parent = node.node_id
+            body_offset = line.find(body)
+            if body_offset >= 0:
+                links.extend(_extract_links(node, body, start + body_offset, page_id))
             continue
         if node_type is None:
             continue
@@ -291,6 +306,34 @@ def export_structure_jsonld(document: StructureDocument) -> dict[str, object]:
                 "reviewRequired": link.review_required,
             }
         )
+    for index, speaker in enumerate(document.speakers):
+        nodes.append(
+            {
+                "@id": f"urn:hathi:{document.page_id}:speaker-{index}",
+                "@type": "hathi:speakerAttribution",
+                "speechNodeId": speaker.speech_node_id,
+                "surfaceForm": speaker.surface_form,
+                "identityId": speaker.identity_id,
+                "canonicalName": speaker.canonical_name,
+                "role": speaker.role,
+                "validFrom": speaker.valid_from,
+                "validTo": speaker.valid_to,
+                "abstained": speaker.abstained,
+                "sourceSpan": [span.model_dump(mode="json") for span in speaker.source_spans],
+            }
+        )
+    for index, review in enumerate(document.review_queue):
+        nodes.append(
+            {
+                "@id": f"urn:hathi:{document.page_id}:review-{index}",
+                "@type": "hathi:reviewItem",
+                "itemId": review.item_id,
+                "kind": review.kind,
+                "reason": review.reason,
+                "candidateIds": review.candidate_ids,
+                "sourceSpan": [span.model_dump(mode="json") for span in review.source_spans],
+            }
+        )
     return {
         "@context": {
             "hathi": "https://example.org/hathi-nz/structure#",
@@ -313,6 +356,8 @@ def _iter_lines(text: str) -> Iterator[tuple[int, int, str]]:
 
 def _classify_heading(line: str) -> NodeType | None:  # noqa: PLR0911
     upper = line.upper()
+    if upper.startswith("VOLUME "):
+        return "volume"
     if upper.startswith("SESSION "):
         return "session"
     if upper.startswith("SITTING "):
@@ -329,6 +374,8 @@ def _classify_heading(line: str) -> NodeType | None:  # noqa: PLR0911
         return "table"
     if upper.startswith("APPENDIX"):
         return "appendix"
+    if upper.startswith("INTERJECTION"):
+        return "interjection"
     return None
 
 
@@ -368,6 +415,8 @@ def _attribution(node: ParliamentaryNode, label: str) -> SpeakerAttribution:
         identity_id=None if generic else _speaker_id(normalized),
         canonical_name=None if generic else normalized,
         role=role,
+        valid_from=None,
+        valid_to=None,
         confidence=0.0 if generic else 0.85,
         abstained=generic,
         source_spans=node.source_spans,
@@ -429,6 +478,7 @@ def _digest(value: str) -> str:
 
 __all__ = [
     "CallableStructureAdapter",
+    "OCRAlternative",
     "ParliamentaryNode",
     "ReviewItem",
     "SemanticLink",

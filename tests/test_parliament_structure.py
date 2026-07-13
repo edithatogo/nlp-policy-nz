@@ -6,6 +6,7 @@ from pydantic import ValidationError
 from nlp_policy_nz.parliament.evaluation import EvaluationThresholds, evaluate_structure
 from nlp_policy_nz.parliament.structure import (
     CallableStructureAdapter,
+    OCRAlternative,
     ParliamentaryNode,
     SourceSpan,
     StructureDocument,
@@ -86,6 +87,45 @@ def test_reconstruction_preserves_line_offsets() -> None:
     assert text[span.start : span.end] == span.text
 
 
+def test_speeches_share_their_container_and_link_spans_handle_indentation() -> None:
+    text = (
+        "DEBATE\n"
+        "  Hon Alice Smith: The Crimes Act 1961 applies.\n"
+        "  Mr Bob Jones: Wellington is mentioned.\n"
+    )
+
+    result = reconstruct_structure("page-3b", text)
+    speeches = [node for node in result.nodes if node.node_type == "speech"]
+    debate = next(node for node in result.nodes if node.node_type == "debate")
+    place_link = next(link for link in result.links if link.relation == "mentions_place")
+
+    assert [speech.parent_id for speech in speeches] == [debate.node_id, debate.node_id]
+    place_span = place_link.source_spans[0]
+    assert text[place_span.start : place_span.end] == "Wellington"
+
+
+def test_volume_and_interjection_are_explicit_node_types() -> None:
+    result = reconstruct_structure("page-3c", "VOLUME 3\nINTERJECTION\n")
+
+    assert [node.node_type for node in result.nodes] == ["page", "volume", "interjection"]
+
+
+def test_source_span_can_carry_token_and_ocr_alternative_provenance() -> None:
+    alternative = OCRAlternative(engine="surya", text="Helo", confidence=0.4)
+    span = SourceSpan(
+        page_id="page-3d",
+        block_id="block-1",
+        start=0,
+        end=5,
+        text="Hello",
+        token_ids=("token-1",),
+        ocr_alternatives=(alternative,),
+    )
+
+    assert span.token_ids == ("token-1",)
+    assert span.ocr_alternatives[0].engine == "surya"
+
+
 def test_adapter_and_jsonld_export_preserve_page_identity() -> None:
     adapter = CallableStructureAdapter(reconstruct_structure)
     document = adapter.reconstruct("page-4", "DEBATE\nMr Speaker: The Crimes Act 1961 applies.\n")
@@ -100,6 +140,16 @@ def test_adapter_and_jsonld_export_preserve_page_identity() -> None:
     )
     with pytest.raises(ValueError, match="different page_id"):
         mismatched.reconstruct("page-4", "")
+
+
+def test_jsonld_export_includes_speakers_and_review_items() -> None:
+    document = reconstruct_structure("page-4b", "Member: The question is before the House.\n")
+
+    payload = export_structure_jsonld(document)
+    graph_types = {item["@type"] for item in payload["@graph"]}
+
+    assert "hathi:speakerAttribution" in graph_types
+    assert "hathi:reviewItem" in graph_types
 
 
 def test_evaluation_reports_structure_speaker_link_and_span_scores() -> None:
@@ -134,6 +184,6 @@ def test_evaluation_fails_closed_for_mismatched_pages_and_missing_links() -> Non
     )
 
     assert result.passed is False
-    assert result.failures == ("link_f1",)
+    assert set(result.failures) == {"link_f1", "span_fidelity"}
     with pytest.raises(ValueError, match="same page"):
         evaluate_structure(reference, reference.model_copy(update={"page_id": "other"}))
