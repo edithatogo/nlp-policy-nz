@@ -533,12 +533,6 @@ Phase XII (Complete — 81-85): Formalized CLI/API/MCP Interface Surfaces
 
 ---
 
-## [x] Track 87: Layout-Aware OCR Ensemble (complete)
-*Link: [./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/](./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/)*
-- **Dependencies**: Tracks 56, 74, 86
-- **Parallelization Node**: Document Vision and OCR Verification
-- **Why**: Preserve supplied OCR while independently validating historical pages with a benchmarked, cost-aware layout/OCR ensemble.
-
 ## [ ] Track 88: Historical Parliament Structure Reconstruction
 *Link: [./conductor/tracks/track88_historical_parliament_structure_20260713/](./conductor/tracks/track88_historical_parliament_structure_20260713/)*
 - **Dependencies**: Tracks 53, 55, 74, 87
