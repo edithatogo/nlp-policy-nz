@@ -526,3 +526,45 @@ Phase XII (Complete — 81-85): Formalized CLI/API/MCP Interface Surfaces
 - **Dependencies**: Tracks 39, 45, 49, 81, 82, 83, 84
 - **Parallelization Node**: Interface Governance and CI
 - **Why**: Add cross-surface conformance tests, docs generation, and release governance so CLI, HTTP API, SDK, and MCP contracts remain aligned over time.
+
+---
+
+## Phase XIII — HathiTrust-NZ Structured Archive Extraction
+
+---
+
+## [ ] Track 86: HathiTrust-NZ Ingestion Contract
+*Link: [./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/](./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/)*
+- **Dependencies**: Tracks 23, 39, 45, 81, 85
+- **Parallelization Node**: Archive Contract and Rights Boundary
+- **Why**: Import HathiTrust-NZ manifests through a deterministic, fail-closed contract before any cloud processing.
+
+## [ ] Track 87: Layout-Aware OCR Ensemble
+*Link: [./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/](./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/)*
+- **Dependencies**: Tracks 56, 74, 86
+- **Parallelization Node**: Document Vision and OCR Verification
+- **Why**: Preserve supplied OCR while independently validating historical pages with a benchmarked, cost-aware layout/OCR ensemble.
+
+## [ ] Track 88: Historical Parliament Structure Reconstruction
+*Link: [./conductor/tracks/track88_historical_parliament_structure_20260713/](./conductor/tracks/track88_historical_parliament_structure_20260713/)*
+- **Dependencies**: Tracks 53, 55, 74, 87
+- **Parallelization Node**: Hansard Structure and Semantics
+- **Why**: Recover page-grounded parliamentary hierarchy, speaker identity, semantic entities, and relationships.
+
+## [ ] Track 89: Multi-Layer Archive Schema
+*Link: [./conductor/tracks/track89_multilayer_archive_schema_20260713/](./conductor/tracks/track89_multilayer_archive_schema_20260713/)*
+- **Dependencies**: Tracks 18, 23, 26, 86, 87, 88
+- **Parallelization Node**: Structured Data and Provenance
+- **Why**: Connect archive objects, page geometry, OCR alternatives, parliamentary structure, semantic assertions, and provenance without information loss.
+
+## [ ] Track 90: Hugging Face Archive Publication
+*Link: [./conductor/tracks/track90_huggingface_archive_publication_20260713/](./conductor/tracks/track90_huggingface_archive_publication_20260713/)*
+- **Dependencies**: Tracks 9, 18, 39, 45, 89
+- **Parallelization Node**: Dataset Materialization and Publication
+- **Why**: Publish rights-safe, streaming multi-configuration datasets with generated cards, checksums, attestations, and DOI handoff.
+
+## [ ] Track 91: Cloud OCR Evaluation and Operations
+*Link: [./conductor/tracks/track91_cloud_ocr_evaluation_20260713/](./conductor/tracks/track91_cloud_ocr_evaluation_20260713/)*
+- **Dependencies**: Tracks 39, 40, 45, 74, 85, 87, 88, 89, 90
+- **Parallelization Node**: Secure Cloud Orchestration and Quality
+- **Why**: Dispatch all corpus processing through GitHub Actions and pinned cloud workers with evaluation, budgets, resumability, security gates, and row-level completeness.
