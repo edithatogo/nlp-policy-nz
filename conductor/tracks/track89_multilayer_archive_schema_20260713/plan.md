@@ -1,7 +1,7 @@
 # Track 89 Plan
 
 ## Phase 1: Canonical Model
-- [ ] Write schema contract and referential-integrity tests.
+- [~] Write schema contract and referential-integrity tests.
 - [ ] Implement versioned models, IDs, coordinate transforms, and provenance links.
 
 ## Phase 2: Views
