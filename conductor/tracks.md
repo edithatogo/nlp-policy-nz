@@ -533,12 +533,6 @@ Phase XII (Complete — 81-85): Formalized CLI/API/MCP Interface Surfaces
 
 ---
 
-## [x] Track 89: Multi-Layer Archive Schema (complete)
-*Link: [./conductor/tracks/track89_multilayer_archive_schema_20260713/](./conductor/tracks/track89_multilayer_archive_schema_20260713/)*
-- **Dependencies**: Tracks 18, 23, 26, 86, 87, 88
-- **Parallelization Node**: Structured Data and Provenance
-- **Why**: Connect archive objects, page geometry, OCR alternatives, parliamentary structure, semantic assertions, and provenance without information loss.
-
 ## [ ] Track 90: Hugging Face Archive Publication
 *Link: [./conductor/tracks/track90_huggingface_archive_publication_20260713/](./conductor/tracks/track90_huggingface_archive_publication_20260713/)*
 - **Dependencies**: Tracks 9, 18, 39, 45, 89
