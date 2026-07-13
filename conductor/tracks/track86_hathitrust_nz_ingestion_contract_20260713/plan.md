@@ -11,3 +11,6 @@
 ## Phase 3: Assurance
 - [x] Add property, mutation, malformed-input, and compatibility tests. (commit: 71f578c)
 - [x] Document the cross-repository contract and record checkpoint evidence. (commit: 71f578c)
+
+## Phase: Review Fixes
+- [x] Apply review suggestions: protect capability registry snapshots from nested mutation. (commit: c1f2973)
