@@ -1,0 +1,33 @@
+{
+  "schema_version": "track87.golden-page-fixtures.v1",
+  "claim_boundary": "Metadata-only annotations; page images and source text remain in cloud-controlled fixtures.",
+  "cases": [
+    {
+      "case_id": "single-column-1854",
+      "cohort": "hansard",
+      "year_band": "1850-1879",
+      "layout_class": "single_column",
+      "expected_block_types": ["header", "paragraph"],
+      "expected_reading_order": ["header", "paragraph"],
+      "expected_table_count": 0
+    },
+    {
+      "case_id": "multi-column-1910",
+      "cohort": "hansard",
+      "year_band": "1900-1929",
+      "layout_class": "multi_column",
+      "expected_block_types": ["header", "paragraph", "paragraph"],
+      "expected_reading_order": ["header", "left-column", "right-column"],
+      "expected_table_count": 0
+    },
+    {
+      "case_id": "table-marginalia-1965",
+      "cohort": "hansard",
+      "year_band": "1950-1979",
+      "layout_class": "table_and_marginalia",
+      "expected_block_types": ["header", "table", "marginalia"],
+      "expected_reading_order": ["header", "table", "marginalia"],
+      "expected_table_count": 1
+    }
+  ]
+}
