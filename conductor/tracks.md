@@ -533,7 +533,7 @@ Phase XII (Complete — 81-85): Formalized CLI/API/MCP Interface Surfaces
 
 ---
 
-## [ ] Track 86: HathiTrust-NZ Ingestion Contract
+## [x] Track 86: HathiTrust-NZ Ingestion Contract (complete)
 *Link: [./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/](./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/)*
 - **Dependencies**: Tracks 23, 39, 45, 81, 85
 - **Parallelization Node**: Archive Contract and Rights Boundary
