@@ -1,13 +1,13 @@
 # Track 87 Plan
 
 ## Phase 1: Benchmark Harness
-- [ ] Build stratified historical-page fixtures and ground-truth annotation schema.
-- [ ] Add adapter contracts and reproducible engine containers.
+- [x] Build stratified historical-page fixtures and ground-truth annotation schema. (commit: f79394f)
+- [x] Add adapter contracts and reproducible engine containers. (commit: f79394f)
 
 ## Phase 2: Ensemble
-- [ ] Implement preprocessing, layout/order detection, OCR observations, and alignment.
-- [ ] Implement calibrated routing and GPU escalation with content-addressed caches.
+- [x] Implement preprocessing, layout/order detection, OCR observations, and alignment. (commit: f79394f)
+- [x] Implement calibrated routing and GPU escalation with content-addressed caches. (commit: f79394f)
 
 ## Phase 3: Assurance
-- [ ] Gate on CER, WER, layout, reading order, table, calibration, cost, and throughput.
-- [ ] Publish benchmark/model cards and checkpoint evidence.
+- [x] Gate on CER, WER, layout, reading order, table, calibration, cost, and throughput. (commit: f79394f)
+- [x] Publish benchmark/model cards and checkpoint evidence. (commit: f79394f)

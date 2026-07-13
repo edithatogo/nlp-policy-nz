@@ -533,7 +533,7 @@ Phase XII (Complete — 81-85): Formalized CLI/API/MCP Interface Surfaces
 
 ---
 
-## [ ] Track 87: Layout-Aware OCR Ensemble
+## [x] Track 87: Layout-Aware OCR Ensemble (complete)
 *Link: [./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/](./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/)*
 - **Dependencies**: Tracks 56, 74, 86
 - **Parallelization Node**: Document Vision and OCR Verification
