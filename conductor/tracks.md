@@ -533,7 +533,7 @@ Phase XII (Complete — 81-85): Formalized CLI/API/MCP Interface Surfaces
 
 ---
 
-## [~] Track 89: Multi-Layer Archive Schema
+## [x] Track 89: Multi-Layer Archive Schema (complete)
 *Link: [./conductor/tracks/track89_multilayer_archive_schema_20260713/](./conductor/tracks/track89_multilayer_archive_schema_20260713/)*
 - **Dependencies**: Tracks 18, 23, 26, 86, 87, 88
 - **Parallelization Node**: Structured Data and Provenance
