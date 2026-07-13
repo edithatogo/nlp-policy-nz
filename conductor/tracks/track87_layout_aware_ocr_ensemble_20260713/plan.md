@@ -13,4 +13,4 @@
 - [x] Publish benchmark/model cards and checkpoint evidence. (commit: f79394f)
 
 ## Phase: Review Fixes
-- [~] Apply review suggestions.
+- [x] Apply review suggestions. (commit: 8bc3c2d)
