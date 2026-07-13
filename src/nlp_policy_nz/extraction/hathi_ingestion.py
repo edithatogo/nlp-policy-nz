@@ -8,6 +8,7 @@ that owns the relevant credentials and publication gates.
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from enum import StrEnum
 from hashlib import sha256
 from pathlib import Path
@@ -293,7 +294,7 @@ def load_archive_registry(path: str | Path) -> HathiArchiveRegistry:
 
 def hathi_capability_registry() -> tuple[dict[str, Any], ...]:
     """Return planned read-only CLI/API/SDK/MCP capability metadata."""
-    return tuple(dict(capability) for capability in HATHI_CAPABILITY_REGISTRY)
+    return tuple(deepcopy(capability) for capability in HATHI_CAPABILITY_REGISTRY)
 
 
 def _normalise_access_class(value: str) -> AccessClass:

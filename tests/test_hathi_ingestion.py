@@ -254,3 +254,10 @@ def test_capability_registry_is_read_only_and_surface_compatible() -> None:
     }
     assert all(item["side_effect"] == "read_only" for item in capabilities)
     assert all(set(item["surfaces"]) == {"cli", "api", "sdk", "mcp"} for item in capabilities)
+
+
+def test_capability_registry_returns_defensive_copies() -> None:
+    capabilities = hathi_capability_registry()
+    capabilities[0]["surfaces"]["cli"] = "implemented"
+
+    assert hathi_capability_registry()[0]["surfaces"]["cli"] == "planned"
