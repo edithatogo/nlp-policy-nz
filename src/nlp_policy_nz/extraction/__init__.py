@@ -63,6 +63,24 @@ _SOURCE_INVENTORY_EXPORTS = {
     "write_source_inventory_artifacts",
     "write_source_inventory_parquet",
 }
+_HATHI_EXPORTS = {
+    "AccessClass",
+    "AcquisitionMode",
+    "HathiArchiveItem",
+    "HathiArchiveRegistry",
+    "HathiDatasetDescriptor",
+    "HathiWorkItem",
+    "HathiWorkManifest",
+    "HathiWorkShard",
+    "HATHI_CAPABILITY_REGISTRY",
+    "PublicationDecision",
+    "build_work_manifest",
+    "load_archive_registry",
+    "hathi_capability_registry",
+    "render_work_manifest_json",
+    "render_hathi_json_schema",
+    "validate_curated_seed_count",
+}
 
 __all__ = [
     "CatalogRun",
@@ -114,6 +132,20 @@ __all__ = [
     "write_rules_as_code_candidate_bundle",
     "write_source_inventory_artifacts",
     "write_source_inventory_parquet",
+    "AccessClass",
+    "AcquisitionMode",
+    "HathiArchiveItem",
+    "HathiArchiveRegistry",
+    "HathiDatasetDescriptor",
+    "HathiWorkItem",
+    "HathiWorkManifest",
+    "HathiWorkShard",
+    "PublicationDecision",
+    "build_work_manifest",
+    "load_archive_registry",
+    "render_work_manifest_json",
+    "render_hathi_json_schema",
+    "validate_curated_seed_count",
 ]
 
 
@@ -133,5 +165,8 @@ def __getattr__(name: str) -> object:
         return getattr(module, name)
     if name in _SOURCE_INVENTORY_EXPORTS:
         module = import_module("nlp_policy_nz.extraction.source_inventory")
+        return getattr(module, name)
+    if name in _HATHI_EXPORTS:
+        module = import_module("nlp_policy_nz.extraction.hathi_ingestion")
         return getattr(module, name)
     raise AttributeError(f"module 'nlp_policy_nz.extraction' has no attribute {name!r}")
