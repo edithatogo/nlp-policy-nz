@@ -14,6 +14,8 @@
 - Archive package coverage: 94.51%.
 - `basedpyright src/nlp_policy_nz/archive`: 0 errors, 0 warnings, 0 notes.
 - Ruff check and format checks passed.
+- Serializer smoke timing: 100 JSONL writes of a minimal bundle completed in 0.1102 seconds on the local runner.
+- Mutation tooling residual: the bounded `mutatest 3.1.0` run discovered 114 candidate locations but failed before trials with `TypeError: Population must be a sequence`; this is an upstream tool/runtime incompatibility, not a surviving mutant result.
 
 ## Boundaries
 
