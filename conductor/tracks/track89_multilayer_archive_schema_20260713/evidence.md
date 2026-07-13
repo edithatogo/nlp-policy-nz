@@ -11,7 +11,8 @@
 ## Verification
 
 - Track 89 contract tests: 6 passed, including a Hypothesis property test for stable IDs.
-- Archive package coverage: 94.51%.
+- Track 89 review tests: 8 passed, including inherited-rights redaction and run-output integrity.
+- Archive package coverage: 93.00%.
 - `basedpyright src/nlp_policy_nz/archive`: 0 errors, 0 warnings, 0 notes.
 - Ruff check and format checks passed.
 - Serializer smoke timing: 100 JSONL writes of a minimal bundle completed in 0.1102 seconds on the local runner.
@@ -22,3 +23,10 @@
 - The schema stores lineage and metadata but does not acquire corpus data or invent rights permissions.
 - Public exports must be created from `public_projection()` when any source object is restricted.
 - External dataset publication and cloud-scale materialization remain Tracks 90-91 responsibilities.
+
+## Review Fixes
+
+- Restricted access now propagates from sources through documents, pages, regions, spans, lines, tokens, speeches, tables, embeddings, and assertions.
+- All serializers default to the public projection; raw restricted serialization requires explicit `public=False`.
+- Added original-to-normalized coordinate conversion and public span-length validation.
+- Run output identifiers are now checked for referential integrity.

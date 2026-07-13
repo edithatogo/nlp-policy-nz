@@ -25,6 +25,7 @@ from nlp_policy_nz.archive.schema import (
     ArchiveTable,
     ArchiveToken,
     CoordinateBox,
+    normalize_coordinates,
     stable_id,
 )
 from nlp_policy_nz.archive.serializers import (
@@ -142,6 +143,18 @@ def test_stable_ids_and_coordinate_validation() -> None:
     assert stable_id("page", "doc-1", "1") == stable_id("page", "doc-1", "1")
     with pytest.raises(ValidationError):
         CoordinateBox(x0=1, y0=0, x1=1, y1=1, space="normalized")
+    normalized = normalize_coordinates(
+        CoordinateBox(x0=10, y0=20, x1=50, y1=80, space="original"),
+        page_width=100,
+        page_height=100,
+    )
+    assert normalized.model_dump() == {
+        "x0": 0.1,
+        "y0": 0.2,
+        "x1": 0.5,
+        "y1": 0.8,
+        "space": "normalized",
+    }
 
 
 @given(st.from_regex(r"[a-zA-Z0-9]{1,20}", fullmatch=True))
@@ -173,6 +186,42 @@ def test_public_projection_redacts_restricted_text_but_retains_lineage() -> None
     assert projected.tokens[0].text is None
     assert projected.speeches[0].text is None
     assert projected.assertions[0].object_text is None
+
+    inherited = _bundle()
+    raw = inherited.model_dump(mode="json")
+    raw["sources"][0]["access_class"] = "restricted"
+    inherited_projection = ArchiveBundle.model_validate(raw).public_projection()
+    assert inherited_projection.tokens[0].text is None
+    assert inherited_projection.tokens[0].alternatives == ()
+    assert inherited_projection.embeddings[0].values == ()
+
+
+def test_public_serializers_redact_inherited_restricted_text(tmp_path: Path) -> None:
+    raw = _bundle().model_dump(mode="json")
+    raw["sources"][0]["access_class"] = "restricted"
+    bundle = ArchiveBundle.model_validate(raw)
+
+    json_path = write_json(bundle, tmp_path / "public.json")
+
+    assert "Hello" not in json_path.read_text(encoding="utf-8")
+
+
+def test_runs_require_referenced_output_ids_and_spans_match_text() -> None:
+    with pytest.raises(ValidationError, match="span text length"):
+        ArchiveSpan(page_id="page-1", span_id="span-1", start=0, end=5, text="Hi")
+    bundle = _bundle()
+    with pytest.raises(ValidationError, match="run output"):
+        ArchiveBundle.model_validate(
+            bundle.model_dump(mode="python")
+            | {
+                "runs": [
+                    {
+                        **bundle.runs[0].model_dump(),
+                        "output_ids": ["missing-output"],
+                    }
+                ]
+            }
+        )
 
 
 def test_serializers_are_deterministic_and_round_trip(tmp_path: Path) -> None:

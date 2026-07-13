@@ -17,6 +17,7 @@ from nlp_policy_nz.archive.schema import (
     ArchiveTable,
     ArchiveToken,
     CoordinateBox,
+    normalize_coordinates,
     stable_id,
 )
 
@@ -37,5 +38,6 @@ __all__ = [
     "ArchiveTable",
     "ArchiveToken",
     "CoordinateBox",
+    "normalize_coordinates",
     "stable_id",
 ]

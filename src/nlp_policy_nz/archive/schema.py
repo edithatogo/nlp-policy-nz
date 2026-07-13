@@ -98,6 +98,8 @@ class ArchiveSpan(BaseModel):
         """Require a forward character range."""
         if self.end <= self.start:
             raise ValueError("span end must be greater than start")
+        if self.text is not None and len(self.text) != self.end - self.start:
+            raise ValueError("span text length must match its character range")
         return self
 
 
@@ -288,54 +290,124 @@ class ArchiveBundle(BaseModel):
         for run in self.runs:
             for source_id in run.source_ids:
                 _require(source_id, source_ids, "run source")
+            for output_id in run.output_ids:
+                _require(output_id, all_ids, "run output")
         return self
 
     def public_projection(self) -> ArchiveBundle:
         """Remove restricted text while preserving safe identifiers and lineage."""
+        restricted_sources = {
+            source.source_id
+            for source in self.sources
+            if source.access_class == AccessClass.RESTRICTED
+        }
+        restricted_documents = {
+            document.document_id
+            for document in self.documents
+            if document.source_id in restricted_sources
+        }
+        restricted_pages = {
+            page.page_id for page in self.pages if page.document_id in restricted_documents
+        }
+        restricted_regions = {
+            region.region_id for region in self.regions if region.page_id in restricted_pages
+        }
         restricted_spans = {
-            span.span_id for span in self.spans if span.access_class == AccessClass.RESTRICTED
+            span.span_id
+            for span in self.spans
+            if span.access_class == AccessClass.RESTRICTED or span.page_id in restricted_pages
         }
         restricted_lines = {
-            line.line_id for line in self.lines if line.access_class == AccessClass.RESTRICTED
+            line.line_id
+            for line in self.lines
+            if line.access_class == AccessClass.RESTRICTED
+            or line.region_id in restricted_regions
+            or line.span_id in restricted_spans
         }
         restricted_tokens = {
-            token.token_id for token in self.tokens if token.access_class == AccessClass.RESTRICTED
+            token.token_id
+            for token in self.tokens
+            if token.access_class == AccessClass.RESTRICTED or token.line_id in restricted_lines
+        }
+        restricted_speeches = {
+            speech.speech_id
+            for speech in self.speeches
+            if speech.access_class == AccessClass.RESTRICTED
+            or speech.page_id in restricted_pages
+            or any(span_id in restricted_spans for span_id in speech.span_ids)
+        }
+        restricted_tables = {
+            table.table_id
+            for table in self.tables
+            if table.access_class == AccessClass.RESTRICTED
+            or table.page_id in restricted_pages
+            or any(span_id in restricted_spans for span_id in table.span_ids)
+        }
+        restricted_embeddings = {
+            embedding.embedding_id
+            for embedding in self.embeddings
+            if embedding.access_class == AccessClass.RESTRICTED
+            or embedding.target_id in restricted_speeches
+            or embedding.target_id in restricted_tables
+        }
+        restricted_assertions = {
+            assertion.assertion_id
+            for assertion in self.assertions
+            if assertion.access_class == AccessClass.RESTRICTED
+            or assertion.subject_id in restricted_speeches
+            or any(span_id in restricted_spans for span_id in assertion.span_ids)
         }
         return self.model_copy(
             update={
                 "spans": tuple(
-                    span.model_copy(update={"text": None})
+                    span.model_copy(update={"text": None, "access_class": AccessClass.RESTRICTED})
                     if span.span_id in restricted_spans
                     else span
                     for span in self.spans
                 ),
                 "lines": tuple(
-                    line.model_copy(update={"text": None})
+                    line.model_copy(update={"text": None, "access_class": AccessClass.RESTRICTED})
                     if line.line_id in restricted_lines
                     else line
                     for line in self.lines
                 ),
                 "tokens": tuple(
-                    token.model_copy(update={"text": None, "alternatives": ()})
+                    token.model_copy(
+                        update={
+                            "text": None,
+                            "alternatives": (),
+                            "access_class": AccessClass.RESTRICTED,
+                        }
+                    )
                     if token.token_id in restricted_tokens
                     else token
                     for token in self.tokens
                 ),
                 "speeches": tuple(
-                    speech.model_copy(update={"text": None})
-                    if speech.access_class == AccessClass.RESTRICTED
+                    speech.model_copy(update={"text": None, "access_class": AccessClass.RESTRICTED})
+                    if speech.speech_id in restricted_speeches
                     else speech
                     for speech in self.speeches
                 ),
                 "embeddings": tuple(
-                    embedding.model_copy(update={"values": ()})
-                    if embedding.access_class == AccessClass.RESTRICTED
+                    embedding.model_copy(
+                        update={"values": (), "access_class": AccessClass.RESTRICTED}
+                    )
+                    if embedding.embedding_id in restricted_embeddings
                     else embedding
                     for embedding in self.embeddings
                 ),
+                "tables": tuple(
+                    table.model_copy(update={"access_class": AccessClass.RESTRICTED})
+                    if table.table_id in restricted_tables
+                    else table
+                    for table in self.tables
+                ),
                 "assertions": tuple(
-                    assertion.model_copy(update={"object_text": None})
-                    if assertion.access_class == AccessClass.RESTRICTED
+                    assertion.model_copy(
+                        update={"object_text": None, "access_class": AccessClass.RESTRICTED}
+                    )
+                    if assertion.assertion_id in restricted_assertions
                     else assertion
                     for assertion in self.assertions
                 ),
@@ -375,6 +447,26 @@ def stable_id(namespace: str, *parts: str) -> str:
     return f"{namespace}-{digest[:24]}"
 
 
+def normalize_coordinates(
+    box: CoordinateBox,
+    *,
+    page_width: float,
+    page_height: float,
+) -> CoordinateBox:
+    """Convert original page coordinates into the normalized unit square."""
+    if box.space != "original":
+        raise ValueError("coordinate transform requires original-space coordinates")
+    if page_width <= 0 or page_height <= 0:
+        raise ValueError("page dimensions must be positive")
+    return CoordinateBox(
+        x0=box.x0 / page_width,
+        y0=box.y0 / page_height,
+        x1=box.x1 / page_width,
+        y1=box.y1 / page_height,
+        space="normalized",
+    )
+
+
 def _unique_ids(items: tuple[BaseModel, ...], field: str) -> set[str]:
     values = {str(getattr(item, field)) for item in items}
     if len(values) != len(items):
@@ -404,5 +496,6 @@ __all__ = [
     "ArchiveTable",
     "ArchiveToken",
     "CoordinateBox",
+    "normalize_coordinates",
     "stable_id",
 ]
