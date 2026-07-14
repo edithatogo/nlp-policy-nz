@@ -35,6 +35,10 @@ from nlp_policy_nz.cli.completion import (
     build_manpage,
     write_text_output,
 )
+from nlp_policy_nz.integrations.hf_uploader import deploy_space, push_dataset_to_hub
+from nlp_policy_nz.integrations.release import ReleaseManager
+from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
+from nlp_policy_nz.provenance import load_provenance_sidecar, provenance_sidecar_path
 from nlp_policy_nz.quality import (
     build_quality_report,
     history_reports,
@@ -44,10 +48,6 @@ from nlp_policy_nz.quality import (
     validate_ingestion_inputs,
     write_dashboard_html,
 )
-from nlp_policy_nz.integrations.hf_uploader import deploy_space, push_dataset_to_hub
-from nlp_policy_nz.integrations.release import ReleaseManager
-from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
-from nlp_policy_nz.provenance import load_provenance_sidecar, provenance_sidecar_path
 from nlp_policy_nz.storage import load_from_parquet
 
 logger = logging.getLogger(__name__)
