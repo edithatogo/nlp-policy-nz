@@ -11,9 +11,12 @@ from nlp_policy_nz.extraction.hathi_ingestion import HathiArchiveItem
 from nlp_policy_nz.ocr.cloud_ops import (
     BudgetLimits,
     CloudRunPlan,
+    LedgerState,
     build_cloud_run_plan,
     quarantine_failed,
     retry_failed,
+    transition_row,
+    write_signed_run_report,
 )
 
 
@@ -40,6 +43,8 @@ def _build_plan(args: argparse.Namespace) -> CloudRunPlan:
     raw_items = payload.get("items", payload) if isinstance(payload, dict) else payload
     if not isinstance(raw_items, list):
         raise ValueError("metadata manifest must contain an items list")
+    if len(raw_items) > args.volume_limit:
+        raise ValueError("metadata manifest exceeds the configured volume limit")
     items = tuple(HathiArchiveItem.model_validate(item) for item in raw_items)
     return build_cloud_run_plan(
         items,
@@ -52,6 +57,29 @@ def _build_plan(args: argparse.Namespace) -> CloudRunPlan:
         ),
         shard_size=args.shard_size,
     )
+
+
+def _apply_worker_results(plan: CloudRunPlan, path: Path) -> CloudRunPlan:
+    payload = _read_json(path)
+    results = payload.get("results", payload) if isinstance(payload, dict) else payload
+    if not isinstance(results, list):
+        raise ValueError("worker result manifest must contain a results list")
+    result = plan
+    for entry in results:
+        if not isinstance(entry, dict):
+            raise ValueError("worker result entries must be objects")
+        item_id = entry.get("item_id")
+        state = entry.get("state")
+        if not isinstance(item_id, str) or not isinstance(state, str):
+            raise ValueError("worker results require item_id and state")
+        result = transition_row(
+            result,
+            item_id,
+            LedgerState(state),
+            error_code=entry.get("error_code"),
+            output_digest=entry.get("output_digest"),
+        )
+    return result
 
 
 def _write_artifact(
@@ -92,6 +120,8 @@ def main() -> int:
     parser.add_argument("--max-retries", type=int, default=2)
     parser.add_argument("--run-id", default=os.environ.get("GITHUB_RUN_ID", "local-run"))
     parser.add_argument("--pipeline-version", default="1.0.0")
+    parser.add_argument("--results", type=Path)
+    parser.add_argument("--signing-key-env", default="CLOUD_OCR_SIGNING_KEY")
     args = parser.parse_args()
     if args.volume_limit < 1 or args.volume_limit > 3:
         parser.error("volume limit must be between 1 and 3")
@@ -102,22 +132,24 @@ def main() -> int:
         plan = _build_plan(args)
     if args.command in {"plan", "collect", "retry", "quarantine", "publish"} and plan is None:
         parser.error(f"{args.command} requires a CloudRunPlan artifact as --input")
+    if args.command == "collect" and args.results is None:
+        parser.error("collect requires a worker result manifest as --results")
+    if args.command == "collect":
+        try:
+            plan = _apply_worker_results(plan, args.results)  # type: ignore[arg-type]
+        except (KeyError, TypeError, ValueError) as error:
+            parser.error(str(error))
     if args.command == "retry":
         plan = retry_failed(plan)  # type: ignore[arg-type]
     elif args.command == "quarantine":
         plan = quarantine_failed(plan)  # type: ignore[arg-type]
     elif args.command == "publish" and plan is not None:
-        blocked = [row.item_id for row in plan.ledger if row.state.value in {"pending", "failed"}]
-        blocked.extend(plan.quarantined_item_ids)
-        if blocked:
-            parser.error("publication blocked until all ledger rows are complete and unquarantined")
-    if args.command == "collect" and plan is not None:
-        _write_artifact(
-            args=args,
-            status="external_gate_required",
-            plan=plan,
-            required_prerequisites=["cloud worker checkpoint", "worker result manifest"],
-        )
+        if plan.quarantined_item_ids or any(row.state.value != "published" for row in plan.ledger):
+            parser.error("publication requires every ledger row to be published and unquarantined")
+        signing_key = os.environ.get(args.signing_key_env)
+        if not signing_key:
+            parser.error(f"publication requires {args.signing_key_env}")
+        write_signed_run_report(plan, args.output, signing_key=signing_key)
         return 0
     if args.command == "pilot":
         _write_artifact(

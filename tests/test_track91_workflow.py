@@ -17,6 +17,10 @@ def test_cloud_ocr_workflow_has_secure_dispatch_controls() -> None:
     assert "retry-and-quarantine:" in workflow
     assert "publish:" in workflow
     assert "pilot-gate:" in workflow
+    assert "worker_image:" in workflow
+    assert "docker run --rm" in workflow
+    assert "--results .tmp/cloud-ocr/worker-results.json" in workflow
+    assert "secrets.CLOUD_OCR_SIGNING_KEY" in workflow
     assert "actions/checkout@" in workflow
     assert all(
         len(part.split("@")[1]) == 40
@@ -161,3 +165,139 @@ def test_orchestrator_publish_fails_closed_for_incomplete_plan(tmp_path: Path) -
         check=False,
     )
     assert result.returncode != 0
+
+
+def test_orchestrator_enforces_volume_limit(tmp_path: Path) -> None:
+    import json
+    import subprocess
+    import sys
+
+    items = []
+    for index in range(4):
+        items.append(
+            {
+                "collection_id": "hathi-nz",
+                "dataset_id": "dataset-a",
+                "source_id": f"source-{index}",
+                "item_id": f"item-{index}",
+                "htid": f"htid-{index}",
+                "access_class": "public_full_text",
+                "acquisition_mode": "github_actions",
+                "source_url": f"https://example.test/item-{index}",
+                "source_dataset_name": "seed",
+                "rights_code": "public",
+                "digitization_profile": "standard",
+                "publish_eligibility": "public_full_text",
+                "source_sha256": "a" * 64,
+            }
+        )
+    manifest = tmp_path / "items.json"
+    manifest.write_text(json.dumps({"items": items}), encoding="utf-8")
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/cloud_ocr_orchestrator.py",
+            "validate",
+            "--input",
+            str(manifest),
+            "--output",
+            str(tmp_path / "plan.json"),
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode != 0
+    assert "volume limit" in result.stderr
+
+
+def test_orchestrator_collects_worker_states_and_signs_published_report(tmp_path: Path) -> None:
+    import json
+    import os
+    import subprocess
+    import sys
+
+    item = {
+        "collection_id": "hathi-nz",
+        "dataset_id": "dataset-a",
+        "source_id": "source-a",
+        "item_id": "item-a",
+        "htid": "htid-a",
+        "access_class": "public_full_text",
+        "acquisition_mode": "github_actions",
+        "source_url": "https://example.test/item-a",
+        "source_dataset_name": "seed",
+        "rights_code": "public",
+        "digitization_profile": "standard",
+        "publish_eligibility": "public_full_text",
+        "source_sha256": "a" * 64,
+    }
+    manifest = tmp_path / "items.json"
+    manifest.write_text(json.dumps({"items": [item]}), encoding="utf-8")
+    validated = tmp_path / "validated.json"
+    collected = tmp_path / "collected.json"
+    report = tmp_path / "run-report.json"
+    results = tmp_path / "results.json"
+    results.write_text(
+        json.dumps(
+            {
+                "results": [
+                    {"item_id": "item-a", "state": "processed", "output_digest": "sha256:" + "b" * 64},
+                    {"item_id": "item-a", "state": "reviewed"},
+                    {"item_id": "item-a", "state": "published"},
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    base = [
+        sys.executable,
+        "scripts/cloud_ocr_orchestrator.py",
+        "validate",
+        "--input",
+        str(manifest),
+        "--output",
+        str(validated),
+        "--run-id",
+        "run-1",
+    ]
+    assert subprocess.run(base, cwd=ROOT, check=False).returncode == 0
+    collect = subprocess.run(
+        [
+            sys.executable,
+            "scripts/cloud_ocr_orchestrator.py",
+            "collect",
+            "--input",
+            str(validated),
+            "--results",
+            str(results),
+            "--output",
+            str(collected),
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert collect.returncode == 0, collect.stderr
+    env = os.environ.copy()
+    env["CLOUD_OCR_SIGNING_KEY"] = "test-key"
+    publish = subprocess.run(
+        [
+            sys.executable,
+            "scripts/cloud_ocr_orchestrator.py",
+            "publish",
+            "--input",
+            str(collected),
+            "--output",
+            str(report),
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert publish.returncode == 0, publish.stderr
+    assert json.loads(report.read_text(encoding="utf-8"))["status"] == "complete"

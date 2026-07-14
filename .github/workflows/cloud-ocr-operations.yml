@@ -18,6 +18,10 @@ on:
         required: true
         default: 1.0.0
         type: string
+      worker_image:
+        description: Digest-pinned OCR worker image implementing the metadata plan contract
+        required: true
+        type: string
       volume_limit:
         description: Maximum number of metadata work items to dispatch
         required: true
@@ -55,8 +59,6 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    outputs:
-      manifest: ${{ steps.validate.outputs.manifest }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
@@ -111,9 +113,22 @@ jobs:
           name: cloud-ocr-dispatch-${{ github.run_id }}
           path: .tmp/cloud-ocr
       - name: Dispatch metadata-only work
-        run: >-
-          printf 'Dispatching metadata plan %s\n' ".tmp/cloud-ocr/dispatch.json"
-          && test -s .tmp/cloud-ocr/dispatch.json
+        env:
+          WORKER_IMAGE: ${{ inputs.worker_image }}
+        run: |
+          test -s .tmp/cloud-ocr/dispatch.json
+          echo "$WORKER_IMAGE" | grep -Eq '^.+@sha256:[0-9a-f]{64}$'
+          mkdir -p .tmp/cloud-ocr/worker
+          docker run --rm \
+            -v "$PWD/.tmp/cloud-ocr:/work:rw" \
+            "$WORKER_IMAGE" \
+            --plan /work/dispatch.json --results /work/worker-results.json
+          test -s .tmp/cloud-ocr/worker-results.json
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: cloud-ocr-worker-results-${{ github.run_id }}
+          path: .tmp/cloud-ocr/worker-results.json
+          if-no-files-found: error
 
   collect:
     needs: dispatch
@@ -125,9 +140,14 @@ jobs:
         with:
           name: cloud-ocr-dispatch-${{ github.run_id }}
           path: .tmp/cloud-ocr
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-worker-results-${{ github.run_id }}
+          path: .tmp/cloud-ocr
       - run: >-
           uv run python scripts/cloud_ocr_orchestrator.py collect
-          --input .tmp/cloud-ocr/dispatch.json --output .tmp/cloud-ocr/collected.json
+          --input .tmp/cloud-ocr/dispatch.json --results .tmp/cloud-ocr/worker-results.json
+          --output .tmp/cloud-ocr/collected.json
       - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         with:
           name: cloud-ocr-collected-${{ github.run_id }}
@@ -159,6 +179,8 @@ jobs:
     if: ${{ inputs.publish }}
     runs-on: ubuntu-latest
     environment: cloud-ocr-publish
+    env:
+      CLOUD_OCR_SIGNING_KEY: ${{ secrets.CLOUD_OCR_SIGNING_KEY }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
