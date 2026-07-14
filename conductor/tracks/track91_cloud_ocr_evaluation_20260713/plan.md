@@ -15,4 +15,4 @@
 ### Acceptance Boundary
 - Repo-side orchestration is metadata-only and covered by `tests/test_cloud_ocr_operations.py` and `tests/test_track91_workflow.py`.
 - The public 1-3 volume pilot remains an external GitHub/cloud/Hugging Face gate and is not claimed complete without a live run report.
-- Repo-side implementation checkpoint: `507f3b5`.
+- Repo-side implementation checkpoints: `507f3b5`, `968c2d1`.
