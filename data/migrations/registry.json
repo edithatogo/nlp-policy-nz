@@ -1,0 +1,11 @@
+{
+  "current_schema_version": "1.1",
+  "migrations": [
+    {
+      "id": "0001_add_schema_version",
+      "from": "1.0",
+      "to": "1.1",
+      "path": "0001_add_schema_version.py"
+    }
+  ]
+}

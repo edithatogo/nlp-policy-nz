@@ -16,6 +16,8 @@ Typical usage::
     nlp-policy-nz export-nz-ontologies --output-dir data/ontologies
     nlp-policy-nz corpus-stats --parquet output/legislation.parquet --output-dir data/statistics
     nlp-policy-nz graph-vector-analysis --output-dir data/analysis
+    nlp-policy-nz publication-protocol --output-dir data/publication
+    nlp-policy-nz generate-analysis-artifacts --output-dir artifacts
 """
 
 import argparse
@@ -26,10 +28,26 @@ from pathlib import Path
 
 from nlp_policy_nz.api import process_hansard, process_legislation, search_similar
 from nlp_policy_nz.axiom import DOCUMENT_TYPES
+from nlp_policy_nz.cli.auth import create_api_key, list_api_keys, revoke_api_key, rotate_api_key
+from nlp_policy_nz.cli.completion import (
+    SUPPORTED_SHELLS,
+    build_completion_script,
+    build_manpage,
+    write_text_output,
+)
 from nlp_policy_nz.integrations.hf_uploader import deploy_space, push_dataset_to_hub
 from nlp_policy_nz.integrations.release import ReleaseManager
 from nlp_policy_nz.integrations.zenodo_archive import ZenodoArchiver
 from nlp_policy_nz.provenance import load_provenance_sidecar, provenance_sidecar_path
+from nlp_policy_nz.quality import (
+    build_quality_report,
+    history_reports,
+    load_quality_report,
+    persist_quality_report,
+    report_to_json,
+    validate_ingestion_inputs,
+    write_dashboard_html,
+)
 from nlp_policy_nz.storage import load_from_parquet
 
 logger = logging.getLogger(__name__)
@@ -190,6 +208,56 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Custom commit message for the upload.",
     )
+
+    # --- auth subcommand ----------------------------------------------------
+    auth_parser = subparsers.add_parser(
+        "auth",
+        help="Manage API keys for secured API access.",
+        description="Create, list, revoke, and rotate hashed API keys.",
+    )
+    auth_subparsers = auth_parser.add_subparsers(
+        dest="auth_command",
+        required=True,
+        help="Auth lifecycle commands.",
+    )
+
+    auth_create_parser = auth_subparsers.add_parser(
+        "create-key",
+        help="Create a new API key.",
+        description="Generate a new secret key and persist the hashed record.",
+    )
+    auth_create_parser.add_argument("--name", required=True, help="Human-friendly key name.")
+    auth_create_parser.add_argument(
+        "--scopes",
+        nargs="+",
+        required=True,
+        help="One or more scopes to grant, such as read write admin.",
+    )
+    auth_create_parser.add_argument(
+        "--expires-at",
+        default=None,
+        help="Optional ISO 8601 expiration timestamp.",
+    )
+
+    auth_subparsers.add_parser(
+        "list-keys",
+        help="List API keys.",
+        description="Show stored API key metadata without revealing secrets.",
+    )
+
+    auth_revoke_parser = auth_subparsers.add_parser(
+        "revoke-key",
+        help="Revoke an API key.",
+        description="Mark an API key revoked by key ID.",
+    )
+    auth_revoke_parser.add_argument("--key-id", required=True, help="Key identifier to revoke.")
+
+    auth_rotate_parser = auth_subparsers.add_parser(
+        "rotate-key",
+        help="Rotate an API key.",
+        description="Revoke the old key and mint a replacement with the same scopes.",
+    )
+    auth_rotate_parser.add_argument("--key-id", required=True, help="Key identifier to rotate.")
 
     # --- deploy-space subcommand ---------------------------------------------
     deploy_parser = subparsers.add_parser(
@@ -593,10 +661,204 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Path for the Markdown summary.",
     )
 
+    publication_parser = subparsers.add_parser(
+        "publication-protocol",
+        help="Export Track 34 standards-based publication protocol.",
+        description=(
+            "Write deterministic Track 34 publication protocol artifacts, including "
+            "claim evidence mapping, artifact inventory, reproducibility commands, "
+            "and overclaim-risk review."
+        ),
+    )
+    publication_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        default="data/publication",
+        help="Directory for publication protocol JSON artifacts.",
+    )
+    publication_parser.add_argument(
+        "--markdown",
+        type=str,
+        default=None,
+        help="Path for the Markdown protocol document.",
+    )
+
+    artifact_parser = subparsers.add_parser(
+        "generate-analysis-artifacts",
+        help="Generate Track 35 tables, figures, diagrams, and blockers.",
+        description=(
+            "Execute deterministic Track 35 artifact production from checked-in "
+            "Track 32-34 analysis outputs, writing machine-readable tables, SVG "
+            "figures, Mermaid diagrams, blockers, and a visual inspection checklist."
+        ),
+    )
+    artifact_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        default="artifacts",
+        help="Directory for generated analysis artifacts (default: artifacts).",
+    )
+
+    manuscript_parser = subparsers.add_parser(
+        "generate-manuscript-package",
+        help="Generate Track 37 manuscript and review-agent artifacts.",
+        description=(
+            "Write deterministic Track 37 manuscript, supplement, arXiv requirements, "
+            "LaTeX source scaffold, 100-point review rubrics, and offline review logs."
+        ),
+    )
+    manuscript_parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=str,
+        default="artifacts/manuscript",
+        help="Directory for manuscript artifacts (default: artifacts/manuscript).",
+    )
+
+    quality_parser = subparsers.add_parser(
+        "quality",
+        help="Inspect data quality validation, reports, dashboards, and alerts.",
+        description=(
+            "Validate ingestion inputs, render batch quality reports, write a static "
+            "dashboard, or evaluate the latest quality run for alerting."
+        ),
+    )
+    quality_subparsers = quality_parser.add_subparsers(
+        dest="quality_command",
+        required=True,
+        help="Quality command to execute.",
+    )
+
+    quality_validate_parser = quality_subparsers.add_parser(
+        "validate",
+        help="Validate ingestion inputs before processing.",
+    )
+    quality_validate_parser.add_argument(
+        "--input",
+        "-i",
+        action="append",
+        required=True,
+        help="Input file to validate. May be supplied more than once.",
+    )
+
+    quality_report_parser = quality_subparsers.add_parser(
+        "report",
+        help="Render a batch quality report from PipelineRecord Parquet input.",
+    )
+    quality_report_parser.add_argument(
+        "--parquet",
+        "-p",
+        action="append",
+        required=True,
+        help="PipelineRecord Parquet file to include in the report.",
+    )
+    quality_report_parser.add_argument(
+        "--output",
+        "-o",
+        type=str,
+        default="data/quality/latest.quality.json",
+        help="Destination quality report JSON file.",
+    )
+    quality_report_parser.add_argument(
+        "--history-dir",
+        type=str,
+        default="data/quality/runs",
+        help="Directory that receives immutable history copies of the report.",
+    )
+    quality_report_parser.add_argument(
+        "--baseline",
+        type=str,
+        default="data/quality/baseline.json",
+        help="Optional baseline report used for drift detection.",
+    )
+
+    quality_dashboard_parser = quality_subparsers.add_parser(
+        "dashboard",
+        help="Write a static HTML quality dashboard from historical reports.",
+    )
+    quality_dashboard_parser.add_argument(
+        "--history-dir",
+        type=str,
+        default="data/quality/runs",
+        help="Directory containing persisted quality reports.",
+    )
+    quality_dashboard_parser.add_argument(
+        "--output",
+        type=str,
+        default="data/quality/dashboard.html",
+        help="Destination HTML dashboard.",
+    )
+
+    quality_alert_parser = quality_subparsers.add_parser(
+        "alert",
+        help="Evaluate the latest quality report and optionally create a GitHub issue.",
+    )
+    quality_alert_parser.add_argument(
+        "--history-dir",
+        type=str,
+        default="data/quality/runs",
+        help="Directory containing persisted quality reports.",
+    )
+    quality_alert_parser.add_argument(
+        "--threshold",
+        type=float,
+        default=0.75,
+        help="Minimum acceptable quality score before alerting.",
+    )
+    quality_alert_parser.add_argument(
+        "--create-issue",
+        action="store_true",
+        help="Create a GitHub issue when the latest run fails the alert criteria.",
+    )
+
+    # --- completion subcommand ---------------------------------------------
+    completion_parser = subparsers.add_parser(
+        "completion",
+        help="Generate shell completions and a man page.",
+        description="Render installable shell completion snippets and a manual page.",
+    )
+    completion_subparsers = completion_parser.add_subparsers(
+        dest="completion_command",
+        required=True,
+        help="Completion artifacts.",
+    )
+
+    install_parser = completion_subparsers.add_parser(
+        "install",
+        help="Generate shell completion output.",
+        description="Write a completion script for bash, zsh, or PowerShell.",
+    )
+    install_parser.add_argument(
+        "--shell",
+        required=True,
+        choices=SUPPORTED_SHELLS,
+        help="Target shell for the completion script.",
+    )
+    install_parser.add_argument(
+        "--output",
+        type=str,
+        default=None,
+        help="Optional destination file. Prints to stdout when omitted.",
+    )
+
+    manpage_parser = completion_subparsers.add_parser(
+        "manpage",
+        help="Generate a man page from the parser.",
+        description="Write a roff man page derived from the argparse parser.",
+    )
+    manpage_parser.add_argument(
+        "--output",
+        type=str,
+        default=None,
+        help="Optional destination file. Prints to stdout when omitted.",
+    )
+
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
     """CLI entry point for the nlp-policy-nz pipeline.
 
     Parses command-line arguments and dispatches to the appropriate
@@ -621,6 +883,7 @@ def main(argv: list[str] | None = None) -> int:
         "deploy-space",
         "archive-to-zenodo",
         "release",
+        "auth",
         "provenance",
         "export-rdf",
         "sparql",
@@ -632,6 +895,11 @@ def main(argv: list[str] | None = None) -> int:
         "export-nz-ontologies",
         "corpus-stats",
         "graph-vector-analysis",
+        "completion",
+        "publication-protocol",
+        "generate-analysis-artifacts",
+        "generate-manuscript-package",
+        "quality",
     }
     if argv and argv[0] not in commands and not argv[0].startswith("-"):
         parser.print_help()
@@ -738,6 +1006,27 @@ def main(argv: list[str] | None = None) -> int:
                 creators=creators,
             )
             logger.info("Release published - DOI: %s", result.get("doi", "N/A"))
+
+        elif args.command == "auth":
+            import json as _json  # noqa: PLC0415
+
+            if args.auth_command == "create-key":
+                payload = create_api_key(
+                    name=args.name, scopes=args.scopes, expires_at=args.expires_at
+                )
+                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+            elif args.auth_command == "list-keys":
+                payload = list_api_keys()
+                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+            elif args.auth_command == "revoke-key":
+                payload = revoke_api_key(key_id=args.key_id)
+                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+            elif args.auth_command == "rotate-key":
+                payload = rotate_api_key(key_id=args.key_id)
+                sys.stdout.write(f"{_json.dumps(payload, indent=2, ensure_ascii=False)}\n")
+            else:
+                parser.print_help()
+                return 1
 
         elif args.command == "provenance":
             import json as _json  # noqa: PLC0415
@@ -902,6 +1191,121 @@ def main(argv: list[str] | None = None) -> int:
                 "Graph/vector analysis artifacts written: %s",
                 sorted(str(path) for path in written.values()),
             )
+
+        elif args.command == "publication-protocol":
+            from nlp_policy_nz.publication.protocol import (  # noqa: PLC0415
+                write_publication_protocol_artifacts,
+            )
+
+            written = write_publication_protocol_artifacts(
+                args.output_dir,
+                markdown_path=args.markdown,
+            )
+            logger.info(
+                "Publication protocol artifacts written: %s",
+                sorted(str(path) for path in written.values()),
+            )
+
+        elif args.command == "generate-analysis-artifacts":
+            from nlp_policy_nz.analysis import write_analysis_artifacts  # noqa: PLC0415
+
+            written = write_analysis_artifacts(args.output_dir)
+            logger.info(
+                "Analysis artifacts written: %s",
+                sorted(str(path) for path in written.values()),
+            )
+
+        elif args.command == "generate-manuscript-package":
+            from nlp_policy_nz.publication import write_manuscript_package  # noqa: PLC0415
+
+            written = write_manuscript_package(args.output_dir)
+            logger.info(
+                "Manuscript package artifacts written: %s",
+                sorted(str(path) for path in written.values()),
+            )
+
+        elif args.command == "quality":
+            import json as _json  # noqa: PLC0415
+
+            if args.quality_command == "validate":
+                validation = validate_ingestion_inputs([Path(path) for path in args.input])
+                sys.stdout.write(
+                    f"{_json.dumps([item.to_dict() for item in validation], indent=2, ensure_ascii=False)}\n"
+                )
+            elif args.quality_command == "report":
+                parquet_paths = [Path(path) for path in args.parquet]
+                records = []
+                for parquet_path in parquet_paths:
+                    records.extend(load_from_parquet(parquet_path))
+                baseline = None
+                baseline_path = Path(args.baseline)
+                if baseline_path.is_file():
+                    baseline = load_quality_report(baseline_path).summary
+                report = build_quality_report(
+                    records,
+                    source_paths=parquet_paths,
+                    baseline_summary=baseline,
+                    validate_sources=False,
+                )
+                persist_quality_report(report, args.output, history_dir=args.history_dir)
+                sys.stdout.write(report_to_json(report))
+            elif args.quality_command == "dashboard":
+                reports = history_reports(args.history_dir)
+                output = write_dashboard_html(reports, args.output)
+                logger.info("Quality dashboard written: %s", output)
+            elif args.quality_command == "alert":
+                reports = history_reports(args.history_dir)
+                if not reports:
+                    logger.info("No quality history available.")
+                else:
+                    latest = reports[-1]
+                    quality_score = float(latest.summary.get("quality_score", 0.0))
+                    validation_failed = int(latest.summary.get("validation_failed", 0))
+                    drifted = any(signal.drifted for signal in latest.drift)
+                    if validation_failed or drifted or quality_score < args.threshold:
+                        message = (
+                            f"Quality alert for {latest.run_id}: score={quality_score:.2f}, "
+                            f"validation_failed={validation_failed}, drifted={drifted}"
+                        )
+                        logger.warning(message)
+                        if args.create_issue:
+                            import subprocess  # noqa: PLC0415
+
+                            subprocess.run(
+                                [
+                                    "gh",
+                                    "issue",
+                                    "create",
+                                    "--title",
+                                    f"Quality alert: {latest.run_id}",
+                                    "--body",
+                                    message,
+                                    "--label",
+                                    "quality",
+                                ],
+                                check=False,
+                            )
+                    else:
+                        logger.info(
+                            "Latest quality run is healthy: score=%.2f run=%s",
+                            quality_score,
+                            latest.run_id,
+                        )
+            else:
+                parser.print_help()
+                return 1
+
+        elif args.command == "completion":
+            if args.completion_command == "install":
+                write_text_output(
+                    build_completion_script(parser, args.shell),
+                    args.output,
+                )
+            elif args.completion_command == "manpage":
+                write_text_output(build_manpage(parser), args.output)
+            else:
+                parser.print_help()
+                return 1
 
         else:
             parser.print_help()

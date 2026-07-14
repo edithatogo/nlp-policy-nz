@@ -1,0 +1,4 @@
+corpus_source,record_count,document_count,token_count,word_count,sentence_count,citation_count,te_reo_term_count,maori_segment_percent,deontic_count,temporal_expression_count,entity_count,voting_record_count,amendment_count,argument_count,embedding_record_count,average_embedding_dimensions
+court,1,1,10,10,1,0,0,0.0,0,1,1,0,0,0,1,4.0
+hansard,1,1,11,16,2,0,0,0.0,1,1,1,1,0,0,0,0.0
+legislation,1,1,14,18,3,1,1,100.0,2,1,2,0,0,0,1,4.0

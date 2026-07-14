@@ -1,0 +1,80 @@
+name: Manuscript Review
+
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  manuscript-review:
+    runs-on: ubuntu-latest
+
+    env:
+      MANUSCRIPT_REVIEW_LOG: artifacts/manuscript/manuscript_review_log.json
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0
+        with:
+          cache: false
+          run-install: false
+
+      - name: Install environment
+        run: CI=true pixi install -e py312 --frozen --skip-with-deps semgrep --skip-with-deps scalene
+
+      - name: Generate deterministic manuscript package
+        run: |
+          CI=true PYTHONPATH=src pixi run --frozen -e py312 python -m nlp_policy_nz.cli.main generate-manuscript-package --output-dir artifacts/manuscript
+
+      - name: Run manuscript review tests
+        run: |
+          CI=true pixi run --frozen -e py312 python -m pytest -q tests/test_track37_manuscript_review.py tests/test_track37_conductor.py
+
+      - name: Summarize manuscript review
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          import os
+          from pathlib import Path
+
+          log = json.loads(Path(os.environ["MANUSCRIPT_REVIEW_LOG"]).read_text(encoding="utf-8"))
+          print("## Manuscript review")
+          print()
+          print(f"Overall score: {log['overall']['score']}/100")
+          print(f"Pass threshold: >{log['overall']['pass_threshold']}/100")
+          print()
+          for review in log["reviews"]:
+              print(f"- {review['reviewer_id']}: {review['score']}/100")
+          PY
+
+      - name: Comment manuscript review on PR
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const path = process.env.MANUSCRIPT_REVIEW_LOG;
+            const log = JSON.parse(fs.readFileSync(path, "utf8"));
+            const scores = log.reviews
+              .map((review) => `- ${review.reviewer_id}: ${review.score}/100`)
+              .join("\n");
+            const body = [
+              "## Manuscript review",
+              "",
+              `Overall score: ${log.overall.score}/100`,
+              `Pass threshold: >${log.overall.pass_threshold}/100`,
+              "",
+              scores,
+            ].join("\n");
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });

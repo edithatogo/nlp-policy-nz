@@ -1,0 +1,9 @@
+{
+  "track_id": "track70_mojo_readiness_audit_20260702",
+  "type": "chore",
+  "status": "archived",
+  "created_at": "2026-07-02T00:00:00+10:00",
+  "updated_at": "2026-07-02T00:00:00+10:00",
+  "description": "Verify Mojo OS support, licensing, packaging, GitHub Actions install path, Pixi/uv compatibility, and candidate kernel shortlist before any runtime code changes.",
+  "oracle_notes": "Readiness gate for Mojo. The audit concluded that Mojo is viable only as a Linux-first optional sandbox path for Track 71; Windows remains Python-fallback only and production Mojo integration stays deferred."
+}

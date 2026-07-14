@@ -24,6 +24,15 @@ Generic behavior that should be covered by LanceDB tests:
 - search returns `doc_id`, `text`, and `score`
 - empty or deleted index returns no results
 - delete index lifecycle
+- reopen a persisted index through a fresh adapter instance
+- fail closed to an empty index state when a persisted table cannot be opened
+
+## Comparison Threshold
+
+Qdrant remains optional unless it beats the shared LanceDB benchmark fixture by
+at least 10% on mean search or update latency at the same recall proxy, while
+preserving the lifecycle behavior above. If it does not clear that bar, the
+local LanceDB path stays the default and Qdrant remains remote-service only.
 
 Qdrant-specific behavior that can justify optional tests:
 

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" role="img">
+<style>.title{font:700 20px Arial,sans-serif;fill:#1f2937}.label{font:12px Arial,sans-serif;fill:#374151}.metric{font:700 14px Arial,sans-serif;fill:#111827}.axis{stroke:#6b7280;stroke-width:1.5}.bar{fill:#0072b2}.node{fill:#009e73;opacity:.85}.node.alt{fill:#d55e00}.edge{stroke:#6b7280;stroke-width:3;opacity:.65}.point{fill:#cc79a7;opacity:.9}</style>
+<text x="360" y="35" text-anchor="middle" class="title">Fixture Embedding Projection</text>
+<circle cx="120" cy="120" r="18" class="point"/>
+<text x="120" y="162" text-anchor="middle" class="label">doc:fixture-court-2023-001 -&gt; ontology:NZCourtOntology</text>
+<circle cx="200" cy="185" r="18" class="point"/>
+<text x="200" y="227" text-anchor="middle" class="label">doc:fixture-hansard-2025-001 -&gt; ontology:NZHansardOntology</text>
+<circle cx="280" cy="250" r="18" class="point"/>
+<text x="280" y="292" text-anchor="middle" class="label">doc:fixture-legislation-2024-001 -&gt; ontology:NZActOntology</text>
+<circle cx="360" cy="120" r="18" class="point"/>
+<text x="360" y="162" text-anchor="middle" class="label">ontology:NZActOntology -&gt; doc:fixture-legislation-2024-001</text>
+<circle cx="440" cy="185" r="18" class="point"/>
+<text x="440" y="227" text-anchor="middle" class="label">ontology:NZCourtOntology -&gt; doc:fixture-court-2023-001</text>
+<circle cx="520" cy="250" r="18" class="point"/>
+<text x="520" y="292" text-anchor="middle" class="label">ontology:NZHansardOntology -&gt; doc:fixture-hansard-2025-001</text>
+</svg>

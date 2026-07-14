@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "access_class": "public_full_text",
+      "acquisition_mode": "github_actions",
+      "collection_id": "hathi-nz",
+      "dataset_id": "cloud-ocr-fixture",
+      "digitization_profile": "standard",
+      "htid": "fixture-0001",
+      "item_id": "fixture-0001",
+      "publish_eligibility": "public_full_text",
+      "rights_code": "public",
+      "source_dataset_name": "metadata-only-fixture",
+      "source_id": "fixture-0001",
+      "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_url": "https://example.invalid/hathitrust/fixture-0001"
+    }
+  ]
+}

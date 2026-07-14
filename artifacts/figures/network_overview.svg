@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" role="img">
+<style>.title{font:700 20px Arial,sans-serif;fill:#1f2937}.label{font:12px Arial,sans-serif;fill:#374151}.metric{font:700 14px Arial,sans-serif;fill:#111827}.axis{stroke:#6b7280;stroke-width:1.5}.bar{fill:#0072b2}.node{fill:#009e73;opacity:.85}.node.alt{fill:#d55e00}.edge{stroke:#6b7280;stroke-width:3;opacity:.65}.point{fill:#cc79a7;opacity:.9}</style>
+<text x="360" y="35" text-anchor="middle" class="title">Network Overview</text>
+<circle cx="210" cy="180" r="66" class="node"/>
+<circle cx="360" cy="120" r="52" class="node alt"/>
+<circle cx="510" cy="220" r="72" class="node"/>
+<line x1="260" y1="158" x2="315" y2="135" class="edge"/>
+<line x1="405" y1="150" x2="460" y2="195" class="edge"/>
+<line x1="270" y1="205" x2="440" y2="225" class="edge"/>
+<text x="210" y="185" text-anchor="middle" class="metric">57 nodes</text>
+<text x="360" y="125" text-anchor="middle" class="metric">58 edges</text>
+<text x="510" y="225" text-anchor="middle" class="metric">density 0.036</text>
+</svg>

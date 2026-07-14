@@ -5,77 +5,78 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-EVIDENCE_MAP = Path("data/publication/track34_protocol_evidence_map.json")
-PROTOCOL = Path("docs/publication_protocol.md")
+from nlp_policy_nz.cli.main import main
+from nlp_policy_nz.publication.protocol import (
+    PUBLICATION_PROTOCOL_CLAIMS_FILENAME,
+    PUBLICATION_PROTOCOL_INVENTORY_FILENAME,
+    PUBLICATION_PROTOCOL_MANIFEST_FILENAME,
+    PUBLICATION_PROTOCOL_MARKDOWN_FILENAME,
+    PUBLICATION_PROTOCOL_OVERCLAIM_FILENAME,
+    build_publication_protocol,
+    write_publication_protocol_artifacts,
+)
 
 
-def test_publication_protocol_claims_are_evidence_bound() -> None:
-    """Each Track 34 claim should have explicit support and safe wording."""
-    payload = json.loads(EVIDENCE_MAP.read_text(encoding="utf-8"))
+def test_publication_protocol_maps_claims_to_evidence_and_boundaries() -> None:
+    """Track 34 should separate implemented, external, planned, and blocker claims."""
+    bundle = build_publication_protocol()
 
-    assert payload["track_id"] == "track34_publication_protocol_20260625"
-    assert payload["claims"]
-    assert "fixture-bounded" in " ".join(payload["overclaim_guardrails"])
-
-    allowed_statuses = {"repo_evidence", "external_evidence", "planned_work", "blocker"}
-    claim_ids = {claim["claim_id"] for claim in payload["claims"]}
-    assert {
-        "pipeline-architecture",
-        "standards-coverage",
-        "rules-as-code-bridge",
-        "statistics-boundary",
-        "graph-vector-boundary",
-        "reproducibility",
-    } <= claim_ids
-
-    for claim in payload["claims"]:
-        assert claim["status"] in allowed_statuses
-        assert claim["evidence"], claim["claim_id"]
-        assert claim["publication_wording"], claim["claim_id"]
-        if claim["status"] == "repo_evidence":
-            for evidence_path in claim["evidence"]:
-                assert Path(evidence_path).exists(), evidence_path
-        if claim["status"] == "blocker":
-            assert claim.get("blockers"), claim["claim_id"]
-
-
-def test_publication_protocol_documents_required_sections_and_guardrails() -> None:
-    """The protocol document should cover the Track 34 acceptance criteria."""
-    text = PROTOCOL.read_text(encoding="utf-8")
-
-    required_sections = (
-        "# Standards-Based Publication Protocol",
-        "## Repository overview",
-        "## Reproducibility instructions",
-        "## Evidence classes",
-        "## Standards compliance matrix",
-        "## Ontology and reasoning strategy",
-        "## Rules-as-code bridge",
-        "## Corpus statistics methodology",
-        "## Graph and vector methodology",
-        "## Artifact inventory",
-        "## Limitations and blocker policy",
-        "## Overclaim review checklist",
+    assert bundle.manifest["track_id"] == "track34_publication_protocol_20260625"
+    assert bundle.manifest["claim_counts"]["repo_evidence"] >= 6
+    assert bundle.manifest["claim_counts"]["blocker"] >= 2
+    assert bundle.manifest["claim_counts"]["external_gate"] >= 1
+    assert all(claim["evidence_paths"] for claim in bundle.claims)
+    assert any(
+        "data/statistics/corpus_statistics_blockers.json" in claim["evidence_paths"]
+        for claim in bundle.claims
+        if claim["claim_status"] == "blocker"
     )
-    for section in required_sections:
-        assert section in text
-
-    assert "fixture-bounded" in text
-    assert "must not claim executable rules-as-code behavior" in text
-    assert "data/publication/track34_protocol_evidence_map.json" in text
+    assert "does not claim full-corpus" in bundle.markdown
 
 
-def test_publication_protocol_artifact_inventory_paths_exist() -> None:
-    """Machine-readable artifact inventory should point to existing artifacts."""
-    payload = json.loads(EVIDENCE_MAP.read_text(encoding="utf-8"))
-    inventory = payload["artifact_inventory"]
+def test_publication_protocol_inventory_includes_reproducible_artifacts() -> None:
+    """The protocol inventory should name reproducible commands and artifacts."""
+    bundle = build_publication_protocol()
 
-    assert Path(inventory["protocol_document"]).is_file()
-    assert Path(inventory["evidence_map"]).is_file()
-    for paths in (
-        inventory["standards_inputs"],
-        inventory["analysis_inputs"],
-        inventory["quality_inputs"],
-    ):
-        for artifact in paths:
-            assert Path(artifact).exists(), artifact
+    assert any(
+        item["path"] == "data/analysis/graph_vector_manifest.json"
+        for item in bundle.artifact_inventory
+    )
+    assert any(
+        command["command"] == "nlp-policy-nz publication-protocol --output-dir data/publication"
+        for command in bundle.reproducibility_commands
+    )
+    assert any(review["risk_level"] == "high" for review in bundle.overclaim_review)
+
+
+def test_publication_protocol_writer_round_trips(tmp_path: Path) -> None:
+    """Writer should emit deterministic JSON and Markdown protocol artifacts."""
+    written = write_publication_protocol_artifacts(tmp_path, markdown_path=tmp_path / "protocol.md")
+
+    assert set(written) == {
+        PUBLICATION_PROTOCOL_MANIFEST_FILENAME,
+        PUBLICATION_PROTOCOL_CLAIMS_FILENAME,
+        PUBLICATION_PROTOCOL_INVENTORY_FILENAME,
+        PUBLICATION_PROTOCOL_OVERCLAIM_FILENAME,
+        PUBLICATION_PROTOCOL_MARKDOWN_FILENAME,
+    }
+    manifest = json.loads(written[PUBLICATION_PROTOCOL_MANIFEST_FILENAME].read_text(encoding="utf-8"))
+    claims = json.loads(written[PUBLICATION_PROTOCOL_CLAIMS_FILENAME].read_text(encoding="utf-8"))
+    markdown = written[PUBLICATION_PROTOCOL_MARKDOWN_FILENAME].read_text(encoding="utf-8")
+
+    assert manifest["artifact_files"]["claims"] == PUBLICATION_PROTOCOL_CLAIMS_FILENAME
+    assert len(claims["claims"]) == manifest["claim_counts"]["total"]
+    assert "# Standards-Based Publication Protocol" in markdown
+    assert "## Reproducibility instructions" in markdown
+
+
+def test_publication_protocol_cli_writes_artifacts(tmp_path: Path) -> None:
+    """The CLI should dispatch to the Track 34 protocol writer."""
+    output_dir = tmp_path / "publication"
+
+    rc = main(["publication-protocol", "--output-dir", str(output_dir)])
+
+    assert rc == 0
+    assert output_dir.joinpath(PUBLICATION_PROTOCOL_MANIFEST_FILENAME).is_file()
+    assert output_dir.joinpath(PUBLICATION_PROTOCOL_CLAIMS_FILENAME).is_file()
+    assert output_dir.joinpath(PUBLICATION_PROTOCOL_MARKDOWN_FILENAME).is_file()

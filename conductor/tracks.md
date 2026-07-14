@@ -54,6 +54,25 @@ Phase VII (Planned — 51-52): Security & Observability
   │   [depends on 7, 45, 46]
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
+
+Phase VIII (Archived — 58-62, 70-73; Completed — 63; Planned — 68): Runtime Modernization
+  ├─ 58 (LangGraph Eval) [archived] ──► deterministic legal workflow orchestration decision record
+  │   [depends on 43, 52, 55, 57]
+  ├─ 60 (LanceDB Hardening) ──► 62 (Issue mirror and project fields)
+  │   [depends on 6, 22, 33, 44, 52]
+  ├─ 61 (Unstructured Adapter) ──► opt-in messy-document fallback
+  │   [depends on 4, 23, 44, 55]
+  ├─ 62 (vLLM Eval) ──► optional local generation runtime and OpenAI-compatible serving
+  │   [depends on 20, 21, 22, 38, 46, 53]
+  ├─ 63 (nlprule Eval) ──► grammar and rule-matching evaluation with spaCy fallback
+  │   [depends on 3, 10, 13, 23, 55]
+  ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit) [archived]
+  ├─ 70 (Readiness Audit) [archived] ──► 71 (Linux CI Sandbox) [archived]
+  ├─ 70 (Readiness Audit) [archived] ──► 72 (Hotspot Benchmark)
+  └─ 70 + 71 + 72 ──► 73 (Optional Acceleration)
+
+Phase IX (Complete — 69): GitHub Project Synchronization
+  └─ 69 (GitHub Project Sync) [historical issue/project synchronization track]
 ```
 
 ---
@@ -171,11 +190,59 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Complete the tech-stack observability layer. The repo-side OTel spans, profiling wrappers, and CI benchmark gates are complete; the incomplete 1 GiB profiling pass is now a roadmap note rather than a separate track.
 
+## [x] Track 20: NZ Legal NLP Model Fine-Tuning Pipeline (archived)
+*Link: [./conductor/archive/track20_legal_finetuning_20260613/](./conductor/archive/track20_legal_finetuning_20260613/)*
+- **Dependencies**: Track 5, Track 6
+- **Parallelization Node**: Model Fine-Tuning & Domain Adaptation
+- **Why**: Fine-tune SOTA open legal NLP models and general-purpose models on NZ legislative and Hansard corpora. Repo-side training data prep, metrics, job specs, dry-run CLI evidence, dependency declarations, bounded CPU smoke training, and external gate manifests are complete.
+
+## [x] Track 21: Bleeding-Edge Architecture Exploration (archived)
+*Link: [./conductor/archive/track21_bleeding_edge_architectures_20260613/](./conductor/archive/track21_bleeding_edge_architectures_20260613/)*
+- **Dependencies**: Track 20
+- **Parallelization Node**: Advanced Architecture Research
+- **Why**: Evaluate bleeding-edge model architectures for NZ legal NLP, including MoR, TTT-Linear/RNN, Mamba-3/SSD, DiffusionGemma, SambaY, MiMo-V2.5, DeVestral, TiRex, and newer 2026 architectures.
+
+## [x] Track 22: Isaacus Legal NLP Ecosystem Integration (archived)
+*Link: [./conductor/archive/track22_isaacus_integration_20260613/](./conductor/archive/track22_isaacus_integration_20260613/)*
+- **Dependencies**: Track 20, Track 5
+- **Parallelization Node**: Legal Knowledge Integration
+- **Why**: Integrate the Isaacus legal NLP ecosystem with offline manifests, AU-to-NZ transfer scaffolding, NZ-MLEB fixtures, and fail-closed external gates.
+
+## [x] Track 23: Quality Tooling & Testing Infrastructure Overhaul (archived)
+*Link: [./conductor/archive/track23_quality_infrastructure_20260613/](./conductor/archive/track23_quality_infrastructure_20260613/)*
+- **Dependencies**: Track 1
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Complete the testing and quality tooling stack, including strict linting, strict typing, profiling, coverage gates, smoke/E2E/integration tests, and evidence-backed validation.
+
+## [x] Track 24: Multi-Git and Multi-Archive Mirroring Setup (archived)
+*Link: [./conductor/archive/multi_git_archive_mirroring_20260614/](./conductor/archive/multi_git_archive_mirroring_20260614/)*
+- **Dependencies**: Track 23
+- **Parallelization Node**: Infrastructure & Quality
+- **Why**: Establish multi-git and multi-archive mirroring setup to prevent single-point-of-failure repository or dataset takedowns.
+
 ---
 
 ## Phase III - Ontology, Rules-as-Code, Analytics, and Publication Expansion
 
 ---
+
+## [x] Track 25: Ontology Coverage Audit for Existing Systems (archived)
+*Link: [./conductor/archive/track25_ontology_coverage_audit_20260625/](./conductor/archive/track25_ontology_coverage_audit_20260625/)*
+- **Dependencies**: Tracks 10-18, 22
+- **Parallelization Node**: Ontology Discovery & Gap Analysis
+- **Why**: Identify the ontology or ontology set behind each partly implemented system, compare current implementation coverage, and record explicit blockers.
+
+## [x] Track 26: Legislative and Parliamentary Ontology Standards Expansion (archived)
+*Link: [./conductor/archive/track26_ontology_standards_expansion_20260625/](./conductor/archive/track26_ontology_standards_expansion_20260625/)*
+- **Dependencies**: Track 25
+- **Parallelization Node**: Standards Implementation
+- **Why**: Add structured support for the missing ontology standards needed for legal linked data, parliamentary linked data, and rules-as-code tooling.
+
+## [x] Track 27: Rules-as-Code Semantic Bridge (archived)
+*Link: [./conductor/archive/track27_rules_as_code_semantic_bridge_20260625/](./conductor/archive/track27_rules_as_code_semantic_bridge_20260625/)*
+- **Dependencies**: Tracks 25-26
+- **Parallelization Node**: Rules-as-Code Bridge
+- **Why**: Expose a rules-as-code intermediate representation linking legal source provisions to OpenFisca/PolicyEngine entities, variables, formulas, parameters, periods, and provenance.
 
 ## [x] Track 28: Ontology Discovery and Intake (archived)
 *Link: [./conductor/tracks/archive/track28_ontology_discovery_intake_20260625/](./conductor/tracks/archive/track28_ontology_discovery_intake_20260625/)*
@@ -219,20 +286,20 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Publication Protocol
 - **Why**: Document a publication-ready, standards-based protocol covering what the repo has achieved and what remains planned.
 
-## [ ] Track 35: Analysis Artifact Execution and Figure Production
-*Link: [./conductor/tracks/track35_analysis_artifact_execution_20260625/](./conductor/tracks/track35_analysis_artifact_execution_20260625/)*
+## [x] Track 35: Analysis Artifact Execution and Figure Production (archived)
+*Link: [./conductor/tracks/archive/track35_analysis_artifact_execution_20260625/](./conductor/tracks/archive/track35_analysis_artifact_execution_20260625/)*
 - **Dependencies**: Tracks 32-34
 - **Parallelization Node**: Reproducible Artifact Production
 - **Why**: Ensure analyses are executed and tables, figures, conceptual diagrams, workflow diagrams, and network diagrams are produced.
 
-## [ ] Track 36: Hugging Face Exploration Site
-*Link: [./conductor/tracks/track36_huggingface_exploration_site_20260625/](./conductor/tracks/track36_huggingface_exploration_site_20260625/)*
+## [x] Track 36: Hugging Face Exploration Site (archived)
+  *Link: [./conductor/tracks/archive/track36_huggingface_exploration_site_20260625/](./conductor/tracks/archive/track36_huggingface_exploration_site_20260625/)*
 - **Dependencies**: Tracks 8, 32-35
 - **Parallelization Node**: Public Exploration Interface
 - **Why**: Create a Hugging Face Space where ontology, corpus, graph, vector, and publication artefacts can be explored interactively.
 
-## [ ] Track 37: Publication Manuscript and Review Agents
-*Link: [./conductor/tracks/track37_publication_manuscript_review_20260625/](./conductor/tracks/track37_publication_manuscript_review_20260625/)*
+## [x] Track 37: Publication Manuscript and Review Agents (archived)
+  *Link: [./conductor/tracks/archive/track37_publication_manuscript_review_20260625/](./conductor/tracks/archive/track37_publication_manuscript_review_20260625/)*
 - **Dependencies**: Tracks 34-36
 - **Parallelization Node**: Manuscript and Review Automation
 - **Why**: Create the arXiv-ready manuscript skeleton, supplements, figures, tables, and review-agent loops that score and refine the submission until every aspect exceeds 95/100.
@@ -243,7 +310,7 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [~] Track 38: Containerization & Reproducible Execution
+## [x] Track 38: Containerization & Reproducible Execution
 *Link: [./conductor/tracks/track38_containerization_20260626/](./conductor/tracks/track38_containerization_20260626/)*
 - **Dependencies**: Track 1, Track 23
 - **Parallelization Node**: Infrastructure & Quality
@@ -279,8 +346,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Claude Code subagents for PR review + auto-fix CI, Google Jules GPU task dispatch, LLM-as-judge evaluation, conductor advancement automation, self-healing CI.
 
-## [ ] Track 44: Data Quality & Pipeline Monitoring
-*Link: [./conductor/tracks/track44_data_quality_monitoring_20260626/](./conductor/tracks/track44_data_quality_monitoring_20260626/)*
+## [x] Track 44: Data Quality & Pipeline Monitoring (archived)
+*Link: [./conductor/tracks/archive/track44_data_quality_monitoring_20260626/](./conductor/tracks/archive/track44_data_quality_monitoring_20260626/)*
 - **Dependencies**: Track 6, Track 19
 - **Parallelization Node**: Infrastructure & Quality
 - **Why**: Input schema validation, data drift detection, per-record quality metrics, pipeline health dashboard, automated degradation alerts.
@@ -291,13 +358,13 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [ ] Track 45: Release Engineering & Automated Publishing
+## [x] Track 45: Release Engineering & Automated Publishing
 *Link: [./conductor/tracks/track45_release_engineering_20260626/](./conductor/tracks/track45_release_engineering_20260626/)*
 - **Dependencies**: Tracks 8, 9, 24, 36
 - **Parallelization Node**: CI/CD Automation
 - **Why**: Semantic versioning from conventional commits, auto-changelog, CI/CD auto-publish to HF datasets/spaces, Zenodo DOIs, OSF archives, and PyPI. Closes the gap between manual CLI publishing and fully automated release pipeline.
 
-## [ ] Track 46: Production Hardening & API Maturity
+## [x] Track 46: Production Hardening & API Maturity
 *Link: [./conductor/tracks/track46_production_hardening_20260626/](./conductor/tracks/track46_production_hardening_20260626/)*
 - **Dependencies**: Tracks 7, 23, 38, 44
 - **Parallelization Node**: Infrastructure & Quality
@@ -309,13 +376,13 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [ ] Track 47: Cross-Platform CI Matrix & Binary Distribution
-*Link: [./conductor/tracks/track47_cross_platform_ci_20260626/](./conductor/tracks/track47_cross_platform_ci_20260626/)*
+## [x] Track 47: Cross-Platform CI Matrix & Binary Distribution (archived)
+*Link: [./conductor/tracks/archive/track47_cross_platform_ci_20260626/](./conductor/tracks/archive/track47_cross_platform_ci_20260626/)*
 - **Dependencies**: Tracks 1, 23, 38
 - **Parallelization Node**: CI/CD Automation
 - **Why**: Current CI only runs on ubuntu-latest. Mature products test on all three target platforms (Windows, macOS, Linux). Adds binary distribution for users who cannot run pixi or Docker.
 
-## [ ] Track 48: API Client SDK & Developer Tooling
+## [x] Track 48: API Client SDK & Developer Tooling
 *Link: [./conductor/tracks/track48_client_sdk_tooling_20260626/](./conductor/tracks/track48_client_sdk_tooling_20260626/)*
 - **Dependencies**: Tracks 7, 38, 46
 - **Parallelization Node**: Developer Experience
@@ -327,8 +394,8 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Developer Experience
 - **Why**: Create a dedicated MkDocs/ReadTheDocs site with auto-generated API reference, user guides (ingestion, ontology, search, publishing), architecture docs, Jupyter tutorial notebooks, and operations runbook. Every mature product needs searchable, versioned, auto-generated documentation.
 
-## [ ] Track 50: Public Sector Compliance & Accessibility
-*Link: [./conductor/tracks/track50_compliance_accessibility_20260626/](./conductor/tracks/track50_compliance_accessibility_20260626/)*
+## [x] Track 50: Public Sector Compliance & Accessibility (archived)
+*Link: [./conductor/tracks/archive/track50_compliance_accessibility_20260626/](./conductor/tracks/archive/track50_compliance_accessibility_20260626/)*
 - **Dependencies**: Tracks 36, 44, 46
 - **Parallelization Node**: Compliance & Governance
 - **Why**: Ensure the public-facing Gradio Space meets NZ Web Accessibility Standard (WCAG 2.1 AA) and NZ Privacy Act 2020 data governance requirements. A mature government-adjacent product must be accessible and privacy-compliant by default.
@@ -339,14 +406,14 @@ Phase VII (Planned — 51-52): Security & Observability
 
 ---
 
-## [ ] Track 51: API Security & Authentication
+## [x] Track 51: API Security & Authentication
 *Link: [./conductor/tracks/track51_api_security_20260626/](./conductor/tracks/track51_api_security_20260626/)*
 - **Dependencies**: Tracks 7, 45, 46
 - **Parallelization Node**: Security & Observability
 - **Why**: Add API key authentication, scope-based authorization, key lifecycle management, audit logging, and security headers to the FastAPI server. Zero auth is the single biggest security gap for any production deployment.
 
-## [ ] Track 52: Observability & Error Standardization
-*Link: [./conductor/tracks/track52_observability_20260626/](./conductor/tracks/track52_observability_20260626/)*
+## [x] Track 52: Observability & Error Standardization (archived)
+*Link: [./conductor/tracks/archive/track52_observability_20260626/](./conductor/tracks/archive/track52_observability_20260626/)*
 - **Dependencies**: Tracks 19, 46, 51
 - **Parallelization Node**: Security & Observability
 - **Why**: Implement structured JSON logging, RFC 7807 standardized error responses, request ID tracing, Prometheus metrics, graceful model degradation, and ops documentation. Makes the API fully observable and resilient in production.
@@ -377,3 +444,193 @@ Phase VII (Planned — 51-52): Security & Observability
 - **Parallelization Node**: Performance and Runtime Modernization
 - **Why**: Evaluate Pydantic-core, msgspec, orjson, Polars/Arrow, Rust tokenizers, and possible PyO3/maturin extensions for extraction performance while keeping the Python API and downstream export schemas stable.
 
+## [x] Track 58: LangGraph Agent Workflow Orchestration Evaluation (archived)
+*Link: [./conductor/archive/track58_langgraph_orchestration_eval_20260701/](./conductor/archive/track58_langgraph_orchestration_eval_20260701/)*
+- **Dependencies**: Tracks 43, 52, 55, 57
+- **Parallelization Node**: Agentic Orchestration
+- **Why**: Evaluate LangGraph only for durable, inspectable, human-in-the-loop legal NLP workflows while keeping deterministic pipelines and Python fallback paths as the default.
+
+---
+
+## Phase VIII — Runtime Modernization
+
+---
+
+## [x] Track 59: Polars-Native Corpus Pipeline Substitution (archived)
+*Link: [./conductor/archive/track59_polars_native_pipeline_20260701/](./conductor/archive/track59_polars_native_pipeline_20260701/)*
+- **Dependencies**: Tracks 6, 23, 32, 55, 56
+- **Parallelization Node**: Runtime Modernization
+- **Why**: Shift the hottest corpus-browser dataframe paths to Polars while keeping the public Gradio/pandas boundary stable. This records the Polars core, benchmark boundary, and decision on which surfaces remain hybrid.
+
+## [x] Track 60: LanceDB Retrieval Runtime Hardening (archived)
+*Link: [./conductor/archive/track60_lancedb_retrieval_runtime_20260701/](./conductor/archive/track60_lancedb_retrieval_runtime_20260701/)*
+- **Dependencies**: Tracks 6, 22, 33, 44, 52
+- **Parallelization Node**: Vector Retrieval and Local Search
+- **Why**: Harden LanceDB as the default local vector retrieval runtime, document the supported lifecycle, and record explicit substitution criteria for alternative vector stores.
+
+## [x] Track 61: Unstructured Ingestion Adapter Evaluation (archived)
+*Link: [./conductor/archive/track61_unstructured_ingestion_adapter_20260701/](./conductor/archive/track61_unstructured_ingestion_adapter_20260701/)*
+- **Dependencies**: Track 4, Track 23, Track 44, Track 55
+- **Parallelization Node**: Document Ingestion Modernization
+- **Why**: Evaluate Unstructured as an opt-in fallback for messy document partitioning without replacing the canonical legislative source parsers. The repo needs a clear adapter boundary, provenance preservation, and a packaging/documentation guardrail.
+
+## [x] Track 62: vLLM Local Inference Runtime Evaluation (archived)
+*Link: [./conductor/archive/track62_vllm_local_inference_runtime_20260701/](./conductor/archive/track62_vllm_local_inference_runtime_20260701/)*
+- **Dependencies**: Tracks 20, 21, 22, 38, 46, 53
+- **Parallelization Node**: Local Model Serving
+- **Why**: Evaluate vLLM as an optional high-throughput local generation runtime and OpenAI-compatible serving layer for legal NLP, while keeping Python fallback behavior canonical.
+
+## [x] Track 63: nlprule Grammar and Rule Matching Evaluation
+*Link: [./conductor/tracks/track63_nlprule_grammar_matching_eval_20260701/](./conductor/tracks/track63_nlprule_grammar_matching_eval_20260701/)*
+- **Dependencies**: Tracks 3, 10, 13, 23, 55
+- **Parallelization Node**: Rust-Backed Rule Matching
+- **Why**: Evaluate nlprule-style grammar and rule matching for legal drafting quality checks and extraction cues while preserving spaCy alignment.
+
+## [ ] Track 68: Mojo Runtime Feasibility for Hot Python Paths
+*Link: [./conductor/tracks/track68_mojo_runtime_feasibility_20260701/](./conductor/tracks/track68_mojo_runtime_feasibility_20260701/)*
+- **Dependencies**: Tracks 21, 23, 42, 56, 67
+- **Parallelization Node**: Experimental Runtime Strategy
+- **Why**: Maintain the umbrella decision record for introducing Mojo as an optional Linux GitHub Actions acceleration path, while keeping concrete work split into Tracks 70-73.
+
+## [x] Track 70: Mojo Readiness Audit (archived)
+*Link: [./conductor/tracks/archive/track70_mojo_readiness_audit_20260702/](./conductor/tracks/archive/track70_mojo_readiness_audit_20260702/)*
+- **Dependencies**: Tracks 21, 23, 42, 56, 67, 68
+- **Parallelization Node**: Mojo Toolchain Readiness
+- **Why**: Verify OS support, packaging, licensing, GitHub Actions install path, Pixi/uv compatibility, and candidate kernel shortlist before any runtime code changes. The readiness audit is complete and the historical record now lives in the archive tree.
+
+## [x] Track 71: Mojo Linux CI Sandbox (archived)
+*Link: [./conductor/tracks/archive/track71_mojo_linux_ci_sandbox_20260702/](./conductor/tracks/archive/track71_mojo_linux_ci_sandbox_20260702/)*
+- **Dependencies**: Track 70
+- **Parallelization Node**: Optional Linux Runtime Sandbox
+- **Why**: Add an optional Linux-only Mojo experiment sandbox and non-blocking CI path after readiness criteria pass, without touching production imports. The sandbox is complete and now lives in the archive tree.
+
+---
+
+## Phase IX — GitHub Project Synchronization
+
+---
+
+## [x] Track 69: GitHub Project and Conductor Issue Synchronization (archived)
+*Link: [./conductor/tracks/archive/track69_github_project_sync_20260701/](./conductor/tracks/archive/track69_github_project_sync_20260701/)*
+- **Dependencies**: Tracks 23, 39, 45, 57-68
+- **Parallelization Node**: Repository Governance and Planning Operations
+- **Why**: Keep the Conductor roadmap mirrored into GitHub issues and GitHub Projects with stable phase, status, dependency, and path metadata while preserving the completed track as a historical record.
+---
+
+## Phase X — NZ Legal/Hansard Evaluation and Fine-Tuning
+
+---
+
+## [x] Track 74: NZ Legal/Hansard Held-Out Evaluation Set (archived)
+*Link: [./conductor/tracks/archive/track74_nz_legal_hansard_evaluation_set_20260704/](./conductor/tracks/archive/track74_nz_legal_hansard_evaluation_set_20260704/)*
+- **Dependencies**: Tracks 13, 19, 20, 23, 53
+- **Parallelization Node**: Model Evaluation Data Infrastructure
+- **Why**: Create a held-out NZ legal/Hansard evaluation set with leakage controls, provenance, and stable metrics to gate model selection and future fine-tuning.
+
+## [x] Track 75: NZ Legislation/Hansard Fine-Tuned Model (archived)
+*Link: [./conductor/tracks/archive/track75_nz_legislation_hansard_finetuned_model_20260704/](./conductor/tracks/archive/track75_nz_legislation_hansard_finetuned_model_20260704/)*
+- **Dependencies**: Tracks 74, 20, 53
+- **Parallelization Node**: Model Fine-Tuning and Evaluation
+- **Why**: Fine-tune a NZ legislation/Hansard model only after the held-out evaluation set establishes a defensible baseline and promotion threshold.
+
+---
+
+## Phase XI — Executable Rules-as-Code Completion
+
+---
+
+## [x] Track 78: RuleSpec Promotion Contract (archived)
+*Link: [./conductor/archive/track78_rulespec_promotion_contract_20260705/](./conductor/archive/track78_rulespec_promotion_contract_20260705/)*
+- **Dependencies**: Tracks 27, 54, 55, 76, 77
+- **Parallelization Node**: Reviewed RuleSpec Handoff
+- **Why**: Define the fail-closed review and handoff contract that turns NLP-generated RAC candidates into RuleSpec-ready artifacts without making this repo the executable rules runtime.
+
+## [x] Track 79: PolicyEngine Executable Pilot (archived)
+*Link: [./conductor/archive/track79_policyengine_executable_pilot_20260705/](./conductor/archive/track79_policyengine_executable_pilot_20260705/)*
+- **Dependencies**: Tracks 7, 10, 11, 15, 20, 23, 27, 53, 74, 75, 77, 78
+- **Parallelization Node**: PolicyEngine Runtime Pilot
+- **Why**: Generate and execute the first reviewed PolicyEngine package from promoted NZ legislation handoff artifacts, proving the primary downstream runtime path.
+
+## [x] Track 80: OpenFisca and Multi-Engine Parity (archived)
+*Link: [./conductor/archive/track80_openfisca_multi_engine_parity_20260705/](./conductor/archive/track80_openfisca_multi_engine_parity_20260705/)*
+- **Dependencies**: Tracks 46, 50, 52, 78, 79
+- **Parallelization Node**: Multi-Engine Rules-as-Code Validation
+- **Why**: Add OpenFisca export and deterministic parity reporting after the PolicyEngine pilot is proven, then document how other engines should be onboarded.
+
+---
+
+## Phase XII — Formalized CLI/API/MCP Interface Surfaces
+
+---
+
+## [x] Track 81: Interface Surface Contract and Capability Registry (archived)
+*Link: [./conductor/tracks/archive/track81_interface_surface_contract_20260706/](./conductor/tracks/archive/track81_interface_surface_contract_20260706/)*
+- **Dependencies**: Tracks 7, 46, 48, 49, 51, 52, 80
+- **Parallelization Node**: Interface Contract Foundation
+- **Why**: Define a canonical capability registry and interface contract so CLI, HTTP API, SDK, and MCP surfaces expose the same core behavior without drifting apart.
+
+## [x] Track 82: CLI Contract Hardening and Stable Command Reference (archived)
+*Link: [./conductor/tracks/archive/track82_cli_contract_hardening_20260706/](./conductor/tracks/archive/track82_cli_contract_hardening_20260706/)*
+- **Dependencies**: Tracks 48, 49, 81
+- **Parallelization Node**: CLI Product Surface
+- **Why**: Formalize the existing `nlp-policy-nz` CLI as a stable user-facing interface with contract tests, structured output, exit code policy, and generated reference docs.
+
+## [x] Track 83: Public API Contract Formalization (archived)
+*Link: [./conductor/tracks/archive/track83_public_api_contract_formalization_20260706/](./conductor/tracks/archive/track83_public_api_contract_formalization_20260706/)*
+- **Dependencies**: Tracks 46, 48, 51, 52, 81
+- **Parallelization Node**: HTTP API Product Surface
+- **Why**: Formalize the FastAPI and client SDK surface with versioned OpenAPI artifacts, request/response contracts, auth scopes, and compatibility tests.
+
+## [x] Track 84: MCP Server Surface for Agentic Consumption (archived)
+*Link: [./conductor/tracks/archive/track84_mcp_server_surface_20260706/](./conductor/tracks/archive/track84_mcp_server_surface_20260706/)*
+- **Dependencies**: Tracks 43, 46, 48, 49, 51, 52, 81
+- **Parallelization Node**: MCP Agent Surface
+- **Why**: Expose a safe MCP server adapter over selected `nlp-policy-nz` capabilities, starting with read-only search, provenance, quality, ontology, and rules-as-code inspection tools.
+
+## [x] Track 85: Cross-Surface Contract Governance and Release Automation (archived)
+*Link: [./conductor/tracks/archive/track85_cross_surface_contract_governance_20260706/](./conductor/tracks/archive/track85_cross_surface_contract_governance_20260706/)*
+- **Dependencies**: Tracks 39, 45, 49, 81, 82, 83, 84
+- **Parallelization Node**: Interface Governance and CI
+- **Why**: Add cross-surface conformance tests, docs generation, and release governance so CLI, HTTP API, SDK, and MCP contracts remain aligned over time.
+
+---
+
+## Phase XIII — HathiTrust-NZ Structured Archive Extraction
+
+---
+
+## [ ] Track 86: HathiTrust-NZ Ingestion Contract
+*Link: [./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/](./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/)*
+- **Dependencies**: Tracks 23, 39, 45, 81, 85
+- **Parallelization Node**: Archive Contract and Rights Boundary
+- **Why**: Import HathiTrust-NZ manifests through a deterministic, fail-closed contract before any cloud processing.
+
+## [ ] Track 87: Layout-Aware OCR Ensemble
+*Link: [./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/](./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/)*
+- **Dependencies**: Tracks 56, 74, 86
+- **Parallelization Node**: Document Vision and OCR Verification
+- **Why**: Preserve supplied OCR while independently validating historical pages with a benchmarked, cost-aware layout/OCR ensemble.
+
+## [~] Track 88: Historical Parliament Structure Reconstruction
+*Link: [./conductor/tracks/track88_historical_parliament_structure_20260713/](./conductor/tracks/track88_historical_parliament_structure_20260713/)*
+- **Dependencies**: Tracks 53, 55, 74, 87
+- **Parallelization Node**: Hansard Structure and Semantics
+- **Why**: Recover page-grounded parliamentary hierarchy, speaker identity, semantic entities, and relationships.
+
+## [~] Track 89: Multi-Layer Archive Schema
+*Link: [./conductor/tracks/track89_multilayer_archive_schema_20260713/](./conductor/tracks/track89_multilayer_archive_schema_20260713/)*
+- **Dependencies**: Tracks 18, 23, 26, 86, 87, 88
+- **Parallelization Node**: Structured Data and Provenance
+- **Why**: Connect archive objects, page geometry, OCR alternatives, parliamentary structure, semantic assertions, and provenance without information loss.
+
+## [~] Track 90: Hugging Face Archive Publication
+*Link: [./conductor/tracks/track90_huggingface_archive_publication_20260713/](./conductor/tracks/track90_huggingface_archive_publication_20260713/)*
+- **Dependencies**: Tracks 9, 18, 39, 45, 89
+- **Parallelization Node**: Dataset Materialization and Publication
+- **Why**: Publish rights-safe, streaming multi-configuration datasets with generated cards, checksums, attestations, and DOI handoff.
+
+## [~] Track 91: Cloud OCR Evaluation and Operations
+*Link: [./conductor/tracks/track91_cloud_ocr_evaluation_20260713/](./conductor/tracks/track91_cloud_ocr_evaluation_20260713/)*
+- **Dependencies**: Tracks 39, 40, 45, 74, 85, 87, 88, 89, 90
+- **Parallelization Node**: Secure Cloud Orchestration and Quality
+- **Why**: Dispatch all corpus processing through GitHub Actions and pinned cloud workers with evaluation, budgets, resumability, security gates, and row-level completeness.

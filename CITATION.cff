@@ -1,23 +1,8 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
-title: "nlp-policy-nz: SOTA shared core NLP pipeline for New Zealand legislation and Hansard corpora"
+message: If you use this software, please cite it using the metadata below.
+title: nlp-policy-nz
+version: 0.1.0
+date-released: "2026-07-02"
+repository-code: https://github.com/edithatogo/nlp-policy-nz
 authors:
-  - given-names: "nlp-policy-nz"
-    name: "nlp-policy-nz contributors"
-    email: ""
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.XXXXXX
-    description: "Pending Zenodo Production DOI — set after first production deposit"
-date-released: 2026-06-13
-version: 1.0.0
-repository-code: "https://github.com/edithatogo/nlp-policy-nz"
-license: "MIT"
-keywords:
-  - NLP
-  - New Zealand
-  - legislation
-  - Hansard
-  - Māori language
-  - spaCy
-  - transformers
+  - name: Maintainer

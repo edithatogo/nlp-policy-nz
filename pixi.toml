@@ -7,7 +7,7 @@ channels = ["conda-forge"]
 platforms = ["win-64", "linux-64", "osx-arm64"]
 
 [dependencies]
-python = ">=3.11,<3.14"
+python = ">=3.11,<3.13"
 pip = "*"
 rust = ">=1.80"
 vale = ">=3.0"
@@ -19,7 +19,7 @@ polars = ">=1.0.0"
 pyarrow = ">=16.0.0"
 spacy = ">=3.7.0"
 en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }
-transformers = ">=4.40.0"
+transformers = ">=5.5.0"
 torch = ">=2.2.0"
 bitsandbytes = ">=0.42.0"
 msgspec = ">=0.18.0"
@@ -57,17 +57,45 @@ accelerate = ">=0.30.0"
 peft = ">=0.11.0"
 trl = ">=0.9.0"
 wandb = ">=0.17.0"
-scalene = ">=1.5.0"
 memray = { version = ">=1.12.0", env-markers = "sys_platform != 'win32'" }
 pytest-benchmark = ">=4.0.0"
 pytest-cov = ">=5.0.0"
 basedpyright = ">=1.28.0"
+tqdm = ">=4.66.0"
 pip-audit = ">=2.10.0"
 cyclonedx-bom = ">=1.5.0"
 cvss = ">=3.6"
 bandit = ">=1.8.3"
-semgrep = ">=1.93.0"
 detect-secrets = ">=1.5.0"
+
+[feature.py311.dependencies]
+python = "3.11.*"
+
+[feature.py312.dependencies]
+python = "3.12.*"
+
+[feature.profiling.pypi-dependencies]
+scalene = ">=1.5.0"
+
+[feature.unstructured.pypi-dependencies]
+unstructured = ">=0.15.0"
+
+[feature.vllm.pypi-dependencies]
+vllm = ">=0.8.5"
+
+[feature.profiling.tasks]
+profile-scalene = "scalene --reduced-profile --html --outfile docs/profiling.html src/nlp_policy_nz/cli/main.py process --help"
+
+[feature.security.pypi-dependencies]
+semgrep = ">=1.93.0"
+
+[environments]
+py311 = ["py311"]
+py312 = ["py312"]
+profiling = ["py312", "profiling"]
+security = ["py312", "security"]
+unstructured = ["py312", "unstructured"]
+vllm = ["py312", "vllm"]
 
 [tasks]
 install-git-hooks = "pre-commit install"
@@ -81,7 +109,7 @@ test = "pytest"
 coverage = "pytest -p no:tach --ignore=tests/benchmarks --cov=src --cov-report=html --cov-report=xml"
 coverage-ci = "pytest tests/smoke tests/test_quality_infrastructure.py tests/test_track23_evidence.py tests/test_smoke.py tests/test_akn_v3.py --cov=src --cov-report=xml --cov-report=html --cov-fail-under=0"
 mutation = "mutatest --src src/nlp_policy_nz/ --tests tests/"
-profile = "scalene --reduced-profile --html --outfile docs/profiling.html src/nlp_policy_nz/cli/main.py process --help"
+profile = "pixi run -e profiling profile-scalene"
 memray = "python scripts/memray_trace.py --help"
 benchmark = "pytest tests/benchmarks -q"
 qlora-spec = "python -m nlp_policy_nz.training.run_qlora --help"

@@ -59,6 +59,12 @@ nlp-policy-nz corpus-stats --parquet output/legislation.parquet --output-dir dat
 
 # Export deterministic graph/vector/network analysis artifacts
 nlp-policy-nz graph-vector-analysis --output-dir data/analysis
+
+# Export the standards-based publication protocol and evidence map
+nlp-policy-nz publication-protocol --output-dir data/publication
+
+# Generate deterministic publication tables, figures, and diagrams
+nlp-policy-nz generate-analysis-artifacts --output-dir artifacts
 ```
 
 ## Documentation
@@ -68,6 +74,7 @@ nlp-policy-nz graph-vector-analysis --output-dir data/analysis
 - [New Zealand ontology candidates](docs/nz_ontologies.md) describes the Track 31 review-bounded ontology candidate exports.
 - [Corpus statistics](docs/corpus_statistics.md) describes the Track 32 descriptive statistics and full-corpus blockers.
 - [Graph, vector, and network analysis](docs/graph_vector_network_analysis.md) describes the Track 33 topology, vector, alignment, and full graph/vector blockers.
+- [Track 35 artifact manifest](artifacts/analysis_artifact_manifest.json) lists the generated publication tables, SVG figures, Mermaid diagrams, and blocked full-corpus artifacts.
 - [Ontology mapping](docs/ontology_mapping.md) describes the Track 29/30 ontology mapping graph and inference artifacts.
 - [Pipeline record serialization](docs/pydantic_vs_msgspec.md) records the serialization benchmark decision.
 

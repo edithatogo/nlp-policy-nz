@@ -12,7 +12,7 @@ license = { text = "MIT" }
 authors = [{ name = "Maintainer" }]
 dependencies = [
     "spacy>=3.7.0",
-    "transformers>=4.40.0",
+    "transformers>=5.5.0",
     "torch>=2.2.0",
     "bitsandbytes>=0.42.0",
     "msgspec>=0.18.0",
@@ -31,7 +31,7 @@ dependencies = [
     "pypdf>=6.0.0",
     "PyYAML>=6.0.0",
     "loguru>=0.7.2",
-    "lingua-language-detector>=1.4.0,<2.0.0",
+    "lingua-language-detector>=1.4.0,<3.0.0",
     "datasets>=2.19.0",
     "huggingface_hub>=0.23.0",
     "gradio>=4.0.0",
@@ -67,6 +67,15 @@ dev = [
     "bandit>=1.8.3",
     "semgrep>=1.93.0",
     "detect-secrets>=1.5.0",
+]
+client = [
+    "httpx>=0.27.0",
+]
+unstructured = [
+    "unstructured>=0.15.0",
+]
+vllm = [
+    "vllm>=0.8.5",
 ]
 faiss = ["faiss-cpu>=1.8.0"]
 qdrant = ["qdrant-client>=1.9.0"]
@@ -249,6 +258,9 @@ markers = [
     "benchmark: performance benchmark tests requiring pytest-benchmark",
     "coverage: tests that exercise coverage reporting surfaces",
     "unit: fast isolated unit tests",
+    "linux: Linux-specific tests and fixtures",
+    "windows: Windows-specific tests and fixtures",
+    "macos: macOS-specific tests and fixtures",
 ]
 
 [tool.scalene]

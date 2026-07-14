@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -52,6 +53,7 @@ def test_track41_security_wiring_references_expected_commands() -> None:
     baseline = (ROOT / ".secrets.baseline").read_text(encoding="utf-8")
     pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
     pixi = (ROOT / "pixi.toml").read_text(encoding="utf-8")
+    pixi_toml = tomllib.loads(pixi)
 
     assert "Static application security testing" in ci_workflow
     assert "bandit -c .bandit -r src/nlp_policy_nz/ -lll -iii" in ci_workflow
@@ -64,5 +66,5 @@ def test_track41_security_wiring_references_expected_commands() -> None:
     assert "semgrep>=1.93.0" in pyproject
     assert "detect-secrets>=1.5.0" in pyproject
     assert 'bandit = ">=1.8.3"' in pixi
-    assert 'semgrep = ">=1.93.0"' in pixi
+    assert "semgrep" in pixi_toml["feature"]["security"]["pypi-dependencies"]
     assert 'detect-secrets = ">=1.5.0"' in pixi

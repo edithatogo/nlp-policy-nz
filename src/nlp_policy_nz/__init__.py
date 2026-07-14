@@ -11,6 +11,10 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
         "nlp_policy_nz.analysis",
         "build_corpus_statistics",
     ),
+    "build_analysis_artifact_bundle": (
+        "nlp_policy_nz.analysis",
+        "build_analysis_artifact_bundle",
+    ),
     "build_graph_vector_network_analysis": (
         "nlp_policy_nz.analysis",
         "build_graph_vector_network_analysis",
@@ -23,6 +27,12 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
         "nlp_policy_nz.ontology",
         "build_nz_ontology_graph",
     ),
+    "build_publication_protocol": (
+        "nlp_policy_nz.publication.protocol",
+        "build_publication_protocol",
+    ),
+    "Track62BenchmarkRow": ("nlp_policy_nz.semantic.vllm_runtime", "Track62BenchmarkRow"),
+    "Track62EvidenceReport": ("nlp_policy_nz.semantic.vllm_runtime", "Track62EvidenceReport"),
     "FrameworkConfig": ("nlp_policy_nz.universal_framework_v3", "FrameworkConfig"),
     "MetaExtensionRegistry": ("nlp_policy_nz.universal_framework_v3", "MetaExtensionRegistry"),
     "ModularSpaCyBridgeComponentV3": (
@@ -35,6 +45,15 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
         "nlp_policy_nz.universal_framework_v3",
         "UniversalIngestionEngine",
     ),
+    "VLLMGenerationResult": (
+        "nlp_policy_nz.semantic.vllm_runtime",
+        "VLLMGenerationResult",
+    ),
+    "VLLMRuntimeError": ("nlp_policy_nz.semantic.vllm_runtime", "VLLMRuntimeError"),
+    "UnstructuredIngestionEngine": (
+        "nlp_policy_nz.unstructured_ingestion",
+        "UnstructuredIngestionEngine",
+    ),
     "get_ingestion_engine": ("nlp_policy_nz.universal_framework_v3", "get_ingestion_engine"),
     "validate_nz_ontology_bundle": (
         "nlp_policy_nz.ontology",
@@ -44,6 +63,10 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
         "nlp_policy_nz.analysis",
         "write_corpus_statistics_artifacts",
     ),
+    "write_analysis_artifacts": (
+        "nlp_policy_nz.analysis",
+        "write_analysis_artifacts",
+    ),
     "write_graph_vector_network_artifacts": (
         "nlp_policy_nz.analysis",
         "write_graph_vector_network_artifacts",
@@ -51,6 +74,10 @@ _FRAMEWORK_EXPORTS: dict[str, tuple[str, str]] = {
     "write_nz_ontology_artifacts": (
         "nlp_policy_nz.ontology",
         "write_nz_ontology_artifacts",
+    ),
+    "write_publication_protocol_artifacts": (
+        "nlp_policy_nz.publication.protocol",
+        "write_publication_protocol_artifacts",
     ),
 }
 
@@ -79,16 +106,25 @@ __all__ = [
     "ModularSpaCyBridgeComponentV3",
     "SOTAPipelineVisualizer",
     "TargetSchemaEmitter",
+    "Track62BenchmarkRow",
+    "Track62EvidenceReport",
     "UniversalIngestionEngine",
+    "UnstructuredIngestionEngine",
+    "VLLMGenerationResult",
+    "VLLMRuntimeError",
     "__version__",
+    "build_analysis_artifact_bundle",
     "build_corpus_statistics",
     "build_graph_vector_network_analysis",
     "build_nz_ontology_bundle",
     "build_nz_ontology_graph",
+    "build_publication_protocol",
     "get_ingestion_engine",
     "run_nlp_pipeline",
     "validate_nz_ontology_bundle",
+    "write_analysis_artifacts",
     "write_corpus_statistics_artifacts",
     "write_graph_vector_network_artifacts",
     "write_nz_ontology_artifacts",
+    "write_publication_protocol_artifacts",
 ]

@@ -49,7 +49,7 @@ The following are planned for Phase II (Tracks 10-23):
 - Revisit the T19 profiling benchmark path later, when a supported runtime and an adequate corpus are available. The repo-side observability and benchmark harness are complete; the unfinished profiling pass is a future operational check, not a separate track.
 
 ## 3. Core Features & Architecture (Phase I — Complete)
-- **Universal Ingestion & Preprocessing**: Abstract, format-agnostic ingestion engine (`UniversalIngestionEngine`) supporting XML, HTML, and JSONL formats using BeautifulSoup4/lxml to parse structures dynamically.
+- **Universal Ingestion & Preprocessing**: Abstract, format-agnostic ingestion engine (`UniversalIngestionEngine`) supporting XML, HTML, and JSONL formats using BeautifulSoup4/lxml to parse structures dynamically, with an optional `UnstructuredIngestionEngine` fallback for messy PDF/DOCX/HTML sources when the canonical source parser is unavailable.
 - **Dynamic Metadata Extension Registry**: Custom extension naming layer (`MetaExtensionRegistry`) that registers namespace-prefixed properties in spaCy (e.g. `doc._.meta_country`, `span._.schema_structural_type`) dynamically based on region, country, and target standards to prevent name collisions.
 - **Modular spaCy Bridge**: Custom `@Language.component` wrapper (`ModularSpaCyBridgeComponent`) mapping parsed document chunk boundaries to token-level spans.
 - **Target Schema Emitter**: Standardized serialization layer (`TargetSchemaEmitter`) supporting multiple target standard exports:

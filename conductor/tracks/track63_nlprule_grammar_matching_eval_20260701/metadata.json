@@ -1,0 +1,10 @@
+{
+  "track_id": "track63_nlprule_grammar_matching_eval_20260701",
+  "type": "evaluation",
+  "status": "planned",
+  "created_at": "2026-07-03T00:00:00+10:00",
+  "updated_at": "2026-07-03T00:00:00+10:00",
+  "description": "Evaluate nlprule-style grammar and rule matching for legal drafting quality checks and extraction cues while preserving spaCy alignment.",
+  "oracle_notes": "Track 63 is a deterministic evaluation of grammar-rule matching. It keeps nlprule optional, preserves spaCy as the default path, and records a clear adoption decision if the library does not outperform the maintained rule surface."
+}
+

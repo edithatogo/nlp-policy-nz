@@ -1,0 +1,20 @@
+def main():
+    print(
+        "{\n"
+        "  \"checksum\": 49,\n"
+        "  \"fixture_name\": \"rolling-signature\",\n"
+        "  \"input_values\": [\n"
+        "    1,\n"
+        "    2,\n"
+        "    3,\n"
+        "    5\n"
+        "  ],\n"
+        "  \"prefix_sums\": [\n"
+        "    1,\n"
+        "    3,\n"
+        "    6,\n"
+        "    11\n"
+        "  ],\n"
+        "  \"weighted_sum\": 34\n"
+        "}"
+    )

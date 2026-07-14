@@ -1,0 +1,86 @@
+{
+  "dimensions": {
+    "clarity": 20,
+    "completeness": 20,
+    "correctness": 20,
+    "novelty": 10,
+    "presentation": 10,
+    "reproducibility": 20
+  },
+  "pass_threshold": 95,
+  "reviewers": [
+    {
+      "dimensions": {
+        "clarity": 20,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 10,
+        "presentation": 10,
+        "reproducibility": 20
+      },
+      "prompt": "Score the manuscript evidence bundle for clarity, completeness, correctness, reproducibility, novelty, and presentation. Penalize unbounded full-corpus, live-publication, or external-review claims.",
+      "reviewer_id": "peer_reviewer"
+    },
+    {
+      "dimensions": {
+        "clarity": 20,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 10,
+        "presentation": 10,
+        "reproducibility": 20
+      },
+      "prompt": "Score the manuscript evidence bundle for clarity, completeness, correctness, reproducibility, novelty, and presentation. Penalize unbounded full-corpus, live-publication, or external-review claims.",
+      "reviewer_id": "editor_reviewer"
+    },
+    {
+      "dimensions": {
+        "clarity": 20,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 10,
+        "presentation": 10,
+        "reproducibility": 20
+      },
+      "prompt": "Score the manuscript evidence bundle for clarity, completeness, correctness, reproducibility, novelty, and presentation. Penalize unbounded full-corpus, live-publication, or external-review claims.",
+      "reviewer_id": "legal_nlp_expert"
+    },
+    {
+      "dimensions": {
+        "clarity": 20,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 10,
+        "presentation": 10,
+        "reproducibility": 20
+      },
+      "prompt": "Score the manuscript evidence bundle for clarity, completeness, correctness, reproducibility, novelty, and presentation. Penalize unbounded full-corpus, live-publication, or external-review claims.",
+      "reviewer_id": "standards_reviewer"
+    },
+    {
+      "dimensions": {
+        "clarity": 20,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 10,
+        "presentation": 10,
+        "reproducibility": 20
+      },
+      "prompt": "Score the manuscript evidence bundle for clarity, completeness, correctness, reproducibility, novelty, and presentation. Penalize unbounded full-corpus, live-publication, or external-review claims.",
+      "reviewer_id": "reproducibility_reviewer"
+    },
+    {
+      "dimensions": {
+        "clarity": 20,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 10,
+        "presentation": 10,
+        "reproducibility": 20
+      },
+      "prompt": "Score the manuscript evidence bundle for clarity, completeness, correctness, reproducibility, novelty, and presentation. Penalize unbounded full-corpus, live-publication, or external-review claims.",
+      "reviewer_id": "arxiv_compliance_reviewer"
+    }
+  ],
+  "score_scale": 100
+}

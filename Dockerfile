@@ -14,11 +14,15 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends build-essential ca-certificates curl git \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL https://pixi.sh/install.sh | sh -s -- -b /opt/pixi/bin
+RUN curl -fsSL https://pixi.sh/install.sh -o /tmp/pixi-install.sh \
+    && sh /tmp/pixi-install.sh -b /opt/pixi/bin \
+    && rm /tmp/pixi-install.sh
 
 WORKDIR /app
 
-COPY pyproject.toml pixi.toml pixi.lock README.md ./
+COPY pyproject.toml pixi.toml pixi.lock README.md Dockerfile .dockerignore .tach.toml docker-compose.yml ./
+COPY .devcontainer ./.devcontainer
+COPY .github ./.github
 COPY src ./src
 COPY scripts ./scripts
 COPY spaces ./spaces
@@ -27,14 +31,14 @@ COPY docs ./docs
 COPY config ./config
 COPY conductor ./conductor
 
-RUN pixi install --locked
+RUN pixi install -e py312 --frozen --skip-with-deps semgrep --skip-with-deps scalene
 
 
 FROM python:3.13-slim-bookworm AS runtime
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PATH=/opt/pixi/bin:/app/.pixi/envs/default/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin
+    PATH=/opt/pixi/bin:/app/.pixi/envs/default/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin
 
 RUN useradd --create-home --uid 10001 --shell /usr/sbin/nologin appuser
 

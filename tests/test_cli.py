@@ -316,6 +316,64 @@ class TestArgumentParser:
         assert "Track 33" in graph_vector_parser.description
         assert output_dir_actions
 
+    def test_parser_has_publication_protocol_subcommand(self, parser: Any) -> None:
+        """Parser should have a Track 34 ``publication-protocol`` subcommand."""
+        subparsers_actions = [
+            action
+            for action in parser._actions
+            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
+        ]
+        assert subparsers_actions
+        choices = subparsers_actions[0].choices
+        publication_parser = choices["publication-protocol"]
+        output_dir_actions = [
+            action
+            for action in publication_parser._actions
+            if "--output-dir" in action.option_strings
+        ]
+
+        assert "publication-protocol" in choices
+        assert "Track 34" in publication_parser.description
+        assert output_dir_actions
+
+    def test_parser_has_generate_analysis_artifacts_subcommand(self, parser: Any) -> None:
+        """Parser should have a Track 35 ``generate-analysis-artifacts`` subcommand."""
+        subparsers_actions = [
+            action
+            for action in parser._actions
+            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
+        ]
+        assert subparsers_actions
+        choices = subparsers_actions[0].choices
+        artifact_parser = choices["generate-analysis-artifacts"]
+        output_dir_actions = [
+            action for action in artifact_parser._actions if "--output-dir" in action.option_strings
+        ]
+
+        assert "generate-analysis-artifacts" in choices
+        assert "Track 35" in artifact_parser.description
+        assert output_dir_actions
+
+    def test_parser_has_generate_manuscript_package_subcommand(self, parser: Any) -> None:
+        """Parser should have a Track 37 ``generate-manuscript-package`` subcommand."""
+        subparsers_actions = [
+            action
+            for action in parser._actions
+            if isinstance(action, argparse._SubParsersAction)  # type: ignore[attr-defined]
+        ]
+        assert subparsers_actions
+        choices = subparsers_actions[0].choices
+        manuscript_parser = choices["generate-manuscript-package"]
+        output_dir_actions = [
+            action
+            for action in manuscript_parser._actions
+            if "--output-dir" in action.option_strings
+        ]
+
+        assert "generate-manuscript-package" in choices
+        assert "Track 37" in manuscript_parser.description
+        assert output_dir_actions
+
 
 # ---------------------------------------------------------------------------
 # Tests: ``upload-dataset`` subcommand

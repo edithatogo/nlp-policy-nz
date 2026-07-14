@@ -117,7 +117,7 @@ class FrameworkConfig(msgspec.Struct):
 
     country: str
     jurisdiction: str
-    source_data_format: str  # Options: 'XML' | 'HTML' | 'JSONL'
+    source_data_format: str  # Options: 'XML' | 'HTML' | 'JSONL' | 'UNSTRUCTURED'
     target_schema_standard: str  # Options: 'ParlaMint-TEI-Ana' | 'Akoma-Ntoso' | 'ParlaCAP-JSONL'
     base_spacy_pipeline: str = "en_core_web_sm"
 
@@ -249,6 +249,10 @@ def get_ingestion_engine(data_format: str) -> UniversalIngestionEngine:
         return HTMLIngestionEngine()
     if data_format.upper() == "JSONL":
         return JSONLIngestionEngine()
+    if data_format.upper() == "UNSTRUCTURED":
+        from nlp_policy_nz.unstructured_ingestion import UnstructuredIngestionEngine
+
+        return UnstructuredIngestionEngine()
     raise ValueError(f"Unsupported source format: {data_format}")
 
 

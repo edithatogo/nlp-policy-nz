@@ -1,0 +1,8 @@
+flowchart TD
+    A["Read checked-in Track 32-34 artifacts"] --> B["Build artifact manifest"]
+    B --> C["Write machine-readable tables"]
+    B --> D["Render deterministic SVG figures"]
+    B --> E["Render Mermaid diagrams"]
+    C --> F["Validate checked-in parity"]
+    D --> F
+    E --> F

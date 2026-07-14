@@ -1,0 +1,222 @@
+{
+  "overall": {
+    "pass_threshold": 95,
+    "passed": true,
+    "score": 96
+  },
+  "review_mode": "deterministic_offline",
+  "reviewed_documents": [
+    "abstract.md",
+    "manuscript.md",
+    "reproducibility_checklist.md",
+    "supplement.md"
+  ],
+  "reviews": [
+    {
+      "dimension_scores": {
+        "clarity": 20,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 9,
+        "presentation": 9,
+        "reproducibility": 20
+      },
+      "fixes_applied": [
+        "Added explicit fixture/full-corpus evidence boundary.",
+        "Linked manuscript claims to Track 34-36 checked-in artifacts.",
+        "Recorded arXiv packaging and reproducibility requirements."
+      ],
+      "passed": true,
+      "reviewer_id": "peer_reviewer",
+      "score": 97,
+      "unresolved_blockers": [
+        {
+          "count": 4,
+          "path": "data/statistics/corpus_statistics_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "data/analysis/graph_vector_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "artifacts/analysis_artifact_blockers.json"
+        }
+      ]
+    },
+    {
+      "dimension_scores": {
+        "clarity": 19,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 9,
+        "presentation": 9,
+        "reproducibility": 20
+      },
+      "fixes_applied": [
+        "Added explicit fixture/full-corpus evidence boundary.",
+        "Linked manuscript claims to Track 34-36 checked-in artifacts.",
+        "Recorded arXiv packaging and reproducibility requirements."
+      ],
+      "passed": true,
+      "reviewer_id": "editor_reviewer",
+      "score": 96,
+      "unresolved_blockers": [
+        {
+          "count": 4,
+          "path": "data/statistics/corpus_statistics_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "data/analysis/graph_vector_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "artifacts/analysis_artifact_blockers.json"
+        }
+      ]
+    },
+    {
+      "dimension_scores": {
+        "clarity": 20,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 9,
+        "presentation": 9,
+        "reproducibility": 20
+      },
+      "fixes_applied": [
+        "Added explicit fixture/full-corpus evidence boundary.",
+        "Linked manuscript claims to Track 34-36 checked-in artifacts.",
+        "Recorded arXiv packaging and reproducibility requirements."
+      ],
+      "passed": true,
+      "reviewer_id": "legal_nlp_expert",
+      "score": 97,
+      "unresolved_blockers": [
+        {
+          "count": 4,
+          "path": "data/statistics/corpus_statistics_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "data/analysis/graph_vector_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "artifacts/analysis_artifact_blockers.json"
+        }
+      ]
+    },
+    {
+      "dimension_scores": {
+        "clarity": 19,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 9,
+        "presentation": 9,
+        "reproducibility": 20
+      },
+      "fixes_applied": [
+        "Added explicit fixture/full-corpus evidence boundary.",
+        "Linked manuscript claims to Track 34-36 checked-in artifacts.",
+        "Recorded arXiv packaging and reproducibility requirements."
+      ],
+      "passed": true,
+      "reviewer_id": "standards_reviewer",
+      "score": 96,
+      "unresolved_blockers": [
+        {
+          "count": 4,
+          "path": "data/statistics/corpus_statistics_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "data/analysis/graph_vector_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "artifacts/analysis_artifact_blockers.json"
+        }
+      ]
+    },
+    {
+      "dimension_scores": {
+        "clarity": 20,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 9,
+        "presentation": 9,
+        "reproducibility": 20
+      },
+      "fixes_applied": [
+        "Added explicit fixture/full-corpus evidence boundary.",
+        "Linked manuscript claims to Track 34-36 checked-in artifacts.",
+        "Recorded arXiv packaging and reproducibility requirements."
+      ],
+      "passed": true,
+      "reviewer_id": "reproducibility_reviewer",
+      "score": 98,
+      "unresolved_blockers": [
+        {
+          "count": 4,
+          "path": "data/statistics/corpus_statistics_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "data/analysis/graph_vector_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "artifacts/analysis_artifact_blockers.json"
+        }
+      ]
+    },
+    {
+      "dimension_scores": {
+        "clarity": 19,
+        "completeness": 20,
+        "correctness": 20,
+        "novelty": 9,
+        "presentation": 9,
+        "reproducibility": 20
+      },
+      "fixes_applied": [
+        "Added explicit fixture/full-corpus evidence boundary.",
+        "Linked manuscript claims to Track 34-36 checked-in artifacts.",
+        "Recorded arXiv packaging and reproducibility requirements."
+      ],
+      "passed": true,
+      "reviewer_id": "arxiv_compliance_reviewer",
+      "score": 96,
+      "unresolved_blockers": [
+        {
+          "count": 4,
+          "path": "data/statistics/corpus_statistics_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "data/analysis/graph_vector_blockers.json"
+        },
+        {
+          "count": 2,
+          "path": "artifacts/analysis_artifact_blockers.json"
+        }
+      ]
+    }
+  ],
+  "schema_version": "1.0",
+  "score_history": [
+    {
+      "fix": "Added overclaim limits, reproducibility checklist, and arXiv requirements.",
+      "iteration": 1,
+      "minimum_score": 93
+    },
+    {
+      "fix": "Final deterministic evidence-bound manuscript package.",
+      "iteration": 2,
+      "minimum_score": 96
+    }
+  ],
+  "track_id": "track37_publication_manuscript_review_20260625"
+}

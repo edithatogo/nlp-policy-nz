@@ -18,8 +18,10 @@ def test_quality_configuration_files_exist() -> None:
         ROOT / "tests" / ".mutatest.toml",
         ROOT / "scripts" / "profile_with_scalene.py",
         ROOT / "scripts" / "benchmark_pipeline_record_msgspec_pydantic.py",
+        ROOT / "docs" / "data_quality_monitoring.md",
         ROOT / "tests" / "integration" / "__init__.py",
         ROOT / "tests" / "e2e" / "__init__.py",
+        ROOT / ".github" / "workflows" / "quality-alert.yml",
     ]
 
     missing = [path for path in expected_paths if not path.is_file()]
@@ -52,9 +54,9 @@ def test_ci_quality_steps_are_wired() -> None:
     workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
 
     assert "Smoke tests" in workflow
-    assert "ruff format" in workflow or "pixi run format" in workflow
-    assert "basedpyright" in workflow
-    assert "pytest-cov" in workflow or "--cov=src" in workflow
+    assert "format-ci" in workflow
+    assert "typecheck-ci" in workflow
+    assert "coverage-ci" in workflow
     assert "codecov/codecov-action" in workflow
     assert "workflow_dispatch" in workflow
     assert "Optional mutation tests" in workflow
@@ -65,8 +67,18 @@ def test_pixi_quality_tasks_exist() -> None:
     pixi = tomllib.loads((ROOT / "pixi.toml").read_text(encoding="utf-8"))
     tasks = pixi["tasks"]
     dependencies = pixi["pypi-dependencies"]
+    profiling_dependencies = pixi["feature"]["profiling"]["pypi-dependencies"]
 
     for task in ["lint", "format", "coverage", "mutation", "profile", "typecheck"]:
         assert task in tasks
-    for dependency in ["scalene", "pytest-cov", "basedpyright", "mutatest"]:
+    for dependency in ["pytest-cov", "basedpyright", "mutatest"]:
         assert dependency in dependencies
+    assert "scalene" in profiling_dependencies
+
+
+def test_quality_alert_workflow_is_wired() -> None:
+    """Quality alerting should have a scheduled workflow surface."""
+    workflow = (ROOT / ".github" / "workflows" / "quality-alert.yml").read_text(encoding="utf-8")
+
+    assert "schedule:" in workflow
+    assert "quality alert" in workflow.lower()

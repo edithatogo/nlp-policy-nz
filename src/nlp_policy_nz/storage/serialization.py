@@ -23,6 +23,7 @@ if TYPE_CHECKING:
 # ---------------------------------------------------------------------------
 
 SCHEMA_FIELDS: list[str] = [
+    "schema_version",
     "doc_id",
     "corpus_source",
     "raw_text",
@@ -153,6 +154,7 @@ class PipelineRecord(msgspec.Struct):
     report_title: str | None = None
     findings: list[str] | None = None
     recommendations: list[str] | None = None
+    schema_version: str = "1.1"
 
 
 # ---------------------------------------------------------------------------
@@ -185,6 +187,7 @@ def records_to_dataframe(records: Sequence[PipelineRecord]) -> object:
 
     data: dict[str, list[Any]] = {field: [] for field in SCHEMA_FIELDS}
     for rec in records:
+        data["schema_version"].append(rec.schema_version)
         data["doc_id"].append(rec.doc_id)
         data["corpus_source"].append(rec.corpus_source)
         data["raw_text"].append(rec.raw_text)
@@ -301,6 +304,7 @@ def load_from_parquet(path: str | Path) -> list[PipelineRecord]:
     for row in df.iter_rows(named=True):
         records.append(
             PipelineRecord(
+                schema_version=row.get("schema_version", "1.1"),
                 doc_id=row["doc_id"],
                 corpus_source=row["corpus_source"],
                 raw_text=row["raw_text"],

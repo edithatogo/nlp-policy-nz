@@ -1,0 +1,27 @@
+{
+  "artifacts": [
+    "manuscript_manifest.json",
+    "manuscript_review_log.json",
+    "review_rubrics.json",
+    "abstract.md",
+    "manuscript.md",
+    "reproducibility_checklist.md",
+    "supplement.md",
+    "scripts/manuscript/Makefile",
+    "scripts/manuscript/macros.tex",
+    "scripts/manuscript/main.tex",
+    "scripts/manuscript/references.bib"
+  ],
+  "producer": "nlp-policy-nz",
+  "schema_version": "1.0",
+  "source_boundary": "The manuscript package is repo-side and evidence-bounded. It uses checked-in Track 34-36 artifacts, deterministic review rubrics, and offline score records; it does not claim live external peer review, arXiv submission, or full-corpus completion.",
+  "summary": {
+    "latex_file_count": 4,
+    "manuscript_document_count": 4,
+    "minimum_score": 96,
+    "overall_score": 96,
+    "publication_claim_count": 14,
+    "reviewer_count": 6
+  },
+  "track_id": "track37_publication_manuscript_review_20260625"
+}

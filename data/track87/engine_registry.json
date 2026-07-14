@@ -1,0 +1,35 @@
+{
+  "schema_version": "track87.ocr-engine-registry.v1",
+  "status": "adapter_contract_only",
+  "publication_rule": "No engine is production-eligible until model and container SHA-256 digests are supplied and benchmark gates pass.",
+  "engines": [
+    {
+      "kind": "docling",
+      "capabilities": ["layout", "reading_order", "tables", "ocr"],
+      "requires_gpu": false,
+      "model_digest": null,
+      "container_digest": null
+    },
+    {
+      "kind": "pp-structure-v3",
+      "capabilities": ["layout", "reading_order", "tables", "ocr"],
+      "requires_gpu": false,
+      "model_digest": null,
+      "container_digest": null
+    },
+    {
+      "kind": "surya",
+      "capabilities": ["layout", "reading_order", "tables", "ocr"],
+      "requires_gpu": false,
+      "model_digest": null,
+      "container_digest": null
+    },
+    {
+      "kind": "olmocr",
+      "capabilities": ["ocr", "reading_order", "tables", "complex_formatting"],
+      "requires_gpu": true,
+      "model_digest": null,
+      "container_digest": null
+    }
+  ]
+}

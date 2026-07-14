@@ -1,9 +1,9 @@
 {
   "track_id": "track51_api_security_20260626",
   "type": "security",
-  "status": "planned",
+  "status": "complete",
   "created_at": "2026-06-27T00:00:00+10:00",
-  "updated_at": "2026-06-27T00:00:00+10:00",
+  "updated_at": "2026-07-02T11:34:58+10:00",
   "description": "Add API key authentication, key lifecycle management, scope-based authorization, audit logging, and security middleware to the FastAPI server.",
   "oracle_notes": "The FastAPI server has zero authentication. Anyone who can reach the endpoint can call embed/search/process. Track 46 covers rate limiting but not auth. This is the single biggest security gap for a production deployment."
 }

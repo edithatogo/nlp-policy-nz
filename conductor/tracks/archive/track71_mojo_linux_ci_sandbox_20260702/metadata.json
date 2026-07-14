@@ -1,0 +1,9 @@
+{
+  "track_id": "track71_mojo_linux_ci_sandbox_20260702",
+  "type": "chore",
+  "status": "archived",
+  "created_at": "2026-07-02T00:00:00+10:00",
+  "updated_at": "2026-07-02T00:00:00+10:00",
+  "description": "Add an optional Linux-only Mojo experiment sandbox and non-blocking CI path after readiness criteria pass.",
+  "oracle_notes": "Sandbox track only. It must not touch production imports or make Mojo a default dependency."
+}

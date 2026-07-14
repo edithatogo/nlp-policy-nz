@@ -1,0 +1,113 @@
+{
+  "artifacts": [
+    {
+      "artifact_format": "csv",
+      "artifact_id": "table-corpus-summary",
+      "artifact_type": "table",
+      "output_path": "tables/corpus_summary.csv",
+      "source": "data/statistics and data/analysis checked-in tables",
+      "status": "available"
+    },
+    {
+      "artifact_format": "tex",
+      "artifact_id": "table-corpus-summary-tex",
+      "artifact_type": "table",
+      "output_path": "tables/corpus_summary.tex",
+      "source": "data/statistics and data/analysis checked-in tables",
+      "status": "available"
+    },
+    {
+      "artifact_format": "csv",
+      "artifact_id": "table-entity-density",
+      "artifact_type": "table",
+      "output_path": "tables/entity_density.csv",
+      "source": "data/statistics and data/analysis checked-in tables",
+      "status": "available"
+    },
+    {
+      "artifact_format": "csv",
+      "artifact_id": "table-ontology-coverage",
+      "artifact_type": "table",
+      "output_path": "tables/ontology_coverage.csv",
+      "source": "data/statistics and data/analysis checked-in tables",
+      "status": "available"
+    },
+    {
+      "artifact_format": "csv",
+      "artifact_id": "table-topic-distribution",
+      "artifact_type": "table",
+      "output_path": "tables/topic_distribution.csv",
+      "source": "data/statistics and data/analysis checked-in tables",
+      "status": "available"
+    },
+    {
+      "artifact_format": "svg",
+      "artifact_id": "figure-embedding-projection",
+      "artifact_type": "figure",
+      "output_path": "figures/embedding_projection.svg",
+      "source": "Track 32 temporal/entity data and Track 33 graph/vector metrics",
+      "status": "available"
+    },
+    {
+      "artifact_format": "svg",
+      "artifact_id": "figure-entity-density",
+      "artifact_type": "figure",
+      "output_path": "figures/entity_density.svg",
+      "source": "Track 32 temporal/entity data and Track 33 graph/vector metrics",
+      "status": "available"
+    },
+    {
+      "artifact_format": "svg",
+      "artifact_id": "figure-network-overview",
+      "artifact_type": "figure",
+      "output_path": "figures/network_overview.svg",
+      "source": "Track 32 temporal/entity data and Track 33 graph/vector metrics",
+      "status": "available"
+    },
+    {
+      "artifact_format": "svg",
+      "artifact_id": "figure-temporal-trends",
+      "artifact_type": "figure",
+      "output_path": "figures/temporal_trends.svg",
+      "source": "Track 32 temporal/entity data and Track 33 graph/vector metrics",
+      "status": "available"
+    },
+    {
+      "artifact_format": "mmd",
+      "artifact_id": "diagram-pipeline-architecture",
+      "artifact_type": "diagram",
+      "output_path": "diagrams/pipeline_architecture.mmd",
+      "source": "Track 31-35 conductor and pipeline architecture context",
+      "status": "available"
+    },
+    {
+      "artifact_format": "mmd",
+      "artifact_id": "diagram-track-dependency",
+      "artifact_type": "diagram",
+      "output_path": "diagrams/track_dependency.mmd",
+      "source": "Track 31-35 conductor and pipeline architecture context",
+      "status": "available"
+    },
+    {
+      "artifact_format": "mmd",
+      "artifact_id": "diagram-workflow-data-flow",
+      "artifact_type": "diagram",
+      "output_path": "diagrams/workflow_data_flow.mmd",
+      "source": "Track 31-35 conductor and pipeline architecture context",
+      "status": "available"
+    }
+  ],
+  "blockers": "analysis_artifact_blockers.json",
+  "producer": "nlp-policy-nz",
+  "schema_version": "1.0",
+  "source_boundary": "Repo-side artifact production executes deterministic Track 32-34 fixture-bounded analyses and emits publication tables, SVG figures, Mermaid diagrams, blockers, and visual inspection guidance. It does not claim full-corpus figure production without canonical corpus exports.",
+  "summary": {
+    "available_count": 12,
+    "blocked_count": 2,
+    "diagram_count": 3,
+    "figure_count": 4,
+    "table_count": 5
+  },
+  "track_id": "track35_analysis_artifact_execution_20260625",
+  "visual_inspection_checklist": "visual_inspection_checklist.md"
+}

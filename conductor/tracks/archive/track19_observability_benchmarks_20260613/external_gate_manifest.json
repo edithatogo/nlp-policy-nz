@@ -103,7 +103,7 @@
     },
     {
       "name": "manifest validation",
-      "command": "python -B -m json.tool conductor\\tracks\\track19_observability_benchmarks_20260613\\external_gate_manifest.json > NUL"
+      "command": "python -B -m json.tool conductor\\tracks\\archive\\track19_observability_benchmarks_20260613\\external_gate_manifest.json > NUL"
     }
   ]
 }
