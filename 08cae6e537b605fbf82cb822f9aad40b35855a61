@@ -1,0 +1,1 @@
+Conductor review fix: compatibility probe now records explicit entity spans and deterministic benchmark workload; focused tests and Ruff passed.
