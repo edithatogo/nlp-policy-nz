@@ -17,7 +17,7 @@ jobs:
       MANUSCRIPT_REVIEW_LOG: artifacts/manuscript/manuscript_review_log.json
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0
@@ -55,7 +55,7 @@ jobs:
 
       - name: Comment manuscript review on PR
         if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require("fs");
