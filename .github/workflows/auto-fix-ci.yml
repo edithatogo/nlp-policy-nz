@@ -27,6 +27,7 @@ jobs:
 
       - name: Attempt automatic fixes
         id: autofix
+        continue-on-error: true
         run: pixi run --frozen -e py312 python scripts/ci_auto_fix.py --report .tmp/auto-fix-report.json
 
       - name: Commit fixes
