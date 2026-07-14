@@ -15,24 +15,25 @@ jobs:
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0
         with:
-          cache: true
+          cache: false
+          run-install: false
 
       - name: Install environment
-        run: CI=true pixi install
+        run: CI=true pixi install -e py312 --frozen --skip-with-deps semgrep --skip-with-deps scalene
 
       - name: Validate profiling runner CLIs
         run: |
-          CI=true pixi run python scripts/profile_pipeline.py --help
-          CI=true pixi run python scripts/memray_trace.py --help
+          CI=true pixi run --frozen -e py312 python scripts/profile_pipeline.py --help
+          CI=true pixi run --frozen -e py312 python scripts/memray_trace.py --help
 
       - name: Run benchmark harness
         run: |
           mkdir -p .tmp/benchmarks
-          CI=true pixi run pytest tests/benchmarks -q --benchmark-only --benchmark-disable-gc --benchmark-sort=mean --benchmark-json=.tmp/benchmarks/pytest-benchmark.json
+          CI=true pixi run --frozen -e py312 pytest tests/benchmarks -q --benchmark-only --benchmark-disable-gc --benchmark-sort=mean --benchmark-json=.tmp/benchmarks/pytest-benchmark.json
 
       - name: Compare benchmark results against baseline
         run: |
-          CI=true pixi run python scripts/compare_benchmarks.py \
+          CI=true pixi run --frozen -e py312 python scripts/compare_benchmarks.py \
             --baseline artifacts/baselines/pytest-benchmark.json \
             --current .tmp/benchmarks/pytest-benchmark.json \
             --thresholds config/benchmark_thresholds.json \

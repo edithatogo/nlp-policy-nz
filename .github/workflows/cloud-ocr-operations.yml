@@ -1,0 +1,218 @@
+name: Cloud OCR operations
+
+on:
+  workflow_dispatch:
+    inputs:
+      metadata_manifest:
+        description: Repository path to a metadata-only Hathi work-item manifest
+        required: true
+        default: data/quality/cloud_ocr_items.json
+        type: string
+      run_id:
+        description: Stable orchestration run identifier
+        required: true
+        default: manual-run
+        type: string
+      pipeline_version:
+        description: Pinned OCR pipeline version recorded in the plan
+        required: true
+        default: 1.0.0
+        type: string
+      worker_image:
+        description: Digest-pinned OCR worker image implementing the metadata plan contract
+        required: true
+        type: string
+      volume_limit:
+        description: Maximum number of metadata work items to dispatch
+        required: true
+        default: "3"
+        type: number
+      shard_size:
+        description: Work identities per resumable shard
+        required: true
+        default: "100"
+        type: number
+      max_cost_usd:
+        description: Hard cloud budget for this run
+        required: true
+        default: "25"
+        type: number
+      publish:
+        description: Publish only after review and completeness gates pass
+        required: true
+        default: false
+        type: boolean
+      pilot:
+        description: Run the fail-closed external pilot gate
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: cloud-ocr-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
+      - id: validate
+        env:
+          METADATA_MANIFEST: ${{ inputs.metadata_manifest }}
+          RUN_ID: ${{ inputs.run_id }}
+          PIPELINE_VERSION: ${{ inputs.pipeline_version }}
+          VOLUME_LIMIT: ${{ inputs.volume_limit }}
+          SHARD_SIZE: ${{ inputs.shard_size }}
+          MAX_COST_USD: ${{ inputs.max_cost_usd }}
+        run: >-
+          uv run --extra dev python scripts/cloud_ocr_orchestrator.py validate
+          --input "$METADATA_MANIFEST" --run-id "$RUN_ID"
+          --pipeline-version "$PIPELINE_VERSION" --volume-limit "$VOLUME_LIMIT"
+          --shard-size "$SHARD_SIZE" --max-cost-usd "$MAX_COST_USD"
+          --output .tmp/cloud-ocr/plan.json
+      - run: >-
+          uv run python scripts/cloud_ocr_orchestrator.py sbom
+          --output .tmp/cloud-ocr/sbom.json
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: cloud-ocr-plan-${{ github.run_id }}
+          path: .tmp/cloud-ocr
+          if-no-files-found: error
+
+  plan:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-plan-${{ github.run_id }}
+          path: .tmp/cloud-ocr
+      - run: >-
+          uv run python scripts/cloud_ocr_orchestrator.py plan
+          --input .tmp/cloud-ocr/plan.json --output .tmp/cloud-ocr/dispatch.json
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: cloud-ocr-dispatch-${{ github.run_id }}
+          path: .tmp/cloud-ocr/dispatch.json
+
+  dispatch:
+    needs: plan
+    runs-on: ubuntu-latest
+    environment: cloud-ocr
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-dispatch-${{ github.run_id }}
+          path: .tmp/cloud-ocr
+      - name: Dispatch metadata-only work
+        env:
+          WORKER_IMAGE: ${{ inputs.worker_image }}
+        run: |
+          test -s .tmp/cloud-ocr/dispatch.json
+          echo "$WORKER_IMAGE" | grep -Eq '^.+@sha256:[0-9a-f]{64}$'
+          mkdir -p .tmp/cloud-ocr/worker
+          docker run --rm \
+            -v "$PWD/.tmp/cloud-ocr:/work:rw" \
+            "$WORKER_IMAGE" \
+            --plan /work/dispatch.json --results /work/worker-results.json
+          test -s .tmp/cloud-ocr/worker-results.json
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: cloud-ocr-worker-results-${{ github.run_id }}
+          path: .tmp/cloud-ocr/worker-results.json
+          if-no-files-found: error
+
+  collect:
+    needs: dispatch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-dispatch-${{ github.run_id }}
+          path: .tmp/cloud-ocr
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-worker-results-${{ github.run_id }}
+          path: .tmp/cloud-ocr
+      - run: >-
+          uv run python scripts/cloud_ocr_orchestrator.py collect
+          --input .tmp/cloud-ocr/dispatch.json --results .tmp/cloud-ocr/worker-results.json
+          --output .tmp/cloud-ocr/collected.json
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: cloud-ocr-collected-${{ github.run_id }}
+          path: .tmp/cloud-ocr/collected.json
+
+  retry-and-quarantine:
+    needs: collect
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-collected-${{ github.run_id }}
+          path: .tmp/cloud-ocr
+      - run: >-
+          uv run python scripts/cloud_ocr_orchestrator.py retry
+          --input .tmp/cloud-ocr/collected.json --output .tmp/cloud-ocr/reconciled.json
+      - run: >-
+          uv run python scripts/cloud_ocr_orchestrator.py quarantine
+          --input .tmp/cloud-ocr/reconciled.json --output .tmp/cloud-ocr/quarantine.json
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: cloud-ocr-reconciled-${{ github.run_id }}
+          path: .tmp/cloud-ocr
+
+  publish:
+    needs: retry-and-quarantine
+    if: ${{ inputs.publish }}
+    runs-on: ubuntu-latest
+    environment: cloud-ocr-publish
+    env:
+      CLOUD_OCR_SIGNING_KEY: ${{ secrets.CLOUD_OCR_SIGNING_KEY }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-reconciled-${{ github.run_id }}
+          path: .tmp/cloud-ocr
+      - run: >-
+          uv run python scripts/cloud_ocr_orchestrator.py publish
+          --input .tmp/cloud-ocr/quarantine.json --output .tmp/cloud-ocr/run-report.json
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: cloud-ocr-run-report-${{ github.run_id }}
+          path: .tmp/cloud-ocr/run-report.json
+
+  pilot-gate:
+    needs: retry-and-quarantine
+    if: ${{ inputs.pilot }}
+    runs-on: ubuntu-latest
+    environment: cloud-ocr-pilot
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-reconciled-${{ github.run_id }}
+          path: .tmp/cloud-ocr
+      - run: >-
+          uv run python scripts/cloud_ocr_orchestrator.py pilot
+          --input .tmp/cloud-ocr/quarantine.json
+          --output .tmp/cloud-ocr/pilot-gate.json
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: cloud-ocr-pilot-gate-${{ github.run_id }}
+          path: .tmp/cloud-ocr/pilot-gate.json

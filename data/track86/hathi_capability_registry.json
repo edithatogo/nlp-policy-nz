@@ -1,0 +1,28 @@
+{
+  "schema_version": "track86.hathi-capability-registry.v1",
+  "producer": "nlp-policy-nz",
+  "capabilities": [
+    {
+      "capability_id": "hathi.registry.validate",
+      "summary": "Validate HathiTrust-NZ registry and rights routing.",
+      "side_effect": "read_only",
+      "surfaces": {
+        "api": "planned",
+        "cli": "planned",
+        "mcp": "planned",
+        "sdk": "planned"
+      }
+    },
+    {
+      "capability_id": "hathi.work.plan",
+      "summary": "Build deterministic, content-addressed cloud work shards.",
+      "side_effect": "read_only",
+      "surfaces": {
+        "api": "planned",
+        "cli": "planned",
+        "mcp": "planned",
+        "sdk": "planned"
+      }
+    }
+  ]
+}
