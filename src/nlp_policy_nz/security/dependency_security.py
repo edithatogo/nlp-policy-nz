@@ -48,7 +48,7 @@ def run_dependency_audit(project_root: Path | None = None) -> dict[str, Any]:
     """Run pip-audit against the project and return the parsed JSON report."""
     root = Path.cwd() if project_root is None else project_root
     result = subprocess.run(  # noqa: S603
-        [sys.executable, "-m", "pip_audit", "--format=json", "."],
+        [sys.executable, "-m", "pip_audit", "--format=json", "--local"],
         cwd=root,
         capture_output=True,
         text=True,

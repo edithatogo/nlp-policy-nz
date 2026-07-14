@@ -49,7 +49,7 @@ def load_commit_messages_from_git() -> list[str]:
 def _git_subjects(range_spec: str, *, fallback_single: bool = False) -> list[str]:
     try:
         result = subprocess.run(  # noqa: S603
-            ["git", "log", "--format=%s", range_spec],
+            ["git", "log", "--no-merges", "--format=%s", range_spec],
             check=True,
             capture_output=True,
             text=True,

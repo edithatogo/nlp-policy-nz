@@ -1,0 +1,23 @@
+{
+  "schema_version": "track88-gold-v1",
+  "leakage_policy": "metadata-only",
+  "annotation_units": [
+    "hierarchy",
+    "speaker_attribution",
+    "semantic_link",
+    "abstention",
+    "source_span"
+  ],
+  "strata": [
+    {"id": "early-single", "year_band": "1854-1899", "layout": "single-column", "document_type": "debate"},
+    {"id": "early-multi", "year_band": "1900-1939", "layout": "multi-column", "document_type": "question"},
+    {"id": "mid-table", "year_band": "1940-1969", "layout": "table", "document_type": "division"},
+    {"id": "late-marginalia", "year_band": "1970-1990", "layout": "marginalia", "document_type": "appendix"}
+  ],
+  "required_controls": [
+    "page-level split",
+    "volume-level provenance",
+    "no duplicate HTID across splits",
+    "manual adjudication of ambiguous speaker labels"
+  ]
+}

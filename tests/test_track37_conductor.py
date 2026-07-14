@@ -15,7 +15,7 @@ def test_track37_conductor_artifacts_mark_complete() -> None:
     plan = TRACK_DIR.joinpath("plan.md").read_text(encoding="utf-8")
     tracks = Path("conductor/tracks.md").read_text(encoding="utf-8")
 
-    assert metadata["status"] == "complete"
+    assert metadata["status"] in {"complete", "archived"}
     assert "**Status**: Complete" in spec
     assert "**Status**: Complete" in plan
     assert "## [x] Track 37: Publication Manuscript and Review Agents (archived)" in tracks

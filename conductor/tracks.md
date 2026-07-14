@@ -515,3 +515,122 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 - **Dependencies**: Tracks 23, 39, 45, 57-68
 - **Parallelization Node**: Repository Governance and Planning Operations
 - **Why**: Keep the Conductor roadmap mirrored into GitHub issues and GitHub Projects with stable phase, status, dependency, and path metadata while preserving the completed track as a historical record.
+---
+
+## Phase X — NZ Legal/Hansard Evaluation and Fine-Tuning
+
+---
+
+## [x] Track 74: NZ Legal/Hansard Held-Out Evaluation Set (archived)
+*Link: [./conductor/tracks/archive/track74_nz_legal_hansard_evaluation_set_20260704/](./conductor/tracks/archive/track74_nz_legal_hansard_evaluation_set_20260704/)*
+- **Dependencies**: Tracks 13, 19, 20, 23, 53
+- **Parallelization Node**: Model Evaluation Data Infrastructure
+- **Why**: Create a held-out NZ legal/Hansard evaluation set with leakage controls, provenance, and stable metrics to gate model selection and future fine-tuning.
+
+## [x] Track 75: NZ Legislation/Hansard Fine-Tuned Model (archived)
+*Link: [./conductor/tracks/archive/track75_nz_legislation_hansard_finetuned_model_20260704/](./conductor/tracks/archive/track75_nz_legislation_hansard_finetuned_model_20260704/)*
+- **Dependencies**: Tracks 74, 20, 53
+- **Parallelization Node**: Model Fine-Tuning and Evaluation
+- **Why**: Fine-tune a NZ legislation/Hansard model only after the held-out evaluation set establishes a defensible baseline and promotion threshold.
+
+---
+
+## Phase XI — Executable Rules-as-Code Completion
+
+---
+
+## [x] Track 78: RuleSpec Promotion Contract (archived)
+*Link: [./conductor/archive/track78_rulespec_promotion_contract_20260705/](./conductor/archive/track78_rulespec_promotion_contract_20260705/)*
+- **Dependencies**: Tracks 27, 54, 55, 76, 77
+- **Parallelization Node**: Reviewed RuleSpec Handoff
+- **Why**: Define the fail-closed review and handoff contract that turns NLP-generated RAC candidates into RuleSpec-ready artifacts without making this repo the executable rules runtime.
+
+## [x] Track 79: PolicyEngine Executable Pilot (archived)
+*Link: [./conductor/archive/track79_policyengine_executable_pilot_20260705/](./conductor/archive/track79_policyengine_executable_pilot_20260705/)*
+- **Dependencies**: Tracks 7, 10, 11, 15, 20, 23, 27, 53, 74, 75, 77, 78
+- **Parallelization Node**: PolicyEngine Runtime Pilot
+- **Why**: Generate and execute the first reviewed PolicyEngine package from promoted NZ legislation handoff artifacts, proving the primary downstream runtime path.
+
+## [x] Track 80: OpenFisca and Multi-Engine Parity (archived)
+*Link: [./conductor/archive/track80_openfisca_multi_engine_parity_20260705/](./conductor/archive/track80_openfisca_multi_engine_parity_20260705/)*
+- **Dependencies**: Tracks 46, 50, 52, 78, 79
+- **Parallelization Node**: Multi-Engine Rules-as-Code Validation
+- **Why**: Add OpenFisca export and deterministic parity reporting after the PolicyEngine pilot is proven, then document how other engines should be onboarded.
+
+---
+
+## Phase XII — Formalized CLI/API/MCP Interface Surfaces
+
+---
+
+## [x] Track 81: Interface Surface Contract and Capability Registry (archived)
+*Link: [./conductor/tracks/archive/track81_interface_surface_contract_20260706/](./conductor/tracks/archive/track81_interface_surface_contract_20260706/)*
+- **Dependencies**: Tracks 7, 46, 48, 49, 51, 52, 80
+- **Parallelization Node**: Interface Contract Foundation
+- **Why**: Define a canonical capability registry and interface contract so CLI, HTTP API, SDK, and MCP surfaces expose the same core behavior without drifting apart.
+
+## [x] Track 82: CLI Contract Hardening and Stable Command Reference (archived)
+*Link: [./conductor/tracks/archive/track82_cli_contract_hardening_20260706/](./conductor/tracks/archive/track82_cli_contract_hardening_20260706/)*
+- **Dependencies**: Tracks 48, 49, 81
+- **Parallelization Node**: CLI Product Surface
+- **Why**: Formalize the existing `nlp-policy-nz` CLI as a stable user-facing interface with contract tests, structured output, exit code policy, and generated reference docs.
+
+## [x] Track 83: Public API Contract Formalization (archived)
+*Link: [./conductor/tracks/archive/track83_public_api_contract_formalization_20260706/](./conductor/tracks/archive/track83_public_api_contract_formalization_20260706/)*
+- **Dependencies**: Tracks 46, 48, 51, 52, 81
+- **Parallelization Node**: HTTP API Product Surface
+- **Why**: Formalize the FastAPI and client SDK surface with versioned OpenAPI artifacts, request/response contracts, auth scopes, and compatibility tests.
+
+## [x] Track 84: MCP Server Surface for Agentic Consumption (archived)
+*Link: [./conductor/tracks/archive/track84_mcp_server_surface_20260706/](./conductor/tracks/archive/track84_mcp_server_surface_20260706/)*
+- **Dependencies**: Tracks 43, 46, 48, 49, 51, 52, 81
+- **Parallelization Node**: MCP Agent Surface
+- **Why**: Expose a safe MCP server adapter over selected `nlp-policy-nz` capabilities, starting with read-only search, provenance, quality, ontology, and rules-as-code inspection tools.
+
+## [x] Track 85: Cross-Surface Contract Governance and Release Automation (archived)
+*Link: [./conductor/tracks/archive/track85_cross_surface_contract_governance_20260706/](./conductor/tracks/archive/track85_cross_surface_contract_governance_20260706/)*
+- **Dependencies**: Tracks 39, 45, 49, 81, 82, 83, 84
+- **Parallelization Node**: Interface Governance and CI
+- **Why**: Add cross-surface conformance tests, docs generation, and release governance so CLI, HTTP API, SDK, and MCP contracts remain aligned over time.
+
+---
+
+## Phase XIII — HathiTrust-NZ Structured Archive Extraction
+
+---
+
+## [ ] Track 86: HathiTrust-NZ Ingestion Contract
+*Link: [./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/](./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/)*
+- **Dependencies**: Tracks 23, 39, 45, 81, 85
+- **Parallelization Node**: Archive Contract and Rights Boundary
+- **Why**: Import HathiTrust-NZ manifests through a deterministic, fail-closed contract before any cloud processing.
+
+## [ ] Track 87: Layout-Aware OCR Ensemble
+*Link: [./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/](./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/)*
+- **Dependencies**: Tracks 56, 74, 86
+- **Parallelization Node**: Document Vision and OCR Verification
+- **Why**: Preserve supplied OCR while independently validating historical pages with a benchmarked, cost-aware layout/OCR ensemble.
+
+## [~] Track 88: Historical Parliament Structure Reconstruction
+*Link: [./conductor/tracks/track88_historical_parliament_structure_20260713/](./conductor/tracks/track88_historical_parliament_structure_20260713/)*
+- **Dependencies**: Tracks 53, 55, 74, 87
+- **Parallelization Node**: Hansard Structure and Semantics
+- **Why**: Recover page-grounded parliamentary hierarchy, speaker identity, semantic entities, and relationships.
+
+## [~] Track 89: Multi-Layer Archive Schema
+*Link: [./conductor/tracks/track89_multilayer_archive_schema_20260713/](./conductor/tracks/track89_multilayer_archive_schema_20260713/)*
+- **Dependencies**: Tracks 18, 23, 26, 86, 87, 88
+- **Parallelization Node**: Structured Data and Provenance
+- **Why**: Connect archive objects, page geometry, OCR alternatives, parliamentary structure, semantic assertions, and provenance without information loss.
+
+## [~] Track 90: Hugging Face Archive Publication
+*Link: [./conductor/tracks/track90_huggingface_archive_publication_20260713/](./conductor/tracks/track90_huggingface_archive_publication_20260713/)*
+- **Dependencies**: Tracks 9, 18, 39, 45, 89
+- **Parallelization Node**: Dataset Materialization and Publication
+- **Why**: Publish rights-safe, streaming multi-configuration datasets with generated cards, checksums, attestations, and DOI handoff.
+
+## [~] Track 91: Cloud OCR Evaluation and Operations
+*Link: [./conductor/tracks/track91_cloud_ocr_evaluation_20260713/](./conductor/tracks/track91_cloud_ocr_evaluation_20260713/)*
+- **Dependencies**: Tracks 39, 40, 45, 74, 85, 87, 88, 89, 90
+- **Parallelization Node**: Secure Cloud Orchestration and Quality
+- **Why**: Dispatch all corpus processing through GitHub Actions and pinned cloud workers with evaluation, budgets, resumability, security gates, and row-level completeness.

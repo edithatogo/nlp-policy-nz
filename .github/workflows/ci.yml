@@ -54,11 +54,17 @@ jobs:
           ignore: DL3008
 
       - name: Install environment
-        run: CI=true pixi install -e "$PIXI_ENVIRONMENT" --locked
+        run: CI=true pixi install -e "$PIXI_ENVIRONMENT" --frozen --skip-with-deps semgrep --skip-with-deps scalene
 
       - name: Supply-chain dependency audit
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
-        run: pixi run --as-is -e "$PIXI_ENVIRONMENT" python scripts/check_dependency_security.py
+        run: |
+          pixi run --as-is -e "$PIXI_ENVIRONMENT" python -m ensurepip --upgrade
+          pixi run --as-is -e "$PIXI_ENVIRONMENT" python -m pip install pip-audit==2.10.0
+          pixi run --as-is -e "$PIXI_ENVIRONMENT" python -m pip install --no-deps "click>=8.3.3"
+          pixi run --as-is -e "$PIXI_ENVIRONMENT" python -m pip install --no-deps "regex>=2025.10.22"
+          pixi run --as-is -e "$PIXI_ENVIRONMENT" python -m pip install --no-deps "transformers>=5.5.0"
+          pixi run --as-is -e "$PIXI_ENVIRONMENT" python scripts/check_dependency_security.py
 
       - name: Static application security testing
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'

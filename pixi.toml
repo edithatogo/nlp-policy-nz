@@ -19,7 +19,7 @@ polars = ">=1.0.0"
 pyarrow = ">=16.0.0"
 spacy = ">=3.7.0"
 en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }
-transformers = ">=4.40.0"
+transformers = ">=5.5.0"
 torch = ">=2.2.0"
 bitsandbytes = ">=0.42.0"
 msgspec = ">=0.18.0"
