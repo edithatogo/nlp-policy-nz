@@ -1,0 +1,26 @@
+{
+  "collection_id": "edithatogo/hathitrust-nz",
+  "repository_statuses": {
+    "edithatogo/hathitrust-nz-inventory": {
+      "metadata_status": 200,
+      "viewer_default_status": 503
+    },
+    "edithatogo/hathitrust-nz-htrc-analytics": {
+      "metadata_status": 200,
+      "viewer_default_status": 503
+    },
+    "edithatogo/hathitrust-nz-htrc-extracted-features": {
+      "metadata_status": 200,
+      "viewer_default_status": 503
+    },
+    "edithatogo/hathitrust-nz-research-fulltext": {
+      "metadata_status": 200,
+      "viewer_default_status": 503
+    }
+  },
+  "probe_time_utc": "2026-07-14T05:46:51Z",
+  "passed": false,
+  "failures": [
+    "Dataset Viewer is unavailable for all four public HathiTrust-NZ repositories"
+  ]
+}
