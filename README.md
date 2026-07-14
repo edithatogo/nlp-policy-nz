@@ -16,8 +16,15 @@ A modular, high-performance NLP preprocessing pipeline purpose-built for Aotearo
 
 ## Requirements
 
-- Python 3.13+
+- Python 3.12 is the production runtime and the default Pixi environment.
+- Python 3.11 remains a compatibility lane in CI.
+- Python 3.13 and 3.14 are experimental runtime probes. The 3.14 probe
+  intentionally omits spaCy, PyTorch, and bitsandbytes until compatible wheels
+  are available; it is not a supported full NLP environment.
 - Rust toolchain (for maturin builds)
+
+See [the Python runtime matrix](docs/python-runtime-matrix.md) for CPU, GPU,
+profiling, and experimental-environment commands.
 
 ## Installation
 

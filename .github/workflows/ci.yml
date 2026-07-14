@@ -211,3 +211,41 @@ jobs:
           summary.write_text("\n".join(rows) + "\n", encoding="utf-8")
           print(summary.read_text(encoding="utf-8"))
           PY
+
+  experimental-runtime:
+    name: experimental runtime (Python ${{ matrix.python-version }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python-version: "3.13"
+            pixi-environment: py313-experimental
+          - python-version: "3.14"
+            pixi-environment: py314-experimental
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0
+        with:
+          cache: false
+          run-install: false
+      - name: Resolve experimental environment
+        run: CI=true pixi install -e "${{ matrix.pixi-environment }}" --skip-with-deps vllm --skip-with-deps semgrep --skip-with-deps scalene
+      - name: Verify runtime policy
+        run: |
+          pixi run --as-is -e "${{ matrix.pixi-environment }}" python - <<'PY'
+          import importlib.util
+          import platform
+
+          expected = "${{ matrix.python-version }}"
+          actual = platform.python_version()
+          if not actual.startswith(expected):
+              raise SystemExit(f"expected Python {expected}, got {actual}")
+          if expected == "3.14" and importlib.util.find_spec("spacy") is not None:
+              raise SystemExit("spaCy must remain gated from the Python 3.14 probe")
+          print(f"validated experimental runtime {actual}")
+          PY

@@ -9,6 +9,11 @@ commit style for history hygiene.
    ```bash
    pixi install
    ```
+   This installs the Python 3.12 production environment. Use
+   `pixi install -e py313-experimental` or
+   `pixi install -e py314-experimental` only for runtime compatibility probes.
+   CPU, GPU, and profiling environments are documented in
+   `docs/python-runtime-matrix.md`.
 2. Install pre-commit hooks:
    ```bash
    pre-commit install

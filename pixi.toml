@@ -7,7 +7,7 @@ channels = ["conda-forge"]
 platforms = ["win-64", "linux-64", "osx-arm64"]
 
 [dependencies]
-python = ">=3.11,<3.13"
+python = ">=3.11,<3.15"
 pip = "*"
 rust = ">=1.80"
 vale = ">=3.0"
@@ -17,11 +17,11 @@ git = "*"
 [pypi-dependencies]
 polars = ">=1.0.0"
 pyarrow = ">=16.0.0"
-spacy = ">=3.7.0"
-en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }
+spacy = { version = ">=3.7.0", env-markers = "python_version < '3.14'" }
+en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl", env-markers = "python_version < '3.14'" }
 transformers = ">=5.5.0"
-torch = ">=2.2.0"
-bitsandbytes = ">=0.42.0"
+torch = { version = ">=2.2.0", env-markers = "python_version < '3.14'" }
+bitsandbytes = { version = ">=0.42.0", env-markers = "python_version < '3.14'" }
 msgspec = ">=0.18.0"
 pydantic = ">=2.11.0"
 orjson = ">=3.10.0"
@@ -52,7 +52,7 @@ uvicorn = ">=0.27.0"
 opentelemetry-api = ">=1.25.0"
 opentelemetry-sdk = ">=1.25.0"
 opentelemetry-exporter-otlp = ">=1.25.0"
-lingua-language-detector = ">=1.4.0,<2.0.0"
+lingua-language-detector = ">=1.4.0,<3.0.0"
 accelerate = ">=0.30.0"
 peft = ">=0.11.0"
 trl = ">=0.9.0"
@@ -74,6 +74,18 @@ python = "3.11.*"
 [feature.py312.dependencies]
 python = "3.12.*"
 
+[feature.py313.dependencies]
+python = "3.13.*"
+
+[feature.py314.dependencies]
+python = "3.14.*"
+
+[feature.cpu.tasks]
+runtime-profile = "python -c \"import platform; print(f'CPU runtime: {platform.python_version()}')\""
+
+[feature.gpu.tasks]
+gpu-check = "python -c \"import torch; raise SystemExit('CUDA is unavailable in this GPU environment') if not torch.cuda.is_available() else print(torch.cuda.get_device_name(0))\""
+
 [feature.profiling.pypi-dependencies]
 scalene = ">=1.5.0"
 
@@ -90,8 +102,14 @@ profile-scalene = "scalene --reduced-profile --html --outfile docs/profiling.htm
 semgrep = ">=1.93.0"
 
 [environments]
-py311 = ["py311"]
-py312 = ["py312"]
+default = ["py312", "cpu"]
+production = ["py312", "cpu"]
+cpu = ["py312", "cpu"]
+gpu = ["py312", "gpu"]
+py311 = ["py311", "cpu"]
+py312 = ["py312", "cpu"]
+py313-experimental = ["py313", "cpu"]
+py314-experimental = ["py314", "cpu"]
 profiling = ["py312", "profiling"]
 security = ["py312", "security"]
 unstructured = ["py312", "unstructured"]
