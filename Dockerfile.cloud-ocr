@@ -1,0 +1,19 @@
+# syntax=docker/dockerfile:1.7
+
+FROM python:3.14-slim-bookworm
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates poppler-utils tesseract-ocr tesseract-ocr-eng \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --create-home --uid 10001 --shell /usr/sbin/nologin worker
+
+WORKDIR /opt/worker
+COPY scripts/cloud_ocr_worker.py ./cloud_ocr_worker.py
+RUN chown -R worker:worker /opt/worker
+
+USER worker
+ENTRYPOINT ["python", "/opt/worker/cloud_ocr_worker.py"]

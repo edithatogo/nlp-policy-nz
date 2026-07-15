@@ -160,6 +160,17 @@ def main() -> int:
         write_signed_run_report(plan, args.output, signing_key=signing_key)
         return 0
     if args.command == "pilot":
+        if plan is not None:
+            if plan.quarantined_item_ids or any(row.state.value != "published" for row in plan.ledger):
+                parser.error("pilot requires every ledger row to be published and unquarantined")
+            _write_artifact(
+                args=args,
+                status="passed",
+                run_id=plan.run_id,
+                collection_id=plan.collection_id,
+                published_items=len(plan.ledger),
+            )
+            return 0
         _write_artifact(
             args=args,
             status="external_gate_required",

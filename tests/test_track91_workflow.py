@@ -74,6 +74,67 @@ def test_orchestrator_pilot_is_explicitly_external_gate(tmp_path: Path) -> None:
     assert json.loads(output.read_text(encoding="utf-8"))["status"] == "external_gate_required"
 
 
+def test_orchestrator_pilot_passes_completed_unquarantined_plan(tmp_path: Path) -> None:
+    import json
+    import subprocess
+    import sys
+
+    item = {
+        "collection_id": "hathi-nz",
+        "dataset_id": "dataset-a",
+        "source_id": "source-a",
+        "item_id": "item-a",
+        "htid": "htid-a",
+        "access_class": "public_full_text",
+        "acquisition_mode": "github_actions",
+        "source_url": "https://example.test/item-a",
+        "source_dataset_name": "seed",
+        "rights_code": "public",
+        "digitization_profile": "standard",
+        "publish_eligibility": "public_full_text",
+        "source_sha256": "a" * 64,
+    }
+    manifest = tmp_path / "items.json"
+    manifest.write_text(json.dumps({"items": [item]}), encoding="utf-8")
+    plan = tmp_path / "plan.json"
+    assert subprocess.run(
+        [
+            sys.executable,
+            "scripts/cloud_ocr_orchestrator.py",
+            "validate",
+            "--input",
+            str(manifest),
+            "--output",
+            str(plan),
+            "--run-id",
+            "pilot-1",
+        ],
+        cwd=ROOT,
+        check=False,
+    ).returncode == 0
+    payload = json.loads(plan.read_text(encoding="utf-8"))
+    payload["plan"]["ledger"][0]["state"] = "published"
+    plan.write_text(json.dumps(payload), encoding="utf-8")
+    output = tmp_path / "pilot.json"
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/cloud_ocr_orchestrator.py",
+            "pilot",
+            "--input",
+            str(plan),
+            "--output",
+            str(output),
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
+    assert json.loads(output.read_text(encoding="utf-8"))["status"] == "passed"
+
+
 def test_orchestrator_validate_builds_and_plan_preserves_cloud_plan(tmp_path: Path) -> None:
     import json
     import subprocess
