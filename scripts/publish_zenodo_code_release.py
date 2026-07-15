@@ -64,7 +64,14 @@ def main() -> int:
     archive = output / f"nlp-policy-nz-{args.version}.tar.gz"
     _archive(root, args.version, archive)
     metadata = json.loads((root / ".zenodo.json").read_text(encoding="utf-8"))
-    metadata.update({"version": args.version, "publication_date": __import__("datetime").date.today().isoformat()})
+    metadata.update(
+        {
+            "version": args.version,
+            "publication_date": __import__("datetime").date.today().isoformat(),
+            "upload_type": "software",
+            "resource_type": {"type": "software"},
+        }
+    )
     (output / "metadata.json").write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if args.dry_run:
         sys.stdout.write(f"{archive}\n")
