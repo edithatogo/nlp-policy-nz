@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "access_class": "public_full_text",
+      "acquisition_mode": "github_actions",
+      "collection_id": "foi-nz",
+      "dataset_id": "nz-oia-legislation-pilot",
+      "digitization_profile": "standard",
+      "htid": "nzlegislation-1983-83",
+      "item_id": "official-information-amendment-act-1983",
+      "notes": "Public legislation selected for the no-cost Cloud OCR technical pilot.",
+      "publish_eligibility": "public_full_text",
+      "rights_code": "NZ-Copyright-Act-1994-s27",
+      "source_dataset_name": "edithatogo-legislation",
+      "source_id": "nz-public-act-1983-83",
+      "source_url": "https://www.legislation.govt.nz/act/public/1983/83/en/latest.pdf"
+    }
+  ]
+}

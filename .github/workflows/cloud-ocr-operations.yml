@@ -6,7 +6,7 @@ on:
       metadata_manifest:
         description: Repository path to a metadata-only Hathi work-item manifest
         required: true
-        default: data/quality/cloud_ocr_items.json
+        default: data/quality/cloud_ocr_pilot_sources.json
         type: string
       run_id:
         description: Stable orchestration run identifier
@@ -70,12 +70,19 @@ jobs:
           VOLUME_LIMIT: ${{ inputs.volume_limit }}
           SHARD_SIZE: ${{ inputs.shard_size }}
           MAX_COST_USD: ${{ inputs.max_cost_usd }}
-        run: >-
-          uv run --extra dev python scripts/cloud_ocr_orchestrator.py validate
-          --input "$METADATA_MANIFEST" --run-id "$RUN_ID"
-          --pipeline-version "$PIPELINE_VERSION" --volume-limit "$VOLUME_LIMIT"
-          --shard-size "$SHARD_SIZE" --max-cost-usd "$MAX_COST_USD"
-          --output .tmp/cloud-ocr/plan.json
+        run: |
+          set -euo pipefail
+          manifest="$METADATA_MANIFEST"
+          if [ "${{ inputs.pilot }}" = "true" ]; then
+            manifest=.tmp/cloud-ocr/pilot-items.json
+            uv run python scripts/prepare_cloud_ocr_pilot_manifest.py \
+              --input "$METADATA_MANIFEST" --output "$manifest"
+          fi
+          uv run --extra dev python scripts/cloud_ocr_orchestrator.py validate \
+            --input "$manifest" --run-id "$RUN_ID" \
+            --pipeline-version "$PIPELINE_VERSION" --volume-limit "$VOLUME_LIMIT" \
+            --shard-size "$SHARD_SIZE" --max-cost-usd "$MAX_COST_USD" \
+            --output .tmp/cloud-ocr/plan.json
       - run: >-
           uv run python scripts/cloud_ocr_orchestrator.py sbom
           --output .tmp/cloud-ocr/sbom.json
