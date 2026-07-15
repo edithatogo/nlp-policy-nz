@@ -599,34 +599,27 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
-## [~] Track 92: GitHub Actions Runtime Modernization
-*Link: [./conductor/tracks/track92_actions_runtime_modernization_20260715/](./conductor/tracks/track92_actions_runtime_modernization_20260715/)*
-- **Issue**: #134
-- **Dependencies**: Tracks 23, 39, 45, 85, 91
-- **Parallelization Node**: CI Runtime and Supply Chain
-- **Why**: Replace mutable and Node.js 20-era checkout/artifact action references with current Node.js 24-compatible immutable commit SHAs.
-
 ## [ ] Track 93: FOI-O Empirical Promotion Evidence
-*Link: [./conductor/tracks/track93_foio_empirical_promotion_20260715/](./conductor/tracks/track93_foio_empirical_promotion_20260715/)*
+*Link: [./tracks/track93_foio_empirical_promotion_20260715/](./tracks/track93_foio_empirical_promotion_20260715/)*
 - **Issue**: #129
 - **Why**: Replace placeholder evidence with real jurisdiction-isolated promotion evidence.
 
 ## [ ] Track 94: HathiTrust-NZ Rights and Surface Assurance
-*Link: [./conductor/tracks/track94_hathi_rights_surface_assurance_20260715/](./conductor/tracks/track94_hathi_rights_surface_assurance_20260715/)*
+*Link: [./tracks/track94_hathi_rights_surface_assurance_20260715/](./tracks/track94_hathi_rights_surface_assurance_20260715/)*
 - **Issue**: #130
 - **Why**: Add authoritative territorial rights provenance and verify advertised interfaces.
 
 ## [ ] Track 95: Historical NZ OCR Engine Benchmark
-*Link: [./conductor/tracks/track95_historical_ocr_engine_benchmark_20260715/](./conductor/tracks/track95_historical_ocr_engine_benchmark_20260715/)*
+*Link: [./tracks/track95_historical_ocr_engine_benchmark_20260715/](./tracks/track95_historical_ocr_engine_benchmark_20260715/)*
 - **Issue**: #131
 - **Why**: Empirically benchmark the four pinned OCR candidates using no-cost compute.
 
 ## [ ] Track 96: Historical Parliament Held-Out Evaluation
-*Link: [./conductor/tracks/track96_parliament_heldout_evaluation_20260715/](./conductor/tracks/track96_parliament_heldout_evaluation_20260715/)*
+*Link: [./tracks/track96_parliament_heldout_evaluation_20260715/](./tracks/track96_parliament_heldout_evaluation_20260715/)*
 - **Issue**: #132
 - **Why**: Produce rights-safe, adjudicated, volume-isolated empirical evaluation evidence.
 
 ## [ ] Track 97: Archive Rights and Assurance Closeout
-*Link: [./conductor/tracks/track97_archive_rights_assurance_20260715/](./conductor/tracks/track97_archive_rights_assurance_20260715/)*
+*Link: [./tracks/track97_archive_rights_assurance_20260715/](./tracks/track97_archive_rights_assurance_20260715/)*
 - **Issue**: #133
 - **Why**: Prove transitive effective access and complete mutation, compatibility and serializer assurance.

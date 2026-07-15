@@ -11,5 +11,5 @@
 
 - [x] Task: Run focused policy and workflow tests.
 - [x] Task: Run Ruff and diff validation.
-- [ ] Task: Archive the completed track after merge evidence is recorded.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Verification and closeout' (Protocol in workflow.md)
+- [x] Task: Archive the completed track after merge evidence is recorded.
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Verification and closeout' (Protocol in workflow.md)
