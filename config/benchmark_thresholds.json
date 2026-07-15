@@ -1,6 +1,10 @@
 {
   "default_threshold": 0.1,
   "thresholds": {
-    "tests/benchmarks/test_pipeline_benchmark.py::test_process_legislation_throughput_benchmark": 0.1
+    "tests/benchmarks/test_pipeline_benchmark.py::test_process_legislation_throughput_benchmark": 0.1,
+    "tests/benchmarks/test_vector_benchmark.py::test_lancedb_index_build_time[10]": 3.5,
+    "tests/benchmarks/test_vector_benchmark.py::test_lancedb_index_build_time[100]": 0.5,
+    "tests/benchmarks/test_vector_benchmark.py::test_lancedb_index_build_time[1000]": 0.25,
+    "tests/benchmarks/test_vector_benchmark.py::test_lancedb_update_latency": 3.5
   }
 }
