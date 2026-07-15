@@ -234,7 +234,7 @@ jobs:
           cache: false
           run-install: false
       - name: Resolve experimental environment
-        run: CI=true pixi install -e "${{ matrix.pixi-environment }}" --skip-with-deps vllm --skip-with-deps semgrep --skip-with-deps scalene
+        run: CI=true pixi install -e "${{ matrix.pixi-environment }}" --platform linux-64 --skip-with-deps vllm --skip-with-deps semgrep --skip-with-deps scalene --no-progress
       - name: Verify runtime policy
         run: |
           pixi run --as-is -e "${{ matrix.pixi-environment }}" python - <<'PY'
