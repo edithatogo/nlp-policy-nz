@@ -1,0 +1,1 @@
+Track 91 completion and archive: final run 29419384268 passed validate, plan, dispatch, collect, retry/quarantine, signed publish, pilot gate, and Hugging Face staging at max_cost_usd=0. Public evidence: edithatogo/nlp-policy-nz-cloud-ocr-pilots/cloud-ocr-runs/track91-zero-cost-hf-20260715. Validation: 16 focused tests, Ruff, JSON validation, and diff checks passed.
