@@ -234,10 +234,22 @@ jobs:
           cache: false
           run-install: false
       - name: Resolve experimental environment
-        run: CI=true pixi install -e "${{ matrix.pixi-environment }}" --platform linux-64 --skip-with-deps vllm --skip-with-deps semgrep --skip-with-deps scalene --no-progress
+        run: |
+          mkdir -p .tmp/experimental-runtime
+          cat > .tmp/experimental-runtime/pixi.toml <<'EOF'
+          [workspace]
+          name = "nlp-policy-nz-experimental-runtime"
+          channels = ["conda-forge"]
+          platforms = ["linux-64"]
+
+          [dependencies]
+          python = "${{ matrix.python-version }}.*"
+          pip = "*"
+          EOF
+          CI=true pixi install --manifest-path .tmp/experimental-runtime/pixi.toml --platform linux-64 --no-progress
       - name: Verify runtime policy
         run: |
-          pixi run --as-is -e "${{ matrix.pixi-environment }}" python - <<'PY'
+          pixi run --manifest-path .tmp/experimental-runtime/pixi.toml python - <<'PY'
           import importlib.util
           import platform
 
