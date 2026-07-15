@@ -1,0 +1,1 @@
+Validation: targeted container structure test passed under the compatibility environment; actionlint passed for containerized CI. Docker image now matches the tested Python 3.13 and locked-Pixi contract.
