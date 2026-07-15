@@ -10,6 +10,6 @@
 
 ## External gate
 
-The public 1-3 volume cloud pilot requires configured GitHub environments, cloud worker credentials/OIDC trust, a real OCR worker, and Hugging Face staging. No live run report is claimed until those external services produce signed checkpoint evidence.
+The public 1-3 volume cloud pilot requires configured GitHub environments, cloud worker credentials/OIDC trust, a real OCR worker, and Hugging Face staging. The `cloud-ocr-publish` environment now has a protected `CLOUD_OCR_SIGNING_KEY` (configured 2026-07-15); no live run report is claimed until the remaining external services produce signed checkpoint evidence.
 
 The workflow requires a repository path to a metadata-only item manifest. It does not accept corpus payloads, and it remains fail-closed when that manifest or a worker checkpoint is unavailable.
