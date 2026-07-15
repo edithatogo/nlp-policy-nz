@@ -1,0 +1,35 @@
+{
+  "decision": "defer",
+  "experiment": "spacy4_compatibility_spike",
+  "fixture": "The agency must protect Te Reo Māori and iwi data.",
+  "benchmark": {
+    "deterministic": true,
+    "documents": 100,
+    "iterations": 100,
+    "token_count": 1100
+  },
+  "python_3_12": {
+    "spacy_3_8_14": {
+      "status": "available",
+      "numpy": "1.26.4",
+      "docbin_stable": true,
+      "pipeline_packaging_stable": true,
+      "entity_spans": [],
+      "tokenization": ["The", "agency", "must", "protect", "Te", "Reo", "Māori", "and", "iwi", "data", "."]
+    },
+    "spacy_4_0_0_dev3": {
+      "status": "available_with_workaround",
+      "numpy": "1.26.4",
+      "docbin_stable": true,
+      "pipeline_packaging_stable": true,
+      "entity_spans": [],
+      "tokenization": ["The", "agency", "must", "protect", "Te", "Reo", "Māori", "and", "iwi", "data", "."],
+      "adapter_status": "deontic_component_forward_reference_error"
+    }
+  },
+  "python_3_13": {"spacy_4_0_0_dev3": "no_usable_binary_wheel"},
+  "python_3_14": {
+    "spacy_4_0_0_dev3": "no_usable_binary_wheel; source_build_failed_in_blis_cythonization"
+  },
+  "production": "retain_spacy_3_8_14"
+}

@@ -4,6 +4,10 @@
 Track ID: `citation_zenodo_mirroring_20260714`
 *Link: [./tracks/citation_zenodo_mirroring_20260714/](./tracks/citation_zenodo_mirroring_20260714/)*
 
+- [x] **Track: spaCy 4 compatibility spike**
+Track ID: `spacy4_compatibility_spike_20260714`
+*Link: [./tracks/spacy4_compatibility_spike_20260714/](./tracks/spacy4_compatibility_spike_20260714/)*
+
 This file tracks all major tracks for the project. Each track has its own detailed plan in its respective folder.
 
 ## Execution Order for Jules
