@@ -23,13 +23,13 @@ jobs:
         run: >
           docker run --rm
           nlp-policy-nz:ci
-          python -m pytest tests/test_track38_containerization.py -q
+          pixi run --frozen -e py312 python -m pytest tests/test_track38_containerization.py -q
 
       - name: Run repo smoke tests inside the container
         run: >
           docker run --rm
           nlp-policy-nz:ci
-          python -m pytest tests/test_smoke.py tests/test_server.py -q
+          pixi run --frozen -e py312 python -m pytest tests/test_smoke.py tests/test_server.py -q
 
       - name: Verify non-root output permissions
         run: >

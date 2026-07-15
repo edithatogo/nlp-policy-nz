@@ -1,0 +1,78 @@
+{
+  "snapshot": {
+    "archive_repository": "edithatogo/fyi-archive-nz",
+    "archive_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "archive_record_id": "record-1",
+    "archive_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "ontology_version": "foi-o@2.0.0",
+    "schema_version": "2.0.0",
+    "extraction_contract_version": "2.0.0",
+    "pipeline_version": "nlp-policy-nz@0.1.0",
+    "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz",
+    "retrieved_at": "2026-07-15T00:00:00Z"
+  },
+  "reference_records": [
+    {
+      "record_id": "record-1#obligation",
+      "family": "obligation",
+      "label": "must disclose",
+      "value": "must disclose",
+      "source_trace": {
+        "citation_path": "nz/foi/example/1",
+        "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz",
+        "retrieved_at": "2026-07-15T00:00:00Z",
+        "spans": [{"start": 0, "end": 4, "text": "must"}]
+      },
+      "confidence": 0.95,
+      "attributes": {"review": "accepted"}
+    },
+    {
+      "record_id": "record-1#permission",
+      "family": "permission",
+      "label": "may redact",
+      "value": "may redact",
+      "source_trace": {
+        "citation_path": "nz/foi/example/1",
+        "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz",
+        "retrieved_at": "2026-07-15T00:00:00Z",
+        "spans": [{"start": 10, "end": 13, "text": "may"}]
+      },
+      "confidence": 0.9,
+      "attributes": {"review": "accepted"}
+    }
+  ],
+  "candidate_records": [
+    {
+      "record_id": "record-1#obligation",
+      "family": "obligation",
+      "label": "must disclose",
+      "value": "must disclose",
+      "source_trace": {
+        "citation_path": "nz/foi/example/1",
+        "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz",
+        "retrieved_at": "2026-07-15T00:00:00Z",
+        "spans": [{"start": 0, "end": 4, "text": "must"}]
+      },
+      "confidence": 0.9,
+      "attributes": {"review": "candidate"}
+    },
+    {
+      "record_id": "record-1#permission",
+      "family": "permission",
+      "label": "may withhold",
+      "value": "may withhold",
+      "source_trace": {
+        "citation_path": "nz/foi/example/1",
+        "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz",
+        "retrieved_at": "2026-07-15T00:00:00Z",
+        "spans": [{"start": 10, "end": 13, "text": "may"}]
+      },
+      "confidence": 0.6,
+      "attributes": {"review": "candidate", "uncertainty": "label disagreement"}
+    }
+  ]
+}
