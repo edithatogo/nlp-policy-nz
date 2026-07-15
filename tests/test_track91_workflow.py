@@ -22,6 +22,7 @@ def test_cloud_ocr_workflow_has_secure_dispatch_controls() -> None:
     assert "vars.HF_ARCHIVE_DATASET_ID" in workflow
     assert "cloud-ocr-runs/${RUN_ID}" in workflow
     assert "--repo-type dataset" in workflow
+    assert workflow.split("hugging-face-staging:", 1)[1].count('"uv==0.8.15"') == 1
     assert "cloud-ocr-worker-results" not in workflow.split("hugging-face-staging:", 1)[1]
     assert "worker_image:" in workflow
     assert "docker run --rm" in workflow
