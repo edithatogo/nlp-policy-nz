@@ -16,3 +16,7 @@
 - Repo-side verification is implemented in `verify_materialized_publication()` and covered by `tests/test_hf_archive_publication.py`.
 - Public endpoint smoke remains an external gate: the collection repositories exist and are public, but Dataset Viewer-compatible files and a successful authenticated workflow run are still required.
 - Repo-side implementation checkpoint: `ee9bc59`.
+- Maintainer handoff: `docs/hf-archive-publication-runbook.md`.
+- Current external status: blocked until a reviewed source `ArchiveBundle` is
+  materialized and uploaded; metadata HTTP 200 does not satisfy the Viewer
+  streaming gate.
