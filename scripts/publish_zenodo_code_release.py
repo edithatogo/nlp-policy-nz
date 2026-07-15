@@ -14,6 +14,7 @@ import subprocess
 import sys
 import tarfile
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 
@@ -21,8 +22,12 @@ def _request(url: str, token: str, *, method: str = "GET", data: bytes | None = 
     request = Request(url, data=data, method=method)  # noqa: S310
     request.add_header("Authorization", f"Bearer {token}")
     request.add_header("Content-Type", "application/json")
-    with urlopen(request, timeout=60) as response:  # noqa: S310
-        payload = response.read()
+    try:
+        with urlopen(request, timeout=60) as response:  # noqa: S310
+            payload = response.read()
+    except HTTPError as error:
+        detail = error.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Zenodo API {error.code} for {url}: {detail}") from error
     return json.loads(payload) if payload else {}
 
 
