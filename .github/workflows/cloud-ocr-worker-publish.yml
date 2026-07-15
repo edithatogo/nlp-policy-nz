@@ -1,0 +1,38 @@
+name: Publish Cloud OCR worker
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - Dockerfile.cloud-ocr
+      - scripts/cloud_ocr_worker.py
+      - .github/workflows/cloud-ocr-worker-publish.yml
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile.cloud-ocr
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/nlp-policy-nz-cloud-ocr:latest
+          provenance: mode=max
+          sbom: true
+      - name: Record immutable worker identity
+        run: echo "worker_image=ghcr.io/${{ github.repository_owner }}/nlp-policy-nz-cloud-ocr@${{ steps.build.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"
