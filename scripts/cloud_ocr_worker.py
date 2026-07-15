@@ -52,27 +52,36 @@ def _ocr_source(source: Path, work_dir: Path) -> str:
     """OCR a PDF or image using pinned container tools."""
     pages_dir = work_dir / "pages"
     pages_dir.mkdir(parents=True, exist_ok=True)
-    if source.read_bytes()[:5] == b"%PDF-":
-        subprocess.run(
-            ["pdftoppm", "-png", "-r", "200", str(source), str(pages_dir / "page")],
-            check=True,
-            capture_output=True,
-        )
+    magic = source.read_bytes()[:8]
+    if magic.startswith(b"%PDF-"):
+        try:
+            subprocess.run(
+                ["pdftoppm", "-png", "-r", "200", str(source), str(pages_dir / "page")],
+                check=True,
+                capture_output=True,
+            )
+        except subprocess.CalledProcessError as error:
+            raise ValueError("pdf-render-failed") from error
         pages = sorted(pages_dir.glob("page-*.png"))
-    else:
+    elif magic.startswith((b"\x89PNG\r\n\x1a\n", b"\xff\xd8\xff", b"II*\x00", b"MM\x00*")):
         image = pages_dir / "page-1"
         shutil.copyfile(source, image)
         pages = [image]
+    else:
+        raise ValueError("unsupported-source-format")
     if not pages:
         raise ValueError("source produced no OCR pages")
     text = []
     for page in pages:
-        result = subprocess.run(
-            ["tesseract", str(page), "stdout", "-l", "eng", "--psm", "1"],
-            check=True,
-            capture_output=True,
-            text=True,
-        )
+        try:
+            result = subprocess.run(
+                ["tesseract", str(page), "stdout", "-l", "eng", "--psm", "1"],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+        except subprocess.CalledProcessError as error:
+            raise ValueError("ocr-recognition-failed") from error
         text.append(result.stdout.strip())
     output = "\n\n".join(part for part in text if part).strip()
     if len(output) < 20:
@@ -119,7 +128,14 @@ def run(plan_path: Path, results_path: Path, output_dir: Path) -> int:
                 ]
             )
         except (KeyError, OSError, subprocess.SubprocessError, ValueError) as error:
-            error_code = hashlib.sha256(type(error).__name__.encode("utf-8")).hexdigest()[:12]
+            safe_codes = {
+                "OCR output is unexpectedly empty": "ocr-empty-output",
+                "ocr-recognition-failed": "ocr-recognition-failed",
+                "pdf-render-failed": "pdf-render-failed",
+                "source SHA-256 does not match the reviewed manifest": "source-digest-mismatch",
+                "unsupported-source-format": "unsupported-source-format",
+            }
+            error_code = safe_codes.get(str(error), "worker-execution-failed")
             transitions.append({"item_id": item_id, "state": "failed", "error_code": error_code})
     results_path.parent.mkdir(parents=True, exist_ok=True)
     results_path.write_text(
