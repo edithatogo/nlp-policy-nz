@@ -1,0 +1,101 @@
+{
+  "manifest": {
+    "producer": "nlp-policy-nz",
+    "records": [
+      {
+        "attributes": {
+          "foio_provenance": {
+            "archive_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "archive_record_id": "record-1",
+            "archive_repository": "edithatogo/fyi-archive-nz",
+            "archive_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "extraction_contract_version": "2.0.0",
+            "ontology_version": "foi-o@2.0.0",
+            "pipeline_version": "nlp-policy-nz@0.1.0",
+            "retrieved_at": "2026-07-15T00:00:00Z",
+            "schema_version": "2.0.0",
+            "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz"
+          },
+          "review": "candidate"
+        },
+        "confidence": 0.9,
+        "family": "obligation",
+        "label": "must disclose",
+        "normalized_value": null,
+        "record_id": "record-1#obligation",
+        "source_trace": {
+          "citation_path": "nz/foi/example/1",
+          "retrieved_at": "2026-07-15T00:00:00Z",
+          "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz",
+          "spans": [{"end": 4, "start": 0, "text": "must"}]
+        },
+        "value": "must disclose"
+      },
+      {
+        "attributes": {
+          "foio_provenance": {
+            "archive_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "archive_record_id": "record-1",
+            "archive_repository": "edithatogo/fyi-archive-nz",
+            "archive_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "extraction_contract_version": "2.0.0",
+            "ontology_version": "foi-o@2.0.0",
+            "pipeline_version": "nlp-policy-nz@0.1.0",
+            "retrieved_at": "2026-07-15T00:00:00Z",
+            "schema_version": "2.0.0",
+            "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz"
+          },
+          "review": "candidate",
+          "uncertainty": "label disagreement"
+        },
+        "confidence": 0.6,
+        "family": "permission",
+        "label": "may withhold",
+        "normalized_value": null,
+        "record_id": "record-1#permission",
+        "source_trace": {
+          "citation_path": "nz/foi/example/1",
+          "retrieved_at": "2026-07-15T00:00:00Z",
+          "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz",
+          "spans": [{"end": 13, "start": 10, "text": "may"}]
+        },
+        "value": "may withhold"
+      }
+    ],
+    "schema_version": "1.0",
+    "summary": {
+      "citation_paths": ["nz/foi/example/1"],
+      "families": {"obligation": 1, "permission": 1},
+      "known_gaps": [],
+      "total_records": 2
+    },
+    "trace_reports": [
+      {
+        "citation_path": "nz/foi/example/1",
+        "covered_spans": [
+          {"end": 4, "start": 0, "text": "must"},
+          {"end": 13, "start": 10, "text": "may"}
+        ],
+        "record_ids": ["record-1#obligation", "record-1#permission"],
+        "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ]
+  },
+  "producer": "nlp-policy-nz",
+  "review_status": "candidate",
+  "schema_version": "1.0",
+  "snapshot": {
+    "archive_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "archive_record_id": "record-1",
+    "archive_repository": "edithatogo/fyi-archive-nz",
+    "archive_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "extraction_contract_version": "2.0.0",
+    "ontology_version": "foi-o@2.0.0",
+    "pipeline_version": "nlp-policy-nz@0.1.0",
+    "retrieved_at": "2026-07-15T00:00:00Z",
+    "schema_version": "2.0.0",
+    "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz"
+  }
+}

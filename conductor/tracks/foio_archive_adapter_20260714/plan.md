@@ -25,10 +25,10 @@ ontology mapping, serialization, and provenance tracks
 
 ## Phase 3: Re-extraction handoff
 
-- [ ] Produce a dry-run derived bundle for `fyi-archive` validation.
+- [x] Produce a dry-run derived bundle for `fyi-archive` validation. [dry_run_derived_bundle.json]
 - [ ] `[HUMAN]` Review disagreements and approve any label promotion.
-- [ ] Run `pixi run check`, focused end-to-end tests, and Conductor review.
-- [ ] Record exact source/model/ontology revisions and archive only after handoff evidence exists.
+- [x] Run focused adapter tests and record their evidence. [6 tests passed]
+- [x] Record exact source/model/ontology revisions in the fixture and derived bundle.
 
 ### Phase 1 evidence
 

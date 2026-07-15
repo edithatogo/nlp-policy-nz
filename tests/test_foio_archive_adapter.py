@@ -13,6 +13,7 @@ from nlp_policy_nz.extraction import (
     SourceTrace,
 )
 from nlp_policy_nz.extraction.foio_adapter import (
+    FoioArchiveBundle,
     FoioArchiveSnapshot,
     build_foio_archive_bundle,
     compare_foio_baseline,
@@ -124,3 +125,13 @@ def test_bounded_fixture_is_pinned_and_evaluable() -> None:
     assert report.reference_records == 2
     assert report.candidate_records == 2
     assert all(metric.coverage == 1.0 for metric in report.metrics)
+
+
+def test_dry_run_bundle_is_schema_valid_and_candidate_only() -> None:
+    bundle = FoioArchiveBundle.model_validate_json(
+        Path("artifacts/foio/dry_run_derived_bundle.json").read_text(encoding="utf-8")
+    )
+
+    assert bundle.review_status == "candidate"
+    assert bundle.manifest.summary.total_records == 2
+    assert all("foio_provenance" in record.attributes for record in bundle.manifest.records)
