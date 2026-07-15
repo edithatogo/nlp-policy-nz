@@ -89,6 +89,18 @@ Track ID: `foio_archive_adapter_20260714`
 - **Why**: Reuse the existing ontology/NLP pipeline for reproducible candidate
   extraction from `fyi-archive-nz` while keeping archive and semantic ownership separate.
 
+---
+
+## [~] Track: FOI-O Australian Jurisdiction Extraction Adapter
+Track ID: `foio_au_jurisdiction_adapter_20260714`
+*Link: [./conductor/tracks/foio_au_jurisdiction_adapter_20260714/](./conductor/tracks/foio_au_jurisdiction_adapter_20260714/)*
+- **Dependencies**: `foio_archive_adapter_20260714`; FOI-O jurisdiction profiles
+- **Parallelization Node**: FOI-O Australian jurisdiction integration
+- **Why**: Add profile-isolated Commonwealth and NSW routing and candidate
+  extraction without allowing Australian legal context to contaminate NZ or
+  another Australian jurisdiction. Additional jurisdictions remain gated on
+  profile and empirical evaluation evidence.
+
 ## [x] Track 1: Initialize Workspace Environment & Quality Tooling (archived) [b65c685]
 *Link: [./conductor/tracks/archive/track1_env_setup_20260609/](./conductor/tracks/archive/track1_env_setup_20260609/)*
 - **Dependencies**: None

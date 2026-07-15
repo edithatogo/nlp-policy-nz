@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "repository": "https://github.com/edithatogo/nlp-policy-nz",
+  "version": "0.1.0",
+  "tag": "v0.1.0",
+  "citation_file": "CITATION.cff",
+  "zenodo_metadata_file": ".zenodo.json",
+  "zenodo_status": "pending_human_deposit",
+  "zenodo_version_doi": null,
+  "zenodo_concept_doi": null,
+  "huggingface_revision": null,
+  "human_gate": "Publish and verify the immutable tag and Zenodo record before adding DOI claims.",
+  "notes": [
+    "CITATION.cff and .zenodo.json describe the same 0.1.0 software release.",
+    "No DOI is claimed until the live Zenodo record is verified.",
+    "Hugging Face data revisions remain a separate dataset citation surface."
+  ]
+}

@@ -5,10 +5,18 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 
-from nlp_policy_nz.extraction.hathi_ingestion import HathiArchiveItem
-from nlp_policy_nz.ocr.cloud_ops import (
+# Keep direct script execution equivalent to the installed CLI. GitHub Actions
+# invokes this file from a checkout before installing the project editable.
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
+
+from nlp_policy_nz.extraction.hathi_ingestion import HathiArchiveItem  # noqa: E402
+from nlp_policy_nz.ocr.cloud_ops import (  # noqa: E402
     BudgetLimits,
     CloudRunPlan,
     LedgerState,

@@ -1,0 +1,99 @@
+{
+  "snapshots": [
+    {
+      "jurisdiction": "Cth",
+      "profile_id": "foi-o-au-cth@1.0.0",
+      "archive_repository": "edithatogo/fyi-archive-nz",
+      "archive_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "archive_content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "legal_source_revision": "cccccccccccccccccccccccccccccccccccccccc",
+      "legal_source_url": "https://www.legislation.gov.au/",
+      "ontology_version": "foi-o@2.0.0",
+      "model_revision": "model@2026-07-15",
+      "schema_version": "2.0.0",
+      "extraction_contract_version": "2.0.0",
+      "pipeline_version": "nlp-policy-nz@0.1.0",
+      "retrieved_at": "2026-07-15T00:00:00Z"
+    },
+    {
+      "jurisdiction": "NSW",
+      "profile_id": "foi-o-au-nsw@1.0.0",
+      "archive_repository": "edithatogo/fyi-archive-nz",
+      "archive_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "archive_content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "legal_source_revision": "dddddddddddddddddddddddddddddddddddddddd",
+      "legal_source_url": "https://legislation.nsw.gov.au/",
+      "ontology_version": "foi-o@2.0.0",
+      "model_revision": "model@2026-07-15",
+      "schema_version": "2.0.0",
+      "extraction_contract_version": "2.0.0",
+      "pipeline_version": "nlp-policy-nz@0.1.0",
+      "retrieved_at": "2026-07-15T00:00:00Z"
+    }
+  ],
+  "reference_records": [
+    {
+      "record_id": "Cth:1",
+      "family": "obligation",
+      "label": "obligation",
+      "value": "must disclose",
+      "source_trace": {
+        "citation_path": "commonwealth/foi/example",
+        "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "source_url": "https://example.test/foi",
+        "retrieved_at": "2026-07-15T00:00:00Z",
+        "spans": [{"start": 0, "end": 4, "text": "must"}]
+      },
+      "confidence": 0.95,
+      "attributes": {"jurisdiction": "Cth", "review": "accepted"}
+    },
+    {
+      "record_id": "NSW:1",
+      "family": "obligation",
+      "label": "obligation",
+      "value": "must disclose",
+      "source_trace": {
+        "citation_path": "nsw/foi/example",
+        "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "source_url": "https://example.test/foi",
+        "retrieved_at": "2026-07-15T00:00:00Z",
+        "spans": [{"start": 0, "end": 4, "text": "must"}]
+      },
+      "confidence": 0.95,
+      "attributes": {"jurisdiction": "NSW", "review": "accepted"}
+    }
+  ],
+  "candidate_records": [
+    {
+      "record_id": "Cth:1",
+      "family": "obligation",
+      "label": "obligation",
+      "value": "must disclose",
+      "source_trace": {
+        "citation_path": "commonwealth/foi/example",
+        "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "source_url": "https://example.test/foi",
+        "retrieved_at": "2026-07-15T00:00:00Z",
+        "spans": [{"start": 0, "end": 4, "text": "must"}]
+      },
+      "confidence": 0.9,
+      "attributes": {"jurisdiction": "Cth", "review": "candidate"}
+    },
+    {
+      "record_id": "NSW:1",
+      "family": "obligation",
+      "label": "permission",
+      "value": "may redact",
+      "source_trace": {
+        "citation_path": "nsw/foi/example",
+        "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "source_url": "https://example.test/foi",
+        "retrieved_at": "2026-07-15T00:00:00Z",
+        "spans": [{"start": 0, "end": 3, "text": "may"}]
+      },
+      "confidence": 0.6,
+      "attributes": {"jurisdiction": "NSW", "review": "candidate", "uncertainty": "label disagreement"}
+    }
+  ],
+  "abstained_record_ids": ["Cth:abstained-1", "NSW:abstained-1"]
+}

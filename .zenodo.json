@@ -1,0 +1,8 @@
+{
+  "title": "nlp-policy-nz: NLP pipeline for New Zealand policy corpora",
+  "description": "Versioned NLP, ontology, and annotation pipeline for New Zealand legislation, Hansard, and FOI-O-derived policy corpora.",
+  "creators": [{"name": "Mordaunt, Dylan A", "orcid": "0000-0002-9775-0603"}],
+  "license": "MIT",
+  "keywords": ["natural-language-processing", "new-zealand", "legislation", "freedom-of-information", "ontology"],
+  "related_identifiers": [{"identifier": "https://github.com/edithatogo/nlp-policy-nz", "relation": "isIdenticalTo", "scheme": "url"}]
+}
