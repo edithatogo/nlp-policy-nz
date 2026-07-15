@@ -1,0 +1,58 @@
+{
+  "baseline": {
+    "accuracy": {
+      "reason": "The repository has no labelled FOI-O gold set; span alignment is measured instead.",
+      "status": "not_measured"
+    },
+    "fixture_sha256": "0a3c5d3de11031080703609e251677eb825decc28695b0f75890fafd7f953008",
+    "iterations": 5,
+    "mean_ms": 1.23352,
+    "python_version": "3.13.14",
+    "serialization_bytes": 476,
+    "serialization_sha256": "1bea5829ed059820a478c571296caa5d1322084579f5f99a06fb7766eb16a355",
+    "spacy_version": "3.8.14",
+    "span_count": 1,
+    "span_fingerprint": "16495d14c9d99c5fdb1894f72a55535a9d51d5418d8d1850861d206b7be887d6",
+    "status": "measured",
+    "transformers_probe_version": "4.49.0",
+    "transformers_version": "5.3.0"
+  },
+  "candidate": {
+    "candidate_version": "4.0.0.dev3",
+    "command": "C:\\Users\\60217257\\.local\\bin\\uv.EXE run --no-project --python 3.12 --prerelease=allow --with spacy==4.0.0.dev3 --with transformers==4.49.0 --with click>=8.0 python -c import spacy, transformers; print(spacy.__version__, transformers.__version__)",
+    "detail": "OpenBLAS error: Memory allocation still failed after 10 retries, giving up.\nOpenBLAS error: Memory allocation still failed after 10 retries, giving up.\nOpenBLAS error: Memory allocation still failed after 10 retries, giving up.\nOpenBLAS error: Memory allocation still failed after 10 retries, giving up.\nOpenBLAS error: Memory allocation still failed after 10 retries, giving up.",
+    "python_version": "3.12",
+    "return_code": 1,
+    "status": "blocked",
+    "transformers_probe_version": "4.49.0"
+  },
+  "matrix": [
+    {
+      "baseline": "measured",
+      "candidate": "blocked_or_not_probed",
+      "python": "3.12"
+    },
+    {
+      "baseline": "compatibility_ci",
+      "candidate": "not_probed",
+      "python": "3.13"
+    },
+    {
+      "baseline": "not_supported",
+      "candidate": "not_supported",
+      "python": "3.14"
+    }
+  ],
+  "production_policy": {
+    "rollback": "Keep the spaCy 3.8.14 lock and revert only the isolated spike artifacts.",
+    "spacy_spec": ">=3.7.0 (locked baseline 3.8.14),<4.0.0",
+    "switch_to_spacy4": false
+  },
+  "reproducibility": {
+    "candidate_requires_prerelease_allow": true,
+    "fixture": "src/nlp_policy_nz/xml_parser.py:SAMPLE_NZ_XML",
+    "iterations": 5
+  },
+  "status": "candidate_blocked",
+  "track": "104_spacy4_compatibility_spike"
+}
