@@ -1,0 +1,23 @@
+{
+  "creators": [
+    {
+      "name": "Maintainer"
+    }
+  ],
+  "description": "Versioned nlp-policy-nz software release.",
+  "keywords": [
+    "natural language processing",
+    "New Zealand legislation"
+  ],
+  "license": "MIT",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/edithatogo/nlp-policy-nz",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "title": "nlp-policy-nz",
+  "upload_type": "software",
+  "version": "0.1.0"
+}

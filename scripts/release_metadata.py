@@ -20,6 +20,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--title", default="nlp-policy-nz")
     parser.add_argument("--repository-url", default="https://github.com/edithatogo/nlp-policy-nz")
     parser.add_argument("--doi", default=None)
+    parser.add_argument("--zenodo-description", default="Versioned nlp-policy-nz software release.")
+    parser.add_argument("--zenodo-version-doi", default=None)
+    parser.add_argument("--zenodo-concept-doi", default=None)
+    parser.add_argument("--zenodo-record-url", default=None)
+    parser.add_argument("--zenodo-verified", action="store_true")
     parser.add_argument("--release-notes", default="")
     parser.add_argument("--commit-sha", default=None)
     parser.add_argument("--since-ref", default=None)
@@ -47,6 +52,11 @@ def main() -> None:
         repository_url=args.repository_url,
         release_notes=args.release_notes,
         doi=args.doi,
+        zenodo_description=args.zenodo_description,
+        zenodo_version_doi=args.zenodo_version_doi,
+        zenodo_concept_doi=args.zenodo_concept_doi,
+        zenodo_record_url=args.zenodo_record_url,
+        zenodo_verified=args.zenodo_verified,
         since_ref=args.since_ref,
         commit_sha=args.commit_sha,
     )
@@ -55,6 +65,8 @@ def main() -> None:
     sys.stdout.write(f"{result['version_path']}\n")
     sys.stdout.write(f"{result['citation_path']}\n")
     sys.stdout.write(f"{result['changelog_path']}\n")
+    sys.stdout.write(f"{result['zenodo_path']}\n")
+    sys.stdout.write(f"{result['mirror_manifest_path']}\n")
 
 
 if __name__ == "__main__":

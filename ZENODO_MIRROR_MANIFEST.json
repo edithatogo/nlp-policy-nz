@@ -1,0 +1,12 @@
+{
+  "concept_doi": null,
+  "publication_status": "unverified",
+  "release_commit_sha": "unknown",
+  "release_version": "0.1.0",
+  "schema_version": "1.0.0",
+  "verification": {
+    "record_url": null,
+    "verified_at": null
+  },
+  "version_doi": null
+}

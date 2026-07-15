@@ -36,7 +36,8 @@ jobs:
             --version "$RELEASE_VERSION" \
             --title "$RELEASE_TITLE" \
             --repository-url "https://github.com/${{ github.repository }}" \
-            --release-notes "Automated Zenodo archive for tag ${{ github.ref_name }}."
+            --release-notes "Automated Zenodo archive for tag ${{ github.ref_name }}." \
+            --zenodo-description "$RELEASE_DESCRIPTION"
       - name: Build and publish archive
         run: |
           RELEASE_VERSION="${GITHUB_REF_NAME#v}"
@@ -46,3 +47,8 @@ jobs:
             --title "$RELEASE_TITLE" \
             --description "$RELEASE_DESCRIPTION" \
             --creators "$RELEASE_CREATORS"
+      - name: Upload Zenodo mirror evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-mirror-${{ github.ref_name }}
+          path: .tmp/release/ZENODO_MIRROR_MANIFEST.json

@@ -46,7 +46,8 @@ jobs:
             --version "$RELEASE_VERSION" \
             --title "nlp-policy-nz" \
             --repository-url "https://github.com/${{ github.repository }}" \
-            --release-notes "$RELEASE_NOTES"
+            --release-notes "$RELEASE_NOTES" \
+            --zenodo-description "Versioned nlp-policy-nz software release for ${{ github.ref_name }}."
 
       - name: Smoke test package
         run: CI=true pixi run test -x tests/test_smoke.py
@@ -84,6 +85,8 @@ jobs:
             dist/*
             .tmp/release/VERSION.json
             .tmp/release/CITATION.cff
+            .tmp/release/.zenodo.json
+            .tmp/release/ZENODO_MIRROR_MANIFEST.json
             .tmp/release/CHANGELOG.md
             .tmp/release/checksums.txt
             .tmp/sbom/nlp-policy-nz.cdx.json

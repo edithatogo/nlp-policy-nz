@@ -633,4 +633,9 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 *Link: [./conductor/tracks/track91_cloud_ocr_evaluation_20260713/](./conductor/tracks/track91_cloud_ocr_evaluation_20260713/)*
 - **Dependencies**: Tracks 39, 40, 45, 74, 85, 87, 88, 89, 90
 - **Parallelization Node**: Secure Cloud Orchestration and Quality
+
+## [~] Track 103: Versioned Zenodo Mirrors and Citation Metadata
+*Link: [./conductor/tracks/track103_zenodo_mirrors_20260715/](./conductor/tracks/track103_zenodo_mirrors_20260715/)*
+- **Dependencies**: Track 45
+- **Parallelization Node**: Release Citation and Archive Mirrors
 - **Why**: Dispatch all corpus processing through GitHub Actions and pinned cloud workers with evaluation, budgets, resumability, security gates, and row-level completeness.

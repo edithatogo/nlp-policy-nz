@@ -10,9 +10,7 @@ from collections.abc import Sequence
 from datetime import UTC, datetime
 from pathlib import Path
 
-SEMVER_RE = re.compile(
-    r"^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)$"
-)
+SEMVER_RE = re.compile(r"^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)$")
 COMMIT_RE = re.compile(r"^(?P<type>[a-z]+)(?P<breaking>!)?(?:\([^)]+\))?:", re.IGNORECASE)
 
 
@@ -167,7 +165,9 @@ def render_citation_cff(
         lines.append(f"doi: {json.dumps(doi)}")
     lines.append("authors:")
     for author in _normalise_authors(authors):
-        lines.append("  - " + "\n    ".join(f"{key}: {json.dumps(value)}" for key, value in author.items()))
+        lines.append(
+            "  - " + "\n    ".join(f"{key}: {json.dumps(value)}" for key, value in author.items())
+        )
     return "\n".join(lines) + "\n"
 
 
@@ -177,6 +177,60 @@ def write_citation_cff(path: str | Path, citation_text: str) -> Path:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(citation_text, encoding="utf-8")
     return output
+
+
+def render_zenodo_metadata(
+    manifest: dict[str, str],
+    *,
+    title: str,
+    authors: Sequence[str | dict[str, str]],
+    description: str,
+    repository_url: str,
+) -> str:
+    """Render the version-aligned metadata consumed by Zenodo."""
+    payload = {
+        "title": title,
+        "version": manifest["version"],
+        "upload_type": "software",
+        "description": description,
+        "license": "MIT",
+        "creators": _normalise_authors(authors),
+        "keywords": ["natural language processing", "New Zealand legislation"],
+        "related_identifiers": [
+            {
+                "identifier": repository_url,
+                "relation": "isSupplementTo",
+                "scheme": "url",
+            }
+        ],
+    }
+    return json.dumps(payload, indent=2, sort_keys=True) + "\n"
+
+
+def render_zenodo_mirror_manifest(
+    manifest: dict[str, str],
+    *,
+    version_doi: str | None = None,
+    concept_doi: str | None = None,
+    record_url: str | None = None,
+    verified: bool = False,
+) -> str:
+    """Render DOI evidence without claiming an unverified Zenodo record."""
+    if verified and (not version_doi or not concept_doi or not record_url):
+        raise ValueError("verified Zenodo evidence requires both DOIs and a record URL")
+    payload = {
+        "schema_version": "1.0.0",
+        "release_version": manifest["version"],
+        "release_commit_sha": manifest["commit_sha"],
+        "publication_status": "verified" if verified else "unverified",
+        "verification": {
+            "record_url": record_url if verified else None,
+            "verified_at": manifest["build_timestamp"] if verified else None,
+        },
+        "version_doi": version_doi if verified else None,
+        "concept_doi": concept_doi if verified else None,
+    }
+    return json.dumps(payload, indent=2, sort_keys=True) + "\n"
 
 
 def prepend_changelog_entry(
@@ -211,6 +265,11 @@ def generate_release_assets(
     repository_url: str,
     release_notes: str = "",
     doi: str | None = None,
+    zenodo_description: str = "Versioned nlp-policy-nz software release.",
+    zenodo_version_doi: str | None = None,
+    zenodo_concept_doi: str | None = None,
+    zenodo_record_url: str | None = None,
+    zenodo_verified: bool = False,
     since_ref: str | None = None,
     commit_sha: str | None = None,
 ) -> dict[str, Path | dict[str, str] | str]:
@@ -233,16 +292,39 @@ def generate_release_assets(
         doi=doi,
     )
     citation_path = write_citation_cff(output_path / "CITATION.cff", citation_text)
+    zenodo_path = write_citation_cff(
+        output_path / ".zenodo.json",
+        render_zenodo_metadata(
+            manifest,
+            title=title,
+            authors=authors,
+            description=zenodo_description,
+            repository_url=repository_url,
+        ),
+    )
+    mirror_manifest_path = write_citation_cff(
+        output_path / "ZENODO_MIRROR_MANIFEST.json",
+        render_zenodo_mirror_manifest(
+            manifest,
+            version_doi=zenodo_version_doi,
+            concept_doi=zenodo_concept_doi,
+            record_url=zenodo_record_url,
+            verified=zenodo_verified,
+        ),
+    )
     changelog_path = prepend_changelog_entry(
         output_path / "CHANGELOG.md",
         version=resolved_version,
-        release_notes=release_notes or "Automated release metadata generated from release engineering workflow.",
+        release_notes=release_notes
+        or "Automated release metadata generated from release engineering workflow.",
         released_at=manifest["build_timestamp"],
     )
     return {
         "manifest": manifest,
         "version_path": version_path,
         "citation_path": citation_path,
+        "zenodo_path": zenodo_path,
+        "mirror_manifest_path": mirror_manifest_path,
         "changelog_path": changelog_path,
         "version": resolved_version,
     }
