@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 
-FROM python:3.12-slim-bookworm AS builder
+FROM python:3.13-slim-bookworm AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -31,10 +31,10 @@ COPY docs ./docs
 COPY config ./config
 COPY conductor ./conductor
 
-RUN pixi install -e py312 --frozen --skip-with-deps semgrep --skip-with-deps scalene
+RUN pixi install --locked -e py312 --skip-with-deps semgrep --skip-with-deps scalene
 
 
-FROM python:3.12-slim-bookworm AS runtime
+FROM python:3.13-slim-bookworm AS runtime
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
