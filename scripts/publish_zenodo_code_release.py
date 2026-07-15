@@ -77,7 +77,8 @@ def main() -> int:
         f"{upload_url}/{archive.name}", data=archive.read_bytes(), method="PUT"
     )
     request.add_header("Authorization", f"Bearer {token}")
-    request.add_header("Content-Type", "application/gzip")
+    request.add_header("Content-Type", "application/octet-stream")
+    request.add_header("Content-Length", str(archive.stat().st_size))
     with urlopen(request, timeout=120):  # noqa: S310
         pass
     _request(f"{base}/deposit/depositions/{deposition_id}/actions/publish", token, method="POST")
