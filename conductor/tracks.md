@@ -77,6 +77,14 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
+## [~] Track: FOI-O Archive Extraction Adapter
+Track ID: `foio_archive_adapter_20260714`
+*Link: [./conductor/tracks/foio_archive_adapter_20260714/](./conductor/tracks/foio_archive_adapter_20260714/)*
+- **Dependencies**: FOI-O V2 extraction contract; Tracks 4, 6, 12, 15, 30
+- **Parallelization Node**: FOI-O Archive Integration
+- **Why**: Reuse the existing ontology/NLP pipeline for reproducible candidate
+  extraction from `fyi-archive-nz` while keeping archive and semantic ownership separate.
+
 ## [x] Track 1: Initialize Workspace Environment & Quality Tooling (archived) [b65c685]
 *Link: [./conductor/tracks/archive/track1_env_setup_20260609/](./conductor/tracks/archive/track1_env_setup_20260609/)*
 - **Dependencies**: None
