@@ -1,0 +1,11 @@
+Whole-track completion review
+
+Scope: FOI adapters, Tracks 68 and 86-90, Track 92 Actions modernization, and evidence-backed follow-up Tracks 93-97.
+
+Panel: independent implementation, governance, and legal/evidentiary reviews synthesized.
+
+Disposition: FOI pilots archived candidate-only with no promotion; Mojo deferred; Tracks 86-89 archived at truthful contract/prototype milestones; Track 90 reconciled to verified live publication; missing assurance transferred to issues #129-#133.
+
+Security remediation: restricted-source access propagates transitively through archive descendants, assertions, embeddings, titles, and public serializers.
+
+Validation: 83 focused tests passed on Python 3.14.5; Ruff clean; basedpyright 0 errors/warnings/notes; 61 checkout/upload/download references use verified immutable Node 24 SHAs; pixi.lock excluded.
