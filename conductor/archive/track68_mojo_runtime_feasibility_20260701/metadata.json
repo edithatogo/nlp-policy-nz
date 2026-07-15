@@ -1,0 +1,12 @@
+{
+  "track_id": "track68_mojo_runtime_feasibility_20260701",
+  "type": "evaluation",
+  "status": "completed",
+  "created_at": "2026-07-01T00:00:00+10:00",
+  "updated_at": "2026-07-15T23:58:00+10:00",
+  "description": "Umbrella evaluation of Mojo for isolated hot Python paths.",
+  "github_issue": 70,
+  "github_issue_url": "https://github.com/edithatogo/nlp-policy-nz/issues/70",
+  "disposition": "deferred",
+  "revisit_trigger": "A supported toolchain and reproducible hotspot benchmark must show material benefit without breaking Python fallback or artifact parity."
+}

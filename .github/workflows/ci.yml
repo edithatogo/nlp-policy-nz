@@ -30,7 +30,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           fetch-depth: 0
 
@@ -138,7 +138,7 @@ jobs:
 
       - name: Upload SBOM artifact
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: nlp-policy-nz-sbom-${{ matrix.os }}-py${{ matrix.python-version }}
           path: .tmp/sbom/nlp-policy-nz.cdx.json
@@ -169,7 +169,7 @@ jobs:
 
       - name: Upload matrix status artifact
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: ci-status-${{ matrix.os }}-py${{ matrix.python-version }}
           path: .tmp/ci-status/status.json
@@ -194,7 +194,7 @@ jobs:
         shell: bash
     steps:
       - name: Download matrix statuses
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           path: .tmp/ci-statuses
       - name: Render matrix summary
@@ -227,7 +227,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0
         with:

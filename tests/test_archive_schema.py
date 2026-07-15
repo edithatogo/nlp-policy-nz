@@ -175,6 +175,88 @@ def test_public_projection_redacts_restricted_text_but_retains_lineage() -> None
     assert projected.assertions[0].object_text is None
 
 
+def test_public_projection_propagates_restricted_source_to_public_default_children(
+    tmp_path: Path,
+) -> None:
+    payload = _bundle().model_dump(mode="python")
+    payload["sources"][0]["access_class"] = AccessClass.RESTRICTED
+    bundle = ArchiveBundle.model_validate(payload)
+
+    projected = bundle.public_projection()
+
+    assert projected.documents[0].title is None
+    assert projected.spans[0].access_class is AccessClass.RESTRICTED
+    assert projected.spans[0].text is None
+    assert projected.lines[0].access_class is AccessClass.RESTRICTED
+    assert projected.lines[0].text is None
+    assert projected.tokens[0].access_class is AccessClass.RESTRICTED
+    assert projected.tokens[0].text is None
+    assert projected.tokens[0].alternatives == ()
+    assert projected.speeches[0].access_class is AccessClass.RESTRICTED
+    assert projected.speeches[0].text is None
+    assert projected.tables[0].access_class is AccessClass.RESTRICTED
+    assert projected.embeddings[0].access_class is AccessClass.RESTRICTED
+    assert projected.embeddings[0].values == ()
+    assert projected.assertions[0].access_class is AccessClass.RESTRICTED
+    assert projected.assertions[0].object_text is None
+    for writer, suffix in (
+        (write_json, "json"),
+        (write_jsonl, "jsonl"),
+        (write_jsonld, "jsonld"),
+        (write_markdown, "md"),
+        (write_rdf, "ttl"),
+    ):
+        output = writer(projected, tmp_path / f"public.{suffix}")
+        assert "Hello" not in output.read_text(encoding="utf-8")
+
+
+def test_public_projection_closes_restrictions_over_assertion_embedding_chains() -> None:
+    payload = _bundle().model_dump(mode="python")
+    payload["assertions"] = (
+        *payload["assertions"],
+        ArchiveAssertion(
+            assertion_id="assertion-restricted",
+            subject_id="speech-1",
+            predicate="restricted",
+            access_class=AccessClass.RESTRICTED,
+        ).model_dump(mode="python"),
+        ArchiveAssertion(
+            assertion_id="assertion-via-embedding",
+            subject_id="embedding-via-assertion",
+            predicate="derived-from",
+            object_text="restricted assertion derivative",
+        ).model_dump(mode="python"),
+    )
+    payload["embeddings"] = (
+        *payload["embeddings"],
+        ArchiveEmbedding(
+            embedding_id="embedding-via-assertion",
+            target_id="assertion-restricted",
+            model_id="model-1",
+            vector_dim=1,
+            values=(0.5,),
+        ).model_dump(mode="python"),
+        ArchiveEmbedding(
+            embedding_id="embedding-via-derived-assertion",
+            target_id="assertion-via-embedding",
+            model_id="model-1",
+            vector_dim=1,
+            values=(0.6,),
+        ).model_dump(mode="python"),
+    )
+
+    projected = ArchiveBundle.model_validate(payload).public_projection()
+
+    assertions = {item.assertion_id: item for item in projected.assertions}
+    embeddings = {item.embedding_id: item for item in projected.embeddings}
+    assert assertions["assertion-via-embedding"].access_class is AccessClass.RESTRICTED
+    assert assertions["assertion-via-embedding"].object_text is None
+    assert embeddings["embedding-via-assertion"].access_class is AccessClass.RESTRICTED
+    assert embeddings["embedding-via-assertion"].values == ()
+    assert embeddings["embedding-via-derived-assertion"].access_class is AccessClass.RESTRICTED
+    assert embeddings["embedding-via-derived-assertion"].values == ()
+
+
 def test_serializers_are_deterministic_and_round_trip(tmp_path: Path) -> None:
     bundle = _bundle()
     json_path = write_json(bundle, tmp_path / "archive.json")

@@ -68,6 +68,32 @@ All Phase I requirements are **Must Have** and are complete.
 | uv | latest | Fast Python package resolution | 🔴 M |
 | Rust toolchain | >=1.80 | Maturin builds | 🟡 S |
 
+## FOI and Historical Archive Requirements
+
+### 🔴 M — Must Have
+
+| ID | Requirement | Track(s) |
+|----|-------------|----------|
+| M-FOI-1 | FOI-O extraction remains candidate-only until immutable source/model/ontology pins and reviewed empirical evidence support promotion | FOI-O adapters |
+| M-FOI-2 | Jurisdiction profiles are isolated; Commonwealth, NSW, NZ, and future profiles cannot contaminate one another | FOI-O AU adapter |
+| M-ARC-1 | Archive ingestion is fail-closed and records authoritative rights basis separately for acquisition, processing, full-text publication, and derived-feature publication | T86 follow-up |
+| M-ARC-2 | Public projection calculates transitive effective access and removes restricted text, alternatives, and vectors from every serializer | T89 |
+| M-CI-1 | First-party checkout and artifact actions use reviewed Node.js 24-compatible immutable commit SHAs | T92 |
+
+### 🟡 S — Should Have
+
+| ID | Requirement | Track(s) |
+|----|-------------|----------|
+| S-ARC-1 | Benchmark pinned layout/OCR engines on rights-cleared historical NZ pages before engine promotion | T87 follow-up |
+| S-ARC-2 | Evaluate parliamentary hierarchy and speaker attribution on volume-isolated, independently adjudicated held-out annotations | T88 follow-up |
+| S-AU-1 | Add further Australian jurisdictions only after legislation/profile pins and jurisdiction-specific empirical evaluation exist | Future jurisdiction tracks |
+
+### 🔵 C — Could Have
+
+| ID | Requirement | Track(s) |
+|----|-------------|----------|
+| C-ARC-1 | Revisit optional Mojo acceleration only when a supported runtime produces a reproducible benchmark win over Python/Rust-backed alternatives | Future Mojo track |
+
 ## Core Dependencies
 
 ### NLP & ML Engine

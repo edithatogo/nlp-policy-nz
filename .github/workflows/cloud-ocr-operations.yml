@@ -60,7 +60,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
       - id: validate
         env:
@@ -86,7 +86,7 @@ jobs:
       - run: >-
           uv run python scripts/cloud_ocr_orchestrator.py sbom
           --output .tmp/cloud-ocr/sbom.json
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: cloud-ocr-plan-${{ github.run_id }}
           path: .tmp/cloud-ocr
@@ -96,16 +96,16 @@ jobs:
     needs: validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: cloud-ocr-plan-${{ github.run_id }}
           path: .tmp/cloud-ocr
       - run: >-
           uv run python scripts/cloud_ocr_orchestrator.py plan
           --input .tmp/cloud-ocr/plan.json --output .tmp/cloud-ocr/dispatch.json
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: cloud-ocr-dispatch-${{ github.run_id }}
           path: .tmp/cloud-ocr/dispatch.json
@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: cloud-ocr
     steps:
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: cloud-ocr-dispatch-${{ github.run_id }}
           path: .tmp/cloud-ocr
@@ -134,7 +134,7 @@ jobs:
             --output-dir /work/worker
           cp .tmp/cloud-ocr/worker/worker-results.json .tmp/cloud-ocr/worker-results.json
           test -s .tmp/cloud-ocr/worker-results.json
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: cloud-ocr-worker-results-${{ github.run_id }}
           path: .tmp/cloud-ocr/worker-results.json
@@ -144,13 +144,13 @@ jobs:
     needs: dispatch
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: cloud-ocr-dispatch-${{ github.run_id }}
           path: .tmp/cloud-ocr
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: cloud-ocr-worker-results-${{ github.run_id }}
           path: .tmp/cloud-ocr
@@ -158,7 +158,7 @@ jobs:
           uv run python scripts/cloud_ocr_orchestrator.py collect
           --input .tmp/cloud-ocr/dispatch.json --results .tmp/cloud-ocr/worker-results.json
           --output .tmp/cloud-ocr/collected.json
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: cloud-ocr-collected-${{ github.run_id }}
           path: .tmp/cloud-ocr/collected.json
@@ -167,9 +167,9 @@ jobs:
     needs: collect
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: cloud-ocr-collected-${{ github.run_id }}
           path: .tmp/cloud-ocr
@@ -179,7 +179,7 @@ jobs:
       - run: >-
           uv run python scripts/cloud_ocr_orchestrator.py quarantine
           --input .tmp/cloud-ocr/reconciled.json --output .tmp/cloud-ocr/quarantine.json
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: cloud-ocr-reconciled-${{ github.run_id }}
           path: .tmp/cloud-ocr
@@ -192,16 +192,16 @@ jobs:
     env:
       CLOUD_OCR_SIGNING_KEY: ${{ secrets.CLOUD_OCR_SIGNING_KEY }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: cloud-ocr-reconciled-${{ github.run_id }}
           path: .tmp/cloud-ocr
       - run: >-
           uv run python scripts/cloud_ocr_orchestrator.py publish
           --input .tmp/cloud-ocr/quarantine.json --output .tmp/cloud-ocr/run-report.json
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: cloud-ocr-run-report-${{ github.run_id }}
           path: .tmp/cloud-ocr/run-report.json
@@ -212,9 +212,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: cloud-ocr-pilot
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: cloud-ocr-reconciled-${{ github.run_id }}
           path: .tmp/cloud-ocr
@@ -222,7 +222,7 @@ jobs:
           uv run python scripts/cloud_ocr_orchestrator.py pilot
           --input .tmp/cloud-ocr/quarantine.json
           --output .tmp/cloud-ocr/pilot-gate.json
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: cloud-ocr-pilot-gate-${{ github.run_id }}
           path: .tmp/cloud-ocr/pilot-gate.json
@@ -237,17 +237,17 @@ jobs:
       DATASET_ID: ${{ vars.HF_ARCHIVE_DATASET_ID }}
       RUN_ID: ${{ inputs.run_id }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: cloud-ocr-reconciled-${{ github.run_id }}
           path: .tmp/cloud-ocr/reconciled
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: cloud-ocr-run-report-${{ github.run_id }}
           path: .tmp/cloud-ocr/report
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: cloud-ocr-pilot-gate-${{ github.run_id }}
           path: .tmp/cloud-ocr/gate

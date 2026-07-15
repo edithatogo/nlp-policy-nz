@@ -1,0 +1,12 @@
+{
+  "track_id": "foio_archive_adapter_20260714",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-07-14T00:00:00+10:00",
+  "updated_at": "2026-07-15T23:58:00+10:00",
+  "description": "Candidate-only FOI-O adapter for ontology-pinned fyi-archive extraction.",
+  "github_issue": 100,
+  "github_issue_url": "https://github.com/edithatogo/nlp-policy-nz/issues/100",
+  "disposition": "contract_milestone_complete_promotion_rejected",
+  "follow_up_issue": 129
+}
