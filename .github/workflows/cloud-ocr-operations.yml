@@ -125,11 +125,14 @@ jobs:
         run: |
           test -s .tmp/cloud-ocr/dispatch.json
           echo "$WORKER_IMAGE" | grep -Eq '^.+@sha256:[0-9a-f]{64}$'
-          mkdir -p .tmp/cloud-ocr/worker
+          install -d -m 0777 .tmp/cloud-ocr/worker
           docker run --rm \
             -v "$PWD/.tmp/cloud-ocr:/work:rw" \
             "$WORKER_IMAGE" \
-            --plan /work/dispatch.json --results /work/worker-results.json
+            --plan /work/dispatch.json \
+            --results /work/worker/worker-results.json \
+            --output-dir /work/worker
+          cp .tmp/cloud-ocr/worker/worker-results.json .tmp/cloud-ocr/worker-results.json
           test -s .tmp/cloud-ocr/worker-results.json
       - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
         with:
