@@ -23,9 +23,10 @@ def test_cloud_ocr_workflow_has_secure_dispatch_controls() -> None:
     assert '--run-id "$RUN_ID"' in workflow
     assert "scripts/publish_cloud_ocr_evidence.py" in workflow
     assert workflow.split("hugging-face-staging:", 1)[1].count('"uv==0.8.15"') == 1
-    assert "actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683" in workflow.split(
-        "hugging-face-staging:", 1
-    )[1]
+    assert (
+        "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0"
+        in workflow.split("hugging-face-staging:", 1)[1]
+    )
     assert "cloud-ocr-worker-results" not in workflow.split("hugging-face-staging:", 1)[1]
     assert "worker_image:" in workflow
     assert "docker run --rm" in workflow
@@ -107,21 +108,24 @@ def test_orchestrator_pilot_passes_completed_unquarantined_plan(tmp_path: Path) 
     manifest = tmp_path / "items.json"
     manifest.write_text(json.dumps({"items": [item]}), encoding="utf-8")
     plan = tmp_path / "plan.json"
-    assert subprocess.run(
-        [
-            sys.executable,
-            "scripts/cloud_ocr_orchestrator.py",
-            "validate",
-            "--input",
-            str(manifest),
-            "--output",
-            str(plan),
-            "--run-id",
-            "pilot-1",
-        ],
-        cwd=ROOT,
-        check=False,
-    ).returncode == 0
+    assert (
+        subprocess.run(
+            [
+                sys.executable,
+                "scripts/cloud_ocr_orchestrator.py",
+                "validate",
+                "--input",
+                str(manifest),
+                "--output",
+                str(plan),
+                "--run-id",
+                "pilot-1",
+            ],
+            cwd=ROOT,
+            check=False,
+        ).returncode
+        == 0
+    )
     payload = json.loads(plan.read_text(encoding="utf-8"))
     payload["plan"]["ledger"][0]["state"] = "published"
     plan.write_text(json.dumps(payload), encoding="utf-8")
@@ -314,7 +318,11 @@ def test_orchestrator_collects_worker_states_and_signs_published_report(tmp_path
         json.dumps(
             {
                 "results": [
-                    {"item_id": "item-a", "state": "processed", "output_digest": "sha256:" + "b" * 64},
+                    {
+                        "item_id": "item-a",
+                        "state": "processed",
+                        "output_digest": "sha256:" + "b" * 64,
+                    },
                     {"item_id": "item-a", "state": "reviewed"},
                     {"item_id": "item-a", "state": "published"},
                 ]

@@ -1,0 +1,12 @@
+{
+  "track_id": "track90_huggingface_archive_publication_20260713",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-07-13T00:00:00+10:00",
+  "updated_at": "2026-07-15T23:58:00+10:00",
+  "description": "Rights-safe Hugging Face archive publication and Zenodo handoff milestone.",
+  "dependencies": [9, 18, 39, 45, 89],
+  "github_issue": 96,
+  "github_issue_url": "https://github.com/edithatogo/nlp-policy-nz/issues/96",
+  "disposition": "published_and_verified"
+}

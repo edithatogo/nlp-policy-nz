@@ -74,7 +74,7 @@ Phase VIII (Archived — 58-62, 70-73; Completed — 63; Planned — 68): Runtim
   │   [depends on 20, 21, 22, 38, 46, 53]
   ├─ 63 (nlprule Eval) ──► grammar and rule-matching evaluation with spaCy fallback
   │   [depends on 3, 10, 13, 23, 55]
-  ├─ 68 (Mojo Umbrella) ──► 70 (Readiness Audit) [archived]
+  ├─ 68 (Mojo Umbrella) [deferred/archived] ──► 70 (Readiness Audit) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 71 (Linux CI Sandbox) [archived]
   ├─ 70 (Readiness Audit) [archived] ──► 72 (Hotspot Benchmark)
   └─ 70 + 71 + 72 ──► 73 (Optional Acceleration)
@@ -82,28 +82,6 @@ Phase VIII (Archived — 58-62, 70-73; Completed — 63; Planned — 68): Runtim
 Phase IX (Complete — 69): GitHub Project Synchronization
   └─ 69 (GitHub Project Sync) [historical issue/project synchronization track]
 ```
-
----
-
-## [~] Track: FOI-O Archive Extraction Adapter
-Track ID: `foio_archive_adapter_20260714`
-*Link: [./conductor/tracks/foio_archive_adapter_20260714/](./conductor/tracks/foio_archive_adapter_20260714/)*
-- **Dependencies**: FOI-O V2 extraction contract; Tracks 4, 6, 12, 15, 30
-- **Parallelization Node**: FOI-O Archive Integration
-- **Why**: Reuse the existing ontology/NLP pipeline for reproducible candidate
-  extraction from `fyi-archive-nz` while keeping archive and semantic ownership separate.
-
----
-
-## [~] Track: FOI-O Australian Jurisdiction Extraction Adapter
-Track ID: `foio_au_jurisdiction_adapter_20260714`
-*Link: [./conductor/tracks/foio_au_jurisdiction_adapter_20260714/](./conductor/tracks/foio_au_jurisdiction_adapter_20260714/)*
-- **Dependencies**: `foio_archive_adapter_20260714`; FOI-O jurisdiction profiles
-- **Parallelization Node**: FOI-O Australian jurisdiction integration
-- **Why**: Add profile-isolated Commonwealth and NSW routing and candidate
-  extraction without allowing Australian legal context to contaminate NZ or
-  another Australian jurisdiction. Additional jurisdictions remain gated on
-  profile and empirical evaluation evidence.
 
 ## [x] Track 1: Initialize Workspace Environment & Quality Tooling (archived) [b65c685]
 *Link: [./conductor/tracks/archive/track1_env_setup_20260609/](./conductor/tracks/archive/track1_env_setup_20260609/)*
@@ -514,12 +492,6 @@ Track ID: `foio_au_jurisdiction_adapter_20260714`
 - **Parallelization Node**: Rust-Backed Rule Matching
 - **Why**: Evaluate nlprule-style grammar and rule matching for legal drafting quality checks and extraction cues while preserving spaCy alignment.
 
-## [ ] Track 68: Mojo Runtime Feasibility for Hot Python Paths
-*Link: [./conductor/tracks/track68_mojo_runtime_feasibility_20260701/](./conductor/tracks/track68_mojo_runtime_feasibility_20260701/)*
-- **Dependencies**: Tracks 21, 23, 42, 56, 67
-- **Parallelization Node**: Experimental Runtime Strategy
-- **Why**: Maintain the umbrella decision record for introducing Mojo as an optional Linux GitHub Actions acceleration path, while keeping concrete work split into Tracks 70-73.
-
 ## [x] Track 70: Mojo Readiness Audit (archived)
 *Link: [./conductor/tracks/archive/track70_mojo_readiness_audit_20260702/](./conductor/tracks/archive/track70_mojo_readiness_audit_20260702/)*
 - **Dependencies**: Tracks 21, 23, 42, 56, 67, 68
@@ -627,32 +599,34 @@ Track ID: `foio_au_jurisdiction_adapter_20260714`
 
 ---
 
-## [ ] Track 86: HathiTrust-NZ Ingestion Contract
-*Link: [./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/](./conductor/tracks/track86_hathitrust_nz_ingestion_contract_20260713/)*
-- **Dependencies**: Tracks 23, 39, 45, 81, 85
-- **Parallelization Node**: Archive Contract and Rights Boundary
-- **Why**: Import HathiTrust-NZ manifests through a deterministic, fail-closed contract before any cloud processing.
+## [~] Track 92: GitHub Actions Runtime Modernization
+*Link: [./conductor/tracks/track92_actions_runtime_modernization_20260715/](./conductor/tracks/track92_actions_runtime_modernization_20260715/)*
+- **Issue**: #134
+- **Dependencies**: Tracks 23, 39, 45, 85, 91
+- **Parallelization Node**: CI Runtime and Supply Chain
+- **Why**: Replace mutable and Node.js 20-era checkout/artifact action references with current Node.js 24-compatible immutable commit SHAs.
 
-## [ ] Track 87: Layout-Aware OCR Ensemble
-*Link: [./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/](./conductor/tracks/track87_layout_aware_ocr_ensemble_20260713/)*
-- **Dependencies**: Tracks 56, 74, 86
-- **Parallelization Node**: Document Vision and OCR Verification
-- **Why**: Preserve supplied OCR while independently validating historical pages with a benchmarked, cost-aware layout/OCR ensemble.
+## [ ] Track 93: FOI-O Empirical Promotion Evidence
+*Link: [./conductor/tracks/track93_foio_empirical_promotion_20260715/](./conductor/tracks/track93_foio_empirical_promotion_20260715/)*
+- **Issue**: #129
+- **Why**: Replace placeholder evidence with real jurisdiction-isolated promotion evidence.
 
-## [~] Track 88: Historical Parliament Structure Reconstruction
-*Link: [./conductor/tracks/track88_historical_parliament_structure_20260713/](./conductor/tracks/track88_historical_parliament_structure_20260713/)*
-- **Dependencies**: Tracks 53, 55, 74, 87
-- **Parallelization Node**: Hansard Structure and Semantics
-- **Why**: Recover page-grounded parliamentary hierarchy, speaker identity, semantic entities, and relationships.
+## [ ] Track 94: HathiTrust-NZ Rights and Surface Assurance
+*Link: [./conductor/tracks/track94_hathi_rights_surface_assurance_20260715/](./conductor/tracks/track94_hathi_rights_surface_assurance_20260715/)*
+- **Issue**: #130
+- **Why**: Add authoritative territorial rights provenance and verify advertised interfaces.
 
-## [~] Track 89: Multi-Layer Archive Schema
-*Link: [./conductor/tracks/track89_multilayer_archive_schema_20260713/](./conductor/tracks/track89_multilayer_archive_schema_20260713/)*
-- **Dependencies**: Tracks 18, 23, 26, 86, 87, 88
-- **Parallelization Node**: Structured Data and Provenance
-- **Why**: Connect archive objects, page geometry, OCR alternatives, parliamentary structure, semantic assertions, and provenance without information loss.
+## [ ] Track 95: Historical NZ OCR Engine Benchmark
+*Link: [./conductor/tracks/track95_historical_ocr_engine_benchmark_20260715/](./conductor/tracks/track95_historical_ocr_engine_benchmark_20260715/)*
+- **Issue**: #131
+- **Why**: Empirically benchmark the four pinned OCR candidates using no-cost compute.
 
-## [~] Track 90: Hugging Face Archive Publication
-*Link: [./conductor/tracks/track90_huggingface_archive_publication_20260713/](./conductor/tracks/track90_huggingface_archive_publication_20260713/)*
-- **Dependencies**: Tracks 9, 18, 39, 45, 89
-- **Parallelization Node**: Dataset Materialization and Publication
-- **Why**: Publish rights-safe, streaming multi-configuration datasets with generated cards, checksums, attestations, and DOI handoff.
+## [ ] Track 96: Historical Parliament Held-Out Evaluation
+*Link: [./conductor/tracks/track96_parliament_heldout_evaluation_20260715/](./conductor/tracks/track96_parliament_heldout_evaluation_20260715/)*
+- **Issue**: #132
+- **Why**: Produce rights-safe, adjudicated, volume-isolated empirical evaluation evidence.
+
+## [ ] Track 97: Archive Rights and Assurance Closeout
+*Link: [./conductor/tracks/track97_archive_rights_assurance_20260715/](./conductor/tracks/track97_archive_rights_assurance_20260715/)*
+- **Issue**: #133
+- **Why**: Prove transitive effective access and complete mutation, compatibility and serializer assurance.

@@ -292,50 +292,132 @@ class ArchiveBundle(BaseModel):
 
     def public_projection(self) -> ArchiveBundle:
         """Remove restricted text while preserving safe identifiers and lineage."""
+        restricted_sources = {
+            source.source_id
+            for source in self.sources
+            if source.access_class == AccessClass.RESTRICTED
+        }
+        restricted_documents = {
+            document.document_id
+            for document in self.documents
+            if document.source_id in restricted_sources
+        }
+        restricted_pages = {
+            page.page_id for page in self.pages if page.document_id in restricted_documents
+        }
+        restricted_regions = {
+            region.region_id for region in self.regions if region.page_id in restricted_pages
+        }
         restricted_spans = {
-            span.span_id for span in self.spans if span.access_class == AccessClass.RESTRICTED
+            span.span_id
+            for span in self.spans
+            if span.access_class == AccessClass.RESTRICTED or span.page_id in restricted_pages
         }
         restricted_lines = {
-            line.line_id for line in self.lines if line.access_class == AccessClass.RESTRICTED
+            line.line_id
+            for line in self.lines
+            if line.access_class == AccessClass.RESTRICTED
+            or line.region_id in restricted_regions
+            or line.span_id in restricted_spans
         }
         restricted_tokens = {
-            token.token_id for token in self.tokens if token.access_class == AccessClass.RESTRICTED
+            token.token_id
+            for token in self.tokens
+            if token.access_class == AccessClass.RESTRICTED or token.line_id in restricted_lines
+        }
+        restricted_speeches = {
+            speech.speech_id
+            for speech in self.speeches
+            if speech.access_class == AccessClass.RESTRICTED
+            or speech.page_id in restricted_pages
+            or any(span_id in restricted_spans for span_id in speech.span_ids)
+        }
+        restricted_tables = {
+            table.table_id
+            for table in self.tables
+            if table.access_class == AccessClass.RESTRICTED
+            or table.page_id in restricted_pages
+            or any(span_id in restricted_spans for span_id in table.span_ids)
+        }
+        restricted_targets = (
+            restricted_sources
+            | restricted_documents
+            | restricted_pages
+            | restricted_regions
+            | restricted_spans
+            | restricted_lines
+            | restricted_tokens
+            | restricted_speeches
+            | restricted_tables
+        )
+        restricted_embeddings = {
+            embedding.embedding_id
+            for embedding in self.embeddings
+            if embedding.access_class == AccessClass.RESTRICTED
+            or embedding.target_id in restricted_targets
+        }
+        restricted_assertions = {
+            assertion.assertion_id
+            for assertion in self.assertions
+            if assertion.access_class == AccessClass.RESTRICTED
+            or assertion.subject_id in restricted_targets
+            or (assertion.object_id is not None and assertion.object_id in restricted_targets)
+            or any(span_id in restricted_spans for span_id in assertion.span_ids)
         }
         return self.model_copy(
             update={
                 "spans": tuple(
-                    span.model_copy(update={"text": None})
+                    span.model_copy(update={"text": None, "access_class": AccessClass.RESTRICTED})
                     if span.span_id in restricted_spans
                     else span
                     for span in self.spans
                 ),
                 "lines": tuple(
-                    line.model_copy(update={"text": None})
+                    line.model_copy(update={"text": None, "access_class": AccessClass.RESTRICTED})
                     if line.line_id in restricted_lines
                     else line
                     for line in self.lines
                 ),
                 "tokens": tuple(
-                    token.model_copy(update={"text": None, "alternatives": ()})
+                    token.model_copy(
+                        update={
+                            "text": None,
+                            "alternatives": (),
+                            "access_class": AccessClass.RESTRICTED,
+                        }
+                    )
                     if token.token_id in restricted_tokens
                     else token
                     for token in self.tokens
                 ),
                 "speeches": tuple(
-                    speech.model_copy(update={"text": None})
-                    if speech.access_class == AccessClass.RESTRICTED
+                    speech.model_copy(update={"text": None, "access_class": AccessClass.RESTRICTED})
+                    if speech.speech_id in restricted_speeches
                     else speech
                     for speech in self.speeches
                 ),
+                "tables": tuple(
+                    table.model_copy(update={"access_class": AccessClass.RESTRICTED})
+                    if table.table_id in restricted_tables
+                    else table
+                    for table in self.tables
+                ),
                 "embeddings": tuple(
-                    embedding.model_copy(update={"values": ()})
-                    if embedding.access_class == AccessClass.RESTRICTED
+                    embedding.model_copy(
+                        update={"values": (), "access_class": AccessClass.RESTRICTED}
+                    )
+                    if embedding.embedding_id in restricted_embeddings
                     else embedding
                     for embedding in self.embeddings
                 ),
                 "assertions": tuple(
-                    assertion.model_copy(update={"object_text": None})
-                    if assertion.access_class == AccessClass.RESTRICTED
+                    assertion.model_copy(
+                        update={
+                            "object_text": None,
+                            "access_class": AccessClass.RESTRICTED,
+                        }
+                    )
+                    if assertion.assertion_id in restricted_assertions
                     else assertion
                     for assertion in self.assertions
                 ),

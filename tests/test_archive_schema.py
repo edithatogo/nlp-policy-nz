@@ -175,6 +175,40 @@ def test_public_projection_redacts_restricted_text_but_retains_lineage() -> None
     assert projected.assertions[0].object_text is None
 
 
+def test_public_projection_propagates_restricted_source_to_public_default_children(
+    tmp_path: Path,
+) -> None:
+    payload = _bundle().model_dump(mode="python")
+    payload["sources"][0]["access_class"] = AccessClass.RESTRICTED
+    bundle = ArchiveBundle.model_validate(payload)
+
+    projected = bundle.public_projection()
+
+    assert projected.spans[0].access_class is AccessClass.RESTRICTED
+    assert projected.spans[0].text is None
+    assert projected.lines[0].access_class is AccessClass.RESTRICTED
+    assert projected.lines[0].text is None
+    assert projected.tokens[0].access_class is AccessClass.RESTRICTED
+    assert projected.tokens[0].text is None
+    assert projected.tokens[0].alternatives == ()
+    assert projected.speeches[0].access_class is AccessClass.RESTRICTED
+    assert projected.speeches[0].text is None
+    assert projected.tables[0].access_class is AccessClass.RESTRICTED
+    assert projected.embeddings[0].access_class is AccessClass.RESTRICTED
+    assert projected.embeddings[0].values == ()
+    assert projected.assertions[0].access_class is AccessClass.RESTRICTED
+    assert projected.assertions[0].object_text is None
+    for writer, suffix in (
+        (write_json, "json"),
+        (write_jsonl, "jsonl"),
+        (write_jsonld, "jsonld"),
+        (write_markdown, "md"),
+        (write_rdf, "ttl"),
+    ):
+        output = writer(projected, tmp_path / f"public.{suffix}")
+        assert "Hello" not in output.read_text(encoding="utf-8")
+
+
 def test_serializers_are_deterministic_and_round_trip(tmp_path: Path) -> None:
     bundle = _bundle()
     json_path = write_json(bundle, tmp_path / "archive.json")

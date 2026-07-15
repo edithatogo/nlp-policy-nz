@@ -305,6 +305,38 @@ flowchart LR
     CORE --> LAW; CORE --> HANS
 ```
 
+---
+
+## 12. FOI and Historical Archive Integration
+
+```mermaid
+flowchart LR
+    REG["Immutable source registry"] --> RIGHTS["Rights and territorial-use gate"]
+    RIGHTS -->|"metadata or permitted payload"| OCR["Pinned cloud OCR alternatives"]
+    OCR --> PARL["Historical parliamentary structure and speaker candidates"]
+    PARL --> ARCH["Multi-layer archive with transitive effective access"]
+    ARCH --> PUBLIC["Rights-safe public projection"]
+    PUBLIC --> HF["Hugging Face archive"]
+    PUBLIC --> ZEN["Zenodo release"]
+
+    ARCH --> FOIO["FOI-O candidate extraction"]
+    FOIO --> PROFILE{"Jurisdiction-isolated profile"}
+    PROFILE --> NZ["New Zealand candidates"]
+    PROFILE --> CTH["Australian Commonwealth candidates"]
+    PROFILE --> NSW["New South Wales candidates"]
+    NZ --> REVIEW["Independent review and human promotion gate"]
+    CTH --> REVIEW
+    NSW --> REVIEW
+    REVIEW -->|"approved evidence only"| PROMOTED["Promoted semantic assertions"]
+    REVIEW -->|"insufficient evidence"| CANDIDATE["Candidate-only archive"]
+```
+
+The rights gate is authoritative over descendant defaults. A restricted source
+cannot become public because a span, token, speech, assertion, table, or
+embedding omits or weakens its local access marker. FOI-O outputs remain
+candidate-only until real immutable pins, held-out evaluation, disagreement
+adjudication, and jurisdiction-specific promotion evidence are recorded.
+
     section Model Fine-Tuning
     Legal-BERT-NZ (T20) :T20, after T23, 14d
     AU→NZ Transfer (T22):T22, after T20, 21d
