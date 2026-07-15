@@ -69,7 +69,7 @@ def main() -> int:
             "version": args.version,
             "publication_date": __import__("datetime").date.today().isoformat(),
             "upload_type": "software",
-            "resource_type": {"type": "software"},
+            "resource_type": "software",
         }
     )
     (output / "metadata.json").write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n", encoding="utf-8")
