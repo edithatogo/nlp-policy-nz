@@ -1,0 +1,1 @@
+Completed local blocker set: Australian Commonwealth/NSW adapter, cloud OCR direct-script path, and version-aligned citation/Zenodo metadata. Evidence: 21 focused tests pass; Ruff and basedpyright pass; CFF/.zenodo/mirror manifest validated. External gates remain human-gated: cloud worker/OIDC pilot, HF Viewer-compatible upload, and live Zenodo version/concept DOI verification.
