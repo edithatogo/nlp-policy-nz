@@ -18,7 +18,7 @@
       "viewer_default_status": 503
     }
   },
-  "probe_time_utc": "2026-07-14T05:46:51Z",
+  "probe_time_utc": "2026-07-15T00:00:00Z",
   "passed": false,
   "failures": [
     "Dataset Viewer is unavailable for all four public HathiTrust-NZ repositories"

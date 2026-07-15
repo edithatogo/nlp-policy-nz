@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "producer": "nlp-policy-nz",
+  "review_status": "candidate",
+  "snapshot": {
+    "jurisdiction": "Cth",
+    "profile_id": "foi-o-au-cth@1.0.0",
+    "archive_repository": "edithatogo/fyi-archive-nz",
+    "archive_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "archive_content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "legal_source_revision": "cccccccccccccccccccccccccccccccccccccccc",
+    "legal_source_url": "https://www.legislation.gov.au/",
+    "ontology_version": "foi-o@2.0.0",
+    "model_revision": "model@2026-07-15",
+    "schema_version": "2.0.0",
+    "extraction_contract_version": "2.0.0",
+    "pipeline_version": "nlp-policy-nz@0.1.0",
+    "retrieved_at": "2026-07-15T00:00:00Z"
+  },
+  "manifest": {
+    "schema_version": "1.0",
+    "producer": "nlp-policy-nz",
+    "records": [
+      {
+        "record_id": "Cth:1",
+        "family": "obligation",
+        "label": "obligation",
+        "value": "must disclose",
+        "normalized_value": null,
+        "confidence": 0.9,
+        "attributes": {
+          "jurisdiction": "Cth",
+          "foio_au_jurisdiction": "Cth",
+          "foio_au_routing_evidence": ["Cth"],
+          "review_status": "candidate",
+          "foio_au_provenance": {
+            "jurisdiction": "Cth",
+            "profile_id": "foi-o-au-cth@1.0.0",
+            "archive_repository": "edithatogo/fyi-archive-nz",
+            "archive_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "archive_content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "legal_source_revision": "cccccccccccccccccccccccccccccccccccccccc",
+            "legal_source_url": "https://www.legislation.gov.au/",
+            "ontology_version": "foi-o@2.0.0",
+            "model_revision": "model@2026-07-15",
+            "schema_version": "2.0.0",
+            "extraction_contract_version": "2.0.0",
+            "pipeline_version": "nlp-policy-nz@0.1.0",
+            "retrieved_at": "2026-07-15T00:00:00Z"
+          }
+        },
+        "source_trace": {
+          "citation_path": "commonwealth/foi/example",
+          "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "source_url": "https://example.test/foi",
+          "retrieved_at": "2026-07-15T00:00:00Z",
+          "spans": [{"start": 0, "end": 4, "text": "must"}]
+        }
+      }
+    ],
+    "summary": {
+      "total_records": 1,
+      "families": {"obligation": 1},
+      "citation_paths": ["commonwealth/foi/example"],
+      "known_gaps": []
+    },
+    "trace_reports": [
+      {
+        "citation_path": "commonwealth/foi/example",
+        "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "record_ids": ["Cth:1"],
+        "covered_spans": [{"start": 0, "end": 4, "text": "must"}]
+      }
+    ]
+  }
+}

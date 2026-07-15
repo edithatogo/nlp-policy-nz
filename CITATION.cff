@@ -1,8 +1,22 @@
 cff-version: 1.2.0
-message: If you use this software, please cite it using the metadata below.
-title: nlp-policy-nz
+message: "If you use this software, please cite the versioned release used."
+type: software
+title: "nlp-policy-nz: NLP pipeline for New Zealand policy corpora"
+abstract: >-
+  Reproducible NLP, ontology, and annotation pipeline for New Zealand
+  legislation, Hansard, and FOI-O-derived policy corpora.
+license: MIT
+keywords:
+  - natural-language-processing
+  - new-zealand
+  - legislation
+  - freedom-of-information
+  - ontology
 version: 0.1.0
-date-released: "2026-07-02"
-repository-code: https://github.com/edithatogo/nlp-policy-nz
+date-released: "2026-07-14"
+repository-code: "https://github.com/edithatogo/nlp-policy-nz"
+url: "https://github.com/edithatogo/nlp-policy-nz"
 authors:
-  - name: Maintainer
+  - family-names: Mordaunt
+    given-names: Dylan A
+    orcid: "https://orcid.org/0000-0002-9775-0603"

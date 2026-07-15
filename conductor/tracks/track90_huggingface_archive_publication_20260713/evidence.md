@@ -12,4 +12,11 @@
 
 The public Hugging Face smoke publication, streaming load, rollback, and endpoint completeness run require a real repository, credentials, and a completed GitHub Actions run. That evidence is not present in this checkout and remains intentionally open.
 
-Live probe on 2026-07-14 found the four public collection repositories (`hathitrust-nz-inventory`, `hathitrust-nz-htrc-analytics`, `hathitrust-nz-htrc-extracted-features`, and `hathitrust-nz-research-fulltext`) with HTTP 200 metadata responses. Each returned HTTP 503 for the Dataset Viewer default configuration, and the live inventory page states that the Dataset Viewer is unavailable. See `endpoint_probe.json`.
+Live probe on 2026-07-15 found the four public collection repositories
+(`hathitrust-nz-inventory`, `hathitrust-nz-htrc-analytics`,
+`hathitrust-nz-htrc-extracted-features`, and `hathitrust-nz-research-fulltext`)
+with HTTP 200 metadata responses. Each returned HTTP 503 for the Dataset
+Viewer `default` configuration. The repositories currently expose inventory
+and manifest files, but no uploaded configuration shards that satisfy the
+Track 90 streaming contract. See `endpoint_probe.json` and
+`docs/hf-archive-publication-runbook.md` for the maintainer handoff.
