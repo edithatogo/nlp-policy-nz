@@ -47,5 +47,5 @@ def test_prepare_rejects_unreviewed_rights(tmp_path: Path) -> None:
         ),
         encoding="utf-8",
     )
-    with pytest.raises(ValueError, match="copyright-excluded"):
+    with pytest.raises(ValueError, match="approved public-content rights code"):
         prepare(source, tmp_path / "output.json", downloader=lambda _url, _target: "a" * 64)

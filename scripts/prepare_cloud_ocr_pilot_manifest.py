@@ -30,8 +30,8 @@ def prepare(
     with tempfile.TemporaryDirectory(prefix="cloud-ocr-pilot-") as temporary:
         directory = Path(temporary)
         for index, item in enumerate(items):
-            if item.get("rights_code") != "NZ-Copyright-Act-1994-s27":
-                raise ValueError("pilot item is not declared as copyright-excluded NZ legislation")
+            if item.get("rights_code") not in {"Apache-2.0", "NZ-Copyright-Act-1994-s27"}:
+                raise ValueError("pilot item does not have an approved public-content rights code")
             if item.get("publish_eligibility") != "public_full_text":
                 raise ValueError("pilot item must be approved for public full-text processing")
             digest = downloader(str(item["source_url"]), directory / f"source-{index}")

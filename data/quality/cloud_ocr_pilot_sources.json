@@ -3,17 +3,17 @@
     {
       "access_class": "public_full_text",
       "acquisition_mode": "github_actions",
-      "collection_id": "foi-nz",
-      "dataset_id": "nz-oia-legislation-pilot",
+      "collection_id": "cloud-ocr-baseline",
+      "dataset_id": "tesseract-ocr-baseline-pilot",
       "digitization_profile": "standard",
-      "htid": "nzlegislation-1983-83",
-      "item_id": "official-information-amendment-act-1983",
-      "notes": "Public legislation selected for the no-cost Cloud OCR technical pilot.",
+      "htid": "tessdoc-phototest",
+      "item_id": "tesseract-phototest",
+      "notes": "Apache-2.0 OCR fixture selected for the zero-cost technical pilot after the NZ Legislation host returned an HTML interstitial to automated clients.",
       "publish_eligibility": "public_full_text",
-      "rights_code": "NZ-Copyright-Act-1994-s27",
-      "source_dataset_name": "edithatogo-legislation",
-      "source_id": "nz-public-act-1983-83",
-      "source_url": "https://legislation.govt.nz/act/public/1982/0156/68.0/096be8ed80fa5c20.pdf"
+      "rights_code": "Apache-2.0",
+      "source_dataset_name": "tesseract-ocr-tessdoc",
+      "source_id": "tessdoc-phototest-tif",
+      "source_url": "https://raw.githubusercontent.com/tesseract-ocr/tessdoc/a8bf3c9241fe8241f7d13a796f9902c6f0a98087/examples/phototest.tif"
     }
   ]
 }
