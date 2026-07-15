@@ -7,12 +7,14 @@ it cannot certify or promote legal findings.
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Literal
 
 import orjson
 from pydantic import BaseModel, ConfigDict, Field
 
 from nlp_policy_nz.extraction.schemas import (
+    ExtractionFamily,
     ExtractionManifest,
     ExtractionRecord,
     extraction_manifest_from_records,
@@ -46,6 +48,43 @@ class FoioArchiveBundle(BaseModel):
     review_status: Literal["candidate"] = "candidate"
     snapshot: FoioArchiveSnapshot
     manifest: ExtractionManifest
+
+
+class FoioLabelMetrics(BaseModel):
+    """Evaluation metrics for one FOI-O label family."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    family: ExtractionFamily
+    true_positives: int = Field(ge=0)
+    false_positives: int = Field(ge=0)
+    false_negatives: int = Field(ge=0)
+    precision: float = Field(ge=0.0, le=1.0)
+    recall: float = Field(ge=0.0, le=1.0)
+    f1: float = Field(ge=0.0, le=1.0)
+    calibration_error: float = Field(ge=0.0, le=1.0)
+    coverage: float = Field(ge=0.0, le=1.0)
+
+
+class FoioEvaluationReport(BaseModel):
+    """Deterministic evaluation report for candidate versus reviewed records."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    schema_version: str = "1.0"
+    reference_records: int = Field(ge=0)
+    candidate_records: int = Field(ge=0)
+    metrics: tuple[FoioLabelMetrics, ...]
+
+
+class FoioEvaluationFixture(BaseModel):
+    """Pinned bounded fixture used for adapter evaluation and handoff."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    snapshot: FoioArchiveSnapshot
+    reference_records: tuple[ExtractionRecord, ...]
+    candidate_records: tuple[ExtractionRecord, ...]
 
 
 def build_foio_archive_bundle(
@@ -104,3 +143,102 @@ def compare_foio_baseline(
             )
         ),
     }
+
+
+def evaluate_foio_candidates(
+    reference: list[ExtractionRecord] | tuple[ExtractionRecord, ...],
+    candidate: list[ExtractionRecord] | tuple[ExtractionRecord, ...],
+) -> FoioEvaluationReport:
+    """Evaluate exact family/label matches with confidence and coverage signals."""
+    reference_by_id = {record.record_id: record for record in reference}
+    families = sorted(
+        {record.family for record in reference} | {record.family for record in candidate},
+        key=str,
+    )
+    metrics: list[FoioLabelMetrics] = []
+    for family in families:
+        family_reference = [record for record in reference if record.family == family]
+        family_candidate = [record for record in candidate if record.family == family]
+        family_reference_ids = {record.record_id for record in family_reference}
+        family_candidate_ids = {record.record_id for record in family_candidate}
+        true_positives = sum(
+            1
+            for record in family_candidate
+            if (reference_record := reference_by_id.get(record.record_id)) is not None
+            and reference_record.family == record.family
+            and reference_record.label == record.label
+        )
+        false_positives = len(family_candidate) - true_positives
+        false_negatives = len(family_reference) - true_positives
+        precision = _ratio(true_positives, len(family_candidate))
+        recall = _ratio(true_positives, len(family_reference))
+        f1 = _f1(precision, recall)
+        calibration_error = _calibration_error(
+            family_candidate,
+            reference_by_id,
+        )
+        coverage = _ratio(len(family_reference_ids & family_candidate_ids), len(family_reference))
+        metrics.append(
+            FoioLabelMetrics(
+                family=family,
+                true_positives=true_positives,
+                false_positives=false_positives,
+                false_negatives=false_negatives,
+                precision=precision,
+                recall=recall,
+                f1=f1,
+                calibration_error=calibration_error,
+                coverage=coverage,
+            )
+        )
+    return FoioEvaluationReport(
+        reference_records=len(reference),
+        candidate_records=len(candidate),
+        metrics=tuple(metrics),
+    )
+
+
+def render_foio_evaluation_json(report: FoioEvaluationReport) -> str:
+    """Render a stable JSON evaluation report."""
+    return (
+        orjson.dumps(report.model_dump(mode="json"), option=orjson.OPT_SORT_KEYS).decode("utf-8")
+        + "\n"
+    )
+
+
+def load_foio_evaluation_fixture(path: str | Path) -> FoioEvaluationFixture:
+    """Load and validate a pinned JSON evaluation fixture."""
+    fixture_path = Path(path)
+    return FoioEvaluationFixture.model_validate(orjson.loads(fixture_path.read_bytes()))
+
+
+def evaluate_foio_fixture(path: str | Path) -> FoioEvaluationReport:
+    """Evaluate the reference and candidate records from one fixture."""
+    fixture = load_foio_evaluation_fixture(path)
+    return evaluate_foio_candidates(fixture.reference_records, fixture.candidate_records)
+
+
+def _ratio(numerator: int, denominator: int) -> float:
+    return numerator / denominator if denominator else 0.0
+
+
+def _f1(precision: float, recall: float) -> float:
+    return 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+
+
+def _calibration_error(
+    candidates: list[ExtractionRecord],
+    reference_by_id: dict[str, ExtractionRecord],
+) -> float:
+    if not candidates:
+        return 0.0
+    total_error = 0.0
+    for record in candidates:
+        reference_record = reference_by_id.get(record.record_id)
+        target = float(
+            reference_record is not None
+            and reference_record.family == record.family
+            and reference_record.label == record.label
+        )
+        total_error += abs(record.confidence - target)
+    return total_error / len(candidates)
