@@ -226,3 +226,39 @@ jobs:
         with:
           name: cloud-ocr-pilot-gate-${{ github.run_id }}
           path: .tmp/cloud-ocr/pilot-gate.json
+
+  hugging-face-staging:
+    needs: [publish, pilot-gate]
+    if: ${{ inputs.publish && inputs.pilot }}
+    runs-on: ubuntu-latest
+    environment: hf-archive-publish
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      DATASET_ID: ${{ vars.HF_ARCHIVE_DATASET_ID }}
+      RUN_ID: ${{ inputs.run_id }}
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-reconciled-${{ github.run_id }}
+          path: .tmp/cloud-ocr/reconciled
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-run-report-${{ github.run_id }}
+          path: .tmp/cloud-ocr/report
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-ocr-pilot-gate-${{ github.run_id }}
+          path: .tmp/cloud-ocr/gate
+      - name: Stage metadata-only pilot evidence on Hugging Face
+        run: |
+          set -euo pipefail
+          test -n "$HF_TOKEN"
+          test -n "$DATASET_ID"
+          install -d .tmp/cloud-ocr/staging
+          install -m 0644 .tmp/cloud-ocr/reconciled/quarantine.json .tmp/cloud-ocr/staging/reconciled.json
+          install -m 0644 .tmp/cloud-ocr/report/run-report.json .tmp/cloud-ocr/staging/run-report.json
+          install -m 0644 .tmp/cloud-ocr/gate/pilot-gate.json .tmp/cloud-ocr/staging/pilot-gate.json
+          uvx --from huggingface_hub==1.16.1 hf upload \
+            "$DATASET_ID" .tmp/cloud-ocr/staging "cloud-ocr-runs/${RUN_ID}" \
+            --repo-type dataset \
+            --commit-message "Stage zero-cost cloud OCR pilot ${RUN_ID}"

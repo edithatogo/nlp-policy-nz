@@ -8,7 +8,6 @@ def test_cloud_ocr_workflow_has_secure_dispatch_controls() -> None:
     assert "workflow_dispatch:" in workflow
     assert "id-token: write" in workflow
     assert "contents: write" not in workflow
-    assert "secrets.HF_TOKEN" not in workflow
     assert "corpus" not in workflow.lower()
     assert "validate:" in workflow
     assert "plan:" in workflow
@@ -17,6 +16,13 @@ def test_cloud_ocr_workflow_has_secure_dispatch_controls() -> None:
     assert "retry-and-quarantine:" in workflow
     assert "publish:" in workflow
     assert "pilot-gate:" in workflow
+    assert "hugging-face-staging:" in workflow
+    assert "environment: hf-archive-publish" in workflow
+    assert "secrets.HF_TOKEN" in workflow
+    assert "vars.HF_ARCHIVE_DATASET_ID" in workflow
+    assert "cloud-ocr-runs/${RUN_ID}" in workflow
+    assert "--repo-type dataset" in workflow
+    assert "cloud-ocr-worker-results" not in workflow.split("hugging-face-staging:", 1)[1]
     assert "worker_image:" in workflow
     assert "docker run --rm" in workflow
     assert "--results .tmp/cloud-ocr/worker-results.json" in workflow
