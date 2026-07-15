@@ -1,0 +1,1 @@
+Track 91 Hugging Face uploader hardening: replace broken hf CLI with a tested HfApi uploader that accepts exactly pilot-gate.json, reconciled.json, and run-report.json. Validation: 10 focused tests and Ruff passed.
