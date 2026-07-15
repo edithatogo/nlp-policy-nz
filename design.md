@@ -179,6 +179,24 @@ gantt
     Entity Resolution (T12)    :T12, after T23, 28d
     Argument Mining (T13)      :T13, after T12, 35d
 
+    section Model Fine-Tuning
+    Legal-BERT-NZ (T20) :T20, after T23, 14d
+    AU→NZ Transfer (T22):T22, after T20, 21d
+    Bleeding-Edge (T21) :T21, after T20, 45d
+
+    section Ontology & Schema
+    Akoma-Ntoso v3 (T14) :T14, after T20, 28d
+    PROV-O Prov. (T15)   :T15, after T14, 14d
+    FOAF/SIOC (T16)      :T16, after T12, 21d
+    Wikidata KG (T17)    :T17, after T12, 21d
+
+    section Parliamentary
+    Voting & Amend. (T18):T18, after T12, 28d
+
+    section Observability
+    OTel/Bench (T19) :T19, after T23, 21d
+```
+
 
 ---
 
@@ -336,23 +354,3 @@ cannot become public because a span, token, speech, assertion, table, or
 embedding omits or weakens its local access marker. FOI-O outputs remain
 candidate-only until real immutable pins, held-out evaluation, disagreement
 adjudication, and jurisdiction-specific promotion evidence are recorded.
-
-    section Model Fine-Tuning
-    Legal-BERT-NZ (T20) :T20, after T23, 14d
-    AU→NZ Transfer (T22):T22, after T20, 21d
-    Bleeding-Edge (T21) :T21, after T20, 45d
-
-    section Ontology & Schema
-    Akoma-Ntoso v3 (T14) :T14, after T20, 28d
-    PROV-O Prov. (T15)   :T15, after T14, 14d
-    FOAF/SIOC (T16)      :T16, after T12, 21d
-    Wikidata KG (T17)    :T17, after T12, 21d
-
-    section Parliamentary
-    Voting & Amend. (T18):T18, after T12, 28d
-
-    section Observability
-    OTel/Bench (T19) :T19, after T23, 21d
-```
-
-```

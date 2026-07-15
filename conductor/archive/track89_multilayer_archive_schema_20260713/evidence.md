@@ -29,6 +29,9 @@ restricted. `public_projection()` now computes effective restriction
 transitively across documents, pages, regions, spans, lines, tokens, speeches,
 tables, embeddings, and assertions. A regression test verifies that a restricted
 source canary is absent from JSON, JSONL, JSON-LD, Markdown, and RDF exports.
+The effective-access closure also iterates across assertion and embedding
+references, so a restricted assertion cannot leak through a derived vector or
+a later assertion, and restricted document titles are removed.
 
 The core milestone is complete with that fix. Exhaustive mixed-access matrices,
 mutation/compatibility/performance assurance, and explicit rights-basis rules

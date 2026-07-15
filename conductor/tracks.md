@@ -63,7 +63,7 @@ Phase VII (Planned — 51-52): Security & Observability
   └─ 52 (Observability) ──► JSON logging, RFC 7807 errors, request tracing, metrics, graceful degradation
       [depends on 19, 46, 51]
 
-Phase VIII (Archived — 58-62, 70-73; Completed — 63; Planned — 68): Runtime Modernization
+Phase VIII (Archived — 58-62, 68, 70-73; Completed — 63): Runtime Modernization
   ├─ 58 (LangGraph Eval) [archived] ──► deterministic legal workflow orchestration decision record
   │   [depends on 43, 52, 55, 57]
   ├─ 60 (LanceDB Hardening) ──► 62 (Issue mirror and project fields)

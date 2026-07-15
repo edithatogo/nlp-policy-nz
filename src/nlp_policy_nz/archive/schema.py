@@ -354,18 +354,43 @@ class ArchiveBundle(BaseModel):
             embedding.embedding_id
             for embedding in self.embeddings
             if embedding.access_class == AccessClass.RESTRICTED
-            or embedding.target_id in restricted_targets
         }
         restricted_assertions = {
             assertion.assertion_id
             for assertion in self.assertions
             if assertion.access_class == AccessClass.RESTRICTED
-            or assertion.subject_id in restricted_targets
-            or (assertion.object_id is not None and assertion.object_id in restricted_targets)
-            or any(span_id in restricted_spans for span_id in assertion.span_ids)
         }
+        while True:
+            effective_restricted = (
+                restricted_targets | restricted_embeddings | restricted_assertions
+            )
+            next_embeddings = restricted_embeddings | {
+                embedding.embedding_id
+                for embedding in self.embeddings
+                if embedding.target_id in effective_restricted
+            }
+            next_assertions = restricted_assertions | {
+                assertion.assertion_id
+                for assertion in self.assertions
+                if assertion.subject_id in effective_restricted
+                or (assertion.object_id is not None and assertion.object_id in effective_restricted)
+                or any(span_id in restricted_spans for span_id in assertion.span_ids)
+            }
+            if (
+                next_embeddings == restricted_embeddings
+                and next_assertions == restricted_assertions
+            ):
+                break
+            restricted_embeddings = next_embeddings
+            restricted_assertions = next_assertions
         return self.model_copy(
             update={
+                "documents": tuple(
+                    document.model_copy(update={"title": None})
+                    if document.document_id in restricted_documents
+                    else document
+                    for document in self.documents
+                ),
                 "spans": tuple(
                     span.model_copy(update={"text": None, "access_class": AccessClass.RESTRICTED})
                     if span.span_id in restricted_spans

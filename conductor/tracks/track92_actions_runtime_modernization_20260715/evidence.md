@@ -13,7 +13,8 @@ Evidence was obtained directly from the official action repositories with `git l
 - `61` workflow references verified against the immutable allow-list: `36`
   checkout, `14` upload-artifact, and `11` download-artifact uses.
 - The combined adapter, archive, publication, workflow, and SHA-policy suite
-  passed: `82 passed` on Python 3.14.5.
+  passed: `83 passed` on Python 3.14.5 after the whole-track review added an
+  assertion/embedding effective-access regression.
 - Ruff check and format gates passed for all changed Python files.
 - basedpyright reported `0 errors, 0 warnings, 0 notes` for the changed schema
   and policy-test surfaces.
