@@ -14,6 +14,13 @@ from nlp_policy_nz.extraction.exporter import (
     export_extraction_manifest_from_parquet,
     extraction_manifest_from_pipeline_records,
 )
+from nlp_policy_nz.extraction.foio_adapter import (
+    FoioArchiveBundle,
+    FoioArchiveSnapshot,
+    build_foio_archive_bundle,
+    compare_foio_baseline,
+    render_foio_archive_bundle_json,
+)
 from nlp_policy_nz.extraction.schemas import (
     ExtractedSpan,
     ExtractionFamily,
@@ -116,6 +123,8 @@ __all__ = [
     "CatalogRun",
     "CatalogStalenessReport",
     "ExtractedSpan",
+    "FoioArchiveBundle",
+    "FoioArchiveSnapshot",
     "ExtractionFamily",
     "ExtractionManifest",
     "ExtractionRecord",
@@ -130,9 +139,12 @@ __all__ = [
     "export_extraction_manifest_from_parquet",
     "extraction_manifest_from_pipeline_records",
     "extraction_manifest_from_records",
+    "build_foio_archive_bundle",
+    "compare_foio_baseline",
     "initialise_extraction_catalog",
     "list_catalog_runs",
     "render_extraction_manifest_json",
+    "render_foio_archive_bundle_json",
     "render_extractor_manifest_yaml",
     "report_catalog_source_staleness",
     "source_trace_reports_from_records",

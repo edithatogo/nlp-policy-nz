@@ -1,0 +1,12 @@
+{
+  "archive_repository": "edithatogo/fyi-archive-nz",
+  "archive_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "archive_record_id": "record-1",
+  "archive_content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "ontology_version": "foi-o@2.0.0",
+  "schema_version": "2.0.0",
+  "extraction_contract_version": "2.0.0",
+  "pipeline_version": "nlp-policy-nz@0.1.0",
+  "source_url": "https://huggingface.co/datasets/edithatogo/fyi-archive-nz",
+  "retrieved_at": "2026-07-15T00:00:00Z"
+}
