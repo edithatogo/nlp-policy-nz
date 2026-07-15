@@ -19,4 +19,9 @@ Evidence was obtained directly from the official action repositories with `git l
 - basedpyright reported `0 errors, 0 warnings, 0 notes` for the changed schema
   and policy-test surfaces.
 - `git diff --check` passed.
-- Merged-PR evidence remains pending before this track can be archived.
+- PR #135 passed Astro docs, agent review, auto-fix, benchmark, the complete
+  Linux/macOS/Windows Python matrix, Python 3.13/3.14 experimental runtimes,
+  containerized CI, manuscript review, staging, and CI-report checks.
+- PR #135 was squash-merged as
+  `7ce5de39f5b614377171da90cc0d6e92d319fb78` on 2026-07-16 AEST, and issue
+  #134 closed automatically. The track is archive-eligible.
