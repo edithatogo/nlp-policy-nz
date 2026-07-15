@@ -1,0 +1,1 @@
+Track 91 Hugging Face staging runner fix: install pinned uv 0.8.15 before invoking uvx. Validation: 8 workflow tests and Ruff passed.
