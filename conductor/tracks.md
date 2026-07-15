@@ -656,9 +656,3 @@ Track ID: `foio_au_jurisdiction_adapter_20260714`
 - **Dependencies**: Tracks 9, 18, 39, 45, 89
 - **Parallelization Node**: Dataset Materialization and Publication
 - **Why**: Publish rights-safe, streaming multi-configuration datasets with generated cards, checksums, attestations, and DOI handoff.
-
-## [~] Track 91: Cloud OCR Evaluation and Operations
-*Link: [./conductor/tracks/track91_cloud_ocr_evaluation_20260713/](./conductor/tracks/track91_cloud_ocr_evaluation_20260713/)*
-- **Dependencies**: Tracks 39, 40, 45, 74, 85, 87, 88, 89, 90
-- **Parallelization Node**: Secure Cloud Orchestration and Quality
-- **Why**: Dispatch all corpus processing through GitHub Actions and pinned cloud workers with evaluation, budgets, resumability, security gates, and row-level completeness.
