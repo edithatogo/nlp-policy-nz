@@ -259,7 +259,7 @@ jobs:
           install -m 0644 .tmp/cloud-ocr/reconciled/quarantine.json .tmp/cloud-ocr/staging/reconciled.json
           install -m 0644 .tmp/cloud-ocr/report/run-report.json .tmp/cloud-ocr/staging/run-report.json
           install -m 0644 .tmp/cloud-ocr/gate/pilot-gate.json .tmp/cloud-ocr/staging/pilot-gate.json
-          uvx --from huggingface_hub==1.16.1 hf upload \
-            "$DATASET_ID" .tmp/cloud-ocr/staging "cloud-ocr-runs/${RUN_ID}" \
-            --repo-type dataset \
-            --commit-message "Stage zero-cost cloud OCR pilot ${RUN_ID}"
+          uv run python scripts/publish_cloud_ocr_evidence.py \
+            --folder .tmp/cloud-ocr/staging \
+            --dataset-id "$DATASET_ID" \
+            --run-id "$RUN_ID"
