@@ -16,6 +16,10 @@ version: 0.1.0
 date-released: "2026-07-14"
 repository-code: "https://github.com/edithatogo/nlp-policy-nz"
 url: "https://github.com/edithatogo/nlp-policy-nz"
+identifiers:
+  - description: "Zenodo archive for version 0.1.0"
+    type: doi
+    value: "10.5281/zenodo.21374372"
 authors:
   - family-names: Mordaunt
     given-names: Dylan A
