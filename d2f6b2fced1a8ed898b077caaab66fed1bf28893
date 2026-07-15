@@ -1,0 +1,1 @@
+Track 91 live staging fix: add pinned repository checkout before invoking the tested Hugging Face evidence uploader. Validation: 10 focused tests and Ruff passed.
