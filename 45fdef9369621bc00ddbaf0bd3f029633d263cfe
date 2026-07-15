@@ -1,0 +1,1 @@
+Phase 1 verification: uvx ruff check passed; uvx ruff format applied and check passed; Python 3.14 compileall passed. Full uv test environment is blocked because locked spaCy 3.8.14 has no cp314 wheel, and isolated compatibility env lacks optional LanceDB.
