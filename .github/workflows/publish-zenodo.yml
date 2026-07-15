@@ -5,13 +5,26 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      version:
+        description: Release version to deposit (for example 0.1.0)
+        required: true
+        type: string
+      environment:
+        description: Zenodo target
+        required: true
+        default: production
+        type: choice
+        options:
+          - production
+          - sandbox
 
 permissions:
   contents: read
 
 jobs:
   publish:
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,8 +36,12 @@ jobs:
       - name: Publish source archive and citation metadata
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+          ZENODO_SANDBOX_TOKEN: ${{ secrets.ZENODO_SANDBOX_TOKEN }}
         run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then VERSION="${{ inputs.version }}"; fi
           python scripts/publish_zenodo_code_release.py \
             --root . \
-            --version "${GITHUB_REF_NAME#v}" \
+            --version "$VERSION" \
+            --environment "${{ inputs.environment || 'production' }}" \
             --output-dir .tmp/zenodo-release
