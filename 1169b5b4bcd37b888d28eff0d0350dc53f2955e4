@@ -1,0 +1,1 @@
+Track 69 archive restoration: restored the local archived Conductor record for GitHub Project and Conductor Issue Synchronization, added the Phase IX registry entry, and aligned the GitHub issue mirror body/labels with the archived local path. Validation covered metadata parsing, diff checks, and issue state/labels.

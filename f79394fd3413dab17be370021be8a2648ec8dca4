@@ -1,0 +1,1 @@
+Track 87: Layout-Aware OCR Ensemble\n\nImplemented engine-neutral page/layout/OCR contracts, token alignment, CER/WER and structural metrics, deterministic cache keys, adapter protocol/bridge, CPU/GPU cascade routing, benchmark gates, golden-page stratification, and fail-closed engine registry. Focused verification: 16 tests, 99% OCR coverage, basedpyright clean, Ruff clean.

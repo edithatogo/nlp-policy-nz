@@ -1,0 +1,14 @@
+Task: Track 13 legal model recommendation update
+
+Summary:
+- Added model_recommendations to Track 13 ai_provider_labelling_plan.json.
+- Recorded isaacus/emubert as the preferred Australasian local encoder baseline and Legal-BERT as a legacy comparator.
+- Recorded Equall/Saul-7B-Instruct-v1 and isaacus/open-australian-legal-llm as silver-label adjudication candidates, not gold evidence.
+- Kept Kanon-style embedding/reranking scoped to retrieval, RAG, and semantic linking.
+- Opened follow-up issue: https://github.com/edithatogo/nlp-policy-nz/issues/2
+
+Verification:
+- .\.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q tests\test_track13_silver_labels.py --basetemp C:\tmp\nlp-policy-nz-track13-models-final -> 10 passed
+- .\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\track13_argument_stance_20260613\ai_provider_labelling_plan.json > $null -> passed
+- .\.venv\Scripts\python.exe -B -m json.tool conductor\tracks\track13_argument_stance_20260613\metadata.json > $null -> passed
+- .\.venv\Scripts\python.exe -m ruff check --no-cache tests\test_track13_silver_labels.py -> passed
