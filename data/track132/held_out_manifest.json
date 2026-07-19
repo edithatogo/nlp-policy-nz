@@ -1,0 +1,20 @@
+{
+  "schema_version": "track132-historical-parliament-v1",
+  "status": "scaffold",
+  "annotation_status": "not-present",
+  "annotation_units": [
+    "hierarchy",
+    "speaker_attribution",
+    "semantic_link",
+    "abstention",
+    "source_span"
+  ],
+  "records": [],
+  "thresholds": {
+    "abstention_recall": 0.9,
+    "hierarchy_accuracy": 0.9,
+    "link_f1": 0.8,
+    "span_fidelity": 0.95,
+    "speaker_accuracy": 0.9
+  }
+}

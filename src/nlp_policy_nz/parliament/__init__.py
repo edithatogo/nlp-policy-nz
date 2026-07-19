@@ -15,6 +15,16 @@ from nlp_policy_nz.parliament.evaluation import (
     StructureEvaluation,
     evaluate_structure,
 )
+from nlp_policy_nz.parliament.held_out import (
+    HistoricalParliamentManifest,
+    HistoricalParliamentRecord,
+    HistoricalParliamentReport,
+    default_historical_manifest,
+    evaluate_historical_manifest,
+    render_historical_manifest_json,
+    render_historical_report_json,
+    validate_historical_manifest,
+)
 from nlp_policy_nz.parliament.structure import (
     CallableStructureAdapter,
     ParliamentaryNode,
@@ -39,6 +49,9 @@ __all__ = [
     "CallableStructureAdapter",
     "DivisionRecord",
     "EvaluationThresholds",
+    "HistoricalParliamentManifest",
+    "HistoricalParliamentRecord",
+    "HistoricalParliamentReport",
     "MemberVote",
     "ParliamentaryNode",
     "ReviewItem",
@@ -49,11 +62,16 @@ __all__ = [
     "StructureDocument",
     "StructureEvaluation",
     "amendments_to_dicts",
+    "default_historical_manifest",
     "diff_bill_versions",
+    "evaluate_historical_manifest",
     "evaluate_structure",
     "export_structure_jsonld",
     "parse_amendment",
     "parse_amendments",
     "parse_division",
     "reconstruct_structure",
+    "render_historical_manifest_json",
+    "render_historical_report_json",
+    "validate_historical_manifest",
 ]
