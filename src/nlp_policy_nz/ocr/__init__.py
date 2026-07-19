@@ -18,6 +18,18 @@ from nlp_policy_nz.ocr.cloud_ops import (
 )
 
 from .benchmark import BenchmarkCase, BenchmarkResult, BenchmarkThresholds, evaluate_benchmark
+from .protocol import (
+    BENCHMARK_SCHEMA_VERSION,
+    BenchmarkManifest,
+    BenchmarkScaffold,
+    EngineRegistry,
+    RegistryEngine,
+    build_scaffold,
+    load_manifest,
+    load_registry,
+    validate_immutable_pins,
+    write_scaffold,
+)
 from .ensemble import (
     AdapterKind,
     AlignmentOperation,
@@ -46,6 +58,7 @@ __all__ = [
     "BenchmarkCase",
     "BenchmarkResult",
     "BenchmarkThresholds",
+    "BENCHMARK_SCHEMA_VERSION",
     "BoundingBox",
     "BudgetLimits",
     "CacheKey",
@@ -55,6 +68,7 @@ __all__ = [
     "CloudRunPlan",
     "DriftAlert",
     "EngineAdapterSpec",
+    "EngineRegistry",
     "LayoutBlock",
     "LedgerRow",
     "LedgerState",
@@ -62,9 +76,11 @@ __all__ = [
     "OCRToken",
     "PageInput",
     "QualityMetrics",
+    "RegistryEngine",
     "SignedRunReport",
     "TokenAlignment",
     "build_cache_key",
+    "build_scaffold",
     "build_cloud_run_plan",
     "build_drift_alerts",
     "calculate_quality_metrics",
@@ -72,10 +88,14 @@ __all__ = [
     "enforce_dispatch_limits",
     "evaluate_benchmark",
     "normalize_reading_order",
+    "load_manifest",
+    "load_registry",
     "quarantine_failed",
     "retry_failed",
     "route_page",
     "transition_row",
+    "validate_immutable_pins",
     "verify_signed_run_report",
+    "write_scaffold",
     "write_signed_run_report",
 ]

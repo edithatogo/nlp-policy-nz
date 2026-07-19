@@ -7,29 +7,41 @@
       "kind": "docling",
       "capabilities": ["layout", "reading_order", "tables", "ocr"],
       "requires_gpu": false,
+      "engine_version": null,
       "model_digest": null,
-      "container_digest": null
+      "container_digest": null,
+      "sbom_digest": null,
+      "license_spdx_id": null
     },
     {
       "kind": "pp-structure-v3",
       "capabilities": ["layout", "reading_order", "tables", "ocr"],
       "requires_gpu": false,
+      "engine_version": null,
       "model_digest": null,
-      "container_digest": null
+      "container_digest": null,
+      "sbom_digest": null,
+      "license_spdx_id": null
     },
     {
       "kind": "surya",
       "capabilities": ["layout", "reading_order", "tables", "ocr"],
       "requires_gpu": false,
+      "engine_version": null,
       "model_digest": null,
-      "container_digest": null
+      "container_digest": null,
+      "sbom_digest": null,
+      "license_spdx_id": null
     },
     {
       "kind": "olmocr",
       "capabilities": ["ocr", "reading_order", "tables", "complex_formatting"],
       "requires_gpu": true,
+      "engine_version": null,
       "model_digest": null,
-      "container_digest": null
+      "container_digest": null,
+      "sbom_digest": null,
+      "license_spdx_id": null
     }
   ]
 }
