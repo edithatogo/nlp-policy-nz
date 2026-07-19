@@ -14,5 +14,19 @@ search, and processing endpoints.
 
 - `POST /embed`
 - `GET /health`
+- `GET /live`
 - `POST /process`
+- `GET /ready`
 - `POST /search`
+- `GET /startup`
+- `POST /v1/embed`
+- `GET /v1/health`
+- `POST /v1/process`
+- `POST /v1/search`
+- `GET /v1/version`
+- `POST /v2/embed`
+- `GET /v2/health`
+- `POST /v2/process`
+- `POST /v2/search`
+- `GET /v2/version`
+- `GET /version`

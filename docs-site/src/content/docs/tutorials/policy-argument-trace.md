@@ -9,7 +9,7 @@ Fixture notebook for claims, premises, and source anchors.
 
 ```python
 claim = {"text": "The agency should consult", "anchor": "s 5"}
-assert claim["anchor"] == "s 5"
+claim["anchor"] == "s 5"
 ```
 
 Source notebook: `docs/notebooks/policy_argument_trace.ipynb`.

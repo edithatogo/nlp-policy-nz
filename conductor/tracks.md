@@ -533,13 +533,13 @@ Phase XII (Complete — 81-85): Formalized CLI/API/MCP Interface Surfaces
 
 ---
 
-## [ ] Track 90: Hugging Face Archive Publication
+## [~] Track 90: Hugging Face Archive Publication
 *Link: [./conductor/tracks/track90_huggingface_archive_publication_20260713/](./conductor/tracks/track90_huggingface_archive_publication_20260713/)*
 - **Dependencies**: Tracks 9, 18, 39, 45, 89
 - **Parallelization Node**: Dataset Materialization and Publication
 - **Why**: Publish rights-safe, streaming multi-configuration datasets with generated cards, checksums, attestations, and DOI handoff.
 
-## [ ] Track 91: Cloud OCR Evaluation and Operations
+## [~] Track 91: Cloud OCR Evaluation and Operations
 *Link: [./conductor/tracks/track91_cloud_ocr_evaluation_20260713/](./conductor/tracks/track91_cloud_ocr_evaluation_20260713/)*
 - **Dependencies**: Tracks 39, 40, 45, 74, 85, 87, 88, 89, 90
 - **Parallelization Node**: Secure Cloud Orchestration and Quality

@@ -76,6 +76,21 @@
       "HealthResponse": {
         "description": "Health check response body.",
         "properties": {
+          "db_connected": {
+            "title": "Db Connected",
+            "type": "boolean"
+          },
+          "last_run_timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Run Timestamp"
+          },
           "model_loaded": {
             "title": "Model Loaded",
             "type": "boolean"
@@ -84,22 +99,248 @@
             "title": "Model Name",
             "type": "string"
           },
+          "pipeline_status": {
+            "title": "Pipeline Status",
+            "type": "string"
+          },
           "status": {
             "title": "Status",
             "type": "string"
           },
           "version": {
-            "default": "0.1.0",
             "title": "Version",
             "type": "string"
           }
         },
         "required": [
           "status",
+          "pipeline_status",
+          "db_connected",
           "model_loaded",
-          "model_name"
+          "model_name",
+          "version"
         ],
         "title": "HealthResponse",
+        "type": "object"
+      },
+      "ProbeResponse": {
+        "description": "Health probe response body.",
+        "properties": {
+          "db_connected": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Db Connected"
+          },
+          "degraded_embeddings": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Degraded Embeddings"
+          },
+          "model_loaded": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Loaded"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "ProbeResponse",
+        "type": "object"
+      },
+      "ProblemDetail": {
+        "$defs": {
+          "ProblemCode": {
+            "description": "Standardized API error codes.",
+            "enum": [
+              "AUTH_INVALID_KEY",
+              "AUTH_INSUFFICIENT_SCOPE",
+              "MODEL_NOT_LOADED",
+              "PIPELINE_FAILURE",
+              "VALIDATION_ERROR",
+              "RATE_LIMITED",
+              "NOT_FOUND",
+              "INTERNAL_ERROR"
+            ],
+            "title": "ProblemCode",
+            "type": "string"
+          },
+          "ProblemError": {
+            "description": "Field-level validation error payload.",
+            "properties": {
+              "loc": {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "integer"
+                    }
+                  ]
+                },
+                "title": "Loc",
+                "type": "array"
+              },
+              "msg": {
+                "title": "Msg",
+                "type": "string"
+              },
+              "type": {
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "msg",
+              "type"
+            ],
+            "title": "ProblemError",
+            "type": "object"
+          }
+        },
+        "description": "RFC 7807 problem detail payload with an API-specific error code.",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ProblemCode"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Detail"
+          },
+          "errors": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ProblemError"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Errors"
+          },
+          "instance": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Instance"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Request Id"
+          },
+          "status": {
+            "title": "Status",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "title",
+          "status",
+          "code"
+        ],
+        "title": "ProblemDetail",
+        "type": "object"
+      },
+      "ProblemError": {
+        "description": "Field-level validation error payload.",
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Loc",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Msg",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "msg",
+          "type"
+        ],
+        "title": "ProblemError",
         "type": "object"
       },
       "ProcessRequest": {
@@ -277,6 +518,43 @@
         ],
         "title": "ValidationError",
         "type": "object"
+      },
+      "VersionResponse": {
+        "description": "Version metadata response body.",
+        "properties": {
+          "build_timestamp": {
+            "title": "Build Timestamp",
+            "type": "string"
+          },
+          "commit_sha": {
+            "title": "Commit Sha",
+            "type": "string"
+          },
+          "dataset_revision": {
+            "title": "Dataset Revision",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "build_timestamp",
+          "commit_sha",
+          "dataset_revision"
+        ],
+        "title": "VersionResponse",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "description": "API key required for read/write protected endpoints.",
+        "in": "header",
+        "name": "X-API-Key",
+        "type": "apiKey"
       }
     }
   },
@@ -290,7 +568,7 @@
     "/embed": {
       "post": {
         "description": "Generate embeddings for one or more input texts.",
-        "operationId": "embed_embed_post",
+        "operationId": "postEmbed",
         "requestBody": {
           "content": {
             "application/json": {
@@ -312,6 +590,56 @@
             },
             "description": "Successful Response"
           },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
           "422": {
             "content": {
               "application/json": {
@@ -321,15 +649,79 @@
               }
             },
             "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
           }
         },
-        "summary": "Generate embeddings"
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Generate embeddings",
+        "tags": [
+          "embeddings"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "AUTH_INVALID_KEY",
+          "AUTH_INSUFFICIENT_SCOPE",
+          "MODEL_NOT_LOADED",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED",
+          "VALIDATION_ERROR"
+        ],
+        "x-request-model": "EmbedRequest",
+        "x-required-scope": "read",
+        "x-response-model": "EmbedResponse"
       }
     },
     "/health": {
       "get": {
         "description": "Return API health and lazy model-load state.",
-        "operationId": "health_health_get",
+        "operationId": "getHealth",
         "responses": {
           "200": {
             "content": {
@@ -340,15 +732,264 @@
               }
             },
             "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
           }
         },
-        "summary": "Health check"
+        "summary": "Health check",
+        "tags": [
+          "system"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "INTERNAL_ERROR",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED"
+        ],
+        "x-request-model": null,
+        "x-required-scope": null,
+        "x-response-model": "HealthResponse"
+      }
+    },
+    "/live": {
+      "get": {
+        "description": "Report basic process liveness.",
+        "operationId": "getLivenessProbe",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProbeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "summary": "Liveness probe",
+        "tags": [
+          "system"
+        ],
+        "x-api-versions": [
+          "root"
+        ],
+        "x-error-codes": [
+          "INTERNAL_ERROR",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED"
+        ],
+        "x-request-model": null,
+        "x-required-scope": null,
+        "x-response-model": "ProbeResponse"
       }
     },
     "/process": {
       "post": {
         "description": "Run pipeline processing against a path or inline text.",
-        "operationId": "process_process_post",
+        "operationId": "postProcess",
         "requestBody": {
           "content": {
             "application/json": {
@@ -370,6 +1011,56 @@
             },
             "description": "Successful Response"
           },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
           "422": {
             "content": {
               "application/json": {
@@ -379,15 +1070,212 @@
               }
             },
             "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
           }
         },
-        "summary": "Run full pipeline"
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Run full pipeline",
+        "tags": [
+          "pipeline"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "AUTH_INVALID_KEY",
+          "AUTH_INSUFFICIENT_SCOPE",
+          "MODEL_NOT_LOADED",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED",
+          "VALIDATION_ERROR"
+        ],
+        "x-request-model": "ProcessRequest",
+        "x-required-scope": "write",
+        "x-response-model": "ProcessResponse"
+      }
+    },
+    "/ready": {
+      "get": {
+        "description": "Report whether the pipeline and database are ready to serve.",
+        "operationId": "getReadinessProbe",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProbeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "summary": "Readiness probe",
+        "tags": [
+          "system"
+        ],
+        "x-api-versions": [
+          "root"
+        ],
+        "x-error-codes": [
+          "INTERNAL_ERROR",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED"
+        ],
+        "x-request-model": null,
+        "x-required-scope": null,
+        "x-response-model": "ProbeResponse"
       }
     },
     "/search": {
       "post": {
         "description": "Run semantic vector search over the configured index.",
-        "operationId": "search_search_post",
+        "operationId": "postSearch",
         "requestBody": {
           "content": {
             "application/json": {
@@ -409,6 +1297,56 @@
             },
             "description": "Successful Response"
           },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
           "422": {
             "content": {
               "application/json": {
@@ -418,10 +1356,2143 @@
               }
             },
             "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
           }
         },
-        "summary": "Semantic search"
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Semantic search",
+        "tags": [
+          "search"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "AUTH_INVALID_KEY",
+          "AUTH_INSUFFICIENT_SCOPE",
+          "MODEL_NOT_LOADED",
+          "NOT_FOUND",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED",
+          "VALIDATION_ERROR"
+        ],
+        "x-request-model": "SearchRequest",
+        "x-required-scope": "read",
+        "x-response-model": "SearchResponse"
+      }
+    },
+    "/startup": {
+      "get": {
+        "description": "Report whether the model has finished startup initialization.",
+        "operationId": "getStartupProbe",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProbeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "summary": "Startup probe",
+        "tags": [
+          "system"
+        ],
+        "x-api-versions": [
+          "root"
+        ],
+        "x-error-codes": [
+          "INTERNAL_ERROR",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED"
+        ],
+        "x-request-model": null,
+        "x-required-scope": null,
+        "x-response-model": "ProbeResponse"
+      }
+    },
+    "/v1/embed": {
+      "post": {
+        "description": "Generate embeddings for one or more input texts.",
+        "operationId": "postEmbedV1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmbedResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Generate embeddings",
+        "tags": [
+          "embeddings"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "AUTH_INVALID_KEY",
+          "AUTH_INSUFFICIENT_SCOPE",
+          "MODEL_NOT_LOADED",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED",
+          "VALIDATION_ERROR"
+        ],
+        "x-request-model": "EmbedRequest",
+        "x-required-scope": "read",
+        "x-response-model": "EmbedResponse"
+      }
+    },
+    "/v1/health": {
+      "get": {
+        "description": "Return API health and lazy model-load state.",
+        "operationId": "getHealthV1",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "summary": "Health check",
+        "tags": [
+          "system"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "INTERNAL_ERROR",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED"
+        ],
+        "x-request-model": null,
+        "x-required-scope": null,
+        "x-response-model": "HealthResponse"
+      }
+    },
+    "/v1/process": {
+      "post": {
+        "description": "Run pipeline processing against a path or inline text.",
+        "operationId": "postProcessV1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Run full pipeline",
+        "tags": [
+          "pipeline"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "AUTH_INVALID_KEY",
+          "AUTH_INSUFFICIENT_SCOPE",
+          "MODEL_NOT_LOADED",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED",
+          "VALIDATION_ERROR"
+        ],
+        "x-request-model": "ProcessRequest",
+        "x-required-scope": "write",
+        "x-response-model": "ProcessResponse"
+      }
+    },
+    "/v1/search": {
+      "post": {
+        "description": "Run semantic vector search over the configured index.",
+        "operationId": "postSearchV1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Semantic search",
+        "tags": [
+          "search"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "AUTH_INVALID_KEY",
+          "AUTH_INSUFFICIENT_SCOPE",
+          "MODEL_NOT_LOADED",
+          "NOT_FOUND",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED",
+          "VALIDATION_ERROR"
+        ],
+        "x-request-model": "SearchRequest",
+        "x-required-scope": "read",
+        "x-response-model": "SearchResponse"
+      }
+    },
+    "/v1/version": {
+      "get": {
+        "description": "Return the canonical release version metadata.",
+        "operationId": "getVersionV1",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VersionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "summary": "Version metadata",
+        "tags": [
+          "system"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "INTERNAL_ERROR",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED"
+        ],
+        "x-request-model": null,
+        "x-required-scope": null,
+        "x-response-model": "VersionResponse"
+      }
+    },
+    "/v2/embed": {
+      "post": {
+        "description": "Generate embeddings for one or more input texts.",
+        "operationId": "postEmbedV2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmbedResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Generate embeddings",
+        "tags": [
+          "embeddings"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "AUTH_INVALID_KEY",
+          "AUTH_INSUFFICIENT_SCOPE",
+          "MODEL_NOT_LOADED",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED",
+          "VALIDATION_ERROR"
+        ],
+        "x-request-model": "EmbedRequest",
+        "x-required-scope": "read",
+        "x-response-model": "EmbedResponse"
+      }
+    },
+    "/v2/health": {
+      "get": {
+        "description": "Return API health and lazy model-load state.",
+        "operationId": "getHealthV2",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "summary": "Health check",
+        "tags": [
+          "system"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "INTERNAL_ERROR",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED"
+        ],
+        "x-request-model": null,
+        "x-required-scope": null,
+        "x-response-model": "HealthResponse"
+      }
+    },
+    "/v2/process": {
+      "post": {
+        "description": "Run pipeline processing against a path or inline text.",
+        "operationId": "postProcessV2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Run full pipeline",
+        "tags": [
+          "pipeline"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "AUTH_INVALID_KEY",
+          "AUTH_INSUFFICIENT_SCOPE",
+          "MODEL_NOT_LOADED",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED",
+          "VALIDATION_ERROR"
+        ],
+        "x-request-model": "ProcessRequest",
+        "x-required-scope": "write",
+        "x-response-model": "ProcessResponse"
+      }
+    },
+    "/v2/search": {
+      "post": {
+        "description": "Run semantic vector search over the configured index.",
+        "operationId": "postSearchV2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Semantic search",
+        "tags": [
+          "search"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "AUTH_INVALID_KEY",
+          "AUTH_INSUFFICIENT_SCOPE",
+          "MODEL_NOT_LOADED",
+          "NOT_FOUND",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED",
+          "VALIDATION_ERROR"
+        ],
+        "x-request-model": "SearchRequest",
+        "x-required-scope": "read",
+        "x-response-model": "SearchResponse"
+      }
+    },
+    "/v2/version": {
+      "get": {
+        "description": "Return the canonical release version metadata.",
+        "operationId": "getVersionV2",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VersionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "summary": "Version metadata",
+        "tags": [
+          "system"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "INTERNAL_ERROR",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED"
+        ],
+        "x-request-model": null,
+        "x-required-scope": null,
+        "x-response-model": "VersionResponse"
+      }
+    },
+    "/version": {
+      "get": {
+        "description": "Return the canonical release version metadata.",
+        "operationId": "getVersion",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VersionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            },
+            "description": "RFC 7807 problem detail response"
+          }
+        },
+        "summary": "Version metadata",
+        "tags": [
+          "system"
+        ],
+        "x-api-versions": [
+          "root",
+          "v1",
+          "v2"
+        ],
+        "x-error-codes": [
+          "INTERNAL_ERROR",
+          "PIPELINE_FAILURE",
+          "RATE_LIMITED"
+        ],
+        "x-request-model": null,
+        "x-required-scope": null,
+        "x-response-model": "VersionResponse"
       }
     }
+  },
+  "x-api-contract-version": "2026-07-07",
+  "x-api-version": "canonical",
+  "x-api-versions": [
+    "v1",
+    "v2"
+  ],
+  "x-auth-scope-map": {
+    "admin": [
+      "/auth/*"
+    ],
+    "public": [
+      "/health",
+      "/v1/health",
+      "/v2/health",
+      "/startup",
+      "/ready",
+      "/live",
+      "/version",
+      "/v1/version",
+      "/v2/version",
+      "/metrics",
+      "/openapi.json",
+      "/v1/openapi.json",
+      "/v2/openapi.json"
+    ],
+    "read": [
+      "/embed",
+      "/v1/embed",
+      "/v2/embed",
+      "/search",
+      "/v1/search",
+      "/v2/search"
+    ],
+    "write": [
+      "/process",
+      "/v1/process",
+      "/v2/process"
+    ]
+  },
+  "x-endpoint-inventory": [
+    {
+      "aliases": [
+        "/health",
+        "/v1/health",
+        "/v2/health"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "INTERNAL_ERROR",
+        "PIPELINE_FAILURE",
+        "RATE_LIMITED"
+      ],
+      "method": "GET",
+      "operation_id": "getHealth",
+      "path": "/health",
+      "request_model": null,
+      "response_model": "HealthResponse",
+      "scope": null,
+      "summary": "Health check",
+      "tag": "system",
+      "versions": [
+        "root",
+        "v1",
+        "v2"
+      ]
+    },
+    {
+      "aliases": [
+        "/startup"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "INTERNAL_ERROR",
+        "PIPELINE_FAILURE",
+        "RATE_LIMITED"
+      ],
+      "method": "GET",
+      "operation_id": "getStartupProbe",
+      "path": "/startup",
+      "request_model": null,
+      "response_model": "ProbeResponse",
+      "scope": null,
+      "summary": "Startup probe",
+      "tag": "system",
+      "versions": [
+        "root"
+      ]
+    },
+    {
+      "aliases": [
+        "/ready"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "INTERNAL_ERROR",
+        "PIPELINE_FAILURE",
+        "RATE_LIMITED"
+      ],
+      "method": "GET",
+      "operation_id": "getReadinessProbe",
+      "path": "/ready",
+      "request_model": null,
+      "response_model": "ProbeResponse",
+      "scope": null,
+      "summary": "Readiness probe",
+      "tag": "system",
+      "versions": [
+        "root"
+      ]
+    },
+    {
+      "aliases": [
+        "/live"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "INTERNAL_ERROR",
+        "PIPELINE_FAILURE",
+        "RATE_LIMITED"
+      ],
+      "method": "GET",
+      "operation_id": "getLivenessProbe",
+      "path": "/live",
+      "request_model": null,
+      "response_model": "ProbeResponse",
+      "scope": null,
+      "summary": "Liveness probe",
+      "tag": "system",
+      "versions": [
+        "root"
+      ]
+    },
+    {
+      "aliases": [
+        "/version",
+        "/v1/version",
+        "/v2/version"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "INTERNAL_ERROR",
+        "PIPELINE_FAILURE",
+        "RATE_LIMITED"
+      ],
+      "method": "GET",
+      "operation_id": "getVersion",
+      "path": "/version",
+      "request_model": null,
+      "response_model": "VersionResponse",
+      "scope": null,
+      "summary": "Version metadata",
+      "tag": "system",
+      "versions": [
+        "root",
+        "v1",
+        "v2"
+      ]
+    },
+    {
+      "aliases": [
+        "/metrics"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "INTERNAL_ERROR",
+        "PIPELINE_FAILURE",
+        "RATE_LIMITED"
+      ],
+      "method": "GET",
+      "operation_id": "getMetrics",
+      "path": "/metrics",
+      "request_model": null,
+      "response_model": "text/plain",
+      "scope": null,
+      "summary": "Prometheus metrics",
+      "tag": "observability",
+      "versions": [
+        "root"
+      ]
+    },
+    {
+      "aliases": [
+        "/embed",
+        "/v1/embed",
+        "/v2/embed"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "AUTH_INVALID_KEY",
+        "AUTH_INSUFFICIENT_SCOPE",
+        "MODEL_NOT_LOADED",
+        "PIPELINE_FAILURE",
+        "RATE_LIMITED",
+        "VALIDATION_ERROR"
+      ],
+      "method": "POST",
+      "operation_id": "postEmbed",
+      "path": "/embed",
+      "request_model": "EmbedRequest",
+      "response_model": "EmbedResponse",
+      "scope": "read",
+      "summary": "Generate embeddings",
+      "tag": "embeddings",
+      "versions": [
+        "root",
+        "v1",
+        "v2"
+      ]
+    },
+    {
+      "aliases": [
+        "/search",
+        "/v1/search",
+        "/v2/search"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "AUTH_INVALID_KEY",
+        "AUTH_INSUFFICIENT_SCOPE",
+        "MODEL_NOT_LOADED",
+        "NOT_FOUND",
+        "PIPELINE_FAILURE",
+        "RATE_LIMITED",
+        "VALIDATION_ERROR"
+      ],
+      "method": "POST",
+      "operation_id": "postSearch",
+      "path": "/search",
+      "request_model": "SearchRequest",
+      "response_model": "SearchResponse",
+      "scope": "read",
+      "summary": "Semantic search",
+      "tag": "search",
+      "versions": [
+        "root",
+        "v1",
+        "v2"
+      ]
+    },
+    {
+      "aliases": [
+        "/process",
+        "/v1/process",
+        "/v2/process"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "AUTH_INVALID_KEY",
+        "AUTH_INSUFFICIENT_SCOPE",
+        "MODEL_NOT_LOADED",
+        "PIPELINE_FAILURE",
+        "RATE_LIMITED",
+        "VALIDATION_ERROR"
+      ],
+      "method": "POST",
+      "operation_id": "postProcess",
+      "path": "/process",
+      "request_model": "ProcessRequest",
+      "response_model": "ProcessResponse",
+      "scope": "write",
+      "summary": "Run full pipeline",
+      "tag": "pipeline",
+      "versions": [
+        "root",
+        "v1",
+        "v2"
+      ]
+    },
+    {
+      "aliases": [
+        "/openapi.json"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "INTERNAL_ERROR"
+      ],
+      "method": "GET",
+      "operation_id": "getOpenApiDocument",
+      "path": "/openapi.json",
+      "request_model": null,
+      "response_model": "OpenAPI",
+      "scope": null,
+      "summary": "OpenAPI document",
+      "tag": "system",
+      "versions": [
+        "root"
+      ]
+    },
+    {
+      "aliases": [
+        "/v1/openapi.json"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "INTERNAL_ERROR"
+      ],
+      "method": "GET",
+      "operation_id": "getVersionedOpenApiDocumentV1",
+      "path": "/v1/openapi.json",
+      "request_model": null,
+      "response_model": "OpenAPI",
+      "scope": null,
+      "summary": "Versioned OpenAPI document",
+      "tag": "system",
+      "versions": [
+        "v1"
+      ]
+    },
+    {
+      "aliases": [
+        "/v2/openapi.json"
+      ],
+      "deprecated": false,
+      "error_codes": [
+        "INTERNAL_ERROR"
+      ],
+      "method": "GET",
+      "operation_id": "getVersionedOpenApiDocumentV2",
+      "path": "/v2/openapi.json",
+      "request_model": null,
+      "response_model": "OpenAPI",
+      "scope": null,
+      "summary": "Versioned OpenAPI document",
+      "tag": "system",
+      "versions": [
+        "v2"
+      ]
+    }
+  ],
+  "x-path-scope-map": {
+    "/embed": "read",
+    "/process": "write",
+    "/search": "read",
+    "/v1/embed": "read",
+    "/v1/process": "write",
+    "/v1/search": "read",
+    "/v2/embed": "read",
+    "/v2/process": "write",
+    "/v2/search": "read"
   }
 }

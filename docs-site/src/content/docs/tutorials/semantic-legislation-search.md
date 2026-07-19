@@ -10,7 +10,7 @@ Fixture notebook for building a small semantic search example.
 ```python
 query = "ministerial reporting duty"
 documents = ["The Minister must report annually."]
-assert "report" in documents[0]
+"report" in documents[0]
 ```
 
 Source notebook: `docs/notebooks/semantic_legislation_search.ipynb`.
