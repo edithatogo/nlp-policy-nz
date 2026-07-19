@@ -339,6 +339,74 @@ class ArchiveBundle(BaseModel):
             or table.page_id in restricted_pages
             or any(span_id in restricted_spans for span_id in table.span_ids)
         }
+        restricted_assertions = {
+            assertion.assertion_id
+            for assertion in self.assertions
+            if assertion.access_class == AccessClass.RESTRICTED
+        }
+        while True:
+            before = (
+                restricted_spans.copy(),
+                restricted_lines.copy(),
+                restricted_tokens.copy(),
+                restricted_speeches.copy(),
+                restricted_tables.copy(),
+            )
+            restricted_spans.update(
+                span_id
+                for speech in self.speeches
+                if speech.speech_id in restricted_speeches
+                for span_id in speech.span_ids
+            )
+            restricted_spans.update(
+                span_id
+                for table in self.tables
+                if table.table_id in restricted_tables
+                for span_id in table.span_ids
+            )
+            restricted_spans.update(
+                span_id
+                for assertion in self.assertions
+                if assertion.assertion_id in restricted_assertions
+                for span_id in assertion.span_ids
+            )
+            restricted_spans.update(
+                line.span_id for line in self.lines if line.line_id in restricted_lines
+            )
+            restricted_lines.update(
+                line.line_id
+                for line in self.lines
+                if line.span_id in restricted_spans
+                or any(
+                    token.line_id == line.line_id
+                    for token in self.tokens
+                    if token.token_id in restricted_tokens
+                )
+            )
+            restricted_tokens.update(
+                token.token_id for token in self.tokens if token.line_id in restricted_lines
+            )
+            restricted_speeches.update(
+                speech.speech_id
+                for speech in self.speeches
+                if speech.page_id in restricted_pages
+                or any(span_id in restricted_spans for span_id in speech.span_ids)
+            )
+            restricted_tables.update(
+                table.table_id
+                for table in self.tables
+                if table.page_id in restricted_pages
+                or any(span_id in restricted_spans for span_id in table.span_ids)
+            )
+            after = (
+                restricted_spans,
+                restricted_lines,
+                restricted_tokens,
+                restricted_speeches,
+                restricted_tables,
+            )
+            if all(current == previous for current, previous in zip(after, before, strict=True)):
+                break
         restricted_targets = (
             restricted_sources
             | restricted_documents
@@ -354,11 +422,6 @@ class ArchiveBundle(BaseModel):
             embedding.embedding_id
             for embedding in self.embeddings
             if embedding.access_class == AccessClass.RESTRICTED
-        }
-        restricted_assertions = {
-            assertion.assertion_id
-            for assertion in self.assertions
-            if assertion.access_class == AccessClass.RESTRICTED
         }
         while True:
             effective_restricted = (

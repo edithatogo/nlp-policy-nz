@@ -257,6 +257,29 @@ def test_public_projection_closes_restrictions_over_assertion_embedding_chains()
     assert embeddings["embedding-via-derived-assertion"].values == ()
 
 
+def test_public_serializers_reject_mixed_access_canary(tmp_path: Path) -> None:
+    canary = "RESTRICTED_ARCHIVE_CANARY"
+    raw = _bundle().model_dump(mode="json")
+    raw["spans"][0]["text"] = canary
+    raw["lines"][0]["text"] = canary
+    raw["tokens"][0].update({"text": canary, "access_class": "restricted"})
+    raw["speeches"][0]["text"] = canary
+    raw["assertions"][0].update({"object_id": "speech-1", "object_text": canary})
+    raw["embeddings"][0]["values"] = [0.314159, 0.271828]
+    bundle = ArchiveBundle.model_validate(raw)
+
+    for writer, filename in (
+        (write_json, "archive.json"),
+        (write_jsonl, "archive.jsonl"),
+        (write_jsonld, "archive.jsonld"),
+        (write_markdown, "archive.md"),
+        (write_parquet, "archive.parquet"),
+        (write_rdf, "archive.ttl"),
+    ):
+        output = writer(bundle, tmp_path / filename)
+        assert canary not in output.read_bytes().decode("utf-8", errors="ignore"), filename
+
+
 def test_serializers_are_deterministic_and_round_trip(tmp_path: Path) -> None:
     bundle = _bundle()
     json_path = write_json(bundle, tmp_path / "archive.json")
