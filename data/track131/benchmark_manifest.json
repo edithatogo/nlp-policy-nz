@@ -1,0 +1,35 @@
+{
+  "schema_version": "track131.zero-cost-nz-ocr-benchmark.v1",
+  "benchmark_id": "nz-historical-ocr-v1",
+  "pipeline_version": "track131-repo-scaffold-v1",
+  "registry_path": "data/track87/engine_registry.json",
+  "fixture_path": "data/track87/golden_page_fixtures.json",
+  "compute_policy": "no_cost_only",
+  "case_ids": [
+    "single-column-1854",
+    "multi-column-1910",
+    "table-marginalia-1965"
+  ],
+  "metrics": [
+    "character_error_rate",
+    "word_error_rate",
+    "layout_accuracy",
+    "reading_order_accuracy",
+    "table_accuracy",
+    "calibration_error",
+    "disagreement_rate",
+    "cost_per_page_usd",
+    "pages_per_second"
+  ],
+  "thresholds": {
+    "max_character_error_rate": 0.1,
+    "max_word_error_rate": 0.2,
+    "max_disagreement_rate": 0.2,
+    "min_layout_accuracy": 0.9,
+    "min_reading_order_accuracy": 0.9,
+    "min_table_accuracy": 0.9,
+    "max_calibration_error": 0.2,
+    "max_cost_per_page_usd": 0.0,
+    "min_pages_per_second": 0.1
+  }
+}
