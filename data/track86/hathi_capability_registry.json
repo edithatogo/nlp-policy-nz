@@ -7,10 +7,10 @@
       "summary": "Validate HathiTrust-NZ registry and rights routing.",
       "side_effect": "read_only",
       "surfaces": {
-        "api": "planned",
-        "cli": "planned",
-        "mcp": "planned",
-        "sdk": "planned"
+        "api": "not_implemented",
+        "cli": "not_implemented",
+        "mcp": "not_implemented",
+        "sdk": "not_implemented"
       }
     },
     {
@@ -18,10 +18,10 @@
       "summary": "Build deterministic, content-addressed cloud work shards.",
       "side_effect": "read_only",
       "surfaces": {
-        "api": "planned",
-        "cli": "planned",
-        "mcp": "planned",
-        "sdk": "planned"
+        "api": "not_implemented",
+        "cli": "not_implemented",
+        "mcp": "not_implemented",
+        "sdk": "not_implemented"
       }
     }
   ]

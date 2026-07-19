@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -9,7 +10,9 @@ from nlp_policy_nz.extraction.hathi_ingestion import (
     AccessClass,
     AcquisitionMode,
     HathiArchiveItem,
+    HathiRightsEvidence,
     PublicationDecision,
+    RightsBasis,
 )
 from nlp_policy_nz.ocr.cloud_ops import (
     BudgetLimits,
@@ -44,6 +47,21 @@ def _item(item_id: str, *, restricted: bool = False) -> HathiArchiveItem:
             else PublicationDecision.METADATA_ONLY
         ),
         source_sha256=("a" * 64 if not restricted else None),
+        rights_evidence=(
+            HathiRightsEvidence(
+                rights_basis=RightsBasis.HATHI_RIGHTS_PROFILE,
+                authoritative_record_uri=f"https://rights.example.test/{item_id}",
+                authoritative_snapshot_sha256="d" * 64,
+                accessed_at=datetime(2026, 7, 19, tzinfo=UTC),
+                territorial_applicability=("NZ",),
+                may_acquire=True,
+                may_process=True,
+                may_publish_full_text=True,
+                may_publish_derived_features=True,
+            )
+            if not restricted
+            else None
+        ),
     )
 
 
