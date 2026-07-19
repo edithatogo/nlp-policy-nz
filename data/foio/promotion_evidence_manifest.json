@@ -1,0 +1,26 @@
+{
+  "schema_version": "foio.promotion-evidence.v1",
+  "lanes": [
+    {
+      "jurisdiction": "NZ",
+      "blockers": [
+        "No rights-cleared held-out FOI-O sample with real immutable identifiers is checked in.",
+        "No independent reviewer or adjudication record is checked in."
+      ]
+    },
+    {
+      "jurisdiction": "Cth",
+      "blockers": [
+        "No rights-cleared held-out FOI-O sample with real immutable identifiers is checked in.",
+        "No independent reviewer or adjudication record is checked in."
+      ]
+    },
+    {
+      "jurisdiction": "NSW",
+      "blockers": [
+        "No rights-cleared held-out FOI-O sample with real immutable identifiers is checked in.",
+        "No independent reviewer or adjudication record is checked in."
+      ]
+    }
+  ]
+}
