@@ -1,0 +1,15 @@
+{
+  "manifest_valid": true,
+  "test_record_count": 0,
+  "annotations_complete": false,
+  "authority_evidence_complete": false,
+  "measured_metrics": {},
+  "promotion_ready": false,
+  "decision": "no-promotion",
+  "reasons": [
+    "no held-out test records are present",
+    "held-out annotations and signed review decisions are incomplete",
+    "authority evidence is incomplete",
+    "missing measured metrics: hierarchy_accuracy, speaker_accuracy, link_f1, abstention_recall, span_fidelity"
+  ]
+}
