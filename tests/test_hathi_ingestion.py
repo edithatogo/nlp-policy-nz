@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
@@ -9,7 +10,9 @@ from nlp_policy_nz.extraction.hathi_ingestion import (
     AccessClass,
     HathiArchiveItem,
     HathiArchiveRegistry,
+    HathiRightsEvidence,
     PublicationDecision,
+    RightsBasis,
     build_work_manifest,
     hathi_capability_registry,
     load_archive_registry,
@@ -37,12 +40,29 @@ def _item(**overrides: object) -> HathiArchiveItem:
     return HathiArchiveItem.model_validate(values)
 
 
+def _evidence(**overrides: object) -> HathiRightsEvidence:
+    values: dict[str, object] = {
+        "rights_basis": RightsBasis.HATHI_RIGHTS_PROFILE,
+        "authoritative_record_uri": "https://rights.example.test/hathi/uc1.b2889853",
+        "authoritative_snapshot_sha256": "d" * 64,
+        "accessed_at": datetime(2026, 7, 19, tzinfo=UTC),
+        "territorial_applicability": ("NZ",),
+        "may_acquire": True,
+        "may_process": True,
+        "may_publish_full_text": True,
+        "may_publish_derived_features": True,
+    }
+    values.update(overrides)
+    return HathiRightsEvidence.model_validate(values)
+
+
 def test_public_full_text_requires_explicit_checksum_and_is_eligible() -> None:
     item = _item(
         dataset_id="hathitrust-nz-research-fulltext",
         access_class=AccessClass.PUBLIC_FULL_TEXT,
         publish_eligibility=PublicationDecision.PUBLIC_FULL_TEXT,
         source_sha256="a" * 64,
+        rights_evidence=_evidence(),
     )
 
     assert item.publication_decision() is PublicationDecision.PUBLIC_FULL_TEXT
@@ -56,6 +76,7 @@ def test_restricted_profiles_fail_closed_even_with_public_dataset_label() -> Non
         digitization_profile="ic-world",
         publish_eligibility=PublicationDecision.PUBLIC_FULL_TEXT,
         source_sha256="b" * 64,
+        rights_evidence=_evidence(),
     )
 
     assert item.publication_decision() is PublicationDecision.METADATA_ONLY
@@ -67,6 +88,7 @@ def test_public_content_without_checksum_is_rejected() -> None:
         _item(
             access_class=AccessClass.PUBLIC_FULL_TEXT,
             publish_eligibility=PublicationDecision.PUBLIC_FULL_TEXT,
+            rights_evidence=_evidence(),
         )
 
 
@@ -76,7 +98,35 @@ def test_public_full_text_with_non_public_access_is_rejected() -> None:
             access_class=AccessClass.PUBLIC_METADATA,
             publish_eligibility=PublicationDecision.PUBLIC_FULL_TEXT,
             source_sha256="c" * 64,
+            rights_evidence=_evidence(),
         )
+
+
+def test_public_full_text_requires_affirmative_territorial_rights_evidence() -> None:
+    with pytest.raises(ValidationError, match="affirmative NZ rights evidence"):
+        _item(
+            access_class=AccessClass.PUBLIC_FULL_TEXT,
+            publish_eligibility=PublicationDecision.PUBLIC_FULL_TEXT,
+            source_sha256="e" * 64,
+            rights_evidence=_evidence(territorial_applicability=("AU",)),
+        )
+
+
+def test_unknown_rights_basis_cannot_route_public_content() -> None:
+    with pytest.raises(ValidationError, match="affirmative NZ rights evidence"):
+        _item(
+            access_class=AccessClass.PUBLIC_FULL_TEXT,
+            publish_eligibility=PublicationDecision.PUBLIC_FULL_TEXT,
+            source_sha256="f" * 64,
+            rights_evidence=_evidence(rights_basis=RightsBasis.UNKNOWN),
+        )
+
+
+def test_rights_evidence_requires_timezone_and_controlled_snapshot_hash() -> None:
+    with pytest.raises(ValidationError, match="timezone"):
+        _evidence(accessed_at=datetime.fromisoformat("2026-07-19T00:00:00"))
+    with pytest.raises(ValidationError, match="authoritative_snapshot_sha256"):
+        _evidence(authoritative_snapshot_sha256="not-a-hash")
 
 
 def test_htid_must_be_normalized() -> None:
@@ -114,14 +164,15 @@ def test_registry_can_be_projected_from_distinct_items() -> None:
 
 
 def test_work_manifest_is_sorted_sharded_and_content_addressed() -> None:
-    first = _item(item_id="b", htid="uc1.b", source_sha256="b" * 64)
-    second = _item(item_id="a", htid="uc1.a", source_sha256="a" * 64)
+    first = _item(item_id="b", htid="uc1.b", source_sha256="b" * 64, rights_evidence=_evidence())
+    second = _item(item_id="a", htid="uc1.a", source_sha256="a" * 64, rights_evidence=_evidence())
 
     manifest = build_work_manifest((first, second), pipeline_version="0.1.0", shard_size=1)
 
     assert [item.item_id for item in manifest.items] == ["a", "b"]
     assert [shard.item_ids for shard in manifest.shards] == [("a",), ("b",)]
     assert manifest.items[0].content_address == "sha256:" + "a" * 64
+    assert manifest.items[0].rights_evidence is not None
 
 
 def test_metadata_content_is_identity_addressed() -> None:
@@ -243,6 +294,7 @@ def test_json_schema_is_versioned_and_contains_rights_fields() -> None:
 
     assert schema["$defs"]["HathiArchiveItem"]["properties"]["access_class"]
     assert "source_sha256" in schema["$defs"]["HathiArchiveItem"]["properties"]
+    assert "rights_evidence" in schema["$defs"]["HathiArchiveItem"]["properties"]
 
 
 def test_capability_registry_is_read_only_and_surface_compatible() -> None:
@@ -254,3 +306,8 @@ def test_capability_registry_is_read_only_and_surface_compatible() -> None:
     }
     assert all(item["side_effect"] == "read_only" for item in capabilities)
     assert all(set(item["surfaces"]) == {"cli", "api", "sdk", "mcp"} for item in capabilities)
+    assert all(
+        surface == "not_implemented"
+        for item in capabilities
+        for surface in item["surfaces"].values()
+    )

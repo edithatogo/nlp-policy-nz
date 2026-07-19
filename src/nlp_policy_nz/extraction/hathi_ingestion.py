@@ -8,6 +8,7 @@ that owns the relevant credentials and publication gates.
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from enum import StrEnum
 from hashlib import sha256
 from pathlib import Path
@@ -33,6 +34,16 @@ class PublicationDecision(StrEnum):
     PUBLIC_FULL_TEXT = "public_full_text"
 
 
+class RightsBasis(StrEnum):
+    """Controlled basis for a reviewable rights assertion."""
+
+    HATHI_RIGHTS_PROFILE = "hathitrust_rights_profile"
+    PUBLIC_DOMAIN = "public_domain"
+    OPEN_LICENSE = "open_license"
+    PERMISSION = "permission"
+    UNKNOWN = "unknown"
+
+
 class AcquisitionMode(StrEnum):
     """Permitted source acquisition route."""
 
@@ -41,6 +52,51 @@ class AcquisitionMode(StrEnum):
     STATIC_HOST = "static_host"
     INTERNET_ARCHIVE = "internet_archive"
     PREPARED_BUNDLE = "prepared_bundle"
+
+
+class HathiRightsEvidence(BaseModel):
+    """Immutable provenance and purpose permissions for a rights assertion."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    rights_basis: RightsBasis
+    authoritative_record_uri: str = Field(min_length=1, pattern=r"^https?://")
+    authoritative_snapshot_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    accessed_at: datetime
+    territorial_applicability: tuple[str, ...] = Field(min_length=1)
+    may_acquire: bool = False
+    may_process: bool = False
+    may_publish_full_text: bool = False
+    may_publish_derived_features: bool = False
+
+    @field_validator("accessed_at")
+    @classmethod
+    def _require_timezone(cls, value: datetime) -> datetime:
+        if value.tzinfo is None or value.utcoffset() is None:
+            raise ValueError("accessed_at must include a timezone")
+        return value
+
+    @field_validator("territorial_applicability")
+    @classmethod
+    def _require_nonempty_territories(cls, value: tuple[str, ...]) -> tuple[str, ...]:
+        territories = tuple(item.strip().upper() for item in value)
+        if not territories or any(not item for item in territories):
+            raise ValueError("territorial_applicability must contain non-empty territories")
+        return territories
+
+    def permits(self, purpose: str, *, territory: str = "NZ") -> bool:
+        """Return whether this evidence affirmatively permits a purpose in territory."""
+        if self.rights_basis is RightsBasis.UNKNOWN:
+            return False
+        if territory.upper() not in self.territorial_applicability:
+            return False
+        permissions = {
+            "acquire": self.may_acquire,
+            "process": self.may_process,
+            "publish_full_text": self.may_publish_full_text,
+            "publish_derived_features": self.may_publish_derived_features,
+        }
+        return permissions.get(purpose, False)
 
 
 class HathiDatasetDescriptor(BaseModel):
@@ -137,6 +193,7 @@ class HathiArchiveItem(BaseModel):
     source_url: str = Field(min_length=1)
     source_dataset_name: str = Field(min_length=1)
     rights_code: str | None = None
+    rights_evidence: HathiRightsEvidence | None = None
     digitization_profile: str = Field(min_length=1)
     publish_eligibility: PublicationDecision
     source_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
@@ -157,6 +214,13 @@ class HathiArchiveItem(BaseModel):
                 raise ValueError("public full-text publication requires public_full_text access")
             if self.source_sha256 is None:
                 raise ValueError("source_sha256 is required for public full-text publication")
+            if self.rights_evidence is None:
+                raise ValueError("rights evidence is required for public full-text publication")
+            required_purposes = ("acquire", "process", "publish_full_text")
+            if not all(self.rights_evidence.permits(purpose) for purpose in required_purposes):
+                raise ValueError(
+                    "affirmative NZ rights evidence is required for public full-text publication"
+                )
         return self
 
     @property
@@ -168,6 +232,11 @@ class HathiArchiveItem(BaseModel):
             self.publish_eligibility is PublicationDecision.PUBLIC_FULL_TEXT
             and self.access_class is AccessClass.PUBLIC_FULL_TEXT
             and self.source_sha256 is not None
+            and self.rights_evidence is not None
+            and all(
+                self.rights_evidence.permits(purpose)
+                for purpose in ("acquire", "process", "publish_full_text")
+            )
             and not any(
                 token in profile or token in restricted
                 for token in self._restricted_profiles
@@ -181,6 +250,14 @@ class HathiArchiveItem(BaseModel):
             PublicationDecision.PUBLIC_FULL_TEXT
             if self.content_allowed
             else PublicationDecision.METADATA_ONLY
+        )
+
+    @property
+    def derived_features_allowed(self) -> bool:
+        """Return whether derived features may be published in New Zealand."""
+        return self.rights_evidence is not None and all(
+            self.rights_evidence.permits(purpose)
+            for purpose in ("acquire", "process", "publish_derived_features")
         )
 
     @property
@@ -206,6 +283,8 @@ class HathiWorkItem(BaseModel):
     publication_decision: PublicationDecision
     content_allowed: bool
     acquisition_mode: AcquisitionMode
+    rights_evidence: HathiRightsEvidence | None = None
+    derived_features_allowed: bool = False
 
 
 class HathiWorkShard(BaseModel):
@@ -236,10 +315,10 @@ HATHI_CAPABILITY_REGISTRY: tuple[dict[str, Any], ...] = (
         "summary": "Validate HathiTrust-NZ registry and rights routing.",
         "side_effect": "read_only",
         "surfaces": {
-            "cli": "planned",
-            "api": "planned",
-            "sdk": "planned",
-            "mcp": "planned",
+            "cli": "not_implemented",
+            "api": "not_implemented",
+            "sdk": "not_implemented",
+            "mcp": "not_implemented",
         },
     },
     {
@@ -247,10 +326,10 @@ HATHI_CAPABILITY_REGISTRY: tuple[dict[str, Any], ...] = (
         "summary": "Build deterministic, content-addressed cloud work shards.",
         "side_effect": "read_only",
         "surfaces": {
-            "cli": "planned",
-            "api": "planned",
-            "sdk": "planned",
-            "mcp": "planned",
+            "cli": "not_implemented",
+            "api": "not_implemented",
+            "sdk": "not_implemented",
+            "mcp": "not_implemented",
         },
     },
 )
@@ -356,6 +435,8 @@ def build_work_manifest(
             publication_decision=item.publication_decision(),
             content_allowed=item.content_allowed,
             acquisition_mode=item.acquisition_mode,
+            rights_evidence=item.rights_evidence,
+            derived_features_allowed=item.derived_features_allowed,
         )
         for item in ordered
     )
@@ -392,10 +473,12 @@ __all__ = [
     "HathiArchiveItem",
     "HathiArchiveRegistry",
     "HathiDatasetDescriptor",
+    "HathiRightsEvidence",
     "HathiWorkItem",
     "HathiWorkManifest",
     "HathiWorkShard",
     "PublicationDecision",
+    "RightsBasis",
     "build_work_manifest",
     "hathi_capability_registry",
     "load_archive_registry",
