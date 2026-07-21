@@ -1,0 +1,41 @@
+{
+  "schema_version": "track92-upstream-evidence-v1",
+  "candidate_only": true,
+  "decision": "no-promotion",
+  "artifacts": [
+    {
+      "artifact_id": "corpus-nz-hansard:gold-evaluation-manifest",
+      "repository": "edithatogo/corpus-nz-hansard",
+      "revision": "2a4acda7a586c29151bd15b0d3230ece0f0d5c81",
+      "path": "manifests/gold_evaluation_datasets.json",
+      "role": "evaluation-fixture-policy",
+      "status": "validation-fixture-only",
+      "evidence": [
+        "requires positive, negative, ambiguous, unresolved, and excluded examples",
+        "requires sampling frame, review status, reviewer, date, and label provenance",
+        "prohibits unreviewed model-generated gold labels"
+      ],
+      "limitation": "does not provide the rights-cleared held-out Parliament annotations required by issue #132"
+    },
+    {
+      "artifact_id": "hathi-nz:hansard-acquisition-inventory",
+      "repository": "edithatogo/hathi-nz",
+      "revision": "6673041b0d04a3fec25062286bdf3ad8fd1e15e3",
+      "path": "manifests/hathitrust-nz/nz_parliamentary_debates_hansard.json",
+      "role": "historical-volume-source-inventory",
+      "status": "closed-deferred-external-access-required",
+      "enumerated_count": 39,
+      "expected_count": 510,
+      "pending_count": 471,
+      "limitation": "complete enumeration and OCR remain blocked on HathiTrust access evidence"
+    }
+  ],
+  "required_next_evidence": [
+    "rights-cleared page images and annotations",
+    "volume-isolated held-out splits",
+    "separate annotator and adjudicator identity evidence",
+    "temporal speaker authority records",
+    "signed adjudication decisions",
+    "measured evaluation metrics"
+  ]
+}
