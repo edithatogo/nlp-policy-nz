@@ -68,3 +68,7 @@ Track 92 is complete as a repository-side evidence-collection and fail-closed
 contract implementation. The unchecked tasks above are intentionally retained
 as external or follow-up implementation gates in issues #132, #133, #143, and
 #144; archiving this Conductor track does not close or promote those issues.
+
+## Review Fixes
+
+- [x] Task: Require explicit blocker explanations in the collection validator (`324cde2`).
