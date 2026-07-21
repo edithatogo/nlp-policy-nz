@@ -31,6 +31,12 @@ def test_missing_repository_role_fails_closed() -> None:
     assert any("repositories[0].role" in error for error in validate(value))
 
 
+def test_unpinned_repository_fails_closed() -> None:
+    value = inventory()
+    value["repositories"][0]["revision"] = None
+    assert any("revision" in error for error in validate(value))
+
+
 def test_real_evidence_cannot_be_claimed_without_gate_data() -> None:
     value = inventory()
     value["promotion"]["decision"] = "promote"

@@ -4,11 +4,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any
 
 SCHEMA = "track92-source-inventory-v1"
 REQUIRED_GATES = {"rights", "source_pin", "independent_review", "legal_review", "profile_owner_approval"}
+SHA = re.compile(r"^[0-9a-f]{40}$")
 
 
 def validate(inventory: dict[str, Any]) -> list[str]:
@@ -25,9 +27,11 @@ def validate(inventory: dict[str, Any]) -> list[str]:
             if not isinstance(item, dict):
                 errors.append(f"repositories[{index}] must be an object")
                 continue
-            for key in ("repository", "role"):
+            for key in ("repository", "role", "revision"):
                 if not isinstance(item.get(key), str) or not item[key]:
                     errors.append(f"repositories[{index}].{key} is required")
+            if not isinstance(item.get("revision"), str) or not SHA.fullmatch(item["revision"]):
+                errors.append(f"repositories[{index}].revision must be a 40-character commit SHA")
     promotion = inventory.get("promotion")
     if not isinstance(promotion, dict):
         errors.append("promotion object is required")
