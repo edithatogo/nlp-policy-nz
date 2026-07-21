@@ -1,0 +1,24 @@
+{
+  "schema_version": "foio-nz-conformance-packet-v1",
+  "candidate_only": true,
+  "status": "pending-independent-review",
+  "jurisdiction": "NZ",
+  "profile_id": "foio-nz-oia@0.9.0",
+  "rac_conformance": {
+    "repository": "edithatogo/rac-conformance",
+    "revision": "4fbd2551e942d7c475482053cb96d2db7fa38165",
+    "schema_path": "contracts/pic-foio-compatibility/0.1.0/schema.json",
+    "status": "candidate-contract-only"
+  },
+  "fixture": {
+    "path": "data/foio/nz_evaluation_fixture.json",
+    "sha256": "58ea3236ab91e1ca54aec921b0c09cebf57a86447fd382a1b74c581713dcbb1e"
+  },
+  "required_dimensions": ["positive", "negative", "temporal", "non-equivalence"],
+  "promotion": "no-promotion",
+  "blockers": [
+    "RAC independent oracle review is not recorded.",
+    "The fixture is contract-only and contains no rights-cleared empirical annotations.",
+    "Legal and profile-owner approval is not recorded."
+  ]
+}
