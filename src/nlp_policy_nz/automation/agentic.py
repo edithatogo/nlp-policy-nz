@@ -132,16 +132,6 @@ def _read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def _track_title_from_plan(plan_path: Path) -> str:
-    first_line = _read_text(plan_path).splitlines()[0].strip()
-    if not first_line.startswith("# "):
-        raise ValueError(f"{plan_path} does not start with a markdown heading")
-    title = first_line[2:]
-    # Plans may carry a source commit marker that is not part of the registry
-    # heading; compare the stable human-readable track title only.
-    return re.sub(r"\s+\[[0-9a-f]{7,40}\]$", "", title, flags=re.IGNORECASE)
-
-
 def _plan_is_complete(plan_text: str) -> bool:
     task_rows = [
         match.group("status")
@@ -181,13 +171,22 @@ def _registry_entries(registry_text: str) -> list[dict[str, str]]:
     return entries
 
 
-def _update_registry_status(registry_text: str, title: str, new_status: str) -> str:
-    pattern = re.compile(rf"^## \[[~ x]\] {re.escape(title)}$", re.MULTILINE)
-    replacement = f"## [{new_status}] {title}"
-    updated_text, count = pattern.subn(replacement, registry_text, count=1)
-    if count == 0:
-        raise ValueError(f"Track heading '{title}' was not found in the registry")
-    return updated_text
+def _update_registry_entry_status(
+    registry_text: str,
+    entry: Mapping[str, str],
+    new_status: str,
+) -> str:
+    """Update a registry row identified by its immutable track link."""
+    lines = registry_text.splitlines(keepends=True)
+    line_index = int(entry["line_index"])
+    if line_index < 0 or line_index >= len(lines):
+        raise ValueError(f"Registry line index is invalid for track '{entry['track_id']}'")
+    heading = lines[line_index].rstrip("\r\n")
+    match = _TRACK_HEADING_RE.match(heading)
+    if not match:
+        raise ValueError(f"Registry entry for track '{entry['track_id']}' is not a heading")
+    lines[line_index] = f"## [{new_status}] {match.group('title')}\n"
+    return "".join(lines)
 
 
 def _next_incomplete_track(entries: Sequence[Mapping[str, str]], current_index: int) -> str | None:
@@ -205,7 +204,6 @@ def advance_completed_track(repo_root: Path, track_id: str) -> dict[str, Any]:
     registry_path = repo_root / "conductor" / "tracks.md"
 
     plan_text = _read_text(plan_path)
-    track_title = _track_title_from_plan(plan_path)
     plan_complete = _plan_is_complete(plan_text)
 
     metadata = json.loads(_read_text(metadata_path))
@@ -223,7 +221,7 @@ def advance_completed_track(repo_root: Path, track_id: str) -> dict[str, Any]:
         metadata["updated_at"] = datetime.now().astimezone().isoformat(timespec="seconds")
         metadata_path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
         registry_path.write_text(
-            _update_registry_status(registry_text, track_title, "x"),
+            _update_registry_entry_status(registry_text, entries[current_index], "x"),
             encoding="utf-8",
         )
         registry_status = "complete"
