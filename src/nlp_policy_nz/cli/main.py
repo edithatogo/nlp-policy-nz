@@ -191,6 +191,12 @@ def _build_parser() -> argparse.ArgumentParser:
         help='Hugging Face dataset repo ID (e.g. "user/my-dataset").',
     )
     upload_parser.add_argument(
+        "--token",
+        type=str,
+        default=None,
+        help="Hugging Face access token. Falls back to HF_TOKEN env var.",
+    )
+    upload_parser.add_argument(
         "--split",
         type=str,
         default="train",
@@ -960,6 +966,7 @@ def main(argv: list[str] | None = None) -> int:  # noqa: PLR0911
                 repo_id=args.repo_id,
                 split=args.split,
                 private=args.private,
+                token=args.token,
                 commit_message=args.message,
             )
             logger.info("Dataset uploaded: %s", url)
