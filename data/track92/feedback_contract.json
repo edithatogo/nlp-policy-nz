@@ -1,0 +1,15 @@
+{
+  "schema_version": "foio-concept-feedback-v1",
+  "candidate_only": true,
+  "required_fields": [
+    "feedback_id",
+    "artifact_id",
+    "reviewer_reference",
+    "submitted_at",
+    "disposition",
+    "reason",
+    "evidence_refs"
+  ],
+  "dispositions": ["needs-evidence", "needs-revision", "accepted", "rejected", "deferred"],
+  "promotion_requires": ["rights", "legal_review", "profile_owner_approval", "independent_conformance"]
+}
