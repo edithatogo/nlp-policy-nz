@@ -92,9 +92,6 @@ scalene = ">=1.5.0"
 [feature.unstructured.pypi-dependencies]
 unstructured = ">=0.15.0"
 
-[feature.vllm.pypi-dependencies]
-vllm = ">=0.8.5"
-
 [feature.profiling.tasks]
 profile-scalene = "scalene --reduced-profile --html --outfile docs/profiling.html src/nlp_policy_nz/cli/main.py process --help"
 
@@ -113,7 +110,6 @@ py314-experimental = ["py314", "cpu"]
 profiling = ["py312", "profiling"]
 security = ["py312", "security"]
 unstructured = ["py312", "unstructured"]
-vllm = ["py312", "vllm"]
 
 [tasks]
 install-git-hooks = "pre-commit install"
