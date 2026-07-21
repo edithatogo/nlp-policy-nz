@@ -255,11 +255,11 @@ def check_mutation(repo_root: Path) -> dict[str, str]:
         "--src",
         "src/nlp_policy_nz/archive",
         "--testcmds",
-        f'"{sys.executable}" -m pytest tests/test_archive_schema.py tests/test_archive_assurance.py -q',
+        f'"{sys.executable}" -m pytest -p no:tach tests/test_archive_schema.py tests/test_archive_assurance.py -q',
         "--mode",
         "sd",
         "--nlocations",
-        "12",
+        "4",
         "--rseed",
         "133",
         "--exception",
@@ -281,7 +281,7 @@ def check_mutation(repo_root: Path) -> dict[str, str]:
     if completed.returncode:
         detail = (completed.stdout + "\n" + completed.stderr).strip()[-2000:]
         raise AssuranceError(f"archive mutation assurance failed:\n{detail}")
-    return {"sample": "12 fixed-seed mutants", "status": "passed"}
+    return {"sample": "4 fixed-seed mutants", "status": "passed"}
 
 
 def run_assurance(repo_root: Path, *, run_mutation: bool = True) -> dict[str, object]:

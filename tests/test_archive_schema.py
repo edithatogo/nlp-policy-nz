@@ -230,6 +230,13 @@ def test_public_projection_closes_restrictions_over_assertion_embedding_chains()
             predicate="derived-from",
             object_text="restricted assertion derivative",
         ).model_dump(mode="python"),
+        ArchiveAssertion(
+            assertion_id="assertion-public-object",
+            subject_id="speech-1",
+            predicate="references",
+            object_id="assertion-1",
+            object_text="public reference",
+        ).model_dump(mode="python"),
     )
     payload["embeddings"] = (
         *payload["embeddings"],
@@ -259,6 +266,9 @@ def test_public_projection_closes_restrictions_over_assertion_embedding_chains()
     assert embeddings["embedding-via-assertion"].values == ()
     assert embeddings["embedding-via-derived-assertion"].access_class is AccessClass.RESTRICTED
     assert embeddings["embedding-via-derived-assertion"].values == ()
+    public_object = next(item for item in projected.assertions if item.assertion_id == "assertion-public-object")
+    assert public_object.access_class is AccessClass.PUBLIC
+    assert public_object.object_text == "public reference"
 
 
 def test_public_projection_keeps_overlapping_restriction_sets_monotonic() -> None:
