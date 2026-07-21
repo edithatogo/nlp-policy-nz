@@ -18,6 +18,13 @@
 - Ruff checks for the Track 92 validators, tests, and NZ adapter: passed.
 - Hosted PR #161 checks: passed, including benchmark, containerized CI, docs,
   staging, review, and supported Python/platform jobs.
+- PR #163 fixed publication workflow source imports and CLI entry-point
+  invocation; its hosted matrix passed and it merged.
+- PR #164 added the dataset upload token flag and explicit Hugging Face
+  configuration validation; its hosted matrix passed and it merged. The
+  subsequent master runs fail closed with `HF_DATASET_REPO_ID secret is
+  required` and `HF_SPACE_REPO_ID secret is required`, confirming the remaining
+  publication blocker is hosted configuration rather than repository code.
 
 ## Remaining Gates
 
