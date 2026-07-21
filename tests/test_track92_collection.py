@@ -66,9 +66,14 @@ def test_concept_and_feedback_contracts_are_candidate_only() -> None:
     assert feedback["candidate_only"] is True
 
 
-def test_jurisdiction_manifest_is_an_empty_fail_closed_scaffold() -> None:
+def test_jurisdiction_manifest_registers_four_candidate_source_families() -> None:
     manifest = contract("jurisdiction_source_manifest.json")
-    assert manifest["jurisdictions"] == []
+    assert {item["source_family"] for item in manifest["jurisdictions"]} == {
+        "legislation",
+        "gazette",
+        "guidance",
+        "foi_cases",
+    }
     assert manifest["promotion"] == "no-promotion"
 
 

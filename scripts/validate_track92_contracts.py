@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -12,6 +13,7 @@ CONCEPT_SCHEMA = "foio-concept-pack-v1"
 FEEDBACK_SCHEMA = "foio-concept-feedback-v1"
 MANIFEST_SCHEMA = "track92-jurisdiction-source-manifest-v1"
 GATES = {"rights", "legal_review", "profile_owner_approval", "independent_conformance"}
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def _required_strings(value: dict[str, Any], keys: tuple[str, ...], prefix: str) -> list[str]:
@@ -78,6 +80,8 @@ def validate_jurisdiction_manifest(value: dict[str, Any]) -> list[str]:
             errors.append("empty manifest must explain its blockers")
     else:
         required = set(value["required_fields"]) if isinstance(value.get("required_fields"), list) else set()
+        expected_families = set(value.get("required_source_families", []))
+        observed_families: set[str] = set()
         for index, item in enumerate(jurisdictions):
             if not isinstance(item, dict):
                 errors.append(f"manifest.jurisdictions[{index}] must be an object")
@@ -85,6 +89,15 @@ def validate_jurisdiction_manifest(value: dict[str, Any]) -> list[str]:
             missing = sorted(field for field in required if not isinstance(item.get(field), str) or not item[field])
             if missing:
                 errors.append(f"manifest.jurisdictions[{index}] missing: {', '.join(missing)}")
+            family = item.get("source_family")
+            if isinstance(family, str):
+                observed_families.add(family)
+            source_hash = item.get("source_sha256")
+            if not isinstance(source_hash, str) or not SHA256.fullmatch(source_hash):
+                errors.append(f"manifest.jurisdictions[{index}].source_sha256 must be a 64-character SHA-256")
+        missing_families = sorted(expected_families - observed_families)
+        if missing_families:
+            errors.append(f"manifest is missing source families: {', '.join(missing_families)}")
     return errors
 
 

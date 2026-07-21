@@ -30,6 +30,7 @@ def test_concept_contract_cannot_drop_a_promotion_gate() -> None:
 
 def test_empty_jurisdiction_manifest_requires_blockers() -> None:
     value = copy.deepcopy(load("jurisdiction_source_manifest.json"))
+    value["jurisdictions"] = []
     value["blockers"] = []
     assert any("blockers" in error for error in validate_jurisdiction_manifest(value))
 
