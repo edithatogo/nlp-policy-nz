@@ -1,0 +1,52 @@
+{
+  "schema_version": "track132-historical-parliament-intake-v1",
+  "purpose": "Rights-safe intake contract for historical Parliament evaluation inputs",
+  "record_unit": "page",
+  "split_unit": "volume",
+  "disjoint_by": [
+    "volume_id",
+    "source_id",
+    "source_sha256"
+  ],
+  "required_record_fields": [
+    "record_id",
+    "source_id",
+    "volume_id",
+    "page_id",
+    "event_date",
+    "split",
+    "source_sha256",
+    "annotation_ref",
+    "annotator_ids",
+    "adjudicator_ids",
+    "authority_record_ids",
+    "review_decision_id"
+  ],
+  "splits": [
+    "train",
+    "dev",
+    "test"
+  ],
+  "annotation_units": [
+    "hierarchy",
+    "speaker_attribution",
+    "semantic_link",
+    "abstention",
+    "source_span"
+  ],
+  "required_metrics": {
+    "hierarchy_accuracy": 0.9,
+    "speaker_accuracy": 0.9,
+    "link_f1": 0.8,
+    "abstention_recall": 0.9,
+    "span_fidelity": 0.95
+  },
+  "evidence_rules": {
+    "identity_records_are_required": true,
+    "annotator_adjudicator_roles_must_be_disjoint": true,
+    "authority_validity_must_contain_event_date": true,
+    "review_decision_must_be_signed": true,
+    "source_content_must_remain_external": true,
+    "synthetic_or_ai_generated_annotations_are_forbidden": true
+  }
+}

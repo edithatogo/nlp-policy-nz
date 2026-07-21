@@ -1,0 +1,18 @@
+{
+  "contract_valid": true,
+  "manifest_valid": true,
+  "evidence_complete": false,
+  "record_counts": {
+    "train": 0,
+    "dev": 0,
+    "test": 0
+  },
+  "measured_metrics": {},
+  "promotion_ready": false,
+  "decision": "no-promotion",
+  "reasons": [
+    "annotations, identities, authority records, and signed review decisions are incomplete",
+    "missing measured metrics: abstention_recall, hierarchy_accuracy, link_f1, span_fidelity, speaker_accuracy",
+    "no held-out test records are present"
+  ]
+}
