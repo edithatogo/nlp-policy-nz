@@ -11,6 +11,9 @@ permissions:
 
 jobs:
   publish:
+    # Publication is an external release action and stays disabled until the
+    # repository has approved targets and credentials.
+    if: ${{ vars.HF_PUBLICATION_ENABLED == 'true' }}
     runs-on: ubuntu-latest
     env:
       HF_TOKEN: ${{ secrets.HF_TOKEN }}
