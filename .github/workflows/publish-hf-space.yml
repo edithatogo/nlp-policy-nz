@@ -25,6 +25,6 @@ jobs:
         run: CI=true pixi install
       - name: Deploy Space
         run: |
-          pixi run nlp-policy-nz deploy-space \
+          PYTHONPATH=src pixi run python -m nlp_policy_nz.cli.main deploy-space \
             --repo-id "$HF_SPACE_REPO_ID" \
             --token "$HF_TOKEN"
