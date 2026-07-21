@@ -98,7 +98,7 @@ def test_track43_automation_helpers_cover_review_fix_and_judge(tmp_path, monkeyp
     (track_dir / "plan.md").write_text(
         "\n".join(
             [
-                "# Track 99: Example",
+                "# Track 99: Example [abcdef1]",
                 "",
                 "## Implementation Plan",
                 "",

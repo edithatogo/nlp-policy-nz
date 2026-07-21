@@ -136,7 +136,10 @@ def _track_title_from_plan(plan_path: Path) -> str:
     first_line = _read_text(plan_path).splitlines()[0].strip()
     if not first_line.startswith("# "):
         raise ValueError(f"{plan_path} does not start with a markdown heading")
-    return first_line[2:]
+    title = first_line[2:]
+    # Plans may carry a source commit marker that is not part of the registry
+    # heading; compare the stable human-readable track title only.
+    return re.sub(r"\s+\[[0-9a-f]{7,40}\]$", "", title, flags=re.IGNORECASE)
 
 
 def _plan_is_complete(plan_text: str) -> bool:
