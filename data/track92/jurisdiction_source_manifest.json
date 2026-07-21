@@ -1,0 +1,27 @@
+{
+  "schema_version": "track92-jurisdiction-source-manifest-v1",
+  "status": "intake",
+  "candidate_only": true,
+  "jurisdictions": [],
+  "required_source_families": ["legislation", "gazette", "guidance", "foi_cases"],
+  "required_fixture_families": ["positive", "negative", "temporal", "non-equivalence"],
+  "required_fields": [
+    "jurisdiction",
+    "profile_id",
+    "source_family",
+    "source_uri",
+    "source_revision",
+    "source_sha256",
+    "retrieved_at",
+    "effective_from",
+    "effective_to",
+    "rights_status",
+    "review_status"
+  ],
+  "promotion": "no-promotion",
+  "blockers": [
+    "No jurisdiction source pack has been pinned.",
+    "No independent fixtures have been registered.",
+    "No jurisdiction or legal review has been recorded."
+  ]
+}

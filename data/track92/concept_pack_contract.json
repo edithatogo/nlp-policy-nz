@@ -1,0 +1,29 @@
+{
+  "schema_version": "foio-concept-pack-v1",
+  "status": "candidate",
+  "promotion": "no-promotion",
+  "required_artifact_fields": [
+    "artifact_id",
+    "jurisdiction",
+    "profile_id",
+    "profile_version",
+    "source_uri",
+    "source_revision",
+    "source_sha256",
+    "effective_from",
+    "effective_to",
+    "rights_status",
+    "review_status",
+    "uncertainty",
+    "conflicts",
+    "unsupported_surfaces"
+  ],
+  "allowed_review_statuses": ["candidate", "under-review", "accepted", "rejected"],
+  "promotion_requirements": ["rights", "legal_review", "profile_owner_approval", "independent_conformance"],
+  "prohibited": [
+    "legal conclusion without review",
+    "implicit profile promotion",
+    "unhashed source material",
+    "fabricated evaluation metrics"
+  ]
+}
