@@ -16,7 +16,24 @@
     {"repository": "edithatogo/fyi-archive", "role": "archived-foi-source-manifests", "revision": "f249df0eb3ad84286f93e12e026b1e15d24a3a80"}
   ],
   "jurisdictions": [],
-  "evidence_packages": [],
+  "evidence_packages": [
+    {
+      "artifact_id": "hathi-nz:nz-parliamentary-debates-hansard",
+      "repository": "edithatogo/hathi-nz",
+      "revision": "6673041b0d04a3fec25062286bdf3ad8fd1e15e3",
+      "path": "manifests/hathitrust-nz/nz_parliamentary_debates_hansard.json",
+      "source_uri": "https://raw.githubusercontent.com/edithatogo/hathi-nz/6673041b0d04a3fec25062286bdf3ad8fd1e15e3/manifests/hathitrust-nz/nz_parliamentary_debates_hansard.json",
+      "source_sha256": "7e401fba4d8181bf954993a81371f9cf12cc944f3f4588e2dd9bce844fef0ea6",
+      "rights_status": "metadata-only-candidate",
+      "access_class": "public_metadata",
+      "review_status": "candidate",
+      "status": "metadata-only-candidate",
+      "limitations": [
+        "Does not contain page images, annotations, temporal authority records, or adjudication signatures.",
+        "Does not authorize full-text rehosting; hathi-nz keeps the static-host route fail-closed."
+      ]
+    }
+  ],
   "promotion": {
     "decision": "no-promotion",
     "required_gates": ["rights", "source_pin", "independent_review", "legal_review", "profile_owner_approval"],

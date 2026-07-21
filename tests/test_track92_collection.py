@@ -43,6 +43,15 @@ def test_real_evidence_cannot_be_claimed_without_gate_data() -> None:
     assert any("no-promotion" in error for error in validate(value))
 
 
+def test_metadata_candidate_requires_immutable_hash_and_stays_unapproved() -> None:
+    value = inventory()
+    package = value["evidence_packages"][0]
+    assert package["status"] == "metadata-only-candidate"
+    assert len(package["source_sha256"]) == 64
+    package["source_sha256"] = "invalid"
+    assert any("source_sha256" in error for error in validate(value))
+
+
 def test_empty_blocker_list_fails_closed() -> None:
     value = inventory()
     value["promotion"]["blockers"] = []
