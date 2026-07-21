@@ -424,21 +424,23 @@ class ArchiveBundle(BaseModel):
             if embedding.access_class == AccessClass.RESTRICTED
         }
         while True:
-            effective_restricted = (
-                restricted_targets | restricted_embeddings | restricted_assertions
-            )
-            next_embeddings = restricted_embeddings | {
+            effective_restricted = set(restricted_targets)
+            effective_restricted.update(restricted_embeddings)
+            effective_restricted.update(restricted_assertions)
+            next_embeddings = set(restricted_embeddings)
+            next_embeddings.update({
                 embedding.embedding_id
                 for embedding in self.embeddings
                 if embedding.target_id in effective_restricted
-            }
-            next_assertions = restricted_assertions | {
+            })
+            next_assertions = set(restricted_assertions)
+            next_assertions.update({
                 assertion.assertion_id
                 for assertion in self.assertions
                 if assertion.subject_id in effective_restricted
                 or (assertion.object_id is not None and assertion.object_id in effective_restricted)
                 or any(span_id in restricted_spans for span_id in assertion.span_ids)
-            }
+            })
             if (
                 next_embeddings == restricted_embeddings
                 and next_assertions == restricted_assertions
@@ -552,7 +554,7 @@ def _unique_ids(items: tuple[BaseModel, ...], field: str) -> set[str]:
     return values
 
 
-def _require(value: str, available: set[str], kind: str) -> None:
+def _require(value: str, available: set[str], kind: str):
     if value not in available:
         raise ValueError(f"unknown {kind} reference: {value}")
 
