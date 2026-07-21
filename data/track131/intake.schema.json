@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/edithatogo/nlp-policy-nz/blob/master/data/track131/intake.schema.json",
+  "title": "Track 131 rights-cleared OCR benchmark intake",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "dataset_id", "rights", "pages", "runtime", "runner"],
+  "properties": {
+    "schema_version": {"const": "track131-intake-v1"},
+    "dataset_id": {"type": "string", "minLength": 1},
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "basis", "evidence_path", "evidence_sha256", "reviewer", "reviewed_at"],
+      "properties": {
+        "status": {"const": "cleared"},
+        "basis": {"type": "string", "minLength": 1},
+        "evidence_path": {"type": "string", "minLength": 1},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "reviewer": {"type": "string", "minLength": 1},
+        "reviewed_at": {"type": "string", "minLength": 1}
+      }
+    },
+    "pages": {
+      "type": "array", "minItems": 1,
+      "items": {"$ref": "#/$defs/page"}
+    },
+    "runtime": {
+      "type": "object", "additionalProperties": false,
+      "required": ["engine", "model", "container", "sbom", "licenses"],
+      "properties": {
+        "engine": {"$ref": "#/$defs/engine"},
+        "model": {"$ref": "#/$defs/model"},
+        "container": {"$ref": "#/$defs/container"},
+        "sbom": {"$ref": "#/$defs/file_pin"},
+        "licenses": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/license"}}
+      }
+    },
+    "runner": {
+      "type": "object", "additionalProperties": false,
+      "required": ["provider", "workflow_ref", "no_cost", "quota_policy", "paid_fallback"],
+      "properties": {
+        "provider": {"type": "string", "minLength": 1},
+        "workflow_ref": {"type": "string", "minLength": 1},
+        "no_cost": {"const": true},
+        "quota_policy": {"type": "string", "minLength": 1},
+        "paid_fallback": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "file_pin": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "format"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}, "format": {"type": "string", "minLength": 1}}
+    },
+    "page": {
+      "type": "object", "additionalProperties": false,
+      "required": ["page_id", "source_id", "sequence", "image_path", "image_sha256", "mime_type", "width", "height", "rights_evidence_ref", "gold_annotation_path", "gold_annotation_sha256"],
+      "properties": {
+        "page_id": {"type": "string", "minLength": 1}, "source_id": {"type": "string", "minLength": 1}, "sequence": {"type": "integer", "minimum": 1}, "image_path": {"type": "string", "minLength": 1}, "image_sha256": {"$ref": "#/$defs/sha256"}, "mime_type": {"enum": ["image/jpeg", "image/png", "image/tiff"]}, "width": {"type": "integer", "minimum": 1}, "height": {"type": "integer", "minimum": 1}, "rights_evidence_ref": {"type": "string", "minLength": 1}, "gold_annotation_path": {"type": "string", "minLength": 1}, "gold_annotation_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "engine": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "version", "source_commit", "license_spdx"],
+      "properties": {"name": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}, "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"}, "license_spdx": {"type": "string", "minLength": 1}}
+    },
+    "model": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "version", "digest"],
+      "properties": {"name": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}, "digest": {"$ref": "#/$defs/digest"}}
+    },
+    "container": {
+      "type": "object", "additionalProperties": false,
+      "required": ["image", "digest"],
+      "properties": {"image": {"type": "string", "minLength": 1}, "digest": {"$ref": "#/$defs/digest"}}
+    },
+    "license": {
+      "type": "object", "additionalProperties": false,
+      "required": ["component", "version", "spdx_id", "source_path", "source_sha256"],
+      "properties": {"component": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}, "spdx_id": {"type": "string", "minLength": 1}, "source_path": {"type": "string", "minLength": 1}, "source_sha256": {"$ref": "#/$defs/sha256"}}
+    }
+  }
+}
