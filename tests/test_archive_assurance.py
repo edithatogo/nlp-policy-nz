@@ -53,3 +53,23 @@ def test_mutation_lane_fails_closed_on_nonzero_runner(monkeypatch: pytest.Monkey
 
     with pytest.raises(AssuranceError, match="mutation assurance failed"):
         check_mutation(Path.cwd())
+
+
+def test_mutation_command_uses_pinned_compatibility_launcher(monkeypatch: pytest.MonkeyPatch) -> None:
+    captured: list[str] = []
+
+    class PassedProcess:
+        returncode = 0
+        stdout = ""
+        stderr = ""
+
+    def fake_run(command, **kwargs):
+        captured.extend(command)
+        return PassedProcess()
+
+    monkeypatch.setattr("scripts.archive_assurance.subprocess.run", fake_run)
+    from scripts.archive_assurance import check_mutation
+
+    check_mutation(Path.cwd())
+    assert captured[0].endswith("python.exe")
+    assert captured[1].endswith("run_mutatest_compat.py")

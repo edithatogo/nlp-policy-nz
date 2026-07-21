@@ -142,6 +142,10 @@ def test_stable_ids_and_coordinate_validation() -> None:
     assert stable_id("page", "doc-1", "1") == stable_id("page", "doc-1", "1")
     with pytest.raises(ValidationError):
         CoordinateBox(x0=1, y0=0, x1=1, y1=1, space="normalized")
+    with pytest.raises(ValidationError):
+        CoordinateBox(x0=2, y0=0, x1=1, y1=1, space="original")
+    with pytest.raises(ValidationError):
+        CoordinateBox(x0=0, y0=2, x1=1, y1=1, space="original")
 
 
 @given(st.from_regex(r"[a-zA-Z0-9]{1,20}", fullmatch=True))
@@ -255,6 +259,26 @@ def test_public_projection_closes_restrictions_over_assertion_embedding_chains()
     assert embeddings["embedding-via-assertion"].values == ()
     assert embeddings["embedding-via-derived-assertion"].access_class is AccessClass.RESTRICTED
     assert embeddings["embedding-via-derived-assertion"].values == ()
+
+
+def test_public_projection_keeps_overlapping_restriction_sets_monotonic() -> None:
+    payload = _bundle().model_dump(mode="python")
+    payload["speeches"][0]["access_class"] = AccessClass.RESTRICTED
+    payload["embeddings"][0]["embedding_id"] = "speech-1"
+    payload["embeddings"] = (
+        *payload["embeddings"],
+        ArchiveEmbedding(
+            embedding_id="descendant-embedding",
+            target_id="speech-1",
+            model_id="model-1",
+            vector_dim=1,
+            values=(0.7,),
+        ).model_dump(mode="python"),
+    )
+    projected = ArchiveBundle.model_validate(payload).public_projection()
+    descendant = next(item for item in projected.embeddings if item.embedding_id == "descendant-embedding")
+    assert descendant.access_class is AccessClass.RESTRICTED
+    assert descendant.values == ()
 
 
 def test_public_serializers_reject_mixed_access_canary(tmp_path: Path) -> None:

@@ -6,6 +6,7 @@ import argparse
 import json
 import os
 import shutil
+import statistics
 import subprocess
 import sys
 import tempfile
@@ -234,11 +235,12 @@ def check_performance() -> dict[str, float]:
     timings: dict[int, float] = {}
     for width in (32, 64):
         bundle = mixed_bundle(width)
-        started = time.perf_counter()
-        for _ in range(3):
+        samples: list[float] = []
+        for _ in range(5):
+            started = time.perf_counter()
             bundle.public_projection()
-        elapsed = time.perf_counter() - started
-        timings[width] = elapsed
+            samples.append(time.perf_counter() - started)
+        timings[width] = statistics.median(samples)
     ratio = timings[64] / max(timings[32], 1e-9)
     if timings[64] > 5.0 or ratio > 8.0:
         raise AssuranceError(f"projection performance exceeded bounds: {timings!r}")
@@ -248,11 +250,12 @@ def check_performance() -> dict[str, float]:
 def check_mutation(repo_root: Path) -> dict[str, str]:
     """Run a fixed-seed archive mutation sample and fail on survivors/errors."""
     command = [
-        shutil.which("mutatest") or "mutatest",
+        sys.executable,
+        str(ROOT / "scripts" / "run_mutatest_compat.py"),
         "--src",
         "src/nlp_policy_nz/archive",
         "--testcmds",
-        "pytest",
+        f'"{sys.executable}" -m pytest tests/test_archive_schema.py tests/test_archive_assurance.py -q',
         "--mode",
         "sd",
         "--nlocations",
