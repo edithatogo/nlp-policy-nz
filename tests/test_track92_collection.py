@@ -13,6 +13,10 @@ def inventory() -> dict:
     return json.loads((ROOT / "data/track92/source_inventory.json").read_text(encoding="utf-8"))
 
 
+def contract(name: str) -> dict:
+    return json.loads((ROOT / "data/track92" / name).read_text(encoding="utf-8"))
+
+
 def test_checked_in_inventory_is_valid_but_fail_closed() -> None:
     value = inventory()
     assert validate(value) == []
@@ -32,3 +36,16 @@ def test_real_evidence_cannot_be_claimed_without_gate_data() -> None:
     value["promotion"]["decision"] = "promote"
     assert any("no-promotion" in error for error in validate(value))
 
+
+def test_concept_and_feedback_contracts_are_candidate_only() -> None:
+    concept = contract("concept_pack_contract.json")
+    feedback = contract("feedback_contract.json")
+    assert concept["status"] == "candidate"
+    assert concept["promotion"] == "no-promotion"
+    assert feedback["candidate_only"] is True
+
+
+def test_jurisdiction_manifest_is_an_empty_fail_closed_scaffold() -> None:
+    manifest = contract("jurisdiction_source_manifest.json")
+    assert manifest["jurisdictions"] == []
+    assert manifest["promotion"] == "no-promotion"
