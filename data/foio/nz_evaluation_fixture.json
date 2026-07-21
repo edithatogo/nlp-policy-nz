@@ -1,0 +1,54 @@
+{
+  "fixture_status": "contract-only",
+  "fixture_families": ["positive", "negative", "temporal", "non-equivalence"],
+  "snapshot": {
+    "jurisdiction": "NZ",
+    "profile_id": "foio-nz-oia@0.9.0",
+    "archive_repository": "edithatogo/fyi-archive",
+    "archive_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "archive_content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "source_pack_revision": "sha256:candidate-source-pack",
+    "source_pack_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "legal_source_url": "https://www.legislation.govt.nz/act/public/1982/0156/latest/versions.aspx",
+    "ontology_version": "foi-o@1.0.0",
+    "schema_version": "1.0",
+    "extraction_contract_version": "1.0",
+    "pipeline_version": "nlp-policy-nz@candidate",
+    "retrieved_at": "2026-07-21T00:00:00Z"
+  },
+  "reference_records": [
+    {
+      "record_id": "nz:contract:1",
+      "family": "obligation",
+      "label": "observed-obligation",
+      "value": "observed source phrase",
+      "source_trace": {
+        "citation_path": "nz/oia/contract-fixture/positive",
+        "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "source_url": "https://fyi.org.nz/list/all",
+        "retrieved_at": "2026-07-21T00:00:00Z",
+        "spans": [{"start": 0, "end": 8, "text": "observed"}]
+      },
+      "confidence": 1.0,
+      "attributes": {"jurisdiction": "NZ", "review": "unreviewed", "fixture_only": true}
+    }
+  ],
+  "candidate_records": [
+    {
+      "record_id": "nz:contract:1",
+      "family": "obligation",
+      "label": "observed-obligation",
+      "value": "observed source phrase",
+      "source_trace": {
+        "citation_path": "nz/oia/contract-fixture/positive",
+        "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "source_url": "https://fyi.org.nz/list/all",
+        "retrieved_at": "2026-07-21T00:00:00Z",
+        "spans": [{"start": 0, "end": 8, "text": "observed"}]
+      },
+      "confidence": 0.5,
+      "attributes": {"jurisdiction": "NZ", "review": "candidate", "fixture_only": true}
+    }
+  ],
+  "abstained_record_ids": ["nz:contract:abstained-1"]
+}
