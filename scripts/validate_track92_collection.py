@@ -34,6 +34,9 @@ def validate(inventory: dict[str, Any]) -> list[str]:
     else:
         if promotion.get("decision") != "no-promotion":
             errors.append("empty or incomplete inventory must remain no-promotion")
+        blockers = promotion.get("blockers")
+        if not isinstance(blockers, list) or not blockers or not all(isinstance(item, str) and item for item in blockers):
+            errors.append("promotion.blockers must explain every unresolved gate")
         gates = promotion.get("required_gates")
         if not isinstance(gates, list) or set(gates) != REQUIRED_GATES:
             errors.append("promotion.required_gates must declare every human and provenance gate")
