@@ -595,15 +595,6 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
-## Phase XIV — Evidence Collection and Jurisdiction Onboarding
-
-### [x] Track 92: Evidence Collection and Jurisdiction Onboarding (repository-side complete; external gates remain)
-*Link: [./conductor/tracks/track92_evidence_collection_and_jurisdiction_onboarding_20260721/](./conductor/tracks/track92_evidence_collection_and_jurisdiction_onboarding_20260721/)*
-- **GitHub issues**: #132, #133, #143, #144
-- **Dependencies**: Tracks 87, 88, 89, 90, 91; `foi-o`; `rac-conformance`; `process-mappings`; `corpus-nz-hansard`; `hathi-nz`; `corpus-legislation-nz`; `foi-process`
-- **Parallelization Node**: Evidence Intake, Archive Assurance, and Jurisdiction Onboarding
-- **Why**: Collect the rights, evaluation, assurance, conformance, and jurisdiction-source evidence required to move the remaining roadmap issues from repository scaffolds to reviewable, promotion-safe outputs.
-
 ## Phase XIII — HathiTrust-NZ Structured Archive Extraction
 
 ---
