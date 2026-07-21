@@ -26,7 +26,7 @@ jobs:
         run: CI=true pixi install
       - name: Generate release metadata
         run: |
-          python scripts/release_metadata.py \
+          PYTHONPATH=src pixi run python scripts/release_metadata.py \
             --root . \
             --output-dir .tmp/release \
             --title "nlp-policy-nz" \
@@ -35,7 +35,7 @@ jobs:
             --release-notes "Automated dataset publish from master."
       - name: Upload dataset
         run: |
-          pixi run nlp-policy-nz upload-dataset \
+          PYTHONPATH=src pixi run python -m nlp_policy_nz.cli.main upload-dataset \
             --parquet "$RELEASE_PARQUET_PATH" \
             --repo-id "$HF_DATASET_REPO_ID" \
             --token "$HF_TOKEN"
