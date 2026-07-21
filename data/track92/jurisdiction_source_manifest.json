@@ -2,7 +2,60 @@
   "schema_version": "track92-jurisdiction-source-manifest-v1",
   "status": "intake",
   "candidate_only": true,
-  "jurisdictions": [],
+  "jurisdictions": [
+    {
+      "jurisdiction": "NZ",
+      "profile_id": "foio-nz-oia",
+      "source_family": "legislation",
+      "source_uri": "https://www.legislation.govt.nz/act/public/1982/0156/latest/versions.aspx",
+      "source_revision": "sha256:07ca5a67eb39c08d792ffcaa07ac91e6f3abb9147126a4c7a49a60cce1d68658",
+      "source_sha256": "07ca5a67eb39c08d792ffcaa07ac91e6f3abb9147126a4c7a49a60cce1d68658",
+      "retrieved_at": "2026-07-21T00:00:00Z",
+      "effective_from": "unknown",
+      "effective_to": "unknown",
+      "rights_status": "public-web-candidate",
+      "review_status": "candidate"
+    },
+    {
+      "jurisdiction": "NZ",
+      "profile_id": "foio-nz-oia",
+      "source_family": "gazette",
+      "source_uri": "https://gazette.govt.nz/",
+      "source_revision": "sha256:870058e8a73844d7e6d6802cd672bad1233da99463e2a2430505293c355d7379",
+      "source_sha256": "870058e8a73844d7e6d6802cd672bad1233da99463e2a2430505293c355d7379",
+      "retrieved_at": "2026-07-21T00:00:00Z",
+      "effective_from": "unknown",
+      "effective_to": "unknown",
+      "rights_status": "public-web-candidate",
+      "review_status": "candidate"
+    },
+    {
+      "jurisdiction": "NZ",
+      "profile_id": "foio-nz-oia",
+      "source_family": "guidance",
+      "source_uri": "https://www.ombudsman.parliament.nz/resources/official-information-act-guides-and-resources",
+      "source_revision": "sha256:60ed2e60b49ffd10f5cd7e75a39557e17898e5d3c34cfd0526e732c19db9ccab",
+      "source_sha256": "60ed2e60b49ffd10f5cd7e75a39557e17898e5d3c34cfd0526e732c19db9ccab",
+      "retrieved_at": "2026-07-21T00:00:00Z",
+      "effective_from": "unknown",
+      "effective_to": "unknown",
+      "rights_status": "public-web-candidate",
+      "review_status": "candidate"
+    },
+    {
+      "jurisdiction": "NZ",
+      "profile_id": "foio-nz-oia",
+      "source_family": "foi_cases",
+      "source_uri": "https://fyi.org.nz/list/all",
+      "source_revision": "sha256:73488188e9a6fb3b350469d7b95147ac1b2827feacaf33fe75d7f74ac5f5cb59",
+      "source_sha256": "73488188e9a6fb3b350469d7b95147ac1b2827feacaf33fe75d7f74ac5f5cb59",
+      "retrieved_at": "2026-07-21T00:00:00Z",
+      "effective_from": "unknown",
+      "effective_to": "unknown",
+      "rights_status": "public-web-candidate",
+      "review_status": "candidate"
+    }
+  ],
   "required_source_families": ["legislation", "gazette", "guidance", "foi_cases"],
   "required_fixture_families": ["positive", "negative", "temporal", "non-equivalence"],
   "required_fields": [
@@ -20,7 +73,7 @@
   ],
   "promotion": "no-promotion",
   "blockers": [
-    "No jurisdiction source pack has been pinned.",
+    "NZ source URLs are hash-pinned as a candidate intake only; no rights or legal review has been recorded.",
     "No independent fixtures have been registered.",
     "No jurisdiction or legal review has been recorded."
   ]
