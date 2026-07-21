@@ -13,6 +13,16 @@
       "limitation": "requires profile-owner and legal review before promotion"
     },
     {
+      "artifact_id": "foi-o:nz-oia-profile-registry-entry",
+      "repository": "edithatogo/foi-o",
+      "revision": "b292f5795d339c72d4b7a6fd538c9effee217466",
+      "path": "profiles/registry.yaml",
+      "source_sha256": "dcc4419c46607af70750d31cdbd81876af4d5f3842a74907eac4bb1b10091e58",
+      "role": "jurisdiction-profile-readiness-register",
+      "status": "candidate-profile-reference",
+      "limitation": "NZ OIA source pack hash is pending external verification; legal review, operator authorization, independent annotation, and promotion remain pending"
+    },
+    {
       "artifact_id": "rac-conformance:process-profile-schema",
       "repository": "edithatogo/rac-conformance",
       "revision": "4fbd2551e942d7c475482053cb96d2db7fa38165",
