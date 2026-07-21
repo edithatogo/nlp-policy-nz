@@ -61,3 +61,11 @@ def test_jurisdiction_manifest_is_an_empty_fail_closed_scaffold() -> None:
     manifest = contract("jurisdiction_source_manifest.json")
     assert manifest["jurisdictions"] == []
     assert manifest["promotion"] == "no-promotion"
+
+
+def test_upstream_evidence_register_preserves_known_counts_and_limitations() -> None:
+    register = contract("upstream_evidence_register.json")
+    hathi = next(item for item in register["artifacts"] if item["repository"] == "edithatogo/hathi-nz")
+    assert hathi["enumerated_count"] + hathi["pending_count"] == hathi["expected_count"]
+    assert register["decision"] == "no-promotion"
+    assert all(item["revision"] for item in register["artifacts"])
