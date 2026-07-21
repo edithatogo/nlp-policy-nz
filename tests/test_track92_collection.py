@@ -37,6 +37,12 @@ def test_real_evidence_cannot_be_claimed_without_gate_data() -> None:
     assert any("no-promotion" in error for error in validate(value))
 
 
+def test_empty_blocker_list_fails_closed() -> None:
+    value = inventory()
+    value["promotion"]["blockers"] = []
+    assert any("promotion.blockers" in error for error in validate(value))
+
+
 def test_concept_and_feedback_contracts_are_candidate_only() -> None:
     concept = contract("concept_pack_contract.json")
     feedback = contract("feedback_contract.json")
