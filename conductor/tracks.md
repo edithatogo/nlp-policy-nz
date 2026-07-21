@@ -623,3 +623,8 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 *Link: [./tracks/track97_archive_rights_assurance_20260715/](./tracks/track97_archive_rights_assurance_20260715/)*
 - **Issue**: #133
 - **Why**: Prove transitive effective access and complete mutation, compatibility and serializer assurance.
+
+## [ ] Track 98: Global FOI Jurisdiction Extraction
+*Link: [./tracks/track98_global_foi_jurisdiction_extraction_20260721/](./tracks/track98_global_foi_jurisdiction_extraction_20260721/)*
+- **Issue**: [#144](https://github.com/edithatogo/nlp-policy-nz/issues/144); programme parent [foi-o #81](https://github.com/edithatogo/foi-o/issues/81)
+- **Why**: Incrementally extract provenance-bearing candidate rules from legislation, Gazette/equivalent and FOI cases for every roadmap target.
