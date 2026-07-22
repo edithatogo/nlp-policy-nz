@@ -13,6 +13,10 @@ or ontology registry submission has been published or accepted.
 - `data_registry.json` records `nz-legislation-v1`, its version, CC BY 4.0
   licence, deposit URL, DOI, and capture timestamp.
 - The package metadata declares an MIT software licence and project version.
+- `data/registry/huggingface_audit.json` records a dated, revision-pinned audit
+  of the existing legislation, Hansard, and cloud-OCR target datasets. It
+  preserves the provider-reported differences between `other`, `MIT`, and
+  missing card licences; it is not provider acceptance.
 - The Conductor track and GitHub issues [#165](https://github.com/edithatogo/nlp-policy-nz/issues/165)
   and [#166](https://github.com/edithatogo/nlp-policy-nz/issues/166) through
   [#168](https://github.com/edithatogo/nlp-policy-nz/issues/168) are the canonical
@@ -26,6 +30,9 @@ or ontology registry submission has been published or accepted.
    or equivalent machine-readable metadata before any publication claim (#167).
 3. Treat the proposed ontology namespace as a candidate until its namespace,
    scope, and registry response are documented (#168).
+
+The Hugging Face audit still requires authoritative rights review, complete
+card/Croissant metadata, and provider-side publication/acceptance evidence.
 
 ## External boundary
 
