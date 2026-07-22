@@ -21,7 +21,15 @@ def check() -> list[str]:
             errors.append("data_registry.json must contain dataset_id and version")
     if doc.exists():
         text = doc.read_text(encoding="utf-8")
-        for marker in ("repository_ready_external_gates_pending", "External boundary", "#166", "#167", "#168"):
+        if not any(
+            marker in text
+            for marker in (
+                "repository_ready_external_gates_pending",
+                "rights_approved_external_acceptance_pending",
+            )
+        ):
+            errors.append("registry-readiness.md missing a recognized readiness status")
+        for marker in ("External boundary", "#166", "#167", "#168"):
             if marker not in text:
                 errors.append(f"registry-readiness.md missing {marker}")
     return errors

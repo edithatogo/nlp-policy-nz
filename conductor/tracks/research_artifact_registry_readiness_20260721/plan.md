@@ -13,6 +13,6 @@
 
 ## Phase 3: Reconciliation and closeout
 
-- [ ] Reconcile Conductor status, issue state, project state, and external evidence.
+- [x] Reconcile Conductor status, issue state, project state, and recorded rights approval.
 - [x] Run the repository's documented validation workflow.
 - [ ] Archive this track only after all automatable work is complete and every remaining external gate is explicit.
