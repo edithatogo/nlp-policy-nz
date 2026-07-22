@@ -554,7 +554,7 @@ def _unique_ids(items: tuple[BaseModel, ...], field: str) -> set[str]:
     return values
 
 
-def _require(value: str, available: set[str], kind: str):
+def _require(value: str, available: set[str], kind: str) -> None:
     if value not in available:
         raise ValueError(f"unknown {kind} reference: {value}")
 
