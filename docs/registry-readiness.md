@@ -1,6 +1,6 @@
 # Research Artifact Registry Readiness
 
-Status: `rights_approved_external_acceptance_pending`
+Status: `rights_approved_huggingface_metadata_verified_doi_pending`
 
 Roadmap: `research_artifact_registry_readiness_20260721`
 
@@ -17,7 +17,8 @@ or ontology registry submission has been published or accepted.
   of the existing legislation, Hansard, and cloud-OCR target datasets. It
   preserves the provider-reported differences between `other`, `MIT`, and
   missing card licences. Repository-owner rights approval is recorded there;
-  the audit is still not provider acceptance.
+  current Hugging Face card revisions and authenticated Croissant responses are
+  also recorded.
 - The Conductor track and GitHub issues [#165](https://github.com/edithatogo/nlp-policy-nz/issues/165)
   and [#166](https://github.com/edithatogo/nlp-policy-nz/issues/166) through
   [#168](https://github.com/edithatogo/nlp-policy-nz/issues/168) are the canonical
@@ -32,9 +33,10 @@ or ontology registry submission has been published or accepted.
 3. Treat the proposed ontology namespace as a candidate until its namespace,
    scope, and registry response are documented (#168).
 
-The Hugging Face audit still requires complete card/Croissant metadata and
-provider-side publication/acceptance evidence. Rights approval is recorded,
-but it does not substitute for provider metadata or acceptance.
+The Hugging Face card and Croissant checks now pass for all three targets.
+The remaining registry gate is an authoritative versioned DOI for the OCR
+artifact; no DOI or provider acceptance is claimed until that external record
+is verified.
 
 ## External boundary
 
