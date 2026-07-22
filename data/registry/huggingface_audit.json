@@ -1,0 +1,45 @@
+{
+  "schema_version": "registry-huggingface-audit-v1",
+  "audited_at": "2026-07-22T08:36:03Z",
+  "status": "repository-audited-external-acceptance-pending",
+  "source": "https://huggingface.co/",
+  "targets": [
+    {
+      "repo_id": "edithatogo/corpus-legislation-nz",
+      "repo_type": "dataset",
+      "revision": "118cf3febd92dd9dd71cbea413ff79e73d3f173b",
+      "private": false,
+      "card_license": "other",
+      "card_metadata_complete": false,
+      "machine_readable_metadata": ["parquet"],
+      "publication_status": "existing-target-not-authoritatively-accepted"
+    },
+    {
+      "repo_id": "edithatogo/nz-hansard-corpus",
+      "repo_type": "dataset",
+      "revision": "646c4e2e956868aeaecc563e05061aa579114850",
+      "private": false,
+      "card_license": "mit",
+      "license_link": "https://github.com/edithatogo/corpus-nz-hansard/blob/main/NOTICE.md",
+      "card_metadata_complete": true,
+      "machine_readable_metadata": ["parquet", "configs", "data_files"],
+      "publication_status": "existing-target-not-authoritatively-accepted"
+    },
+    {
+      "repo_id": "edithatogo/nlp-policy-nz-cloud-ocr-pilots",
+      "repo_type": "dataset",
+      "revision": "eda2312e65301c34e73aa0e0c320b85686376af7",
+      "private": false,
+      "card_license": null,
+      "card_metadata_complete": false,
+      "machine_readable_metadata": ["json-run-reports"],
+      "publication_status": "staging-evidence-only"
+    }
+  ],
+  "blockers": [
+    "Authoritative rights/licence review is required for every target.",
+    "Legislation and OCR targets lack complete authoritative card metadata.",
+    "Croissant or equivalent schema acceptance has not been verified.",
+    "No DOI or external provider acceptance is claimed by this audit."
+  ]
+}

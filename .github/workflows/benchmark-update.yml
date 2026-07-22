@@ -28,7 +28,7 @@ jobs:
       - name: Run benchmark harness
         run: |
           mkdir -p .tmp/benchmarks artifacts/baselines
-          CI=true pixi run pytest tests/benchmarks -q --benchmark-only --benchmark-disable-gc --benchmark-sort=mean --benchmark-json=.tmp/benchmarks/pytest-benchmark.json
+          CI=true pixi run pytest tests/benchmarks -q --benchmark-only --benchmark-disable-gc --benchmark-min-rounds=20 --benchmark-sort=mean --benchmark-json=.tmp/benchmarks/pytest-benchmark.json
 
       - name: Update committed benchmark baseline
         run: |
