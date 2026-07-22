@@ -88,7 +88,7 @@ def test_track43_automation_helpers_cover_review_fix_and_judge(tmp_path, monkeyp
                 "",
                 "---",
                 "",
-                "## [~] Track 99: Example",
+                "## [~] Track 99: Registry wording",
                 "*Link: [./conductor/tracks/track99_example_20260702/](./conductor/tracks/track99_example_20260702/)*",
                 "",
             ],
@@ -98,7 +98,7 @@ def test_track43_automation_helpers_cover_review_fix_and_judge(tmp_path, monkeyp
     (track_dir / "plan.md").write_text(
         "\n".join(
             [
-                "# Track 99: Example [abcdef1]",
+                "# Track 99: Plan wording [abcdef1]",
                 "",
                 "## Implementation Plan",
                 "",
