@@ -9,11 +9,13 @@ AUDIT = Path("data/registry/huggingface_audit.json")
 def test_huggingface_audit_is_immutable_and_external_gated() -> None:
     value = json.loads(AUDIT.read_text(encoding="utf-8"))
 
-    assert value["status"] == "repository-audited-external-acceptance-pending"
+    assert value["status"] == "rights-approved-external-acceptance-pending"
+    assert value["rights_approval"]["status"] == "approved"
+    assert value["rights_approval"]["scope"]
     assert len(value["targets"]) == 3
     assert all(len(target["revision"]) == 40 for target in value["targets"])
     assert all(target["private"] is False for target in value["targets"])
-    assert len(value["blockers"]) >= 4
+    assert len(value["blockers"]) >= 3
 
 
 def test_huggingface_audit_preserves_card_metadata_distinctions() -> None:

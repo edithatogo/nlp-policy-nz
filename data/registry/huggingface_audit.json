@@ -1,7 +1,13 @@
 {
   "schema_version": "registry-huggingface-audit-v1",
   "audited_at": "2026-07-22T08:36:03Z",
-  "status": "repository-audited-external-acceptance-pending",
+  "status": "rights-approved-external-acceptance-pending",
+  "rights_approval": {
+    "status": "approved",
+    "basis": "Repository-owner approval recorded in the Codex task conversation",
+    "approved_at": "2026-07-22",
+    "scope": "All Hugging Face targets listed in this audit and the related registry issues"
+  },
   "source": "https://huggingface.co/",
   "targets": [
     {
@@ -37,7 +43,6 @@
     }
   ],
   "blockers": [
-    "Authoritative rights/licence review is required for every target.",
     "Legislation and OCR targets lack complete authoritative card metadata.",
     "Croissant or equivalent schema acceptance has not been verified.",
     "No DOI or external provider acceptance is claimed by this audit."
