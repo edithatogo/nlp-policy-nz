@@ -29,7 +29,7 @@ jobs:
       - name: Run benchmark harness
         run: |
           mkdir -p .tmp/benchmarks
-          CI=true pixi run --frozen -e py312 pytest tests/benchmarks -q --benchmark-only --benchmark-disable-gc --benchmark-sort=mean --benchmark-json=.tmp/benchmarks/pytest-benchmark.json
+          CI=true pixi run --frozen -e py312 pytest tests/benchmarks -q --benchmark-only --benchmark-disable-gc --benchmark-min-rounds=20 --benchmark-sort=mean --benchmark-json=.tmp/benchmarks/pytest-benchmark.json
 
       - name: Compare benchmark results against baseline
         run: |
