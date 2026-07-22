@@ -1,0 +1,41 @@
+{
+  "schema_version": "track98-au-rollout-evidence-v1",
+  "status": "candidate-discovery-only",
+  "candidate_only": true,
+  "promotion": "no-promotion",
+  "source_repository": "edithatogo/fyi-archive",
+  "source_revision": "7abf452959a6b30bf5dc80aae6073f75a6cf9cf0",
+  "source_worktree_status": "dirty-at-capture",
+  "instance_id": "au-rtk",
+  "source_uri": "https://www.righttoknow.org.au/",
+  "jurisdictions": [
+    "NSW",
+    "VIC",
+    "QLD",
+    "SA",
+    "WA",
+    "TAS",
+    "ACT",
+    "NT",
+    "FEDERAL",
+    "OTHER"
+  ],
+  "config_evidence": [
+    {
+      "path": "configs/au/jurisdiction_rollout.json",
+      "sha256": "31398fd6a03d80b9ed64ce7413ebb8e43a34fcd9c621bd8dd46ab3d35a7787f5"
+    },
+    {
+      "path": "configs/au/jurisdiction_rules.json",
+      "sha256": "2d392f8d4e2e99c3fa1d872097354db704674c2ebb32a24adc9b538d1e2d53b6"
+    }
+  ],
+  "available_source_families": ["foi_cases"],
+  "missing_source_families": ["legislation", "gazette", "guidance"],
+  "blockers": [
+    "The adjacent source checkout was dirty at capture and must be reconciled before any immutable release claim.",
+    "Australian legislation, Gazette/equivalent, and guidance source packs are not registered here.",
+    "Rights, legal/profile-owner review, independent annotation, and held-out evaluation are absent.",
+    "No extraction or promotion is permitted from this discovery record."
+  ]
+}
