@@ -40,3 +40,26 @@ def test_registered_jurisdiction_requires_every_source_field() -> None:
     value["jurisdictions"] = [{"jurisdiction": "NZ"}]
     errors = validate_jurisdiction_manifest(value)
     assert any("missing" in error for error in errors)
+
+
+def test_each_registered_jurisdiction_requires_complete_families() -> None:
+    value = copy.deepcopy(load("jurisdiction_source_manifest.json"))
+    value["jurisdictions"].append(
+        {
+            **value["jurisdictions"][0],
+            "jurisdiction": "AU",
+            "profile_id": "foio-au",
+            "source_family": "legislation",
+        }
+    )
+    errors = validate_jurisdiction_manifest(value)
+    assert any("AU" in error and "missing source families" in error for error in errors)
+
+
+def test_jurisdiction_cannot_mix_profiles_or_duplicate_families() -> None:
+    value = copy.deepcopy(load("jurisdiction_source_manifest.json"))
+    value["jurisdictions"][1]["profile_id"] = "different-profile"
+    value["jurisdictions"].append(copy.deepcopy(value["jurisdictions"][0]))
+    errors = validate_jurisdiction_manifest(value)
+    assert any("one profile_id" in error for error in errors)
+    assert any("duplicates source family" in error for error in errors)
