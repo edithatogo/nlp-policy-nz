@@ -11,6 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
 
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0
@@ -21,17 +23,37 @@ jobs:
       - name: Install environment
         run: CI=true pixi install -e py312 --frozen --skip-with-deps semgrep --skip-with-deps scalene
 
+      - name: Determine benchmark scope
+        id: scope
+        shell: bash
+        run: |
+          base_sha='${{ github.event.pull_request.base.sha }}'
+          if [ -z "$base_sha" ]; then
+            echo "relevant=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed_files="$(git diff --name-only "$base_sha" '${{ github.sha }}')"
+          printf '%s\n' "$changed_files"
+          if printf '%s\n' "$changed_files" | grep -Eq '^(src/|tests/benchmarks/|scripts/compare_benchmarks\.py$|config/benchmark_thresholds\.json$|pixi\.lock$|pixi\.toml$|pyproject\.toml$)'; then
+            echo "relevant=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "relevant=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Validate profiling runner CLIs
+        if: steps.scope.outputs.relevant == 'true'
         run: |
           CI=true pixi run --frozen -e py312 python scripts/profile_pipeline.py --help
           CI=true pixi run --frozen -e py312 python scripts/memray_trace.py --help
 
       - name: Run benchmark harness
+        if: steps.scope.outputs.relevant == 'true'
         run: |
           mkdir -p .tmp/benchmarks
           CI=true pixi run --frozen -e py312 pytest tests/benchmarks -q --benchmark-only --benchmark-disable-gc --benchmark-min-rounds=20 --benchmark-sort=mean --benchmark-json=.tmp/benchmarks/pytest-benchmark.json
 
       - name: Compare benchmark results against baseline
+        if: steps.scope.outputs.relevant == 'true'
         run: |
           CI=true pixi run --frozen -e py312 python scripts/compare_benchmarks.py \
             --baseline artifacts/baselines/pytest-benchmark.json \

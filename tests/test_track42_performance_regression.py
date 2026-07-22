@@ -124,6 +124,9 @@ def test_track42_workflows_wire_comparison_and_baseline_update() -> None:
     assert "scripts/compare_benchmarks.py" in benchmark_workflow
     assert "--baseline artifacts/baselines/pytest-benchmark.json" in benchmark_workflow
     assert "benchmark-regression.html" in benchmark_workflow
+    assert "Determine benchmark scope" in benchmark_workflow
+    assert "steps.scope.outputs.relevant == 'true'" in benchmark_workflow
+    assert "fetch-depth: 0" in benchmark_workflow
     assert "branches: [master]" in update_workflow
     assert "artifacts/baselines/pytest-benchmark.json" in update_workflow
     assert "git-auto-commit-action" in update_workflow
