@@ -18,18 +18,6 @@ from nlp_policy_nz.ocr.cloud_ops import (
 )
 
 from .benchmark import BenchmarkCase, BenchmarkResult, BenchmarkThresholds, evaluate_benchmark
-from .protocol import (
-    BENCHMARK_SCHEMA_VERSION,
-    BenchmarkManifest,
-    BenchmarkScaffold,
-    EngineRegistry,
-    RegistryEngine,
-    build_scaffold,
-    load_manifest,
-    load_registry,
-    validate_immutable_pins,
-    write_scaffold,
-)
 from .ensemble import (
     AdapterKind,
     AlignmentOperation,
@@ -51,14 +39,28 @@ from .ensemble import (
     normalize_reading_order,
     route_page,
 )
+from .protocol import (
+    BENCHMARK_SCHEMA_VERSION,
+    BenchmarkManifest,
+    BenchmarkScaffold,
+    EngineRegistry,
+    RegistryEngine,
+    build_scaffold,
+    load_manifest,
+    load_registry,
+    validate_immutable_pins,
+    write_scaffold,
+)
 
 __all__ = [
+    "BENCHMARK_SCHEMA_VERSION",
     "AdapterKind",
     "AlignmentOperation",
     "BenchmarkCase",
+    "BenchmarkManifest",
     "BenchmarkResult",
+    "BenchmarkScaffold",
     "BenchmarkThresholds",
-    "BENCHMARK_SCHEMA_VERSION",
     "BoundingBox",
     "BudgetLimits",
     "CacheKey",
@@ -80,16 +82,16 @@ __all__ = [
     "SignedRunReport",
     "TokenAlignment",
     "build_cache_key",
-    "build_scaffold",
     "build_cloud_run_plan",
     "build_drift_alerts",
+    "build_scaffold",
     "calculate_quality_metrics",
     "compare_observations",
     "enforce_dispatch_limits",
     "evaluate_benchmark",
-    "normalize_reading_order",
     "load_manifest",
     "load_registry",
+    "normalize_reading_order",
     "quarantine_failed",
     "retry_failed",
     "route_page",
