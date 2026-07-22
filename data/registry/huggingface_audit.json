@@ -1,7 +1,7 @@
 {
   "schema_version": "registry-huggingface-audit-v1",
-  "audited_at": "2026-07-22T08:36:03Z",
-  "status": "rights-approved-external-acceptance-pending",
+  "audited_at": "2026-07-22T12:55:00Z",
+  "status": "rights-approved-huggingface-metadata-verified-doi-pending",
   "rights_approval": {
     "status": "approved",
     "basis": "Repository-owner approval recorded in the Codex task conversation",
@@ -13,12 +13,14 @@
     {
       "repo_id": "edithatogo/corpus-legislation-nz",
       "repo_type": "dataset",
-      "revision": "118cf3febd92dd9dd71cbea413ff79e73d3f173b",
+      "revision": "7b5e9674be99533feffbafde50f8771465bd92d5",
       "private": false,
       "card_license": "other",
-      "card_metadata_complete": false,
+      "card_metadata_complete": true,
       "machine_readable_metadata": ["parquet"],
-      "publication_status": "existing-target-not-authoritatively-accepted"
+      "croissant_verified": true,
+      "croissant_endpoint": "https://huggingface.co/api/datasets/edithatogo/corpus-legislation-nz/croissant",
+      "publication_status": "published-card-and-croissant-verified"
     },
     {
       "repo_id": "edithatogo/nz-hansard-corpus",
@@ -29,22 +31,25 @@
       "license_link": "https://github.com/edithatogo/corpus-nz-hansard/blob/main/NOTICE.md",
       "card_metadata_complete": true,
       "machine_readable_metadata": ["parquet", "configs", "data_files"],
-      "publication_status": "existing-target-not-authoritatively-accepted"
+      "croissant_verified": true,
+      "croissant_endpoint": "https://huggingface.co/api/datasets/edithatogo/nz-hansard-corpus/croissant",
+      "publication_status": "published-card-and-croissant-verified"
     },
     {
       "repo_id": "edithatogo/nlp-policy-nz-cloud-ocr-pilots",
       "repo_type": "dataset",
-      "revision": "eda2312e65301c34e73aa0e0c320b85686376af7",
+      "revision": "0d588e59e9093919135a5feb9358aa690b43d408",
       "private": false,
-      "card_license": null,
-      "card_metadata_complete": false,
+      "card_license": "other",
+      "card_metadata_complete": true,
       "machine_readable_metadata": ["json-run-reports"],
-      "publication_status": "staging-evidence-only"
+      "croissant_verified": true,
+      "croissant_endpoint": "https://huggingface.co/api/datasets/edithatogo/nlp-policy-nz-cloud-ocr-pilots/croissant",
+      "publication_status": "published-card-and-croissant-verified-doi-pending"
     }
   ],
   "blockers": [
-    "Legislation and OCR targets lack complete authoritative card metadata.",
-    "Croissant or equivalent schema acceptance has not been verified.",
-    "No DOI or external provider acceptance is claimed by this audit."
+    "OCR artifact requires an authoritative versioned DOI.",
+    "No DOI or provider acceptance is claimed for the OCR artifact until the external record is verified."
   ]
 }

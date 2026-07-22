@@ -9,13 +9,14 @@ AUDIT = Path("data/registry/huggingface_audit.json")
 def test_huggingface_audit_is_immutable_and_external_gated() -> None:
     value = json.loads(AUDIT.read_text(encoding="utf-8"))
 
-    assert value["status"] == "rights-approved-external-acceptance-pending"
+    assert value["status"] == "rights-approved-huggingface-metadata-verified-doi-pending"
     assert value["rights_approval"]["status"] == "approved"
     assert value["rights_approval"]["scope"]
     assert len(value["targets"]) == 3
     assert all(len(target["revision"]) == 40 for target in value["targets"])
     assert all(target["private"] is False for target in value["targets"])
-    assert len(value["blockers"]) >= 3
+    assert len(value["blockers"]) >= 2
+    assert all(target["croissant_verified"] for target in value["targets"])
 
 
 def test_huggingface_audit_preserves_card_metadata_distinctions() -> None:
@@ -26,4 +27,4 @@ def test_huggingface_audit_preserves_card_metadata_distinctions() -> None:
 
     assert targets["edithatogo/corpus-legislation-nz"]["card_license"] == "other"
     assert targets["edithatogo/nz-hansard-corpus"]["card_license"] == "mit"
-    assert targets["edithatogo/nlp-policy-nz-cloud-ocr-pilots"]["card_license"] is None
+    assert targets["edithatogo/nlp-policy-nz-cloud-ocr-pilots"]["card_license"] == "other"

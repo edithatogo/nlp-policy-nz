@@ -26,6 +26,7 @@ def check() -> list[str]:
             for marker in (
                 "repository_ready_external_gates_pending",
                 "rights_approved_external_acceptance_pending",
+                "rights_approved_huggingface_metadata_verified_doi_pending",
             )
         ):
             errors.append("registry-readiness.md missing a recognized readiness status")
