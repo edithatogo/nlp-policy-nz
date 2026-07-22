@@ -82,6 +82,9 @@ def validate_jurisdiction_manifest(value: dict[str, Any]) -> list[str]:
         required = set(value["required_fields"]) if isinstance(value.get("required_fields"), list) else set()
         expected_families = set(value.get("required_source_families", []))
         observed_families: set[str] = set()
+        jurisdiction_families: dict[str, set[str]] = {}
+        jurisdiction_profiles: dict[str, set[str]] = {}
+        source_keys: set[tuple[str, str]] = set()
         for index, item in enumerate(jurisdictions):
             if not isinstance(item, dict):
                 errors.append(f"manifest.jurisdictions[{index}] must be an object")
@@ -92,12 +95,40 @@ def validate_jurisdiction_manifest(value: dict[str, Any]) -> list[str]:
             family = item.get("source_family")
             if isinstance(family, str):
                 observed_families.add(family)
+                jurisdiction_name = item.get("jurisdiction")
+                if isinstance(jurisdiction_name, str):
+                    jurisdiction_families.setdefault(jurisdiction_name, set()).add(family)
+            jurisdiction_name = item.get("jurisdiction")
+            profile_id = item.get("profile_id")
+            if isinstance(jurisdiction_name, str) and isinstance(profile_id, str):
+                jurisdiction_profiles.setdefault(jurisdiction_name, set()).add(profile_id)
+            if isinstance(jurisdiction_name, str) and isinstance(family, str):
+                source_key = (jurisdiction_name, family)
+                if source_key in source_keys:
+                    errors.append(
+                        f"manifest.jurisdictions[{index}] duplicates source family "
+                        f"{family!r} for jurisdiction {jurisdiction_name!r}"
+                    )
+                source_keys.add(source_key)
             source_hash = item.get("source_sha256")
             if not isinstance(source_hash, str) or not SHA256.fullmatch(source_hash):
                 errors.append(f"manifest.jurisdictions[{index}].source_sha256 must be a 64-character SHA-256")
         missing_families = sorted(expected_families - observed_families)
         if missing_families:
             errors.append(f"manifest is missing source families: {', '.join(missing_families)}")
+        for jurisdiction_name, families in sorted(jurisdiction_families.items()):
+            missing = sorted(expected_families - families)
+            if missing:
+                errors.append(
+                    f"jurisdiction {jurisdiction_name!r} is missing source families: "
+                    f"{', '.join(missing)}"
+                )
+        for jurisdiction_name, profiles in sorted(jurisdiction_profiles.items()):
+            if len(profiles) != 1:
+                errors.append(
+                    f"jurisdiction {jurisdiction_name!r} must use one profile_id, found: "
+                    f"{', '.join(sorted(profiles))}"
+                )
     return errors
 
 
