@@ -1,0 +1,4 @@
+CI repair evidence
+PR: edithatogo/nlp-policy-nz#185
+Root cause: GitPython 3.1.53 gained four high-severity actionable advisories
+Validation: AU adapter tests 7 passed; changed-file Ruff passed; dependency audit reports only unfixed torch finding and exits successfully
