@@ -1,0 +1,4 @@
+CI repair evidence
+PR: edithatogo/nlp-policy-nz#185
+Root cause: commit-message policy omitted the repository Conductor type despite 47 default-branch examples
+Validation: governance and AU adapter tests 11 passed; Ruff passed; full PR commit-range lint passed
