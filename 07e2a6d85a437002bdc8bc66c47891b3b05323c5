@@ -1,0 +1,5 @@
+Task: Synchronize Track 98 with the authentic AU-CTH bundle handoff.
+
+Evidence: functional commit d94d72082f4f8201c20eedd653b30e172e9bbe8a; bundle SHA-256 66ce14dd8abcdec4b648137faf1536c5e40ad87969450913913ab93bbdd10129.
+
+Remaining boundary: AU-NSW requires a non-empty, rights-cleared, hash-approved authentic request artifact before extraction.
