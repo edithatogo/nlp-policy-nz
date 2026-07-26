@@ -83,5 +83,7 @@ def test_track39_commit_message_linting_accepts_conventional_messages() -> None:
     """The commit-message lint helper should accept conventional commits and reject others."""
     assert lint_commit_message("feat(governance): add contribution guide") == []
     assert lint_commit_message("fix: correct stale workflow") == []
+    assert lint_commit_message("conductor(track98): record evidence") == []
     assert lint_commit_message("update docs") != []
+    assert lint_commit_message("conductor track98 record evidence") != []
     assert lint_commit_messages(["docs: add security policy", "bad message"]) != []

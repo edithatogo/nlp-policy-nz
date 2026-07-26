@@ -8,7 +8,7 @@ import subprocess
 from collections.abc import Iterable
 
 COMMIT_MESSAGE_PATTERN = re.compile(
-    r"^(?P<type>feat|fix|docs|style|refactor|test|chore|build|ci|perf)"
+    r"^(?P<type>feat|fix|docs|style|refactor|test|chore|build|ci|perf|conductor)"
     r"(?:\([a-z0-9._/-]+\))?"
     r"(?P<breaking>!)?: "
     r"(?P<description>.+)$",

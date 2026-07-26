@@ -110,6 +110,67 @@ class FoioAustralianEvaluationFixture(BaseModel):
     abstained_record_ids: tuple[str, ...] = Field(default_factory=tuple)
 
 
+class FoioAustralianObservedMetrics(BaseModel):
+    """Non-sensitive metrics pinned to an adjudicated private holdout."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    precision: float = Field(ge=0, le=1)
+    recall: float = Field(ge=0, le=1)
+    f1: float = Field(ge=0, le=1)
+    coverage: float = Field(ge=0, le=1)
+    provenance_completeness: float = Field(ge=0, le=1)
+    unsafe_inference_rate: float = Field(ge=0, le=1)
+
+
+class FoioAustralianBundleRestrictions(BaseModel):
+    """Keep the bounded handoff from implying broader permission."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    source_text_included: Literal[False]
+    labels_included: Literal[False]
+    gold_promoted: Literal[False]
+    publication: Literal[False]
+    redistribution: Literal[False]
+    training: Literal[False]
+    release: Literal[False]
+    legal_certification: Literal[False]
+    population_wide_inference: Literal[False]
+
+
+class FoioAustralianOntologyPinnedBundle(BaseModel):
+    """Metadata-only handoff for an authentic ontology-pinned AU bundle."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    schema_version: Literal["foio.nlp.au-ontology-pinned-bundle.v0.1.0"]
+    status: Literal["ontology_pinned_bounded_candidate"]
+    jurisdiction: Literal[AustralianJurisdiction.COMMONWEALTH]
+    profile_id: Literal["foio-au-cth"]
+    producer_repository: Literal["edithatogo/foi-o"]
+    consumer_repository: Literal["edithatogo/nlp-policy-nz"]
+    source_repository: Literal["edithatogo/fyi-archive"]
+    source_revision: str = Field(pattern=r"^[0-9a-f]{40}$")
+    source_capture_run_id: Literal["29922684296"]
+    source_artifact_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    source_population_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    frozen_frame_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    ontology_revision: str = Field(pattern=r"^[0-9a-f]{40}$")
+    codebook_id: Literal["foio-au-pilot-assertion-v0.2.0"]
+    codebook_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    agency_crosswalk_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    extractor_revision: str = Field(pattern=r"^[0-9a-f]{40}$")
+    extractor_entrypoint: Literal["scripts/extract_au_cth_assertion_candidate.py"]
+    extractor_entrypoint_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    extractor_output_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    extractor_metrics_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    maturity_decision_path: Literal["examples/v2/au-cth-maturity-decision.approved.json"]
+    maturity_decision_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    observed_metrics: FoioAustralianObservedMetrics
+    restrictions: FoioAustralianBundleRestrictions
+
+
 _COMMONWEALTH_MARKERS = (
     "commonwealth",
     "federal",
@@ -176,9 +237,7 @@ def route_australian_jurisdiction(
         if marker in haystack
     )
     matches.extend(
-        (AustralianJurisdiction.NSW, marker)
-        for marker in _NSW_MARKERS
-        if marker in haystack
+        (AustralianJurisdiction.NSW, marker) for marker in _NSW_MARKERS if marker in haystack
     )
     distinct = {jurisdiction for jurisdiction, _ in matches}
     if len(distinct) == 1:
@@ -213,7 +272,9 @@ def build_australian_archive_bundle(
         if decision.status == "abstained":
             raise ValueError(f"record {record.record_id} cannot be routed: {decision.reason}")
         if decision.jurisdiction != snapshot.jurisdiction:
-            raise ValueError("cross-profile contamination: record jurisdiction does not match snapshot")
+            raise ValueError(
+                "cross-profile contamination: record jurisdiction does not match snapshot"
+            )
         if record.source_trace.source_sha256 != snapshot.archive_content_sha256:
             raise ValueError("source digest does not match pinned Australian archive snapshot")
         attributes = dict(record.attributes)
@@ -277,9 +338,7 @@ def evaluate_australian_candidates(
                 metrics=report.metrics,
                 disagreement_count=disagreements,
                 abstention_count=sum(
-                    1
-                    for record_id in abstentions
-                    if record_id.startswith(f"{jurisdiction.value}:")
+                    1 for record_id in abstentions if record_id.startswith(f"{jurisdiction.value}:")
                 ),
             )
         )
@@ -294,6 +353,13 @@ def render_australian_evaluation_json(report: FoioAustralianEvaluationReport) ->
 def load_australian_evaluation_fixture(path: str | Path) -> FoioAustralianEvaluationFixture:
     """Load and validate a bounded Australian evaluation fixture."""
     return FoioAustralianEvaluationFixture.model_validate(orjson.loads(Path(path).read_bytes()))
+
+
+def load_australian_ontology_pinned_bundle(
+    path: str | Path,
+) -> FoioAustralianOntologyPinnedBundle:
+    """Load a metadata-only authentic Australian extraction handoff."""
+    return FoioAustralianOntologyPinnedBundle.model_validate(orjson.loads(Path(path).read_bytes()))
 
 
 def evaluate_australian_fixture(path: str | Path) -> FoioAustralianEvaluationReport:
