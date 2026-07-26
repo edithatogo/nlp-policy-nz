@@ -1,0 +1,7 @@
+Task: Replace production Australian NLP placeholders with an authentic ontology-pinned AU-CTH metadata bundle.
+
+Scope: no source text or annotations are committed. Synthetic records moved to tests/fixtures.
+
+Verification: pixi run pytest -q tests/test_foio_au_adapter.py (7 passed); Ruff lint and format checks passed.
+
+Remaining boundary: AU-NSW still has no approved authentic empirical request artifact, so no NSW extraction bundle is created.
