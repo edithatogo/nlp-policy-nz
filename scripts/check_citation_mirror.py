@@ -8,7 +8,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = ROOT / "conductor" / "tracks" / "citation_zenodo_mirroring_20260714" / "mirror-manifest.json"
+MANIFEST_PATH = (
+    ROOT / "conductor" / "archive" / "citation_zenodo_mirroring_20260714" / "mirror-manifest.json"
+)
 CITATION_PATH = ROOT / "CITATION.cff"
 ZENODO_PATH = ROOT / ".zenodo.json"
 HF_AUDIT_PATH = ROOT / "data" / "registry" / "huggingface_audit.json"

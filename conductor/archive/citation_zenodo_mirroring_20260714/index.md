@@ -1,6 +1,6 @@
 # citation_zenodo_mirroring_20260714
 
-Status: complete
+Status: archived
 
 GitHub issue: [#103](https://github.com/edithatogo/nlp-policy-nz/issues/103) (closed)
 
