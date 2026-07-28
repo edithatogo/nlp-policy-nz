@@ -34,7 +34,7 @@ jobs:
           fi
           changed_files="$(git diff --name-only "$base_sha" '${{ github.sha }}')"
           printf '%s\n' "$changed_files"
-          if printf '%s\n' "$changed_files" | grep -Eq '^(src/|tests/benchmarks/|scripts/compare_benchmarks\.py$|config/benchmark_thresholds\.json$|pixi\.lock$|pixi\.toml$|pyproject\.toml$)'; then
+          if printf '%s\n' "$changed_files" | grep -Eq '^(src/|tests/benchmarks/|scripts/compare_benchmarks\.py$|config/benchmark_thresholds\.json$|pixi\.lock$|pixi\.toml$|uv\.lock$)'; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
           else
             echo "relevant=false" >> "$GITHUB_OUTPUT"
