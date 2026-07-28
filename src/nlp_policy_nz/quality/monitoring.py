@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from statistics import fmean
@@ -473,7 +473,7 @@ def load_quality_report(path: str | Path) -> QualityReport:
                     IngestionIssue(
                         code=str(issue["code"]),
                         message=str(issue["message"]),
-                        severity=cast(ValidationSeverity, str(issue.get("severity", "error"))),
+                        severity=cast("ValidationSeverity", str(issue.get("severity", "error"))),
                     )
                     for issue in item.get("issues", [])
                 ),
@@ -566,7 +566,7 @@ def render_dashboard_html(reports: list[QualityReport]) -> str:
         trend_items.append(
             "<li>"
             f"<span>{row['timestamp']}</span>"
-            f"<span class=\"bar\"><span style=\"width:{width}%\"></span></span>"
+            f'<span class="bar"><span style="width:{width}%"></span></span>'
             f"<strong>{float(row['quality_score']):.2f}</strong>"
             f"<em>{row['record_count']} records</em>"
             "</li>"
@@ -587,7 +587,7 @@ def render_dashboard_html(reports: list[QualityReport]) -> str:
     latest_block = ""
     if latest is not None:
         latest_block = (
-            "<section class=\"card summary\">"
+            '<section class="card summary">'
             "<h2>Latest Run</h2>"
             f"<p><strong>Run:</strong> {latest['run_id']}</p>"
             f"<p><strong>Quality score:</strong> {float(latest['quality_score']):.2f}</p>"
@@ -596,8 +596,8 @@ def render_dashboard_html(reports: list[QualityReport]) -> str:
             "</section>"
         )
     return (
-        "<!doctype html><html><head><meta charset=\"utf-8\">"
-        "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+        '<!doctype html><html><head><meta charset="utf-8">'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">'
         "<title>nlp-policy-nz Quality Dashboard</title>"
         "<style>"
         "body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:0;background:#0f172a;color:#e2e8f0;}"
@@ -614,17 +614,17 @@ def render_dashboard_html(reports: list[QualityReport]) -> str:
         ".summary p{margin:.35rem 0;}"
         "@media (max-width: 900px){.hero{grid-template-columns:1fr;}li{grid-template-columns:1fr;}.bar{width:100%;}}"
         "</style></head><body><main>"
-        "<section class=\"hero\">"
-        "<div class=\"card\"><h1>Data Quality Dashboard</h1>"
+        '<section class="hero">'
+        '<div class="card"><h1>Data Quality Dashboard</h1>'
         "<p>Static snapshot of pipeline validation, drift, and quality scores.</p>"
         "</div>"
         f"{latest_block}"
         "</section>"
-        "<section class=\"card\"><h2>Trend</h2><ul>"
+        '<section class="card"><h2>Trend</h2><ul>'
         + "".join(trend_items)
         + "</ul></section>"
-        "<section class=\"card\"><h2>Run History</h2><table><thead><tr><th>Timestamp</th><th>Run</th><th>Records</th><th>Score</th><th>Status</th><th>Alerts</th></tr></thead><tbody>"
-        + ("".join(table_rows) if table_rows else "<tr><td colspan=\"6\">No reports yet.</td></tr>")
+        '<section class="card"><h2>Run History</h2><table><thead><tr><th>Timestamp</th><th>Run</th><th>Records</th><th>Score</th><th>Status</th><th>Alerts</th></tr></thead><tbody>'
+        + ("".join(table_rows) if table_rows else '<tr><td colspan="6">No reports yet.</td></tr>')
         + "</tbody></table></section>"
         "</main></body></html>"
     )
