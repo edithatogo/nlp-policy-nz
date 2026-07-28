@@ -69,7 +69,7 @@ def check() -> list[str]:
             audit = json.loads(HF_AUDIT_PATH.read_text(encoding="utf-8"))
             audit_revs = {t["repo_id"]: t["revision"] for t in audit.get("targets", [])}
             manifest_repos = {entry.get("repo_id") for entry in revisions if entry.get("repo_id")}
-            for repo_id, expected in audit_revs.items():
+            for repo_id in audit_revs:
                 if repo_id not in manifest_repos:
                     errors.append(f"huggingface_revisions missing audit target {repo_id}")
             for entry in revisions:
