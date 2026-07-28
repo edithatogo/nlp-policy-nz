@@ -1,6 +1,6 @@
 # research_artifact_registry_readiness_20260721
 
-Status: in_progress
+Status: archived
 
 Parent issue: [#165](https://github.com/edithatogo/nlp-policy-nz/issues/165)
 

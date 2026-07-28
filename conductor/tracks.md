@@ -1,8 +1,8 @@
 # Project Tracks
 
-## [~] Track: research_artifact_registry_readiness_20260721
+## [x] Track: research_artifact_registry_readiness_20260721 (archived)
 
-[Specification and plan](./tracks/research_artifact_registry_readiness_20260721/)
+[Specification and plan](./archive/research_artifact_registry_readiness_20260721/)
 
 - [~] **Track: Citation and Zenodo mirroring**
 Track ID: `citation_zenodo_mirroring_20260714`
