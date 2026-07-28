@@ -7,9 +7,9 @@
 
 ## Phase 2: Registry deliverables
 
-- [ ] [Issue #166](https://github.com/edithatogo/nlp-policy-nz/issues/166)
-- [ ] [Issue #167](https://github.com/edithatogo/nlp-policy-nz/issues/167)
-- [ ] [Issue #168](https://github.com/edithatogo/nlp-policy-nz/issues/168)
+- [x] [Issue #166](https://github.com/edithatogo/nlp-policy-nz/issues/166) — `data/registry/ocr_artifact.json` and `scripts/check_ocr_artifact_registry.py` record benchmark metadata, provenance links, and revision-pinned Hugging Face evidence. Authoritative versioned DOI remains an external gate; `doi` and `deposit_url` stay null while status is `metadata_complete_doi_pending`.
+- [x] [Issue #167](https://github.com/edithatogo/nlp-policy-nz/issues/167) — `data/registry/huggingface_audit.json` is enforced offline via `scripts/audit_huggingface_targets.py` (default) and included in `scripts/check_registry_readiness.py`. Optional `--network` Croissant probes are available but not required in CI.
+- [x] [Issue #168](https://github.com/edithatogo/nlp-policy-nz/issues/168) — `data/registry/ontology_submission_gate.json` and `scripts/check_ontology_submission_gate.py` record `no_submission` status, candidate artefacts, and promotion blockers. No external ontology registry acceptance is claimed.
 
 ## Phase 3: Reconciliation and closeout
 

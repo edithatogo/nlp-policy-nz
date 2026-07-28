@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from scripts.audit_huggingface_targets import check_audit_json
+
 AUDIT = Path("data/registry/huggingface_audit.json")
 
 
@@ -28,3 +30,7 @@ def test_huggingface_audit_preserves_card_metadata_distinctions() -> None:
     assert targets["edithatogo/corpus-legislation-nz"]["card_license"] == "other"
     assert targets["edithatogo/nz-hansard-corpus"]["card_license"] == "mit"
     assert targets["edithatogo/nlp-policy-nz-cloud-ocr-pilots"]["card_license"] == "other"
+
+
+def test_huggingface_audit_offline_checker() -> None:
+    assert check_audit_json() == []
