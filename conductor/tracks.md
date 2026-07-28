@@ -646,7 +646,7 @@ Phase XIV (Planned — 99): Optional Governance Orchestration
 
 ---
 
-## [ ] Track 99: Haystack Optional Governance Orchestration Layer
+## [~] Track 99: Haystack Optional Governance Orchestration Layer
 *Link: [./tracks/track99_haystack_governance_orchestration_20260728/](./tracks/track99_haystack_governance_orchestration_20260728/)*
 - **Issue**: [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189)
 - **Subissues**: [#190](https://github.com/edithatogo/nlp-policy-nz/issues/190), [#191](https://github.com/edithatogo/nlp-policy-nz/issues/191), [#192](https://github.com/edithatogo/nlp-policy-nz/issues/192), [#193](https://github.com/edithatogo/nlp-policy-nz/issues/193), [#194](https://github.com/edithatogo/nlp-policy-nz/issues/194)

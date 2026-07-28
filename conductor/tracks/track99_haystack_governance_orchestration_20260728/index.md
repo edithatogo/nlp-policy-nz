@@ -1,6 +1,6 @@
 # track99_haystack_governance_orchestration_20260728
 
-Status: planned
+Status: in_progress
 
 Parent issue: [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189)
 
