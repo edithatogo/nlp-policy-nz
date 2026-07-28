@@ -672,7 +672,7 @@ Programme parent: [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196)
 
 ---
 
-## [ ] Track 100: Adopter DX, Slim Install and Honest Quickstart
+## [~] Track 100: Adopter DX, Slim Install and Honest Quickstart
 *Link: [./tracks/track100_adopter_dx_slim_install_20260728/](./tracks/track100_adopter_dx_slim_install_20260728/)*
 - **Issue**: [#197](https://github.com/edithatogo/nlp-policy-nz/issues/197)
 - **Subissues**: [#204](https://github.com/edithatogo/nlp-policy-nz/issues/204), [#205](https://github.com/edithatogo/nlp-policy-nz/issues/205), [#206](https://github.com/edithatogo/nlp-policy-nz/issues/206)
