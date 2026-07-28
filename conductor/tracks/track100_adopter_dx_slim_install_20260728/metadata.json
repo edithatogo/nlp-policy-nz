@@ -1,0 +1,23 @@
+{
+  "track_id": "track100_adopter_dx_slim_install_20260728",
+  "track_number": 100,
+  "version": "1.0.0",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-07-28T23:50:00+10:00",
+  "updated_at": "2026-07-28T23:50:00+10:00",
+  "owner_repo": "edithatogo/nlp-policy-nz",
+  "github_parent_issue": "https://github.com/edithatogo/nlp-policy-nz/issues/196",
+  "github_track_issue": "https://github.com/edithatogo/nlp-policy-nz/issues/197",
+  "github_subissues": [
+    "https://github.com/edithatogo/nlp-policy-nz/issues/204",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/205",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/206"
+  ],
+  "dependencies": [
+    "track48_client_sdk_tooling_20260626",
+    "track38_containerization_20260626"
+  ],
+  "legal_promotion_allowed": false,
+  "publication_allowed": false
+}

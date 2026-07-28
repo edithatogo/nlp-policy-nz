@@ -1,0 +1,24 @@
+{
+  "track_id": "track101_core_coverage_auth_honesty_20260728",
+  "track_number": 101,
+  "version": "1.0.0",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-07-28T23:50:00+10:00",
+  "updated_at": "2026-07-28T23:50:00+10:00",
+  "owner_repo": "edithatogo/nlp-policy-nz",
+  "github_parent_issue": "https://github.com/edithatogo/nlp-policy-nz/issues/196",
+  "github_track_issue": "https://github.com/edithatogo/nlp-policy-nz/issues/198",
+  "github_subissues": [
+    "https://github.com/edithatogo/nlp-policy-nz/issues/207",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/208",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/209"
+  ],
+  "dependencies": [
+    "track23_quality_tooling",
+    "track51_api_security_20260626",
+    "track46_production_hardening_20260626"
+  ],
+  "legal_promotion_allowed": false,
+  "publication_allowed": false
+}

@@ -48,6 +48,14 @@ This document prioritizes the functional and non-functional requirements for the
   - Local ExactMatch / SAS-proxy scorecards only; FaithfulnessEvaluator must not gate promotion or OIA evidence.
 - **No Default Haystack Import (Track 99)**:
   - Importing `nlp_policy_nz` must not load `haystack-ai`.
+- **Phase XV Adoption Musts (Tracks 100–105 / [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196))**:
+  - Fixture-first adopter path without Docker/Qdrant (T100 / [#197](https://github.com/edithatogo/nlp-policy-nz/issues/197)).
+  - Slim default install; heavy Gradio/ML behind extras (T100).
+  - Core `universal_framework` under coverage gate; Compose/prod API auth on (T101 / [#198](https://github.com/edithatogo/nlp-policy-nz/issues/198)).
+  - Machine-checkable adoption readiness coordinating [#132](https://github.com/edithatogo/nlp-policy-nz/issues/132)/[#133](https://github.com/edithatogo/nlp-policy-nz/issues/133)/[#144](https://github.com/edithatogo/nlp-policy-nz/issues/144) (T102 / [#199](https://github.com/edithatogo/nlp-policy-nz/issues/199)).
+  - Versioned jurisdiction profiles + parameterized shared schema; fail-closed unknown profiles (T103 / [#200](https://github.com/edithatogo/nlp-policy-nz/issues/200)).
+  - PR CI fast lane vs nightly full matrix; publish sandbox vs production honesty (T104 / [#201](https://github.com/edithatogo/nlp-policy-nz/issues/201)).
+  - Bleeding-edge stacks optional-only; eval harness never promotion oracle (T105 / [#202](https://github.com/edithatogo/nlp-policy-nz/issues/202)).
 
 ## 3. Could Have (Desirable but Deferred)
 - **NetworkX Relational Graph**:
@@ -58,6 +66,9 @@ This document prioritizes the functional and non-functional requirements for the
   - Pure-Python Haystack-compatible component DAG under `orchestration/haystack/` for typed audit shells, legal-structure indexing, extractive span QA, and local ExactMatch/SAS-proxy scorecards.
   - Optional extras `rag` / `orchestration` may install `haystack-ai>=2.0.0`; default Pixi/CI must not require it.
   - Decision record: `docs/haystack-governance-decision.md`; sovereign deploy checklist: `docs/haystack-sovereign-deploy.md`.
+- **Phase XV Should/Could (Tracks 100–105)**:
+  - Typer/Rich CLI; jurisdiction onboarding cookbook; constrained decoding / hybrid GraphRAG / MCP contract spikes behind extras.
+  - Docling compare, C2PA sidecars, ONNX/Candle probes as Could-only evidence notes.
 
 ## 4. Won't Have (Out of Scope for Core Pipeline)
 - **External Database Infrastructure**:
@@ -68,3 +79,8 @@ This document prioritizes the functional and non-functional requirements for the
   - Do not make `haystack-ai` a required dependency or replace spaCy / LanceDB / `PipelineRecord` as canonical engines.
 - **Generative Cloud Defaults on Sovereign Data**:
   - Restricted, Māori, and sovereign paths must not default to generative cloud LLMs; LLM FaithfulnessEvaluator is non-authoritative for promotion or OIA evidence.
+- **Phase XV Won't**:
+  - Do not claim FOI/legal promotion from Tracks 100–105 alone.
+  - Do not make SOTA extras required runtimes.
+  - Do not imply cross-jurisdiction equivalence without explicit crosswalks (#144).
+  - Do not lower coverage `fail_under` to hide framework gaps.

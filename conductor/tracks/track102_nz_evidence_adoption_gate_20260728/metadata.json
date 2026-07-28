@@ -1,0 +1,31 @@
+{
+  "track_id": "track102_nz_evidence_adoption_gate_20260728",
+  "track_number": 102,
+  "version": "1.0.0",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-07-28T23:50:00+10:00",
+  "updated_at": "2026-07-28T23:50:00+10:00",
+  "owner_repo": "edithatogo/nlp-policy-nz",
+  "github_parent_issue": "https://github.com/edithatogo/nlp-policy-nz/issues/196",
+  "github_track_issue": "https://github.com/edithatogo/nlp-policy-nz/issues/199",
+  "github_subissues": [
+    "https://github.com/edithatogo/nlp-policy-nz/issues/210",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/211"
+  ],
+  "coordinates_issues": [
+    "https://github.com/edithatogo/nlp-policy-nz/issues/132",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/133",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/144",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/129"
+  ],
+  "dependencies": [
+    "track93_foio_empirical_promotion_20260715",
+    "track96_parliament_heldout_evaluation_20260715",
+    "track97_archive_rights_assurance_20260715",
+    "track98_global_foi_jurisdiction_extraction_20260721"
+  ],
+  "legal_promotion_allowed": false,
+  "publication_allowed": false,
+  "external_evidence_required": true
+}

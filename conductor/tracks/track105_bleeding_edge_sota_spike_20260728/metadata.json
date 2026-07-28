@@ -1,0 +1,29 @@
+{
+  "track_id": "track105_bleeding_edge_sota_spike_20260728",
+  "track_number": 105,
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-07-28T23:50:00+10:00",
+  "updated_at": "2026-07-28T23:50:00+10:00",
+  "owner_repo": "edithatogo/nlp-policy-nz",
+  "github_parent_issue": "https://github.com/edithatogo/nlp-policy-nz/issues/196",
+  "github_track_issue": "https://github.com/edithatogo/nlp-policy-nz/issues/202",
+  "github_subissues": [
+    "https://github.com/edithatogo/nlp-policy-nz/issues/219",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/220",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/221",
+    "https://github.com/edithatogo/nlp-policy-nz/issues/222"
+  ],
+  "dependencies": [
+    "track99_haystack_governance_orchestration_20260728",
+    "track60_lancedb_retrieval_runtime_20260701",
+    "track58_langgraph_orchestration_eval_20260701",
+    "track84_mcp_or_interface_surfaces"
+  ],
+  "optional_extra": "sota",
+  "legal_promotion_allowed": false,
+  "publication_allowed": false,
+  "generative_default_allowed": false,
+  "external_evidence_required": true
+}

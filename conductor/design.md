@@ -97,3 +97,23 @@ The `MetaExtensionRegistry` sanitizes regional and target parameters (e.g. `COUN
 - **Optional dependency**: extras `rag` and `orchestration` install `haystack-ai>=2.0.0`; decision and sovereign-deploy docs live under `docs/haystack-*.md`.
 - **Non-goals**: does not replace spaCy, LanceDB, or `PipelineRecord`; does not authorize promotion, publication, or OIA evidence by itself.
 
+### Phase 10: Adoption, jurisdiction profiles & bleeding-edge (Tracks 100–105)
+
+Programme parent [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196). Detailed Mermaid lives in root [`design.md`](../design.md) §14.
+
+```mermaid
+flowchart TB
+  T100["T100 Adopter DX"] --> T103["T103 Jurisdiction profiles"]
+  T102["T102 Evidence gate"] --> T100
+  T93["T93–98 / #132 #133 #144"] --> T102
+  T101["T101 Coverage + auth"] --> T104["T104 CI tiers"]
+  T99["T99 Haystack boundary"] --> T105["T105 SOTA extras"]
+```
+
+- **T100**: Fixture-first install path; slim extras; honest Compose.
+- **T101**: Coverage includes core framework; prod auth on; env profiles ignored.
+- **T102**: `adoption_readiness` manifest; docs claim lint; coordinates Phase XIII.
+- **T103**: YAML jurisdiction profiles; parameterized shared schema; NZ+AU first.
+- **T104**: PR fast lane vs nightly full matrix; publish sandbox vs production.
+- **T105**: Optional constrained decoding, GraphRAG, MCP, eval harness — never promotion oracles.
+

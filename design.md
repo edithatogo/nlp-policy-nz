@@ -393,3 +393,77 @@ The `orchestration/haystack/` package is a CI-safe pure-Python shell that mirror
 Haystack component shapes. Real `haystack-ai` installs only via optional extras
 `rag` / `orchestration`. Generative cloud defaults and FaithfulnessEvaluator-as-
 promotion-oracle are banned.
+
+---
+
+## 14. Phase XV — Adoption, Jurisdiction Profiles & Bleeding-Edge
+
+Programme: Tracks 100–105 / GitHub [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196).
+
+### 14.1 Programme dependency map
+
+```mermaid
+flowchart TB
+  subgraph NZ_Evidence["NZ trust — coordinate, do not duplicate"]
+    T93["T93–97 / #132 #133"]
+    T98["T98 / #144"]
+    T102["T102 adoption readiness gate"]
+    T93 --> T102
+    T98 --> T102
+  end
+  subgraph Adopt["Adopter path"]
+    T100["T100 slim install + quickstart"]
+    T101["T101 coverage + auth honesty"]
+    T104["T104 CI tiering"]
+  end
+  subgraph Multi["Multi-country"]
+    T103["T103 jurisdiction profiles"]
+    T98 --> T103
+  end
+  subgraph Edge["Optional bleeding edge"]
+    T105["T105 constrained decode / GraphRAG / MCP / eval"]
+    T99["T99 Haystack boundary"] --> T105
+  end
+  T100 --> T103
+  T102 --> T100
+  T101 --> T104
+```
+
+### 14.2 Jurisdiction profile runtime
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant CLI
+  participant Loader as ProfileLoader
+  participant Adapter as FOI adapter
+  participant Schema as Corpus schema
+  participant Gate as Human/evidence gate
+  User->>CLI: process --profile au.cth
+  CLI->>Loader: load YAML + verify digest
+  alt unknown profile
+    Loader-->>CLI: fail-closed abstention
+  else known profile
+    Loader->>Adapter: route by profile_id
+    Adapter->>Schema: country/corpus_id parameterized
+    Schema->>Gate: ExtractionRecord candidates only
+    Note over Gate: No auto-promotion (#144 / T102)
+  end
+```
+
+### 14.3 Install and CI layers
+
+```mermaid
+flowchart LR
+  subgraph Install["Install layers — T100"]
+    CORE["pip/pixi core"] --> FIX["fixture process --no-embeddings"]
+    CORE -.-> API["extra: api"]
+    CORE -.-> SPACE["extra: space"]
+    CORE -.-> ML["extra: ml"]
+    CORE -.-> SOTA["extra: sota — T105"]
+  end
+  subgraph CI["CI tiers — T104"]
+    PR["PR: Ubuntu 3.12 + 1 OS smoke"] --> NIGHT["Nightly: full OS×Py matrix"]
+    PR --> SEC["SAST + SBOM"]
+  end
+```
