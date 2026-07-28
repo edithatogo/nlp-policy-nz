@@ -646,10 +646,10 @@ Phase XIV (Planned — 99): Optional Governance Orchestration
 
 ---
 
-## [~] Track 99: Haystack Optional Governance Orchestration Layer
-*Link: [./tracks/track99_haystack_governance_orchestration_20260728/](./tracks/track99_haystack_governance_orchestration_20260728/)*
+## [x] Track 99: Haystack Optional Governance Orchestration Layer (archived)
+*Link: [./archive/track99_haystack_governance_orchestration_20260728/](./archive/track99_haystack_governance_orchestration_20260728/)*
 - **Issue**: [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189)
 - **Subissues**: [#190](https://github.com/edithatogo/nlp-policy-nz/issues/190), [#191](https://github.com/edithatogo/nlp-policy-nz/issues/191), [#192](https://github.com/edithatogo/nlp-policy-nz/issues/192), [#193](https://github.com/edithatogo/nlp-policy-nz/issues/193), [#194](https://github.com/edithatogo/nlp-policy-nz/issues/194)
-- **Dependencies**: Tracks 15, 58, 60; optional extra only (`rag` / orchestration)
+- **Dependencies**: Tracks 15, 58, 60; optional extra only (`rag` / `orchestration`)
 - **Parallelization Node**: Governance Orchestration Prototype
 - **Why**: Prototype Haystack as a typed, deterministic, pipeline-first audit shell (spaCy adapters, legal indexing DAG, extractive span QA, local SAS/ExactMatch eval, onshore/air-gap deploy) without making it a required runtime or generative cloud default.
