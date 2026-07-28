@@ -25,8 +25,9 @@ graph TD
     H -->|Linked Data| R[(FOAF/SIOC Turtle sidecars)]
     H -->|Wikidata KG| W[(OWL map and JSON-LD knowledge graph)]
     H -->|Parliamentary Analytics| V[(Voting records and amendment lifecycle)]
+    H -->|Optional Governance Orchestration| O[(Track 99 Haystack-compatible DAG)]
     
-    I & J & P & R & W & V --> K[(Standard Output Schema Persistence)]
+    I & J & P & R & W & V & O --> K[(Standard Output Schema Persistence)]
     
     subgraph Downstream Branching
         K --> L[Legal NLP Branch: corpus-law-nz]
@@ -86,3 +87,13 @@ The `MetaExtensionRegistry` sanitizes regional and target parameters (e.g. `COUN
 - **Amendment analytics**: `parliament/amendments.py` parses amendment proposer, type, target clause, SOP number, structural bill diffs, and amendment lifecycle graphs.
 - **Pipeline enrichment**: `PipelineRecord` includes optional `voting_record` and `amendments` fields populated during Hansard and legislation processing.
 - **Query commands**: the CLI exposes `voting-summary` and `amendment-history` for direct local analysis of text files.
+
+### Phase 9: Optional Haystack governance orchestration (Track 99)
+- **Package**: `src/nlp_policy_nz/orchestration/haystack/` provides a pure-Python, CI-safe component DAG that mirrors Haystack 2.x/3.x `run()` / typed-output shapes without requiring `haystack-ai` on the default path.
+- **Rights gate**: `RightsGateComponent` fail-closes on missing `access_class` or uncleared restricted / Māori / sovereign material (case-insensitive normalisation).
+- **Indexing DAG**: rights gate → legal-structure splitter → SpaCy enricher → in-memory or `LanceDBAdapter` writer, with `ProvenanceStepRecorder` dual-write steps.
+- **Extractive audit QA**: `extractive_qa` returns verbatim spans with offsets and enforces the rights gate before reading content; generative components are forbidden on restricted query graphs.
+- **Evaluation**: `emit_scorecard` reports ExactMatch and SAS-proxy scores with `promotion_allowed=False` and `faithfulness_evaluator_authoritative=False`.
+- **Optional dependency**: extras `rag` and `orchestration` install `haystack-ai>=2.0.0`; decision and sovereign-deploy docs live under `docs/haystack-*.md`.
+- **Non-goals**: does not replace spaCy, LanceDB, or `PipelineRecord`; does not authorize promotion, publication, or OIA evidence by itself.
+

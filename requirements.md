@@ -94,6 +94,38 @@ All Phase I requirements are **Must Have** and are complete.
 |----|-------------|----------|
 | C-ARC-1 | Revisit optional Mojo acceleration only when a supported runtime produces a reproducible benchmark win over Python/Rust-backed alternatives | Future Mojo track |
 
+## Phase XIV — Optional Governance Orchestration (Track 99) — DELIVERED ✅
+
+Prototype only. Canonical engines remain spaCy, LanceDB, `PipelineRecord`, and PROV-O. `haystack-ai` is never a required runtime.
+
+### 🟡 S — Should Have (governance accountability)
+
+| ID | Requirement | Track(s) | Dep |
+|----|-------------|----------|-----|
+| S-GOV-1 | Fail-closed rights gate for restricted / Māori / sovereign access classes (case-insensitive; requires `rights_cleared: true`) | T99 | T15 |
+| S-GOV-2 | Extractive span answers must be verbatim substrings with character offsets; generative defaults banned on restricted paths | T99 | T60 |
+| S-GOV-3 | Local ExactMatch + SAS-proxy scorecards; LLM FaithfulnessEvaluator is non-authoritative for promotion / OIA evidence | T99 | T74 lineage |
+| S-GOV-4 | Default package/CLI import path must not load `haystack-ai` | T99 | T1 |
+
+### 🔵 C — Could Have (optional orchestration shell)
+
+| ID | Requirement | Track(s) | Dep |
+|----|-------------|----------|-----|
+| C-GOV-1 | Pure-Python Haystack-compatible `@component`-shaped DAG wrapping spaCy enrichers, legal-structure splitters, and LanceDB writers | T99 | T3,T4,T6,T60 |
+| C-GOV-2 | Optional extras `rag` / `orchestration` install `haystack-ai>=2.0.0` without changing default Pixi/CI | T99 | — |
+| C-GOV-3 | Onshore / air-gap deployment checklist (pinned digests, local cache, telemetry egress blocked, generation off) | T99 | T38,T62 |
+| C-GOV-4 | Provenance step dual-write scaffolding into PROV-O-compatible step records | T99 | T15 |
+
+### ⚪ W — Won't Have (this phase)
+
+| ID | Requirement | Rationale |
+|----|-------------|-----------|
+| W-GOV-1 | Make `haystack-ai` a required runtime or default CI dependency | Conflicts with local-first, fail-closed processing stack |
+| W-GOV-2 | Replace spaCy, LanceDB, or `PipelineRecord` with Haystack DocumentStore as canonical engines | Track 60 / msgspec contracts remain authoritative |
+| W-GOV-3 | Generative cloud LLM defaults on restricted / Māori / sovereign data | Sovereign AI / onshore jurisdiction constraint |
+| W-GOV-4 | Use LLM FaithfulnessEvaluator as promotion or OIA evidence oracle | Non-deterministic; opaque; may imply offshoring |
+| W-GOV-5 | Claim legal promotion, rights clearance, or publication from Track 99 alone | External human gates remain explicit |
+
 ## Core Dependencies
 
 ### NLP & ML Engine
@@ -110,6 +142,7 @@ All Phase I requirements are **Must Have** and are complete.
 | accelerate | >=0.27.0 | Multi-GPU training (Track 20) | 🟡 S |
 | peft | >=0.8.0 | QLoRA fine-tuning (Track 20) | 🟡 S |
 | trl | >=0.8.0 | Transformer RL (Track 20) | 🔵 C |
+| haystack-ai | >=2.0.0 | Optional governance orchestration shell (Track 99); extras `rag` / `orchestration` only | 🔵 C |
 
 ### Data Processing & Storage
 

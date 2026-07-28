@@ -40,15 +40,31 @@ This document prioritizes the functional and non-functional requirements for the
   - Automatically classification of text blocks/sentences as English or Te Reo Māori to enable targeted processing.
 - **Local Semantic Search Indexing**:
   - Incorporating LanceDB as the default zero-service semantic search index over Parquet outputs, with `faiss-cpu` retained only as an optional benchmark/comparison extra.
+- **Fail-closed Governance Rights Gate (Track 99)**:
+  - Restricted / Māori / sovereign `access_class` values (case-insensitive) require `rights_cleared: true` before indexing or extractive QA.
+- **Verbatim Extractive Audit Answers (Track 99)**:
+  - Answers must be source substrings with offsets; generative defaults banned on restricted paths.
+- **Non-authoritative Faithfulness Metric (Track 99)**:
+  - Local ExactMatch / SAS-proxy scorecards only; FaithfulnessEvaluator must not gate promotion or OIA evidence.
+- **No Default Haystack Import (Track 99)**:
+  - Importing `nlp_policy_nz` must not load `haystack-ai`.
 
 ## 3. Could Have (Desirable but Deferred)
 - **NetworkX Relational Graph**:
   - Building in-memory relationship graphs (e.g., MP -> Bill -> Act) to visualize parliamentary debates linking to statutes.
 - **CI/CD Integration**:
   - GitHub Action to automate tests and package publishing/checks.
+- **Optional Haystack Governance Orchestration (Track 99)**:
+  - Pure-Python Haystack-compatible component DAG under `orchestration/haystack/` for typed audit shells, legal-structure indexing, extractive span QA, and local ExactMatch/SAS-proxy scorecards.
+  - Optional extras `rag` / `orchestration` may install `haystack-ai>=2.0.0`; default Pixi/CI must not require it.
+  - Decision record: `docs/haystack-governance-decision.md`; sovereign deploy checklist: `docs/haystack-sovereign-deploy.md`.
 
 ## 4. Won't Have (Out of Scope for Core Pipeline)
 - **External Database Infrastructure**:
   - No deployment of vector databases (Pinecone, Qdrant) or graph databases (Neo4j) to minimize engineering overhead and cost.
 - **Web-based User Interface**:
   - Interface visualization tools are out of scope; visualization will be handled downstream or via notebook scripts.
+- **Haystack as Required Runtime**:
+  - Do not make `haystack-ai` a required dependency or replace spaCy / LanceDB / `PipelineRecord` as canonical engines.
+- **Generative Cloud Defaults on Sovereign Data**:
+  - Restricted, Māori, and sovereign paths must not default to generative cloud LLMs; LLM FaithfulnessEvaluator is non-authoritative for promotion or OIA evidence.

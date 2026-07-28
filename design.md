@@ -35,6 +35,7 @@ flowchart TB
         KB["Knowledge Base (kb/)"]
         TRAIN["Training (training/)"]
         LEGAL["Legal Analysis (legal/)"]
+        ORCH["Optional Governance Orchestration<br/>(orchestration/haystack/)"]
     end
 
     CLI_MAIN --> API_PY
@@ -46,6 +47,10 @@ flowchart TB
     API_PY -.-> OTEL
     API_PY -.-> KB
     API_PY -.-> LEGAL
+    GUARD -.-> ORCH
+    SYNTACTIC -.-> ORCH
+    STORAGE -.-> ORCH
+    ORCH -.->|"PROV-O step dual-write"| STORAGE
 ```
 
 ---
@@ -266,6 +271,15 @@ flowchart LR
 ### storage/ — Parquet & Vectors
 - **serialization.py**: narwhals + PyArrow Parquet I/O
 - **vectordb.py**: LanceDB index management
+- **haystack_pipeline.py**: Thin LanceDB-backed retrieval wrapper (Haystack-shaped API without importing `haystack-ai`)
+
+### orchestration/ — Optional Governance Orchestration (Track 99)
+- **haystack/decision.py**: Allowed/banned contexts; `haystack_available()`; default-import guard
+- **haystack/components.py**: RightsGate, LegalStructureSplitter, SpaCyEnricher, ProvenanceStepRecorder, LanceDBDocumentWriter
+- **haystack/pipelines.py**: Offline indexing DAG; rights-gated extractive span QA; generative-forbidden restricted query graph
+- **haystack/evaluation.py**: ExactMatch + SAS-proxy scorecards (`promotion_allowed=False`)
+- **haystack/types.py**: `GovernanceDocument`, `ExtractedSpanAnswer`
+- Docs: `docs/haystack-governance-decision.md`, `docs/haystack-sovereign-deploy.md`
 
 ### integrations/ — External APIs
 - **huggingface.py**, **hf_uploader.py**, **dataset_card.py**
@@ -354,3 +368,28 @@ cannot become public because a span, token, speech, assertion, table, or
 embedding omits or weakens its local access marker. FOI-O outputs remain
 candidate-only until real immutable pins, held-out evaluation, disagreement
 adjudication, and jurisdiction-specific promotion evidence are recorded.
+
+---
+
+## 13. Optional Governance Orchestration (Track 99)
+
+```mermaid
+flowchart TB
+    RAW["GovernanceDocument<br/>access_class + rights_cleared"] --> GATE["RightsGateComponent<br/>fail-closed"]
+    GATE -->|"cleared / public"| SPLIT["LegalStructureSplitter"]
+    GATE -->|"blocked"| ERR["Empty result + error"]
+    SPLIT --> ENRICH["SpaCyEnricher<br/>(optional spaCy callable)"]
+    ENRICH --> WRITE["DocumentWriter / LanceDBDocumentWriter"]
+    WRITE --> STORE["In-memory store or LanceDBAdapter"]
+    WRITE --> PROV["ProvenanceStepRecorder<br/>→ PROV-O-compatible steps"]
+
+    STORE --> QA["extractive_qa<br/>rights-gated verbatim spans"]
+    QA --> SCORE["emit_scorecard<br/>ExactMatch + SAS-proxy"]
+    SCORE -->|"promotion_allowed=false"| BOUNDARY["No auto-promotion / no OIA oracle"]
+```
+
+**Boundary:** Canonical engines remain spaCy, LanceDB, `PipelineRecord`, and PROV-O.
+The `orchestration/haystack/` package is a CI-safe pure-Python shell that mirrors
+Haystack component shapes. Real `haystack-ai` installs only via optional extras
+`rag` / `orchestration`. Generative cloud defaults and FaithfulnessEvaluator-as-
+promotion-oracle are banned.
