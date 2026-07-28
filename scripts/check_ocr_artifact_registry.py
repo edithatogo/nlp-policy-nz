@@ -60,13 +60,17 @@ def check() -> list[str]:
             errors.append("ocr_artifact doi must be null while status contains doi_pending")
         if artifact.get("deposit_url") is not None:
             errors.append("ocr_artifact deposit_url must be null while status contains doi_pending")
+        blockers = artifact.get("blockers")
+        if not isinstance(blockers, list) or not blockers:
+            errors.append("ocr_artifact blockers must be non-empty while status contains doi_pending")
 
-    if (
-        any(marker in status_lower for marker in PUBLISHED_LIKE_MARKERS)
-        and "doi_pending" not in status_lower
-        and (artifact.get("doi") is None or artifact.get("deposit_url") is None)
+    if any(marker in status_lower for marker in PUBLISHED_LIKE_MARKERS) and (
+        artifact.get("doi") is None or artifact.get("deposit_url") is None
     ):
-        errors.append("ocr_artifact published-like status requires both doi and deposit_url")
+        errors.append(
+            "ocr_artifact published-like status requires both doi and deposit_url "
+            "(doi_pending cannot bypass this gate)"
+        )
 
     return errors
 
