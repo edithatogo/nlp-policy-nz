@@ -48,8 +48,13 @@ def check() -> list[str]:
     elif status == "verified":
         if not version_doi or not concept_doi:
             errors.append("verified status requires zenodo_version_doi and zenodo_concept_doi")
-        if not manifest.get("zenodo_record_url"):
+        record_url = str(manifest.get("zenodo_record_url") or "")
+        if not record_url:
             errors.append("verified status requires zenodo_record_url")
+        elif version_doi:
+            record_id = version_doi.rsplit(".", maxsplit=1)[-1]
+            if record_id not in record_url:
+                errors.append("zenodo_record_url must reference the zenodo_version_doi record id")
         if not manifest.get("tag_commit"):
             errors.append("verified status requires tag_commit")
         cff_dois = _DOI_IN_CFF.findall(citation)
@@ -58,9 +63,15 @@ def check() -> list[str]:
         revisions = manifest.get("huggingface_revisions")
         if not isinstance(revisions, list) or not revisions:
             errors.append("verified status requires pinned huggingface_revisions")
-        elif HF_AUDIT_PATH.exists():
+        if not HF_AUDIT_PATH.exists():
+            errors.append("verified status requires data/registry/huggingface_audit.json for HF pinning")
+        elif isinstance(revisions, list) and revisions:
             audit = json.loads(HF_AUDIT_PATH.read_text(encoding="utf-8"))
             audit_revs = {t["repo_id"]: t["revision"] for t in audit.get("targets", [])}
+            manifest_repos = {entry.get("repo_id") for entry in revisions if entry.get("repo_id")}
+            for repo_id, expected in audit_revs.items():
+                if repo_id not in manifest_repos:
+                    errors.append(f"huggingface_revisions missing audit target {repo_id}")
             for entry in revisions:
                 repo_id = entry.get("repo_id")
                 revision = entry.get("revision")
@@ -70,7 +81,9 @@ def check() -> list[str]:
                 if len(revision) != 40:
                     errors.append(f"huggingface revision for {repo_id} must be a 40-char SHA")
                 expected = audit_revs.get(repo_id)
-                if expected is not None and expected != revision:
+                if expected is None:
+                    errors.append(f"huggingface_revisions repo_id not in huggingface_audit.json: {repo_id}")
+                elif expected != revision:
                     errors.append(f"huggingface revision for {repo_id} must match huggingface_audit.json")
     else:
         errors.append(f"unknown zenodo_status: {status}")
