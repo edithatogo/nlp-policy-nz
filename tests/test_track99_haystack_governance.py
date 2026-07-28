@@ -84,6 +84,43 @@ def test_track99_rights_gate_fail_closed() -> None:
     )
     assert len(cleared["documents"]) == 1
 
+    case_variants = gate.run(
+        documents=[
+            GovernanceDocument(
+                id="restricted-case",
+                content="secret clause",
+                meta={"access_class": "Restricted"},
+            )
+        ]
+    )
+    assert case_variants["documents"] == []
+    assert "error" in case_variants
+
+
+def test_track99_extractive_qa_enforces_rights_gate() -> None:
+    """Extractive QA must fail closed on uncleared restricted documents."""
+    answer = extractive_qa(
+        "secret clause",
+        [
+            GovernanceDocument(
+                id="restricted-1",
+                content="secret clause body",
+                meta={"access_class": "sovereign"},
+            )
+        ],
+    )
+    assert answer.answer == ""
+    assert answer.document_id == ""
+
+
+def test_track99_empty_scorecard_is_safe() -> None:
+    """Empty prediction/gold lists must not divide by zero."""
+    scorecard = emit_scorecard([], [])
+    assert scorecard["exact_match"] == 0.0
+    assert scorecard["sas_proxy"] == 0.0
+    assert scorecard["individual_scores"] == []
+    assert scorecard["promotion_allowed"] is False
+
 
 def test_track99_legal_structure_splitter_preserves_clauses() -> None:
     """Splitter should preserve multiple legal clauses instead of naive word split."""

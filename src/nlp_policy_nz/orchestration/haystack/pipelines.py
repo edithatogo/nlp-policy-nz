@@ -72,12 +72,17 @@ def run_indexing_pipeline(
 def _best_sentence(content: str, query_tokens: set[str]) -> tuple[str, int, int, float]:
     best = ("", 0, 0, -1.0)
     for match in _SENTENCE_PATTERN.finditer(content):
-        sentence = match.group(0).strip()
+        raw = match.group(0)
+        leading = len(raw) - len(raw.lstrip())
+        trailing = len(raw) - len(raw.rstrip())
+        sentence = raw.strip()
         if not sentence:
             continue
+        start = match.start() + leading
+        end = match.end() - trailing
         overlap = len(query_tokens & _tokenize(sentence))
         if overlap > best[3]:
-            best = (sentence, match.start(), match.end(), float(overlap))
+            best = (content[start:end], start, end, float(overlap))
     return best
 
 
@@ -110,10 +115,26 @@ def extractive_qa(
     *,
     model_id: str = "local-extractive-proxy",
     pipeline_version: str = "track99",
+    enforce_rights_gate: bool = True,
 ) -> ExtractedSpanAnswer:
     """Return the best extractive span answer from governance documents."""
+    gated_docs = documents
+    if enforce_rights_gate:
+        gated = RightsGateComponent().run(documents=documents)
+        if gated.get("error"):
+            return ExtractedSpanAnswer(
+                answer="",
+                document_id="",
+                start=0,
+                end=0,
+                score=0.0,
+                model_id=model_id,
+                pipeline_version=pipeline_version,
+            )
+        gated_docs = gated["documents"]
+
     query_tokens = _tokenize(query)
-    if not query_tokens or not documents:
+    if not query_tokens or not gated_docs:
         return ExtractedSpanAnswer(
             answer="",
             document_id="",
@@ -125,7 +146,7 @@ def extractive_qa(
         )
 
     best_doc = max(
-        documents,
+        gated_docs,
         key=lambda document: len(query_tokens & _tokenize(document.content)),
     )
     overlap_count = len(query_tokens & _tokenize(best_doc.content))

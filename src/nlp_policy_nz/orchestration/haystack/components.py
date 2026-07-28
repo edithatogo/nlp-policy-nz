@@ -29,7 +29,9 @@ class RightsGateComponent:
         """Pass through cleared or public documents; block restricted items."""
         allowed: list[GovernanceDocument] = []
         for document in documents:
-            access_class = document.meta.get("access_class")
+            access_class = str(document.meta.get("access_class") or "").strip().lower()
+            # Normalise common Māori macron variants for fail-closed matching.
+            access_class = access_class.replace("ā", "a").replace("Ā", "a")
             if not access_class:
                 return {
                     "documents": [],

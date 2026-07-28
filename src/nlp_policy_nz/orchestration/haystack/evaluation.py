@@ -43,8 +43,12 @@ def emit_scorecard(
         }
         for prediction, gold in zip(predictions, ground_truths, strict=True)
     ]
-    exact_match = sum(score["exact_match"] for score in individual_scores) / len(individual_scores)
-    sas_proxy = sum(score["sas_proxy"] for score in individual_scores) / len(individual_scores)
+    if not individual_scores:
+        exact_match = 0.0
+        sas_proxy = 0.0
+    else:
+        exact_match = sum(score["exact_match"] for score in individual_scores) / len(individual_scores)
+        sas_proxy = sum(score["sas_proxy"] for score in individual_scores) / len(individual_scores)
     return {
         "exact_match": exact_match,
         "sas_proxy": sas_proxy,
