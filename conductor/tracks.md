@@ -85,6 +85,13 @@ Phase VIII (Archived — 58-62, 68, 70-73; Completed — 63): Runtime Modernizat
 
 Phase IX (Complete — 69): GitHub Project Synchronization
   └─ 69 (GitHub Project Sync) [historical issue/project synchronization track]
+
+Phase XIII (In Progress — 93-98): HathiTrust-NZ / FOI extraction programme
+  └─ 93–97 (archive evidence gates) + 98 (global FOI jurisdiction extraction)
+
+Phase XIV (Planned — 99): Optional Governance Orchestration
+  └─ 99 (Haystack) ──► typed DAG / extractive audit / local eval / onshore deploy
+      [depends on 15, 58, 60; optional extra only]
 ```
 
 ## [x] Track 1: Initialize Workspace Environment & Quality Tooling (archived) [b65c685]
@@ -632,3 +639,17 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 *Link: [./tracks/track98_global_foi_jurisdiction_extraction_20260721/](./tracks/track98_global_foi_jurisdiction_extraction_20260721/)*
 - **Issue**: [#144](https://github.com/edithatogo/nlp-policy-nz/issues/144); programme parent [foi-o #81](https://github.com/edithatogo/foi-o/issues/81)
 - **Why**: Incrementally extract provenance-bearing candidate rules from legislation, Gazette/equivalent and FOI cases for every roadmap target.
+
+---
+
+## Phase XIV — Optional Governance Orchestration (Haystack)
+
+---
+
+## [ ] Track 99: Haystack Optional Governance Orchestration Layer
+*Link: [./tracks/track99_haystack_governance_orchestration_20260728/](./tracks/track99_haystack_governance_orchestration_20260728/)*
+- **Issue**: [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189)
+- **Subissues**: [#190](https://github.com/edithatogo/nlp-policy-nz/issues/190), [#191](https://github.com/edithatogo/nlp-policy-nz/issues/191), [#192](https://github.com/edithatogo/nlp-policy-nz/issues/192), [#193](https://github.com/edithatogo/nlp-policy-nz/issues/193), [#194](https://github.com/edithatogo/nlp-policy-nz/issues/194)
+- **Dependencies**: Tracks 15, 58, 60; optional extra only (`rag` / orchestration)
+- **Parallelization Node**: Governance Orchestration Prototype
+- **Why**: Prototype Haystack as a typed, deterministic, pipeline-first audit shell (spaCy adapters, legal indexing DAG, extractive span QA, local SAS/ExactMatch eval, onshore/air-gap deploy) without making it a required runtime or generative cloud default.

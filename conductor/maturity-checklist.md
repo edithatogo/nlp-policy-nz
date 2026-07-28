@@ -42,7 +42,7 @@
 | In-memory vector benchmark (`faiss-cpu`) | **optional** | Useful for benchmark comparison, but removed from default Pixi/runtime installs because no default workflow requires it. |
 | Local catalog helper (`sqlite-utils`) | **not_applicable** | Removed from default dependency declarations; stdlib `sqlite3` remains enough for extraction catalogs. |
 | Embedded key-value store (`rocksdb`) | **not_applicable** | Does not replace Parquet artifacts, LanceDB vector search, or SQLite manifest catalogs for current repo abstractions. |
-| RAG orchestration (`haystack`) | **deferred** | Not a current dependency. Consensus says "nlp-policy-nz prototypes". Suitable for modular RAG experiments behind `[project.optional-dependencies] rag`. |
+| Governance orchestration (`haystack-ai`) | **optional** | Track 99 / [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189). Optional pipeline-first audit shell only; spaCy + LanceDB + `PipelineRecord` remain canonical. Subissues [#190](https://github.com/edithatogo/nlp-policy-nz/issues/190)–[#194](https://github.com/edithatogo/nlp-policy-nz/issues/194). |
 | HF publication (`huggingface_hub` / `datasets`) | **required** | Both are runtime dependencies. Core to model and dataset publishing pipeline. MoSCoW M. |
 | Archive / DOI (Zenodo / OSF) | **deferred** | Product vision includes Zenodo archive workflow. Currently uses `requests` + REST API ad-hoc. No dedicated adapter package exists yet. |
 
@@ -53,9 +53,9 @@
 | Maturity Band | Count | Categories |
 |---|---|---|
 | **required** | 11 | env mgr, ruff, pyright, loguru, msgspec, polars, pyarrow, requests, bs4/lxml, lancedb, hf_hub/datasets |
-| **optional** | 4 | rich, qdrant, faiss-cpu, duckdb/VSS |
-| **deferred** | 9 | typer/rich CLI UX, pydantic-settings, pydantic v2, jsonschema, tenacity, selectolax, checksums/manifests, haystack, Zenodo/OSF |
+| **optional** | 5 | rich, qdrant, faiss-cpu, duckdb/VSS, haystack-ai (Track 99 governance orchestration) |
+| **deferred** | 8 | typer/rich CLI UX, pydantic-settings, pydantic v2, jsonschema, tenacity, selectolax, checksums/manifests, Zenodo/OSF |
 | **not_applicable** | 2 | sqlite-utils, rocksdb |
 
-> **26 categories assessed.** 11 adopted, 4 optional, 9 deferred, 2 not-applicable.
-> Next maturity gates: Track 57 LanceDB-first simplification, pydantic v2 benchmark (C7), selectolax parser benchmarks, Zenodo adapter.
+> **26 categories assessed.** 11 adopted, 5 optional, 8 deferred, 2 not-applicable.
+> Next maturity gates: Track 99 Haystack governance orchestration spike (#189), pydantic v2 benchmark (C7), selectolax parser benchmarks, Zenodo adapter.
