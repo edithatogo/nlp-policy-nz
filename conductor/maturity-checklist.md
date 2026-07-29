@@ -24,9 +24,9 @@
 | Python lint/format (`ruff`) | **required** | M4 in `requirements.md` ("Ruff Max Strict"). Configured at max-strict in `pyproject.toml`. CI gate. |
 | Python type checking (`pyright`) | **required** | M5 in `requirements.md` ("pyright Strict Typing"). Configured `typeCheckingMode = "strict"` in `pyproject.toml`. pixi task `typecheck`. |
 | Python logging (`loguru`) | **required** | Runtime dependency in `pyproject.toml`. Tool config `logging = "loguru"`. Adopted across all modules. |
-| Python CLI UX (`typer` / `rich`) | **deferred** | CLI entry point exists (`nlp-policy-nz` script) but uses basic argparse + prints. Neither `typer` nor `rich` is a dependency. Worth adding post-Phase II. |
-| Config/env loading (`pydantic-settings`) | **deferred** | Not in current dependency tree. No `.env`-based config pattern yet. C7 evaluation (Pydantic v2 bench) must precede adoption. |
-| Boundary validation (`pydantic` v2) | **deferred** | C7 in `requirements.md`. `msgspec` is the primary struct-validation tool today. Pydantic v2 needs benchmark justification before adoption. |
+| Python CLI UX (`typer` / `rich`) | **deferred** | Track 100 / [#197](https://github.com/edithatogo/nlp-policy-nz/issues/197) (S-ADX-1). CLI still argparse; Typer/Rich planned as Should for operator UX. |
+| Config/env loading (`pydantic-settings`) | **deferred** | Track 101 Could (C-QH-1). Env profiles exist; typed settings not yet adopted. |
+| Boundary validation (`pydantic` v2) | **optional** | Already used heavily in FOI extraction schemas; msgspec remains hot-path serializer. Maturity checklist previously stale (“deferred”). |
 | Hot record serialization (`msgspec`) | **required** | Runtime dependency in `pyproject.toml`. Core to high-throughput pipeline. MoSCoW M. |
 | Dataframes (`polars`) | **required** | Runtime dependency. Core DataFrame engine for Parquet operations. MoSCoW M. |
 | Analytical vector SQL (`duckdb` / VSS) | **optional** | Track 57 treats DuckDB VSS as an experimental analytics candidate over Parquet/vector arrays, not as the default vector store. |
@@ -42,9 +42,11 @@
 | In-memory vector benchmark (`faiss-cpu`) | **optional** | Useful for benchmark comparison, but removed from default Pixi/runtime installs because no default workflow requires it. |
 | Local catalog helper (`sqlite-utils`) | **not_applicable** | Removed from default dependency declarations; stdlib `sqlite3` remains enough for extraction catalogs. |
 | Embedded key-value store (`rocksdb`) | **not_applicable** | Does not replace Parquet artifacts, LanceDB vector search, or SQLite manifest catalogs for current repo abstractions. |
-| RAG orchestration (`haystack`) | **deferred** | Not a current dependency. Consensus says "nlp-policy-nz prototypes". Suitable for modular RAG experiments behind `[project.optional-dependencies] rag`. |
-| HF publication (`huggingface_hub` / `datasets`) | **required** | Both are runtime dependencies. Core to model and dataset publishing pipeline. MoSCoW M. |
-| Archive / DOI (Zenodo / OSF) | **deferred** | Product vision includes Zenodo archive workflow. Currently uses `requests` + REST API ad-hoc. No dedicated adapter package exists yet. |
+| Governance orchestration (`haystack-ai`) | **optional** | Track 99 / [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189). Optional pipeline-first audit shell only; spaCy + LanceDB + `PipelineRecord` remain canonical. Subissues [#190](https://github.com/edithatogo/nlp-policy-nz/issues/190)–[#194](https://github.com/edithatogo/nlp-policy-nz/issues/194). |
+| Jurisdiction profiles (YAML/JSON) | **deferred** | Track 103 / [#200](https://github.com/edithatogo/nlp-policy-nz/issues/200). NZ+AU adapters exist as Python modules; config-driven profiles not yet shipped. |
+| Constrained decoding / GraphRAG / eval harness | **deferred** | Track 105 / [#202](https://github.com/edithatogo/nlp-policy-nz/issues/202). Optional `sota` extras only; never promotion oracles. |
+| HF publication (`huggingface_hub` / `datasets`) | **required** | Both are runtime dependencies. Core to model and dataset publishing pipeline. MoSCoW M. Track 100 may move heavy HF/Gradio paths to extras. |
+| Archive / DOI (Zenodo / OSF) | **deferred** | Product vision includes Zenodo archive workflow. Currently uses `requests` + REST API ad-hoc. No dedicated adapter package exists yet. Track 104 documents sandbox vs production gates. |
 
 ---
 
@@ -53,9 +55,9 @@
 | Maturity Band | Count | Categories |
 |---|---|---|
 | **required** | 11 | env mgr, ruff, pyright, loguru, msgspec, polars, pyarrow, requests, bs4/lxml, lancedb, hf_hub/datasets |
-| **optional** | 4 | rich, qdrant, faiss-cpu, duckdb/VSS |
-| **deferred** | 9 | typer/rich CLI UX, pydantic-settings, pydantic v2, jsonschema, tenacity, selectolax, checksums/manifests, haystack, Zenodo/OSF |
+| **optional** | 6 | rich, qdrant, faiss-cpu, duckdb/VSS, haystack-ai (T99), pydantic v2 (FOI schemas) |
+| **deferred** | 9 | typer/rich CLI UX, pydantic-settings, jsonschema, tenacity, selectolax, checksums/manifests, Zenodo/OSF, jurisdiction profiles (T103), SOTA extras (T105) |
 | **not_applicable** | 2 | sqlite-utils, rocksdb |
 
-> **26 categories assessed.** 11 adopted, 4 optional, 9 deferred, 2 not-applicable.
-> Next maturity gates: Track 57 LanceDB-first simplification, pydantic v2 benchmark (C7), selectolax parser benchmarks, Zenodo adapter.
+> **28 categories assessed.** 11 adopted, 6 optional, 9 deferred, 2 not-applicable.
+> Next maturity gates: Phase XV [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196) (Tracks 100–105), selectolax parser benchmarks, Zenodo adapter.

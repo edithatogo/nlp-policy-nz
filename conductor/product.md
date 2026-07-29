@@ -48,6 +48,17 @@ The following are planned for Phase II (Tracks 10-23):
 ### Roadmap Notes
 - Revisit the T19 profiling benchmark path later, when a supported runtime and an adequate corpus are available. The repo-side observability and benchmark harness are complete; the unfinished profiling pass is a future operational check, not a separate track.
 
+## Phase XV — Adoption, Multi-Jurisdiction Packaging & Bleeding-Edge (Tracks 100–105)
+
+Programme parent: [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196).
+
+- **Adopter DX** (T100 / [#197](https://github.com/edithatogo/nlp-policy-nz/issues/197)): Fixture-first quickstart, slim default install, honest Compose docs.
+- **Quality & Auth Honesty** (T101 / [#198](https://github.com/edithatogo/nlp-policy-nz/issues/198)): Coverage for core framework; Compose/prod auth defaults; env profile ignore rules.
+- **NZ Evidence Adoption Gate** (T102 / [#199](https://github.com/edithatogo/nlp-policy-nz/issues/199)): Coordinates [#132](https://github.com/edithatogo/nlp-policy-nz/issues/132)/[#133](https://github.com/edithatogo/nlp-policy-nz/issues/133)/[#144](https://github.com/edithatogo/nlp-policy-nz/issues/144) without replacing Phase XIII producers.
+- **Jurisdiction Profiles** (T103 / [#200](https://github.com/edithatogo/nlp-policy-nz/issues/200)): Config-driven profiles so other countries adapt without forking NZ modules.
+- **CI Tiering** (T104 / [#201](https://github.com/edithatogo/nlp-policy-nz/issues/201)): Fast PR lane vs nightly full matrix; publish sandbox vs production honesty.
+- **Bleeding-Edge SOTA Spike** (T105 / [#202](https://github.com/edithatogo/nlp-policy-nz/issues/202)): Optional constrained decoding, hybrid GraphRAG, MCP polish, local eval harness — never required, never promotion oracles.
+
 ## 3. Core Features & Architecture (Phase I — Complete)
 - **Universal Ingestion & Preprocessing**: Abstract, format-agnostic ingestion engine (`UniversalIngestionEngine`) supporting XML, HTML, and JSONL formats using BeautifulSoup4/lxml to parse structures dynamically, with an optional `UnstructuredIngestionEngine` fallback for messy PDF/DOCX/HTML sources when the canonical source parser is unavailable.
 - **Dynamic Metadata Extension Registry**: Custom extension naming layer (`MetaExtensionRegistry`) that registers namespace-prefixed properties in spaCy (e.g. `doc._.meta_country`, `span._.schema_structural_type`) dynamically based on region, country, and target standards to prevent name collisions.

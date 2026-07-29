@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "repository": "https://github.com/edithatogo/nlp-policy-nz",
+  "version": "0.1.0",
+  "tag": "v0.1.0",
+  "tag_commit": "41805da6c108cb70c29cf6890f35d3209543e763",
+  "citation_file": "CITATION.cff",
+  "zenodo_metadata_file": ".zenodo.json",
+  "zenodo_status": "verified",
+  "zenodo_version_doi": "10.5281/zenodo.21374372",
+  "zenodo_concept_doi": "10.5281/zenodo.21374371",
+  "zenodo_record_url": "https://zenodo.org/records/21374372",
+  "zenodo_verified_at": "2026-07-28T14:43:00Z",
+  "huggingface_revisions": [
+    {
+      "repo_id": "edithatogo/corpus-legislation-nz",
+      "repo_type": "dataset",
+      "revision": "7b5e9674be99533feffbafde50f8771465bd92d5",
+      "source": "data/registry/huggingface_audit.json"
+    },
+    {
+      "repo_id": "edithatogo/nz-hansard-corpus",
+      "repo_type": "dataset",
+      "revision": "646c4e2e956868aeaecc563e05061aa579114850",
+      "source": "data/registry/huggingface_audit.json"
+    },
+    {
+      "repo_id": "edithatogo/nlp-policy-nz-cloud-ocr-pilots",
+      "repo_type": "dataset",
+      "revision": "0d588e59e9093919135a5feb9358aa690b43d408",
+      "source": "data/registry/huggingface_audit.json"
+    }
+  ],
+  "human_gate": "Verified: immutable tag v0.1.0 and live Zenodo record 10.5281/zenodo.21374372 (concept 10.5281/zenodo.21374371). Hugging Face dataset revisions pinned from registry audit.",
+  "notes": [
+    "CITATION.cff and .zenodo.json describe the same 0.1.0 software release.",
+    "CITATION.cff identifiers.doi must match zenodo_version_doi when zenodo_status is verified.",
+    "Hugging Face data revisions remain a separate dataset citation surface from the software DOI."
+  ]
+}

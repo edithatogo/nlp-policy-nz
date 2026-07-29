@@ -44,7 +44,7 @@
 | Messy document partitioning | `unstructured` | **optional** | Useful for fallback ingestion of PDFs, DOCX, HTML, and scans, but it must remain behind an explicit extra or feature flag so canonical legislative parsers stay authoritative. |
 | Terminal UI | `rich` | **optional** | Not a current dependency. Would enhance CLI operator UX (progress bars, formatted output) but not blocking. |
 | Checksums/manifests | repo-local utilities | **deferred** | Product vision includes Zenodo release workflow with manifests. Not implemented yet — deferred to archive/release track. |
-| RAG orchestration | `haystack` | **optional** | Consensus says "nlp-policy-nz prototypes". Not a current dependency. Suitable for modular RAG experiments — adopt behind `[project.optional-dependencies] rag`. |
+| Governance / pipeline orchestration | `haystack-ai` | **optional** | Track 99 ([#189](https://github.com/edithatogo/nlp-policy-nz/issues/189)): typed `@component` DAG, legal indexing shell, extractive span QA, local SAS/ExactMatch eval, onshore/air-gap deploy. Not a required runtime. Must not replace spaCy, LanceDB, or `PipelineRecord`. Generative cloud defaults and LLM FaithfulnessEvaluator-as-promotion-oracle are banned. Keep behind `[project.optional-dependencies] rag` (or explicit `orchestration` extra). |
 | HF publication | `huggingface_hub` / `datasets` | **required** | Both are runtime dependencies. Core to model and dataset publishing pipeline. MoSCoW M. |
 | Archive/DOI | Zenodo / OSF | **deferred** | Product vision includes Zenodo archive workflow, but no dedicated adapter package exists yet. Uses `requests` + REST API currently. |
 | ML training | `torch`, `transformers`, `bitsandbytes`, `flash-attn`, etc. | **required** | Core to nlp-policy-nz's purpose. `torch` + `transformers` are M; `bitsandbytes` is S; training extras (`accelerate`, `peft`, `trl`, `flash-attn`) are optional extras. |
@@ -59,7 +59,7 @@
 | Rule | Applies to nlp-policy-nz? |
 |---|---|
 | Do not add heavy ML deps to corpus repos | ✅ nlp-policy-nz owns the ML stack |
-| Keep RAG orchestration in nlp-policy-nz | ✅ haystack is `optional` here |
+| Keep optional Haystack governance orchestration in nlp-policy-nz | ✅ `haystack-ai` is optional (Track 99 / #189); not a required runtime |
 | Keep vector-store experiments centralised in nlp-policy-nz | ✅ LanceDB is `required`; Qdrant, FAISS, and DuckDB VSS are optional/experimental |
 | Prefer repo-local utilities over root imports | ✅ No root-code imports in this matrix |
 | Use `selectolax` only after parser benchmarks | ✅ Deferred — bs4 is required |

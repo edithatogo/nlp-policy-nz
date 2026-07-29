@@ -1,0 +1,18 @@
+{
+  "schema_version": "registry-ontology-submission-gate-v1",
+  "submission_status": "no_submission",
+  "namespace": "https://legal-nz.example.org/ontology/nz/",
+  "namespace_status": "candidate_placeholder",
+  "scope": "Repo-side review-bounded NZ ontology candidates; not submitted to external ontology registries.",
+  "candidate_artifacts": [
+    "data/ontologies/nz_ontology_candidates.json",
+    "data/ontologies/nz_ontology_candidates.ttl",
+    "data/ontologies/nz_ontology_candidates.jsonld"
+  ],
+  "registry_response": null,
+  "promotion_blockers": [
+    "Placeholder example.org namespace",
+    "Majority concepts needs_review",
+    "No external registry acceptance sought"
+  ]
+}

@@ -94,6 +94,110 @@ All Phase I requirements are **Must Have** and are complete.
 |----|-------------|----------|
 | C-ARC-1 | Revisit optional Mojo acceleration only when a supported runtime produces a reproducible benchmark win over Python/Rust-backed alternatives | Future Mojo track |
 
+## Phase XIV — Optional Governance Orchestration (Track 99) — DELIVERED ✅
+
+Prototype only. Canonical engines remain spaCy, LanceDB, `PipelineRecord`, and PROV-O. `haystack-ai` is never a required runtime.
+
+### 🟡 S — Should Have (governance accountability)
+
+| ID | Requirement | Track(s) | Dep |
+|----|-------------|----------|-----|
+| S-GOV-1 | Fail-closed rights gate for restricted / Māori / sovereign access classes (case-insensitive; requires `rights_cleared: true`) | T99 | T15 |
+| S-GOV-2 | Extractive span answers must be verbatim substrings with character offsets; generative defaults banned on restricted paths | T99 | T60 |
+| S-GOV-3 | Local ExactMatch + SAS-proxy scorecards; LLM FaithfulnessEvaluator is non-authoritative for promotion / OIA evidence | T99 | T74 lineage |
+| S-GOV-4 | Default package/CLI import path must not load `haystack-ai` | T99 | T1 |
+
+### 🔵 C — Could Have (optional orchestration shell)
+
+| ID | Requirement | Track(s) | Dep |
+|----|-------------|----------|-----|
+| C-GOV-1 | Pure-Python Haystack-compatible `@component`-shaped DAG wrapping spaCy enrichers, legal-structure splitters, and LanceDB writers | T99 | T3,T4,T6,T60 |
+| C-GOV-2 | Optional extras `rag` / `orchestration` install `haystack-ai>=2.0.0` without changing default Pixi/CI | T99 | — |
+| C-GOV-3 | Onshore / air-gap deployment checklist (pinned digests, local cache, telemetry egress blocked, generation off) | T99 | T38,T62 |
+| C-GOV-4 | Provenance step dual-write scaffolding into PROV-O-compatible step records | T99 | T15 |
+
+### ⚪ W — Won't Have (this phase)
+
+| ID | Requirement | Rationale |
+|----|-------------|-----------|
+| W-GOV-1 | Make `haystack-ai` a required runtime or default CI dependency | Conflicts with local-first, fail-closed processing stack |
+| W-GOV-2 | Replace spaCy, LanceDB, or `PipelineRecord` with Haystack DocumentStore as canonical engines | Track 60 / msgspec contracts remain authoritative |
+| W-GOV-3 | Generative cloud LLM defaults on restricted / Māori / sovereign data | Sovereign AI / onshore jurisdiction constraint |
+| W-GOV-4 | Use LLM FaithfulnessEvaluator as promotion or OIA evidence oracle | Non-deterministic; opaque; may imply offshoring |
+| W-GOV-5 | Claim legal promotion, rights clearance, or publication from Track 99 alone | External human gates remain explicit |
+
+## Phase XV — Adoption, Jurisdiction Profiles & Bleeding-Edge (Tracks 100–105)
+
+Programme parent: [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196). Track issues [#197](https://github.com/edithatogo/nlp-policy-nz/issues/197)–[#202](https://github.com/edithatogo/nlp-policy-nz/issues/202); subissues [#204](https://github.com/edithatogo/nlp-policy-nz/issues/204)–[#222](https://github.com/edithatogo/nlp-policy-nz/issues/222). Coordinates evidence producers [#132](https://github.com/edithatogo/nlp-policy-nz/issues/132)/[#133](https://github.com/edithatogo/nlp-policy-nz/issues/133)/[#144](https://github.com/edithatogo/nlp-policy-nz/issues/144).
+
+### 🔴 M — Must Have
+
+| ID | Requirement | Track(s) | Dep |
+|----|-------------|----------|-----|
+| M-ADX-1 | Single fixture CLI first-run path without Docker/Qdrant/embeddings | T100 | T38 |
+| M-ADX-2 | README / QUICKSTART / docs-site share one canonical first path | T100 | — |
+| M-ADX-3 | Default install slim; Gradio/API/heavy ML behind extras where feasible | T100 | — |
+| M-ADX-4 | Compose stub services labelled honestly in docs | T100 | T38 |
+| M-QH-1 | Core `universal_framework_v3` under coverage gate (or residual-justified omit) | T101 | T23 |
+| M-QH-2 | Compose/prod require API auth; docs match runtime defaults | T101 | T51 |
+| M-QH-3 | `.env.dev/.staging/.prod` gitignored | T101 | T46 |
+| M-EV-1 | Machine-checkable `adoption_readiness` manifest linking held-out/rights blockers | T102 | T93–T98 |
+| M-EV-2 | Distinguish `contract_only` vs `empirically_supported` claims | T102 | T102 |
+| M-JP-1 | Versioned jurisdiction YAML/JSON profiles + digesting loader | T103 | T98 |
+| M-JP-2 | Unknown `profile_id` fails closed (no silent NZ fallback) | T103 | T98 |
+| M-JP-3 | Parameterize shared corpus schema (`country` / `corpus_id`); NZ default | T103 | T98 |
+| M-JP-4 | NZ + AU Commonwealth/NSW profiles backing existing adapters | T103 | #144 |
+| M-CI-1 | PR fast lane (Ubuntu 3.12 + one OS smoke) with SAST/SBOM retained | T104 | T92 |
+| M-CI-2 | Full OS×Python matrix on master and/or nightly | T104 | T47 |
+| M-CI-3 | Publish docs distinguish sandbox vs production + required secrets | T104 | T45 |
+| M-BE-1 | Bleeding-edge stacks optional-only; decision record; no default import | T105 | T99 |
+| M-BE-2 | Offline fixture demos for in-tree spikes | T105 | T100 |
+| M-BE-3 | No generative cloud defaults on restricted / Māori / sovereign paths | T105 | T99 |
+| M-BE-4 | Local eval harness never authorizes FOI promotion / OIA evidence | T105 | T102 |
+
+### 🟡 S — Should Have
+
+| ID | Requirement | Track(s) | Dep |
+|----|-------------|----------|-----|
+| S-ADX-1 | Typer/Rich CLI UX for high-traffic operator commands | T100 | — |
+| S-ADX-2 | Documented extras matrix (`core`/`api`/`space`/`ml`/`orchestration`/`client`) | T100 | — |
+| S-QH-1 | Scheduled mutation testing for guard/parser modules | T101 | T23 |
+| S-EV-1 | Docs/CI lint against over-claiming when readiness incomplete | T102 | T102 |
+| S-EV-2 | Licensed fixture-only smoke corpus (explicitly non-held-out) | T102 | T100 |
+| S-JP-1 | `export-ontologies --profile` (generalize NZ-named export) | T103 | T31 |
+| S-JP-2 | Jurisdiction onboarding cookbook + example | T103 | T100 |
+| S-CI-1 | Self-healing CI requires label/approval before merge | T104 | T43 |
+| S-CI-2 | Mojo/experimental off PR critical path | T104 | T71 |
+| S-BE-1 | Constrained structured decoding spike → schema-valid candidates | T105 | T98 |
+| S-BE-2 | Hybrid GraphRAG (NetworkX + LanceDB) fixture recipe | T105 | T60 |
+| S-BE-3 | MCP contract/conformance tests for process/search/export | T105 | T84 lineage |
+
+### 🔵 C — Could Have
+
+| ID | Requirement | Track(s) | Dep |
+|----|-------------|----------|-----|
+| C-ADX-1 | `nlp-policy-nz doctor` environment probe | T100 | — |
+| C-QH-1 | `pydantic-settings` typed env loading | T101 | C7 |
+| C-EV-1 | Public redacted readiness badge | T102 | — |
+| C-JP-1 | UK/EU/Alaveteli unsupported profile stubs | T103 | #144 |
+| C-JP-2 | Neutral packaging RFC (`nlp-policy-core` + profiles) — design only | T103 | — |
+| C-CI-1 | Aggregated required CI summary check | T104 | — |
+| C-BE-1 | Docling/layout adapter compare vs Unstructured | T105 | T61 |
+| C-BE-2 | C2PA/content-credentials sidecar experiment | T105 | T45 |
+| C-BE-3 | ONNX/ORT or Candle-class local embedding probe | T105 | T62 |
+
+### ⚪ W — Won't Have (this phase)
+
+| ID | Requirement | Rationale |
+|----|-------------|-----------|
+| W-ADX-1 | Hosted SaaS onboarding | Out of product scope |
+| W-QH-1 | Lower coverage `fail_under` to hide framework gaps | Credibility |
+| W-EV-1 | Replace Tracks 93–97 evidence producers | Coordination only |
+| W-JP-1 | Implicit cross-jurisdiction equivalence without crosswalks | #144 boundary |
+| W-CI-1 | Remove Bandit/Semgrep/pip-audit/SBOM | Security posture |
+| W-BE-1 | Required SOTA runtime deps | Conflicts with slim install |
+| W-BE-2 | LLM-as-judge as promotion oracle | Same as W-GOV-4 |
+
 ## Core Dependencies
 
 ### NLP & ML Engine
@@ -110,6 +214,7 @@ All Phase I requirements are **Must Have** and are complete.
 | accelerate | >=0.27.0 | Multi-GPU training (Track 20) | 🟡 S |
 | peft | >=0.8.0 | QLoRA fine-tuning (Track 20) | 🟡 S |
 | trl | >=0.8.0 | Transformer RL (Track 20) | 🔵 C |
+| haystack-ai | >=2.0.0 | Optional governance orchestration shell (Track 99); extras `rag` / `orchestration` only | 🔵 C |
 
 ### Data Processing & Storage
 

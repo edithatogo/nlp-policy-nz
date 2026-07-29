@@ -1,12 +1,12 @@
 # Project Tracks
 
-## [ ] Track: research_artifact_registry_readiness_20260721
+## [x] Track: research_artifact_registry_readiness_20260721 (archived)
 
-[Specification and plan](./tracks/research_artifact_registry_readiness_20260721/)
+[Specification and plan](./archive/research_artifact_registry_readiness_20260721/)
 
-- [~] **Track: Citation and Zenodo mirroring**
+- [x] **Track: Citation and Zenodo mirroring** (archived)
 Track ID: `citation_zenodo_mirroring_20260714`
-*Link: [./tracks/citation_zenodo_mirroring_20260714/](./tracks/citation_zenodo_mirroring_20260714/)*
+*Link: [./archive/citation_zenodo_mirroring_20260714/](./archive/citation_zenodo_mirroring_20260714/)*
 
 - [x] **Track: spaCy 4 compatibility spike**
 Track ID: `spacy4_compatibility_spike_20260714`
@@ -85,6 +85,23 @@ Phase VIII (Archived — 58-62, 68, 70-73; Completed — 63): Runtime Modernizat
 
 Phase IX (Complete — 69): GitHub Project Synchronization
   └─ 69 (GitHub Project Sync) [historical issue/project synchronization track]
+
+Phase XIII (In Progress — 93-98): HathiTrust-NZ / FOI extraction programme
+  └─ 93–97 (archive evidence gates) + 98 (global FOI jurisdiction extraction)
+
+Phase XIV (Complete — 99): Optional Governance Orchestration
+  └─ 99 (Haystack) ──► typed DAG / extractive audit / local eval / onshore deploy
+      [depends on 15, 58, 60; optional extra only]
+
+Phase XV (Planned — 100-105): Adoption, Jurisdiction Profiles & Bleeding-Edge
+  ├─ 100 (Adopter DX) ──► slim install + honest quickstart
+  ├─ 101 (Coverage/Auth) ──► framework coverage + auth/env honesty
+  ├─ 102 (Evidence gate) ──► coordinates #132/#133/#144 / Tracks 93-98
+  ├─ 103 (Jurisdiction profiles) ──► YAML profiles + schema generalization
+  │     [depends on 98; extends #144/#143]
+  ├─ 104 (CI tiering) ──► PR fast lane + publish honesty
+  └─ 105 (Bleeding-edge SOTA) ──► constrained decoding / GraphRAG / MCP / eval
+        [optional extras only; respects Track 99 boundary]
 ```
 
 ## [x] Track 1: Initialize Workspace Environment & Quality Tooling (archived) [b65c685]
@@ -603,28 +620,28 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 
 ---
 
-## [ ] Track 93: FOI-O Empirical Promotion Evidence
-*Link: [./tracks/track93_foio_empirical_promotion_20260715/](./tracks/track93_foio_empirical_promotion_20260715/)*
+## [x] Track 93: FOI-O Empirical Promotion Evidence (archived; external gates remain)
+*Link: [./archive/track93_foio_empirical_promotion_20260715/](./archive/track93_foio_empirical_promotion_20260715/)*
 - **Issue**: #129
 - **Why**: Replace placeholder evidence with real jurisdiction-isolated promotion evidence.
 
-## [ ] Track 94: HathiTrust-NZ Rights and Surface Assurance
-*Link: [./tracks/track94_hathi_rights_surface_assurance_20260715/](./tracks/track94_hathi_rights_surface_assurance_20260715/)*
+## [x] Track 94: HathiTrust-NZ Rights and Surface Assurance (archived; external gates remain)
+*Link: [./archive/track94_hathi_rights_surface_assurance_20260715/](./archive/track94_hathi_rights_surface_assurance_20260715/)*
 - **Issue**: #130
 - **Why**: Add authoritative territorial rights provenance and verify advertised interfaces.
 
-## [ ] Track 95: Historical NZ OCR Engine Benchmark
-*Link: [./tracks/track95_historical_ocr_engine_benchmark_20260715/](./tracks/track95_historical_ocr_engine_benchmark_20260715/)*
+## [x] Track 95: Historical NZ OCR Engine Benchmark (archived; external gates remain)
+*Link: [./archive/track95_historical_ocr_engine_benchmark_20260715/](./archive/track95_historical_ocr_engine_benchmark_20260715/)*
 - **Issue**: #131
 - **Why**: Empirically benchmark the four pinned OCR candidates using no-cost compute.
 
-## [ ] Track 96: Historical Parliament Held-Out Evaluation
-*Link: [./tracks/track96_parliament_heldout_evaluation_20260715/](./tracks/track96_parliament_heldout_evaluation_20260715/)*
+## [x] Track 96: Historical Parliament Held-Out Evaluation (archived; external gates remain)
+*Link: [./archive/track96_parliament_heldout_evaluation_20260715/](./archive/track96_parliament_heldout_evaluation_20260715/)*
 - **Issue**: #132
 - **Why**: Produce rights-safe, adjudicated, volume-isolated empirical evaluation evidence.
 
-## [ ] Track 97: Archive Rights and Assurance Closeout
-*Link: [./tracks/track97_archive_rights_assurance_20260715/](./tracks/track97_archive_rights_assurance_20260715/)*
+## [x] Track 97: Archive Rights and Assurance Closeout (archived; external gates remain)
+*Link: [./archive/track97_archive_rights_assurance_20260715/](./archive/track97_archive_rights_assurance_20260715/)*
 - **Issue**: #133
 - **Why**: Prove transitive effective access and complete mutation, compatibility and serializer assurance.
 
@@ -632,3 +649,75 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 *Link: [./tracks/track98_global_foi_jurisdiction_extraction_20260721/](./tracks/track98_global_foi_jurisdiction_extraction_20260721/)*
 - **Issue**: [#144](https://github.com/edithatogo/nlp-policy-nz/issues/144); programme parent [foi-o #81](https://github.com/edithatogo/foi-o/issues/81)
 - **Why**: Incrementally extract provenance-bearing candidate rules from legislation, Gazette/equivalent and FOI cases for every roadmap target.
+
+---
+
+## Phase XIV — Optional Governance Orchestration (Haystack)
+
+---
+
+## [x] Track 99: Haystack Optional Governance Orchestration Layer (archived)
+*Link: [./archive/track99_haystack_governance_orchestration_20260728/](./archive/track99_haystack_governance_orchestration_20260728/)*
+- **Issue**: [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189)
+- **Subissues**: [#190](https://github.com/edithatogo/nlp-policy-nz/issues/190), [#191](https://github.com/edithatogo/nlp-policy-nz/issues/191), [#192](https://github.com/edithatogo/nlp-policy-nz/issues/192), [#193](https://github.com/edithatogo/nlp-policy-nz/issues/193), [#194](https://github.com/edithatogo/nlp-policy-nz/issues/194)
+- **Dependencies**: Tracks 15, 58, 60; optional extra only (`rag` / `orchestration`)
+- **Parallelization Node**: Governance Orchestration Prototype
+- **Why**: Prototype Haystack as a typed, deterministic, pipeline-first audit shell (spaCy adapters, legal indexing DAG, extractive span QA, local SAS/ExactMatch eval, onshore/air-gap deploy) without making it a required runtime or generative cloud default.
+
+---
+
+## Phase XV — Adoption Robustness, Jurisdiction Profiles & Bleeding-Edge
+
+Programme parent: [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196)
+
+---
+
+## [~] Track 100: Adopter DX, Slim Install and Honest Quickstart
+*Link: [./tracks/track100_adopter_dx_slim_install_20260728/](./tracks/track100_adopter_dx_slim_install_20260728/)*
+- **Issue**: [#197](https://github.com/edithatogo/nlp-policy-nz/issues/197)
+- **Subissues**: [#204](https://github.com/edithatogo/nlp-policy-nz/issues/204), [#205](https://github.com/edithatogo/nlp-policy-nz/issues/205), [#206](https://github.com/edithatogo/nlp-policy-nz/issues/206)
+- **Dependencies**: Tracks 38, 48
+- **Parallelization Node**: Adopter Experience
+- **Why**: One fixture-first path; slim default install; honest Compose/QUICKSTART alignment.
+
+## [ ] Track 101: Core Framework Coverage and Auth/Env Honesty
+*Link: [./tracks/track101_core_coverage_auth_honesty_20260728/](./tracks/track101_core_coverage_auth_honesty_20260728/)*
+- **Issue**: [#198](https://github.com/edithatogo/nlp-policy-nz/issues/198)
+- **Subissues**: [#207](https://github.com/edithatogo/nlp-policy-nz/issues/207), [#208](https://github.com/edithatogo/nlp-policy-nz/issues/208), [#209](https://github.com/edithatogo/nlp-policy-nz/issues/209)
+- **Dependencies**: Tracks 23, 46, 51
+- **Parallelization Node**: Quality & Security Honesty
+- **Why**: Coverage gate includes core framework; Compose/prod auth defaults match ops docs; env profiles ignored.
+
+## [ ] Track 102: NZ Evidence Adoption Gate
+*Link: [./tracks/track102_nz_evidence_adoption_gate_20260728/](./tracks/track102_nz_evidence_adoption_gate_20260728/)*
+- **Issue**: [#199](https://github.com/edithatogo/nlp-policy-nz/issues/199)
+- **Subissues**: [#210](https://github.com/edithatogo/nlp-policy-nz/issues/210), [#211](https://github.com/edithatogo/nlp-policy-nz/issues/211)
+- **Coordinates**: [#132](https://github.com/edithatogo/nlp-policy-nz/issues/132), [#133](https://github.com/edithatogo/nlp-policy-nz/issues/133), [#144](https://github.com/edithatogo/nlp-policy-nz/issues/144), [#129](https://github.com/edithatogo/nlp-policy-nz/issues/129)
+- **Dependencies**: Tracks 93–98 (coordination; does not replace evidence producers)
+- **Parallelization Node**: Adoption Evidence Gate
+- **Why**: Machine-checkable readiness manifest so NZ quality claims stay evidence-gated.
+
+## [ ] Track 103: Config-Driven Jurisdiction Profiles
+*Link: [./tracks/track103_jurisdiction_profiles_20260728/](./tracks/track103_jurisdiction_profiles_20260728/)*
+- **Issue**: [#200](https://github.com/edithatogo/nlp-policy-nz/issues/200)
+- **Subissues**: [#212](https://github.com/edithatogo/nlp-policy-nz/issues/212), [#213](https://github.com/edithatogo/nlp-policy-nz/issues/213), [#214](https://github.com/edithatogo/nlp-policy-nz/issues/214), [#215](https://github.com/edithatogo/nlp-policy-nz/issues/215)
+- **Extends**: [#144](https://github.com/edithatogo/nlp-policy-nz/issues/144), [#143](https://github.com/edithatogo/nlp-policy-nz/issues/143)
+- **Dependencies**: Track 98
+- **Parallelization Node**: Multi-Jurisdiction Packaging
+- **Why**: YAML/JSON profiles + parameterized schemas so AU/other countries are not permanent NZ forks.
+
+## [ ] Track 104: CI Tiering and Publish-Gate Honesty
+*Link: [./tracks/track104_ci_tiering_publish_honesty_20260728/](./tracks/track104_ci_tiering_publish_honesty_20260728/)*
+- **Issue**: [#201](https://github.com/edithatogo/nlp-policy-nz/issues/201)
+- **Subissues**: [#216](https://github.com/edithatogo/nlp-policy-nz/issues/216), [#217](https://github.com/edithatogo/nlp-policy-nz/issues/217), [#218](https://github.com/edithatogo/nlp-policy-nz/issues/218)
+- **Dependencies**: Tracks 45, 92
+- **Parallelization Node**: CI/CD Efficiency
+- **Why**: Fast PR lane vs nightly full matrix; sandbox vs production publish honesty; self-heal policy.
+
+## [ ] Track 105: Bleeding-Edge SOTA Spike (Optional Extras)
+*Link: [./tracks/track105_bleeding_edge_sota_spike_20260728/](./tracks/track105_bleeding_edge_sota_spike_20260728/)*
+- **Issue**: [#202](https://github.com/edithatogo/nlp-policy-nz/issues/202)
+- **Subissues**: [#219](https://github.com/edithatogo/nlp-policy-nz/issues/219), [#220](https://github.com/edithatogo/nlp-policy-nz/issues/220), [#221](https://github.com/edithatogo/nlp-policy-nz/issues/221), [#222](https://github.com/edithatogo/nlp-policy-nz/issues/222)
+- **Dependencies**: Tracks 58, 60, 99; MCP interface lineage; optional extras only
+- **Parallelization Node**: Bleeding-Edge Evaluation
+- **Why**: Constrained decoding, hybrid GraphRAG, MCP polish, and local eval harness behind extras — never required, never promotion oracles.

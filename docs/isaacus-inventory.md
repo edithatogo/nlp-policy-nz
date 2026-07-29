@@ -300,7 +300,7 @@ Isaacus `semchunk`: semantic boundary detection, configurable size, overlap, str
 
 ### 7.1 Current State
 
-Haystack 2.x is **not yet integrated** into `nlp-policy-nz`. It belongs in `nlp-policy-nz` prototypes first (Track 23).
+Haystack 2.x/3.x is **not a required runtime**. Track 99 (`track99_haystack_governance_orchestration_20260728`, parent [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189)) plans an optional governance-orchestration prototype: typed spaCy adapters, legal-structure indexing, extractive span QA, local SAS/ExactMatch evaluation, and onshore/air-gap deploy — behind the existing optional extra. Canonical engines remain spaCy, LanceDB, `PipelineRecord`, and PROV-O.
 
 ### 7.2 Proposed Mapping
 
@@ -406,7 +406,7 @@ Existing `citations.py` `EntityRuler` already covers these patterns.
 | **Phase 2: Benchmark export contract** | Pending | `nlp-policy-nz` |
 | **Phase 3: Per-corpus benchmark slices** | Pending | Corpus repos |
 | **Phase 4: Embedding/retrieval baselines** | Pending | `nlp-policy-nz` |
-| **Phase 5: Haystack RAG prototype** | Pending | `nlp-policy-nz` |
+| **Phase 5: Haystack governance orchestration prototype** | Planned (Track 99 / [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189); subissues [#190](https://github.com/edithatogo/nlp-policy-nz/issues/190)–[#194](https://github.com/edithatogo/nlp-policy-nz/issues/194)) | `nlp-policy-nz` |
 | **Phase 6: Upstream contributions** | Pending | Various |
 | **Phase 7: Fine-tuning evaluation** | Pending | `nlp-policy-nz` |
 

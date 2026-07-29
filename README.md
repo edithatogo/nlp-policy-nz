@@ -35,7 +35,17 @@ pip install nlp-policy-nz
 ## Usage
 
 ```bash
-# Process legislation through the NLP pipeline
+# First run: process the bundled fixture without Docker, model downloads, or embeddings
+nlp-policy-nz process \
+    --input data/samples/sample_legislation.txt \
+    --output .tmp/examples/legislation.parquet \
+    --source legislation \
+    --no-embeddings
+
+# Optional: start the API/Compose development stack
+docker compose up --build api lancedb model-cache qdrant
+
+# Optional: process a larger legislation directory
 nlp-policy-nz process -i data/acts/ -o output/legislation.parquet -s legislation
 
 # Search the vector index

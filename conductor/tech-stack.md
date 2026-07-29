@@ -36,7 +36,8 @@ This document defines the bleeding-edge, high-performance technology stack for t
 - **Data Engine**: `polars` (Rust-backed DataFrame library for lightning-fast Parquet operations).
 - **Polars Plugins (Rust-Native Expressions)**: Custom compiled Rust functions registered directly with Polars. These must be structured as a decoupled, isolated crate so they can be easily contributed to the upstream Polars plugins ecosystem.
 - **Messy Document Fallback**: `unstructured` (optional extra for fallback partitioning of PDFs, DOCX, HTML, and scanned-like inputs when a first-party source parser is not available; never the canonical legislative source of truth).
-- **Optional Local Generation Runtime**: `vLLM` (Linux-first, optional OpenAI-compatible serving and offline batch generation for high-throughput legal NLP; default imports and Windows workflows continue to use the Python fallback path).
+- **Optional Local Generation Runtime**: `vLLM` (Linux-first, optional OpenAI-compatible serving and offline batch generation for legal NLP; default imports and Windows workflows continue to use the Python fallback path).
+- **Optional Governance Orchestration**: `haystack-ai` (Track 99 / GitHub [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189)). Optional typed `@component` pipeline shell for auditability, legal-structure indexing, extractive span QA, and local evaluation. Must remain behind an optional extra; must not replace spaCy, LanceDB, msgspec/`PipelineRecord`, or PROV-O. Generative cloud defaults and LLM faithfulness-as-promotion-oracle are banned.
 
 ---
 

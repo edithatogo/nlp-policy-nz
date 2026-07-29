@@ -5,28 +5,21 @@ description: Process a small text file and inspect extracted pipeline output.
 
 # Five-minute quickstart
 
-1. Create a small input file:
-
-```bash
-mkdir -p .tmp/examples
-echo "The Minister must report by 1 July 2026." > .tmp/examples/act.txt
-```
-
-2. Process it:
+1. Process the bundled legislation fixture:
 
 ```bash
 pixi run nlp-policy-nz process \
-  --input .tmp/examples/act.txt \
-  --output .tmp/examples/act.parquet \
+  --input data/samples/sample_legislation.txt \
+  --output .tmp/examples/legislation.parquet \
   --source legislation \
   --no-embeddings
 ```
 
-3. Export a broad extraction manifest from an existing Parquet output:
+2. Export a broad extraction manifest from the Parquet output:
 
 ```bash
 pixi run nlp-policy-nz export-extractions \
-  --parquet .tmp/examples/act.parquet \
+  --parquet .tmp/examples/legislation.parquet \
   --output .tmp/examples/extractions.json \
   --retrieved-at 2026-06-30T00:00:00Z
 ```

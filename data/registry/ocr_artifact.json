@@ -1,0 +1,18 @@
+{
+  "schema_version": "registry-ocr-artifact-v1",
+  "benchmark_id": "nz-historical-ocr-v1",
+  "version": "track131-repo-scaffold-v1",
+  "status": "metadata_complete_doi_pending",
+  "manifest_path": "data/track131/benchmark_manifest.json",
+  "engine_registry_path": "data/track87/engine_registry.json",
+  "hf_evidence": {
+    "repo_id": "edithatogo/nlp-policy-nz-cloud-ocr-pilots",
+    "revision": "0d588e59e9093919135a5feb9358aa690b43d408"
+  },
+  "doi": null,
+  "deposit_url": null,
+  "checksums": {},
+  "blockers": [
+    "Authoritative versioned DOI required before publication claim."
+  ]
+}
