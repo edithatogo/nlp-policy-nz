@@ -30,7 +30,7 @@ class ResolvedEntity:
     confidence: float
     context: dict[str, str] | None
 
-    def to_dict(self) -> dict[str, str | int | float | dict[str, str] | None]:
+    def to_dict(self: ResolvedEntity) -> dict[str, str | int | float | dict[str, str] | None]:
         """Return a schema-safe resolved entity annotation."""
         return {
             "entity_id": self.entity_id,
@@ -60,7 +60,7 @@ class EntityResolver:
     """Resolve named spans to local KB entries with fuzzy/context scoring."""
 
     def __init__(
-        self,
+        self: EntityResolver,
         entities: tuple[EntityRecord, ...] | list[EntityRecord] | None = None,
         *,
         min_confidence: float = 0.82,
@@ -73,9 +73,16 @@ class EntityResolver:
             if entity.entity_id in seen:
                 raise ValueError(f"Duplicate entity_id in KB: {entity.entity_id}")
             seen.add(entity.entity_id)
+        self._patterns = {
+            entity.entity_id: [
+                re.compile(rf"\b{re.escape(name)}\b", re.IGNORECASE)
+                for name in sorted(entity.names(), key=len, reverse=True)
+            ]
+            for entity in self.entities
+        }
 
     def resolve_one(
-        self,
+        self: EntityResolver,
         span_text: str,
         *,
         context: EntityContext | None = None,
@@ -95,7 +102,7 @@ class EntityResolver:
         )
 
     def resolve_text(
-        self,
+        self: EntityResolver,
         text: str,
         *,
         context: EntityContext | None = None,
@@ -103,8 +110,7 @@ class EntityResolver:
         """Resolve all known aliases found in *text*."""
         candidates: list[ResolvedEntity] = []
         for entity in self.entities:
-            for name in sorted(entity.names(), key=len, reverse=True):
-                pattern = re.compile(rf"\b{re.escape(name)}\b", re.IGNORECASE)
+            for pattern in self._patterns[entity.entity_id]:
                 for match in pattern.finditer(text):
                     confidence = _score_entity(match.group(0), entity, context)
                     if confidence >= self.min_confidence:
@@ -124,17 +130,17 @@ class EntityResolver:
 class NzEntityResolverComponent:
     """spaCy component that links document entity spans to the NZ KB."""
 
-    def __init__(self, *, min_confidence: float = 0.82) -> None:
+    def __init__(self: NzEntityResolverComponent, *, min_confidence: float = 0.82) -> None:
         """Create the resolver component."""
         self.resolver = EntityResolver(min_confidence=min_confidence)
 
-    def __call__(self, doc: Doc) -> Doc:
+    def __call__(self: NzEntityResolverComponent, doc: Doc) -> Doc:
         """Attach resolved entity dictionaries to ``doc._.resolved_entities``."""
-        doc._.resolved_entities = [entity.to_dict() for entity in self.resolve_doc(doc)]
+        doc._.resolved_entities = [entity.to_dict() for entity in self.resolve_doc(doc)]  # noqa: SLF001
         return doc
 
     def resolve_doc(
-        self,
+        self: NzEntityResolverComponent,
         doc: Doc,
         *,
         context: EntityContext | None = None,
