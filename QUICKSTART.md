@@ -1,31 +1,50 @@
 # Quickstart
 
-1. Copy `.env.example` to `.env` and adjust any local paths you need.
-2. Start the local stack:
+The first-run path is local and does not require Docker, Qdrant, model
+downloads, or embeddings.
+
+1. Install the package:
+
+```bash
+pip install nlp-policy-nz
+```
+
+2. Process the bundled legislation fixture:
+
+```bash
+nlp-policy-nz process \
+  --input data/samples/sample_legislation.txt \
+  --output .tmp/examples/legislation.parquet \
+  --source legislation \
+  --no-embeddings
+```
+
+3. Optional API/Compose workflow: copy `.env.example` to `.env` and adjust
+any local paths you need, then start the development stack:
 
 ```bash
 docker compose up --build api lancedb model-cache qdrant
 ```
 
-3. In a second shell, install the SDK extras:
+4. In a second shell, install the SDK extras:
 
 ```bash
 pip install -e .[client]
 ```
 
-4. Check the API:
+5. Check the API:
 
 ```bash
 python examples/client_health.py
 ```
 
-5. Run a search:
+6. Run a search:
 
 ```bash
 python examples/client_search.py "climate change"
 ```
 
-6. Try the inline processing example:
+7. Try the inline processing example:
 
 ```bash
 python examples/client_process.py "Kia ora, this is a test."
