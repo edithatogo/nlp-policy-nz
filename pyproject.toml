@@ -119,7 +119,7 @@ select = [
     "COM", "DJ", "DTZ", "EM", "ERA", "EXE",
     "FA", "FLY", "ICN", "INP", "INT", "ISC", "LOG",
     "NPY", "PD", "PERF", "PGH", "PIE",
-    "PYI", "Q", "RSE", "S", "SLF", "T10", "TC", "TID", "TRY",
+    "PYI", "Q", "RSE", "S", "SLF", "T10", "TID", "TRY",
 ]
 ignore = [
     "PLR0913",                   # Too many arguments (legacy code)
@@ -140,7 +140,7 @@ ignore = [
     "S110", "S311",
     "S404", "S603", "S607",
     "PLW2901",
-    "TC001", "TC002", "TC003",
+
     "FA100", "ICN001",
     "PLC0415",
     "ERA001", "EXE001",
@@ -160,7 +160,7 @@ ignore = [
     "ERA001", "INP001", "S106", "S107",
     "PGH001", "PIE790",
     "EM", "TRY", "PERF", "FLY002", "PT017",
-    "C408", "TC006", "Q000", "S314",
+    "C408", "Q000", "S314",
     "PLC0415",
 ]
 "*/__init__.py" = [
