@@ -22,6 +22,18 @@ python -m venv .venv
 .\.venv\Scripts\python -m pip install -e ".[dev]"
 ```
 
+The core install keeps API, Space, and embedding stacks optional:
+
+| Extra | Adds |
+| --- | --- |
+| `api` | FastAPI and Uvicorn |
+| `space` | Gradio and Plotly |
+| `ml` | Transformers, PyTorch, and bitsandbytes |
+| `client` | HTTP client support |
+| `orchestration` | Haystack governance orchestration |
+
+Install only the integrations needed, for example `pip install "nlp-policy-nz[api,ml]"`.
+
 On Linux or macOS, replace the activation path with the platform equivalent.
 
 ## Docker

@@ -34,8 +34,6 @@ from nlp_policy_nz.quality import (
     register_quality_span_attributes,
     validate_ingestion_inputs,
 )
-from nlp_policy_nz.semantic import generate_embedding
-from nlp_policy_nz.semantic.model_loader import DEFAULT_MODEL, load_model
 from nlp_policy_nz.storage import LanceDBAdapter, PipelineRecord, serialize_to_parquet
 from nlp_policy_nz.syntactic import (
     chunk_hansard_speech,
@@ -49,6 +47,7 @@ if TYPE_CHECKING:
     from spacy.language import Language
 
 logger = logging.getLogger(__name__)
+DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 QUALITY_HISTORY_DIR = Path("data/quality/runs")
 QUALITY_BASELINE_PATH = Path("data/quality/baseline.json")
 
@@ -298,6 +297,9 @@ def _process_legislation_records(
     if generate_embeddings:
         with pipeline_span("pipeline.embeddings", {"pipeline.record_count": len(records)}):
             logger.info("Generating embeddings for %d records ...", len(records))
+            from nlp_policy_nz.semantic import generate_embedding
+            from nlp_policy_nz.semantic.model_loader import load_model
+
             model, tokenizer = load_model()
             recorder.model_versions["embedding_model"] = _model_version_from_loaded(
                 model,
@@ -431,6 +433,9 @@ def _process_hansard_records(
     if generate_embeddings:
         with pipeline_span("pipeline.embeddings", {"pipeline.record_count": len(records)}):
             logger.info("Generating embeddings for %d records ...", len(records))
+            from nlp_policy_nz.semantic import generate_embedding
+            from nlp_policy_nz.semantic.model_loader import load_model
+
             model, tokenizer = load_model()
             recorder.model_versions["embedding_model"] = _model_version_from_loaded(
                 model,
@@ -472,6 +477,9 @@ def search_similar(
     if not db.is_dir():
         msg = f"LanceDB database directory not found: {db}"
         raise FileNotFoundError(msg)
+
+    from nlp_policy_nz.semantic import generate_embedding
+    from nlp_policy_nz.semantic.model_loader import load_model
 
     model, tokenizer = load_model()
     query_embedding = generate_embedding(query, model, tokenizer)

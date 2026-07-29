@@ -7,10 +7,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from nlp_policy_nz.api.server import app
-
 if TYPE_CHECKING:
     from pathlib import Path
+
+
+def __getattr__(name: str) -> Any:
+    """Load the FastAPI app only when the API surface is requested."""
+    if name == "app":
+        from nlp_policy_nz.api.server import app
+
+        return app
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 def process_hansard(
