@@ -32,6 +32,18 @@ profiling, and experimental-environment commands.
 pip install nlp-policy-nz
 ```
 
+Optional integrations are installed explicitly:
+
+| Extra | Adds |
+| --- | --- |
+| `api` | FastAPI and Uvicorn service |
+| `space` | Gradio and Plotly visualization Space |
+| `ml` | Transformers, PyTorch, and bitsandbytes embeddings |
+| `client` | HTTP client examples |
+| `orchestration` | Haystack governance orchestration |
+
+For example: `pip install "nlp-policy-nz[api,ml]"`.
+
 ## Usage
 
 ```bash

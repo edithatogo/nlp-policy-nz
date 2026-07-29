@@ -20,7 +20,9 @@ nlp-policy-nz process \
 ```
 
 3. Optional API/Compose workflow: copy `.env.example` to `.env` and adjust
-any local paths you need, then start the development stack:
+any local paths you need, then start the development stack. The `lancedb` and
+`model-cache` services are Alpine volume-holder stubs; they are not standalone
+LanceDB or model-serving services.
 
 ```bash
 docker compose up --build api lancedb model-cache qdrant
