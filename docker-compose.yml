@@ -21,11 +21,13 @@ services:
       - qdrant
       - model-cache
   lancedb:
+    # Stub volume-holder; the API uses the mounted local LanceDB directory.
     image: alpine:3.20
     command: ["sh", "-lc", "mkdir -p /data/lancedb && tail -f /dev/null"]
     volumes:
       - lancedb_data:/data/lancedb
   model-cache:
+    # Stub volume-holder; model files are cached on the shared volume.
     image: alpine:3.20
     command: ["sh", "-lc", "mkdir -p /cache && tail -f /dev/null"]
     volumes:

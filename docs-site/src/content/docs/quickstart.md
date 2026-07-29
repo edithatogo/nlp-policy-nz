@@ -26,3 +26,9 @@ pixi run nlp-policy-nz export-extractions \
 
 Expected result: a source-grounded output file that can be fed into downstream
 analysis, publication, or rules-as-code bridge workflows.
+
+## Optional API path
+
+The Docker Compose stack is an optional development/API workflow after the
+fixture path. Its `lancedb` and `model-cache` services are Alpine volume-holder
+stubs, not standalone LanceDB or model-serving services.
