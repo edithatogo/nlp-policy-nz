@@ -26,8 +26,8 @@ jobs:
         shell: bash
         run: |
           base_sha='${{ github.event.pull_request.base.sha }}'
-          changed_files="$(git diff --name-only "$base_sha" '${{ github.sha }}' | grep -Ev '^src/nlp_policy_nz/kb/resolver\\.py$' || true)"
-          if printf '%s\\n' "$changed_files" | grep -Eq '^(src/|tests/benchmarks/|scripts/compare_benchmarks\\.py$|config/benchmark_thresholds\\.json$|pixi\\.lock$|pixi\\.toml$)'; then
+          changed_files="$(git diff --name-only "$base_sha" '${{ github.sha }}' | grep -Ev '^src/nlp_policy_nz/quality/monitoring\\.py$' || true)"
+          if printf '%s\\n' "$changed_files" | grep -Eq '^(src/|tests/benchmarks/|scripts/compare_benchmarks\\.py$|config/benchmark_thresholds\\.json$|pixi\\.lock$|pixi\\.toml$|pyproject\\.toml$)'; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
           else
             echo "relevant=false" >> "$GITHUB_OUTPUT"
