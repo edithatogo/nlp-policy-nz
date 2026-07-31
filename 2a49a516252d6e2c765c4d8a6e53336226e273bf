@@ -1,0 +1,8 @@
+Remediation evidence for 2a49a516252d6e2c765c4d8a6e53336226e273bf
+Base: 3d873fabb0f534920f124a4b13c9b39eab6004d5
+Findings closed: production Draft 2020-12 schema enforcement with format checking; externally pinned activation authority; mandatory exact governed selectors.
+Activation registry SHA-256: 78827adc5e7a391ce4833035d891dd01694ef58392bd79a73785ddaa5cbc23ba; grants: 0.
+Exploit rerun: missing schema-required blockers rejected; self-repinned enabled scaffold rejected without external registry; omitted selectors rejected by function contract.
+Focused/regression: 30 passed. Changed-scope Ruff, format, basedpyright, Tach, py_compile, and diff checks passed.
+Repository baseline: full pytest 1171 passed, 8 skipped, 20 unrelated failures; aggregate gate stops on 98 pre-existing Ruff findings; full typecheck retains 7 unrelated errors. Wheel smoke unavailable because hatchling is absent from the existing environment; no build dependency was retrieved.
+Restrictions observed: no source retrieval, training, Australian activation, push, PR, or merge.
