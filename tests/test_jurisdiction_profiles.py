@@ -7,6 +7,10 @@ import pytest
 import yaml
 from pydantic import ValidationError
 
+from nlp_policy_nz.config.jurisdiction_activation import (
+    ProfileActivationRegistry,
+    canonical_activation_registry_digest,
+)
 from nlp_policy_nz.config.jurisdiction_profiles import (
     JurisdictionProfile,
     ProfileLoadError,
@@ -54,6 +58,26 @@ def _profile_payload(*, profile_id: str = "synthetic-test") -> dict[str, object]
     }
     payload["profile_sha256"] = canonical_profile_digest(payload)
     return payload
+
+
+def _activation_registry(profile: dict[str, object]) -> ProfileActivationRegistry:
+    payload: dict[str, object] = {
+        "schema_version": "1.0.0",
+        "registry_id": "jurisdiction-profile-activations",
+        "registry_version": "1.0.0",
+        "grants": [
+            {
+                "profile_id": profile["profile_id"],
+                "profile_version": profile["profile_version"],
+                "profile_sha256": profile["profile_sha256"],
+                "capability": "route_records",
+                "authorization_sha256": "b" * 64,
+                "authorized_at": "2026-07-31T10:00:00Z",
+            }
+        ],
+    }
+    payload["registry_sha256"] = canonical_activation_registry_digest(payload)
+    return ProfileActivationRegistry.model_validate(payload)
 
 
 @pytest.mark.parametrize("suffix", [".json", ".yaml"])
@@ -128,15 +152,35 @@ def test_loader_rejects_duplicate_keys_and_self_pin_mismatch(tmp_path: Path) -> 
 
 
 def test_registry_resolution_fails_closed_for_every_untrusted_selector() -> None:
-    profile = JurisdictionProfile.model_validate(_profile_payload())
-    registry = ProfileRegistry((profile,))
+    payload = _profile_payload()
+    profile = JurisdictionProfile.model_validate(payload)
+    registry = ProfileRegistry((profile,), activation_registry=_activation_registry(payload))
 
-    assert registry.resolve("missing").status == "abstained"
-    assert registry.resolve("synthetic-test", version="9.9.9").status == "abstained"
-    assert registry.resolve("synthetic-test", profile_sha256="f" * 64).status == "abstained"
-    assert registry.resolve("synthetic-test", capability="unknown").status == "abstained"
-    assert registry.resolve("synthetic-test", capability="extract_assertions").status == "abstained"
-    routed = registry.resolve("synthetic-test", capability="route_records")
+    selectors = {
+        "version": "0.1.0",
+        "profile_sha256": str(payload["profile_sha256"]),
+        "capability": "route_records",
+    }
+    assert registry.resolve("missing", **selectors).status == "abstained"
+    assert (
+        registry.resolve("synthetic-test", **(selectors | {"version": "9.9.9"})).status
+        == "abstained"
+    )
+    assert (
+        registry.resolve("synthetic-test", **(selectors | {"profile_sha256": "f" * 64})).status
+        == "abstained"
+    )
+    assert (
+        registry.resolve("synthetic-test", **(selectors | {"capability": "unknown"})).status
+        == "abstained"
+    )
+    assert (
+        registry.resolve(
+            "synthetic-test", **(selectors | {"capability": "extract_assertions"})
+        ).status
+        == "abstained"
+    )
+    routed = registry.resolve("synthetic-test", **selectors)
     assert routed.status == "routed"
     assert routed.profile == profile
 
@@ -150,7 +194,15 @@ def test_repository_scaffolds_are_disabled_and_contain_no_legal_markers() -> Non
         assert profile.ontology_pin is None
         assert set(profile.capabilities.values()) == {"disabled"}
         assert profile.blockers
-        assert registry.resolve(profile.profile_id).status == "abstained"
+        assert (
+            registry.resolve(
+                profile.profile_id,
+                version=profile.profile_version,
+                profile_sha256=profile.profile_sha256,
+                capability="route_records",
+            ).status
+            == "abstained"
+        )
 
 
 def test_directory_loader_rejects_duplicate_profile_versions(tmp_path: Path) -> None:

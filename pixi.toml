@@ -24,6 +24,7 @@ torch = { version = ">=2.2.0", env-markers = "python_version < '3.14'" }
 bitsandbytes = { version = ">=0.42.0", env-markers = "python_version < '3.14'" }
 msgspec = ">=0.18.0"
 pydantic = ">=2.11.0"
+jsonschema = ">=4.23.0"
 orjson = ">=3.10.0"
 beautifulsoup4 = ">=4.12.0"
 types-beautifulsoup4 = ">=4.12.0"

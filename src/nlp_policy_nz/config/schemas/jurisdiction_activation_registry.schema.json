@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/edithatogo/nlp-policy-nz/schemas/jurisdiction_activation_registry.schema.json",
+  "title": "Jurisdiction Profile Activation Registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "registry_id", "registry_version", "registry_sha256", "grants"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "registry_id": {"const": "jurisdiction-profile-activations"},
+    "registry_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "grants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["profile_id", "profile_version", "profile_sha256", "capability", "authorization_sha256", "authorized_at"],
+        "properties": {
+          "profile_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+          "profile_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+          "profile_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "capability": {"enum": ["route_records", "extract_assertions", "export_ontology"]},
+          "authorization_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "authorized_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    }
+  }
+}
