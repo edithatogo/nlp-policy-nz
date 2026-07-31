@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/edithatogo/legal-nz/schemas/shared-nz-corpus-core.schema.json",
-  "title": "Shared NZ Corpus Core Record (Canonical Additive)",
-  "description": "Unified additive core schema for all NZ corpora (legislation, hansard, committees). Fields from both corpus-law-nz and corpus-nz-hansard are merged; corpus-specific fields are optional. This is the CANONICAL schema — all subproject schemas must be derived from or compatible with this.",
+  "title": "Shared Jurisdiction Corpus Core Record (Canonical Additive)",
+  "description": "Unified additive core schema for jurisdiction-profiled corpora. New Zealand values remain the defaults and existing NZ corpus-specific schemas remain compatible.",
   "type": "object",
   "required": [
     "corpus_id",
@@ -29,13 +29,8 @@
   "properties": {
     "corpus_id": {
       "type": "string",
-      "enum": [
-        "corpus-nz-legislation",
-        "corpus-nz-hansard",
-        "corpus-nz-select-committee",
-        "corpus-nz-parliament-submissions",
-        "corpus-nz-regulations-review"
-      ]
+      "pattern": "^corpus-[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "default": "corpus-nz-legislation"
     },
     "record_id": {
       "type": "string",
@@ -47,11 +42,13 @@
     },
     "jurisdiction": {
       "type": "string",
-      "const": "New Zealand"
+      "minLength": 1,
+      "default": "New Zealand"
     },
     "country": {
       "type": "string",
-      "const": "NZ"
+      "pattern": "^[A-Z]{2}$",
+      "default": "NZ"
     },
     "document_type": {
       "type": "string",

@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/edithatogo/nlp-policy-nz/schemas/jurisdiction_profile.schema.json",
+  "title": "NLP Policy Jurisdiction Profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "profile_version",
+    "profile_sha256",
+    "status",
+    "country",
+    "jurisdiction_id",
+    "jurisdiction_name",
+    "corpus",
+    "capabilities",
+    "ontology_pin",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "profile_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "profile_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "status": {
+      "enum": ["enabled", "disabled", "unsupported"]
+    },
+    "country": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "jurisdiction_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}(?:-[A-Z0-9]+)+$"
+    },
+    "jurisdiction_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "corpus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_id", "id_pattern"],
+      "properties": {
+        "default_id": {
+          "type": "string",
+          "pattern": "^corpus-[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "id_pattern": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_records",
+        "extract_assertions",
+        "export_ontology"
+      ],
+      "properties": {
+        "route_records": {
+          "enum": ["enabled", "disabled", "unsupported"]
+        },
+        "extract_assertions": {
+          "enum": ["enabled", "disabled", "unsupported"]
+        },
+        "export_ontology": {
+          "enum": ["enabled", "disabled", "unsupported"]
+        }
+      }
+    },
+    "ontology_pin": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ontology_id",
+            "ontology_version",
+            "ontology_sha256"
+          ],
+          "properties": {
+            "ontology_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            },
+            "ontology_version": {
+              "type": "string",
+              "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+            },
+            "ontology_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        }
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}
