@@ -1,0 +1,1 @@
+CI validation: platform-scoped Pixi install was tested locally and succeeds; it avoids the prior win-64 vLLM CUDA_HOME resolver failure.

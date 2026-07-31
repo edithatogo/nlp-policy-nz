@@ -1,0 +1,13 @@
+Track 68 archive closeout.
+
+Changes:
+- Moved the local Track 68 umbrella artifacts into conductor/archive.
+- Removed Track 68 from conductor/tracks.md and updated the Phase VIII summary.
+- Updated the archive metadata to status=archived.
+- Updated the Track 68 regression test to assert the archived state.
+
+Validation:
+- uv run python -m pytest tests/test_track68_conductor.py -q
+- git diff --check
+
+Commit: 258918b

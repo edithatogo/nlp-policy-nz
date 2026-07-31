@@ -1,0 +1,8 @@
+Track 72 implementation commit.
+
+- Added a deterministic hotspot benchmark harness for the Mojo migration track.
+- Added tests for the no-Mojo deferred path and the promotion-threshold decision.
+- Added evidence documentation for the benchmark run and decision record.
+- Validation: .venv\Scripts\python.exe -m pytest -p no:tach tests\test_track72_mojo_hotspot_benchmark.py -q
+- Validation: .venv\Scripts\python.exe -m py_compile scripts\track72_mojo_hotspot_benchmark.py tests\test_track72_mojo_hotspot_benchmark.py
+- Validation: git diff --check

@@ -1,0 +1,27 @@
+Task: Harden Track 24 multi-git mirror workflow
+
+Summary:
+- Updated .github/workflows/mirror_sync.yml to support separate GitLab and Codeberg mirror URLs.
+- Added safe bypasses when no mirror URLs are configured or when GIT_MIRROR_SSH_PRIVATE_KEY is empty.
+- Added tests/test_mirror_sync_workflow.py to lock the trigger, mirror target, and empty-credential bypass contract.
+- Updated Track 24 spec and top-level tracks index to match the completed mirror contract.
+- Added .tmp/ and .pytest-basetemp-*/ to .gitignore for local pytest temp artifacts generated during verification.
+
+Verification:
+- python -m pytest -p no:cacheprovider -q tests/test_mirror_sync_workflow.py -> 3 passed.
+- python -m ruff check --no-cache tests/test_mirror_sync_workflow.py -> All checks passed.
+
+Residual limitation:
+- Live GitHub secret presence and workflow dispatch success were not verified from the browser in this pass.
+
+Live verification update:
+- GitHub CLI authentication is valid for edithatogo/nlp-policy-nz.
+- Repository secrets currently present: HF_TOKEN, OSF_TOKEN, ZENODO_SANDBOX_TOKEN, ZENODO_TOKEN.
+- Required mirror secrets are not present: GITLAB_MIRROR_URL, CODEBERG_MIRROR_URL, GIT_MIRROR_SSH_PRIVATE_KEY.
+- Pushed verification branch codex/track24-mirror-hardening-verify based on origin/master with only the Track 24 hardening commits.
+- Manually dispatched Mirror Sync on that branch: https://github.com/edithatogo/nlp-policy-nz/actions/runs/27908784029
+- Run 27908784029 completed successfully and logged: No mirror URLs configured; skipping mirror sync.
+
+Residual limitation:
+- The safe no-secret bypass is live-verified.
+- Actual GitLab/Codeberg mirroring cannot be verified until mirror URLs and an SSH private key are supplied/configured.

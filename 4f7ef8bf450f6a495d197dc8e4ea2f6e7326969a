@@ -1,0 +1,1 @@
+Validation: Ruff and JSON syntax checks pass; actionlint parses the workflows with only the pre-existing SC2129 warning. Hosted failures addressed: stale rules_as_code docs import, runtime container pytest path, and noisy LanceDB benchmark thresholds.

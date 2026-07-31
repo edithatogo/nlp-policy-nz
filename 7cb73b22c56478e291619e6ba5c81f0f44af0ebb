@@ -1,0 +1,1 @@
+Track spacy4_compatibility_spike_20260714 implementation: isolated Python 3.12 spaCy 3.8.14 baseline and spaCy 4.0.0.dev3 probe, deterministic serialization and packaging evidence, Python 3.13/3.14 wheel/build failures, adapter incompatibility evidence, and defer decision. Focused tests and Ruff passed.

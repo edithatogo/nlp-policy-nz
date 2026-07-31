@@ -1,0 +1,1 @@
+Track 91 Hugging Face staging integration: adds a metadata-only hf-archive-publish job that uploads reconciled state, signed run report, and pilot-gate evidence after successful publish and pilot jobs. It intentionally excludes worker OCR output and uses the pinned huggingface_hub 1.16.1 CLI. Validation: 14 focused tests and Ruff passed.

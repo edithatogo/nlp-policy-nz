@@ -1,0 +1,1 @@
+Track 86: HathiTrust-NZ Ingestion Contract\n\nImplemented frozen Pydantic registry/item/work contracts, rights fail-closed routing, deterministic content-addressed shards, JSON Schema, capability registry, tests, and evidence. Live Hathi-NZ registry validation confirmed collection hathitrust-nz, source collection 71329709, seed count 510, and five datasets.

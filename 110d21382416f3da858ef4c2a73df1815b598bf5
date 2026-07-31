@@ -1,0 +1,1 @@
+CI verification: actionlint parsed the modified workflow; the only reported shellcheck warning is pre-existing SC2129 at line 44. Experimental runtime resolution is now isolated from the vLLM workspace feature.

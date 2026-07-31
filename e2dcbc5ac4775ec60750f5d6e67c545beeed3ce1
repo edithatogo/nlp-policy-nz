@@ -1,0 +1,8 @@
+Track 72 parity correction.
+
+- Mojo kernel output now emits modal positions explicitly.
+- Parser accepts repeated modal-position lines and reconstructs the baseline summary.
+- Added parser coverage for key-value output.
+- Validation: .venv\Scripts\python.exe -m pytest -p no:tach tests\test_track72_mojo_hotspot_benchmark.py -q
+- Validation: .venv\Scripts\python.exe -m py_compile scripts\track72_mojo_hotspot_benchmark.py tests\test_track72_mojo_hotspot_benchmark.py
+- Validation: git diff --check

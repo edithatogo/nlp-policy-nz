@@ -1,0 +1,1 @@
+Validation: targeted container contract test passed. Docker build now uses frozen mode compatible with the committed lock snapshot while retaining the locked-install release policy in documentation.

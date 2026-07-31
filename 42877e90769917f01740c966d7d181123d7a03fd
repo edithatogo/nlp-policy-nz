@@ -1,0 +1,1 @@
+Track 60 archive:\n- moved conductor/tracks/track60_lancedb_retrieval_runtime_20260701 to conductor/archive/track60_lancedb_retrieval_runtime_20260701\n- updated conductor/tracks.md to point Track 60 at the archived path\n- preserved the completed plan/evidence/metadata record in the archive tree\n- GitHub issue #62 was closed and mirrored as archived\n

@@ -1,0 +1,34 @@
+Track 43: Agentic Automation & Multi-Agent Workflow Orchestration
+
+Summary:
+- Added deterministic repo-side agent automation helpers for PR review, auto-fix, Conductor advancement, LLM-as-judge evaluation, and Jules dispatch payload generation.
+- Added GitHub Actions workflows for agent review, auto-fix CI, Conductor advancement, and self-healing CI.
+- Added docs and contract tests for the new automation layer.
+
+Key files:
+- conductor/tech-stack.md
+- conductor/tracks.md
+- conductor/tracks/track43_agentic_automation_20260626/metadata.json
+- conductor/tracks/track43_agentic_automation_20260626/plan.md
+- conductor/tracks/track43_agentic_automation_20260626/index.md
+- .github/agent-review.yml
+- .github/workflows/agent-review.yml
+- .github/workflows/auto-fix-ci.yml
+- .github/workflows/conductor-advance.yml
+- .github/workflows/self-healing-ci.yml
+- docs/agentic_automation.md
+- scripts/agent_review.py
+- scripts/ci_auto_fix.py
+- scripts/conductor_advance_agent.py
+- scripts/llm_judge_eval.py
+- scripts/jules_integration.py
+- scripts/jules_integration.sh
+- src/nlp_policy_nz/automation/__init__.py
+- src/nlp_policy_nz/automation/agentic.py
+- tests/test_track43_agentic_automation.py
+
+Verification:
+- pixi run pytest tests/test_track43_agentic_automation.py -q
+- pixi run pytest tests/test_track40_dependency_security.py tests/test_track41_security_hardening.py tests/test_track43_agentic_automation.py -q
+- pixi run ruff check src/nlp_policy_nz/automation scripts/agent_review.py scripts/ci_auto_fix.py scripts/conductor_advance_agent.py scripts/llm_judge_eval.py scripts/jules_integration.py tests/test_track43_agentic_automation.py
+- YAML parse check for the new workflow files
