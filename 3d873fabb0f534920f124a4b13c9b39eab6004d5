@@ -1,0 +1,6 @@
+Scope: issues #212 and #213 only.
+Base: 6715ba01ff39e80c8eacee7d9a0a0e4b865005bb (repository default master; no main ref advertised).
+Validation: focused 24 passed; changed-file Ruff/format/basedpyright passed; Tach passed; git diff --check passed.
+Regression bytes: NZ 9efb833761ac7f999ccd37c4178c98d1145774130a2fb44d388c9ebfe68a03c7; AU-CTH 038a7ed5dddfc099e750231ad57458408fb25644d3adb7105028314980f5a237; AU-NSW 4a951ea6760a7c4b833edb13614f4888009f011becf11ded95064372374e8bfa.
+Known baseline blockers: pixi check stops on 98 untouched Ruff findings; full Python 3.14 test collection lacks optional spacy/plotly/torch; full basedpyright has 7 untouched errors.
+Restrictions: no source retrieval, authority import, annotation, training, profile promotion, credentials, push, PR, or merge.
