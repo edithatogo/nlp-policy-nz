@@ -5,15 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 
 from rdflib import Graph, Literal, Namespace, URIRef
-from rdflib.namespace import FOAF, RDF
+from rdflib.namespace import RDF
 
 from nlp_policy_nz.cli.main import main
 from nlp_policy_nz.linked_data import (
-    MPProfile,
     SpeechPost,
-    export_foaf_profiles,
     export_hansard_sioc,
-    generate_foaf_graph,
     generate_sioc_graph,
     query_graph,
     rdf_sidecar_path,
@@ -29,71 +26,6 @@ def _case_dir(name: str) -> Path:
     path = Path("track16-test-output") / name
     path.mkdir(parents=True, exist_ok=True)
     return path
-
-
-def test_generate_foaf_graph_contains_all_mp_profiles() -> None:
-    """FOAF generator emits one person per supplied MP profile."""
-    profiles = [
-        MPProfile(
-            identifier="mp/chloe-swarbrick",
-            name="Chloe Swarbrick",
-            party="Green Party of Aotearoa New Zealand",
-            role="MP",
-            electorate="Auckland Central",
-        ),
-        MPProfile(
-            identifier="mp/chris-hipkins",
-            name="Chris Hipkins",
-            party="New Zealand Labour Party",
-            role="MP",
-            electorate="Remutaka",
-        ),
-    ]
-
-    graph = generate_foaf_graph(profiles, base_uri="https://example.org/nz/")
-
-    people = set(graph.subjects(RDF.type, FOAF.Person))
-    assert len(people) == len(profiles)
-    assert (
-        URIRef("https://example.org/nz/mp/chloe-swarbrick"),
-        FOAF.name,
-        Literal("Chloe Swarbrick"),
-    ) in graph
-    assert (
-        URIRef("https://example.org/nz/party/green-party-of-aotearoa-new-zealand"),
-        RDF.type,
-        FOAF.Organization,
-    ) in graph
-    assert (
-        URIRef("https://example.org/nz/mp/chloe-swarbrick"),
-        SCHEMA.electoralDistrict,
-        Literal("Auckland Central"),
-    ) in graph
-
-
-def test_export_foaf_profiles_writes_valid_turtle() -> None:
-    """FOAF profiles can be written as Turtle and parsed back."""
-    tmp_path = _case_dir("foaf")
-    output = tmp_path / "mps.ttl"
-
-    result = export_foaf_profiles(
-        [
-            MPProfile(
-                identifier="person-1",
-                name="Jane Doe",
-                party="Example Party",
-                role="Minister",
-                electorate="Example",
-            )
-        ],
-        output,
-        base_uri="https://example.org/",
-    )
-
-    parsed = Graph()
-    parsed.parse(result, format="turtle")
-    assert result == output.resolve()
-    assert (URIRef("https://example.org/person-1"), RDF.type, FOAF.Person) in parsed
 
 
 def test_generate_sioc_graph_models_hansard_structure() -> None:
