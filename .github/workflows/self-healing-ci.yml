@@ -31,13 +31,28 @@ jobs:
       - name: Attempt self-healing fixes
         run: pixi run python scripts/ci_auto_fix.py --report .tmp/self-heal-report.json
 
+      - name: Require explicit self-heal approval
+        id: approval
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          approved=false
+          prs=$(gh pr list --repo "${{ github.repository }}" --head "${{ github.event.workflow_run.head_branch }}" --json number,labels --jq '.[]')
+          if printf '%s\n' "$prs" | grep -q 'self-heal-approved'; then
+            approved=true
+          fi
+          echo "approved=$approved" >> "$GITHUB_OUTPUT"
+          if [ "$approved" != true ]; then
+            echo "No self-heal-approved label found; leaving the report for maintainer review."
+          fi
+
       - name: Open healing PR
-        if: ${{ github.event.workflow_run.head_repository.fork == false }}
+        if: ${{ github.event.workflow_run.head_repository.fork == false && steps.approval.outputs.approved == 'true' }}
         uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "fix(ci): self-heal failing checks"
           branch: "codex/self-heal-${{ github.event.workflow_run.run_number }}"
-          title: "Self-heal CI failure for ${{ github.event.workflow_run.head_branch }}"
+            title: "Self-heal CI failure for ${{ github.event.workflow_run.head_branch }}"
           body: |
             Automated CI healing run based on the latest workflow failure.
 
