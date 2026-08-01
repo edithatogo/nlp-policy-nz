@@ -11,7 +11,8 @@ Implemented surfaces:
 
 Validation evidence:
 
-- `tests/test_guard.py` covers Unicode NFC normalization, macron handling, lexical atom coverage, spaCy tokenizer exceptions, component idempotency, English detection, Māori detection, low-confidence handling, and code-switch segmentation.
+- `tests/test_guard.py` covers Unicode NFC normalization, macron handling, English detection, Māori detection, low-confidence handling, and code-switch segmentation.
+- `tests/test_tokenizer_exceptions.py` covers lexical atom coverage, spaCy tokenizer exceptions, and component idempotency.
 - The Track 3 Conductor contract test verifies this archived track keeps standard `index.md`, `spec.md`, `plan.md`, `metadata.json`, and `evidence.md` artifacts.
 
 External gates:
