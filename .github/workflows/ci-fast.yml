@@ -1,0 +1,46 @@
+name: CI Fast Lane
+
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ubuntu:
+    name: fast (ubuntu-latest, 3.12)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: prefix-dev/setup-pixi@v0
+        with:
+          cache: false
+          run-install: false
+      - name: Install environment
+        run: CI=true pixi install -e py312 --frozen --skip-with-deps semgrep --skip-with-deps scalene
+      - name: SAST
+        run: |
+          pixi run --as-is -e py312 bandit -c .bandit -r src/nlp_policy_nz/ -lll -iii
+          pixi run --as-is -e py312 python scripts/check_dependency_security.py
+      - name: SBOM
+        run: pixi run --as-is -e py312 python -c "import sys; from pathlib import Path; sys.path.insert(0, 'src'); from nlp_policy_nz.security import generate_cyclonedx_sbom; generate_cyclonedx_sbom(Path('.tmp/sbom/nlp-policy-nz.cdx.json'))"
+      - name: Smoke and quality checks
+        run: CI=true pixi run --as-is -e py312 test -- tests/smoke tests/test_smoke.py -q
+
+  windows:
+    name: fast (windows-latest, 3.12 smoke)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: prefix-dev/setup-pixi@v0
+        with:
+          cache: false
+          run-install: false
+      - name: Install environment
+        shell: bash
+        run: CI=true pixi install -e py312 --frozen --skip-with-deps semgrep --skip-with-deps scalene
+      - name: Smoke tests
+        shell: bash
+        run: CI=true pixi run --as-is -e py312 test -- tests/smoke tests/test_smoke.py -q
