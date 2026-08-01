@@ -4,6 +4,8 @@
 
 The FastAPI server requires API keys for all data endpoints. Public health and version routes remain open so orchestration and readiness checks can run without credentials.
 
+Authentication is profile-sensitive: local Python and fixture use keeps `NLP_POLICY_NZ_REQUIRE_API_AUTH` optional by default, while the Docker Compose API profile sets it to `true`. Production deployments should retain the enabled setting and provide scoped API keys.
+
 ## API Keys
 
 - Store path: `config/api_keys.json`
@@ -45,6 +47,8 @@ nlp-policy-nz auth rotate-key --key-id <key_id>
 
 ## Operational Notes
 
+- The local default is intentionally permissive for fixture and first-run workflows; do not use that default for a deployed API.
+- The Compose API profile enables authentication explicitly with `NLP_POLICY_NZ_REQUIRE_API_AUTH=true`.
 - Keep `config/api_keys.json` out of version control.
 - Rotate audit logs with the built-in `RotatingFileHandler`.
 - Enforce TLS in production so the `Strict-Transport-Security` header is meaningful.

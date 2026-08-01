@@ -27,9 +27,10 @@ def test_track23_coverage_gate_is_repo_scoped_with_explicit_exclusions() -> None
         "*/nlp_policy_nz/storage/faiss_adapter.py",
         "*/nlp_policy_nz/storage/haystack_pipeline.py",
         "*/nlp_policy_nz/training/run_qlora.py",
-        "*/nlp_policy_nz/universal_framework_v3.py",
         "*/nlp_policy_nz/universal_framework_v4.py",
     }
+    assert Path("tests/test_framework_rac.py").is_file()
+    assert Path("tests/test_akn_v3.py").is_file()
 
 
 def test_track23_ci_coverage_lane_does_not_claim_full_threshold() -> None:

@@ -22,8 +22,6 @@ omit =
     src\nlp_policy_nz\storage\haystack_pipeline.py
     src/nlp_policy_nz/training/run_qlora.py
     src\nlp_policy_nz\training\run_qlora.py
-    src/nlp_policy_nz/universal_framework_v3.py
-    src\nlp_policy_nz\universal_framework_v3.py
     src/nlp_policy_nz/universal_framework_v4.py
     src\nlp_policy_nz\universal_framework_v4.py
 
@@ -46,8 +44,6 @@ omit =
     src\nlp_policy_nz\storage\haystack_pipeline.py
     src/nlp_policy_nz/training/run_qlora.py
     src\nlp_policy_nz\training\run_qlora.py
-    src/nlp_policy_nz/universal_framework_v3.py
-    src\nlp_policy_nz\universal_framework_v3.py
     src/nlp_policy_nz/universal_framework_v4.py
     src\nlp_policy_nz\universal_framework_v4.py
 show_missing = True
