@@ -623,3 +623,5 @@ Phase IX (Complete — 69): GitHub Project Synchronization
 *Link: [./tracks/track97_archive_rights_assurance_20260715/](./tracks/track97_archive_rights_assurance_20260715/)*
 - **Issue**: #133
 - **Why**: Prove transitive effective access and complete mutation, compatibility and serializer assurance.
+Track 58: LangGraph Agent Workflow Orchestration Evaluation
+./conductor/tracks/track58_langgraph_orchestration_eval_20260701/
