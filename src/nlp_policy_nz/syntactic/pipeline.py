@@ -7,6 +7,7 @@ EntityRuler-based citation matching.
 
 from __future__ import annotations
 
+import functools
 from typing import TYPE_CHECKING
 
 import spacy
@@ -37,6 +38,7 @@ PIPELINE_COMPONENTS: list[str] = [
 # ---------------------------------------------------------------------------
 
 
+@functools.cache
 def create_nlp_pipeline(model: str = "en_core_web_sm") -> Language:
     """Create and return a spaCy pipeline with Māori Guard integration.
 

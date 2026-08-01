@@ -118,6 +118,9 @@ def create_citation_ruler(nlp: Language) -> EntityRuler:
         )
         raise ValueError(msg)
 
+    if "citation_ruler" in nlp.pipe_names:
+        return nlp.get_pipe("citation_ruler")
+
     ruler = nlp.add_pipe(
         "entity_ruler",
         name="citation_ruler",
