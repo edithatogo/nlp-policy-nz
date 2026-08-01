@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.test/nlp-policy-nz/adoption-readiness.v1.schema.json",
+  "type": "object",
+  "required": ["schema_version", "status", "claim_classes", "evidence", "adoption_claims"],
+  "properties": {
+    "schema_version": {"const": "adoption-readiness.v1"},
+    "status": {"enum": ["blocked", "ready"]},
+    "claim_classes": {"type": "object", "required": ["contract_only", "empirically_supported"]},
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claim_class", "status", "blocker", "issues", "track", "evidence_paths"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "claim_class": {"enum": ["contract_only", "empirically_supported"]},
+          "status": {"enum": ["blocked", "ready"]},
+          "blocker": {"type": "string"},
+          "issues": {"type": "array", "items": {"type": "integer", "minimum": 1}, "minItems": 1},
+          "track": {"type": "integer", "minimum": 1},
+          "evidence_paths": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "adoption_claims": {"type": "object", "required": ["empirical_quality", "rights_clearance", "publication"]}
+  }
+}

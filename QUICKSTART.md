@@ -11,6 +11,9 @@ pip install nlp-policy-nz
 
 2. Process the bundled legislation fixture:
 
+The bundled fixture is a repository-authored MIT-licensed smoke example only;
+it is not held-out evaluation data and does not support quality claims.
+
 ```bash
 nlp-policy-nz process \
   --input data/samples/sample_legislation.txt \

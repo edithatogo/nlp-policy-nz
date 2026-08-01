@@ -1,0 +1,51 @@
+{
+  "schema_version": "adoption-readiness.v1",
+  "status": "blocked",
+  "claim_classes": {
+    "contract_only": "The repository contract, schema, or fixture is present, but held-out empirical evidence is not established.",
+    "empirically_supported": "A claim backed by versioned held-out evaluation evidence and a reproducible report."
+  },
+  "evidence": [
+    {
+      "id": "historical_parliament_held_out",
+      "claim_class": "contract_only",
+      "status": "blocked",
+      "blocker": "Held-out historical Parliament evaluation is not complete.",
+      "issues": [132],
+      "track": 96,
+      "evidence_paths": ["data/track132/held_out_manifest.json"]
+    },
+    {
+      "id": "archive_rights_assurance",
+      "claim_class": "contract_only",
+      "status": "blocked",
+      "blocker": "Archive transitive-rights and assurance closeout remains outstanding.",
+      "issues": [133],
+      "track": 97,
+      "evidence_paths": []
+    },
+    {
+      "id": "jurisdiction_extraction",
+      "claim_class": "contract_only",
+      "status": "blocked",
+      "blocker": "Incremental jurisdiction extraction evidence is not yet promoted to adoption evidence.",
+      "issues": [144],
+      "track": 98,
+      "evidence_paths": ["data/track98/jurisdiction_source_manifest.json"]
+    },
+    {
+      "id": "foio_promotion_lineage",
+      "claim_class": "contract_only",
+      "status": "blocked",
+      "blocker": "FOI-O empirical promotion lineage is retained for coordination; no new promotion is performed here.",
+      "issues": [129],
+      "track": 93,
+      "evidence_paths": ["data/foio/promotion_evidence_manifest.json"]
+    }
+  ],
+  "adoption_claims": {
+    "empirical_quality": "not_ready",
+    "rights_clearance": "not_ready",
+    "publication": "not_performed"
+  }
+}

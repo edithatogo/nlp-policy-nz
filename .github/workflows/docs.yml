@@ -37,6 +37,9 @@ jobs:
       - name: Generate API and CLI reference
         run: PYTHONPATH=src python scripts/generate_docs_reference.py
 
+      - name: Check adoption claims
+        run: python scripts/check_adoption_claims.py
+
       - name: Check docs
         run: npm run docs:check
 
