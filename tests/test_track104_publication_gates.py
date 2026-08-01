@@ -13,5 +13,5 @@ def test_publication_gate_matrix_covers_all_registries_and_boundaries():
         assert registry in text
     assert "Sandbox/test gate" in text
     assert "Production gate" in text
-    assert "green CI run" in text
+    assert "Green repository CI" in text
     assert "must not be described as production" in text
