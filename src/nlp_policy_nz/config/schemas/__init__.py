@@ -1,0 +1,1 @@
+"""Packaged jurisdiction configuration schemas."""
