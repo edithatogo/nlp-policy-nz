@@ -11,6 +11,9 @@ pip install nlp-policy-nz
 
 2. Process the bundled legislation fixture:
 
+The bundled fixture is a repository-authored MIT-licensed smoke example only;
+it is not held-out evaluation data and does not support quality claims.
+
 ```bash
 nlp-policy-nz process \
   --input data/samples/sample_legislation.txt \
@@ -23,6 +26,10 @@ nlp-policy-nz process \
 any local paths you need, then start the development stack. The `lancedb` and
 `model-cache` services are Alpine volume-holder stubs; they are not standalone
 LanceDB or model-serving services.
+
+Keep environment-specific files such as `.env.dev`, `.env.staging`, and
+`.env.prod` local and out of version control. Store deployment secrets in the
+deployment secret manager.
 
 ```bash
 docker compose up --build api lancedb model-cache qdrant

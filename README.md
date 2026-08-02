@@ -1,6 +1,6 @@
 # nlp-policy-nz
 
-**SOTA shared core NLP pipeline for New Zealand legislation and Hansard corpora.**
+**Shared core NLP pipeline for New Zealand legislation and Hansard corpora.**
 
 A modular, high-performance NLP preprocessing pipeline purpose-built for Aotearoa New Zealand's legislative and parliamentary texts. The pipeline integrates Māori Language validation, syntactic parsing, semantic analysis, and efficient vector storage into a unified Rust-accelerated Python package.
 

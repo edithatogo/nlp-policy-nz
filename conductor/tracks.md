@@ -672,7 +672,7 @@ Programme parent: [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196)
 
 ---
 
-## [~] Track 100: Adopter DX, Slim Install and Honest Quickstart
+## [x] Track 100: Adopter DX, Slim Install and Honest Quickstart (implemented; external reconciliation complete)
 *Link: [./tracks/track100_adopter_dx_slim_install_20260728/](./tracks/track100_adopter_dx_slim_install_20260728/)*
 - **Issue**: [#197](https://github.com/edithatogo/nlp-policy-nz/issues/197)
 - **Subissues**: [#204](https://github.com/edithatogo/nlp-policy-nz/issues/204), [#205](https://github.com/edithatogo/nlp-policy-nz/issues/205), [#206](https://github.com/edithatogo/nlp-policy-nz/issues/206)
@@ -680,7 +680,7 @@ Programme parent: [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196)
 - **Parallelization Node**: Adopter Experience
 - **Why**: One fixture-first path; slim default install; honest Compose/QUICKSTART alignment.
 
-## [ ] Track 101: Core Framework Coverage and Auth/Env Honesty
+## [x] Track 101: Core Framework Coverage and Auth/Env Honesty (implemented; external reconciliation complete)
 *Link: [./tracks/track101_core_coverage_auth_honesty_20260728/](./tracks/track101_core_coverage_auth_honesty_20260728/)*
 - **Issue**: [#198](https://github.com/edithatogo/nlp-policy-nz/issues/198)
 - **Subissues**: [#207](https://github.com/edithatogo/nlp-policy-nz/issues/207), [#208](https://github.com/edithatogo/nlp-policy-nz/issues/208), [#209](https://github.com/edithatogo/nlp-policy-nz/issues/209)
@@ -688,7 +688,7 @@ Programme parent: [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196)
 - **Parallelization Node**: Quality & Security Honesty
 - **Why**: Coverage gate includes core framework; Compose/prod auth defaults match ops docs; env profiles ignored.
 
-## [ ] Track 102: NZ Evidence Adoption Gate
+## [x] Track 102: NZ Evidence Adoption Gate (implemented; external reconciliation complete)
 *Link: [./tracks/track102_nz_evidence_adoption_gate_20260728/](./tracks/track102_nz_evidence_adoption_gate_20260728/)*
 - **Issue**: [#199](https://github.com/edithatogo/nlp-policy-nz/issues/199)
 - **Subissues**: [#210](https://github.com/edithatogo/nlp-policy-nz/issues/210), [#211](https://github.com/edithatogo/nlp-policy-nz/issues/211)
@@ -697,7 +697,7 @@ Programme parent: [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196)
 - **Parallelization Node**: Adoption Evidence Gate
 - **Why**: Machine-checkable readiness manifest so NZ quality claims stay evidence-gated.
 
-## [ ] Track 103: Config-Driven Jurisdiction Profiles
+## [x] Track 103: Config-Driven Jurisdiction Profiles (implemented; external reconciliation complete)
 *Link: [./tracks/track103_jurisdiction_profiles_20260728/](./tracks/track103_jurisdiction_profiles_20260728/)*
 - **Issue**: [#200](https://github.com/edithatogo/nlp-policy-nz/issues/200)
 - **Subissues**: [#212](https://github.com/edithatogo/nlp-policy-nz/issues/212), [#213](https://github.com/edithatogo/nlp-policy-nz/issues/213), [#214](https://github.com/edithatogo/nlp-policy-nz/issues/214), [#215](https://github.com/edithatogo/nlp-policy-nz/issues/215)
