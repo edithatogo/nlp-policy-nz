@@ -48,7 +48,7 @@ jobs:
 
       - name: Hadolint Dockerfile
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
-        uses: hadolint/hadolint-action@v3.3.0
+        uses: hadolint/hadolint-action@v3.4.0
         with:
           dockerfile: Dockerfile
           ignore: DL3008
