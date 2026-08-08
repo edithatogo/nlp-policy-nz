@@ -2236,15 +2236,15 @@ wheels = [
 
 [[package]]
 name = "h2"
-version = "4.3.0"
+version = "4.4.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "hpack" },
     { name = "hyperframe" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1d/17/afa56379f94ad0fe8defd37d6eb3f89a25404ffc71d4d848893d270325fc/h2-4.3.0.tar.gz", hash = "sha256:6c59efe4323fa18b47a632221a1888bd7fde6249819beda254aeca909f221bf1", size = 2152026, upload-time = "2025-08-23T18:12:19.778Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e7/85/7c366e69d84c17bb778fe41419e1fbcce3033d5b7ce29bbffff0a98b859f/h2-4.4.1.tar.gz", hash = "sha256:4e866ffb1a869ae14dd9b5e6beb5c24a13da0495ad72b65925ded182521c1516", size = 2157281, upload-time = "2026-08-03T11:45:09.509Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/69/b2/119f6e6dcbd96f9069ce9a2665e0146588dc9f88f29549711853645e736a/h2-4.3.0-py3-none-any.whl", hash = "sha256:c438f029a25f7945c69e0ccf0fb951dc3f73a5f6412981daee861431b70e2bdd", size = 61779, upload-time = "2025-08-23T18:12:17.779Z" },
+    { url = "https://files.pythonhosted.org/packages/7e/22/e85faf23bd72a92d1921e37d674ca56eb298a3c8be31fdecef0ff2b3aaac/h2-4.4.1-py3-none-any.whl", hash = "sha256:0e25f1462b23c9cb82d9eb02e28bc706dac2a68cb457c6a0d74d63c8a2a5d0e6", size = 62636, upload-time = "2026-08-03T11:44:59.164Z" },
 ]
 
 [[package]]
@@ -3852,12 +3852,10 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "beautifulsoup4" },
-    { name = "bitsandbytes", marker = "python_full_version < '3.14'" },
     { name = "datasets" },
     { name = "defusedxml" },
-    { name = "fastapi" },
-    { name = "gradio" },
     { name = "huggingface-hub" },
+    { name = "jsonschema" },
     { name = "lancedb" },
     { name = "lingua-language-detector", version = "2.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "lingua-language-detector", version = "2.2.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
@@ -3877,13 +3875,14 @@ dependencies = [
     { name = "rdflib" },
     { name = "requests" },
     { name = "spacy", marker = "python_full_version < '3.14'" },
-    { name = "torch", marker = "python_full_version < '3.14'" },
-    { name = "transformers" },
-    { name = "uvicorn", extra = ["standard"] },
     { name = "xmlschema" },
 ]
 
 [package.optional-dependencies]
+api = [
+    { name = "fastapi" },
+    { name = "uvicorn", extra = ["standard"] },
+]
 client = [
     { name = "httpx" },
 ]
@@ -3912,11 +3911,23 @@ dev = [
 faiss = [
     { name = "faiss-cpu" },
 ]
+ml = [
+    { name = "bitsandbytes", marker = "python_full_version < '3.14'" },
+    { name = "torch", marker = "python_full_version < '3.14'" },
+    { name = "transformers" },
+]
+orchestration = [
+    { name = "haystack-ai" },
+]
 qdrant = [
     { name = "qdrant-client" },
 ]
 rag = [
     { name = "haystack-ai" },
+]
+space = [
+    { name = "gradio" },
+    { name = "plotly" },
 ]
 training = [
     { name = "accelerate" },
@@ -3938,7 +3949,7 @@ requires-dist = [
     { name = "bandit", marker = "extra == 'dev'", specifier = ">=1.8.3" },
     { name = "basedpyright", marker = "extra == 'dev'", specifier = ">=1.28.0" },
     { name = "beautifulsoup4", specifier = ">=4.12.0" },
-    { name = "bitsandbytes", marker = "python_full_version < '3.14'", specifier = ">=0.42.0" },
+    { name = "bitsandbytes", marker = "python_full_version < '3.14' and extra == 'ml'", specifier = ">=0.42.0" },
     { name = "complexipy", marker = "extra == 'dev'", specifier = ">=0.2.0" },
     { name = "cvss", marker = "extra == 'dev'", specifier = ">=3.6" },
     { name = "cyclonedx-bom", marker = "extra == 'dev'", specifier = ">=1.5.0" },
@@ -3946,14 +3957,16 @@ requires-dist = [
     { name = "defusedxml", specifier = ">=0.7.1" },
     { name = "detect-secrets", marker = "extra == 'dev'", specifier = ">=1.5.0" },
     { name = "faiss-cpu", marker = "extra == 'faiss'", specifier = ">=1.8.0" },
-    { name = "fastapi", specifier = ">=0.110.0" },
+    { name = "fastapi", marker = "extra == 'api'", specifier = ">=0.110.0" },
     { name = "flash-attn", marker = "sys_platform == 'linux' and extra == 'training'", specifier = ">=2.5.0" },
-    { name = "gradio", specifier = ">=4.0.0" },
+    { name = "gradio", marker = "extra == 'space'", specifier = ">=4.0.0" },
+    { name = "haystack-ai", marker = "extra == 'orchestration'", specifier = ">=2.0.0" },
     { name = "haystack-ai", marker = "extra == 'rag'", specifier = ">=2.0.0" },
     { name = "httpx", marker = "extra == 'client'", specifier = ">=0.27.0" },
     { name = "huggingface-hub", specifier = ">=0.23.0" },
     { name = "hypothesis", marker = "extra == 'dev'", specifier = ">=6.90" },
     { name = "import-linter", marker = "extra == 'dev'", specifier = ">=2.0" },
+    { name = "jsonschema", specifier = ">=4.23.0" },
     { name = "lancedb", specifier = ">=0.6.0" },
     { name = "lingua-language-detector", specifier = ">=1.4.0,<3.0.0" },
     { name = "loguru", specifier = ">=0.7.2" },
@@ -3968,6 +3981,7 @@ requires-dist = [
     { name = "orjson", specifier = ">=3.10.0" },
     { name = "peft", marker = "extra == 'training'", specifier = ">=0.11.0" },
     { name = "pip-audit", marker = "extra == 'dev'", specifier = ">=2.10.0" },
+    { name = "plotly", marker = "extra == 'space'", specifier = ">=5.0.0" },
     { name = "polars", specifier = ">=1.0.0" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=3.6.0" },
     { name = "pyarrow", specifier = ">=16.0.0" },
@@ -3985,17 +3999,17 @@ requires-dist = [
     { name = "semgrep", marker = "extra == 'dev'", specifier = ">=1.93.0" },
     { name = "spacy", marker = "python_full_version < '3.14'", specifier = ">=3.7.0" },
     { name = "tach", marker = "extra == 'dev'", specifier = ">=0.5.0" },
-    { name = "torch", marker = "python_full_version < '3.14'", specifier = ">=2.2.0" },
-    { name = "transformers", specifier = ">=5.5.0" },
+    { name = "torch", marker = "python_full_version < '3.14' and extra == 'ml'", specifier = ">=2.2.0" },
+    { name = "transformers", marker = "extra == 'ml'", specifier = ">=5.5.0" },
     { name = "trl", marker = "extra == 'training'", specifier = ">=0.9.0" },
     { name = "types-beautifulsoup4", marker = "extra == 'dev'", specifier = ">=4.12.0" },
     { name = "unstructured", marker = "extra == 'unstructured'", specifier = ">=0.15.0" },
-    { name = "uvicorn", extras = ["standard"], specifier = ">=0.27.0" },
+    { name = "uvicorn", extras = ["standard"], marker = "extra == 'api'", specifier = ">=0.27.0" },
     { name = "vllm", marker = "extra == 'vllm'", specifier = ">=0.8.5" },
     { name = "wandb", marker = "extra == 'training'", specifier = ">=0.17.0" },
     { name = "xmlschema", specifier = ">=3.4.0" },
 ]
-provides-extras = ["dev", "client", "unstructured", "vllm", "faiss", "qdrant", "rag", "training"]
+provides-extras = ["dev", "client", "api", "space", "ml", "unstructured", "vllm", "faiss", "qdrant", "rag", "orchestration", "training"]
 
 [[package]]
 name = "nodeenv"
@@ -5153,6 +5167,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d7/47/e4501f49c178ae1d9f4a75073fda4204f52647993f075a9db4d14930e0c5/platformdirs-4.10.0.tar.gz", hash = "sha256:31e761a6a0ca04faf7353ea759bdba55652be214725111e5aac52dfa29d4bef7", size = 31224, upload-time = "2026-05-28T03:32:53.587Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/81/e6/cd9575ac904136b3cbf7aa7ee819ef86eedb7274e46f230e94ea4342e729/platformdirs-4.10.0-py3-none-any.whl", hash = "sha256:fb516cdb12eb0d857d0cd85a7c57cea4d060bee4578d6cf5a14dfdf8cbf8784a", size = 22743, upload-time = "2026-05-28T03:32:52.175Z" },
+]
+
+[[package]]
+name = "plotly"
+version = "6.9.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "narwhals" },
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/96/07/795c79dbce40c39bece88e69d049babbd23ffa95b5d117f248db8ea03abb/plotly-6.9.0.tar.gz", hash = "sha256:967ad33e8c704fed051800d11d985eb206a9c795c14206b30a6f463ed9c67d0d", size = 6919903, upload-time = "2026-07-09T14:55:59.982Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/24/18/d8544811ab076f876c4892b3714f5b0dad335e1dc33aef826df431b8325d/plotly-6.9.0-py3-none-any.whl", hash = "sha256:36bebe2f1bb13884774fe61689c329071446f6ce4a8927fb1f0d6fb24f581236", size = 9909646, upload-time = "2026-07-09T14:55:55.421Z" },
 ]
 
 [[package]]
