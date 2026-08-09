@@ -73,7 +73,6 @@
   "separateMajorMinor": true,
   "separateMultipleMajor": false,
   "separateMinorPatch": true,
-  "stabilityDays": 0,
   "dependencyDashboard": false,
   "suppressNotifications": ["prEditedNotification", "prAutomergedNotification"],
   "rebaseWhen": "behind-base-branch",
