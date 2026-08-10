@@ -14,7 +14,7 @@ spaCy, LanceDB, `PipelineRecord`, or local-first runtime path.
 
 ## Banned
 
-- Heavy SOTA dependencies in the default install or import path.
+- Heavy frontier-model dependencies in the default install or import path.
 - Generative cloud defaults on restricted, Māori, or sovereign paths.
 - LLM-as-judge, benchmark scores, or retrieval results as FOI promotion or
   legal-certification oracles.
