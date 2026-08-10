@@ -5,7 +5,7 @@ spaCy, LanceDB, `PipelineRecord`, or local-first runtime path.
 
 ## Allowed
 
-- Optional extras named `sota` for constrained decoding and `graphrag` for
+- Optional extras named `structured` for constrained decoding and `graphrag` for
   graph-plus-vector experiments.
 - Small, checked-in fixtures and deterministic local demonstrations.
 - Candidate JSON validated against existing schemas.
@@ -18,7 +18,7 @@ spaCy, LanceDB, `PipelineRecord`, or local-first runtime path.
 - Generative cloud defaults on restricted, Māori, or sovereign paths.
 - LLM-as-judge, benchmark scores, or retrieval results as FOI promotion or
   legal-certification oracles.
-- Claims of state-of-the-art quality without held-out evidence and independent
+- Claims of frontier quality without held-out evidence and independent
   review.
 
 The spike can inform future engineering decisions, but it cannot authorize
