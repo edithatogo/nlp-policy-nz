@@ -706,7 +706,7 @@ Programme parent: [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196)
 - **Parallelization Node**: Multi-Jurisdiction Packaging
 - **Why**: YAML/JSON profiles + parameterized schemas so AU/other countries are not permanent NZ forks.
 
-## [ ] Track 104: CI Tiering and Publish-Gate Honesty
+## [x] Track 104: CI Tiering and Publish-Gate Honesty (implemented; external reconciliation complete)
 *Link: [./tracks/track104_ci_tiering_publish_honesty_20260728/](./tracks/track104_ci_tiering_publish_honesty_20260728/)*
 - **Issue**: [#201](https://github.com/edithatogo/nlp-policy-nz/issues/201)
 - **Subissues**: [#216](https://github.com/edithatogo/nlp-policy-nz/issues/216), [#217](https://github.com/edithatogo/nlp-policy-nz/issues/217), [#218](https://github.com/edithatogo/nlp-policy-nz/issues/218)
