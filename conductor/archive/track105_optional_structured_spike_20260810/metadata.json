@@ -1,0 +1,13 @@
+{
+  "track_id": "track105_optional_structured_spike_20260810",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-08-10T00:00:00+10:00",
+  "updated_at": "2026-08-10T23:45:00+10:00",
+  "description": "Offline structured-candidate decision record and deterministic fixture evaluation.",
+  "github_issue": 105,
+  "github_issue_url": "https://github.com/edithatogo/nlp-policy-nz/issues/105",
+  "pull_requests": [281, 282, 283],
+  "disposition": "optional_spike_complete",
+  "follow_up": "Any model or GraphRAG implementation requires a separately approved track with held-out evidence and independent review."
+}
