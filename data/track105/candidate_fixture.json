@@ -1,0 +1,14 @@
+{
+  "candidate": {
+    "cleaned_tokens": ["the", "bill", "commence"],
+    "nz_act_citations": ["Privacy Act 2020"],
+    "te_reo_terms": ["whānau"],
+    "stance": "neutral"
+  },
+  "expected": {
+    "cleaned_tokens": ["the", "bill", "commence"],
+    "nz_act_citations": ["Privacy Act 2020"],
+    "te_reo_terms": ["whānau"],
+    "stance": "neutral"
+  }
+}
