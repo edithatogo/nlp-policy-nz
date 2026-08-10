@@ -44,7 +44,7 @@
 | Embedded key-value store (`rocksdb`) | **not_applicable** | Does not replace Parquet artifacts, LanceDB vector search, or SQLite manifest catalogs for current repo abstractions. |
 | Governance orchestration (`haystack-ai`) | **optional** | Track 99 / [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189). Optional pipeline-first audit shell only; spaCy + LanceDB + `PipelineRecord` remain canonical. Subissues [#190](https://github.com/edithatogo/nlp-policy-nz/issues/190)–[#194](https://github.com/edithatogo/nlp-policy-nz/issues/194). |
 | Jurisdiction profiles (YAML/JSON) | **deferred** | Track 103 / [#200](https://github.com/edithatogo/nlp-policy-nz/issues/200). NZ+AU adapters exist as Python modules; config-driven profiles not yet shipped. |
-| Constrained decoding / GraphRAG / eval harness | **deferred** | Track 105 / [#202](https://github.com/edithatogo/nlp-policy-nz/issues/202). Optional `sota` extras only; never promotion oracles. |
+| Constrained decoding / GraphRAG / eval harness | **optional** | Track 105 / [#202](https://github.com/edithatogo/nlp-policy-nz/issues/202). Decision record permits only offline optional extras; never promotion oracles. |
 | HF publication (`huggingface_hub` / `datasets`) | **required** | Both are runtime dependencies. Core to model and dataset publishing pipeline. MoSCoW M. Track 100 may move heavy HF/Gradio paths to extras. |
 | Archive / DOI (Zenodo / OSF) | **deferred** | Product vision includes Zenodo archive workflow. Currently uses `requests` + REST API ad-hoc. No dedicated adapter package exists yet. Track 104 documents sandbox vs production gates. |
 

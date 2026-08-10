@@ -38,6 +38,7 @@ This document defines the bleeding-edge, high-performance technology stack for t
 - **Messy Document Fallback**: `unstructured` (optional extra for fallback partitioning of PDFs, DOCX, HTML, and scanned-like inputs when a first-party source parser is not available; never the canonical legislative source of truth).
 - **Optional Local Generation Runtime**: `vLLM` (Linux-first, optional OpenAI-compatible serving and offline batch generation for legal NLP; default imports and Windows workflows continue to use the Python fallback path).
 - **Optional Governance Orchestration**: `haystack-ai` (Track 99 / GitHub [#189](https://github.com/edithatogo/nlp-policy-nz/issues/189)). Optional typed `@component` pipeline shell for auditability, legal-structure indexing, extractive span QA, and local evaluation. Must remain behind an optional extra; must not replace spaCy, LanceDB, msgspec/`PipelineRecord`, or PROV-O. Generative cloud defaults and LLM faithfulness-as-promotion-oracle are banned.
+- **Optional bleeding-edge spike**: Track 105 / [#202](https://github.com/edithatogo/nlp-policy-nz/issues/202) may use `sota` and `graphrag` extras for offline constrained decoding and hybrid retrieval experiments. These remain outside the default install and cannot authorize promotion or publication.
 
 ---
 
