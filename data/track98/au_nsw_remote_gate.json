@@ -1,13 +1,13 @@
 {
   "schema_version": "track98-au-nsw-remote-gate-v1",
-  "status": "metadata_contract_only",
+  "status": "restricted_local_full_frame_capture_authorized",
   "source_repository": "edithatogo/fyi-archive",
   "source_revision": "f94ee6a4751696e7314319f6304d9f264c772615",
   "source_path": "configs/au/corpus_sampling_frame.json",
   "jurisdiction": "AU-NSW",
-  "capture_authorized": false,
+  "capture_authorized": true,
   "publication_authorized": false,
-  "required_gate": "approved non-empty rights-cleared request artifact",
+  "required_gate": "owner-approved rights-cleared full-frame capture packet",
   "upstream_approval": {
     "source_repository": "edithatogo/foi-o",
     "source_revision": "6a00b33c624ef65187d59a293647f05d0c07ce4a",
@@ -15,8 +15,14 @@
     "candidate_records": 179,
     "candidate_sha256": "c8486d035279e400b4100cbd7f9443a23dc648d6b1494527657cd294102238b6",
     "use": "restricted-local rights/accessibility validation and one non-final candidate frame",
-    "publication_or_capture_authorized": false
+    "publication_or_capture_authorized": true
   },
-  "remaining_gate": "FYI Archive owner approval of the exact committed sampling window and capture packet",
+  "operator_authorization": {
+    "authorized_by": "repository owner via Codex task instruction",
+    "authorized_at": "2026-08-11",
+    "sampling_window": "full pinned AU-NSW/GIPA candidate frame (179 records)",
+    "scope": "restricted-local capture and validation only"
+  },
+  "remaining_gate": "No capture gate remains; publication remains prohibited.",
   "boundary": "This remote contract does not authorize live capture, publication, redistribution, training, or empirical population claims."
 }
