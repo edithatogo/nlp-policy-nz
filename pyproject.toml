@@ -83,7 +83,7 @@ unstructured = [
     "unstructured>=0.15.0",
 ]
 vllm = [
-    "vllm>=0.8.5",
+    "vllm>=0.24.0",
 ]
 faiss = ["faiss-cpu>=1.8.0"]
 qdrant = ["qdrant-client>=1.9.0"]
