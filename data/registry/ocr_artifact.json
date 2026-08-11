@@ -2,17 +2,21 @@
   "schema_version": "registry-ocr-artifact-v1",
   "benchmark_id": "nz-historical-ocr-v1",
   "version": "track131-repo-scaffold-v1",
-  "status": "metadata_complete_doi_pending",
+  "status": "payload_complete_doi_pending",
   "manifest_path": "data/track131/benchmark_manifest.json",
   "engine_registry_path": "data/track87/engine_registry.json",
+  "payload_manifest_path": "data/registry/ocr_release_payload_manifest.json",
+  "zenodo_metadata_path": "data/registry/ocr_release_zenodo_metadata.json",
   "hf_evidence": {
     "repo_id": "edithatogo/nlp-policy-nz-cloud-ocr-pilots",
     "revision": "0d588e59e9093919135a5feb9358aa690b43d408"
   },
   "doi": null,
   "deposit_url": null,
-  "checksums": {},
+  "checksums": {
+    "sha256": "18bee0963343a872c0064518482ed2d8f18fea622f799d7466712cb71c6c775f"
+  },
   "blockers": [
-    "Authoritative versioned DOI required before publication claim."
+    "Authoritative versioned DOI and external Zenodo deposit receipt are required before publication claim."
   ]
 }
