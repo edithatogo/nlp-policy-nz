@@ -2,11 +2,21 @@
   "schema_version": "track98-au-nsw-remote-gate-v1",
   "status": "metadata_contract_only",
   "source_repository": "edithatogo/fyi-archive",
-  "source_revision": "fbbf99d33f7712872193f1fc5cea6fd4ec16544b",
+  "source_revision": "f94ee6a4751696e7314319f6304d9f264c772615",
   "source_path": "configs/au/corpus_sampling_frame.json",
   "jurisdiction": "AU-NSW",
   "capture_authorized": false,
   "publication_authorized": false,
   "required_gate": "approved non-empty rights-cleared request artifact",
+  "upstream_approval": {
+    "source_repository": "edithatogo/foi-o",
+    "source_revision": "6a00b33c624ef65187d59a293647f05d0c07ce4a",
+    "artifact_path": "docs/53-au-nsw-rights-and-frame-approval-packet-2026-07-27.md",
+    "candidate_records": 179,
+    "candidate_sha256": "c8486d035279e400b4100cbd7f9443a23dc648d6b1494527657cd294102238b6",
+    "use": "restricted-local rights/accessibility validation and one non-final candidate frame",
+    "publication_or_capture_authorized": false
+  },
+  "remaining_gate": "FYI Archive owner approval of the exact committed sampling window and capture packet",
   "boundary": "This remote contract does not authorize live capture, publication, redistribution, training, or empirical population claims."
 }
