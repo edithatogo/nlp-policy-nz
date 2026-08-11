@@ -2,7 +2,7 @@
   "schema_version": "registry-ocr-artifact-v1",
   "benchmark_id": "nz-historical-ocr-v1",
   "version": "track131-repo-scaffold-v1",
-  "status": "payload_complete_doi_pending",
+  "status": "published_metadata_only",
   "manifest_path": "data/track131/benchmark_manifest.json",
   "engine_registry_path": "data/track87/engine_registry.json",
   "payload_manifest_path": "data/registry/ocr_release_payload_manifest.json",
@@ -11,12 +11,19 @@
     "repo_id": "edithatogo/nlp-policy-nz-cloud-ocr-pilots",
     "revision": "0d588e59e9093919135a5feb9358aa690b43d408"
   },
-  "doi": null,
-  "deposit_url": null,
+  "doi": "10.5281/zenodo.21888076",
+  "deposit_url": "https://zenodo.org/records/21888076",
   "checksums": {
     "sha256": "18bee0963343a872c0064518482ed2d8f18fea622f799d7466712cb71c6c775f"
   },
-  "blockers": [
-    "Authoritative versioned DOI and external Zenodo deposit receipt are required before publication claim."
-  ]
+  "zenodo_receipt": {
+    "deposit_id": 21888076,
+    "file_name": "nlp-policy-nz-cloud-ocr-pilot-evidence-track131-repo-scaffold-v1.tar.gz",
+    "file_bytes": 2201,
+    "readback_sha256": "18bee0963343a872c0064518482ed2d8f18fea622f799d7466712cb71c6c775f",
+    "record_id": 21888076,
+    "state": "done",
+    "submitted": true
+  },
+  "blockers": []
 }
