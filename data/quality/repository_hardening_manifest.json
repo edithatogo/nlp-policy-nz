@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "scope": "repository",
+  "default_branch": "master",
+  "maintainer_model": "solo-maintainer",
+  "controls": {
+    "metamorphic": {
+      "status": "implemented",
+      "suite": "tests/test_hardening_contracts.py",
+      "property": "text normalization is idempotent"
+    },
+    "contract": {
+      "status": "implemented",
+      "suite": "tests/test_hardening_contracts.py",
+      "property": "manifest and hardening workflow retain required fields"
+    },
+    "mutation": {
+      "status": "available-on-demand",
+      "command": "pixi run mutation",
+      "scheduled": false,
+      "reason": "bounded runtime; retain as explicit dispatch gate"
+    },
+    "codeql": {"status": "not-applicable", "evidence": "no CodeQL workflow is enabled"},
+    "dependency_review": {"status": "not-applicable", "evidence": "dependency audit runs in CI"},
+    "workflow_lint": {"status": "not-applicable", "evidence": "action references are checked by the hardening contract suite"},
+    "secret_scan": {"status": "available", "evidence": "detect-secrets is part of the security environment"}
+  },
+  "external_controls": {
+    "ruleset": "requires hosted repository-admin configuration",
+    "renovate": "requires hosted app installation and access grant",
+    "codecov_oidc": "requires hosted Codecov repository activation"
+  }
+}
