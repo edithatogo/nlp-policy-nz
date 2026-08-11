@@ -1,0 +1,50 @@
+{
+  "archive": {
+    "bytes": 2201,
+    "content_prefix": "nlp-policy-nz-cloud-ocr-pilot-evidence",
+    "file_name": "nlp-policy-nz-cloud-ocr-pilot-evidence-track131-repo-scaffold-v1.tar.gz",
+    "format": "tar.gz",
+    "sha256": "18bee0963343a872c0064518482ed2d8f18fea622f799d7466712cb71c6c775f"
+  },
+  "artifact_kind": "metadata-only-cloud-ocr-pilot-evidence",
+  "artifact_version": "track131-repo-scaffold-v1",
+  "benchmark_id": "nz-historical-ocr-v1",
+  "files": [
+    {
+      "bytes": 2504,
+      "path": ".gitattributes",
+      "sha256": "9e75dd981de037ec3769f24f790e126bc5a160b6871f510214e68dc70649aeeb"
+    },
+    {
+      "bytes": 289,
+      "path": "cloud-ocr-runs/track91-zero-cost-hf-20260715/pilot-gate.json",
+      "sha256": "4e7010e24b11fc005da99d3909eae89f91dbbe9a2178127098d8bfe91601bddf"
+    },
+    {
+      "bytes": 1876,
+      "path": "cloud-ocr-runs/track91-zero-cost-hf-20260715/reconciled.json",
+      "sha256": "30c6ebf918c5b717ca9c6f02ef56d5deb8385f2c059b2da168082d50725e922d"
+    },
+    {
+      "bytes": 405,
+      "path": "cloud-ocr-runs/track91-zero-cost-hf-20260715/run-report.json",
+      "sha256": "f088eb1db95804ebf912fed8bc3b471affdebc33aaedb9ab5c3c0f03b4d29b8d"
+    },
+    {
+      "bytes": 1486,
+      "path": "README.md",
+      "sha256": "cf5fc1a68eea5f3df9b68f19e4d20f80e594a24166d2ad1168799a57cca0a373"
+    }
+  ],
+  "hf_source": {
+    "repo_id": "edithatogo/nlp-policy-nz-cloud-ocr-pilots",
+    "revision": "0d588e59e9093919135a5feb9358aa690b43d408"
+  },
+  "schema_version": "nlp-policy-nz.ocr-release-payload.v1",
+  "scope": {
+    "contains_ocr_text": false,
+    "contains_source_images": false,
+    "contains_validated_benchmark_results": false,
+    "payload_policy": "metadata_only"
+  }
+}

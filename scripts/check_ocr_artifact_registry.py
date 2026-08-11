@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = ROOT / "data" / "registry" / "ocr_artifact.json"
 HF_AUDIT_PATH = ROOT / "data" / "registry" / "huggingface_audit.json"
 PUBLISHED_LIKE_MARKERS = ("published", "deposited", "registered", "accepted")
+PAYLOAD_STATUS = "payload_complete_doi_pending"
 
 
 def check() -> list[str]:
@@ -23,7 +24,7 @@ def check() -> list[str]:
     if artifact.get("schema_version") != "registry-ocr-artifact-v1":
         errors.append("ocr_artifact.json schema_version must be registry-ocr-artifact-v1")
 
-    for path_key in ("manifest_path", "engine_registry_path"):
+    for path_key in ("manifest_path", "engine_registry_path", "payload_manifest_path", "zenodo_metadata_path"):
         rel_path = artifact.get(path_key)
         if not rel_path:
             errors.append(f"ocr_artifact.json missing {path_key}")
@@ -52,6 +53,34 @@ def check() -> list[str]:
             errors.append(f"ocr_artifact hf_evidence repo_id not found in huggingface_audit.json: {repo_id}")
         elif target.get("revision") != revision:
             errors.append("ocr_artifact hf revision does not match huggingface_audit.json OCR target")
+
+    if artifact.get("status") == PAYLOAD_STATUS:
+        payload_path = ROOT / str(artifact.get("payload_manifest_path", ""))
+        metadata_path = ROOT / str(artifact.get("zenodo_metadata_path", ""))
+        if payload_path.exists():
+            payload = json.loads(payload_path.read_text(encoding="utf-8"))
+            if payload.get("artifact_version") != artifact.get("version"):
+                errors.append("OCR payload artifact_version must match ocr_artifact version")
+            if payload.get("benchmark_id") != artifact.get("benchmark_id"):
+                errors.append("OCR payload benchmark_id must match ocr_artifact benchmark_id")
+            if payload.get("hf_source") != hf_evidence:
+                errors.append("OCR payload hf_source must match ocr_artifact hf_evidence")
+            archive = payload.get("archive") or {}
+            checksum = archive.get("sha256", "")
+            if not isinstance(checksum, str) or len(checksum) != 64:
+                errors.append("OCR payload archive must include a SHA-256 checksum")
+            if (artifact.get("checksums") or {}).get("sha256") != checksum:
+                errors.append("OCR artifact checksum must match the payload archive SHA-256")
+            if not payload.get("files"):
+                errors.append("OCR payload must list at least one source file")
+            if (payload.get("scope") or {}).get("payload_policy") != "metadata_only":
+                errors.append("OCR payload must retain the metadata_only scope")
+        if metadata_path.exists():
+            metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+            if metadata.get("upload_type") != "dataset":
+                errors.append("OCR Zenodo metadata upload_type must be dataset")
+            if metadata.get("version") != artifact.get("version"):
+                errors.append("OCR Zenodo metadata version must match ocr_artifact version")
 
     status = str(artifact.get("status", ""))
     status_lower = status.lower()

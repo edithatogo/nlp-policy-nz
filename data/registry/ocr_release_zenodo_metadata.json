@@ -1,0 +1,32 @@
+{
+  "creators": [
+    {
+      "name": "Mordaunt, Dylan A",
+      "orcid": "0000-0002-9775-0603"
+    }
+  ],
+  "description": "Versioned operational evidence for the NLP Policy NZ Cloud OCR pilot. This release contains public metadata-only run reports, reconciliation records, and provenance for one bounded Tesseract documentation example. It does not contain a general OCR corpus, source images, OCR text, or validated production benchmark results.",
+  "keywords": [
+    "optical-character-recognition",
+    "ocr",
+    "new-zealand",
+    "provenance",
+    "metadata-only"
+  ],
+  "notes": "Source snapshot is pinned to Hugging Face revision 0d588e59e9093919135a5feb9358aa690b43d408. The archive excludes local Hugging Face cache files.",
+  "related_identifiers": [
+    {
+      "identifier": "https://huggingface.co/datasets/edithatogo/nlp-policy-nz-cloud-ocr-pilots",
+      "relation": "isDerivedFrom",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://github.com/edithatogo/nlp-policy-nz",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "title": "NLP Policy NZ Cloud OCR Pilot Evidence (metadata-only)",
+  "upload_type": "dataset",
+  "version": "track131-repo-scaffold-v1"
+}
