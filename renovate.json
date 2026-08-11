@@ -50,6 +50,12 @@
       "labels": ["dependencies", "python", "automated", "auto-merge"]
     },
     {
+      "description": "Pixi bootstrap tools intentionally use wildcard constraints.",
+      "matchManagers": ["pixi"],
+      "matchPackageNames": ["pip", "git"],
+      "enabled": false
+    },
+    {
       "groupName": "Pre-commit Hooks (Auto-merge)",
       "matchManagers": ["pre-commit"],
       "automerge": true,
