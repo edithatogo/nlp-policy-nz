@@ -15,6 +15,9 @@ on:
 
 jobs:
   ci:
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -184,6 +187,7 @@ jobs:
         with:
           file: ./coverage.xml
           fail_ci_if_error: false
+          use_oidc: true
 
   ci-report:
     if: always()
