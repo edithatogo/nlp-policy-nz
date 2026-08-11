@@ -1,0 +1,32 @@
+name: Repository Hardening
+
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repository-hardening-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contracts:
+    name: metamorphic and contract checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+      - name: Install bounded test dependencies
+        run: python -m pip install --disable-pip-version-check pytest hypothesis
+      - name: Validate hardening manifest
+        run: python scripts/check_hardening_contracts.py
+      - name: Run bounded contract suite
+        env:
+          PYTHONPATH: src
+        run: python -m pytest tests/test_hardening_contracts.py -q
