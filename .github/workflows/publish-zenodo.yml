@@ -32,7 +32,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v7
         with:
-          python-version: "3.12"
+          python-version: "3.14.7"
       - name: Publish source archive and citation metadata
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
