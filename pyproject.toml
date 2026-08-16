@@ -7,30 +7,30 @@ name = "nlp_policy_nz"
 version = "0.1.0"
 description = "SOTA shared core NLP pipeline for New Zealand legislation and Hansard corpora"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11.16"
 license = { text = "MIT" }
 authors = [{ name = "Maintainer" }]
 dependencies = [
-    "spacy>=3.7.0; python_version < '3.14'",
-    "msgspec>=0.18.0",
-    "pydantic>=2.11.0",
+    "spacy>=3.7.5; python_version < '3.14'",
+    "msgspec>=0.18.6",
+    "pydantic>=2.11.10",
     "jsonschema>=4.23.0",
-    "orjson>=3.10.0",
-    "beautifulsoup4>=4.12.0",
-    "narwhals>=1.0.0",
+    "orjson>=3.10.18",
+    "beautifulsoup4>=4.12.3",
+    "narwhals>=1.0.6",
     "polars>=1.0.0",
     "pyarrow>=16.0.0",
-    "lancedb>=0.6.0",
-    "networkx>=3.0",
-    "rdflib>=7.0.0",
-    "requests>=2.31.0",
-    "xmlschema>=3.4.0",
+    "lancedb>=0.6.13",
+    "networkx>=3.6.1",
+    "rdflib>=7.6.0",
+    "requests>=2.34.2",
+    "xmlschema>=4.3.2",
     "defusedxml>=0.7.1",
     "pypdf>=6.15.0",
-    "PyYAML>=6.0.0",
-    "loguru>=0.7.2",
-    "lingua-language-detector>=1.4.0,<3.0.0",
-    "datasets>=2.19.0",
+    "PyYAML>=6.0.3",
+    "loguru>=0.7.3",
+    "lingua-language-detector>=2.2.0,<3.0.0",
+    "datasets>=5.0.1",
     "huggingface_hub>=0.23.0",
     "opentelemetry-api>=1.25.0",
     "opentelemetry-sdk>=1.25.0",
@@ -42,59 +42,59 @@ nlp-policy-nz = "nlp_policy_nz.cli.main:main"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0",
+    "pytest>=8.0.2",
     "pytest-cov>=5.0.0",
-    "hypothesis>=6.90",
-    "mutatest>=3.0",
-    "ruff>=0.3.0",
-    "tach>=0.5.0",
+    "hypothesis>=6.90.1",
+    "mutatest>=3.0.2",
+    "ruff>=0.3.7",
+    "tach>=0.35.0",
     "complexipy>=0.2.0",
     "import-linter>=2.0",
-    "pre-commit>=3.6.0",
-    "scalene>=1.5.0",
+    "pre-commit>=3.6.2",
+    "scalene>=2.3.0",
     "memray>=1.12.0",
-    "pytest-benchmark>=4.0.0",
-    "basedpyright>=1.28.0",
-    "types-beautifulsoup4>=4.12.0",
-    "pip-audit>=2.10.0",
-    "cyclonedx-bom>=1.5.0",
+    "pytest-benchmark>=5.2.3",
+    "basedpyright>=1.28.5",
+    "types-beautifulsoup4>=4.12.0.20250516",
+    "pip-audit>=2.10.1",
+    "cyclonedx-bom>=7.3.1",
     "cvss>=3.6",
-    "bandit>=1.8.3",
+    "bandit>=1.8.6",
     "semgrep>=1.93.0",
     "detect-secrets>=1.5.0",
 ]
 client = [
-    "httpx>=0.27.0",
+    "httpx>=0.27.2",
 ]
 api = [
-    "fastapi>=0.110.0",
-    "uvicorn[standard]>=0.27.0",
+    "fastapi>=0.110.3",
+    "uvicorn[standard]>=0.27.1",
 ]
 space = [
-    "gradio>=4.0.0",
-    "plotly>=5.0.0",
+    "gradio>=4.0.2",
+    "plotly>=6.9.0",
 ]
 ml = [
-    "transformers>=5.5.0",
-    "torch>=2.2.0; python_version < '3.14'",
+    "transformers>=5.5.4",
+    "torch>=2.2.2; python_version < '3.14'",
     "bitsandbytes>=0.42.0; python_version < '3.14'",
 ]
 unstructured = [
-    "unstructured>=0.15.0",
+    "unstructured>=0.15.14",
 ]
 vllm = [
-    "vllm>=0.8.5",
+    "vllm>=0.8.5.post1",
 ]
-faiss = ["faiss-cpu>=1.8.0"]
-qdrant = ["qdrant-client>=1.9.0"]
-rag = ["haystack-ai>=2.0.0"]
-orchestration = ["haystack-ai>=2.0.0"]
+faiss = ["faiss-cpu>=1.8.0.post1"]
+qdrant = ["qdrant-client>=1.9.2"]
+rag = ["haystack-ai>=2.0.1"]
+orchestration = ["haystack-ai>=2.0.1"]
 training = [
-    "accelerate>=0.30.0",
-    "peft>=0.11.0",
+    "accelerate>=1.14.0",
+    "peft>=0.11.1",
     "trl>=0.9.0",
-    "wandb>=0.17.0",
-    "flash-attn>=2.5.0; platform_system == 'Linux'",
+    "wandb>=0.17.9",
+    "flash-attn>=2.5.9.post1; platform_system == 'Linux'",
 ]
 
 [tool.hatch.build.targets.wheel]
