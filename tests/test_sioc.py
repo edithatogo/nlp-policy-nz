@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 from rdflib import Graph, URIRef
@@ -16,6 +16,9 @@ from nlp_policy_nz.linked_data.sioc import (
     generate_sioc_graph,
 )
 from nlp_policy_nz.storage import PipelineRecord
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def test_metadata_value() -> None:
@@ -147,4 +150,8 @@ def test_export_hansard_sioc(tmp_path: Path) -> None:
 
     parsed = Graph()
     parsed.parse(result, format="turtle")
-    assert (URIRef("https://data.parliament.nz/speech/han-123"), RDF.type, URIRef("http://rdfs.org/sioc/ns#Post")) in parsed
+    assert (
+        URIRef("https://data.parliament.nz/speech/han-123"),
+        RDF.type,
+        URIRef("http://rdfs.org/sioc/ns#Post"),
+    ) in parsed

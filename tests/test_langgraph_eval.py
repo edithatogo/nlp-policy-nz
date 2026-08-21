@@ -1,17 +1,18 @@
 """Tests for langgraph_eval.py."""
-import json
+
 import pytest
-from pathlib import Path
+
 from nlp_policy_nz.automation.langgraph_eval import (
+    CandidateTransition,
+    CandidateWorkflow,
     build_candidate_workflow,
     build_decision_record,
     cleanup_checkpoints,
-    run_deterministic_prototype,
-    render_evaluation_report,
     evaluation_fingerprint,
-    CandidateWorkflow,
-    CandidateTransition
+    render_evaluation_report,
+    run_deterministic_prototype,
 )
+
 
 def test_build_candidate_workflow():
     workflow = build_candidate_workflow()
@@ -19,12 +20,14 @@ def test_build_candidate_workflow():
     assert "intake" in workflow.states
     assert len(workflow.transitions) > 0
 
+
 def test_build_decision_record():
     record = build_decision_record()
     assert "track_id" in record
     assert "allowed" in record
     assert "banned" in record
     assert isinstance(record["allowed"], list)
+
 
 def test_cleanup_checkpoints(tmp_path):
     checkpoint_dir = tmp_path / "checkpoints"
@@ -40,6 +43,7 @@ def test_cleanup_checkpoints(tmp_path):
     assert not (checkpoint_dir / "test.checkpoint").exists()
     assert (checkpoint_dir / "keep.txt").exists()
 
+
 def test_run_deterministic_prototype(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     result = run_deterministic_prototype()
@@ -49,6 +53,7 @@ def test_run_deterministic_prototype(tmp_path, monkeypatch):
     assert "runs" in result
     assert "langgraph_available" in result
 
+
 def test_render_evaluation_report(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     result = run_deterministic_prototype()
@@ -57,12 +62,14 @@ def test_render_evaluation_report(tmp_path, monkeypatch):
     assert "Allowed" in report
     assert "Banned" in report
 
+
 def test_evaluation_fingerprint(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     result = run_deterministic_prototype()
     fingerprint = evaluation_fingerprint(result)
     assert isinstance(fingerprint, str)
     assert len(fingerprint) == 64
+
 
 def test_run_item_unexpected_state():
     from nlp_policy_nz.automation.langgraph_eval import _run_item
@@ -77,7 +84,7 @@ def test_run_item_unexpected_state():
         human_in_loop_states=(),
         telemetry_events=(),
         allowed_contexts=(),
-        banned_contexts=()
+        banned_contexts=(),
     )
 
     item = {"item_id": "test_item"}
