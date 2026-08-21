@@ -4,12 +4,13 @@ from __future__ import annotations
 
 from collections import Counter, defaultdict
 from threading import Lock
-from typing import Any
 
 _LOCK = Lock()
 _REQUEST_COUNTS: Counter[tuple[str, str, int, str]] = Counter()
 _REQUEST_DURATION_BUCKETS = (0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0)
-_REQUEST_HISTOGRAM: dict[tuple[str, str], list[int]] = defaultdict(lambda: [0] * (len(_REQUEST_DURATION_BUCKETS) + 1))
+_REQUEST_HISTOGRAM: dict[tuple[str, str], list[int]] = defaultdict(
+    lambda: [0] * (len(_REQUEST_DURATION_BUCKETS) + 1)
+)
 _REQUEST_DURATION_SUM: Counter[tuple[str, str]] = Counter()
 _REQUEST_DURATION_COUNT: Counter[tuple[str, str]] = Counter()
 _ERROR_COUNTS: Counter[tuple[int, str, str]] = Counter()
@@ -77,10 +78,6 @@ def record_request(
             buckets[-1] += 1
         if status >= 400:
             _ERROR_COUNTS[(status, endpoint, scope or "public")] += 1
-
-
-def _render_labels(labels: dict[str, Any]) -> str:
-    return ",".join(f'{key}="{value}"' for key, value in labels.items())
 
 
 def render_metrics() -> str:

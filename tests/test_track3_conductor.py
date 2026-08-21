@@ -33,6 +33,7 @@ def test_track3_evidence_links_guard_surfaces() -> None:
         Path("src/nlp_policy_nz/guard/tokenizer_exceptions.py"),
         Path("src/nlp_policy_nz/guard/language_id.py"),
         Path("tests/test_guard.py"),
+        Path("tests/test_tokenizer_exceptions.py"),
     )
 
     for artifact in required_artifacts:

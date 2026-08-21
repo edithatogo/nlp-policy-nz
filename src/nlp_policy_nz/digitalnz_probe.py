@@ -356,7 +356,7 @@ class NormalisedRecord(msgspec.Struct):
 # ---------------------------------------------------------------------------
 
 
-def classify_rights(record: DigitalNZRecord) -> str:  # noqa: PLR0911
+def classify_rights(record: DigitalNZRecord) -> str:
     """Classify the rights status of a DigitalNZ record.
 
     Examines the ``rights``, ``copyright``, and ``usage`` fields of a
@@ -383,31 +383,19 @@ def classify_rights(record: DigitalNZRecord) -> str:  # noqa: PLR0911
     'restricted'
 
     """
-    rights_lower = (record.rights or "").lower()
-    for pattern in _OPEN_RIGHTS_PATTERNS:
-        if pattern in rights_lower:
-            return "open"
-    for pattern in _RESTRICTED_RIGHTS_PATTERNS:
-        if pattern in rights_lower:
-            return "restricted"
-    if record.copyright:
-        copyright_text = " ".join(record.copyright).lower()
-        for pattern in _RESTRICTED_RIGHTS_PATTERNS:
-            if pattern in copyright_text:
-                return "restricted"
-    if record.usage:
-        usage_text = " ".join(record.usage).lower()
-        for pattern in _OPEN_RIGHTS_PATTERNS:
-            if pattern in usage_text:
-                return "open"
-    if record.rights_url:
-        rights_url_text = " ".join(record.rights_url).lower()
-        for pattern in _OPEN_RIGHTS_PATTERNS:
-            if pattern in rights_url_text:
-                return "open"
-        for pattern in _RESTRICTED_RIGHTS_PATTERNS:
-            if pattern in rights_url_text:
-                return "restricted"
+    checks = [
+        ((record.rights or "").lower(), _OPEN_RIGHTS_PATTERNS, "open"),
+        ((record.rights or "").lower(), _RESTRICTED_RIGHTS_PATTERNS, "restricted"),
+        (" ".join(record.copyright or []).lower(), _RESTRICTED_RIGHTS_PATTERNS, "restricted"),
+        (" ".join(record.usage or []).lower(), _OPEN_RIGHTS_PATTERNS, "open"),
+        (" ".join(record.rights_url or []).lower(), _OPEN_RIGHTS_PATTERNS, "open"),
+        (" ".join(record.rights_url or []).lower(), _RESTRICTED_RIGHTS_PATTERNS, "restricted"),
+    ]
+
+    for text, patterns, status in checks:
+        if text and any(p in text for p in patterns):
+            return status
+
     if record.rights is not None:
         return "restricted"
     return "unknown"

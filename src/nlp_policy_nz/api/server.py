@@ -76,7 +76,10 @@ def _load_version_manifest() -> dict[str, str]:
             logger.warning("VERSION.json is invalid; falling back to default version")
     return {
         "version": "0.1.0",
-        "build_timestamp": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "build_timestamp": datetime.now(UTC)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
         "commit_sha": "unknown",
         "dataset_revision": "0",
     }
@@ -237,8 +240,12 @@ def _custom_openapi() -> dict[str, Any]:
     )
     components = schema.setdefault("components", {})
     schemas = components.setdefault("schemas", {})
-    schemas["ProblemError"] = ProblemError.model_json_schema(ref_template="#/components/schemas/{model}")
-    schemas["ProblemDetail"] = ProblemDetail.model_json_schema(ref_template="#/components/schemas/{model}")
+    schemas["ProblemError"] = ProblemError.model_json_schema(
+        ref_template="#/components/schemas/{model}"
+    )
+    schemas["ProblemDetail"] = ProblemDetail.model_json_schema(
+        ref_template="#/components/schemas/{model}"
+    )
     for path_item in schema.get("paths", {}).values():
         for operation in path_item.values():
             if not isinstance(operation, dict):
@@ -409,7 +416,9 @@ async def observability_middleware(
                     message = str(exc).lower()
                     response = problem_response(
                         status_code=403 if "scope" in message else 401,
-                        code=ProblemCode.AUTH_INSUFFICIENT_SCOPE if "scope" in message else ProblemCode.AUTH_INVALID_KEY,
+                        code=ProblemCode.AUTH_INSUFFICIENT_SCOPE
+                        if "scope" in message
+                        else ProblemCode.AUTH_INVALID_KEY,
                         detail=str(exc),
                         instance=path,
                     )
@@ -443,7 +452,9 @@ async def observability_middleware(
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "no-referrer"
         response.headers["X-Frame-Options"] = "DENY"
-        response.headers.setdefault("Permissions-Policy", "geolocation=(), microphone=(), camera=()")
+        response.headers.setdefault(
+            "Permissions-Policy", "geolocation=(), microphone=(), camera=()"
+        )
         if request.url.scheme == "https" or request.headers.get("x-forwarded-proto") == "https":
             response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
         _apply_version_headers(response, api_version)
@@ -470,7 +481,10 @@ async def observability_middleware(
         emit_audit_event(
             _audit_logger,
             {
-                "timestamp": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+                "timestamp": datetime.now(UTC)
+                .replace(microsecond=0)
+                .isoformat()
+                .replace("+00:00", "Z"),
                 "key_hash": auth_context.key_hash if auth_context else None,
                 "key_id": auth_context.key_id if auth_context else None,
                 "endpoint": path,
@@ -769,7 +783,11 @@ async def process(request: Request, payload: ProcessRequest, response: Response)
         raise HTTPException(status_code=503, detail="Processing is disabled by feature flag.")
     t0 = time.perf_counter()
     effective_payload = payload
-    if _feature_flags.degraded_embeddings or not _feature_flags.embed_enabled or _embedding_load_failed:
+    if (
+        _feature_flags.degraded_embeddings
+        or not _feature_flags.embed_enabled
+        or _embedding_load_failed
+    ):
         effective_payload = payload.model_copy(update={"generate_embeddings": False})
     input_path_candidate = Path(effective_payload.input)
     if input_path_candidate.is_file():
@@ -841,54 +859,61 @@ async def _run_inline_pipeline(request: ProcessRequest, t0: float) -> ProcessRes
     from nlp_policy_nz.semantic.model_loader import load_model
     from nlp_policy_nz.storage.serialization import PipelineRecord
 
-    nlp = create_nlp_pipeline()
-    if "citation_ruler" not in nlp.pipe_names and "maori_guard" in nlp.pipe_names:
-        create_citation_ruler(nlp)
-    clean_text = normalize_text(request.input)
-    doc = nlp(clean_text)
-    identifier = LanguageIdentifier()
-    te_reo_segments = identifier.detect_code_switching(clean_text)
-    te_reo_terms = [seg for lang, seg in te_reo_segments if lang == "mi"]
-    citations = [ent.text for ent in doc.ents if ent.label_ in {"NZ_ACT", "NZ_SECTION", "CITATION"}]
-    temporal_expressions = [
-        annotation.to_dict() for annotation in detect_temporal_expressions(clean_text, nlp)
-    ]
-    division = parse_division(clean_text) if request.source == "hansard" else None
-    voting_record = asdict(division) if division is not None else None
-    if voting_record is not None:
-        if not voting_record["votes"]:
-            voting_record["votes"] = None
-        if not voting_record["party_votes"]:
-            voting_record["party_votes"] = None
-    amendments = amendments_to_dicts(parse_amendments(clean_text))
-    arguments = []
-    stance = None
-    argument_label_source = None
-    stance_label_source = None
-    if request.source == "hansard":
-        arguments = [argument.to_dict() for argument in ArgumentDetector().detect(clean_text)]
-        stance = StanceClassifier().classify(clean_text).stance
-        argument_label_source = "predicted"
-        stance_label_source = "predicted"
-    record = PipelineRecord(
-        doc_id="inline-001",
-        corpus_source=request.source,
-        raw_text=clean_text,
-        cleaned_tokens=[token.strip() for token in clean_text.split() if token.strip()],
-        nz_act_citations=citations,
-        te_reo_terms=te_reo_terms,
-        embeddings=None,
-        temporal_expressions=temporal_expressions,
-        voting_record=voting_record,
-        amendments=amendments,
-        arguments=arguments,
-        argument_label_source=argument_label_source,
-        stance=stance,
-        stance_label_source=stance_label_source,
-    )
-    if request.generate_embeddings:
-        model, tokenizer = load_model()
-        record.embeddings = generate_embedding(record.raw_text, model, tokenizer)
+    def _sync_work() -> PipelineRecord:
+        nlp = create_nlp_pipeline()
+        if "citation_ruler" not in nlp.pipe_names and "maori_guard" in nlp.pipe_names:
+            create_citation_ruler(nlp)
+        clean_text = normalize_text(request.input)
+        doc = nlp(clean_text)
+        identifier = LanguageIdentifier()
+        te_reo_segments = identifier.detect_code_switching(clean_text)
+        te_reo_terms = [seg for lang, seg in te_reo_segments if lang == "mi"]
+        citations = [
+            ent.text for ent in doc.ents if ent.label_ in {"NZ_ACT", "NZ_SECTION", "CITATION"}
+        ]
+        temporal_expressions = [
+            annotation.to_dict() for annotation in detect_temporal_expressions(clean_text, nlp)
+        ]
+        division = parse_division(clean_text) if request.source == "hansard" else None
+        voting_record = asdict(division) if division is not None else None
+        if voting_record is not None:
+            if not voting_record["votes"]:
+                voting_record["votes"] = None
+            if not voting_record["party_votes"]:
+                voting_record["party_votes"] = None
+        amendments = amendments_to_dicts(parse_amendments(clean_text))
+        arguments = []
+        stance = None
+        argument_label_source = None
+        stance_label_source = None
+        if request.source == "hansard":
+            arguments = [argument.to_dict() for argument in ArgumentDetector().detect(clean_text)]
+            stance = StanceClassifier().classify(clean_text).stance
+            argument_label_source = "predicted"
+            stance_label_source = "predicted"
+        record = PipelineRecord(
+            doc_id="inline-001",
+            corpus_source=request.source,
+            raw_text=clean_text,
+            cleaned_tokens=[token.strip() for token in clean_text.split() if token.strip()],
+            nz_act_citations=citations,
+            te_reo_terms=te_reo_terms,
+            embeddings=None,
+            temporal_expressions=temporal_expressions,
+            voting_record=voting_record,
+            amendments=amendments,
+            arguments=arguments,
+            argument_label_source=argument_label_source,
+            stance=stance,
+            stance_label_source=stance_label_source,
+        )
+        if request.generate_embeddings:
+            model, tokenizer = load_model()
+            record.embeddings = generate_embedding(record.raw_text, model, tokenizer)
+        return record
+
+    record = await asyncio.to_thread(_sync_work)
+
     elapsed = time.perf_counter() - t0
     return ProcessResponse(
         records=[_record_to_dict(record)],
