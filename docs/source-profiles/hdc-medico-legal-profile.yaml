@@ -1,0 +1,50 @@
+schema_version: "0.1.0"
+profile_id: "nz-hdc-medico-legal"
+status: "design_profile_fixture_required"
+issue: 313
+source_family: "nz_hdc_public_decisions"
+input_contract:
+  owner: "edithatogo/archive-govt-nz"
+  required_fields:
+    - authoritative_url
+    - retrieved_at
+    - mime_type
+    - content_digest
+    - rights_status
+    - capture_tool_version
+output_contract:
+  required_fields:
+    - record_id
+    - source_family
+    - authority
+    - title
+    - decision_date
+    - official_url
+    - content_digest
+    - record_revision
+    - document_evidence
+    - rights_status
+  optional_fields:
+    - official_finding_spans
+    - recommendation_spans
+    - review_or_remedy_spans
+    - source_uncertainty
+separation_rules:
+  - "source text and extraction evidence remain distinct from official findings"
+  - "official findings remain distinct from project-derived classifications"
+  - "missing text is represented as missing rather than inferred"
+  - "an extraction candidate cannot overwrite a reviewed canonical record"
+prohibited_outputs:
+  - scope_of_agency_conclusion
+  - credentialing_failure_label
+  - decision_autopsy_score
+  - legal_conclusion
+  - clinical_truth_claim
+publication_target:
+  platform: "huggingface"
+  repository: "edithatogo/corpus-cases-medilegal-nz"
+  state: "requires_separate_schema_rights_and_release_review"
+privacy:
+  default: "minimum_necessary_public_metadata"
+  personal_information: "do_not_amplify_beyond_authoritative_source_without_review"
+claim_boundary: "Neutral records and source spans do not establish legal interpretation, clinical truth, corpus completeness, cultural validation or a credentialing conclusion."
