@@ -92,7 +92,7 @@ gpu-check = "python -c \"import torch; raise SystemExit('CUDA is unavailable in 
 scalene = ">=1.5.55"
 
 [feature.unstructured.pypi-dependencies]
-unstructured = ">=0.15.14"
+unstructured = ">=0.27.10"
 
 [feature.profiling.tasks]
 profile-scalene = "scalene --reduced-profile --html --outfile docs/profiling.html src/nlp_policy_nz/cli/main.py process --help"
