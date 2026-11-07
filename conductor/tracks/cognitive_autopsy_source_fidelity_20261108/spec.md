@@ -17,7 +17,7 @@ This track owns the reusable extraction/export boundary only. It does not implem
 | `learningfromharm` | Research labels, reference provenance, grouped splits, analyses and manuscripts |
 | `rcagent` | Decision-time evidence views, cognitive/RCA interpretation, verification composition and task/model qualification |
 
-Consumer specifications: [component studies](https://github.com/edithatogo/rcagent/blob/conductor/cognitive-autopsy-20261107/conductor/research/cognitive-autopsy/component-studies.md), [integration contract](https://github.com/edithatogo/rcagent/blob/conductor/cognitive-autopsy-20261107/conductor/research/cognitive-autopsy/integration-contract.md) and [source contract](https://github.com/edithatogo/corpus-cases-medilegal-nz/blob/conductor/cognitive-autopsy-20261107/docs/cognitive-autopsy-source-contract.md). Pin a mutually compatible revision during implementation; branch links are planning references, not release pins.
+Consumer specifications: [component studies](https://github.com/edithatogo/rcagent/blob/8ad5d12ce30837f33027fa3f409bdbe2821fadaa/conductor/research/cognitive-autopsy/component-studies.md), [integration contract](https://github.com/edithatogo/rcagent/blob/8ad5d12ce30837f33027fa3f409bdbe2821fadaa/conductor/research/cognitive-autopsy/integration-contract.md) and [source contract](https://github.com/edithatogo/corpus-cases-medilegal-nz/blob/7c133daf192b5e75adb5733876d72f234c6f0964/docs/cognitive-autopsy-source-contract.md). These immutable references identify reviewed planning revisions and survive branch deletion. Pin mutually compatible release revisions during implementation; these references do not assert release qualification.
 
 ## Existing reuse candidates
 
