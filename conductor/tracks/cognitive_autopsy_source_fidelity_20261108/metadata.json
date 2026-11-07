@@ -1,0 +1,23 @@
+{
+  "track_id": "cognitive_autopsy_source_fidelity_20261108",
+  "version": "1.0.0",
+  "type": "feature",
+  "status": "planned",
+  "created_at": "2026-11-08",
+  "updated_at": "2026-11-08",
+  "owner_repo": "edithatogo/nlp-policy-nz",
+  "design_issue": "https://github.com/edithatogo/nlp-policy-nz/issues/313",
+  "coordination_prs": [
+    "https://github.com/edithatogo/rcagent/pull/117",
+    "https://github.com/edithatogo/learningfromharm/pull/8",
+    "https://github.com/edithatogo/corpus-cases-medilegal-nz/pull/30"
+  ],
+  "reviewed_base_commit": "e2940f045ad2e065ef2b406843db10c7e850f0f6",
+  "work_packages": ["NLP-CA01", "NLP-CA02", "NLP-CA03", "NLP-CA04", "NLP-CA05", "NLP-CA06", "NLP-CA07"],
+  "optional_work_packages": ["NLP-CA04"],
+  "planning_update_complete": true,
+  "runtime_implemented": false,
+  "qualified_configurations": [],
+  "publication_allowed_by_track": false,
+  "new_data_admitted": false
+}

@@ -1,5 +1,9 @@
 # System Design: nlp-policy-nz
 
+## Planned HDC consumer boundary
+
+The [source fidelity track](./tracks/cognitive_autopsy_source_fidelity_20261108/index.md) proposes a versioned neutral sidecar/export using the existing profile, source-trace, provenance and Polars interfaces. Retain the captured bytes and extraction rendition separately from normalised model features; map spans back to the immutable rendition and capture locator. Export only source-supported attribution/time candidates and unresolved alternatives. `rcagent` constructs decision-time evidence views and owns their admission policy; the extraction adapter preserves consumer-supplied view identifiers and allowed spans without expanding them. Capture remains with `archive-govt-nz`, and source/distribution metadata remains with the corpus repository. This is a design extension, not an activated runtime path or change to existing serializers.
+
 This document details the system design, pipeline architecture, and schema definitions for the `nlp-policy-nz` unified core.
 
 ---

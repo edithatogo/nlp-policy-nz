@@ -51,3 +51,7 @@
   - Update Parquet schema and serializer to include new fields.
 - [ ] **Task 3.4: Run full verification**
   - Run full test suite and fix any regressions.
+
+## Separate source-consumer work
+
+The legacy Track 10 plan above is retained. New HDC source-fidelity work is independently tracked in the [cognitive-autopsy source fidelity plan](conductor/tracks/cognitive_autopsy_source_fidelity_20261108/plan.md); its runtime tasks remain pending.
