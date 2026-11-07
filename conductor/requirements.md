@@ -1,5 +1,9 @@
 # Product Requirements (MoSCoW)
 
+## Planned HDC source-fidelity requirements
+
+The [source fidelity specification](./tracks/cognitive_autopsy_source_fidelity_20261108/spec.md) adds an opt-in consumer contract. Must preserve immutable raw evidence, extraction rendition digests, explicit coordinate conventions, mapped spans, numerical/negation/quotation fidelity, uncertainty and source-version/family lineage. Event, documentation and explicitly reported delivery/receipt times remain separate; their presence does not prove a clinician knew the information. Clinical judgments and research reference labels stay downstream. Optional clinical NLP reuse must demonstrate fidelity and local-only behaviour before adoption; no new dependency is installed by this plan.
+
 This document prioritizes the functional and non-functional requirements for the `nlp-policy-nz` unified core pipeline.
 
 ---

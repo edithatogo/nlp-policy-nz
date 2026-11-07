@@ -721,3 +721,17 @@ Programme parent: [#196](https://github.com/edithatogo/nlp-policy-nz/issues/196)
 - **Dependencies**: Tracks 58, 60, 99; MCP interface lineage; optional extras only
 - **Parallelization Node**: Bleeding-Edge Evaluation
 - **Why**: Constrained decoding, hybrid GraphRAG, MCP polish, and local eval harness behind extras — never required, never promotion oracles.
+
+---
+
+## [ ] Track: Cognitive-autopsy source fidelity and neutral export
+
+Track ID: `cognitive_autopsy_source_fidelity_20261108`
+
+[Specification, plan and evidence](./tracks/cognitive_autopsy_source_fidelity_20261108/index.md)
+
+- **Lineage**: existing HDC design profile and closed [#313](https://github.com/edithatogo/nlp-policy-nz/issues/313); this track records new implementation work rather than reopening or reclassifying that issue.
+- **Coordination**: [rcagent #117](https://github.com/edithatogo/rcagent/pull/117), [learningfromharm #8](https://github.com/edithatogo/learningfromharm/pull/8), [corpus-cases-medilegal-nz #30](https://github.com/edithatogo/corpus-cases-medilegal-nz/pull/30).
+- **Dependencies**: existing source-trace, temporal, profile, Polars and provenance interfaces; compatibility must be demonstrated before reuse. Optional clinical packages are not prerequisites for raw-text fidelity.
+- **Ownership**: neutral extraction and reusable export only; capture stays with `archive-govt-nz`, research labels with `learningfromharm`, and decision-time interpretation/qualification with `rcagent`.
+- **Status**: planned; no model run, source admission, runtime change or data publication from registration.
