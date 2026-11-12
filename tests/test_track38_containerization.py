@@ -51,16 +51,22 @@ def test_track38_docker_artifacts_are_structured() -> None:
     """The Dockerfile, compose file, and devcontainer should carry the right wiring."""
     dockerfile = (ROOT / "Dockerfile").read_text(encoding="utf-8")
     compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
-    devcontainer = json.loads((ROOT / ".devcontainer" / "devcontainer.json").read_text(encoding="utf-8"))
-    ci_workflow = (ROOT / ".github" / "workflows" / "containerized-ci.yml").read_text(encoding="utf-8")
-    publish_workflow = (ROOT / ".github" / "workflows" / "docker-publish.yml").read_text(encoding="utf-8")
+    devcontainer = json.loads(
+        (ROOT / ".devcontainer" / "devcontainer.json").read_text(encoding="utf-8")
+    )
+    ci_workflow = (ROOT / ".github" / "workflows" / "containerized-ci.yml").read_text(
+        encoding="utf-8"
+    )
+    publish_workflow = (ROOT / ".github" / "workflows" / "docker-publish.yml").read_text(
+        encoding="utf-8"
+    )
     ci_workflow_base = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
     pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
 
     assert "FROM python:3.13-slim-bookworm" in dockerfile
     assert "pixi install --locked" in dockerfile
     assert "HEALTHCHECK" in dockerfile
-    assert "USER appuser" in dockerfile
+    assert "USER 10001" in dockerfile
     assert "appuser" in dockerfile
     assert "lancedb_data" in compose
     assert "qdrant" in compose
@@ -81,6 +87,7 @@ def test_track38_docker_artifacts_are_structured() -> None:
 
 def test_track38_smoke_helpers_probe_http_and_tcp(monkeypatch) -> None:
     """Container smoke helpers should report success and failure deterministically."""
+
     class DummyResponse:
         status_code = 200
 
@@ -100,7 +107,10 @@ def test_track38_smoke_helpers_probe_http_and_tcp(monkeypatch) -> None:
             return False
 
     monkeypatch.setattr("nlp_policy_nz.deployment.container_checks.requests.get", fake_get)
-    monkeypatch.setattr("nlp_policy_nz.deployment.container_checks.socket.create_connection", lambda *args, **kwargs: DummySocket())
+    monkeypatch.setattr(
+        "nlp_policy_nz.deployment.container_checks.socket.create_connection",
+        lambda *args, **kwargs: DummySocket(),
+    )
 
     assert probe_http_endpoint("https://example.test/health", timeout=3.0) is True
     assert probe_tcp_endpoint("example.test", 1234, timeout=3.0) is True
