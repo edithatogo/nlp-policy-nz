@@ -26,6 +26,11 @@ jobs:
       DATASET_ID: ${{ vars.HF_ARCHIVE_DATASET_ID }}
       COLLECTION_ID: ${{ vars.HF_ARCHIVE_COLLECTION_ID }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - run: python -m pip install --disable-pip-version-check --no-input "uv==0.8.15"
       - name: Validate and materialize archive
