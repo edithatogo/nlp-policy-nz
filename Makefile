@@ -29,7 +29,7 @@ clean:
 # === Security ===
 security-sast:
 	pixi run bandit -c .bandit -r src/nlp_policy_nz/ -lll -iii
-	pixi run semgrep scan --config p/python --severity WARNING --error --metrics=off src/nlp_policy_nz/
+	pixi run opengrep scan --strict --error --config p/python --severity WARNING src/nlp_policy_nz/
 
 security-deps:
 	pixi run python scripts/check_dependency_security.py
@@ -111,7 +111,7 @@ help:
 	@@echo "  coverage         Run tests with coverage"
 	@@echo "  clean            Clean build artifacts"
 	@@echo "Security:"
-	@@echo "  security-sast    Run Bandit and Semgrep scans"
+	@@echo "  security-sast    Run Bandit and OpenGrep scans"
 	@@echo "  security-deps    Run pip-audit vulnerability scan"
 	@@echo "  security-secrets  Run detect-secrets scan"
 	@@echo "  security         Run all security scans"

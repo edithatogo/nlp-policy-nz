@@ -1,0 +1,49 @@
+name: OpenGrep SAST
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: opengrep-sast-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  opengrep:
+    name: OpenGrep (Python)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Test local migration contracts without networking
+        run: python3 -m unittest discover -s tests -p test_opengrep_migration.py -v
+      - name: Install SHA-256-verified OpenGrep 1.33.1
+        run: |
+          python3 scripts/install_opengrep.py "$RUNNER_TEMP/opengrep-bin"
+          "$RUNNER_TEMP/opengrep-bin/opengrep" --version
+      - name: Scanner positive and negative controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'eval("1 + 1")\n' > "$RUNNER_TEMP/opengrep-positive.py"
+          printf 'print("safe")\n' > "$RUNNER_TEMP/opengrep-negative.py"
+          scanner="$RUNNER_TEMP/opengrep-bin/opengrep"
+          set +e
+          "$scanner" scan --strict --error --pattern 'eval(...)' --lang python "$RUNNER_TEMP/opengrep-positive.py"
+          observed=$?
+          set -e
+          test "$observed" -eq 1
+          "$scanner" scan --strict --error --pattern 'eval(...)' --lang python "$RUNNER_TEMP/opengrep-negative.py"
+      # Retain the existing live p/python pack; immutable rule parity requires a separately qualified snapshot.
+      - name: Scan Python sources
+        run: |
+          "$RUNNER_TEMP/opengrep-bin/opengrep" scan --strict --error \
+            --config p/python --severity WARNING src/nlp_policy_nz/
