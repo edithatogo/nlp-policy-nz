@@ -19,8 +19,8 @@ jobs:
           cache: false
           run-install: false
       - name: Install environment
-        run: CI=true pixi install -e py312 --frozen --skip-with-deps semgrep --skip-with-deps scalene
-      - name: SAST
+        run: CI=true pixi install -e py312 --frozen --skip-with-deps scalene
+      - name: Bandit SAST and dependency audit (OpenGrep runs separately)
         run: |
           pixi run --as-is -e py312 bandit -c .bandit -r src/nlp_policy_nz/ -lll -iii
           pixi run --as-is -e py312 python -m ensurepip --upgrade
@@ -45,7 +45,7 @@ jobs:
           run-install: false
       - name: Install environment
         shell: bash
-        run: CI=true pixi install -e py312 --frozen --skip-with-deps semgrep --skip-with-deps scalene
+        run: CI=true pixi install -e py312 --frozen --skip-with-deps scalene
       - name: Smoke tests
         shell: bash
         run: CI=true pixi run --as-is -e py312 test -- tests/smoke tests/test_smoke.py -q
