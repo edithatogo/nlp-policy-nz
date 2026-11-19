@@ -2,60 +2,152 @@ name: Docker Publish
 
 on:
   push:
-    tags:
-      - "v*"
+    tags: ["v*"]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-publish-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
+  manual-check:
+    if: github.event_name == 'workflow_dispatch' && !startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/container-vulnerability-check.yml
+
   build:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [linux/amd64, linux/arm64]
-
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - uses: docker/setup-buildx-action@v4
-
-      - name: Build ${{ matrix.platform }} image
-        shell: bash
-        run: |
-          platform_name="${{ matrix.platform }}"
-          platform_name="${platform_name//\//-}"
-          docker buildx build \
-            --platform "${{ matrix.platform }}" \
-            --target runtime \
-            --output "type=oci,dest=/tmp/nlp-policy-nz-${platform_name}.oci" \
-            .
-
-  publish:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: build
     runs-on: ubuntu-latest
-
+    timeout-minutes: 120
     permissions:
       contents: read
       packages: write
-
+    outputs:
+      image: ${{ steps.image.outputs.name }}
+      digest: ${{ steps.build.outputs.digest }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - uses: docker/setup-buildx-action@v4
-
-      - name: Log in to GHCR
-        uses: docker/login-action@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          persist-credentials: false
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4
+      - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4
+      - uses: docker/login-action@abd2ef45e78c5afb21d64d4ca52ee8550d9572c7 # v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push multi-arch image
-        uses: docker/build-push-action@v7
+      - name: Derive the image repository
+        id: image
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+      - name: Build and push the unpromoted multi-arch candidate once
+        id: build
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
         with:
           context: .
           file: ./Dockerfile
+          target: runtime
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          tags: ${{ steps.image.outputs.name }}:rc-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          provenance: mode=max
+          sbom: true
+
+  scan:
+    name: Grype container (${{ matrix.arch }})
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: read
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [amd64, arm64]
+    steps:
+      - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4
+      - uses: docker/login-action@abd2ef45e78c5afb21d64d4ca52ee8550d9572c7 # v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Resolve the immutable platform manifest
+        id: platform
+        env:
+          IMAGE: ${{ needs.build.outputs.image }}
+          INDEX_DIGEST: ${{ needs.build.outputs.digest }}
+          ARCH: ${{ matrix.arch }}
+        run: |
+          set -euo pipefail
+          [[ "$INDEX_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]
+          mkdir -p "$RUNNER_TEMP/container-manifest"
+          docker buildx imagetools inspect "$IMAGE@$INDEX_DIGEST" --raw > "$RUNNER_TEMP/container-manifest/index.json"
+          jq -e --argjson expected '["linux/amd64","linux/arm64"]' '
+            [.manifests[] | select(
+              .platform.os != "unknown" or .platform.architecture != "unknown" or
+              .annotations["vnd.docker.reference.type"] != "attestation-manifest") |
+              [.platform.os, .platform.architecture] | join("/")] | sort == ($expected | sort)
+          ' "$RUNNER_TEMP/container-manifest/index.json" > /dev/null
+          digest="$(jq -er --arg arch "$ARCH" '
+            [.manifests[] | select(.platform.os == "linux" and .platform.architecture == $arch)]
+            | if length == 1 then .[0].digest else error("Expected exactly one runtime platform manifest") end
+            | select(test("^sha256:[0-9a-f]{64}$"))
+          ' "$RUNNER_TEMP/container-manifest/index.json")"
+          jq -n --arg image "$IMAGE" --arg index "$INDEX_DIGEST" --arg digest "$digest" --arg platform "linux/$ARCH"  \
+            '{image: $image, index: $index, digest: $digest, platform: $platform}' > "$RUNNER_TEMP/container-manifest/identity.json"
+          echo "image=$IMAGE@$digest" >> "$GITHUB_OUTPUT"
+      - name: Enforce the critical vulnerability gate
+        uses: edithatogo/repository-standards/.github/actions/grype-scan@bf6bb998414f275296dd174d459504a0c45582b5
+        with:
+          image: ${{ steps.platform.outputs.image }}
+          platform: linux/${{ matrix.arch }}
+          mode: enforce
+          severity-cutoff: critical
+          artifact-name: grype-container-${{ matrix.arch }}
+          output-directory: ${{ runner.temp }}/grype-container-${{ matrix.arch }}
+          source-sha: ${{ github.sha }}
+      - name: Retain index and platform binding
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: container-manifest-${{ matrix.arch }}
+          path: ${{ runner.temp }}/container-manifest
+          if-no-files-found: error
+          retention-days: 90
+
+  publish:
+    needs: [build, scan]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4
+      - uses: docker/login-action@abd2ef45e78c5afb21d64d4ca52ee8550d9572c7 # v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Promote the scanned image without rebuilding
+        env:
+          IMAGE: ${{ needs.build.outputs.image }}
+          IMAGE_DIGEST: ${{ needs.build.outputs.digest }}
+          IMAGE_TAGS: ${{ needs.build.outputs.image }}:${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          [[ "$IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]
+          args=()
+          while IFS= read -r tag; do
+            [ -n "$tag" ] && args+=(--tag "$tag")
+          done <<< "$IMAGE_TAGS"
+          [ "${#args[@]}" -gt 0 ]
+          docker buildx imagetools create --prefer-index=false "${args[@]}" "$IMAGE@$IMAGE_DIGEST"
+          while IFS= read -r tag; do
+            [ -n "$tag" ] || continue
+            actual="$(docker buildx imagetools inspect "$tag" --format '{{.Manifest.Digest}}')"
+            [ "$actual" = "$IMAGE_DIGEST" ]
+            echo "Promoted $tag@$actual" >> "$GITHUB_STEP_SUMMARY"
+          done <<< "$IMAGE_TAGS"
