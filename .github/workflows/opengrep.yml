@@ -25,6 +25,15 @@ jobs:
           persist-credentials: false
       - name: Test local migration contracts without networking
         run: python3 -m unittest discover -s tests -p test_opengrep_migration.py -v
+      - name: Verify legacy Track 41 security contracts against migrated CI
+        run: |
+          python3 - <<'PY'
+          import runpy
+          namespace = runpy.run_path("tests/test_track41_security_hardening.py")
+          for name in sorted(n for n in namespace if n.startswith("test_track41_")):
+              namespace[name]()
+              print(f"{name}: PASS")
+          PY
       - name: Install SHA-256-verified OpenGrep 1.33.1
         run: |
           python3 scripts/install_opengrep.py "$RUNNER_TEMP/opengrep-bin"
