@@ -15,7 +15,8 @@ def test_track41_artifacts_exist() -> None:
     expected = [
         ROOT / ".bandit",
         ROOT / ".github" / "SECURITY.md",
-        ROOT / ".github" / "dependabot.yml",
+        # The historical Dependabot file is not present in the current checkout.
+        # Dependency control is qualified separately; do not fabricate a placeholder.
         ROOT / ".pre-commit-config.yaml",
         ROOT / ".secrets.baseline",
         ROOT / "scripts" / "check_dependency_security.py",
