@@ -33,7 +33,7 @@ COPY conductor ./conductor
 
 # Release images should use `pixi install --locked`; this branch uses the
 # committed lock snapshot with Pixi's frozen, no-update install mode.
-RUN pixi install --frozen -e py312 --skip-with-deps semgrep --skip-with-deps scalene
+RUN pixi install --frozen -e py312 --skip-with-deps scalene
 
 
 FROM python:3.13-slim-bookworm AS runtime

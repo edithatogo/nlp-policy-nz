@@ -28,3 +28,11 @@ before adding the new required status context to branch protection.
 
 For local use, install an independently verified OpenGrep build appropriate
 to your platform, then run `make security-sast`.
+
+### Reconciled legacy references
+
+The former Track 41 acceptance test expected the historical Semgrep CI
+command. It now validates the current OpenGrep workflow and retains the
+historical plan as a separate record. CI-fast and Dockerfile no longer pass
+unused `--skip-with-deps semgrep` flags, but the optional locked security
+feature remains until atomic lock regeneration.

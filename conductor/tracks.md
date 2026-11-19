@@ -359,7 +359,7 @@ Phase XV (Planned — 100-105): Adoption, Jurisdiction Profiles & Bleeding-Edge
 *Link: [./conductor/tracks/track41_sast_security_20260626/](./conductor/tracks/track41_sast_security_20260626/)*
 - **Dependencies**: Track 1
 - **Parallelization Node**: Infrastructure & Quality
-- **Why**: Bandit + Semgrep SAST scanning, detect-secrets pre-commit hook, security disclosure policy. Catches security issues before production.
+- **Why**: Bandit + OpenGrep SAST scanning (Semgrep replaced; migration qualification tracked separately), detect-secrets pre-commit hook, security disclosure policy. Catches security issues before production.
 
 ## [x] Track 42: Performance Regression CI & Benchmark Baselines (archived)
 *Link: [./conductor/tracks/archive/track42_performance_regression_20260626/](./conductor/tracks/archive/track42_performance_regression_20260626/)*
