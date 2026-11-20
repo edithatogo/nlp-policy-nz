@@ -1,5 +1,9 @@
 # Technology Stack: nlp-policy-nz
 
+## HDC integration dependency policy (planned 2026-11-08)
+
+The [source fidelity track](./tracks/cognitive_autopsy_source_fidelity_20261108/index.md) reuses the declared spaCy, Polars/Arrow, Pydantic/JSON Schema and provenance dependencies through thin adapters. Evaluate medspaCy ConText/section utilities only as an optional clinical extra after compatibility, licence, source-fidelity and offline tests; it is not currently added to the package or lockfile. Existing rules provide the first fixture baseline. Preserve canonical source text before any normalisation, stopword removal, lemmatisation or model preprocessing. Replace custom generic processing only after parity evidence; leave legal/parliamentary behaviour and default installation unchanged. Use the actual supported runtime matrix in [the runtime guide](../docs/python-runtime-matrix.md) when qualifying the adapter, rather than inferring support from the earlier aspirational runtime descriptions below.
+
 This document defines the bleeding-edge, high-performance technology stack for the `nlp-policy-nz` shared core engine and its continuous delivery workflow.
 
 ---

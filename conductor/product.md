@@ -4,6 +4,10 @@ Read the Google Search PDF focusing on the end. Focus on core NLP capabilities f
 
 # Product Guide: nlp-policy-nz
 
+## HDC source consumer extension (planned 2026-11-08)
+
+The [cognitive-autopsy source fidelity track](./tracks/cognitive_autopsy_source_fidelity_20261108/index.md) extends the existing [HDC source profile](../docs/source-profiles/hdc-medico-legal-profile.md). It preserves source evidence, attribution candidates and explicit time statements for downstream research. The shared library supplies neutral, source-linked records; it does not infer clinician cognition, assign bias/blame, perform RCA or qualify clinical use. Existing HDC ethics is owner-confirmed; this planning extension does not reopen that approval.
+
 ## 1. Product Vision & Goals
 `nlp-policy-nz` is a SOTA, high-performance, unified NLP preprocessing and feature extraction engine written in Python and optimized with Rust-backed libraries. It serves as the shared core pipeline for two downstream application branches:
 1. **Legal NLP** ([corpus-law-nz](file:///C:/Users/60217257/OneDrive%20-%20Flinders/repos/corpus-law-nz)): Extracting statutory hierarchies, citation networks, and binding obligations ("must", "shall").
